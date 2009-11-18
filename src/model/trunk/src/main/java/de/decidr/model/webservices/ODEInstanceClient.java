@@ -37,13 +37,14 @@ import org.apache.ode.bpel.pmapi.InstanceManagement;
 @WebServiceClient(name = "InstanceManagement", targetNamespace = ODEInstanceClient.TARGET_NAMESPACE, wsdlLocation = ODEInstanceClient.WSDL_LOCATION)
 public class ODEInstanceClient extends Service {
 
+    private static final String ENDPOINT_NAME = "InstanceManagementSOAP11port_http";
     public static final String TARGET_NAMESPACE = "http://www.apache.org/ode/pmapi";
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
             "InstanceManagement");
     public static final String LOCAL_ODE_LOCATION = "http://127.0.0.1:8080/ode/processes/listServices";
     public static final String WSDL_LOCATION = "http://127.0.0.1:8080/ode/processes/InstanceManagement?wsdl";
     public final static QName INSTANCE_ENDPOINT = new QName(TARGET_NAMESPACE,
-            "InstanceManagementPort");
+            ENDPOINT_NAME);
 
     public ODEInstanceClient(URL wsdlDocumentLocation, QName serviceName) {
         super(wsdlDocumentLocation, serviceName);
@@ -57,12 +58,12 @@ public class ODEInstanceClient extends Service {
         this(new URL(WSDL_LOCATION));
     }
 
-    @WebEndpoint(name = "InstanceManagementPort")
+    @WebEndpoint(name = ENDPOINT_NAME)
     public InstanceManagement getInstancePort() {
         return super.getPort(INSTANCE_ENDPOINT, InstanceManagement.class);
     }
 
-    @WebEndpoint(name = "InstanceManagementPort")
+    @WebEndpoint(name = ENDPOINT_NAME)
     public InstanceManagement getInstancePort(WebServiceFeature... features) {
         return super.getPort(INSTANCE_ENDPOINT, InstanceManagement.class,
                 features);

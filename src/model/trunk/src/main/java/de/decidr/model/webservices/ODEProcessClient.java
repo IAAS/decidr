@@ -37,12 +37,13 @@ import org.apache.ode.bpel.pmapi.ProcessManagement;
 @WebServiceClient(name = "ProcessManagement", targetNamespace = ODEProcessClient.TARGET_NAMESPACE, wsdlLocation = ODEProcessClient.WSDL_LOCATION)
 public class ODEProcessClient extends Service {
 
+    private static final String ENDPOINT_NAME = "ProcessManagementSOAP11port_http";
     public static final String TARGET_NAMESPACE = "http://www.apache.org/ode/pmapi";
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
             "ProcessManagement");
     public static final String WSDL_LOCATION = "http://127.0.0.1:8080/ode/processes/ProcessManagement?wsdl";
     public final static QName PROCESS_ENDPOINT = new QName(TARGET_NAMESPACE,
-            "ProcessManagementPort");
+            ENDPOINT_NAME);
 
     public ODEProcessClient(URL wsdlDocumentLocation, QName serviceName) {
         super(wsdlDocumentLocation, serviceName);
@@ -56,12 +57,12 @@ public class ODEProcessClient extends Service {
         this(new URL(WSDL_LOCATION));
     }
 
-    @WebEndpoint(name = "ProcessManagementPort")
+    @WebEndpoint(name = ENDPOINT_NAME)
     public ProcessManagement getProcessPort() {
         return super.getPort(PROCESS_ENDPOINT, ProcessManagement.class);
     }
 
-    @WebEndpoint(name = "ProcessManagementPort")
+    @WebEndpoint(name = ENDPOINT_NAME)
     public ProcessManagement getProcessPort(WebServiceFeature... features) {
         return super.getPort(PROCESS_ENDPOINT, ProcessManagement.class,
                 features);
