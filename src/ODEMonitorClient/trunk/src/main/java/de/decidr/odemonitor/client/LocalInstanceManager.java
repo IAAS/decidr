@@ -32,9 +32,6 @@ import de.decidr.model.notifications.NotificationEvents;
  */
 public class LocalInstanceManager implements InstanceManager {
 
-    /**
-     * RR: add comment
-     */
     private static final String LOCAL_ODE_LOCATION = "http://127.0.0.1:8080/ode/services/listServices";
     Logger log = DefaultLogger.getLogger(LocalInstanceManager.class);
 
@@ -50,6 +47,7 @@ public class LocalInstanceManager implements InstanceManager {
                 + ".isRunning()");
         boolean running = false;
         try {
+            log.debug("attempting to contact local ODE");
             // get URLConnection
             URL localOdeUrl = new URL(LOCAL_ODE_LOCATION);
             URLConnection con = localOdeUrl.openConnection();
@@ -61,6 +59,8 @@ public class LocalInstanceManager implements InstanceManager {
 
             // see if we got a return code 2xx or 3xx (OK or forward)
             running = con.getHeaderField(0).matches("2\\d\\d|3\\d\\d");
+            log.debug((running ? "managed" : "failed")
+                    + " to contact local ODE");
 
             // close unneeded streams
             con.getInputStream().close();
