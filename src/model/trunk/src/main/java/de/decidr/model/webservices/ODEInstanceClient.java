@@ -43,7 +43,7 @@ public class ODEInstanceClient extends Service {
     public static final String TARGET_NAMESPACE = "http://www.apache.org/ode/pmapi";
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
             "InstanceManagement");
-    public static final String LOCAL_ODE_LOCATION = "http://127.0.0.1:8080/ode/processes/listServices";
+    public static final String LOCAL_ODE_LOCATION = "http://127.0.0.1:8080/ode/services/listServices";
     public static final String WSDL_LOCATION = "http://127.0.0.1:8080/ode/processes/InstanceManagement?wsdl";
     public final static QName INSTANCE_ENDPOINT = new QName(TARGET_NAMESPACE,
             ENDPOINT_NAME);

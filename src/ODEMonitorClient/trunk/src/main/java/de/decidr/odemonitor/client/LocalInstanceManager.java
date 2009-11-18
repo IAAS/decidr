@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.webservices.ODEInstanceClient;
 
 /**
  * Manages a local ODE instance. Needs the system administrator's help to start
@@ -33,6 +32,10 @@ import de.decidr.model.webservices.ODEInstanceClient;
  */
 public class LocalInstanceManager implements InstanceManager {
 
+    /**
+     * RR: add comment
+     */
+    private static final String LOCAL_ODE_LOCATION = "http://127.0.0.1:8080/ode/services/listServices";
     Logger log = DefaultLogger.getLogger(LocalInstanceManager.class);
 
     /**
@@ -48,7 +51,7 @@ public class LocalInstanceManager implements InstanceManager {
         boolean running = false;
         try {
             // get URLConnection
-            URL localOdeUrl = new URL(ODEInstanceClient.LOCAL_ODE_LOCATION);
+            URL localOdeUrl = new URL(LOCAL_ODE_LOCATION);
             URLConnection con = localOdeUrl.openConnection();
 
             // set connection properties & connect

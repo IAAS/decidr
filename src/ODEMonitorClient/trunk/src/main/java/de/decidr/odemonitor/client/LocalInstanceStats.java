@@ -24,9 +24,6 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
 import org.apache.ode.axis2.service.ServiceClientUtil;
-import org.apache.ode.bpel.pmapi.InstanceInfoListDocument;
-import org.apache.ode.bpel.pmapi.ProcessInfoListDocument;
-import org.apache.xmlbeans.XmlException;
 
 import de.decidr.model.logging.DefaultLogger;
 
@@ -50,7 +47,6 @@ public class LocalInstanceStats {
      *         instance. <code>-1</code> means an error occurred and the amount
      *         of running instances could not be retrieved.
      */
-    @SuppressWarnings("unchecked")
     public int getNumInstances() {
         log.trace("Entering " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
@@ -63,19 +59,16 @@ public class LocalInstanceStats {
             OMElement result = _client.send(root,
                     "http://localhost:8080/ode/processes/InstanceManagement");
 
-            numInst = InstanceInfoListDocument.Factory
-                    .parse(
-                            ((Iterator<OMElement>) result
-                                    .getChildrenWithName(new QName(
-                                            "instance-info-list"))).next()
-                                    .getXMLStreamReader())
-                    .getInstanceInfoList().sizeOfInstanceInfoArray();
-
+            numInst = 0;
+            Iterator<?> list = result.getFirstChildWithName(
+                    new QName("instance-info-list")).getChildElements();
+            while (list.hasNext()) {
+                list.next();
+                numInst++;
+            }
         } catch (AxisFault e) {
             log.error("Couldn't communicate with "
                     + "ODE process management service", e);
-        } catch (XmlException e) {
-            log.error("Couldn't parse ODE's response", e);
         }
 
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
@@ -102,14 +95,16 @@ public class LocalInstanceStats {
             OMElement result = _client.send(root,
                     "http://localhost:8080/ode/processes/ProcessManagement");
 
-            numModels = ProcessInfoListDocument.Factory.parse(
-                    result.getXMLStreamReader()).getProcessInfoList()
-                    .sizeOfProcessInfoArray();
+            numModels = 0;
+            Iterator<?> list = result.getFirstChildWithName(
+                    new QName("process-info-list")).getChildElements();
+            while (list.hasNext()) {
+                list.next();
+                numModels++;
+            }
         } catch (AxisFault e) {
             log.error("Couldn't communicate with "
                     + "ODE process management service", e);
-        } catch (XmlException e) {
-            log.error("Couldn't parse ODE's response", e);
         }
 
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
