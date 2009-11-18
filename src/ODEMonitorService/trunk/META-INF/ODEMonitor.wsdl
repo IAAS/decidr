@@ -203,6 +203,9 @@
 			<wsdl:fault name="transactionException">
 				<soap:fault name="transactionException" use="literal" />
 			</wsdl:fault>
+			<wsdl:fault name="illegalArgumentException">
+				<soap:fault name="illegalArgumentException" use="literal" />
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="unregisterODE">
 			<soap:operation
@@ -261,6 +264,9 @@
 			</wsdl:output>
 			<wsdl:fault name="transactionException">
 				<soap11:fault name="transactionException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="illegalArgumentException">
+				<soap11:fault name="illegalArgumentException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="unregisterODE">
