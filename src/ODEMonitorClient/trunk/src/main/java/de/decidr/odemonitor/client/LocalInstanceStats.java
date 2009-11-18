@@ -57,13 +57,15 @@ public class LocalInstanceStats {
                     new String[] {}, new String[] {});
             OMElement result = _client.send(root,
                     "http://localhost:8080/ode/processes/InstanceManagement");
-            
-            numInst = InstanceInfoListDocument.Factory.parse(result.getXMLStreamReader()).getInstanceInfoList().sizeOfInstanceInfoArray();
+
+            numInst = InstanceInfoListDocument.Factory.parse(
+                    result.getXMLStreamReader()).getInstanceInfoList()
+                    .sizeOfInstanceInfoArray();
         } catch (AxisFault e) {
             log.error("Couldn't communicate with "
-                    + "ODE process management service");
+                    + "ODE process management service", e);
         } catch (XmlException e) {
-            log.error("Couldn't parse ODE's response");
+            log.error("Couldn't parse ODE's response", e);
         }
 
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
@@ -90,15 +92,14 @@ public class LocalInstanceStats {
             OMElement result = _client.send(root,
                     "http://localhost:8080/ode/processes/ProcessManagement");
 
-            ProcessInfoListDocument scopeInfoDoc = ProcessInfoListDocument.Factory
-                    .parse(result.getXMLStreamReader());
-            numModels = scopeInfoDoc.getProcessInfoList()
+            numModels = ProcessInfoListDocument.Factory.parse(
+                    result.getXMLStreamReader()).getProcessInfoList()
                     .sizeOfProcessInfoArray();
         } catch (AxisFault e) {
             log.error("Couldn't communicate with "
-                    + "ODE process management service");
+                    + "ODE process management service", e);
         } catch (XmlException e) {
-            log.error("Couldn't parse ODE's response");
+            log.error("Couldn't parse ODE's response", e);
         }
 
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
