@@ -51,7 +51,7 @@ public interface HumanTaskInterface {
     public static final String PORT_NAME = "HumanTaskSOAP11";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/HumanTask";
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
-            PORT_TYPE_NAME);
+            SERVICE_NAME + "Proxy");
     public final static QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
 
     /**
