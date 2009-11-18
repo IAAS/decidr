@@ -80,22 +80,22 @@ public class Login {
 	 */
 	public void authenticate(String username, String password)
 			throws TransactionException {
-		
+
 		HttpSession session = Main.getCurrent().getSession();
 
 		userId = userFacade.getUserIdByLogin(username, password);
 
 		userFacade = new UserFacade(new UserRole(userId));
 
-		if(session.getAttribute("tenant") == null){
+		if (session.getAttribute("tenant") == null) {
 			tenantId = userFacade.getCurrentTenantId(userId);
-		}else{
+		} else {
 			tenantFacade = new TenantFacade(new UserRole(userId));
-			tenantId = tenantFacade.getTenantId((String)Main.getCurrent().getSession().getAttribute("tenant"));
+			tenantId = tenantFacade.getTenantId((String) Main.getCurrent()
+					.getSession().getAttribute("tenant"));
 			userFacade.setCurrentTenantId(userId, tenantId);
 		}
-		
-		
+
 		if (tenantId == null) {
 			tenant = DecidrGlobals.getDefaultTenant();
 			tenantId = tenant.getId();
@@ -110,7 +110,7 @@ public class Login {
 		tenantName = tenant.getName();
 
 		role = userFacade.getUserRoleForTenant(userId, tenantId);
-		
+
 		session.setAttribute("userId", userId);
 		session.setAttribute("tenant", tenantName);
 		session.setAttribute("role", role);

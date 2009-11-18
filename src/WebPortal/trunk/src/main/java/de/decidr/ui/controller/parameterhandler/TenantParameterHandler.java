@@ -67,21 +67,23 @@ public class TenantParameterHandler implements ParameterHandler {
                                         "Invitation Error"));
             }
         }
-        
-        
-        if (tenantName != "") {
-        	//specific tenant selected
-        	session = Main.getCurrent().getSession();
-            
-            if (session != null)
-            {
-            	session.setAttribute("tenant", tenantName);
-            }
+        session = Main.getCurrent().getSession();
+        if(session.getAttribute("userId") == null){
+        	if (tenantName != "") {
+            	//specific tenant selected
+            	
+                
+                if (session != null)
+                {
+                	session.setAttribute("tenant", tenantName);
+                }
 
-            Main.getCurrent().setTheme(tenantName);
-        } else{
-        	Main.getCurrent().setTheme("decidr");
+                Main.getCurrent().setTheme(tenantName);
+            } else{
+            	Main.getCurrent().setTheme("decidr");
+            }
         }
+        
 
     }
 

@@ -26,8 +26,6 @@ package de.decidr.ui.view;
 // Also, do you mean "welcome page for a specific tenant"? If so, you also
 // need a generic welcome page ~rr
 import javax.servlet.http.HttpSession;
-
-import com.vaadin.data.Item;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -76,9 +74,6 @@ public class WelcomePageComponent extends CustomComponent {
             tenantDescription = (String) tenantFacade.getTenantSettings(
                     tenantId).getItemProperty("description").getValue();
 
-            // Aleks, GH: ein paar Zeilen weiter oben war das noch ein String
-            // ~rr
-            Item tenant = (Item) session.getAttribute("tenant");
             if (tenant != null) {
                 labelDesc = new Label(tenantDescription, Label.CONTENT_XHTML);
             } else {
