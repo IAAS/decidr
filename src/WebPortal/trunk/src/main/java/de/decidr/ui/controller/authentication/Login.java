@@ -18,9 +18,6 @@ package de.decidr.ui.controller.authentication;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -30,6 +27,7 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.controller.UIDirector;
@@ -58,6 +56,7 @@ public class Login {
 	private UIBuilder uiBuilder = null;
 
 	private UserFacade userFacade = new UserFacade(new UserRole());
+	private TenantFacade tenantFacade = null;
 
 	private Long userId = null;
 	private Long tenantId = null;
@@ -81,18 +80,21 @@ public class Login {
 	 */
 	public void authenticate(String username, String password)
 			throws TransactionException {
-
-		ApplicationContext ctx = Main.getCurrent().getContext();
-		WebApplicationContext webCtx = (WebApplicationContext) ctx;
-		HttpSession session = webCtx.getHttpSession();
-
-		Main.getCurrent().setSession(session);
+		
+		HttpSession session = Main.getCurrent().getSession();
 
 		userId = userFacade.getUserIdByLogin(username, password);
 
 		userFacade = new UserFacade(new UserRole(userId));
 
-		tenantId = userFacade.getCurrentTenantId(userId);
+		if(session.getAttribute("tenant") == null){
+			tenantId = userFacade.getCurrentTenantId(userId);
+		}else{
+			tenantFacade = new TenantFacade(new UserRole(userId));
+			tenantId = tenantFacade.getTenantId((String)Main.getCurrent().getSession().getAttribute("tenant"));
+			userFacade.setCurrentTenantId(userId, tenantId);
+		}
+		
 		
 		if (tenantId == null) {
 			tenant = DecidrGlobals.getDefaultTenant();
@@ -112,7 +114,6 @@ public class Login {
 		session.setAttribute("userId", userId);
 		session.setAttribute("tenant", tenantName);
 		session.setAttribute("role", role);
-		//Main.getCurrent().setUser(username);
 
 		loadProtectedResources();
 

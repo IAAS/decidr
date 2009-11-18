@@ -22,10 +22,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.terminal.ParameterHandler;
-
-import de.decidr.model.DecidrGlobals;
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 
@@ -37,12 +33,12 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
 public class TenantParameterHandler implements ParameterHandler {
 
     private HttpSession session = null;
-    private UserFacade userFacade = null;
 
     private String tenantName = null;
 
     String key = null;
     String value = null;
+    
 
     /*
      * (non-Javadoc)
@@ -71,10 +67,11 @@ public class TenantParameterHandler implements ParameterHandler {
                                         "Invitation Error"));
             }
         }
-        //TODO: anderes verhalten, weil sonst immer default tenant gesetzt wird
-        session = Main.getCurrent().getSession();
-       /* if (tenantName != "") {
+        
+        
+        if (tenantName != "") {
         	//specific tenant selected
+        	session = Main.getCurrent().getSession();
             
             if (session != null)
             {
@@ -82,14 +79,9 @@ public class TenantParameterHandler implements ParameterHandler {
             }
 
             Main.getCurrent().setTheme(tenantName);
-        } else {
-        	if (session != null)
-            {
-        		session.setAttribute("tenant",DecidrGlobals.getDefaultTenant().getName());
-            }
-
-            Main.getCurrent().setTheme("decidr");
-        }*/
+        } else{
+        	Main.getCurrent().setTheme("decidr");
+        }
 
     }
 
