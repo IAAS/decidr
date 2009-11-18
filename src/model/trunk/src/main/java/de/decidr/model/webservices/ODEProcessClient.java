@@ -36,7 +36,7 @@ import org.apache.ode.bpel.pmapi.ProcessManagement;
  * @author Reinhold
  */
 @WebServiceClient(name = "ProcessManagement", targetNamespace = ODEProcessClient.TARGET_NAMESPACE, wsdlLocation = ODEProcessClient.WSDL_LOCATION)
-@XmlSeeAlso(org.apache.ode.bpel.pmapi.InstanceInfoListDocument.class)
+@XmlSeeAlso(org.apache.ode.bpel.pmapi.ProcessInfoListDocument.class)
 public class ODEProcessClient extends Service {
 
     private static final String ENDPOINT_NAME = "ProcessManagementSOAP11port_http";
