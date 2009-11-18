@@ -26,6 +26,7 @@
 	<wsdl:types>
 		<xsd:schema targetNamespace="http://decidr.de/exceptions">
 			<xsd:element name="transactionException" type="xsd:string" />
+			<xsd:element name="illegalArgumentException" type="xsd:string" />
 		</xsd:schema>
 		<xsd:schema targetNamespace="http://decidr.de/webservices/ODEMonitor">
 			<xsd:simpleType name="zeroHundredInt">
@@ -133,6 +134,9 @@
 	<wsdl:message name="transactionException">
 		<wsdl:part element="ex:transactionException" name="parameters" />
 	</wsdl:message>
+	<wsdl:message name="illegalArgumentException">
+		<wsdl:part element="ex:illegalArgumentException" name="parameters" />
+	</wsdl:message>
 
 	<wsdl:portType name="ODEMonitorPT">
 		<wsdl:operation name="updateStats">
@@ -150,6 +154,8 @@
 				wsaw:Action="urn:registerODEResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
 				wsaw:Action="urn:transactionException" />
+			<wsdl:fault name="illegalArgumentException" message="tns:illegalArgumentException"
+				wsaw:Action="urn:illegalArgumentException" />
 		</wsdl:operation>
 		<wsdl:operation name="unregisterODE">
 			<wsdl:input name="unregisterODERequest" message="tns:unregisterODERequest"

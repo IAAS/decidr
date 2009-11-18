@@ -41,7 +41,6 @@ import de.decidr.model.entities.Server;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.SystemFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.soap.exceptions.IllegalArgumentExceptionWrapper;
@@ -167,7 +166,6 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".updateStats()");
         SystemSettings config = DecidrGlobals.getSettings();
-        SystemFacade systemFacade = new SystemFacade(ODE_ROLE);
         List<TransactionalCommand> commands = new ArrayList<TransactionalCommand>(
                 5);
         GetServersCommand cmd1 = new GetServersCommand(ODE_ROLE,
