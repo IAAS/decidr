@@ -191,9 +191,6 @@ public class MonitoringThread extends Thread {
         // get config
         fetchNewConfig();
 
-        // keep the JVM alive, even if we are the only thread running
-        setDaemon(false);
-
         // run periodic update
         while (true) {
             // use current server (ESB might have changed)
