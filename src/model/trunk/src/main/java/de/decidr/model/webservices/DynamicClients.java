@@ -36,36 +36,36 @@ public class DynamicClients {
 
     public static EmailInterface getEmailClient() throws MalformedURLException {
         Service service = Service.create(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
-                        + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
+                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "Proxy")),
+                EmailInterface.SERVICE);
         return service.getPort(EmailInterface.ENDPOINT, EmailInterface.class);
     }
 
     public static EmailInterface getEmailClient(WebServiceFeature... features)
             throws MalformedURLException {
         Service service = Service.create(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
-                        + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
+                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "Proxy")),
+                EmailInterface.SERVICE);
         return service.getPort(EmailInterface.ENDPOINT, EmailInterface.class,
                 features);
     }
 
     public static HumanTaskInterface getHumanTaskClient()
             throws MalformedURLException {
-        Service service = Service.create(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
-                        + HumanTaskInterface.PORT_NAME)),
-                HumanTaskInterface.SERVICE);
+        Service service = Service.create(new URL(
+                DecidrGlobals
+                        .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME
+                                + "Proxy")), HumanTaskInterface.SERVICE);
         return service.getPort(HumanTaskInterface.ENDPOINT,
                 HumanTaskInterface.class);
     }
 
     public static HumanTaskInterface getHumanTaskClient(
             WebServiceFeature... features) throws MalformedURLException {
-        Service service = Service.create(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
-                        + HumanTaskInterface.PORT_NAME)),
-                HumanTaskInterface.SERVICE);
+        Service service = Service.create(new URL(
+                DecidrGlobals
+                        .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME
+                                + "Proxy")), HumanTaskInterface.SERVICE);
         return service.getPort(HumanTaskInterface.ENDPOINT,
                 HumanTaskInterface.class, features);
     }

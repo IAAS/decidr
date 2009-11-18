@@ -33,10 +33,10 @@ import de.decidr.model.DecidrGlobals;
 @WebServiceClient(name = ODEMonitorService.SERVICE_NAME, targetNamespace = ODEMonitorService.TARGET_NAMESPACE)
 public class ODEMonitor extends Service {
     public ODEMonitor() throws MalformedURLException {
-        this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
-                        + ODEMonitorService.PORT_NAME)),
-                ODEMonitorService.SERVICE);
+        this(
+                new URL(DecidrGlobals
+                        .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME
+                                + "Proxy")), ODEMonitorService.SERVICE);
     }
 
     public ODEMonitor(URL wsdlLocation) {

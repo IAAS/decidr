@@ -36,10 +36,10 @@ import de.decidr.model.DecidrGlobals;
 public class HumanTaskClientStatic extends Service {
 
     public HumanTaskClientStatic() throws MalformedURLException {
-        this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
-                        + HumanTaskInterface.PORT_NAME)),
-                HumanTaskInterface.SERVICE);
+        this(new URL(
+                DecidrGlobals
+                        .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME
+                                + "Proxy")), HumanTaskInterface.SERVICE);
     }
 
     public HumanTaskClientStatic(URL wsdlLocation) {
