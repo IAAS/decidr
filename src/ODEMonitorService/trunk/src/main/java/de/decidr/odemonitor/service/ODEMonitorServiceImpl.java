@@ -100,7 +100,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
      */
     @Override
     public void registerODE(Holder<Boolean> poolInstance, long odeID)
-            throws TransactionException, IllegalArgumentException {
+            throws TransactionException, IllegalArgumentExceptionWrapper {
         log.trace("Entering " + ODEMonitorServiceImpl.class.getSimpleName()
                 + ".registerODE()");
         GetServerCommand cmd = new GetServerCommand(ODE_ROLE, odeID);
@@ -189,7 +189,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             if (serv.getLastLoadUpdate() != null
                     && serv.getLastLoadUpdate().before(deadTime)) {
                 try {
-                    systemFacade.removeServer(serv.getId());
+                    unregisterODE(serv.getId());
                 } catch (Exception e) {
                     log.warn("Couldn't remove a dead server!", e);
                 }

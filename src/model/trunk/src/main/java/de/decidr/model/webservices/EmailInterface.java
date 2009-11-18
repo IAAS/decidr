@@ -56,13 +56,15 @@ import de.decidr.model.storage.StorageProvider;
 public interface EmailInterface {
 
     public static final String PORT_NAME = "EmailSOAP11";
+    public static final String ENDPOINT_NAME = "EmailProxyHttpSoap11Endpoint";
     public static final String BINDING_NAME = "EmailSOAP11Binding";
     public static final String SERVICE_NAME = "Email";
     public static final String PORT_TYPE_NAME = "EmailPT";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/Email";
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME + "Proxy");
-    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
+    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
+            ENDPOINT_NAME);
 
     /**
      * The web service operation used to send an e-mail.

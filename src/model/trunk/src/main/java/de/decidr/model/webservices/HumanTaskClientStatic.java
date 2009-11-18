@@ -54,7 +54,7 @@ public class HumanTaskClientStatic extends Service {
      * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link HumanTaskInterface}</code>.
      */
-    @WebEndpoint(name = HumanTaskInterface.PORT_NAME)
+    @WebEndpoint(name = HumanTaskInterface.ENDPOINT_NAME)
     public HumanTaskInterface getEmailSOAP() {
         return super.getPort(HumanTaskInterface.ENDPOINT,
                 HumanTaskInterface.class);
@@ -69,7 +69,7 @@ public class HumanTaskClientStatic extends Service {
      * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link HumanTaskInterface}</code>.
      */
-    @WebEndpoint(name = HumanTaskInterface.PORT_NAME)
+    @WebEndpoint(name = HumanTaskInterface.ENDPOINT_NAME)
     public HumanTaskInterface getEmailSOAP(WebServiceFeature... features) {
         return super.getPort(HumanTaskInterface.ENDPOINT,
                 HumanTaskInterface.class, features);

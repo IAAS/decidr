@@ -53,7 +53,7 @@ public class EmailClientStatic extends Service {
      * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link EmailInterface}</code>.
      */
-    @WebEndpoint(name = EmailInterface.PORT_NAME)
+    @WebEndpoint(name = EmailInterface.ENDPOINT_NAME)
     public EmailInterface getEmailSOAP() {
         return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class);
     }
@@ -68,7 +68,7 @@ public class EmailClientStatic extends Service {
      * @return returns an implementation using SOAP 1.1 to access the
      *         <code>{@link EmailInterface}</code>.
      */
-    @WebEndpoint(name = EmailInterface.PORT_NAME)
+    @WebEndpoint(name = EmailInterface.ENDPOINT_NAME)
     public EmailInterface getEmailSOAP(WebServiceFeature... features) {
         return super.getPort(EmailInterface.ENDPOINT, EmailInterface.class,
                 features);

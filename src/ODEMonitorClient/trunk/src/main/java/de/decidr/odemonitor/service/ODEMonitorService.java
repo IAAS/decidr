@@ -28,13 +28,16 @@ import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.soap.exceptions.IllegalArgumentExceptionWrapper;
 
 /**
  * The web service part of the ODE monitor. Interacts with the database and
  * makes decisions on which server gets locked.
  */
 @WebService(name = ODEMonitorService.SERVICE_NAME, serviceName = ODEMonitorService.SERVICE_NAME, targetNamespace = ODEMonitorService.TARGET_NAMESPACE, wsdlLocation = "ODEMonitor.wsdl", portName = ODEMonitorService.PORT_NAME)
-@XmlSeeAlso( { ObjectFactory.class })
+@XmlSeeAlso( { ObjectFactory.class,
+        de.decidr.model.exceptions.ObjectFactory.class,
+        de.decidr.model.soap.exceptions.ObjectFactory.class })
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface ODEMonitorService {
 
@@ -45,7 +48,8 @@ public interface ODEMonitorService {
     public static final String ENDPOINT_NAME = "ODEMonitorProxyHttpSoap11Endpoint";
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME + "Proxy");
-    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE, ENDPOINT_NAME);
+    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE,
+            ENDPOINT_NAME);
 
     /**
      * Returns the current configuration.
@@ -85,7 +89,7 @@ public interface ODEMonitorService {
     public void registerODE(
             @WebParam(name = "poolInstance", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Boolean> poolInstance,
             @WebParam(name = "odeID", targetNamespace = "", mode = WebParam.Mode.IN) long odeID)
-            throws TransactionException, IllegalArgumentException;
+            throws TransactionException, IllegalArgumentExceptionWrapper;
 
     /**
      * Called to unregister an ODE instance/monitor.

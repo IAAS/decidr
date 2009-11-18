@@ -49,10 +49,12 @@ public interface HumanTaskInterface {
     public static final String BINDING_NAME = "HumanTaskSOAP11";
     public static final String PORT_TYPE_NAME = "HumanTaskPT";
     public static final String PORT_NAME = "HumanTaskSOAP11";
+    public static final String ENDPOINT_NAME = "HumanTaskProxyHttpSoap11Endpoint";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/HumanTask";
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME + "Proxy");
-    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
+    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
+            ENDPOINT_NAME);
 
     /**
      * This method creates an entry in the database representing a work item to
