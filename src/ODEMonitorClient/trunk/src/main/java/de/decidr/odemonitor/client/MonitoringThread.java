@@ -144,7 +144,8 @@ public class MonitoringThread extends Thread {
     private ODEMonitorService getServer() {
         ODEMonitorService server;
         try {
-            server = new ODEMonitor().getODEMonitorSOAP();
+            server = ODEMonitor.getODEMonitorClient();
+            // server = new ODEMonitor().getODEMonitorSOAP();
         } catch (MalformedURLException e) {
             log.error("can't access ESB", e);
             throw new IllegalArgumentException("unusable ESB", e);

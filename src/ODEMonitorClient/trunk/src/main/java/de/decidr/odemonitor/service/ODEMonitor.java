@@ -65,4 +65,24 @@ public class ODEMonitor extends Service {
         return super.getPort(ODEMonitorService.ENDPOINT,
                 ODEMonitorService.class, features);
     }
+
+    public static ODEMonitorService getODEMonitorClient()
+            throws MalformedURLException {
+        Service service = Service.create(
+                new URL(DecidrGlobals
+                        .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME
+                                + "Proxy")), ODEMonitorService.SERVICE);
+        return service.getPort(ODEMonitorService.ENDPOINT,
+                ODEMonitorService.class);
+    }
+
+    public static ODEMonitorService getODEMonitorClient(
+            WebServiceFeature... features) throws MalformedURLException {
+        Service service = Service.create(
+                new URL(DecidrGlobals
+                        .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME
+                                + "Proxy")), ODEMonitorService.SERVICE);
+        return service.getPort(ODEMonitorService.ENDPOINT,
+                ODEMonitorService.class, features);
+    }
 }

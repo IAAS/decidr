@@ -42,8 +42,8 @@ public interface ODEMonitorService {
     public static final String SERVICE_NAME = "ODEMonitor";
     public static final String PORT_TYPE_NAME = "ODEMonitorPT";
     public static final String PORT_NAME = "ODEMonitorSOAP11Endpoint";
-    public static final QName SERVICE = new QName(
-            "http://decidr.de/webservices/ODEMonitor", SERVICE_NAME);
+    public static final QName SERVICE = new QName(TARGET_NAMESPACE,
+            SERVICE_NAME);
     public static final QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
 
     /**
@@ -59,8 +59,8 @@ public interface ODEMonitorService {
      *            status.
      */
     @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/getConfig")
-    @RequestWrapper(localName = "getConfig", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.GetConfig")
-    @ResponseWrapper(localName = "getConfigResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.GetConfigResponse")
+    @RequestWrapper(localName = "getConfig", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.webservices.odemonitor.GetConfig")
+    @ResponseWrapper(localName = "getConfigResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.webservices.odemonitor.GetConfigResponse")
     public void getConfig(
             @WebParam(name = "updateInterval", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Integer> updateInterval,
             @WebParam(name = "averagePeriod", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Integer> averagePeriod,
@@ -79,8 +79,8 @@ public interface ODEMonitorService {
      *             Is thrown when the <code>odeID</code> is incorrect.
      */
     @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/registerODE")
-    @RequestWrapper(localName = "registerODE", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.RegisterODE")
-    @ResponseWrapper(localName = "registerODEResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.RegisterODEResponse")
+    @RequestWrapper(localName = "registerODE", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.webservices.odemonitor.RegisterODE")
+    @ResponseWrapper(localName = "registerODEResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.webservices.odemonitor.RegisterODEResponse")
     public void registerODE(
             @WebParam(name = "poolInstance", targetNamespace = "", mode = WebParam.Mode.OUT) Holder<Boolean> poolInstance,
             @WebParam(name = "odeID", targetNamespace = "", mode = WebParam.Mode.IN) long odeID)
@@ -95,8 +95,8 @@ public interface ODEMonitorService {
      *             May be thrown during the attempt to remove the server
      */
     @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/unregisterODE")
-    @RequestWrapper(localName = "unregisterODE", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UnregisterODE")
-    @ResponseWrapper(localName = "unregisterODEResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UnregisterODEResponse")
+    @RequestWrapper(localName = "unregisterODE", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.webservices.odemonitor.UnregisterODE")
+    @ResponseWrapper(localName = "unregisterODEResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.webservices.odemonitor.UnregisterODEResponse")
     public void unregisterODE(
             @WebParam(name = "odeID", targetNamespace = "") long odeID)
             throws TransactionException;
@@ -121,8 +121,8 @@ public interface ODEMonitorService {
      *             thrown during database access, whenever an error occurs.
      */
     @WebMethod(action = "http://decidr.de/webservices/ODEMonitor/updateStats", operationName = "updateStats")
-    @RequestWrapper(localName = "updateStats", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStats")
-    @ResponseWrapper(localName = "updateStatsResponse", targetNamespace = "http://decidr.de/webservices/ODEMonitor", className = "de.decidr.webservices.odemonitor.UpdateStatsResponse")
+    @RequestWrapper(localName = "updateStats", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.webservices.odemonitor.UpdateStats")
+    @ResponseWrapper(localName = "updateStatsResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.webservices.odemonitor.UpdateStatsResponse")
     public void updateStats(
             @WebParam(name = "wfInstances", targetNamespace = "") int wfInstances,
             @WebParam(name = "wfModels", targetNamespace = "") int wfModels,
