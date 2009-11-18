@@ -16,13 +16,15 @@
 
 package de.decidr.odemonitor.client;
 
-import java.net.MalformedURLException;
-
+import org.apache.axiom.om.OMElement;
+import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
+import org.apache.ode.axis2.service.ServiceClientUtil;
+import org.apache.ode.bpel.pmapi.InstanceInfoListDocument;
+import org.apache.ode.bpel.pmapi.ProcessInfoListDocument;
+import org.apache.xmlbeans.XmlException;
 
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.webservices.ODEInstanceClient;
-import de.decidr.model.webservices.ODEProcessClient;
 
 /**
  * This class provides an interface to the ODE instance. It retrieves all stats
@@ -50,14 +52,18 @@ public class LocalInstanceStats {
         int numInst = -1;
 
         try {
-            numInst = new ODEInstanceClient().getInstancePort()
-                    .listAllInstances().getInstanceInfoList()
-                    .sizeOfInstanceInfoArray();
-            // numInst = new ODEInstanceClient().getInstancePort()
-            // .listInstancesSummary("", "", 0).getInstanceInfoList()
-            // .sizeOfInstanceInfoArray();
-        } catch (MalformedURLException e) {
-            log.error("The WSDL-URL was probably malformed...", e);
+            ServiceClientUtil _client = new ServiceClientUtil();
+            OMElement root = _client.buildMessage("listAllInstances",
+                    new String[] {}, new String[] {});
+            OMElement result = _client.send(root,
+                    "http://localhost:8080/ode/processes/InstanceManagement");
+            
+            numInst = InstanceInfoListDocument.Factory.parse(result.getXMLStreamReader()).getInstanceInfoList().sizeOfInstanceInfoArray();
+        } catch (AxisFault e) {
+            log.error("Couldn't communicate with "
+                    + "ODE process management service");
+        } catch (XmlException e) {
+            log.error("Couldn't parse ODE's response");
         }
 
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()
@@ -78,11 +84,21 @@ public class LocalInstanceStats {
         int numModels = -1;
 
         try {
-            numModels = new ODEProcessClient().getProcessPort()
-                    .listAllProcesses().getProcessInfoList()
+            ServiceClientUtil _client = new ServiceClientUtil();
+            OMElement root = _client.buildMessage("listAllProcesses",
+                    new String[] {}, new String[] {});
+            OMElement result = _client.send(root,
+                    "http://localhost:8080/ode/processes/ProcessManagement");
+
+            ProcessInfoListDocument scopeInfoDoc = ProcessInfoListDocument.Factory
+                    .parse(result.getXMLStreamReader());
+            numModels = scopeInfoDoc.getProcessInfoList()
                     .sizeOfProcessInfoArray();
-        } catch (MalformedURLException e) {
-            log.error("The WSDL-URL was probably malformed...", e);
+        } catch (AxisFault e) {
+            log.error("Couldn't communicate with "
+                    + "ODE process management service");
+        } catch (XmlException e) {
+            log.error("Couldn't parse ODE's response");
         }
 
         log.trace("Leaving " + LocalInstanceStats.class.getSimpleName()

@@ -33,8 +33,10 @@ import org.apache.ode.bpel.pmapi.InstanceManagement;
  * accessing the above-mentioned web services from inside java using JAX-WS.
  * 
  * @author Reinhold
+ * @deprecated ODE doesn't support JAX-WS
  */
 @WebServiceClient(name = "InstanceManagement", targetNamespace = ODEInstanceClient.TARGET_NAMESPACE, wsdlLocation = ODEInstanceClient.WSDL_LOCATION)
+@Deprecated
 public class ODEInstanceClient extends Service {
 
     private static final String ENDPOINT_NAME = "InstanceManagementSOAP11port_http";
