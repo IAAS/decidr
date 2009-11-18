@@ -191,36 +191,38 @@ public class MonitoringThread extends Thread {
         // get config
         fetchNewConfig();
 
-        // run periodic update
-        while (true) {
-            // use current server (ESB might have changed)
-            server = getServer();
+        try {
+            // run periodic update
+            while (true) {
+                // use current server (ESB might have changed)
+                server = getServer();
 
-            // update stats & config, if necessary
-            try {
-                server.updateStats(localStats.getNumInstances(), localStats
-                        .getNumModels(), getAvgLoad(), odeID, calendarHolder,
-                        booleanHolder);
-            } catch (TransactionException e1) {
-                // try again during next iteration
-            }
-            // stop instance, unless we are a pool instance
-            if (!poolInstance && !booleanHolder.value) {
-                manager.stopInstance();
-                break;
-            }
-            // get new config if it was altered
-            if (calendarHolder.value.toGregorianCalendar().after(
-                    lastUpdate.toGregorianCalendar())) {
-                fetchNewConfig();
-            }
+                // update stats & config, if necessary
+                try {
+                    server.updateStats(localStats.getNumInstances(), localStats
+                            .getNumModels(), getAvgLoad(), odeID,
+                            calendarHolder, booleanHolder);
+                } catch (TransactionException e1) {
+                    // try again during next iteration
+                }
+                // stop instance, unless we are a pool instance
+                if (!poolInstance && !booleanHolder.value) {
+                    manager.stopInstance();
+                    break;
+                }
+                // get new config if it was altered
+                if (calendarHolder.value.toGregorianCalendar().after(
+                        lastUpdate.toGregorianCalendar())) {
+                    fetchNewConfig();
+                }
 
-            try {
-                Thread.sleep(updateInterval);
-            } catch (InterruptedException e) {
-                // we wake and resume work due to someone watching us
+                try {
+                    Thread.sleep(updateInterval);
+                } catch (InterruptedException e) {
+                    // we wake and resume work due to someone watching us
+                }
             }
-
+        } finally {
             // attempt to unregister until we are successful
             while (true) {
                 try {
