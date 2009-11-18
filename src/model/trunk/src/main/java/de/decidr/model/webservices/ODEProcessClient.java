@@ -19,6 +19,7 @@ package de.decidr.model.webservices;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -35,6 +36,7 @@ import org.apache.ode.bpel.pmapi.ProcessManagement;
  * @author Reinhold
  */
 @WebServiceClient(name = "ProcessManagement", targetNamespace = ODEProcessClient.TARGET_NAMESPACE, wsdlLocation = ODEProcessClient.WSDL_LOCATION)
+@XmlSeeAlso(org.apache.ode.bpel.pmapi.InstanceInfoListDocument.class)
 public class ODEProcessClient extends Service {
 
     private static final String ENDPOINT_NAME = "ProcessManagementSOAP11port_http";

@@ -51,7 +51,7 @@ public class LocalInstanceStats {
 
         try {
             numInst = new ODEInstanceClient().getInstancePort()
-                    .listInstancesSummary(null, null, 0).getInstanceInfoList()
+                    .listInstancesSummary("", "", 0).getInstanceInfoList()
                     .sizeOfInstanceInfoArray();
         } catch (MalformedURLException e) {
             log.error("The WSDL-URL was probably malformed...", e);
