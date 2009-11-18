@@ -16,6 +16,10 @@
 
 package de.decidr.odemonitor.client;
 
+import java.util.Iterator;
+
+import javax.xml.namespace.QName;
+
 import org.apache.axiom.om.OMElement;
 import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
@@ -46,6 +50,7 @@ public class LocalInstanceStats {
      *         instance. <code>-1</code> means an error occurred and the amount
      *         of running instances could not be retrieved.
      */
+    @SuppressWarnings("unchecked")
     public int getNumInstances() {
         log.trace("Entering " + LocalInstanceStats.class.getSimpleName()
                 + ".getNumInstances()");
@@ -58,9 +63,15 @@ public class LocalInstanceStats {
             OMElement result = _client.send(root,
                     "http://localhost:8080/ode/processes/InstanceManagement");
 
-            numInst = InstanceInfoListDocument.Factory.parse(
-                    result.getXMLStreamReader()).getInstanceInfoList()
-                    .sizeOfInstanceInfoArray();
+            numInst = InstanceInfoListDocument.Factory
+                    .parse(
+                            ((Iterator<OMElement>) result
+                                    .getChildrenWithName(new QName(
+                                            "http://www.apache.org/ode/pmapi/types/2006/08/02/",
+                                            "instance-info-list"))).next()
+                                    .getXMLStreamReader())
+                    .getInstanceInfoList().sizeOfInstanceInfoArray();
+
         } catch (AxisFault e) {
             log.error("Couldn't communicate with "
                     + "ODE process management service", e);
