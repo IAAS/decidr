@@ -169,6 +169,7 @@ public class ODEMonitorClient {
         if (ID == null) {
             log.error("You have to specify the ID"
                     + " of the local ODE server.");
+            System.exit(1);
         }
 
         // exit if a local instance is already running
