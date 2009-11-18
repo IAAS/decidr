@@ -23,8 +23,7 @@
 		<ema:sendEmail>
 			<to>
 				<dec:emailUser>
-					<dec:email>decidr.iaas@googlemail.com
-					</dec:email>
+					<dec:email>decidr.iaas@googlemail.com</dec:email>
 				</dec:emailUser>
 			</to>
 			<cc xsi:nil="true" />
@@ -32,18 +31,9 @@
 			<fromName>idiot</fromName>
 			<fromAddress>root@localhost</fromAddress>
 			<subject>asd</subject>
-			<headers>
-				<item>
-					<name>X-Test-HeaderA</name>
-					<value>A</value>
-				</item>
-				<item>
-					<name>X-Test-HeaderB</name>
-					<value>B</value>
-				</item>
-			</headers>
+			<headers xsi:nil="true" />
 			<bodyTXT>ddddddddassdf</bodyTXT>
-			<bodyHTML xsi:nil="true" />
+			<bodyHTML>&lt;html&gt;&lt;body&gt;&lt;p&gt;HTML-Test-Body&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</bodyHTML>
 			<attachments xsi:nil="true" />
 		</ema:sendEmail>
 	</soap:Body>

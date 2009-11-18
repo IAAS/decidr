@@ -39,6 +39,7 @@
 					<archive>
 						<manifest>
 							<mainClass>de.decidr.odemonitor.client.ODEMonitorClient</mainClass>
+							<addClasspath>true</addClasspath>
 						</manifest>
 					</archive>
 				</configuration>

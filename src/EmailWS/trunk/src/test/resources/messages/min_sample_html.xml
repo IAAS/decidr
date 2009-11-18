@@ -32,8 +32,8 @@
 			<fromAddress>root@localhost</fromAddress>
 			<subject>asd</subject>
 			<headers xsi:nil="true" />
-			<bodyTXT>ddddddddassdf</bodyTXT>
-			<bodyHTML xsi:nil="true" />
+			<bodyTXT xsi:nil="true" />
+			<bodyHTML>&lt;html&gt;&lt;body&gt;&lt;p&gt;HTML-Test-Body&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</bodyHTML>
 			<attachments xsi:nil="true" />
 		</ema:sendEmail>
 	</soap:Body>

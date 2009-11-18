@@ -95,6 +95,5 @@ public class CreateTenantComponent extends CustomComponent {
 		verticalLayout.addComponent(createTenant);
 
 		this.setCompositionRoot(verticalLayout);
-
 	}
 }
