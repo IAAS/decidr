@@ -58,14 +58,9 @@ public class LocalInstanceManager implements InstanceManager {
             con.connect();
 
             // see if we got a return code 2xx or 3xx (OK or forward)
-            running = con.getHeaderField(0).matches("2\\d\\d|3\\d\\d");
+            running = con.getHeaderField(0).matches(".*(2\\d\\d|3\\d\\d).*");
             log.debug((running ? "managed" : "failed")
                     + " to contact local ODE");
-            if (!running) {
-                for (int i = 0; con.getHeaderField(i) != null; i++) {
-                    log.debug(i + ": " + con.getHeaderField(i));
-                }
-            }
 
             // close unneeded streams
             con.getInputStream().close();
