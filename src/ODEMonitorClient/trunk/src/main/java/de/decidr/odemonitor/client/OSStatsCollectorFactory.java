@@ -67,7 +67,7 @@ public class OSStatsCollectorFactory {
             collector = (AbstractOSStatsCollector) Class.forName(
                     "de.decidr.odemonitor.client.CrossPlatformStatsCollector")
                     .newInstance();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             // something bad happened, meaning that we can't use the SIGAR
             // plugin; leave collector as it was
         }
