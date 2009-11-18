@@ -67,7 +67,6 @@ public class LocalInstanceStats {
                     .parse(
                             ((Iterator<OMElement>) result
                                     .getChildrenWithName(new QName(
-                                            "http://www.apache.org/ode/pmapi/types/2006/08/02/",
                                             "instance-info-list"))).next()
                                     .getXMLStreamReader())
                     .getInstanceInfoList().sizeOfInstanceInfoArray();
