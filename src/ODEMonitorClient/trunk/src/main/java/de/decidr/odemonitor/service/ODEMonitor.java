@@ -47,7 +47,7 @@ public class ODEMonitor extends Service {
         super(wsdlLocation, serviceName);
     }
 
-    @WebEndpoint(name = ODEMonitorService.PORT_NAME)
+    @WebEndpoint(name = ODEMonitorService.ENDPOINT_NAME)
     public ODEMonitorService getODEMonitorSOAP() {
         return super.getPort(ODEMonitorService.ENDPOINT,
                 ODEMonitorService.class);
@@ -60,7 +60,7 @@ public class ODEMonitor extends Service {
      *            <code>features</code> parameter will have their default
      *            values.
      */
-    @WebEndpoint(name = ODEMonitorService.PORT_NAME)
+    @WebEndpoint(name = ODEMonitorService.ENDPOINT_NAME)
     public ODEMonitorService getODEMonitorSOAP(WebServiceFeature... features) {
         return super.getPort(ODEMonitorService.ENDPOINT,
                 ODEMonitorService.class, features);

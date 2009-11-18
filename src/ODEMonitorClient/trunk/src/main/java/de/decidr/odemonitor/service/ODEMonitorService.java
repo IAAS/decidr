@@ -42,9 +42,10 @@ public interface ODEMonitorService {
     public static final String SERVICE_NAME = "ODEMonitor";
     public static final String PORT_TYPE_NAME = "ODEMonitorPT";
     public static final String PORT_NAME = "ODEMonitorSOAP11Endpoint";
+    public static final String ENDPOINT_NAME = "ODEMonitorProxySOAP11Endpoint";
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME + "Proxy");
-    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
+    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE, ENDPOINT_NAME);
 
     /**
      * Returns the current configuration.
