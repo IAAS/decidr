@@ -36,13 +36,13 @@ public class ObjectFactory {
     private static final String EXCEPTION_NAMESPACE = "http://decidr.de/model/soap/exceptions";
     private final static QName _IoException_QNAME = new QName(
             EXCEPTION_NAMESPACE, "ioException");
-    private final static QName _MalformedURLException_QNAME = new QName(
+    private final static QName _MalformedURLExceptionWrapper_QNAME = new QName(
             EXCEPTION_NAMESPACE, "malformedURLException");
-    private final static QName _MessagingException_QNAME = new QName(
+    private final static QName _MessagingExceptionWrapper_QNAME = new QName(
             EXCEPTION_NAMESPACE, "messagingException");
     private final static QName _ReportingException_QNAME = new QName(
             EXCEPTION_NAMESPACE, "reportingException");
-    private final static QName _IllegalArgumentException_QNAME = new QName(
+    private final static QName _IllegalArgumentExceptionWrapper_QNAME = new QName(
             EXCEPTION_NAMESPACE, "illegalArgumentException");
 
     /**
@@ -67,7 +67,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "malformedURLException")
     public JAXBElement<String> createMalformedURLExceptionWrapper(String value) {
-        return new JAXBElement<String>(_MalformedURLException_QNAME,
+        return new JAXBElement<String>(_MalformedURLExceptionWrapper_QNAME,
                 String.class, null, value);
     }
 
@@ -76,7 +76,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "messagingException")
     public JAXBElement<String> createMessagingExceptionWrapper(String value) {
-        return new JAXBElement<String>(_MessagingException_QNAME, String.class,
+        return new JAXBElement<String>(_MessagingExceptionWrapper_QNAME, String.class,
                 null, value);
     }
 
@@ -95,7 +95,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "illegalArgumentException")
     public JAXBElement<String> createIllegalArgumentExceptionWrapper(
             String value) {
-        return new JAXBElement<String>(_IllegalArgumentException_QNAME,
+        return new JAXBElement<String>(_IllegalArgumentExceptionWrapper_QNAME,
                 String.class, null, value);
     }
 }

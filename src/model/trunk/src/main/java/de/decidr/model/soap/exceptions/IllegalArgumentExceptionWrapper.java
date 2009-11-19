@@ -29,7 +29,7 @@ public class IllegalArgumentExceptionWrapper extends IllegalArgumentException {
 
     private static final long serialVersionUID = 1L;
     
-    private String illegalArgumentException;
+    private String faultInfo;
 
     public IllegalArgumentExceptionWrapper() {
         super();
@@ -46,13 +46,13 @@ public class IllegalArgumentExceptionWrapper extends IllegalArgumentException {
     public IllegalArgumentExceptionWrapper(String message,
             String illegalArgumentException, Throwable cause) {
         super(message, cause);
-        this.illegalArgumentException = illegalArgumentException;
+        this.faultInfo = illegalArgumentException;
     }
 
     public IllegalArgumentExceptionWrapper(String s,
             String illegalArgumentException) {
         super(s);
-        this.illegalArgumentException = illegalArgumentException;
+        this.faultInfo = illegalArgumentException;
     }
 
     public IllegalArgumentExceptionWrapper(Throwable cause) {
@@ -60,6 +60,6 @@ public class IllegalArgumentExceptionWrapper extends IllegalArgumentException {
     }
 
     public String getFaultInfo() {
-        return this.illegalArgumentException;
+        return this.faultInfo;
     }
 }

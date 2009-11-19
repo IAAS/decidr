@@ -168,6 +168,7 @@ public class MonitoringThread extends Thread {
         ODEMonitorService server = getServer();
         LocalInstanceStats localStats = new LocalInstanceStats();
         InstanceManager manager = new LocalInstanceManager();
+        boolean errorOccurred = false;
 
         // register with server
         // try to register every updateInterval until we succeed
@@ -194,6 +195,8 @@ public class MonitoringThread extends Thread {
         try {
             // run periodic update
             while (true) {
+                errorOccurred = false;
+
                 // use current server (ESB might have changed)
                 server = getServer();
 
@@ -202,18 +205,31 @@ public class MonitoringThread extends Thread {
                     server.updateStats(localStats.getNumInstances(), localStats
                             .getNumModels(), getAvgLoad(), odeID,
                             calendarHolder, booleanHolder);
-                } catch (TransactionException e1) {
+                } catch (TransactionException e) {
                     // try again during next iteration
+                    errorOccurred = true;
+                } catch (Exception e) {
+                    log.error("There seems to be a problem with the"
+                            + "ODE monitoring web service", e);
+                    errorOccurred = true;
                 }
-                // stop instance, unless we are a pool instance
-                if (!poolInstance && !booleanHolder.value) {
-                    manager.stopInstance();
-                    break;
-                }
-                // get new config if it was altered
-                if (calendarHolder.value.toGregorianCalendar().after(
-                        lastUpdate.toGregorianCalendar())) {
-                    fetchNewConfig();
+
+                if (!errorOccurred) {
+                    // stop instance, unless we are a pool instance
+                    if (!poolInstance && !booleanHolder.value) {
+                        manager.stopInstance();
+                        break;
+                    }
+                    // get new config if it was altered
+                    if (calendarHolder.value.toGregorianCalendar().after(
+                            lastUpdate.toGregorianCalendar())) {
+                        try {
+                            fetchNewConfig();
+                        } catch (Exception e) {
+                            log.error("There seems to be a problem with the"
+                                    + "ODE monitoring web service", e);
+                        }
+                    }
                 }
 
                 try {
