@@ -47,5 +47,4 @@ public class DecidRSetup {
 
         FileIO.writeToFile(sql.toString());
     }
-
 }

@@ -20,20 +20,20 @@ import java.io.IOException;
 
 public class BooleanRequest {
 
-    public static String getResult(String question, String defaultVal) {
-	String bool;
-
-	try {
-	    bool = CoreRequest.getResult(question, defaultVal);
-	} catch (IOException e) {
-	    return "0";
-	}
-
-	return convertBoolean(bool) ? "'1'" : "'0'";
+    private static boolean convertBoolean(String bool) {
+        return (bool.equals("y") || bool.equals("yes"));
     }
 
-    private static boolean convertBoolean(String bool) {
-	return (bool.equals("y") || bool.equals("yes"));
+    public static String getResult(String question, String defaultVal) {
+        String bool;
+
+        try {
+            bool = CoreRequest.getResult(question, defaultVal);
+        } catch (IOException e) {
+            return "0";
+        }
+
+        return convertBoolean(bool) ? "'1'" : "'0'";
     }
 
 }

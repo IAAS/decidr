@@ -30,26 +30,6 @@ import de.decidr.setup.helpers.StringRequest;
  */
 public class FileIO {
 
-    public static boolean writeToFile(String data) {
-        System.out.println("------------------------------------------------");
-        System.out.println("Write settings to file");
-        System.out.println("------------------------------------------------");
-
-        while (true) {
-            String filename = StringRequest.getString(
-                    "Specify output filename", "decidr_setup.sql");
-            
-            if (write(filename, data)) {
-                System.out.println("Wrote file successfully.");
-                return true;
-                
-            } else if (BooleanRequest.getResult(
-                    "Error: couldn't write file. Try again?", "yes") == "'0'") {
-                return false;
-            }
-        }
-    }
-
     private static boolean write(String filename, String data) {
         Writer fw = null;
 
@@ -71,6 +51,26 @@ public class FileIO {
                     fw.close();
                 } catch (IOException e) {/* do nothing */
                 }
+            }
+        }
+    }
+
+    public static boolean writeToFile(String data) {
+        System.out.println("------------------------------------------------");
+        System.out.println("Write settings to file");
+        System.out.println("------------------------------------------------");
+
+        while (true) {
+            String filename = StringRequest.getString(
+                    "Specify output filename", "decidr_setup.sql");
+
+            if (write(filename, data)) {
+                System.out.println("File successfully written.");
+                return true;
+
+            } else if (BooleanRequest.getResult(
+                    "Error: couldn't write file. Try again?", "yes") == "'0'") {
+                return false;
             }
         }
     }

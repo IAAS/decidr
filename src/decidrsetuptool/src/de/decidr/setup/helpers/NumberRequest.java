@@ -22,29 +22,29 @@ import java.util.regex.Pattern;
 
 public class NumberRequest {
 
-    public static String getResult(String question, String defaultVal) {
-	String number;
-
-	while (true) {
-	    try {
-		number = CoreRequest.getResult(question, defaultVal);
-	    } catch (IOException e) {
-		System.out.println("An error occured. please try again.");
-		continue;
-	    }
-
-	    if (validateNumber(number)) {
-		break;
-	    } else {
-		System.out.println("Please enter a valid number.");
-	    }
-	}
-
-	return "'" + number + "'";
-    }
-    
     public static String getResult(String question) {
         return getResult(question, "");
+    }
+
+    public static String getResult(String question, String defaultVal) {
+        String number;
+
+        while (true) {
+            try {
+                number = CoreRequest.getResult(question, defaultVal);
+            } catch (IOException e) {
+                System.out.println("An error occured. please try again.");
+                continue;
+            }
+
+            if (validateNumber(number)) {
+                break;
+            } else {
+                System.out.println("Please enter a valid number.");
+            }
+        }
+
+        return "'" + number + "'";
     }
 
     /**
@@ -55,15 +55,15 @@ public class NumberRequest {
      */
     private static boolean validateNumber(String num) {
 
-	// Set the email pattern string
-	Pattern p = Pattern.compile("[0-9]+");
+        // Set the email pattern string
+        Pattern p = Pattern.compile("[0-9]+");
 
-	// Match the given string with the pattern
-	Matcher m = p.matcher(num);
+        // Match the given string with the pattern
+        Matcher m = p.matcher(num);
 
-	// check whether match is found
-	boolean matchFound = m.matches();
+        // check whether match is found
+        boolean matchFound = m.matches();
 
-	return matchFound;
+        return matchFound || num.isEmpty();
     }
 }

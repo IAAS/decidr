@@ -22,9 +22,9 @@ public class LoglevelRequest {
 
     public static String getResult(String question, String defaultVal) {
         question += " [WARN, ALL, DEBUG, FATAL, INFO, OFF]";
-        
+
         String loglevel;
-        
+
         while (true) {
             try {
                 loglevel = CoreRequest.getResult(question, defaultVal);
@@ -32,14 +32,14 @@ public class LoglevelRequest {
                 System.out.println("An error occured. please try again.");
                 continue;
             }
-            
+
             if (validateLoglevel(loglevel)) {
                 break;
             } else {
                 System.out.println("Please enter a valid log level.");
             }
         }
-        
+
         return "'" + loglevel + "'";
     }
 

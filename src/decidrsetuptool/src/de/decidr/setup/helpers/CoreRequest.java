@@ -22,30 +22,30 @@ import java.io.InputStreamReader;
 
 /**
  * A core request to the console without checking the input.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class CoreRequest {
 
     private static BufferedReader console = new BufferedReader(
-	    new InputStreamReader(System.in));
+            new InputStreamReader(System.in));
 
-    public static String getResult(String question, String defaultVal) throws IOException {
+    public static String getResult(String question, String defaultVal)
+            throws IOException {
         String msg;
         if (defaultVal.isEmpty()) {
             msg = question + ": ";
         } else {
-            msg = question + " (" + defaultVal + "):";
+            msg = question + " (" + defaultVal + "): ";
         }
-        
-	System.out.print(msg);
-	String read = console.readLine();
-	
-	if (!read.isEmpty()) {
-	    return read;
-	} else {
-	    return defaultVal;
-	}
+
+        System.out.print(msg);
+        String read = console.readLine();
+
+        if (!read.isEmpty()) {
+            return read;
+        } else {
+            return defaultVal;
+        }
     }
-    
 }

@@ -16,16 +16,15 @@
 
 package de.decidr.setup.input;
 
-
 /**
  * Returns the SQL script of the server_type table.
- *
+ * 
  * @author Johannes Engelhardt
  */
 public class InputServerType {
 
     public static String getSql() {
-        return "REPLACE INTO `server_type` (`id`, `name`) VALUES (1, 'Ode'), " +
-        		"(2, 'WebPortal'), (3, 'Esb'), (4, 'Storage');\n\n";
+        return "REPLACE INTO `server_type` (`id`, `name`) VALUES (1, 'Ode'), "
+                + "(2, 'WebPortal'), (3, 'Esb'), (4, 'Storage');\n\n";
     }
 }

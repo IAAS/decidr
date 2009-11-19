@@ -26,40 +26,40 @@ public class Server {
     private String serverTypeId;
     private String lastLoadUpdate = "NULL";
 
-    public String getLocation() {
-	return location;
-    }
-
-    public void setLocation(String location) {
-	this.location = location;
-    }
-
-    public String getServerTypeId() {
-	return serverTypeId;
-    }
-
-    public void setServerTypeId(String serverTypeId) {
-	this.serverTypeId = serverTypeId;
+    public String getDynamicallyAdded() {
+        return dynamicallyAdded;
     }
 
     public String getId() {
-	return id;
-    }
-
-    public String getLoad() {
-	return load;
-    }
-
-    public String getLocked() {
-	return locked;
-    }
-
-    public String getDynamicallyAdded() {
-	return dynamicallyAdded;
+        return id;
     }
 
     public String getLastLoadUpdate() {
-	return lastLoadUpdate;
+        return lastLoadUpdate;
+    }
+
+    public String getLoad() {
+        return load;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getLocked() {
+        return locked;
+    }
+
+    public String getServerTypeId() {
+        return serverTypeId;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setServerTypeId(String serverTypeId) {
+        this.serverTypeId = serverTypeId;
     }
 
 }

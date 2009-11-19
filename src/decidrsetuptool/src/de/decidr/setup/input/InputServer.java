@@ -20,12 +20,26 @@ import de.decidr.setup.helpers.StringRequest;
 import de.decidr.setup.model.Server;
 
 /**
- * Retrieves information about a server from the user and generates an
- * SQL script.
+ * Retrieves information about a server from the user and generates an SQL
+ * script.
  * 
  * @author Johannes Engelhardt
  */
 public class InputServer {
+
+    private static String createSql(Server srv) {
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("INSERT INTO `server` (`location`,`load`,`locked`,"
+                + "`dynamicallyAdded`,`serverTypeId`,`lastLoadUpdate`)\n");
+
+        sql.append("VALUES (" + srv.getLocation() + "," + srv.getLoad() + ","
+                + srv.getLocked() + "," + srv.getDynamicallyAdded() + ","
+                + srv.getServerTypeId() + "," + srv.getLastLoadUpdate()
+                + ");\n\n");
+
+        return sql.toString();
+    }
 
     public static Server getServer(int serverTypeId, String defaultVal) {
         System.out.println("------------------------------------------------");
@@ -39,24 +53,10 @@ public class InputServer {
 
         return srv;
     }
-    
+
     public static String getSql(int serverTypeId, String defaultVal) {
         Server srv = getServer(serverTypeId, defaultVal);
         return createSql(srv);
-    }
-
-    private static String createSql(Server srv) {
-        StringBuilder sql = new StringBuilder();
-
-        sql.append("INSERT INTO `server` (`location`,`load`,`locked`,"
-                + "`dynamicallyAdded`,`serverTypeId`,`lastLoadUpdate`)\n");
-
-        sql.append("VALUES (" + srv.getLocation() + "," + srv.getLoad() + ","
-                + srv.getLocked() + "," + srv.getDynamicallyAdded() + ","
-                + srv.getServerTypeId() + "," + srv.getLastLoadUpdate()
-                + ");\n\n");
-        
-        return sql.toString();
     }
 
     private static String idToName(int serverTypeId) {

@@ -56,17 +56,14 @@ public class DefaultLogger {
         defaultLogger.addAppender(defaultAppender);
         // don't pass messages to higher-level loggers
         defaultLogger.setAdditivity(false);
-        // try to get the default log level from system settings
-        Level globalLogLevel = Level.WARN;
         try {
             SystemSettings settings = DecidrGlobals.getSettings();
-            globalLogLevel = Level.toLevel(settings.getLogLevel());
+            defaultLogger.setLevel(Level.toLevel(settings.getLogLevel()));
         } catch (Exception e) {
-            defaultLogger.setLevel(globalLogLevel);
+            defaultLogger.setLevel(Level.DEBUG);
             defaultLogger.warn(
                     "Cannot retrieve global log level from database.", e);
         }
-        defaultLogger.setLevel(globalLogLevel);
     }
 
     /**

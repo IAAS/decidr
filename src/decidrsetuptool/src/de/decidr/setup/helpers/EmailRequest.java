@@ -22,8 +22,12 @@ import java.util.regex.Pattern;
 
 public class EmailRequest {
 
+    public static String getResult(String question) {
+        return getResult(question, "");
+    }
+
     public static String getResult(String question, String defaultVal) {
-    	String mail;
+        String mail;
 
         while (true) {
             try {
@@ -42,10 +46,6 @@ public class EmailRequest {
 
         return "'" + mail + "'";
     }
-    
-    public static String getResult(String question) {
-        return getResult(question, "");
-    }
 
     /**
      * Checks weather an email address is valid or not.
@@ -55,16 +55,17 @@ public class EmailRequest {
      */
     private static boolean validateEmail(String mail) {
 
-	// Set the email pattern string
-	Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+        // Set the email pattern string
+        Pattern p = Pattern
+                .compile(".+@(.+|\\[[012]?\\d{1,2}\\.[012]?\\d{1,2}.[012]?\\d{1,2}\\])");
 
-	// Match the given string with the pattern
-	Matcher m = p.matcher(mail);
+        // Match the given string with the pattern
+        Matcher m = p.matcher(mail);
 
-	// check whether match is found
-	boolean matchFound = m.matches();
+        // check whether match is found
+        boolean matchFound = m.matches();
 
-	return matchFound;
+        return matchFound;
     }
-    
+
 }

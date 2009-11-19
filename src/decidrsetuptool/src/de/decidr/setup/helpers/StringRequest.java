@@ -20,6 +20,10 @@ import java.io.IOException;
 
 public class StringRequest {
 
+    public static String getResult(String question) {
+        return getResult(question, "");
+    }
+
     public static String getResult(String question, String defaultVal) {
         try {
             return "'" + CoreRequest.getResult(question, defaultVal) + "'";
@@ -27,20 +31,16 @@ public class StringRequest {
             return "''";
         }
     }
-    
+
+    public static String getString(String question) {
+        return getString(question, "");
+    }
+
     public static String getString(String question, String defaultVal) {
         try {
             return CoreRequest.getResult(question, defaultVal);
         } catch (IOException e) {
             return "";
         }
-    }
-
-    public static String getResult(String question) {
-        return getResult(question, "");
-    }
-    
-    public static String getString(String question) {
-        return getString(question, "");
     }
 }

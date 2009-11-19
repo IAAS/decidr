@@ -59,62 +59,120 @@ public class SystemSettings {
         return autoAcceptNewTenants;
     }
 
-    public void setAutoAcceptNewTenants(String autoAcceptNewTenants) {
-        this.autoAcceptNewTenants = autoAcceptNewTenants;
-    }
-
-    public String getSystemName() {
-        return systemName;
-    }
-
-    public void setSystemName(String systemName) {
-        this.systemName = systemName;
+    public String getChangeEmailRequestLifetimeSeconds() {
+        return changeEmailRequestLifetimeSeconds;
     }
 
     public String getDomain() {
         return domain;
     }
 
-    public void setDomain(String domain) {
-        this.domain = domain;
+    public String getId() {
+        return id;
     }
 
-    public String getSystemEmailAddress() {
-        return systemEmailAddress;
-    }
-
-    public void setSystemEmailAddress(String systemEmailAddress) {
-        this.systemEmailAddress = systemEmailAddress;
+    public String getInvitationLifetimeSeconds() {
+        return invitationLifetimeSeconds;
     }
 
     public String getLogLevel() {
         return logLevel;
     }
 
-    public void setLogLevel(String logLevel) {
-        this.logLevel = logLevel;
+    public String getMaxAttachmentsPerEmail() {
+        return maxAttachmentsPerEmail;
+    }
+
+    public String getMaxServerLoadForShutdown() {
+        return maxServerLoadForShutdown;
+    }
+
+    public String getMaxServerLoadForUnlock() {
+        return maxServerLoadForUnlock;
+    }
+
+    public String getMaxUploadFileSizeBytes() {
+        return maxUploadFileSizeBytes;
+    }
+
+    public String getMaxWorkflowInstancesForShutdown() {
+        return maxWorkflowInstancesForShutdown;
+    }
+
+    public String getMaxWorkflowInstancesForUnlock() {
+        return maxWorkflowInstancesForUnlock;
+    }
+
+    public String getMinServerLoadForLock() {
+        return minServerLoadForLock;
+    }
+
+    public String getMinUnlockedServers() {
+        return minUnlockedServers;
+    }
+
+    public String getMinWorkflowInstancesForLock() {
+        return minWorkflowInstancesForLock;
+    }
+
+    public String getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public String getMonitorAveragingPeriodSeconds() {
+        return monitorAveragingPeriodSeconds;
+    }
+
+    public String getMonitorUpdateIntervalSeconds() {
+        return monitorUpdateIntervalSeconds;
+    }
+
+    public String getMtaHostname() {
+        return mtaHostname;
+    }
+
+    public String getMtaPassword() {
+        return mtaPassword;
+    }
+
+    public String getMtaPort() {
+        return mtaPort;
+    }
+
+    public String getMtaUsername() {
+        return mtaUsername;
+    }
+
+    public String getMtaUseTls() {
+        return mtaUseTls;
     }
 
     public String getPasswordResetRequestLifetimeSeconds() {
         return passwordResetRequestLifetimeSeconds;
     }
 
-    public void setPasswordResetRequestLifetimeSeconds(
-            String passwordResetRequestLifetimeSeconds) {
-        this.passwordResetRequestLifetimeSeconds = passwordResetRequestLifetimeSeconds;
-    }
-
     public String getRegistrationRequestLifetimeSeconds() {
         return registrationRequestLifetimeSeconds;
     }
 
-    public void setRegistrationRequestLifetimeSeconds(
-            String registrationRequestLifetimeSeconds) {
-        this.registrationRequestLifetimeSeconds = registrationRequestLifetimeSeconds;
+    public String getServerPoolInstances() {
+        return serverPoolInstances;
     }
 
-    public String getChangeEmailRequestLifetimeSeconds() {
-        return changeEmailRequestLifetimeSeconds;
+    public String getSuperAdminId() {
+        return superAdminId;
+    }
+
+    public String getSystemEmailAddress() {
+        return systemEmailAddress;
+    }
+
+    public String getSystemName() {
+        return systemName;
+    }
+
+    public void setAutoAcceptNewTenants(String autoAcceptNewTenants) {
+        this.autoAcceptNewTenants = autoAcceptNewTenants;
     }
 
     public void setChangeEmailRequestLifetimeSeconds(
@@ -122,148 +180,32 @@ public class SystemSettings {
         this.changeEmailRequestLifetimeSeconds = changeEmailRequestLifetimeSeconds;
     }
 
-    public String getInvitationLifetimeSeconds() {
-        return invitationLifetimeSeconds;
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public void setInvitationLifetimeSeconds(String invitationLifetimeSeconds) {
         this.invitationLifetimeSeconds = invitationLifetimeSeconds;
     }
 
-    public String getMtaHostname() {
-        return mtaHostname;
-    }
-
-    public void setMtaHostname(String mtaHostname) {
-        this.mtaHostname = mtaHostname;
-    }
-
-    public String getMtaPort() {
-        return mtaPort;
-    }
-
-    public void setMtaPort(String mtaPort) {
-        this.mtaPort = mtaPort;
-    }
-
-    public String getMtaUseTls() {
-        return mtaUseTls;
-    }
-
-    public void setMtaUseTls(String mtaUseTls) {
-        this.mtaUseTls = mtaUseTls;
-    }
-
-    public String getMtaUsername() {
-        return mtaUsername;
-    }
-
-    public void setMtaUsername(String mtaUsername) {
-        this.mtaUsername = mtaUsername;
-    }
-
-    public String getMtaPassword() {
-        return mtaPassword;
-    }
-
-    public void setMtaPassword(String mtaPassword) {
-        this.mtaPassword = mtaPassword;
-    }
-
-    public String getMaxUploadFileSizeBytes() {
-        return maxUploadFileSizeBytes;
-    }
-
-    public void setMaxUploadFileSizeBytes(String maxUploadFileSizeBytes) {
-        this.maxUploadFileSizeBytes = maxUploadFileSizeBytes;
-    }
-
-    public String getMaxAttachmentsPerEmail() {
-        return maxAttachmentsPerEmail;
+    public void setLogLevel(String logLevel) {
+        this.logLevel = logLevel;
     }
 
     public void setMaxAttachmentsPerEmail(String maxAttachmentsPerEmail) {
         this.maxAttachmentsPerEmail = maxAttachmentsPerEmail;
     }
 
-    public String getMonitorUpdateIntervalSeconds() {
-        return monitorUpdateIntervalSeconds;
-    }
-
-    public void setMonitorUpdateIntervalSeconds(
-            String monitorUpdateIntervalSeconds) {
-        this.monitorUpdateIntervalSeconds = monitorUpdateIntervalSeconds;
-    }
-
-    public String getMonitorAveragingPeriodSeconds() {
-        return monitorAveragingPeriodSeconds;
-    }
-
-    public void setMonitorAveragingPeriodSeconds(
-            String monitorAveragingPeriodSeconds) {
-        this.monitorAveragingPeriodSeconds = monitorAveragingPeriodSeconds;
-    }
-
-    public String getServerPoolInstances() {
-        return serverPoolInstances;
-    }
-
-    public void setServerPoolInstances(String serverPoolInstances) {
-        this.serverPoolInstances = serverPoolInstances;
-    }
-
-    public String getMinServerLoadForLock() {
-        return minServerLoadForLock;
-    }
-
-    public void setMinServerLoadForLock(String minServerLoadForLock) {
-        this.minServerLoadForLock = minServerLoadForLock;
-    }
-
-    public String getMaxServerLoadForUnlock() {
-        return maxServerLoadForUnlock;
+    public void setMaxServerLoadForShutdown(String maxServerLoadForShutdown) {
+        this.maxServerLoadForShutdown = maxServerLoadForShutdown;
     }
 
     public void setMaxServerLoadForUnlock(String maxServerLoadForUnlock) {
         this.maxServerLoadForUnlock = maxServerLoadForUnlock;
     }
 
-    public String getMaxServerLoadForShutdown() {
-        return maxServerLoadForShutdown;
-    }
-
-    public void setMaxServerLoadForShutdown(String maxServerLoadForShutdown) {
-        this.maxServerLoadForShutdown = maxServerLoadForShutdown;
-    }
-
-    public String getMinUnlockedServers() {
-        return minUnlockedServers;
-    }
-
-    public void setMinUnlockedServers(String minUnlockedServers) {
-        this.minUnlockedServers = minUnlockedServers;
-    }
-
-    public String getMinWorkflowInstancesForLock() {
-        return minWorkflowInstancesForLock;
-    }
-
-    public void setMinWorkflowInstancesForLock(
-            String minWorkflowInstancesForLock) {
-        this.minWorkflowInstancesForLock = minWorkflowInstancesForLock;
-    }
-
-    public String getMaxWorkflowInstancesForUnlock() {
-        return maxWorkflowInstancesForUnlock;
-    }
-
-    public void setMaxWorkflowInstancesForUnlock(
-            String maxWorkflowInstancesForUnlock) {
-        this.maxWorkflowInstancesForUnlock = maxWorkflowInstancesForUnlock;
-    }
-
-    public String getMaxWorkflowInstancesForShutdown() {
-        return maxWorkflowInstancesForShutdown;
+    public void setMaxUploadFileSizeBytes(String maxUploadFileSizeBytes) {
+        this.maxUploadFileSizeBytes = maxUploadFileSizeBytes;
     }
 
     public void setMaxWorkflowInstancesForShutdown(
@@ -271,15 +213,73 @@ public class SystemSettings {
         this.maxWorkflowInstancesForShutdown = maxWorkflowInstancesForShutdown;
     }
 
-    public String getId() {
-        return id;
+    public void setMaxWorkflowInstancesForUnlock(
+            String maxWorkflowInstancesForUnlock) {
+        this.maxWorkflowInstancesForUnlock = maxWorkflowInstancesForUnlock;
     }
 
-    public String getModifiedDate() {
-        return modifiedDate;
+    public void setMinServerLoadForLock(String minServerLoadForLock) {
+        this.minServerLoadForLock = minServerLoadForLock;
     }
 
-    public String getSuperAdminId() {
-        return superAdminId;
+    public void setMinUnlockedServers(String minUnlockedServers) {
+        this.minUnlockedServers = minUnlockedServers;
+    }
+
+    public void setMinWorkflowInstancesForLock(
+            String minWorkflowInstancesForLock) {
+        this.minWorkflowInstancesForLock = minWorkflowInstancesForLock;
+    }
+
+    public void setMonitorAveragingPeriodSeconds(
+            String monitorAveragingPeriodSeconds) {
+        this.monitorAveragingPeriodSeconds = monitorAveragingPeriodSeconds;
+    }
+
+    public void setMonitorUpdateIntervalSeconds(
+            String monitorUpdateIntervalSeconds) {
+        this.monitorUpdateIntervalSeconds = monitorUpdateIntervalSeconds;
+    }
+
+    public void setMtaHostname(String mtaHostname) {
+        this.mtaHostname = mtaHostname;
+    }
+
+    public void setMtaPassword(String mtaPassword) {
+        this.mtaPassword = mtaPassword;
+    }
+
+    public void setMtaPort(String mtaPort) {
+        this.mtaPort = mtaPort;
+    }
+
+    public void setMtaUsername(String mtaUsername) {
+        this.mtaUsername = mtaUsername;
+    }
+
+    public void setMtaUseTls(String mtaUseTls) {
+        this.mtaUseTls = mtaUseTls;
+    }
+
+    public void setPasswordResetRequestLifetimeSeconds(
+            String passwordResetRequestLifetimeSeconds) {
+        this.passwordResetRequestLifetimeSeconds = passwordResetRequestLifetimeSeconds;
+    }
+
+    public void setRegistrationRequestLifetimeSeconds(
+            String registrationRequestLifetimeSeconds) {
+        this.registrationRequestLifetimeSeconds = registrationRequestLifetimeSeconds;
+    }
+
+    public void setServerPoolInstances(String serverPoolInstances) {
+        this.serverPoolInstances = serverPoolInstances;
+    }
+
+    public void setSystemEmailAddress(String systemEmailAddress) {
+        this.systemEmailAddress = systemEmailAddress;
+    }
+
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
     }
 }
