@@ -198,7 +198,15 @@ public class MonitoringThread extends Thread {
                 errorOccurred = false;
 
                 // use current server (ESB might have changed)
-                server = getServer();
+                try {
+                    server = getServer();
+                } catch (RuntimeException e) {
+                    log.error("There seems to be a problem with the"
+                            + "ODE monitoring web service", e);
+                    if (server == null) {
+                        throw (e);
+                    }
+                }
 
                 // update stats & config, if necessary
                 try {
