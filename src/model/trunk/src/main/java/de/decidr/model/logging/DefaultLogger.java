@@ -57,11 +57,12 @@ public class DefaultLogger {
         // don't pass messages to higher-level loggers
         defaultLogger.setAdditivity(false);
         // try to get the default log level from system settings
-        Level globalLogLevel = Level.DEBUG;
+        Level globalLogLevel = Level.WARN;
         try {
             SystemSettings settings = DecidrGlobals.getSettings();
             globalLogLevel = Level.toLevel(settings.getLogLevel());
         } catch (Exception e) {
+            defaultLogger.setLevel(globalLogLevel);
             defaultLogger.warn(
                     "Cannot retrieve global log level from database.", e);
         }
@@ -74,6 +75,7 @@ public class DefaultLogger {
      * will be returned. Otherwise, a new instance is created.
      * 
      * @param clazz
+     *            TODO document
      * @return A logger that uses
      */
     public static Logger getLogger(Class<?> clazz) {

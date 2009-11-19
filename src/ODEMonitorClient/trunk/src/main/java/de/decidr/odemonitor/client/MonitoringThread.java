@@ -38,7 +38,6 @@ import de.decidr.odemonitor.service.ODEMonitorService;
  * 
  * @author Reinhold
  */
-// No logging in this class to not spam stdout
 public class MonitoringThread extends Thread {
 
     private static Logger log = DefaultLogger.getLogger(MonitoringThread.class);
@@ -163,6 +162,7 @@ public class MonitoringThread extends Thread {
         super.run();
 
         // variables
+        log.debug("setting variables...");
         Holder<XMLGregorianCalendar> calendarHolder = new Holder<XMLGregorianCalendar>();
         Holder<Boolean> booleanHolder = new Holder<Boolean>();
         ODEMonitorService server = getServer();
@@ -173,10 +173,13 @@ public class MonitoringThread extends Thread {
         // register with server
         // try to register every updateInterval until we succeed
         while (true) {
+            log.debug("trying to register with the web service...");
             try {
                 server.registerODE(booleanHolder, odeID);
+                log.debug("...success");
                 break;
             } catch (TransactionException e) {
+                log.debug("...failed");
                 try {
                     Thread.sleep(updateInterval);
                 } catch (InterruptedException ex) {
@@ -188,19 +191,33 @@ public class MonitoringThread extends Thread {
             }
         }
         poolInstance = booleanHolder.value;
+        log
+                .debug("this is " + (poolInstance ? "" : "not ")
+                        + "a pool instance");
 
         // get config
-        fetchNewConfig();
+        try {
+            fetchNewConfig();
+            log.debug("managed to get config from the web service");
+        } catch (Exception e) {
+            log.error("There seems to be a problem with the"
+                    + "ODE monitoring web service - using default config", e);
+        }
 
         try {
+            log.debug("entering update loop");
+
             // run periodic update
             while (true) {
                 errorOccurred = false;
 
                 // use current server (ESB might have changed)
+                log.debug("try to refresh server...");
                 try {
                     server = getServer();
+                    log.debug("...success");
                 } catch (RuntimeException e) {
+                    log.debug("...failed");
                     log.error("There seems to be a problem with the"
                             + "ODE monitoring web service", e);
                     if (server == null) {
@@ -209,12 +226,15 @@ public class MonitoringThread extends Thread {
                 }
 
                 // update stats & config, if necessary
+                log.debug("attempting to send updated stats to web service");
                 try {
                     server.updateStats(localStats.getNumInstances(), localStats
                             .getNumModels(), getAvgLoad(), odeID,
                             calendarHolder, booleanHolder);
                 } catch (TransactionException e) {
                     // try again during next iteration
+                    log.debug("The web service seems (temporarily)"
+                            + " unable to do it's job", e);
                     errorOccurred = true;
                 } catch (Exception e) {
                     log.error("There seems to be a problem with the"
@@ -225,12 +245,15 @@ public class MonitoringThread extends Thread {
                 if (!errorOccurred) {
                     // stop instance, unless we are a pool instance
                     if (!poolInstance && !booleanHolder.value) {
+                        log.debug("web service wants this instance shut down");
                         manager.stopInstance();
                         break;
                     }
                     // get new config if it was altered
                     if (calendarHolder.value.toGregorianCalendar().after(
                             lastUpdate.toGregorianCalendar())) {
+                        log.debug("the config seems to have changed"
+                                + " - updating...");
                         try {
                             fetchNewConfig();
                         } catch (Exception e) {
@@ -241,6 +264,7 @@ public class MonitoringThread extends Thread {
                 }
 
                 try {
+                    log.debug("sleeping " + updateInterval + " seconds...");
                     Thread.sleep(updateInterval * 1000);
                 } catch (InterruptedException e) {
                     // we wake and resume work due to someone watching us
@@ -249,10 +273,13 @@ public class MonitoringThread extends Thread {
         } finally {
             // attempt to unregister until we are successful
             while (true) {
+                log.debug("trying to unregister the client...");
                 try {
                     server.unregisterODE(odeID);
+                    log.debug("...success");
                     break;
                 } catch (TransactionException e) {
+                    log.debug("...failed");
                     try {
                         Thread.sleep(updateInterval);
                     } catch (InterruptedException ex) {
