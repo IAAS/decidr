@@ -45,9 +45,6 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
 <profiles>
       <profile>
             <id>dev</id>
-            <properties>
-                  <tomcat5x.home>C:/Program Files/Apache Software Foundation/Tomcat 5.5</tomcat5x.home>
-            </properties>
             <repositories>
                   <repository>
                      <id>iaassrv7-releases</id>
@@ -60,13 +57,6 @@ http://maven.apache.org/xsd/settings-1.0.0.xsd">
                      <url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/ibiblio</url>
                   </repository>
             </repositories>   
-            <pluginRepositories>
-                 <pluginRepository>
-                     <id>ace-PC-releases</id>
-                     <name>ace-PC-releases</name>
-                     <url>http://localhost:8080/artifactory-2.0.6/Decidr</url>
-                 </pluginRepository>
-            </pluginRepositories>
       </profile>
 </profiles>
 </settings>
