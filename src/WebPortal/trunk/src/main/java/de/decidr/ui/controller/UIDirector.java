@@ -17,6 +17,7 @@
 package de.decidr.ui.controller;
 
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.help.HelpDialogComponent;
 import de.decidr.ui.view.uibuilder.UIBuilder;
 
 /**
@@ -50,6 +51,8 @@ public class UIDirector {
 	private static UIDirector uiDirector = null;
 
 	private SiteFrame siteFrame = null;
+	
+	private HelpDialogComponent helpDialog = null;
 
 	/**
 	 * The default constructor
@@ -106,6 +109,14 @@ public class UIDirector {
 	public void switchView(UIBuilder uiBuilder) {
 		setUiBuilder(uiBuilder);
 		constructView();
+	}
+	
+	public void setHelpDialog(HelpDialogComponent dialog){
+	    helpDialog = dialog;
+	}
+	
+	public HelpDialogComponent getHelpDialog(){
+	    return helpDialog;
 	}
 
 }
