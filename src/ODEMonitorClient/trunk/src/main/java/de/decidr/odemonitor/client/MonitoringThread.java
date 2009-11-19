@@ -241,7 +241,7 @@ public class MonitoringThread extends Thread {
                 }
 
                 try {
-                    Thread.sleep(updateInterval);
+                    Thread.sleep(updateInterval * 1000);
                 } catch (InterruptedException e) {
                     // we wake and resume work due to someone watching us
                 }
