@@ -143,6 +143,36 @@ public abstract class Container extends Node implements HasChildren {
         return dropController;
     }
 
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @return
+     */
+    public int getParentXOffset() {
+        int result = this.getLeft();
+        if (this.getParentPanel() instanceof Container) {
+            result = result
+                    + ((Container) this.getParentPanel()).getParentXOffset();
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * TODO: add comment
+     * 
+     * @return
+     */
+    public int getParentYOffset() {
+        int result = this.getTop();
+        if (this.getParentPanel() instanceof Container) {
+            result = result
+                    + ((Container) this.getParentPanel()).getParentYOffset();
+        }
+        return result;
+    }
+
     @Override
     public HasChildModels getHasChildModelsModel() throws InvalidTypeException {
         if (model instanceof HasChildModels) {

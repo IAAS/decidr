@@ -80,12 +80,18 @@ public class OrthogonalConnection extends Connection {
         assert (parentPanel instanceof AbsolutePanel && startDragBox != null && endDragBox != null);
         AbsolutePanel absPanel = (AbsolutePanel) parentPanel;
 
-        int startX = startDragBox.getMiddleLeft() - parentPanel.getLeft()
-                - LINE_WIDTH / 2;
-        int startY = startDragBox.getMiddleTop() - parentPanel.getTop();
-        int endX = endDragBox.getMiddleLeft() - parentPanel.getLeft()
-                - LINE_WIDTH / 2;
-        int endY = endDragBox.getMiddleTop() - parentPanel.getTop();
+        int startX = startDragBox.getMiddleLeft() - LINE_WIDTH / 2;
+        int startY = startDragBox.getMiddleTop();
+        int endX = endDragBox.getMiddleLeft() - LINE_WIDTH / 2;
+        int endY = endDragBox.getMiddleTop();
+
+        // calculate offset values that are caused by the parent panels
+        if (parentPanel instanceof Container) {
+            startX = startX - ((Container) parentPanel).getParentXOffset();
+            startY = startY - ((Container) parentPanel).getParentYOffset();
+            endX = endX - ((Container) parentPanel).getParentXOffset();
+            endY = endY - ((Container) parentPanel).getParentYOffset();
+        }
 
         // calculate width and height
         int width = Math.abs(startX - endX) + LINE_WIDTH;
