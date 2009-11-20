@@ -29,15 +29,48 @@ public class EntityNotFoundException extends TransactionException {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Creates a new EntityNotFoundException that indicates that an entity was
+     * expected, but not found.
+     * 
+     * @param entityClass
+     *            class of the entity that wasn't found
+     * @param entityId
+     *            if known, ID of the entity that was expected to be found.
+     */
     public EntityNotFoundException(Class<? extends Serializable> entityClass,
             Long entityId) {
         super(String.format(
-                "The %1$s with id %2$d was not found in the database",
-                entityClass == null ? "null" : entityClass.getName(), entityId));
+                "The %1$s with ID %2$d was not found in the database",
+                entityClass == null ? "null" : entityClass.getSimpleName(),
+                entityId));
     }
 
+    /**
+     * Creates a new EntityNotFoundException that indicates that an entity was
+     * expected, but not found.
+     * 
+     * @param entityClass
+     *            class of the entity that wasn't found
+     */
     public EntityNotFoundException(Class<? extends Serializable> entityClass) {
         super(String.format("The %1$s was not found in the database",
-                entityClass == null ? "null" : entityClass.getName()));
+                entityClass == null ? "null" : entityClass.getSimpleName()));
+    }
+
+    /**
+     * Creates a new EntityNotFoundException that indicates that an entity was
+     * expected, but not found.
+     * 
+     * @param entityClass
+     *            class of the entity that wasn't found
+     * @param entityDescription
+     *            a string describing the entity.
+     */
+    public EntityNotFoundException(Class<? extends Serializable> entityClass,
+            String entityDescription) {
+        super(String.format("The %1$s \"%2$s\" was not found in the database",
+                entityClass == null ? "null" : entityClass.getSimpleName(),
+                entityDescription));
     }
 }
