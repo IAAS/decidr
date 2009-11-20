@@ -101,7 +101,7 @@ public class WorkflowModelingHelpComponent extends VerticalLayout{
         this.addComponent(importWorkflowModelButton);
         this.addComponent(importWorkflowModelLabel);
 
-        exportWorkflowModelLabel = new Label("1 Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'create/edit workflow models' navigation link.<br/>"
+        exportWorkflowModelLabel = new Label("1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'create/edit workflow models' navigation link.<br/>"
                 +"2) Select and the workflow model you want to download and click on the 'download' link.<br/><br/>",
                 Label.CONTENT_XHTML);
         exportWorkflowModelLabel.setVisible(false);

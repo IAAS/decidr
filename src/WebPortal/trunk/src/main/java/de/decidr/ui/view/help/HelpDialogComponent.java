@@ -16,14 +16,17 @@
 
 package de.decidr.ui.view.help;
 
+import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.HideHelpDialogAction;
+import de.decidr.ui.controller.show.ShowHelpAction;
 
 /**
  * The integrated help window
@@ -34,6 +37,8 @@ public class HelpDialogComponent extends Window {
     
     private Accordion acc = null;
     private Button closeButton = null;
+    private Button showMainScreenHelp = null;
+    private HorizontalLayout horLayout = null;
     
     public HelpDialogComponent(){
         super("DecidR Help");
@@ -42,7 +47,15 @@ public class HelpDialogComponent extends Window {
         VerticalLayout layout = (VerticalLayout) getContent();
         layout.setSpacing(true);
         
+        horLayout = new HorizontalLayout();
+        horLayout.setSpacing(false);
+        
+        layout.addComponent(horLayout);
+        horLayout.setSizeFull();
+        
         closeButton = new Button("close", new HideHelpDialogAction());
+        showMainScreenHelp = new Button("show in main window", new HideHelpDialogAction());
+        showMainScreenHelp.addListener(new ShowHelpAction());
         
         acc = new Accordion();
         acc.setSizeFull();
@@ -59,9 +72,12 @@ public class HelpDialogComponent extends Window {
         acc.addTab(new SystemStatusHelpComponent(), "System Status", null);
         acc.addTab(new UserManagementHelpComponent(), "User Management", null);
         acc.addTab(new TenantManagementHelpComponent(), "Tenant Management", null);
+        acc.addTab(new GlossaryHelpComponent(), "Glossary", null);
         
-        layout.addComponent(closeButton);
-        layout.setComponentAlignment(closeButton, Alignment.TOP_RIGHT);
+        horLayout.addComponent(showMainScreenHelp);
+        horLayout.setComponentAlignment(showMainScreenHelp, Alignment.TOP_LEFT);
+        horLayout.addComponent(closeButton);
+        horLayout.setComponentAlignment(closeButton, Alignment.TOP_RIGHT);
         layout.addComponent(acc);
     }
     

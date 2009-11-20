@@ -16,23 +16,26 @@
 
 package de.decidr.ui.controller.show;
 
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.HelpComponent;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.help.HelpDialogComponent;
 
 /**
- * This actions shows the HelpWindow in the content area
+ * This actions shows the HelpDialogComponent in a new subwindow
  * 
  * @author Geoffrey-Alexeij Heinze
  */
 @SuppressWarnings("serial")
-public class ShowHelpAction implements ClickListener {
+public class ShowHelpDialogAction implements ClickListener {
 
     private UIDirector uiDirector = UIDirector.getInstance();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*
      * (non-Javadoc)
@@ -42,8 +45,13 @@ public class ShowHelpAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-    	
-        siteFrame.setContent(new HelpComponent());
+
+        if (uiDirector.getHelpDialog() == null) {
+            uiDirector.setHelpDialog(new HelpDialogComponent());
+            Main.getCurrent().getMainWindow().addWindow(uiDirector.getHelpDialog());
+        }
+
+        uiDirector.getHelpDialog().show();
         
     }
 

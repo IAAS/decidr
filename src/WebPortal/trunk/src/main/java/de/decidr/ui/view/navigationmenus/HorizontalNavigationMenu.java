@@ -22,6 +22,7 @@ import com.vaadin.ui.HorizontalLayout;
 
 import de.decidr.ui.controller.authentication.LogoutAction;
 import de.decidr.ui.controller.show.ShowHelpAction;
+import de.decidr.ui.controller.show.ShowHelpDialogAction;
 import de.decidr.ui.controller.show.ShowImpressumAction;
 import de.decidr.ui.controller.show.ShowTermsOfServiceAction;
 import de.decidr.ui.controller.show.ShowWelcomePageAction;
@@ -72,7 +73,7 @@ public class HorizontalNavigationMenu extends CustomComponent {
 
         btnHomeLink = new Button("Home", new ShowWelcomePageAction());
         // btnHomeLink.setStyleName(Button.STYLE_LINK);
-        btnHelpLink = new Button("Help", new ShowHelpAction());
+        btnHelpLink = new Button("Help", new ShowHelpDialogAction());
         // btnHelpLink.setStyleName(Button.STYLE_LINK);
         btnImpressumLink = new Button("Impressum", new ShowImpressumAction());
         // btnImpressumLink.setStyleName(Button.STYLE_LINK);
