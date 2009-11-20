@@ -57,9 +57,11 @@ public class Main extends Application implements TransactionListener {
      */
     @Override
     public void init() {
+    	setCurrent(this);
     	if (getContext() != null) {
             getContext().addTransactionListener(this);
         }        
+    	initView();
     }
     
     private void initView(){
@@ -160,8 +162,8 @@ public class Main extends Application implements TransactionListener {
      */
     @Override
     public void transactionStart(Application application, Object transactionData) {
-        Main.setCurrent(this);
-        initView();
+        //This code everytime a request is made
+    	Main.setCurrent(this);
     }
 
 }
