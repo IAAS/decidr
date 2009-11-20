@@ -16,6 +16,15 @@
 
 package de.decidr.ui.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.security.MessageDigest;
+
+import org.apache.log4j.Logger;
+
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.Password;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.help.HelpDialogComponent;
 import de.decidr.ui.view.uibuilder.UIBuilder;
@@ -38,85 +47,104 @@ import de.decidr.ui.view.uibuilder.UIBuilder;
  */
 public class UIDirector {
 
-	public static UIDirector getInstance() {
-		if (uiDirector == null) {
-			uiDirector = new UIDirector();
-		}
-		return uiDirector;
+    private static Logger logger = DefaultLogger.getLogger(UIDirector.class);
 
-	}
+    private static String hash = null;
 
-	private UIBuilder uiBuilder = null;
+    private UIBuilder uiBuilder = null;
 
-	private static UIDirector uiDirector = null;
+    private static UIDirector uiDirector = null;
 
-	private SiteFrame siteFrame = null;
-	
-	private HelpDialogComponent helpDialog = null;
+    private SiteFrame siteFrame = null;
 
-	/**
-	 * The default constructor
-	 * 
-	 */
-	private UIDirector() {
-		// Aleks, GH: document: why is this empty
-	}
+    private HelpDialogComponent helpDialog = null;
 
-	/**
-	 * Constructs the view which is shown to the user. Here the header, the
-	 * specific content and the specific vertical navigation menu is build
-	 * depending on which role the user has.
-	 * 
-	 */
-	public void constructView() {
-		uiBuilder.buildHeader();
-		uiBuilder.buildContent();
-		uiBuilder.buildNavigation();
-	}
+    public static synchronized UIDirector getInstance() {
+        if (uiDirector == null) {
+            uiDirector = new UIDirector();
+        }
+        logger.debug("Getting UIDirector singleton: " + hash);
+        return uiDirector;
+    }
 
-	/**
-	 * Sets the ui builder which determines how the user interface is built.
-	 * 
-	 * @param uiBuilder
-	 */
-	public void setUiBuilder(UIBuilder uiBuilder) {
-		this.uiBuilder = uiBuilder;
-	}
+    /**
+     * The default constructor
+     * 
+     */
+    private UIDirector() {
+        // Aleks, GH: document: why is this empty
+        // Generate hash to verify singleton object identity
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        DataOutputStream stream = new DataOutputStream(out);
+        try {
+            stream.writeLong(DecidrGlobals.getTime().getTimeInMillis());
+            stream.write(hashCode());
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            hash = Password.getDigestNotation(digest.digest(out.toByteArray()));
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException) e;
+            } else {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
-	/**
-	 * This method creates a new SiteFrame object, where the header, content and
-	 * navigation is set.
-	 * 
-	 */
-	public void createNewView() {
-		siteFrame = new SiteFrame();
-	}
+    /**
+     * Constructs the view which is shown to the user. Here the header, the
+     * specific content and the specific vertical navigation menu is build
+     * depending on which role the user has.
+     * 
+     */
+    public void constructView() {
+        uiBuilder.buildHeader();
+        uiBuilder.buildContent();
+        uiBuilder.buildNavigation();
+    }
 
-	/**
-	 * This method returns the SiteFrame object.
-	 * 
-	 * @return templateView
-	 */
-	public SiteFrame getTemplateView() {
-		return siteFrame;
-	}
+    /**
+     * Sets the ui builder which determines how the user interface is built.
+     * 
+     * @param uiBuilder
+     */
+    public void setUiBuilder(UIBuilder uiBuilder) {
+        this.uiBuilder = uiBuilder;
+    }
 
-	/**
-	 * Sets the given uiBuilder and constructs the belonging user interface
-	 * 
-	 * @param uiBuilder
-	 */
-	public void switchView(UIBuilder uiBuilder) {
-		setUiBuilder(uiBuilder);
-		constructView();
-	}
-	
-	public void setHelpDialog(HelpDialogComponent dialog){
-	    helpDialog = dialog;
-	}
-	
-	public HelpDialogComponent getHelpDialog(){
-	    return helpDialog;
-	}
+    /**
+     * This method creates a new SiteFrame object, where the header, content and
+     * navigation is set.
+     * 
+     */
+    public void createNewView() {
+        siteFrame = new SiteFrame();
+    }
+
+    /**
+     * This method returns the SiteFrame object.
+     * 
+     * @return templateView
+     */
+    public SiteFrame getTemplateView() {
+        return siteFrame;
+    }
+
+    /**
+     * Sets the given uiBuilder and constructs the belonging user interface
+     * 
+     * @param uiBuilder
+     */
+    public void switchView(UIBuilder uiBuilder) {
+        setUiBuilder(uiBuilder);
+        constructView();
+    }
+
+    public void setHelpDialog(HelpDialogComponent dialog) {
+        helpDialog = dialog;
+    }
+
+    public HelpDialogComponent getHelpDialog() {
+        return helpDialog;
+    }
 
 }
