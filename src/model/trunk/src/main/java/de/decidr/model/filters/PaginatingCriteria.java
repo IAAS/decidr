@@ -261,9 +261,8 @@ public class PaginatingCriteria implements Criteria {
 
     @Override
     public Criteria setResultTransformer(ResultTransformer resultTransformer) {
-        return new PaginatingCriteria(criteria
-                .setResultTransformer(resultTransformer), clone
-                .setResultTransformer(resultTransformer));
+        // do not apply result transformation to count clone
+        return criteria.setResultTransformer(resultTransformer);
     }
 
     @Override
