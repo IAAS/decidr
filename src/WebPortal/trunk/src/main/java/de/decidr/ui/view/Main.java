@@ -57,6 +57,9 @@ public class Main extends Application implements TransactionListener {
      */
     @Override
     public void init() {
+    	if (getContext() != null) {
+            getContext().addTransactionListener(this);
+        }
     	director = new UIDirector();
     	
         setMainWindow(main);
@@ -73,10 +76,6 @@ public class Main extends Application implements TransactionListener {
         director.constructView();
 
         main.addComponent(director.getTemplateView());
-
-        if (getContext() != null) {
-            getContext().addTransactionListener(this);
-        }
     }
     
     public UIDirector getUIDirector(){
