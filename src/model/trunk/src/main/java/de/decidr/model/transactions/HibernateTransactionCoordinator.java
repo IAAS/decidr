@@ -31,10 +31,11 @@ import de.decidr.model.logging.DefaultLogger;
  * transactions are supported by giving up the durability property of all inner
  * transactions.
  * <p>
- * The HibernateTransactionCoordinator is implemented as a singleton. The
- * freshly initialized instance uses a default configuration which it reads from
- * the first "hibernate.cfg.xml" that it finds in the classpath. You can change
- * the configuration at any time using the <code>setConfiguration</code> method.
+ * The HibernateTransactionCoordinator is implemented as a thread-local
+ * singleton (see {@link ThreadLocal}. The freshly initialized instance uses a
+ * default configuration which it reads from the first "hibernate.cfg.xml" that
+ * it finds in the classpath. You can change the configuration at any time using
+ * the <code>setConfiguration</code> method.
  * 
  * @author Daniel Huss
  * @author Markus Fischer
@@ -87,10 +88,15 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     public static synchronized HibernateTransactionCoordinator getInstance() {
         if (instance == null) {
-            instance = new HibernateTransactionCoordinator();
+            instance = new ThreadLocal<HibernateTransactionCoordinator>() {
+                @Override
+                protected HibernateTransactionCoordinator initialValue() {
+                    return new HibernateTransactionCoordinator();
+                }
+            };
         }
 
-        return instance;
+        return instance.get();
     }
 
     /**
@@ -350,5 +356,5 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * is the last static part of the class during initialization. Otherwise
      * accessing static parts in the contructor would be impossible.
      */
-    private static HibernateTransactionCoordinator instance;
+    private static ThreadLocal<HibernateTransactionCoordinator> instance;
 }
