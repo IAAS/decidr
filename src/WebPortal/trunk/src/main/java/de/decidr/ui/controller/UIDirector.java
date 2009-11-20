@@ -53,7 +53,7 @@ public class UIDirector {
 
     private UIBuilder uiBuilder = null;
 
-    private static UIDirector uiDirector = null;
+    private static ThreadLocal<UIDirector> uiDirector;
 
     private SiteFrame siteFrame = null;
 
@@ -61,10 +61,15 @@ public class UIDirector {
 
     public static synchronized UIDirector getInstance() {
         if (uiDirector == null) {
-            uiDirector = new UIDirector();
+            uiDirector = new ThreadLocal<UIDirector>() {
+				@Override
+				protected UIDirector initialValue() {
+					return new UIDirector();
+				}
+            };
         }
         logger.debug("Getting UIDirector singleton: " + hash);
-        return uiDirector;
+        return uiDirector.get();
     }
 
     /**
