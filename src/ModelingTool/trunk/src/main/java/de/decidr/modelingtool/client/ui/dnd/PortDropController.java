@@ -109,13 +109,10 @@ public class PortDropController extends AbstractDropController {
 
             // cancel drop operation if there is already a connection connected
             // to the port and multiple connections are not allowed
-            if (port != null && !port.isMultipleConnectionsAllowed()
+            if (!port.isMultipleConnectionsAllowed()
                     && !port.getGluedDragBoxes().isEmpty()) {
                 throw new VetoDragException();
             }
-
-            // JS potential null pointer access: what if port==null? (whole rest
-            // of loop)
 
             // cancel drop operation if both ports belong to the same node
             if (context.draggable instanceof ConnectionDragBox) {
