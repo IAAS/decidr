@@ -16,6 +16,7 @@
 package de.decidr.ui.view.tables;
 
 import java.util.Date;
+
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 

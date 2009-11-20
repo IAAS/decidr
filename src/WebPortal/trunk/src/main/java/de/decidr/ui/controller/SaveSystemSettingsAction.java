@@ -57,7 +57,7 @@ public class SaveSystemSettingsAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         SystemSettings settings = DecidrGlobals.getSettings();
 
-        content = (SystemSettingComponent) UIDirector.getInstance()
+        content = (SystemSettingComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
         content.saveSettingsItem();
         item = content.getSettingsItem();

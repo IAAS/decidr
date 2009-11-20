@@ -19,6 +19,8 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.ui.view.Main;
+
 /**
  * This action hides the help window
  *
@@ -31,7 +33,7 @@ public class HideHelpDialogAction implements ClickListener{
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        UIDirector.getInstance().getHelpDialog().hide();
+        Main.getCurrent().getUIDirector().getHelpDialog().hide();
     }
 
 }

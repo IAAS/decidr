@@ -27,7 +27,6 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.entities.UserProfile;
@@ -58,7 +57,7 @@ public class SaveProfileAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        content = (ProfileSettingsComponent) UIDirector.getInstance()
+        content = (ProfileSettingsComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
         content.saveSettingsItem();
         try {

@@ -16,7 +16,6 @@
 
 package de.decidr.ui.view;
 
-import com.vaadin.data.Item;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;

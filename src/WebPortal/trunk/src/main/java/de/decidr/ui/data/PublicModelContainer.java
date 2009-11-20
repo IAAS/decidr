@@ -31,7 +31,6 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Container.Filterable;
 
 import de.decidr.model.acl.roles.TenantAdminRole;
-import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.filters.Filter;

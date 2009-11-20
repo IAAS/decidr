@@ -26,7 +26,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.controller.CssHandler;
-import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TenantSettingsComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -58,7 +57,7 @@ public class SaveTenantSettingsAction implements ClickListener {
 		userId = (Long) session.getAttribute("userId");
 		tenantFacade = new TenantFacade(new UserRole(userId));
 		fileFacade = new FileFacade(new UserRole(userId));
-		content = (TenantSettingsComponent) UIDirector.getInstance()
+		content = (TenantSettingsComponent) Main.getCurrent().getUIDirector()
 				.getTemplateView().getContent();
 		Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
 				"tenantId");

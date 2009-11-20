@@ -17,6 +17,7 @@
 package de.decidr.ui.controller.tenant;
 
 import javax.servlet.http.HttpSession;
+
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -48,7 +49,7 @@ public class CreateTenantAction implements ClickListener {
 	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 	private UserFacade userFacade = new UserFacade(new UserRole(userId));
 
-	private UIDirector uiDirector = UIDirector.getInstance();
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private TenantAdminViewBuilder tenantAdminViewBuilder = new TenantAdminViewBuilder();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 

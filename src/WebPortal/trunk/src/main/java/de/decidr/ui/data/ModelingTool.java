@@ -73,7 +73,7 @@ public class ModelingTool extends AbstractComponent {
 		"tenantId");
 		tenantFacade = new TenantFacade(new UserRole(userId));
 		workflowModelFacade = new WorkflowModelFacade(new UserRole(userId));
-		uiDirector = UIDirector.getInstance();
+		uiDirector = Main.getCurrent().getUIDirector();
 		siteFrame = uiDirector.getTemplateView();
 	}
 

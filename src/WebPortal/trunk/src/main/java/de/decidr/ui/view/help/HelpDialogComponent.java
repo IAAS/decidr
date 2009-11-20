@@ -16,7 +16,6 @@
 
 package de.decidr.ui.view.help;
 
-import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -24,7 +23,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.HideHelpDialogAction;
 import de.decidr.ui.controller.show.ShowHelpAction;
 

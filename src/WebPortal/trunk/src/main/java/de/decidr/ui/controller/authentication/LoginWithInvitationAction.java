@@ -35,7 +35,7 @@ import de.decidr.ui.view.windows.InvitationDialogComponent;
 public class LoginWithInvitationAction implements ClickListener {
 
     private Login login = new Login();
-    UIDirector uiDirector = UIDirector.getInstance();
+    UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private InvitationDialogComponent invitationDialog = null;
 
     /**

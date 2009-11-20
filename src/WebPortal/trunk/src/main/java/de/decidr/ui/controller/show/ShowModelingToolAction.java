@@ -19,7 +19,6 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ModelingToolWindow;
 

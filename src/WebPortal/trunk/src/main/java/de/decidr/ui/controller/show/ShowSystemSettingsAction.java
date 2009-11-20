@@ -20,6 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.controller.UIDirector;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.SystemSettingComponent;
 
@@ -35,7 +36,7 @@ public class ShowSystemSettingsAction implements ClickListener {
      */
     private static final long serialVersionUID = -7440471792474065901L;
 
-    private UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*

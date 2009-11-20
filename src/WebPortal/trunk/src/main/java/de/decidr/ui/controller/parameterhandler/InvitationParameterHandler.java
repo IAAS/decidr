@@ -28,7 +28,6 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
@@ -158,8 +157,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                                             userId));
                         } else {
                             // not logged in
-                            UIDirector
-                                    .getInstance()
+                            Main.getCurrent().getUIDirector()
                                     .getTemplateView()
                                     .setVerticalNavigation(
                                             new LoginComponent(
@@ -178,7 +176,7 @@ public class InvitationParameterHandler implements ParameterHandler {
 
                     } else {
                         // User not yet registered
-                        UIDirector.getInstance().getTemplateView().setContent(
+                        Main.getCurrent().getUIDirector().getTemplateView().setContent(
                                 new RegisterUserComponent(invitationId));
                     }
                 } else {
@@ -194,8 +192,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                             // not logged in
                             // check if user is even registered
                             if (userFacade.isRegistered(userId)) {
-                                UIDirector
-                                        .getInstance()
+                                Main.getCurrent().getUIDirector()
                                         .getTemplateView()
                                         .setVerticalNavigation(
                                                 new LoginComponent(

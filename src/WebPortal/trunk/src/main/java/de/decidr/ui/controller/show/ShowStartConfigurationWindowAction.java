@@ -52,7 +52,7 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
     private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
             new UserRole(userId));
 
-    private UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 

@@ -27,8 +27,6 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.service.ApplicationContext;
-import com.vaadin.terminal.gwt.server.WebApplicationContext;
 
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.exceptions.TransactionException;

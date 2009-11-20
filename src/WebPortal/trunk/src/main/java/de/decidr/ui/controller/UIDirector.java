@@ -25,7 +25,6 @@ import org.apache.log4j.Logger;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.Password;
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.help.HelpDialogComponent;
 import de.decidr.ui.view.uibuilder.UIBuilder;
@@ -58,11 +57,7 @@ public class UIDirector {
 
     private HelpDialogComponent helpDialog = null;
     
-    public static UIDirector getInstance(){
-    	return Main.getCurrent().getUIDirector();
-    }
-
-
+    
     /**
      * The default constructor
      * 

@@ -42,7 +42,7 @@ public class ShowUserListAction implements ClickListener {
 	 */
 	private static final long serialVersionUID = 8622917418547074320L;
 
-	private UIDirector uiDirector = UIDirector.getInstance();
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
 	private UserFacade userFacade = null;

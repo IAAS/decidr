@@ -17,8 +17,6 @@
 package de.decidr.ui.view.tables;
 
 import com.vaadin.data.Container;
-
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 /**
  * This class represents the user list's ui component. It will be connected with

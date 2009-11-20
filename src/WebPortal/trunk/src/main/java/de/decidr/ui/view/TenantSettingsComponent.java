@@ -30,7 +30,6 @@ import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
-import de.decidr.model.entities.File;
 import de.decidr.ui.controller.CssHandler;
 import de.decidr.ui.controller.tenant.RestoreDefaultTenantSettingsAction;
 import de.decidr.ui.controller.tenant.SaveTenantSettingsAction;

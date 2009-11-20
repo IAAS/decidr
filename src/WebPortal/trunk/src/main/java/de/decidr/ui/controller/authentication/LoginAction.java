@@ -35,7 +35,7 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
 public class LoginAction implements ClickListener {
 
     private Login login = new Login();
-    UIDirector uiDirector = UIDirector.getInstance();
+    UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
     /*
      * (non-Javadoc)

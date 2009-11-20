@@ -31,7 +31,6 @@ import com.vaadin.ui.Upload.SucceededListener;
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.UserRole;
-
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.ui.view.DeleteUploadComponent;

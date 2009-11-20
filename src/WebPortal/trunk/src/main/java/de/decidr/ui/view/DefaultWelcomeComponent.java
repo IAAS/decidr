@@ -20,11 +20,6 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.model.DecidrGlobals;
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
-
 /**
  * This component represents the default welcome page of the DecidR application
  * 

@@ -31,7 +31,6 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.WorkflowAdminRole;
-import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.logging.DefaultLogger;

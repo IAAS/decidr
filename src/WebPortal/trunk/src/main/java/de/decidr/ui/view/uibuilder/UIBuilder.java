@@ -16,7 +16,7 @@
 
 package de.decidr.ui.view.uibuilder;
 
-import de.decidr.ui.controller.UIDirector;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -29,7 +29,7 @@ import de.decidr.ui.view.SiteFrame;
  */
 public abstract class UIBuilder {
 
-    protected SiteFrame siteFrame = UIDirector.getInstance().getTemplateView();
+    protected SiteFrame siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
     
     
 

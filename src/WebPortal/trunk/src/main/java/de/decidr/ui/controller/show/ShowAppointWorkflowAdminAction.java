@@ -35,7 +35,7 @@ import de.decidr.ui.view.SiteFrame;
  */
 public class ShowAppointWorkflowAdminAction implements ClickListener {
 
-    private UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     private Table table = null;

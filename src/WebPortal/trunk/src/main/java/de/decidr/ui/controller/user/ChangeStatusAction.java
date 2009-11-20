@@ -32,7 +32,6 @@ import com.vaadin.data.Property.ValueChangeListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -54,7 +53,7 @@ public class ChangeStatusAction implements ValueChangeListener {
      */
     @Override
     public void valueChange(ValueChangeEvent event) {
-        content = (ProfileSettingsComponent) UIDirector.getInstance()
+        content = (ProfileSettingsComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
 
         if (content.getStatus().booleanValue()) {

@@ -33,7 +33,7 @@ import de.decidr.ui.view.SiteFrame;
 @SuppressWarnings("serial")
 public class ShowChangeTenantAction implements ClickListener {
 
-    private UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*

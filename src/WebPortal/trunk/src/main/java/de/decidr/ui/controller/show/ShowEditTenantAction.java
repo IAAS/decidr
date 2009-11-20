@@ -21,6 +21,7 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.EditTenantComponent;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -34,7 +35,7 @@ public class ShowEditTenantAction implements ClickListener {
      * Serial Version UID
      */
     private static final long serialVersionUID = -48267747213888848L;
-    private UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*

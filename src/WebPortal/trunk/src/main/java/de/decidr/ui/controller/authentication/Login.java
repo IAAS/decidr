@@ -52,7 +52,7 @@ import de.decidr.ui.view.uibuilder.WorkflowAdminViewBuilder;
  */
 public class Login {
 
-	private UIDirector uiDirector = UIDirector.getInstance();
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private UIBuilder uiBuilder = null;
 
 	private UserFacade userFacade = new UserFacade(new UserRole());

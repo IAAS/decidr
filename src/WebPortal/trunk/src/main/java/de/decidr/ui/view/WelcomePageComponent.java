@@ -26,6 +26,7 @@ package de.decidr.ui.view;
 // Also, do you mean "welcome page for a specific tenant"? If so, you also
 // need a generic welcome page ~rr
 import javax.servlet.http.HttpSession;
+
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;

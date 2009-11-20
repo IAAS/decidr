@@ -21,6 +21,7 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.ImpressumComponent;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -31,7 +32,7 @@ import de.decidr.ui.view.SiteFrame;
 @SuppressWarnings("serial")
 public class ShowImpressumAction implements ClickListener {
 
-    private UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*

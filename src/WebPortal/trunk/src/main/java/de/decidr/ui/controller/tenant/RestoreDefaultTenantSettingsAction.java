@@ -20,6 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.controller.UIDirector;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TenantSettingsComponent;
 
@@ -31,7 +32,7 @@ import de.decidr.ui.view.TenantSettingsComponent;
  */
 public class RestoreDefaultTenantSettingsAction implements ClickListener {
 	
-	UIDirector uiDirector = UIDirector.getInstance();
+	UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*

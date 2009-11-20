@@ -22,13 +22,13 @@ import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+
 import de.decidr.model.filters.EqualsFilter;
 import de.decidr.ui.controller.MarkWorkItemAsDoneAction;
 import de.decidr.ui.controller.show.ShowWorkItemWindowAction;

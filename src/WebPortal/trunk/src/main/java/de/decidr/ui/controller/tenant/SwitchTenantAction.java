@@ -62,7 +62,7 @@ public class SwitchTenantAction implements ClickListener {
 	private Table table = null;
 
 	private UIBuilder uiBuilder = null;
-	private UIDirector uiDirector = UIDirector.getInstance();
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
 	/**
 	 * Constructor which is given a tenant name to determine to which tenant the

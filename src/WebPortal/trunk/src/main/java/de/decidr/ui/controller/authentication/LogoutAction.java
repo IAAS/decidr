@@ -33,7 +33,7 @@ import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
  */
 public class LogoutAction implements ClickListener {
 
-    private UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
     /*
      * (non-Javadoc)

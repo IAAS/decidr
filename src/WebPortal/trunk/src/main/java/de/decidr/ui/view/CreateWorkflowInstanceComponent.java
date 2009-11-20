@@ -17,6 +17,7 @@ package de.decidr.ui.view;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;

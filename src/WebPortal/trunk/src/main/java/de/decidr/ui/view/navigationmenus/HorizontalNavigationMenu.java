@@ -21,7 +21,6 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 
 import de.decidr.ui.controller.authentication.LogoutAction;
-import de.decidr.ui.controller.show.ShowHelpAction;
 import de.decidr.ui.controller.show.ShowHelpDialogAction;
 import de.decidr.ui.controller.show.ShowImpressumAction;
 import de.decidr.ui.controller.show.ShowTermsOfServiceAction;

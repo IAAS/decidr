@@ -19,6 +19,7 @@ import java.util.Date;
 
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
+
 import de.decidr.ui.data.CompletedInstancesContainer;
 
 public class CompletedInstanceTable extends Table {

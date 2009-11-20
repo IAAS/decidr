@@ -16,10 +16,7 @@
 package de.decidr.ui.view.tables;
 
 import com.vaadin.data.Container;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-
-import de.decidr.ui.controller.MarkWorkItemAsDoneAction;
 
 public class WorkItemTable extends Table {
 

@@ -16,15 +16,11 @@
 
 package de.decidr.ui.controller.show;
 
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.controller.UIDirector;
-import de.decidr.ui.view.HelpComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.help.HelpDialogComponent;
 
 /**
@@ -35,7 +31,7 @@ import de.decidr.ui.view.help.HelpDialogComponent;
 @SuppressWarnings("serial")
 public class ShowHelpDialogAction implements ClickListener {
 
-    private UIDirector uiDirector = UIDirector.getInstance();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
     /*
      * (non-Javadoc)

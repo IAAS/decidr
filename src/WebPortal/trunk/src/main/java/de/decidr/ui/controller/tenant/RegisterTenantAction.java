@@ -40,7 +40,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class RegisterTenantAction implements ClickListener {
 	
-	private UIDirector uiDirector = UIDirector.getInstance();
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
 	private UserFacade userFacade = new UserFacade(new UserRole());
@@ -59,7 +59,7 @@ public class RegisterTenantAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		content = (RegisterTenantComponent) UIDirector.getInstance()
+		content = (RegisterTenantComponent) Main.getCurrent().getUIDirector()
 				.getTemplateView().getContent();
 		Form form = content.getRegistrationForm();
 		boolean notEmpty = true;

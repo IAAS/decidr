@@ -40,7 +40,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class ShowEditUserAction implements ClickListener {
 
-	private UIDirector uiDirector = UIDirector.getInstance();
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
 	private UserFacade userFacade = null;

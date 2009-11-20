@@ -47,7 +47,7 @@ public class ShowTenantSettingsAction implements ClickListener {
 	 */
 	private static final long serialVersionUID = 7134005638789261L;
 
-	private UIDirector uiDirector = UIDirector.getInstance();
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 	
 	private Long userId = (Long) Main.getCurrent().getSession().getAttribute("userId");
