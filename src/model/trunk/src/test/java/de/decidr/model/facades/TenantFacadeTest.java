@@ -401,62 +401,62 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link TenantFacade#getTenantId(String)}.
+     * Test method for {@link TenantFacade#getTenant(String)}.
      */
     @Test
     public void testGetTenantId() throws TransactionException {
         String invalidName = TEST_NAME + "invalid";
 
-        assertEquals(testTenantID, adminFacade.getTenantId(TEST_NAME));
-        assertEquals(testTenantID, userFacade.getTenantId(TEST_NAME));
+        assertEquals(testTenantID, adminFacade.getTenant(TEST_NAME));
+        assertEquals(testTenantID, userFacade.getTenant(TEST_NAME));
 
         try {
-            Long id = adminFacade.getTenantId(invalidName);
+            Long id = adminFacade.getTenant(invalidName).getId();
             adminFacade.deleteTenant(id);
         } catch (TransactionException e) {
             // indicates the state we want
         }
 
         try {
-            nullFacade.getTenantId(TEST_NAME);
+            nullFacade.getTenant(TEST_NAME);
             fail("managed to get tenant ID with null facade");
         } catch (TransactionException e) {
             // supposed to happen
         }
 
         try {
-            adminFacade.getTenantId(null);
+            adminFacade.getTenant((String) null);
             fail("managed to get tenant ID with null parameter");
         } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
-            adminFacade.getTenantId("");
+            adminFacade.getTenant("");
             fail("managed to get tenant ID with empty parameter");
         } catch (TransactionException e) {
             // supposed to happen
         }
         try {
-            adminFacade.getTenantId(invalidName);
+            adminFacade.getTenant(invalidName);
             fail("managed to get tenant ID with invalid parameter");
         } catch (TransactionException e) {
             // supposed to happen
         }
 
         try {
-            userFacade.getTenantId(null);
+            userFacade.getTenant((Long) null);
             fail("managed to get tenant ID with null parameter");
         } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
-            userFacade.getTenantId("");
+            userFacade.getTenant("");
             fail("managed to get tenant ID with empty parameter");
         } catch (TransactionException e) {
             // supposed to happen
         }
         try {
-            userFacade.getTenantId(invalidName);
+            userFacade.getTenant(invalidName);
             fail("managed to get tenant ID with invalid parameter");
         } catch (TransactionException e) {
             // supposed to happen

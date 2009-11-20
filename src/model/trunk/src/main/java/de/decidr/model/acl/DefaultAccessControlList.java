@@ -72,7 +72,7 @@ import de.decidr.model.commands.tenant.CreateTenantCommand;
 import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
 import de.decidr.model.commands.tenant.GetAllTenantsCommand;
 import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
-import de.decidr.model.commands.tenant.GetTenantIdCommand;
+import de.decidr.model.commands.tenant.GetTenantCommand;
 import de.decidr.model.commands.tenant.GetTenantLogoCommand;
 import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.commands.tenant.GetUsersOfTenantCommand;
@@ -505,7 +505,7 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsLoggedInAsserter());
 
         setRule(new BasicRole(),
-                new CommandPermission(GetTenantIdCommand.class), SatisfyAll,
+                new CommandPermission(GetTenantCommand.class), SatisfyAll,
                 alwaysTrueAsserter);
 
         /**

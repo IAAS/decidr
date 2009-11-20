@@ -40,7 +40,7 @@ import de.decidr.model.commands.tenant.CreateWorkflowModelCommand;
 import de.decidr.model.commands.tenant.DeleteTenantCommand;
 import de.decidr.model.commands.tenant.GetAllTenantsCommand;
 import de.decidr.model.commands.tenant.GetCurrentColorSchemeCommand;
-import de.decidr.model.commands.tenant.GetTenantIdCommand;
+import de.decidr.model.commands.tenant.GetTenantCommand;
 import de.decidr.model.commands.tenant.GetTenantLogoCommand;
 import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.commands.tenant.GetTenantsToApproveCommand;
@@ -379,13 +379,12 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the tenant ID of the tenant which corresponds to the given name.
-     * If the tenantName doesn't exist, an {@link EntityNotFoundException} will
-     * be thrown.
+     * Returns the tenant which corresponds to the given name. If the tenant
+     * doesn't exist, an {@link EntityNotFoundException} is thrown.
      * 
      * @param tenantName
      *            the name of the tenant
-     * @return tenandId, if tenant doesn't exist, an exception is thrown
+     * @return tenant entity
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
@@ -393,13 +392,32 @@ public class TenantFacade extends AbstractFacade {
      * @throws IllegalArgumentException
      *             if tenantName is <code>null</code>
      */
-    @AllowedRole(UserRole.class)
-    public Long getTenantId(String tenantName) throws TransactionException {
-        GetTenantIdCommand command = new GetTenantIdCommand(actor, tenantName);
-
+    @AllowedRole(BasicRole.class)
+    public Tenant getTenant(String tenantName) throws TransactionException {
+        GetTenantCommand command = new GetTenantCommand(actor, tenantName);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        return command.getResult();
+    }
 
-        return command.getTenantId();
+    /**
+     * Returns the tenant which corresponds to the given ID. If the tenant
+     * doesn't exist, an {@link EntityNotFoundException} is thrown.
+     * 
+     * @param tenantId
+     *            the ID of the tenant
+     * @return tenant entity
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             iff no tenant with the given name exists.
+     * @throws IllegalArgumentException
+     *             if tenantName is <code>null</code>
+     */
+    @AllowedRole(BasicRole.class)
+    public Tenant getTenant(Long tenantId) throws TransactionException {
+        GetTenantCommand command = new GetTenantCommand(actor, tenantId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        return command.getResult();
     }
 
     /**

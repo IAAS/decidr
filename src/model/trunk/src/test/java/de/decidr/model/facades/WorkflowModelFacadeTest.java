@@ -84,7 +84,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         TenantFacade tenantFacade = new TenantFacade(role);
 
         try {
-            long id = tenantFacade.getTenantId(NAME);
+            long id = tenantFacade.getTenant(NAME).getId();
             tenantFacade.deleteTenant(id);
         } catch (EntityNotFoundException e) {
             // tenant does not exist - good!

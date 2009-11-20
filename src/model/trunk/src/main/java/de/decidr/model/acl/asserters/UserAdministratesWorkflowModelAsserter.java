@@ -50,30 +50,33 @@ public class UserAdministratesWorkflowModelAsserter extends CommandAsserter {
         if (workflowModelIds == null) {
             isWorkflowAdmin = false;
         } else {
-            // the user administrates the workflow model if explicitly stated
-            // by the database relation user_administrates_workflow_model or
-            // if he is the administrator of the tenant that owns the workflow
-            // model.
+            /*
+             * The user administrates the workflow model if explicitly stated by
+             * the database relation user_administrates_workflow_model or if he
+             * is the administrator of the tenant that owns the workflow model.
+             * This also covers the special case of the default tenant because
+             * the super admin is the tenant admin of the default tenant.
+             */
             Query relationQuery = evt.getSession().createQuery(
-                    "select count(*) from UserAdministratesWorkflowModel rel where "
+                    "select rel.user.id from UserAdministratesWorkflowModel rel where "
                             + "rel.workflowModel.id = :workflowModelId and "
                             + "rel.user.id = :userId")
-                    .setLong("userId", userId);
+                    .setLong("userId", userId).setMaxResults(1);
+
             Query adminQuery = evt.getSession().createQuery(
-                    "select count(*) from WorkflowModel wm where "
+                    "select wm.id from WorkflowModel wm where "
                             + "wm.id = :workflowModelId and "
                             + "wm.tenant.admin.id = :userId").setLong("userId",
-                    userId);
+                    userId).setMaxResults(1);
 
             isWorkflowAdmin = true;
             // assume the user is a workflow admin until proven false
             for (Long workflowModelId : workflowModelIds) {
                 relationQuery.setLong("workflowModelId", workflowModelId);
-                Number relationCount = (Number) relationQuery.uniqueResult();
+                Object found = relationQuery.uniqueResult();
 
-                if (relationCount.intValue() == 0) {
-                    isWorkflowAdmin = ((Number) adminQuery.uniqueResult())
-                            .intValue() > 0;
+                if (found == null) {
+                    isWorkflowAdmin = adminQuery.uniqueResult() != null;
                 }
 
                 if (!isWorkflowAdmin) {

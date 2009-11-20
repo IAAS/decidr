@@ -16,6 +16,7 @@
 
 package de.decidr.model.acl.asserters;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.access.TenantAccess;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -68,16 +69,20 @@ public class UserIsWorkflowAdminWithinTenantAsserter extends
         /*
          * A user is a workflow admin if he administers at least one workflow
          * model within the tenant(s) or if he is the tenant admin.
+         * 
+         * A special case is the default tenant: all users are workflow
+         * administrators within the default tenant.
          */
         String hql = "select count(*) from Tenant t "
                 + "where (t.id in (:tenantIds)) and "
-                + "( (t.admin.id = :userId) or "
+                + "((t.id = :defaultTenantId) or (t.admin.id = :userId) or "
                 + "exists(from UserAdministratesWorkflowModel rel "
                 + "where rel.user = :userId and rel.workflowModel.tenant = t) )";
 
         Number count = (Number) evt.getSession().createQuery(hql).setLong(
                 "userId", role.getActorId()).setParameterList("tenantIds",
-                accessedTenantIds).uniqueResult();
+                accessedTenantIds).setLong("defaultTenantId",
+                DecidrGlobals.DEFAULT_TENANT_ID).uniqueResult();
 
         isWorkflowAdmin = count.intValue() == accessedTenantIds.length;
     }
