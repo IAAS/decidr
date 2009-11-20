@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.Password;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.help.HelpDialogComponent;
 import de.decidr.ui.view.uibuilder.UIBuilder;
@@ -53,30 +54,20 @@ public class UIDirector {
 
     private UIBuilder uiBuilder = null;
 
-    private static ThreadLocal<UIDirector> uiDirector;
-
     private SiteFrame siteFrame = null;
 
     private HelpDialogComponent helpDialog = null;
-
-    public static synchronized UIDirector getInstance() {
-        if (uiDirector == null) {
-            uiDirector = new ThreadLocal<UIDirector>() {
-				@Override
-				protected UIDirector initialValue() {
-					return new UIDirector();
-				}
-            };
-        }
-        logger.debug("Getting UIDirector singleton: " + hash);
-        return uiDirector.get();
+    
+    public static UIDirector getInstance(){
+    	return Main.getCurrent().getUIDirector();
     }
+
 
     /**
      * The default constructor
      * 
      */
-    private UIDirector() {
+    public UIDirector() {
         // Aleks, GH: document: why is this empty
         // Generate hash to verify singleton object identity
         ByteArrayOutputStream out = new ByteArrayOutputStream();

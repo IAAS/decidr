@@ -46,7 +46,7 @@ public class Main extends Application implements TransactionListener {
 
     Window main = new Window();
 
-    UIDirector director = UIDirector.getInstance();
+    UIDirector director = null;
 
     UIBuilder ui = null;
 
@@ -57,6 +57,8 @@ public class Main extends Application implements TransactionListener {
      */
     @Override
     public void init() {
+    	director = new UIDirector();
+    	
         setMainWindow(main);
 
         main.addParameterHandler(new InvitationParameterHandler());
@@ -75,6 +77,10 @@ public class Main extends Application implements TransactionListener {
         if (getContext() != null) {
             getContext().addTransactionListener(this);
         }
+    }
+    
+    public UIDirector getUIDirector(){
+    	return director;
     }
 
     /**
