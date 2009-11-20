@@ -74,7 +74,7 @@ public interface HasChildren {
     public HasChildModels getHasChildModelsModel() throws InvalidTypeException;
 
     /**
-     * Returns the x coordinate of the upper left cordner.
+     * Returns the x coordinate of the upper left corner.
      * 
      * @return The x coordinate in pixels.
      */
@@ -88,7 +88,7 @@ public interface HasChildren {
     public Collection<Node> getNodes();
 
     /**
-     * Returns the y coordinate of the upper left cordner.
+     * Returns the y coordinate of the upper left corner.
      * 
      * @return The y coordinate in pixels.
      */
