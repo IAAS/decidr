@@ -28,7 +28,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
-import de.decidr.model.acl.roles.WorkflowAdminRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.filters.Filter;
@@ -50,7 +50,7 @@ public class UserListContainer implements Container,
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    UserFacade userFacade = new UserFacade(new WorkflowAdminRole(userId));
+    UserFacade userFacade = new UserFacade(new SuperAdminRole(userId));
 
     List<Item> userList = null;
 

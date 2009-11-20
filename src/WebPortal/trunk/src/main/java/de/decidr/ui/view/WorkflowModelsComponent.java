@@ -134,7 +134,7 @@ public class WorkflowModelsComponent extends CustomComponent {
 		createNewModelButton = new Button("Create new model",
 				new ShowModelDescription(workflowModelTable));
 		editWorkflowModelButton = new Button("Edit model",
-				new ShowModelingToolAction());
+				new ShowModelingToolAction(workflowModelTable));
 		removeModelButton = new Button("Remove",
 				new RemoveWorkflowModelsAction(workflowModelTable));
 		lockModelButton = new Button("Lock", new LockWorkflowModelAction(

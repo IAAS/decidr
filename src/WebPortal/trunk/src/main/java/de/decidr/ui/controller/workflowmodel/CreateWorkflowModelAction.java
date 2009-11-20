@@ -69,6 +69,7 @@ public class CreateWorkflowModelAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
+		new ShowModelingToolAction(table);
 		try {
 			tenantId = (Long) Main.getCurrent().getSession().getAttribute(
 					"tenantId");
@@ -77,10 +78,11 @@ public class CreateWorkflowModelAction implements ClickListener {
 			Item item = workflowModelFacade.getWorkflowModel(workflowModelId);
 			table.addItem(item);
 			table.requestRepaint();
-			new ShowModelingToolAction();
+			
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(exception));
+			exception.printStackTrace();
 		}
 
 	}

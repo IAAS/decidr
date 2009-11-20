@@ -16,11 +16,14 @@
 
 package de.decidr.ui.controller.show;
 
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.ui.controller.UIDirector;
+import de.decidr.ui.data.ModelingTool;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.windows.ModelingToolWindow;
+import de.decidr.ui.view.SiteFrame;
 
 /**
  * Opens the modeling tool.
@@ -29,7 +32,18 @@ import de.decidr.ui.view.windows.ModelingToolWindow;
  */
 public class ShowModelingToolAction implements ClickListener {
 
-    private ModelingToolWindow modelingToolWindow = new ModelingToolWindow();
+    UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    SiteFrame siteFrame = uiDirector.getTemplateView();
+    
+    private Table table = null;
+    
+    /**
+	 * TODO: add comment
+	 *
+	 */
+	public ShowModelingToolAction(Table table) {
+		this.table = table;
+	}
 
     /*
      * (non-Javadoc)
@@ -39,9 +53,8 @@ public class ShowModelingToolAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //new HideDialogWindowAction();
-        // Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
-        Main.getCurrent().getMainWindow().addWindow(modelingToolWindow);
+        
+    	siteFrame.setContent(new ModelingTool(table));
     }
 
 }

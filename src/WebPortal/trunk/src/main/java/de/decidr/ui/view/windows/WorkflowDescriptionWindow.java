@@ -73,17 +73,7 @@ public class WorkflowDescriptionWindow extends Window {
         nameTextField = new TextField("Name");
         descriptionTextField = new TextField("Description");
 
-        okButton = new Button("OK");
-        okButton.addListener(new Button.ClickListener(){
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				new CreateWorkflowModelAction(
-		                nameTextField.getValue().toString(), table);
-				
-			}
-        	
-        });
+        okButton = new Button("OK", new CreateWorkflowModelAction("aleks", table));
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         verticalLayout.addComponent(nameTextField);

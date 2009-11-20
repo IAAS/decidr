@@ -29,6 +29,7 @@ import com.vaadin.data.Item;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Table;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
@@ -60,12 +61,13 @@ public class ModelingTool extends AbstractComponent {
 	private HashMap<Long, String> userList = null;
 	private UIDirector uiDirector = null;
 	private SiteFrame siteFrame = null;
+	private Table table = null;
 
 	/**
 	 * Default constructor which initialises the server side components which
 	 * are needed to gain access to the database.
 	 */
-	public ModelingTool() {
+	public ModelingTool(Table table) {
 		super();
 		session = Main.getCurrent().getSession();
 		userId = (Long) session.getAttribute("userId");
@@ -75,6 +77,9 @@ public class ModelingTool extends AbstractComponent {
 		workflowModelFacade = new WorkflowModelFacade(new UserRole(userId));
 		uiDirector = Main.getCurrent().getUIDirector();
 		siteFrame = uiDirector.getTemplateView();
+		this.table = table;
+		this.setSizeFull();
+		this.setImmediate(true);
 	}
 
 	/*
@@ -113,8 +118,6 @@ public class ModelingTool extends AbstractComponent {
 	}
 
 	private String getDWDL() {
-		WorkflowModelTable table = ((WorkflowModelsComponent) siteFrame
-				.getContent()).getWorkflowModelTable();
 		workflowModelId = (Long) table.getItem(table.getValue())
 				.getItemProperty("id").getValue();
 		try {
