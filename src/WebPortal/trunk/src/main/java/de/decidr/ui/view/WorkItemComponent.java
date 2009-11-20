@@ -29,15 +29,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
-
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.filters.EqualsFilter;
 import de.decidr.ui.controller.MarkWorkItemAsDoneAction;
+import de.decidr.ui.controller.show.ShowWorkItemWindowAction;
 import de.decidr.ui.data.WorkItemContainer;
 import de.decidr.ui.view.tables.WorkItemTable;
-import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
+
 
 public class WorkItemComponent extends CustomComponent {
 
@@ -69,15 +66,11 @@ public class WorkItemComponent extends CustomComponent {
 
 	private HttpSession session = null;
 
-	private Long userId = null;
-
-	private String tenant = null;
-
-	private TenantFacade tenantFacade = null;
-
 	private Long tenantId = null;
 
 	private Button markAsDoneButton = null;
+
+	private Button editWorkItemButton = null;
 
 	private ButtonPanel buttonPanel = null;
 
@@ -106,9 +99,6 @@ public class WorkItemComponent extends CustomComponent {
 	 */
 	private void init() {
 		session = Main.getCurrent().getSession();
-		userId = (Long) session.getAttribute("userId");
-		tenant = (String) session.getAttribute("tenant");
-		tenantFacade = new TenantFacade(new UserRole(userId));
 
 		workItemContainer = new WorkItemContainer();
 
@@ -131,19 +121,13 @@ public class WorkItemComponent extends CustomComponent {
 			public void valueChange(ValueChangeEvent event) {
 
 				if (tenantNativeSelect.isSelected("Current tenant")) {
-					try {
-						tenantId = tenantFacade.getTenantId(tenant);
-						EqualsFilter filter = new EqualsFilter(
-								true,
-								"workflowInstance.deployedWorkflowModel.tenant.id",
-								tenantId);
-						((WorkItemContainer) workItemTable
-								.getContainerDataSource()).applyFilter(filter);
-					} catch (TransactionException exception) {
-						Main.getCurrent().addWindow(
-								new TransactionErrorDialogComponent(exception));
 
-					}
+					tenantId = (Long)session.getAttribute("tenantId");
+					EqualsFilter filter = new EqualsFilter(true,
+							"workflowInstance.deployedWorkflowModel.tenant.id",
+							tenantId);
+					((WorkItemContainer) workItemTable.getContainerDataSource())
+							.applyFilter(filter);
 
 				} else {
 					EqualsFilter filter = new EqualsFilter(true, "", "");
@@ -182,8 +166,12 @@ public class WorkItemComponent extends CustomComponent {
 		markAsDoneButton = new Button("Mark as done",
 				new MarkWorkItemAsDoneAction(workItemTable));
 
+		editWorkItemButton = new Button("Edit work item",
+				new ShowWorkItemWindowAction(workItemTable));
+
 		buttonList.add(markAsDoneButton);
-		
+		buttonList.add(editWorkItemButton);
+
 		buttonPanel = new ButtonPanel(buttonList);
 		buttonPanel.setCaption("Edit work item");
 	}

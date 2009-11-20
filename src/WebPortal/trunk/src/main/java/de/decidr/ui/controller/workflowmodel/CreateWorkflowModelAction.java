@@ -18,13 +18,15 @@ package de.decidr.ui.controller.workflowmodel;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.controller.show.ShowModelingToolAction;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -36,47 +38,50 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class CreateWorkflowModelAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(
+			userId));
+	private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
+			new TenantAdminRole(userId));
 
-    private String tenant = null;
+	private Long tenantId = null;
 
-    private Long tenantId = null;
+	private String name = null;
 
-    private String name = null;
-    
-    private Table table = null;
+	private Table table = null;
 
-    /**
-     * Constructor with a given workflow model name.
-     * 
-     */
-    public CreateWorkflowModelAction(String name, Table table) {
-    	this.table = table;
-        this.name = name;
-    }
+	/**
+	 * Constructor with a given workflow model name.
+	 * 
+	 */
+	public CreateWorkflowModelAction(String name, Table table) {
+		this.table = table;
+		this.name = name;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        tenant = (String) session.getAttribute("tenant");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		try {
+			tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+					"tenantId");
+			Long workflowModelId = tenantFacade.createWorkflowModel(tenantId,
+					name);
+			Item item = workflowModelFacade.getWorkflowModel(workflowModelId);
+			table.addItem(item);
+			table.requestRepaint();
+			new ShowModelingToolAction();
+		} catch (TransactionException exception) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(exception));
+		}
 
-        try {
-            tenantId = tenantFacade.getTenantId(tenant);
-            tenantFacade.createWorkflowModel(tenantId, name);
-            table.removeItem(table.getValue());
-            new ShowModelingToolAction();
-        } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(exception));
-        }
-
-    }
+	}
 }

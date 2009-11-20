@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -72,7 +73,8 @@ public class UnpublishWorkflowModelAction implements ClickListener {
         Set<?> value = (Set<?>) currentTenantTable.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                wfms.add((Long) currentTenantTable.getContainerProperty(iter.next(), "id")
+            	Item item = (Item)iter.next();
+                wfms.add((Long) item.getItemProperty("id")
                         .getValue());
             }
         }
@@ -84,6 +86,7 @@ public class UnpublishWorkflowModelAction implements ClickListener {
                 	publicModelTable.removeItem(iter.next());
                 }
             }
+            publicModelTable.requestRepaint();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

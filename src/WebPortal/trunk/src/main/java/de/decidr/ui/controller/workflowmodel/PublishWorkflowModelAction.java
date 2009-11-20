@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -40,53 +41,54 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class PublishWorkflowModelAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(
-            new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(
+			new UserRole(userId));
 
-    private Table currentTenantTable = null;
-    private Table publicModelTable = null;
+	private Table currentTenantTable = null;
+	private Table publicModelTable = null;
 
-    /**
-     * Constructor, requires the table which contains the data
-     * 
-     * @param table
-     *            : requires Table with data
-     */
-    public PublishWorkflowModelAction(Table table, Table table2) {
-        this.currentTenantTable = table;
-        this.publicModelTable = table2;
-    }
+	/**
+	 * Constructor, requires the table which contains the data
+	 * 
+	 * @param table
+	 *            : requires Table with data
+	 */
+	public PublishWorkflowModelAction(Table table, Table table2) {
+		this.currentTenantTable = table;
+		this.publicModelTable = table2;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        List<Long> wfms = new ArrayList<Long>();
-        Set<?> value = (Set<?>) currentTenantTable.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                wfms.add((Long) currentTenantTable.getContainerProperty(iter.next(), "id")
-                        .getValue());
-            }
-        }
-        try {
-            wfmFacade.publishWorkflowModels(wfms);
-            Set<?> values = (Set<?>) currentTenantTable.getValue();
-            if ((values != null) && (values.size() != 0)) {
-                for (Iterator<?> iter = values.iterator(); iter.hasNext();) {
-                    publicModelTable.removeItem(iter.next());
-                }
-            }
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		List<Long> wfms = new ArrayList<Long>();
+		Set<?> value = (Set<?>) currentTenantTable.getValue();
+		if ((value != null) && (value.size() != 0)) {
+			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+				Item item = (Item)iter.next();
+				wfms.add((Long) item.getItemProperty("id").getValue());
+			}
+		}
+		try {
+			wfmFacade.publishWorkflowModels(wfms);
+			Set<?> values = (Set<?>) currentTenantTable.getValue();
+			if ((values != null) && (values.size() != 0)) {
+				for (Iterator<?> iter = values.iterator(); iter.hasNext();) {
+					publicModelTable.removeItem(iter.next());
+				}
+			}
+			publicModelTable.requestRepaint();
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
+	}
 }

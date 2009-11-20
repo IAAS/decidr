@@ -335,11 +335,10 @@ public class StartConfigurationWindow extends Window {
      */
     private void fillContainer() {
         HttpSession session = Main.getCurrent().getSession();
-        String tenantName = (String) session.getAttribute("tenant");
         Long userId = (Long) session.getAttribute("userId");
         TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
         try {
-            Long tenantId = tenantFacade.getTenantId(tenantName);
+            Long tenantId = (Long)session.getAttribute("tenantId");
             for (Item item : tenantFacade.getUsersOfTenant(tenantId, null)) {
                 comboBox.addItem(item.getItemProperty("username").getValue());
             }

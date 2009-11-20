@@ -49,8 +49,8 @@ public class TenantView {
 	private Long userId = (Long) session.getAttribute("userId");
 	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
-	private String tenantName = (String) session.getAttribute("tenant");
-	private Long tenantId = null;
+	private String tenantName = null;
+	private Long tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
 
 	private InputStream css = null;
 	private InputStream logo = null;
@@ -65,14 +65,14 @@ public class TenantView {
 	 * 
 	 */
 	public void synchronize() {
-		logger.debug("Tenant name im tenantView: "+tenantName);
 		
-		cssFile = new File("themes" + File.separator + tenantName
-				+ File.separator + "styles.css");
-		logoFile = new File("themes" + File.separator + tenantName
-				+ File.separator + "img" + File.separator + "logo.png");
 		try {
-			tenantId = tenantFacade.getTenantId(tenantName);
+			tenantName = tenantFacade.getTenant(tenantId).getName();
+			
+			cssFile = new File("themes" + File.separator + tenantName
+					+ File.separator + "styles.css");
+			logoFile = new File("themes" + File.separator + tenantName
+					+ File.separator + "img" + File.separator + "logo.png");
 
 			css = tenantFacade.getCurrentColorScheme(tenantId);
 			if (css == null) {

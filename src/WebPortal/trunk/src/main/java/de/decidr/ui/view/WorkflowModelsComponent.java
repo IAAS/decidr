@@ -132,9 +132,9 @@ public class WorkflowModelsComponent extends CustomComponent {
 		});
 
 		createNewModelButton = new Button("Create new model",
-				new ShowModelDescription(publicModelTable));
-		//editWorkflowModelButton = new Button("Edit model",
-			//	new ShowModelingToolAction());
+				new ShowModelDescription(workflowModelTable));
+		editWorkflowModelButton = new Button("Edit model",
+				new ShowModelingToolAction());
 		removeModelButton = new Button("Remove",
 				new RemoveWorkflowModelsAction(workflowModelTable));
 		lockModelButton = new Button("Lock", new LockWorkflowModelAction(
@@ -161,7 +161,7 @@ public class WorkflowModelsComponent extends CustomComponent {
 		searchPanel.getSearchHorizontalLayout().addComponent(nativeSelect);
 
 		verticalLayout.addComponent(createNewModelButton);
-		//verticalLayout.addComponent(editWorkflowModelButton);
+		verticalLayout.addComponent(editWorkflowModelButton);
 		verticalLayout.addComponent(workflowModelTable);
 		verticalLayout.addComponent(buttonPanel);
 

@@ -29,7 +29,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
@@ -42,7 +42,7 @@ public class SaveSystemSettingsAction implements ClickListener {
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
-    private SystemFacade systemFacade = new SystemFacade(new UserRole(userId));
+    private SystemFacade systemFacade = new SystemFacade(new SuperAdminRole(userId));
 
     private SystemSettingComponent content = null;
     private Item item = null;

@@ -16,9 +16,7 @@
 
 package de.decidr.ui.controller.tenant;
 
-
 import javax.servlet.http.HttpSession;
-
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -46,8 +44,6 @@ public class SaveTenantSettingsAction implements ClickListener {
 	private Long fileId = null;
 	private TenantFacade tenantFacade = null;
 	private FileFacade fileFacade = null;
-
-	private String tenant = null;
 	private TenantSettingsComponent content = null;
 
 	/*
@@ -64,10 +60,9 @@ public class SaveTenantSettingsAction implements ClickListener {
 		fileFacade = new FileFacade(new UserRole(userId));
 		content = (TenantSettingsComponent) UIDirector.getInstance()
 				.getTemplateView().getContent();
-		tenant = (String) session.getAttribute("tenant");
+		Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+				"tenantId");
 		try {
-			Long tenantId = tenantFacade.getTenantId(tenant);
-
 			tenantFacade.setDescription(tenantId, content
 					.getTenantDescription().getValue().toString());
 

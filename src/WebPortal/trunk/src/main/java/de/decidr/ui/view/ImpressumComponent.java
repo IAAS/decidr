@@ -28,30 +28,31 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 public class ImpressumComponent extends CustomComponent {
 
-    private VerticalLayout verticalLayout = null;
-    private Label labelImpressum = null;
+	private VerticalLayout verticalLayout = null;
+	private Label labelImpressum = null;
 
-    /**
-     * Default constructor
-     * 
-     */
-    public ImpressumComponent() {
-        init();
-    }
+	/**
+	 * Default constructor
+	 * 
+	 */
+	public ImpressumComponent() {
+		init();
+	}
 
-    /**
-     * This method initializes the components of the impressum component
-     * 
-     */
-    private void init() {
-        verticalLayout = new VerticalLayout();
-        this.setCompositionRoot(verticalLayout);
+	/**
+	 * This method initializes the components of the impressum component
+	 * 
+	 */
+	private void init() {
+		verticalLayout = new VerticalLayout();
+		this.setCompositionRoot(verticalLayout);
 
-        labelImpressum = new Label(
-                "<h2>Impressum</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-                Label.CONTENT_XHTML);
+		labelImpressum = new Label(
+				"<h5>Diese Seite wird betrieben von</h5> <br/><br/> Universität Stuttgart <br/><br/> Keplerstrasse 7 <br/><br/> 70174 Stuttgart <br/><br/> Deutschland <br/><br/> <h5>Telefon</h5><br/> ++49 (0)711/685-0 <br/><br/> <h5>Fax</h5><br/> ++49 (0)711/685-82113 <br/><br/> <h5>E-Mail</h5><br/> decidr@decidr.com <br/><br/> <h5>Internet</h5><br/> http://www.decidr.de <br/><br/> <h5>Verantwortlich </h5><br/> Die Universität Stuttgart ist eine Körperschaft des Öffentlichen Rechts."
+						+ "Sie wird durch den Rektor Prof. Dr.-Ing. Wolfram Ressel gesetzlich vertreten. </br></br> DecidR wurde im Rahmen des Studienprojektes A 2008/2009 an der Universität Stuttgart am Institut IAAS implementiert. Die Gruppe aus neun Studenten bestehend aus, Modood Alvi, Johannes Engelhardt, Markus Fischer, Geoffrey Heinze, Daniel Huss, Thomas Karsten, Reinhold Rumberger, Jonas Schlaak und Aleksandar Tolev haben sich ein Jahr lang bemüht das Programm "
+						+ "so zu gestalten wie es der Kunde, Ralph Mietzner, gewünscht hat.",
+				Label.CONTENT_XHTML);
 
-        verticalLayout.addComponent(labelImpressum);
-    }
-
+		verticalLayout.addComponent(labelImpressum);
+	}
 }

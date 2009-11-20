@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-
-import com.vaadin.data.Item;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -39,51 +37,50 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class InviteUserToTenantAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
-    private Form inviteForm = null;
-    private Item tenant = null;
+	private Form inviteForm = null;
+	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+			"tenantId");
 
-    public InviteUserToTenantAction(Form form) {
-        inviteForm = form;
-    }
+	public InviteUserToTenantAction(Form form) {
+		inviteForm = form;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        tenant = (Item) session.getAttribute("tenant");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
 
-        List<String> emails = new ArrayList<String>();
-        List<String> userNames = new ArrayList<String>();
-        for (Integer c = 1; c <= inviteForm.getItemPropertyIds().size(); c++) {
-            if (inviteForm.getItemProperty("user" + c.toString()) != null) {
-                if (inviteForm.getItemProperty("user" + c.toString())
-                        .getValue().toString().contains("@")) {
-                    emails.add(inviteForm
-                            .getItemProperty("user" + c.toString()).getValue()
-                            .toString());
-                } else {
-                    userNames.add(inviteForm.getItemProperty(
-                            "user" + c.toString()).getValue().toString());
-                }
-            }
-        }
+		List<String> emails = new ArrayList<String>();
+		List<String> userNames = new ArrayList<String>();
+		for (Integer c = 1; c <= inviteForm.getItemPropertyIds().size(); c++) {
+			if (inviteForm.getItemProperty("user" + c.toString()) != null) {
+				if (inviteForm.getItemProperty("user" + c.toString())
+						.getValue().toString().contains("@")) {
+					emails.add(inviteForm
+							.getItemProperty("user" + c.toString()).getValue()
+							.toString());
+				} else {
+					userNames.add(inviteForm.getItemProperty(
+							"user" + c.toString()).getValue().toString());
+				}
+			}
+		}
 
-        try {
-            tenantFacade.inviteUsersAsMembers((Long) tenant.getItemProperty(
-                    "id").getValue(), emails, userNames);
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-    }
+		try {
+			tenantFacade.inviteUsersAsMembers(tenantId, emails, userNames);
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
+	}
 
 }

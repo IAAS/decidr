@@ -39,7 +39,6 @@ public class WelcomePageComponent extends CustomComponent {
 
     private HttpSession session = null;
 
-    private String tenant = null;
     private Long tenantId = null;
     private Long userId = null;
     private TenantFacade tenantFacade = null;
@@ -50,7 +49,7 @@ public class WelcomePageComponent extends CustomComponent {
     private Label labelDesc = null;
 
     /**
-     * TODO document
+     * Default constructor
      */
     public WelcomePageComponent() {
         init();
@@ -66,15 +65,14 @@ public class WelcomePageComponent extends CustomComponent {
         session = Main.getCurrent().getSession();
         userId = (Long) session.getAttribute("userId");
         tenantFacade = new TenantFacade(new UserRole(userId));
-        tenant = (String) session.getAttribute("tenant");
+        tenantId = (Long) Main.getCurrent().getSession().getAttribute("tenantId");
         try {
-            tenantId = tenantFacade.getTenantId(tenant);
             // Aleks, GH: this won't work as simple users can't view the tenant
             // settings ~rr
             tenantDescription = (String) tenantFacade.getTenantSettings(
                     tenantId).getItemProperty("description").getValue();
 
-            if (tenant != null) {
+            if (tenantId!= null) {
                 labelDesc = new Label(tenantDescription, Label.CONTENT_XHTML);
             } else {
                 labelDesc = new Label(

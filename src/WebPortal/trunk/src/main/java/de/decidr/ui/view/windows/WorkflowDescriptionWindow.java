@@ -18,11 +18,11 @@ package de.decidr.ui.view.windows;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.Button.ClickEvent;
 
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.workflowmodel.CreateWorkflowModelAction;
@@ -38,8 +38,6 @@ public class WorkflowDescriptionWindow extends Window {
 
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout buttonHorizontalLayout = null;
-
-    private Panel buttonPanel = null;
 
     private Button okButton = null;
     private Button cancelButton = null;
@@ -68,16 +66,25 @@ public class WorkflowDescriptionWindow extends Window {
      */
     private void init() {
         verticalLayout = new VerticalLayout();
+        verticalLayout.setSpacing(true);
         buttonHorizontalLayout = new HorizontalLayout();
-
-        buttonPanel = new Panel();
-
-        okButton = new Button("OK", new CreateWorkflowModelAction(
-                getNameTextField().getValue().toString(), table));
-        cancelButton = new Button("Cancel", new HideDialogWindowAction());
-
+        buttonHorizontalLayout.setSpacing(true);
+        
         nameTextField = new TextField("Name");
         descriptionTextField = new TextField("Description");
+
+        okButton = new Button("OK");
+        okButton.addListener(new Button.ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				new CreateWorkflowModelAction(
+		                nameTextField.getValue().toString(), table);
+				
+			}
+        	
+        });
+        cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         verticalLayout.addComponent(nameTextField);
         nameTextField.setColumns(10);
@@ -86,14 +93,18 @@ public class WorkflowDescriptionWindow extends Window {
         descriptionTextField.setColumns(10);
         descriptionTextField.setRows(5);
 
-        verticalLayout.addComponent(buttonPanel);
-        buttonPanel.addComponent(buttonHorizontalLayout);
+        verticalLayout.addComponent(buttonHorizontalLayout);
 
         buttonHorizontalLayout.addComponent(okButton);
         buttonHorizontalLayout.addComponent(cancelButton);
 
+        this.setContent(verticalLayout);
+        this.setResizable(false);
+        this.setSizeUndefined();
+        this.setCaption("Workflow description");
+        this.center();
         this.setModal(true);
-
+        this.setWidth("100px");
     }
 
 }

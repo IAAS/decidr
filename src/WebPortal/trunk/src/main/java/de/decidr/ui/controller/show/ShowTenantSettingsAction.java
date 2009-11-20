@@ -51,8 +51,7 @@ public class ShowTenantSettingsAction implements ClickListener {
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 	
 	private Long userId = (Long) Main.getCurrent().getSession().getAttribute("userId");
-	private String tenantName = (String) Main.getCurrent()
-	.getSession().getAttribute("tenant");
+	private String tenantName = null;
 
 	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
 	
@@ -68,7 +67,8 @@ public class ShowTenantSettingsAction implements ClickListener {
 	public void buttonClick(ClickEvent event) {
 		Long tenantId;
 		try {
-			tenantId = tenantFacade.getTenantId(tenantName);
+			tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
+			tenantName = tenantFacade.getTenant(tenantId).getName();
 			
 			String description = tenantFacade.getTenantSettings(tenantId)
 			.getItemProperty("description").getValue().toString();

@@ -58,7 +58,7 @@ public class CssHandler {
 
 	private Long tenantId = null;
 
-	private String tenant = "";
+	private String tenant = "";//TODO: aus der tenantfacade den namen holen
 
 	private String cssFilePath = "";
 
@@ -67,7 +67,7 @@ public class CssHandler {
 	 * 
 	 */
 	public CssHandler(TenantSettingsComponent component) {
-		tenant = (String) Main.getCurrent().getSession().getAttribute("tenant");
+		tenantId = (Long) Main.getCurrent().getSession().getAttribute("tenantId");
 		this.component = component;
 		cssFilePath = +File.separatorChar + "themes" + File.separator + tenant
 				+ File.separator + "styles.css";
@@ -82,7 +82,6 @@ public class CssHandler {
 	public void saveCss(TenantFacade tenantFacade, boolean advanced,
 			FileFacade fileFacade) throws TransactionException {
 		try {
-			tenantId = tenantFacade.getTenantId(tenant);
 			Item settings = tenantFacade.getTenantSettings(tenantId);
 			Long colorSchemeId;
 			File f;

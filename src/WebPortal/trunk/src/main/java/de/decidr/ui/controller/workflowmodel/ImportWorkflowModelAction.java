@@ -46,7 +46,7 @@ public class ImportWorkflowModelAction implements ClickListener {
     private Long userId = (Long) session.getAttribute("userId");
     private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
-    private Item tenant = null;
+    private Long tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
     private Table table = null;
 
     /**
@@ -67,25 +67,24 @@ public class ImportWorkflowModelAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        tenant = (Item) session.getAttribute("tenant");
-
         List<Long> wfms = new ArrayList<Long>();
         Set<?> value = (Set<?>) table.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                wfms.add((Long) table.getContainerProperty(iter.next(), "id")
+            	Item item = (Item)iter.next();
+                wfms.add((Long) item.getItemProperty("id")
                         .getValue());
             }
         }
         try {
-            tenantFacade.importPublishedWorkflowModels((Long) tenant
-                    .getItemProperty("id").getValue(), wfms);
+            tenantFacade.importPublishedWorkflowModels(tenantId, wfms);
             Set<?> values = (Set<?>) table.getValue();
             if ((values != null) && (values.size() != 0)) {
                 for (Iterator<?> iter = values.iterator(); iter.hasNext();) {
                     table.removeItem(iter.next());
                 }
             }
+            table.requestRepaint();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

@@ -71,6 +71,7 @@ public class DeleteTenantAction implements ClickListener {
                             .deleteTenant((Long) table.getContainerProperty(
                                     iter.next(), "id").getValue());
                     table.removeItem(table.getValue());
+                    table.requestRepaint();
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));

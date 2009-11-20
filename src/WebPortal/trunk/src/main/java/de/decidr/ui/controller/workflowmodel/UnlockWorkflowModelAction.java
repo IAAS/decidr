@@ -21,6 +21,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -67,9 +68,10 @@ public class UnlockWorkflowModelAction implements ClickListener {
         Set<?> value = (Set<?>) table.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+            	Item item = (Item)iter.next();
                 try {
-                    wfmFacade.setExecutable((Long) table.getContainerProperty(
-                            iter.next(), "id").getValue(), true);
+                    wfmFacade.setExecutable((Long) item.getItemProperty(
+                            "id").getValue(), true);
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));

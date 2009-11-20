@@ -104,7 +104,6 @@ public class RegisterTenantAction implements ClickListener {
 			} catch (NullPointerException e) {
 				Main.getCurrent().getMainWindow().addWindow(
 						new TransactionErrorDialogComponent(e));
-				e.printStackTrace();
 			} catch (TransactionException e) {
 				Main.getCurrent().getMainWindow().addWindow(
 						new TransactionErrorDialogComponent(e));

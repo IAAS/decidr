@@ -23,7 +23,6 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
@@ -47,8 +46,10 @@ public class ShowUserListAction implements ClickListener {
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
 	private UserFacade userFacade = null;
-	private TenantFacade tenantFacade = null;
-	private Long tenantId = null;
+	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+			"tenantId");
+	private Long userId = (Long) Main.getCurrent().getSession().getAttribute(
+			"userId");
 
 	/*
 	 * (non-Javadoc)
@@ -58,24 +59,15 @@ public class ShowUserListAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		userFacade = new UserFacade(new UserRole((Long) Main.getCurrent()
-				.getSession().getAttribute("userId")));
-		tenantFacade = new TenantFacade(new UserRole((Long) Main.getCurrent()
-				.getSession().getAttribute("userId")));
+		userFacade = new UserFacade(new UserRole(userId));
 		try {
-			tenantId = tenantFacade.getTenantId((String) Main.getCurrent()
-					.getSession().getAttribute("tenant"));
 			siteFrame.setContent(new UserListComponent());
-			if (userFacade.getUserRoleForTenant(
-					(Long) Main.getCurrent().getSession()
-							.getAttribute("userId"), tenantId).equals(
+			if (userFacade.getUserRoleForTenant(userId, tenantId).equals(
 					SuperAdminRole.class)) {
 				((UserListComponent) siteFrame.getContent())
 						.changeToSuperAdmin();
-			} else if (userFacade.getUserRoleForTenant(
-					(Long) Main.getCurrent().getSession()
-							.getAttribute("userId"), tenantId).equals(
-					TenantAdminRole.class)) {
+			} else if (userFacade.getUserRoleForTenant(userId, tenantId)
+					.equals(TenantAdminRole.class)) {
 				((UserListComponent) siteFrame.getContent())
 						.changeToTenantAdmin();
 			} else {
@@ -83,7 +75,8 @@ public class ShowUserListAction implements ClickListener {
 						.removeContainerProperty("Edit");
 			}
 		} catch (TransactionException exception) {
-			Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
+			Main.getCurrent().addWindow(
+					new TransactionErrorDialogComponent(exception));
 		}
 
 	}

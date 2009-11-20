@@ -21,6 +21,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -38,43 +39,44 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class LockWorkflowModelAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(
-            new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(
+			new UserRole(userId));
 
-    private Table table = null;
+	private Table table = null;
 
-    /**
-     * Constructor, requires the table which contains the data
-     * 
-     * @param table
-     *            : requires Table with data
-     */
-    public LockWorkflowModelAction(Table table) {
-        this.table = table;
-    }
+	/**
+	 * Constructor, requires the table which contains the data
+	 * 
+	 * @param table
+	 *            : requires Table with data
+	 */
+	public LockWorkflowModelAction(Table table) {
+		this.table = table;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                try {
-                    wfmFacade.setExecutable((Long) table.getContainerProperty(
-                            iter.next(), "id").getValue(), false);
-                } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(e));
-                }
-            }
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		Set<?> value = (Set<?>) table.getValue();
+		if ((value != null) && (value.size() != 0)) {
+			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+				Item item = (Item) iter.next();
+				try {
+					wfmFacade.setExecutable((Long) item.getItemProperty("id")
+							.getValue(), false);
+				} catch (TransactionException e) {
+					Main.getCurrent().getMainWindow().addWindow(
+							new TransactionErrorDialogComponent(e));
+				}
+			}
+		}
+	}
 }

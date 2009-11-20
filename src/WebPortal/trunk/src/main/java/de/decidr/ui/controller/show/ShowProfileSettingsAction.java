@@ -16,7 +16,7 @@
 
 package de.decidr.ui.controller.show;
 
-import org.apache.log4j.Logger;
+
 
 import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
@@ -25,7 +25,6 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
@@ -38,7 +37,6 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author AT
  */
 public class ShowProfileSettingsAction implements ClickListener {
-	Logger logger = DefaultLogger.getLogger(ShowProfileSettingsAction.class);
 	/**
 	 * Serial Version UID
 	 */
@@ -58,8 +56,6 @@ public class ShowProfileSettingsAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		logger.debug("TenantName im profile settings : "+ (String) Main
-			.getCurrent().getSession().getAttribute("tenant"));
 		try {
 			Item item = userFacade.getUserProfile((Long) Main.getCurrent()
 					.getSession().getAttribute("userId"));

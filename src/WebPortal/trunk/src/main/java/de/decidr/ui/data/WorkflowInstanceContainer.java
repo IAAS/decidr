@@ -50,11 +50,10 @@ public class WorkflowInstanceContainer implements Container {
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
-    private String tenant = (String) session.getAttribute("tenant");
 
     TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
     UserFacade userFacade = new UserFacade(new TenantAdminRole(userId));
-    Long tenantId = null;
+    Long tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
 
     List<Item> workflowModelList = null;
 
@@ -77,7 +76,6 @@ public class WorkflowInstanceContainer implements Container {
             filterList.add(new EqualsFilter(true, "tenant.id", tenantId));
             paginator.setItemsPerPage(10);
 
-            tenantId = tenantFacade.getTenantId(tenant);
             workflowModelList = userFacade.getAdministratedWorkflowModels(
                     userId, filterList, paginator);
             for (Item item : workflowModelList) {

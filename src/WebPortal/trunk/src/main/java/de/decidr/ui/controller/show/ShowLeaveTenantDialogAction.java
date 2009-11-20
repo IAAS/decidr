@@ -27,46 +27,30 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.controller.tenant.LeaveTenantAction;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ConfirmDialogWindow;
-import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class ShowLeaveTenantDialogAction implements ClickListener {
 
-    private HttpSession session = null;
-    private Long userId = null;
-    private TenantFacade tenantFacade = null;
-    private Long tenantId = null;
+	private HttpSession session = null;
+	private Long tenantId = null;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        try {
-            session = Main.getCurrent().getSession();
-            userId = (Long) session.getAttribute("userId");
-            tenantFacade = new TenantFacade(new UserRole(userId));
-            tenantId = tenantFacade.getTenantId((String) session
-                    .getAttribute("tenant"));
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		session = Main.getCurrent().getSession();
+		tenantId = (Long) session.getAttribute("tenantId");
 
-            Main
-                    .getCurrent()
-                    .getMainWindow()
-                    .addWindow(
-                            new ConfirmDialogWindow(
-                                    "Please confirm that you want to leave your tenant.",
-                                    new LeaveTenantAction(tenantId)));
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-    }
+		Main.getCurrent().getMainWindow().addWindow(
+				new ConfirmDialogWindow(
+						"Please confirm that you want to leave your tenant.",
+						new LeaveTenantAction(tenantId)));
+
+	}
 }

@@ -16,9 +16,13 @@
 
 package de.decidr.ui.controller.show;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -28,10 +32,8 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
-import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.WorkItemComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 import de.decidr.ui.view.windows.WorkItemWindow;
 
@@ -43,48 +45,64 @@ import de.decidr.ui.view.windows.WorkItemWindow;
  */
 public class ShowWorkItemWindowAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
+	private Long userId = (Long) session.getAttribute("userId");
 
-    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
-            userId));
+	private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
+			userId));
 
-    private UIDirector uiDirector = UIDirector.getInstance();
+	private Table table = null;
 
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
+	private Long workItemId = null;
 
-    private Table table = null;
+	private byte[] ht = null;
 
-    private Long workItemId = null;
+	private THumanTaskData tHumanTaskData = null;
 
-    private byte[] ht = null;
+	/**
+	 * Constructor which stores the given work item table
+	 * 
+	 */
+	public ShowWorkItemWindowAction(Table table) {
+		this.table = table;
+	}
 
-    private THumanTaskData tHumanTaskData = null;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		Set<?> value = (Set<?>) table.getValue();
+		if ((value != null) && (value.size() == 1)) {
+			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+				Item item = (Item)iter.next();
+				workItemId = (Long) item.getItemProperty("id")
+						.getValue();
+				try {
+					ht = (byte[]) workItemFacade.getWorkItem(workItemId)
+							.getItemProperty("data").getValue();
+					tHumanTaskData = TransformUtil.bytesToHumanTask(ht);
+					Main.getCurrent().getMainWindow().addWindow(
+							new WorkItemWindow(tHumanTaskData, workItemId));
+				} catch (TransactionException exception) {
+					Main.getCurrent().getMainWindow().addWindow(
+							new TransactionErrorDialogComponent(exception));
+				} catch (JAXBException exception) {
+					Main.getCurrent().getMainWindow().showNotification(
+							"JAXB error!");
+				}
+			}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        table = ((WorkItemComponent) siteFrame.getContent()).getWorkItemTable();
-        workItemId = (Long) table.getContainerProperty(table.getValue(), "id")
-                .getValue();
-        try {
-            ht = (byte[]) workItemFacade.getWorkItem(workItemId)
-                    .getItemProperty("data").getValue();
-            tHumanTaskData = TransformUtil.bytesToHumanTask(ht);
-            Main.getCurrent().getMainWindow().addWindow(
-                    new WorkItemWindow(tHumanTaskData, workItemId));
-        } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(exception));
-        } catch (JAXBException exception) {
-            Main.getCurrent().getMainWindow().showNotification("JAXB error!");
-        }
-    }
+		} else {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("Please select an item",
+							"Information"));
+		}
+
+	}
 
 }

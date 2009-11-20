@@ -87,12 +87,11 @@ public class Login {
 
 		userFacade = new UserFacade(new UserRole(userId));
 
-		if (session.getAttribute("tenant") == null) {
+		if (session.getAttribute("tenantId") == null) {
 			tenantId = userFacade.getCurrentTenantId(userId);
 		} else {
 			tenantFacade = new TenantFacade(new UserRole(userId));
-			tenantId = tenantFacade.getTenantId((String) Main.getCurrent()
-					.getSession().getAttribute("tenant"));
+			tenantId = (Long)session.getAttribute("tenantId");
 			userFacade.setCurrentTenantId(userId, tenantId);
 		}
 
@@ -112,7 +111,7 @@ public class Login {
 		role = userFacade.getUserRoleForTenant(userId, tenantId);
 
 		session.setAttribute("userId", userId);
-		session.setAttribute("tenant", tenantName);
+		session.setAttribute("tenantId", tenantId);
 		session.setAttribute("role", role);
 
 		loadProtectedResources();

@@ -16,12 +16,12 @@
 
 package de.decidr.ui.controller.workflowmodel;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -65,8 +65,9 @@ public class RemoveWorkflowModelsAction implements ClickListener {
 		Set<?> value = (Set<?>) table.getValue();
 		if ((value != null) && (value.size() != 0)) {
 			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-				wfms.add((Long) table
-							.getContainerProperty(iter.next(), "id")
+				Item item = (Item)iter.next();
+				wfms.add((Long) item
+							.getItemProperty("id")
 							.getValue());
 			}
 		}
@@ -78,6 +79,7 @@ public class RemoveWorkflowModelsAction implements ClickListener {
 					table.removeItem(iter.next());
 				}
 			}
+			table.requestRepaint();
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));
