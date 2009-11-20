@@ -758,12 +758,20 @@ public class TenantFacade extends AbstractFacade {
 
         Tenant settings = cmd.getTenantSettings();
         BeanItem result = new BeanItem(settings, properties);
+
+        Long simpleColorSchemeId = settings.getSimpleColorScheme() == null ? null
+                : settings.getSimpleColorScheme().getId();
+        Long advancedColorSchemeId = settings.getAdvancedColorScheme() == null ? null
+                : settings.getAdvancedColorScheme().getId();
+        Long currentColorSchemeId = settings.getCurrentColorScheme() == null ? null
+                : settings.getCurrentColorScheme().getId();
+
         result.addItemProperty("simpleColorSchemeId", new ObjectProperty(
-                settings.getSimpleColorScheme().getId()));
+                simpleColorSchemeId, Long.class));
         result.addItemProperty("advancedColorSchemeId", new ObjectProperty(
-                settings.getAdvancedColorScheme().getId()));
+                advancedColorSchemeId, Long.class));
         result.addItemProperty("currentColorSchemeId", new ObjectProperty(
-                settings.getCurrentColorScheme().getId()));
+                currentColorSchemeId, Long.class));
 
         return result;
     }
