@@ -46,7 +46,7 @@ public class ImpressumComponent extends CustomComponent {
         this.setCompositionRoot(verticalLayout);
 
         labelImpressum = new Label(
-                "<h5>Diese Seite wird betrieben von</h5> Universität Stuttgart <br/>Keplerstrasse 7 <br/> 70174 Stuttgart <br/> Deutschland <br/> <h5>Telefon</h5> ++49 (0)711/685-0 <br/><br/> <h5>Fax</h5> ++49 (0)711/685-82113 <br/><br/> <h5>E-Mail</h5> decidr@decidr.com <br/><br/> <h5>Internet</h5> <a href=\"http://www.decidr.de\">http://www.decidr.de</a> <br/><br/> <h5>Verantwortlich </h5> Die Universität Stuttgart ist eine Körperschaft des Öffentlichen Rechts. "
+                "<h5>Diese Seite wird betrieben von</h5> Universität Stuttgart <br/>Keplerstrasse 7 <br/> 70174 Stuttgart <br/> Deutschland <br/><br/> <h5>Telefon</h5> ++49 (0)711/685-0 <br/><br/> <h5>Fax</h5> ++49 (0)711/685-82113 <br/><br/> <h5>E-Mail</h5> <a href=\"mailto:decidr@decidr.com\">decidr@decidr.com</a> <br/><br/> <h5>Internet</h5> <a href=\"http://www.decidr.de\">http://www.decidr.de</a> <br/><br/> <h5>Verantwortlich </h5> Die Universität Stuttgart ist eine Körperschaft des Öffentlichen Rechts. "
                         + "Sie wird durch den Rektor Prof. Dr.-Ing. Wolfram Ressel gesetzlich vertreten. </br></br> DecidR wurde im Rahmen des Studienprojektes A 2008/2009 an der Universität Stuttgart am Institut IAAS implementiert. Die Gruppe aus neun Studenten bestehend aus: Modood Alvi, Johannes Engelhardt, Markus Fischer, Geoffrey Heinze, Daniel Huss, Thomas Karsten, Reinhold Rumberger, Jonas Schlaak und Aleksandar Tolev haben sich ein Jahr lang bemüht das Programm "
                         + "so zu gestalten wie es der Kunde - Ralph Mietzner - gewünscht hat.",
                 Label.CONTENT_XHTML);
