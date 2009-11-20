@@ -16,9 +16,12 @@
 
 package de.decidr.ui.view.uibuilder;
 
+import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.DefaultWelcomeComponent;
 import de.decidr.ui.view.Header;
 import de.decidr.ui.view.LoginComponent;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 
 /**
@@ -28,6 +31,15 @@ import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
  * @author AT
  */
 public class UnregisteredUserViewBuilder extends UIBuilder {
+	
+	/**
+	 * TODO: add comment
+	 *
+	 */
+	public UnregisteredUserViewBuilder() {
+		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+	}
+	
 
 	/* (non-Javadoc)
 	 * @see de.decidr.ui.view.UIBuilder#buildContent()

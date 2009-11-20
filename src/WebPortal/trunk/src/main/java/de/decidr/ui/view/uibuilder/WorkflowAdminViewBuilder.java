@@ -17,6 +17,7 @@
 package de.decidr.ui.view.uibuilder;
 
 import de.decidr.ui.view.Header;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.WorkItemComponent;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 import de.decidr.ui.view.navigationmenus.WorkflowAdminNavigationMenu;
@@ -29,6 +30,14 @@ import de.decidr.ui.view.navigationmenus.WorkflowAdminNavigationMenu;
  * @author AT
  */
 public class WorkflowAdminViewBuilder extends UIBuilder {
+	
+	/**
+	 * TODO: add comment
+	 *
+	 */
+	public WorkflowAdminViewBuilder() {
+		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+	}
 
     /*
      * (non-Javadoc)

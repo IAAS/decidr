@@ -29,7 +29,7 @@ import de.decidr.ui.view.SiteFrame;
  */
 public abstract class UIBuilder {
 
-    protected SiteFrame siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+    protected SiteFrame siteFrame = null;//Main.getCurrent().getUIDirector().getTemplateView();
     
     
 

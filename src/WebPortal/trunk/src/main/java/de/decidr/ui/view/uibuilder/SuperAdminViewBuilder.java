@@ -17,6 +17,7 @@
 package de.decidr.ui.view.uibuilder;
 
 import de.decidr.ui.view.Header;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.WelcomePageComponent;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 import de.decidr.ui.view.navigationmenus.SuperAdminNavigationMenu;
@@ -28,6 +29,14 @@ import de.decidr.ui.view.navigationmenus.SuperAdminNavigationMenu;
  * @author AT
  */
 public class SuperAdminViewBuilder extends UIBuilder {
+	
+	/**
+	 * TODO: add comment
+	 *
+	 */
+	public SuperAdminViewBuilder() {
+		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+	}
 
     /*
      * (non-Javadoc)

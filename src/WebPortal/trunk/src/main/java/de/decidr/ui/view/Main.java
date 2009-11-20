@@ -46,7 +46,7 @@ public class Main extends Application implements TransactionListener {
 
     Window main = new Window();
 
-    UIDirector director = null;
+    private UIDirector director = null;
 
     UIBuilder ui = null;
 
@@ -59,22 +59,26 @@ public class Main extends Application implements TransactionListener {
     public void init() {
     	if (getContext() != null) {
             getContext().addTransactionListener(this);
-        }
-    	director = new UIDirector();
+        }        
+    }
+    
+    private void initView(){
     	
-        setMainWindow(main);
+    	setMainWindow(main);
 
         main.addParameterHandler(new InvitationParameterHandler());
         main.addParameterHandler(new ConfirmationParameterHandler());
         main.addParameterHandler(new TenantParameterHandler());
-
-        setTheme("decidr");
-
-        director.createNewView();
+        
+    	director = new UIDirector();
+    	
+    	director.createNewView();
         ui = new UnregisteredUserViewBuilder();
         director.setUiBuilder(ui);
         director.constructView();
-
+        
+        setTheme("decidr");
+        
         main.addComponent(director.getTemplateView());
     }
     
@@ -157,7 +161,7 @@ public class Main extends Application implements TransactionListener {
     @Override
     public void transactionStart(Application application, Object transactionData) {
         Main.setCurrent(this);
-
+        initView();
     }
 
 }

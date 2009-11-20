@@ -17,6 +17,7 @@
 package de.decidr.ui.view.uibuilder;
 
 import de.decidr.ui.view.Header;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.WorkItemComponent;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 import de.decidr.ui.view.navigationmenus.UserNavigationMenu;
@@ -28,6 +29,14 @@ import de.decidr.ui.view.navigationmenus.UserNavigationMenu;
  * @author AT
  */
 public class UserViewBuilder extends UIBuilder {
+	
+	/**
+	 * TODO: add comment
+	 *
+	 */
+	public UserViewBuilder() {
+		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+	}
 
     /*
      * (non-Javadoc)

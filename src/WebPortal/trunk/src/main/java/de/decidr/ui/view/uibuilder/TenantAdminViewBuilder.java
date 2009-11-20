@@ -17,6 +17,7 @@
 package de.decidr.ui.view.uibuilder;
 
 import de.decidr.ui.view.Header;
+import de.decidr.ui.view.Main;
 import de.decidr.ui.view.WorkItemComponent;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 import de.decidr.ui.view.navigationmenus.TenantAdminNavigationMenu;
@@ -28,6 +29,14 @@ import de.decidr.ui.view.navigationmenus.TenantAdminNavigationMenu;
  * @author AT
  */
 public class TenantAdminViewBuilder extends UIBuilder {
+	
+	/**
+	 * TODO: add comment
+	 *
+	 */
+	public TenantAdminViewBuilder() {
+		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+	}
 
     /*
      * (non-Javadoc)
