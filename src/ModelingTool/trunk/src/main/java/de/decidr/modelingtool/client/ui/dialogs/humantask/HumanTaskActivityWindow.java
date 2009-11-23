@@ -220,8 +220,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                 .getVariablesOfTypeAsStore(VariableType.ROLE));
         userField.setValue(Workflow.getInstance().getModel().getVariable(
                 model.getUserVariableId()));
-
-        userField.setTypeAhead(true);
+        userField.setEditable(false);
         userField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
@@ -235,7 +234,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                 .getVariablesOfTypeAsStore(VariableType.STRING));
         nameField.setValue(Workflow.getInstance().getModel().getVariable(
                 model.getWorkItemNameVariableId()));
-        nameField.setTypeAhead(true);
+        nameField.setEditable(false);
         nameField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
@@ -249,7 +248,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                 .getVariablesOfTypeAsStore(VariableType.STRING));
         descriptionField.setValue(Workflow.getInstance().getModel()
                 .getVariable(model.getWorkItemNameVariableId()));
-        descriptionField.setTypeAhead(true);
+        descriptionField.setEditable(false);
         descriptionField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
@@ -263,7 +262,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                 .getVariablesOfTypeAsStore(VariableType.FORM));
         formContainerField.setValue(Workflow.getInstance().getModel()
                 .getVariable(model.getFormVariableId()));
-        formContainerField.setTypeAhead(true);
+        formContainerField.setEditable(false);
         formContainerField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(

@@ -200,8 +200,8 @@ public class EmailActivityWindow extends ModelingToolDialog {
                 .getVariablesOfTypeAsStore(type));
         field.setValue(Workflow.getInstance().getModel()
                 .getVariable(variableId));
-        field.setTypeAhead(true);
         field.setWidth("200px");
+        field.setEditable(false);
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(label));
         table.setWidget(table.getRowCount() - 1, 1, field);

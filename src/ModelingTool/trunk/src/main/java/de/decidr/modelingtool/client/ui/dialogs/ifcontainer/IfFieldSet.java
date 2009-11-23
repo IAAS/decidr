@@ -80,19 +80,21 @@ public class IfFieldSet {
         leftOperandField.setStore(Workflow.getInstance().getModel()
                 .getAllVariablesAsStore());
         leftOperandField.setEnabled(false);
+        leftOperandField.setEditable(false);
 
         operatorList = new SimpleComboBox<String>();
         for (Operator operator : Operator.values()) {
             operatorList.add(operator.getDisplayString());
         }
         operatorList.setEnabled(false);
+        operatorList.setEditable(false);
 
         rightOperandField = new ComboBox<Variable>();
         rightOperandField.setDisplayField(Variable.LABEL);
         rightOperandField.setStore(Workflow.getInstance().getModel()
                 .getAllVariablesAsStore());
         rightOperandField.setEnabled(false);
-        rightOperandField.setTypeAhead(true);
+        rightOperandField.setEditable(false);
 
         orderField = new OrderComboBox(numberOfConditions, condition);
 

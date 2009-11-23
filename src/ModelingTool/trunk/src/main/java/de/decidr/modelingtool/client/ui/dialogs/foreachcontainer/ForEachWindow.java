@@ -178,7 +178,7 @@ public class ForEachWindow extends ModelingToolDialog {
                 .getAllVariablesAsStore());
         iterableField.setValue(Workflow.getInstance().getModel().getVariable(
                 model.getIterationVariableId()));
-        iterableField.setTypeAhead(true);
+        iterableField.setEditable(false);
         iterableField.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(

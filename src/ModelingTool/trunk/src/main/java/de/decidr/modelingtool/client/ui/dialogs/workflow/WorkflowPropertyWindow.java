@@ -136,7 +136,7 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
                 .getVariablesOfTypeAsStore(type));
         field.setValue(Workflow.getInstance().getModel()
                 .getVariable(variableId));
-        field.setTypeAhead(true);
+        field.setEditable(false);
         field.setWidth("200px");
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(label));
