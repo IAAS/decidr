@@ -20,6 +20,7 @@ package de.decidr.ui.controller;
  * This action saves changes of the system settings
  *
  * @author Geoffrey-Alexeij Heinze
+ * @reviewed ~tk, ~dh
  */
 
 import javax.servlet.http.HttpSession;

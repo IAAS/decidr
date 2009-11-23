@@ -49,6 +49,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * This class handles the css saving
  * 
  * @author AT
+ * @reviewed ~tk, ~dh
  */
 public class CssHandler {
 
@@ -57,8 +58,9 @@ public class CssHandler {
 	private Long fileId = null;
 
 	private Long tenantId = null;
+	//AT: tenantName muss auch rein. ~tk, ~dh
 
-	private String tenant = "";//TODO: aus der tenantfacade den namen holen
+	private String tenant = "";
 
 	private String cssFilePath = "";
 
@@ -110,7 +112,7 @@ public class CssHandler {
 						"advancedColorSchemeId").getValue();
 
 				f = getFileFromInputStream(in);
-
+				   //AT: was ist wenn der MIME Typ nicht erkannt wird? ~dh,tk
 				fileFacade.replaceFile(colorSchemeId, in, f.length(), f
 						.getAbsolutePath(), new MimetypesFileTypeMap()
 						.getContentType(f));

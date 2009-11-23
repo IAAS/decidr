@@ -35,6 +35,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * This action appoints a list of users as workflow admins
  * 
  * @author Geoffrey-Alexeij Heinze
+ * @reviewed ~tk, ~dh
  */
 public class AppointWorkflowAdminAction implements ClickListener {
 
@@ -60,6 +61,10 @@ public class AppointWorkflowAdminAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
+         /*
+         * GH user is allowed to enter email addresses as well as usernames just
+         * like in google calendar (see spec) ~dh ~tk
+         */
         List<String> userNames = new ArrayList<String>();
         for (Integer c = 1; c <= appointForm.getItemPropertyIds().size(); c++) {
             userNames.add(appointForm.getItemProperty("user" + c).getValue()

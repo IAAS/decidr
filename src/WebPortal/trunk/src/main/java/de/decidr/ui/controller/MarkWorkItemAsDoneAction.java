@@ -37,6 +37,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * Marks a selected work item as done.
  * 
  * @author AT
+ * @reviewed ~tk, ~dh
  */
 public class MarkWorkItemAsDoneAction implements ClickListener {
 
@@ -51,7 +52,7 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
 	/**
 	 * Constructor which gets a work item id as a parameter to know which work
 	 * item is to be marked done.
-	 * 
+	 * AT description incorrect, there is no id parameter ~dh, ~tk
 	 */
 	public MarkWorkItemAsDoneAction(Table table) {
 		this.table = table;
@@ -65,11 +66,13 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
+	        //AT maximum line width exceeded ~dh, ~tk
 		Set<?> value = (Set<?>) table.getValue();
 		if ((value != null) && (value.size() != 0)) {
 			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
 				Item item = (Item) iter.next();
 				Long workItemId = (Long) item.getItemProperty("id").getValue();
+				//AT use enumeration instead of magic string ~dh, ~tk
 				if (item.getItemProperty("workItemStatus").getValue()
 						.toString().equals("Done")) {
 					Main.getCurrent().getMainWindow().addWindow(

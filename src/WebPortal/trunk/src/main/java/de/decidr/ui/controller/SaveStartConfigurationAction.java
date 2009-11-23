@@ -43,6 +43,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * set the entered value in the start configuration object
  * 
  * @author AT
+ * @reviewed ~tk, ~dh
  */
 public class SaveStartConfigurationAction implements ClickListener {
 
@@ -61,6 +62,8 @@ public class SaveStartConfigurationAction implements ClickListener {
 					"userId")));
 
 	/**
+	 * AT the constructor does not actually perform the save action~dh
+	 * 
 	 * Constructor which saves the role tree, the form of the start
 	 * configuration window. Also the start configuration object,
 	 * tConfiguration, is saved with the given workflow model id. And a boolean
@@ -91,6 +94,7 @@ public class SaveStartConfigurationAction implements ClickListener {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void buttonClick(ClickEvent event) {
+	    // AT see compile warning: stWindows is never read.
 		StartConfigurationWindow stWindow = (StartConfigurationWindow) event
 				.getSource();
 		for (TRole role : tConfiguration.getRoles().getRole()) {
@@ -101,6 +105,7 @@ public class SaveStartConfigurationAction implements ClickListener {
 				}
 			}
 		}
+		//AT bitte checken, ob es überhaupt den ValueType "File" gibt ~tk,dh
 		for (TAssignment assignment : tConfiguration.getAssignment()) {
 			if (assignment.getValueType().equals("File")) {
 				assignment.getValue().add(

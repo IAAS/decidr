@@ -31,9 +31,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * This action confirms an invitation
  * 
  * @author Geoffrey-Alexeij Heinze
+ * @reviewed ~tk, ~dh
  */
 public class ConfirmInvitationAction implements ClickListener {
 
+    //GH session is not used ~dh, ~tk
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = null;
