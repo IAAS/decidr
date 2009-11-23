@@ -138,7 +138,7 @@ public interface Messages extends Constants {
     /* Variable editor */
     String enterVariableName();
 
-    String addVariable();
+    String newVariable();
 
     String delVariable();
 

@@ -35,10 +35,14 @@ public class EmailActivityWindowInvoker {
      *            the node which properties are to be displayed by the window
      */
     public static void invoke(EmailInvokeNode node) {
-        ((EmailActivityWindow) DialogRegistry.getInstance().getDialog(
-                EmailActivityWindow.class.getName())).setNode(node);
-        DialogRegistry.getInstance().showDialog(
-                EmailActivityWindow.class.getName());
+        /* Only invoke dialog if it is not visible */
+        if (!DialogRegistry.getInstance().isDialogVisible(
+                EmailActivityWindow.class.getName())) {
+            ((EmailActivityWindow) DialogRegistry.getInstance().getDialog(
+                    EmailActivityWindow.class.getName())).setNode(node);
+            DialogRegistry.getInstance().showDialog(
+                    EmailActivityWindow.class.getName());
+        }
     }
 
 }

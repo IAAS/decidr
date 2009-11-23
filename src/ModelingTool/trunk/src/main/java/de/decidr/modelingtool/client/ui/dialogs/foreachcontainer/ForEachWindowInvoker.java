@@ -34,9 +34,14 @@ public class ForEachWindowInvoker {
      *            the node which properties are to be displayed by the window
      */
     public static void invoke(ForEachContainer node) {
-        ((ForEachWindow) DialogRegistry.getInstance().getDialog(
-                ForEachWindow.class.getName())).setNode(node);
-        DialogRegistry.getInstance().showDialog(ForEachWindow.class.getName());
+        /* Only invoke dialog if it is not visible */
+        if (!DialogRegistry.getInstance().isDialogVisible(
+                ForEachContainer.class.getName())) {
+            ((ForEachWindow) DialogRegistry.getInstance().getDialog(
+                    ForEachWindow.class.getName())).setNode(node);
+            DialogRegistry.getInstance().showDialog(
+                    ForEachWindow.class.getName());
+        }
     }
 
 }

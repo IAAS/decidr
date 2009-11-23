@@ -35,9 +35,13 @@ public class HumanTaskActivityWindowInvoker {
      *            the node which properties are to be displayed by the window
      */
     public static void invoke(HumanTaskInvokeNode node) {
-        ((HumanTaskActivityWindow) DialogRegistry.getInstance().getDialog(
-                HumanTaskActivityWindow.class.getName())).setNode(node);
-        DialogRegistry.getInstance().showDialog(
-                HumanTaskActivityWindow.class.getName());
+        /* Only invoke dialog if it is not visible */
+        if (!DialogRegistry.getInstance().isDialogVisible(
+                HumanTaskActivityWindow.class.getName())) {
+            ((HumanTaskActivityWindow) DialogRegistry.getInstance().getDialog(
+                    HumanTaskActivityWindow.class.getName())).setNode(node);
+            DialogRegistry.getInstance().showDialog(
+                    HumanTaskActivityWindow.class.getName());
+        }
     }
 }

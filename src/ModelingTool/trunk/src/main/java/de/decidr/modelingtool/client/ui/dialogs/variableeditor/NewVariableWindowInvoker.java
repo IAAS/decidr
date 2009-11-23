@@ -38,10 +38,14 @@ public class NewVariableWindowInvoker {
      *            inserted
      */
     public static void invoke(ListStore<Variable> variables) {
-        ((NewVariableWindow) DialogRegistry.getInstance().getDialog(
-                NewVariableWindow.class.getName())).setVariables(variables);
-        DialogRegistry.getInstance().showDialog(
-                NewVariableWindow.class.getName());
+        /* Only invoke dialog if it is not visible */
+        if (!DialogRegistry.getInstance().isDialogVisible(
+                NewVariableWindow.class.getName())) {
+            ((NewVariableWindow) DialogRegistry.getInstance().getDialog(
+                    NewVariableWindow.class.getName())).setVariables(variables);
+            DialogRegistry.getInstance().showDialog(
+                    NewVariableWindow.class.getName());
+        }
     }
 
 }

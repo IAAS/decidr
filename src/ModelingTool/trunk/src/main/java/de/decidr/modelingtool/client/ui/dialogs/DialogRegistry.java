@@ -120,6 +120,17 @@ public class DialogRegistry {
         return getDialogs().get(dialogName);
     }
 
+    /**
+     * Return whether a dialog is currently visible of not.
+     * 
+     * @param dialogName
+     *            the name of the dialog
+     * @return the visibility
+     */
+    public boolean isDialogVisible(String dialogName) {
+        return getDialog(dialogName).isVisible();
+    }
+
     private Map<String, ModelingToolDialog> getDialogs() {
         if (dialogs == null) {
             dialogs = new HashMap<String, ModelingToolDialog>();

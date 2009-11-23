@@ -37,10 +37,15 @@ public class VariableEditorWindowInvoker {
      *            the node which properties are to be displayed by the window
      */
     public static void invoke(List<Variable> variables) {
-        ((VariableEditorWindow) DialogRegistry.getInstance().getDialog(
-                VariableEditorWindow.class.getName())).setVariables(variables);
-        DialogRegistry.getInstance().showDialog(
-                VariableEditorWindow.class.getName());
+        /* Only invoke dialog if it is not visible */
+        if (!DialogRegistry.getInstance().isDialogVisible(
+                VariableEditorWindow.class.getName())) {
+            ((VariableEditorWindow) DialogRegistry.getInstance().getDialog(
+                    VariableEditorWindow.class.getName()))
+                    .setVariables(variables);
+            DialogRegistry.getInstance().showDialog(
+                    VariableEditorWindow.class.getName());
+        }
     }
 
 }

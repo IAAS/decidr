@@ -28,9 +28,14 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 public class TaskItemWindowInvoker {
 
     public static void invoke(HumanTaskInvokeNodeModel model) {
-        ((TaskItemWindow) DialogRegistry.getInstance().getDialog(
-                TaskItemWindow.class.getName())).setModel(model);
-        DialogRegistry.getInstance().showDialog(TaskItemWindow.class.getName());
+        /* Only invoke dialog if it is not visible */
+        if (!DialogRegistry.getInstance().isDialogVisible(
+                TaskItemWindow.class.getName())) {
+            ((TaskItemWindow) DialogRegistry.getInstance().getDialog(
+                    TaskItemWindow.class.getName())).setModel(model);
+            DialogRegistry.getInstance().showDialog(
+                    TaskItemWindow.class.getName());
+        }
     }
 
 }

@@ -34,9 +34,13 @@ public class IfWindowInvoker {
      *            the node which properties are to be displayed by the window
      */
     public static void invoke(IfContainer node) {
-        ((IfWindow) DialogRegistry.getInstance().getDialog(
-                IfWindow.class.getName())).setNode(node);
-        DialogRegistry.getInstance().showDialog(IfWindow.class.getName());
+        /* Only invoke dialog if it is not visible */
+        if (!DialogRegistry.getInstance().isDialogVisible(
+                IfWindow.class.getName())) {
+            ((IfWindow) DialogRegistry.getInstance().getDialog(
+                    IfWindow.class.getName())).setNode(node);
+            DialogRegistry.getInstance().showDialog(IfWindow.class.getName());
+        }
     }
 
 }

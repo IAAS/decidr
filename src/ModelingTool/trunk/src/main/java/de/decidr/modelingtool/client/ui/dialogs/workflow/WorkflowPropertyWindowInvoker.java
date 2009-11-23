@@ -29,10 +29,14 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 public class WorkflowPropertyWindowInvoker {
 
     public static void invoke(WorkflowModel workflow) {
-        ((WorkflowPropertyWindow) DialogRegistry.getInstance().getDialog(
-                WorkflowPropertyWindow.class.getName())).setModel(workflow);
-        DialogRegistry.getInstance().showDialog(
-                WorkflowPropertyWindow.class.getName());
+        /* Only invoke dialog if it is not visible */
+        if (!DialogRegistry.getInstance().isDialogVisible(
+                WorkflowPropertyWindow.class.getName())) {
+            ((WorkflowPropertyWindow) DialogRegistry.getInstance().getDialog(
+                    WorkflowPropertyWindow.class.getName())).setModel(workflow);
+            DialogRegistry.getInstance().showDialog(
+                    WorkflowPropertyWindow.class.getName());
+        }
     }
 
 }

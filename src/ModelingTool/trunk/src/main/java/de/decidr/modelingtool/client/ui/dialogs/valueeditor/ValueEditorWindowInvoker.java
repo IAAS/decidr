@@ -30,7 +30,6 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 public class ValueEditorWindowInvoker {
 
     /**
-     * 
      * Invokes the value editor with with a variable directly that is not in the
      * workflow model. The variable editor uses this method because the variable
      * editor uses its own model, not the variable in the workflow model.
@@ -40,19 +39,28 @@ public class ValueEditorWindowInvoker {
      */
     public static void invoke(Variable variable) {
         if (variable.getType() == VariableType.ROLE) {
-            ((RoleEditor) DialogRegistry.getInstance().getDialog(
-                    RoleEditor.class.getName())).setVariable(variable);
-            DialogRegistry.getInstance().showDialog(RoleEditor.class.getName());
+            /* Only invoke dialog if it is not visible */
+            if (!DialogRegistry.getInstance().isDialogVisible(
+                    RoleEditor.class.getName())) {
+                ((RoleEditor) DialogRegistry.getInstance().getDialog(
+                        RoleEditor.class.getName())).setVariable(variable);
+                DialogRegistry.getInstance().showDialog(
+                        RoleEditor.class.getName());
+            }
         } else {
-            ((ValueEditorWindow) DialogRegistry.getInstance().getDialog(
-                    ValueEditorWindow.class.getName())).setVariable(variable);
-            DialogRegistry.getInstance().showDialog(
-                    ValueEditorWindow.class.getName());
+            /* Only invoke dialog if it is not visible */
+            if (!DialogRegistry.getInstance().isDialogVisible(
+                    ValueEditorWindow.class.getName())) {
+                ((ValueEditorWindow) DialogRegistry.getInstance().getDialog(
+                        ValueEditorWindow.class.getName()))
+                        .setVariable(variable);
+                DialogRegistry.getInstance().showDialog(
+                        ValueEditorWindow.class.getName());
+            }
         }
     }
 
     /**
-     * 
      * Invokes with a variable that is in the model and can be identified by its
      * id. For example, this happens when the value editor is invoked by a
      * "change values" button within the email activity window.
@@ -64,16 +72,25 @@ public class ValueEditorWindowInvoker {
     public static void invoke(Long id) {
         Variable variable = Workflow.getInstance().getModel().getVariable(id);
         if (variable.getType() == VariableType.ROLE) {
-            ((RoleEditor) DialogRegistry.getInstance().getDialog(
-                    RoleEditor.class.getName())).setVariable(variable);
-            DialogRegistry.getInstance().showDialog(RoleEditor.class.getName());
+            /* Only invoke dialog if it is not visible */
+            if (!DialogRegistry.getInstance().isDialogVisible(
+                    RoleEditor.class.getName())) {
+                ((RoleEditor) DialogRegistry.getInstance().getDialog(
+                        RoleEditor.class.getName())).setVariable(variable);
+                DialogRegistry.getInstance().showDialog(
+                        RoleEditor.class.getName());
+            }
         } else {
-            ((ValueEditorWindow) DialogRegistry.getInstance().getDialog(
-                    ValueEditorWindow.class.getName())).setVariable(variable);
-            DialogRegistry.getInstance().showDialog(
-                    ValueEditorWindow.class.getName());
+            /* Only invoke dialog if it is not visible */
+            if (!DialogRegistry.getInstance().isDialogVisible(
+                    ValueEditorWindow.class.getName())) {
+                ((ValueEditorWindow) DialogRegistry.getInstance().getDialog(
+                        ValueEditorWindow.class.getName()))
+                        .setVariable(variable);
+                DialogRegistry.getInstance().showDialog(
+                        ValueEditorWindow.class.getName());
+            }
         }
-
     }
 
 }

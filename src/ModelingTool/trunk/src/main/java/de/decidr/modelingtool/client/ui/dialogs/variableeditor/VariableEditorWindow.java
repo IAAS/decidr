@@ -113,16 +113,16 @@ public class VariableEditorWindow extends ModelingToolDialog {
     private void createToolBar() {
         toolBar = new ToolBar();
 
-        TextToolItem addVar = new TextToolItem(ModelingToolWidget.getMessages()
-                .addVariable()); //$NON-NLS-1$
-        addVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+        TextToolItem newVar = new TextToolItem(ModelingToolWidget.getMessages()
+                .newVariable()); //$NON-NLS-1$
+        newVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
                 grid.stopEditing();
                 NewVariableWindowInvoker.invoke(variables);
             }
         });
-        toolBar.add(addVar);
+        toolBar.add(newVar);
 
         TextToolItem delVar = new TextToolItem(ModelingToolWidget.getMessages()
                 .delVariable()); //$NON-NLS-1$

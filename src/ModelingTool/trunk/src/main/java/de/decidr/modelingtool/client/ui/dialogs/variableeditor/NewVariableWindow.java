@@ -53,6 +53,9 @@ public class NewVariableWindow extends ModelingToolDialog {
     private SimpleComboBox<String> typeField;
     private CheckBox configField;
 
+    /**
+     * The list of variable to insert the new variable into
+     */
     private ListStore<Variable> variables;
 
     public NewVariableWindow() {
@@ -66,7 +69,7 @@ public class NewVariableWindow extends ModelingToolDialog {
 
     private void createContentPanel() {
         contentPanel = new ContentPanel();
-        contentPanel.setHeading(ModelingToolWidget.getMessages().addVariable());
+        contentPanel.setHeading(ModelingToolWidget.getMessages().newVariable());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
