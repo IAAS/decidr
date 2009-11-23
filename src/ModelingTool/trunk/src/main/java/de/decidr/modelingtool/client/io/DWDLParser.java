@@ -28,7 +28,7 @@ import de.decidr.modelingtool.client.model.WorkflowModel;
 public interface DWDLParser {
 
     /**
-     * Parses an xml dwdl docuemnt and created a {@link WorkflowModel} from it.
+     * Parses an xml dwdl document and created a {@link WorkflowModel} from it.
      * 
      * @param dwdl
      *            the dwdl to parse

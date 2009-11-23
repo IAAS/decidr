@@ -17,7 +17,7 @@
 package de.decidr.modelingtool.client.exception;
 
 /**
- * This exception is thrown when an operation on an object is not supüported by
+ * This exception is thrown when an operation on an object is not supported by
  * the object, e.g. an delete operation is performed on a node which has the
  * deletable flag set to false.
  * 

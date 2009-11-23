@@ -121,7 +121,7 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
     }
 
     /**
-     * Checks the node model if it consists all required data for drawing the
+     * Checks the node model if it contains all required data for drawing the
      * container: its parent model.
      * 
      * @return True, if all required data is not null.

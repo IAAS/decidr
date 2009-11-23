@@ -34,7 +34,7 @@ public class ChangeWorkflowPropertiesCommand implements UndoableCommand {
     private WorkflowProperties newProperties;
 
     /**
-     * Default constructor for the command
+     * Default constructor for the command.
      * 
      * @param newProperties
      *            the new workflow model properties stored in

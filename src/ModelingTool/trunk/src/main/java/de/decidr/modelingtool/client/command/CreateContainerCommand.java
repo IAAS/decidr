@@ -41,8 +41,8 @@ public class CreateContainerCommand implements UndoableCommand {
     ContainerModel model = null;
 
     /**
-     * Contructor for creating a container model from an already added container
-     * node. The model is created from the data of the node.
+     * Constructor for creating a container model from an already added
+     * container node. The model is created from the data of the node.
      * 
      * @param node
      *            The container node that has been added
@@ -79,7 +79,7 @@ public class CreateContainerCommand implements UndoableCommand {
     }
 
     /**
-     * Contructor for creating a container node from an existing and linked
+     * Constructor for creating a container node from an existing and linked
      * container model. The container is drawn from the data of the model.
      * 
      * @param model
