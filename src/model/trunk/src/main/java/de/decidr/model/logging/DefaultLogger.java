@@ -72,8 +72,9 @@ public class DefaultLogger {
      * will be returned. Otherwise, a new instance is created.
      * 
      * @param clazz
-     *            TODO document
-     * @return A logger that uses
+     *            class whose full name should be used as the name of the
+     *            returned logger
+     * @return a logger that uses the name of the given class
      */
     public static Logger getLogger(Class<?> clazz) {
         return getLogger(clazz.getName());

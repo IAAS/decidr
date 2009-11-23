@@ -218,8 +218,9 @@ import de.decidr.model.logging.DefaultLogger;
  * <li>TODO: if you can think of a good example, put it here :-) ~dh</li>
  * </ul>
  * <p>
- * XXX Future extension case: separate source of rules from rest ("RulesetProvider",
- * "HardcodedRulesetProvider", "DatabaseRulesetProvider", ...?) ~dh
+ * XXX Future extension case: separate source of rules from rest
+ * ("RulesetProvider", "HardcodedRulesetProvider", "DatabaseRulesetProvider",
+ * ...?) ~dh
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -504,9 +505,8 @@ public class DefaultAccessControlList implements AccessControlList {
                 new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
-        setRule(new BasicRole(),
-                new CommandPermission(GetTenantCommand.class), SatisfyAll,
-                alwaysTrueAsserter);
+        setRule(new BasicRole(), new CommandPermission(GetTenantCommand.class),
+                SatisfyAll, alwaysTrueAsserter);
 
         /**
          * Command Permissions User Facade
@@ -610,8 +610,8 @@ public class DefaultAccessControlList implements AccessControlList {
 
         setRule(new WorkflowAdminRole(), new CommandPermission(
                 GetAdministratedWorkflowModelsCommand.class), SatisfyAll,
-                new UserIsWorkflowAdminWithinTenantAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
+                new UserIsWorkflowAdminWithinTenantAsserter(),
+                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
         setRule(new UserRole(),
                 new CommandPermission(GetWorkItemsCommand.class), SatisfyAll,
@@ -673,61 +673,60 @@ public class DefaultAccessControlList implements AccessControlList {
         setRule(new TenantAdminRole(), new CommandPermission(
                 GetWorkflowModelCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
-                new UserIsLoggedInAsserter());
+                new UserIsEnabledAsserter(), new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 PublishWorkflowModelsCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 MakeWorkflowModelExecutableCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 GetWorkflowAdministratorsCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 SetWorkflowAdministratorsCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 DeleteWorkflowModelCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 StartWorkflowInstanceCommand.class), SatisfyAll,
                 new UserAdministratesWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 StopWorkflowInstanceCommand.class), SatisfyAll,
                 new UserAdministratesWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 SaveStartConfigurationCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+               new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
                 GetLastStartConfigurationCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(

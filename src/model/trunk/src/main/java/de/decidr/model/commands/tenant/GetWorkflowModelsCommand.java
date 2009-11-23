@@ -36,7 +36,6 @@ import de.decidr.model.transactions.TransactionEvent;
  * <code>{@link List<WorkflowModel>}</code>.
  * 
  * @author Markus Fischer
- * 
  * @version 0.1
  */
 public class GetWorkflowModelsCommand extends TenantCommand {
@@ -93,9 +92,8 @@ public class GetWorkflowModelsCommand extends TenantCommand {
     }
 
     /**
-     * 
      * @return list of all workflow models for the given tenant which survived
-     *         the filters ;)
+     *         the filters
      */
     public List<WorkflowModel> getResult() {
         return result;

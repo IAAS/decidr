@@ -1,5 +1,9 @@
 package de.decidr.model.acl.asserters;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.Query;
 
 import de.decidr.model.acl.access.WorkflowModelAccess;
@@ -15,13 +19,12 @@ import de.decidr.model.transactions.TransactionEvent;
  * Asserts that the given user owns the given workflow model(s).
  * 
  * @author Daniel Huss
- * 
  * @version 0.1
  */
 public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
 
     private Long userId = null;
-    private Long[] workflowModelIds = null;
+    private Set<Long> workflowModelIds = null;
     private Boolean isOwner = false;
 
     @Override
@@ -35,8 +38,9 @@ public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
             TransactionalCommand command = getCommandInstance(permission);
 
             if (command instanceof WorkflowModelAccess) {
-                workflowModelIds = ((WorkflowModelAccess) command)
-                        .getWorkflowModelIds();
+                workflowModelIds = new HashSet<Long>(Arrays
+                        .asList(((WorkflowModelAccess) command)
+                                .getWorkflowModelIds()));
                 HibernateTransactionCoordinator.getInstance().runTransaction(
                         this);
                 result = isOwner;
@@ -47,7 +51,7 @@ public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
 
     @Override
     public void transactionStarted(TransactionEvent evt) {
-        if (workflowModelIds == null || workflowModelIds.length == 0) {
+        if (workflowModelIds == null || workflowModelIds.size() == 0) {
             // no work items to check against
             isOwner = false;
         } else {
@@ -60,7 +64,7 @@ public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
                     userId).setParameterList("workflowModelIds",
                     workflowModelIds);
 
-            isOwner = ((Number) q.uniqueResult()).intValue() == workflowModelIds.length;
+            isOwner = ((Number) q.uniqueResult()).intValue() == workflowModelIds.size();
         }
     }
 }
