@@ -64,7 +64,7 @@ public class RunningInstanceTable extends Table {
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
 		setMultiSelect(false);
-		setPageLength(8);
+		setPageLength(7);
 	}
 
 }

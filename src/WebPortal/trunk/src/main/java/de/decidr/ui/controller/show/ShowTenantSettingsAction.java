@@ -49,12 +49,13 @@ public class ShowTenantSettingsAction implements ClickListener {
 
 	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
-	
-	private Long userId = (Long) Main.getCurrent().getSession().getAttribute("userId");
+
+	private Long userId = (Long) Main.getCurrent().getSession().getAttribute(
+			"userId");
 	private String tenantName = null;
 
 	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
-	
+
 	FileFacade fileFacade = new FileFacade(new TenantAdminRole(userId));
 
 	/*
@@ -70,8 +71,12 @@ public class ShowTenantSettingsAction implements ClickListener {
 			tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
 			tenantName = tenantFacade.getTenant(tenantId).getName();
 			
-			String description = tenantFacade.getTenantSettings(tenantId)
-			.getItemProperty("description").getValue().toString();
+			String description = "";
+			if(tenantFacade.getTenantSettings(tenantId).getItemProperty("description").getValue() != null){
+				description = tenantFacade.getTenantSettings(tenantId)
+				.getItemProperty("description").getValue().toString();
+			}
+			
 			
 			InputStream in = tenantFacade.getLogo(tenantId);
 			File file = new File("themes/"+tenantName+"img/logo.png");

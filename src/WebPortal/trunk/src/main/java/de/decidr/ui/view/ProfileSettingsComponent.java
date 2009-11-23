@@ -207,6 +207,7 @@ public class ProfileSettingsComponent extends CustomComponent {
         leaveTenantLink.setStyleName(Button.STYLE_LINK);
         cancelMembershipLink = new Button("Cancel Membership",
                 new ShowCancelMembershipAction());
+        cancelMembershipLink.setVisible(false);
         cancelMembershipLink.setStyleName(Button.STYLE_LINK);
 
         saveButton = new Button("Save", new SaveProfileAction());
@@ -273,6 +274,10 @@ public class ProfileSettingsComponent extends CustomComponent {
      */
     public Form getSettingsForm() {
         return settingsForm;
+    }
+    
+    public Button getCancelMembershipLink(){
+    	return cancelMembershipLink;
     }
 
 }

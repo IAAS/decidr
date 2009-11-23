@@ -26,7 +26,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
@@ -40,7 +40,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 public class RemoveWorkflowModelsAction implements ClickListener {
 
 	private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-			new UserRole((Long) Main.getCurrent().getSession().getAttribute(
+			new TenantAdminRole((Long) Main.getCurrent().getSession().getAttribute(
 					"userId")));
 	
 	private Table table = null;

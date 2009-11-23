@@ -58,7 +58,7 @@ public class WorkflowModelTable extends Table {
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
-		setMultiSelect(false);
+		setMultiSelect(true);
 		setPageLength(8);
 		
 	}

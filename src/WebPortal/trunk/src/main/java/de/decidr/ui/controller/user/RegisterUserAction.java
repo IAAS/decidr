@@ -25,10 +25,10 @@ import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
-import de.decidr.ui.view.DefaultWelcomeComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.WelcomePageComponent;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
@@ -87,7 +87,7 @@ public class RegisterUserAction implements ClickListener {
 						new InformationDialogComponent(
 								"User successfully registered",
 								"Registration successfully"));
-				siteFrame.setContent(new DefaultWelcomeComponent());
+				siteFrame.setContent(new WelcomePageComponent());
 			} catch (NullPointerException e) {
 				Main.getCurrent().getMainWindow()
 						.addWindow(

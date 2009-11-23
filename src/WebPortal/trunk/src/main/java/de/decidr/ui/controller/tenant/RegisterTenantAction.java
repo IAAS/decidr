@@ -26,10 +26,10 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
-import de.decidr.ui.view.DefaultWelcomeComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterTenantComponent;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.WelcomePageComponent;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -100,7 +100,7 @@ public class RegisterTenantAction implements ClickListener {
 						new InformationDialogComponent(
 								"Tenant successfully registered",
 								"Registration successfully"));
-				siteFrame.setContent(new DefaultWelcomeComponent());
+				siteFrame.setContent(new WelcomePageComponent());
 			} catch (NullPointerException e) {
 				Main.getCurrent().getMainWindow().addWindow(
 						new TransactionErrorDialogComponent(e));

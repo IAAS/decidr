@@ -21,6 +21,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -47,6 +49,9 @@ public class ShowEditUserAction implements ClickListener {
 
 	private Table table = null;
 
+	Class<? extends Role> role = (Class<Role>) Main.getCurrent().getSession()
+	.getAttribute("role");
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -64,7 +69,12 @@ public class ShowEditUserAction implements ClickListener {
 		try {
 			Item profileItem = userFacade.getUserProfile((Long) item
 					.getItemProperty("id").getValue());
-			siteFrame.setContent(new ProfileSettingsComponent(profileItem));
+			ProfileSettingsComponent profile = new ProfileSettingsComponent(
+					profileItem);
+			siteFrame.setContent(profile);
+			if (role.equals(TenantAdminRole.class)) {
+				profile.getCancelMembershipLink().setVisible(true);
+			}
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));

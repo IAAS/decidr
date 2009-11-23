@@ -29,6 +29,7 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -40,7 +41,7 @@ public class CancelMembershipAction implements ClickListener {
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private UserFacade userFacade = new UserFacade(new TenantAdminRole(userId));
 
     /**
      * Overrides default buttonClick(ClickEvent event) of ClickListener to

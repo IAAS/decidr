@@ -16,12 +16,12 @@
 
 package de.decidr.ui.controller.show;
 
-
-
 import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -48,6 +48,9 @@ public class ShowProfileSettingsAction implements ClickListener {
 	private UserFacade userFacade = new UserFacade(new UserRole((Long) Main
 			.getCurrent().getSession().getAttribute("userId")));
 
+	Class<? extends Role> role = (Class<Role>) Main.getCurrent().getSession()
+			.getAttribute("role");
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -59,7 +62,12 @@ public class ShowProfileSettingsAction implements ClickListener {
 		try {
 			Item item = userFacade.getUserProfile((Long) Main.getCurrent()
 					.getSession().getAttribute("userId"));
-			siteFrame.setContent(new ProfileSettingsComponent(item));
+			ProfileSettingsComponent profile = new ProfileSettingsComponent(
+					item);
+			siteFrame.setContent(profile);
+			if (role.equals(TenantAdminRole.class)) {
+				profile.getCancelMembershipLink().setVisible(true);
+			}
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));

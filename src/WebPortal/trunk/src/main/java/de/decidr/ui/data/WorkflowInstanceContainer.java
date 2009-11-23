@@ -29,6 +29,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
@@ -51,8 +52,8 @@ public class WorkflowInstanceContainer implements Container {
 
     private Long userId = (Long) session.getAttribute("userId");
 
-    TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
-    UserFacade userFacade = new UserFacade(new TenantAdminRole(userId));
+    TenantFacade tenantFacade = new TenantFacade(new WorkflowAdminRole(userId));
+    UserFacade userFacade = new UserFacade(new WorkflowAdminRole(userId));
     Long tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
 
     List<Item> workflowModelList = null;
