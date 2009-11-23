@@ -462,12 +462,12 @@ public class DefaultAccessControlList implements AccessControlList {
 
         setRule(new WorkflowAdminRole(), new CommandPermission(
                 GetUsersOfTenantCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsWorkflowAdminWithinTenantAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new WorkflowAdminRole(), new CommandPermission(
                 GetWorkflowInstancesCommand.class), SatisfyAll,
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsWorkflowAdminWithinTenantAsserter(), new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
