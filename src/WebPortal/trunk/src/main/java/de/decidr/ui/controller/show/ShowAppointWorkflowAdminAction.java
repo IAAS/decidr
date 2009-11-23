@@ -62,7 +62,7 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
                     .getContainerProperty(table.getValue(), "id").getValue()));
         } else {
             Main.getCurrent().getMainWindow().showNotification(
-                    "Bitte wählen sie nur einen admin aus");
+                    "Please select only one admin");
         }
 
     }

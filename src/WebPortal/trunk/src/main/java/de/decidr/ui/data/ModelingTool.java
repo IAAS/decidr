@@ -29,17 +29,13 @@ import com.vaadin.data.Item;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Table;
 
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.WorkflowModelsComponent;
-import de.decidr.ui.view.tables.WorkflowModelTable;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -59,25 +55,20 @@ public class ModelingTool extends AbstractComponent {
 	private WorkflowModelFacade workflowModelFacade = null;
 	private Long workflowModelId = null;
 	private HashMap<Long, String> userList = null;
-	private UIDirector uiDirector = null;
-	private SiteFrame siteFrame = null;
-	private Table table = null;
 
 	/**
 	 * Default constructor which initialises the server side components which
 	 * are needed to gain access to the database.
 	 */
-	public ModelingTool(Table table) {
+	public ModelingTool(Long workflowModelId) {
 		super();
 		session = Main.getCurrent().getSession();
 		userId = (Long) session.getAttribute("userId");
 		tenantId = (Long) Main.getCurrent().getSession().getAttribute(
 		"tenantId");
-		tenantFacade = new TenantFacade(new UserRole(userId));
-		workflowModelFacade = new WorkflowModelFacade(new UserRole(userId));
-		uiDirector = Main.getCurrent().getUIDirector();
-		siteFrame = uiDirector.getTemplateView();
-		this.table = table;
+		tenantFacade = new TenantFacade(new TenantAdminRole(userId));
+		workflowModelFacade = new WorkflowModelFacade(new TenantAdminRole(userId));
+		this.workflowModelId = workflowModelId;
 		this.setSizeFull();
 		this.setImmediate(true);
 	}
@@ -117,9 +108,7 @@ public class ModelingTool extends AbstractComponent {
 		return doc.toString();
 	}
 
-	private String getDWDL() {
-		workflowModelId = (Long) table.getItem(table.getValue())
-				.getItemProperty("id").getValue();
+	private String getDWDL() {		
 		try {
 
 			Item workflowModel = workflowModelFacade
@@ -139,8 +128,6 @@ public class ModelingTool extends AbstractComponent {
 	}
 
 	private String getUsers() {
-		session = Main.getCurrent().getSession();
-		userId = (Long) session.getAttribute("userId");
 		tenantFacade = new TenantFacade(new UserRole(userId));
 		try {
 			List<Item> users = tenantFacade.getUsersOfTenant(tenantId, null);

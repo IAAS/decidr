@@ -62,6 +62,7 @@ public class RemoveWorkflowModelsAction implements ClickListener {
 	@Override
 	public void buttonClick(ClickEvent event) {
 		List<Long> wfms = new LinkedList<Long>();
+		List<Item> items = new LinkedList<Item>();
 		Set<?> value = (Set<?>) table.getValue();
 		if ((value != null) && (value.size() != 0)) {
 			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
@@ -69,15 +70,13 @@ public class RemoveWorkflowModelsAction implements ClickListener {
 				wfms.add((Long) item
 							.getItemProperty("id")
 							.getValue());
+				items.add(item);
 			}
 		}
 		try {
 			workflowModelFacade.deleteWorkflowModels(wfms);
-			Set<?> values = (Set<?>) table.getValue();
-			if ((values != null) && (values.size() != 0)) {
-				for (Iterator<?> iter = values.iterator(); iter.hasNext();) {
-					table.removeItem(iter.next());
-				}
+			for(Item item : items){
+				table.getContainerDataSource().removeItem(item);
 			}
 			table.requestRepaint();
 		} catch (TransactionException e) {

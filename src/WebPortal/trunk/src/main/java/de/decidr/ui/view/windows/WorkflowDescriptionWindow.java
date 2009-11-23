@@ -36,65 +36,66 @@ import de.decidr.ui.controller.workflowmodel.CreateWorkflowModelAction;
  */
 public class WorkflowDescriptionWindow extends Window {
 
-    private VerticalLayout verticalLayout = null;
-    private HorizontalLayout buttonHorizontalLayout = null;
+	private VerticalLayout verticalLayout = null;
+	private HorizontalLayout buttonHorizontalLayout = null;
 
-    private Button okButton = null;
-    private Button cancelButton = null;
+	private Button okButton = null;
+	private Button cancelButton = null;
 
-    private TextField nameTextField = null;
-    private TextField descriptionTextField = null;
-    
-    private Table table = null;
+	private TextField nameTextField = null;
+	private TextField descriptionTextField = null;
 
-    /**
-     * Default constructor which calls the init method
-     * 
-     */
-    public WorkflowDescriptionWindow(Table table) {
-    	this.table = table;
-        init();
-    }
+	private Table table = null;
 
-    public TextField getNameTextField() {
-        return nameTextField;
-    }
+	/**
+	 * Default constructor which calls the init method
+	 * 
+	 */
+	public WorkflowDescriptionWindow(Table table) {
+		this.table = table;
+		init();
+	}
 
-    /**
-     * Initializes the components
-     * 
-     */
-    private void init() {
-        verticalLayout = new VerticalLayout();
-        verticalLayout.setSpacing(true);
-        buttonHorizontalLayout = new HorizontalLayout();
-        buttonHorizontalLayout.setSpacing(true);
-        
-        nameTextField = new TextField("Name");
-        descriptionTextField = new TextField("Description");
+	public TextField getNameTextField() {
+		return nameTextField;
+	}
 
-        okButton = new Button("OK", new CreateWorkflowModelAction("aleks", table));
-        cancelButton = new Button("Cancel", new HideDialogWindowAction());
+	/**
+	 * Initializes the components
+	 * 
+	 */
+	private void init() {
+		verticalLayout = new VerticalLayout();
+		verticalLayout.setSpacing(true);
+		buttonHorizontalLayout = new HorizontalLayout();
+		buttonHorizontalLayout.setSpacing(true);
 
-        verticalLayout.addComponent(nameTextField);
-        nameTextField.setColumns(10);
+		nameTextField = new TextField("Name");
+		nameTextField.setImmediate(true);
+		descriptionTextField = new TextField("Description");
 
-        verticalLayout.addComponent(descriptionTextField);
-        descriptionTextField.setColumns(10);
-        descriptionTextField.setRows(5);
+		okButton = new Button("OK", new CreateWorkflowModelAction(
+				getNameTextField(), table));
+		cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
-        verticalLayout.addComponent(buttonHorizontalLayout);
+		verticalLayout.addComponent(nameTextField);
+		nameTextField.setColumns(10);
 
-        buttonHorizontalLayout.addComponent(okButton);
-        buttonHorizontalLayout.addComponent(cancelButton);
+		verticalLayout.addComponent(descriptionTextField);
+		descriptionTextField.setColumns(10);
+		descriptionTextField.setRows(5);
 
-        this.setContent(verticalLayout);
-        this.setResizable(false);
-        this.setSizeUndefined();
-        this.setCaption("Workflow description");
-        this.center();
-        this.setModal(true);
-        this.setWidth("100px");
-    }
+		verticalLayout.addComponent(buttonHorizontalLayout);
+
+		buttonHorizontalLayout.addComponent(okButton);
+		buttonHorizontalLayout.addComponent(cancelButton);
+
+		this.setContent(verticalLayout);
+		this.setResizable(false);
+		this.setCaption("Workflow description");
+		this.center();
+		this.setModal(true);
+		this.setWidth("100px");
+	}
 
 }

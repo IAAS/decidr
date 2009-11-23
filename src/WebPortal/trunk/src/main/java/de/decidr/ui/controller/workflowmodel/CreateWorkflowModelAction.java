@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -27,8 +28,10 @@ import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.ui.controller.show.ShowModelingToolAction;
+import de.decidr.ui.controller.UIDirector;
+import de.decidr.ui.data.ModelingTool;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -48,17 +51,21 @@ public class CreateWorkflowModelAction implements ClickListener {
 
 	private Long tenantId = null;
 
-	private String name = null;
+	private TextField name = null;
 
 	private Table table = null;
+	
+	UIDirector uiDirector = Main.getCurrent().getUIDirector();
+	SiteFrame siteFrame = uiDirector.getTemplateView();
 
 	/**
 	 * Constructor with a given workflow model name.
 	 * 
 	 */
-	public CreateWorkflowModelAction(String name, Table table) {
+	public CreateWorkflowModelAction(TextField textField, Table table) {
 		this.table = table;
-		this.name = name;
+		this.name = textField;
+		name.commit();
 	}
 
 	/*
@@ -69,16 +76,18 @@ public class CreateWorkflowModelAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		new ShowModelingToolAction(table);
+		
 		try {
 			tenantId = (Long) Main.getCurrent().getSession().getAttribute(
 					"tenantId");
 			Long workflowModelId = tenantFacade.createWorkflowModel(tenantId,
-					name);
+					name.getValue().toString());
+			Main.getCurrent().getMainWindow().removeWindow(event.getButton().getWindow());
 			Item item = workflowModelFacade.getWorkflowModel(workflowModelId);
 			table.addItem(item);
 			table.requestRepaint();
 			
+			siteFrame.setContent(new ModelingTool(workflowModelId));
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(exception));

@@ -16,14 +16,19 @@
 
 package de.decidr.ui.controller.show;
 
+import java.util.Iterator;
+import java.util.Set;
+
+
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.data.ModelingTool;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
  * Opens the modeling tool.
@@ -32,29 +37,42 @@ import de.decidr.ui.view.SiteFrame;
  */
 public class ShowModelingToolAction implements ClickListener {
 
-    UIDirector uiDirector = Main.getCurrent().getUIDirector();
-    SiteFrame siteFrame = uiDirector.getTemplateView();
-    
-    private Table table = null;
-    
-    /**
-	 * TODO: add comment
-	 *
+	UIDirector uiDirector = Main.getCurrent().getUIDirector();
+	SiteFrame siteFrame = uiDirector.getTemplateView();
+
+	private Table table = null;
+
+	/**
+	 * Constructor which stores the table where the workflow model is selected
+	 * 
 	 */
 	public ShowModelingToolAction(Table table) {
 		this.table = table;
 	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        
-    	siteFrame.setContent(new ModelingTool(table));
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		Set<?> set = (Set<?>) table.getValue();
+		if (table.getValue() != null && set.size() == 1) {
+			Iterator<?> iter = set.iterator();
+			while(iter.hasNext()){
+				Item item = (Item) iter.next();
+				siteFrame.setContent(new ModelingTool((Long) table.getItem(
+						item).getItemProperty("id").getValue()));
+			}
+			
+		} else {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("Please select exactly one item",
+							"Information"));
+		}
+
+	}
 
 }
