@@ -667,7 +667,7 @@ public class DefaultAccessControlList implements AccessControlList {
         setRule(new TenantAdminRole(), new CommandPermission(
                 SaveWorkflowModelCommand.class), SatisfyAll,
                 new UserOwnsWorkflowModelAsserter(),
-                new UserIsTenantAdminAsserter(), new UserIsEnabledAsserter(),
+                new UserIsEnabledAsserter(),
                 new UserIsLoggedInAsserter());
 
         setRule(new TenantAdminRole(), new CommandPermission(
