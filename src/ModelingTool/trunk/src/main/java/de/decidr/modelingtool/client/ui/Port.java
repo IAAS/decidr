@@ -39,7 +39,7 @@ public abstract class Port extends AbsolutePanel {
     /**
      * Indicates where the port is located on its parent node. TOP, BOTTOM, LEFT
      * and RIGHT indicate that the port is located at the according border of
-     * the node. ABSOLUTE indicated that the port is located in an absolute
+     * the node. ABSOLUTE indicates that the port is located in an absolute
      * position on the node, offset origin is the upper left corner of the node.
      */
     public static enum Position {
@@ -77,7 +77,7 @@ public abstract class Port extends AbsolutePanel {
     /** The drop controller of the port. */
     private DropController dropController = new PortDropController(this);
 
-    /** Indicates id a drop controller is registeres to the port. */
+    /** Indicates if a drop controller is registered to the port or not. */
     protected boolean dropControllerRegistered = false;
 
     /** The connection indicator of the port. */
@@ -91,11 +91,8 @@ public abstract class Port extends AbsolutePanel {
     private Collection<ConnectionDragBox> gluedDragBoxes = new HashSet<ConnectionDragBox>();
 
     /**
-     * Indicates if a drop controller is registered or not. protected boolean
-     * dropControllerRegistered = false;
-     * 
-     * /** Dummy drag box for drawing a new connection. Has to be made draggable
-     * by subclasses.
+     * Dummy drag box for drawing a new connection. Has to be made draggable by
+     * subclasses.
      */
     protected ConnectionDragBox singleDragBox;
 
@@ -320,7 +317,7 @@ public abstract class Port extends AbsolutePanel {
     }
 
     /**
-     * Unegisters the drop controller of this port from its according drag
+     * Unregisters the drop controller of this port from its according drag
      * controller. Has to be implemented by subclasses.
      */
     public abstract void unregisterDropController();

@@ -144,10 +144,10 @@ public abstract class Container extends Node implements HasChildren {
     }
 
     /**
+     * Recursively gets the parent's offset (and all parent's parents' offset)
+     * in x direction. Needed for placing child nodes correctly.
      * 
-     * TODO: add comment
-     * 
-     * @return
+     * @return the offset value
      */
     public int getParentXOffset() {
         int result = this.getLeft();
@@ -159,10 +159,10 @@ public abstract class Container extends Node implements HasChildren {
     }
 
     /**
+     * Recursively gets the parent's offset (and all parent's parents' offset)
+     * in y direction. Needed for placing child nodes correctly.
      * 
-     * TODO: add comment
-     * 
-     * @return
+     * @return the offset value
      */
     public int getParentYOffset() {
         int result = this.getTop();
