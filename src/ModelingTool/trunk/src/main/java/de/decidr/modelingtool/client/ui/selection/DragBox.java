@@ -56,7 +56,7 @@ public class DragBox extends AbsolutePanel implements HasMouseDownHandlers,
         ALL
     }
 
-    /** the drag direction of the drag box. */
+    /** The drag direction of the drag box. */
     protected DragDirection direction;
 
     /**

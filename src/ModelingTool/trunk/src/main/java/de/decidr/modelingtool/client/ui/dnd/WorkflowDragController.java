@@ -26,7 +26,7 @@ import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 
 /**
- * This drag controller is responible for making all nodes in the workflow
+ * This drag controller is responsible for making all nodes in the workflow
  * draggable.
  * 
  * @author Johannes Engelhardt

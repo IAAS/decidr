@@ -99,7 +99,7 @@ public class NodeModel extends AbstractModel {
 
     /**
      * Sets the size properties of the change listener. After changing this
-     * data, fireModelChanged hast to be called.
+     * data, fireModelChanged has to be called.
      * 
      * @param width
      *            The (desired) width of the change listener.

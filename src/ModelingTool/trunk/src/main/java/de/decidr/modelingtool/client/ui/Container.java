@@ -274,7 +274,7 @@ public abstract class Container extends Node implements HasChildren {
     }
 
     /**
-     * Registeres the container drop controller to the workflow drag controller.
+     * Registers the container drop controller to the workflow drag controller.
      */
     public void registerDropController() {
         PickupDragController dc = DndRegistry.getInstance()
@@ -328,7 +328,7 @@ public abstract class Container extends Node implements HasChildren {
     }
 
     /**
-     * Unregisteres the container drop controller from the workflow drag
+     * Unregisters the container drop controller from the workflow drag
      * controller.
      */
     public void unregisterDropController() {

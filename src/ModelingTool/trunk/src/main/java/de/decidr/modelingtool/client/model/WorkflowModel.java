@@ -106,7 +106,7 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     }
 
     /**
-     * Returns a list of all variables of a certain type
+     * Returns a list of all variables of a certain type.
      * 
      * @param type
      *            the type of variables that shall be returned
@@ -172,7 +172,7 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     }
 
     /**
-     * Returns the container for the properties of this workflow
+     * Returns the container for the properties of this workflow.
      * 
      * @return the properties
      */
@@ -181,7 +181,7 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     }
 
     /**
-     * Sets the variables of this workflow
+     * Sets the variables of this workflow.
      * 
      * @param variables
      *            the variables
@@ -191,7 +191,7 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     }
 
     /**
-     * Sets the proerties continer for this workflow
+     * Sets the properties container for this workflow.
      * 
      * @param properties
      *            the properties container

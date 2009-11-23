@@ -18,8 +18,6 @@ package de.decidr.modelingtool.client.ui;
 
 import com.google.gwt.user.client.ui.HTML;
 
-
-
 /**
  * A single line in a connection.
  * 

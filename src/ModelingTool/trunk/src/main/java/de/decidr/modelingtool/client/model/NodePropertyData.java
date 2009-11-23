@@ -75,8 +75,8 @@ public class NodePropertyData {
 
     /**
      * Compares another container to this container and checks whether they are
-     * equal or not. They are equal if they have the exact same keys the exact
-     * same values associated with the keys.
+     * equal or not. They are equal if they have the exact same keys and the
+     * exact same values associated with the keys.
      * 
      * @param container
      *            the container to which this container is compared to

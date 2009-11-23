@@ -31,8 +31,8 @@ import de.decidr.modelingtool.client.ui.Selectable;
 
 /**
  * This class handles the selection of objects in the workflow, which implement
- * the Selectable interface. The selection handler has to be registered to each
- * element which is to be selectable. This is a singleton.
+ * the {@link Selectable} interface. The selection handler has to be registered
+ * to each element which is to be selectable. This is a singleton.
  * 
  * @author Johannes Engehlardt
  */
@@ -154,7 +154,7 @@ public class SelectionHandler implements MouseDownHandler {
     }
 
     /**
-     * Removes the selection of the durrently selected item, if one is selected.
+     * Removes the selection of the currently selected item, if one is selected.
      */
     public void unselect() {
         // unselect currently selected item

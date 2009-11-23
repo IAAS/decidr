@@ -22,7 +22,7 @@ import de.decidr.modelingtool.client.command.CommandStack;
 
 /**
  * Command for redoing the last action made undone. If the last user performed
- * action was not a undo action, the redo stack is emtpy and no redo action is
+ * action was not a undo action, the redo stack is empty and no redo action is
  * performed.
  * 
  * @author Johannes Engelhardt
