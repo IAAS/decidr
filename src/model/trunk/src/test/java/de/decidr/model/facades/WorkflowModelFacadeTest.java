@@ -19,7 +19,6 @@ package de.decidr.model.facades;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.AfterClass;
@@ -32,7 +31,6 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
-import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
@@ -54,7 +52,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
     static long wfmId;
     static String username;
-    static long userId;
+    // static long userId;
 
     static WorkflowModelFacade adminFacade;
     static WorkflowModelFacade userFacade;
@@ -97,15 +95,16 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         wfmId = tenantFacade.createWorkflowModel(tenantId,
                 "WorkflowModelFacadeTestWFModel");
 
-        // create test user for workflow admin test purpose
-        UserFacadeTest.deleteTestUsers();
-        adminUserFacade = new UserFacade(role);
-
-        UserProfile userProfile = new UserProfile();
-        username = UserFacadeTest.USERNAME_PREFIX + "WMFTestUser";
-        userProfile.setUsername(username);
-        userId = adminUserFacade.registerUser(UserFacadeTest.getTestEmail(0),
-                "ads", userProfile);
+        // registerUser now needs a WS
+        // // create test user for workflow admin test purpose
+        // UserFacadeTest.deleteTestUsers();
+        // adminUserFacade = new UserFacade(role);
+        //
+        // UserProfile userProfile = new UserProfile();
+        // username = UserFacadeTest.USERNAME_PREFIX + "WMFTestUser";
+        // userProfile.setUsername(username);
+        // userId = adminUserFacade.registerUser(UserFacadeTest.getTestEmail(0),
+        // "ads", userProfile);
     }
 
     @AfterClass
@@ -200,24 +199,24 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
             // expected
         }
 
-        unames.clear();
-        unames.add(username);
-        adminUserFacade.setDisabledSince(userId, new Date());
-        try {
-            adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
-            fail("Username expected to be disabled, but is not.");
-        } catch (UserDisabledException e) {
-            // expected
-        }
-
-        adminUserFacade.setDisabledSince(userId, null);
-        adminUserFacade.setUnavailableSince(userId, new Date());
-        try {
-            adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
-            fail("Username expected to be unavailable, but is not.");
-        } catch (UserUnavailableException e) {
-            // expected
-        }
+        // unames.clear();
+        // unames.add(username);
+        // adminUserFacade.setDisabledSince(userId, new Date());
+        // try {
+        // adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
+        // fail("Username expected to be disabled, but is not.");
+        // } catch (UserDisabledException e) {
+        // // expected
+        // }
+        //
+        // adminUserFacade.setDisabledSince(userId, null);
+        // adminUserFacade.setUnavailableSince(userId, new Date());
+        // try {
+        // adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
+        // fail("Username expected to be unavailable, but is not.");
+        // } catch (UserUnavailableException e) {
+        // // expected
+        // }
 
         // adminUserFacade.setUnavailableSince(userId, null);
         // adminFacade.setWorkflowAdministrators(wfmId, emails, unames);

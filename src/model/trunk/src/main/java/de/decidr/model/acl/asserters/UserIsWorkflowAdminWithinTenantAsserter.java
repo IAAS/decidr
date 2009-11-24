@@ -18,6 +18,7 @@ package de.decidr.model.acl.asserters;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.access.TenantAccess;
+import de.decidr.model.acl.permissions.CommandPermission;
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
@@ -44,10 +45,14 @@ public class UserIsWorkflowAdminWithinTenantAsserter extends
             throws TransactionException {
         boolean result = false;
 
-        if (role instanceof WorkflowAdminRole && role.getActorId() != null
-                && permission instanceof TenantAccess) {
+        // DH I fixed this (hopefully); please check ~rr
+        if (permission instanceof CommandPermission
+                && role instanceof WorkflowAdminRole
+                && role.getActorId() != null
+                && ((CommandPermission) permission).getCommand() instanceof TenantAccess) {
             this.role = (WorkflowAdminRole) role;
-            this.accessedTenantIds = ((TenantAccess) permission).getTenantIds();
+            this.accessedTenantIds = ((TenantAccess) ((CommandPermission) permission)
+                    .getCommand()).getTenantIds();
             HibernateTransactionCoordinator.getInstance().runTransaction(this);
             result = isWorkflowAdmin;
         }

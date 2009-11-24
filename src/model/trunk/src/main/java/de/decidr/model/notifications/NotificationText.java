@@ -24,6 +24,9 @@ import java.util.ResourceBundle;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+// XXX: a) man kann auch %s etc. für das String-replacement nehmen
+// XXX: b) Die Gültigkeitsdauer der registration messages sollte aus der
+// Datenbank abgeleitet werden
 public class NotificationText {
 
     private static String crlf = "\n";

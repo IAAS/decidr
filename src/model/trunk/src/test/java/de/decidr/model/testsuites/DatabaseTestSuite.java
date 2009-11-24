@@ -41,7 +41,6 @@ import de.decidr.model.commands.SystemCommandsTest;
 import de.decidr.model.facades.FileFacadeTest;
 import de.decidr.model.facades.SystemFacadeTest;
 import de.decidr.model.facades.TenantFacadeTest;
-import de.decidr.model.facades.UserFacadeTest;
 import de.decidr.model.facades.WorkflowModelFacadeTest;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.storage.HibernateEntityStorageProviderTest;
@@ -59,8 +58,11 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 // The order of these tests should not be changed without good reason
 @SuiteClasses( { HibernateEntityStorageProviderTest.class,
         HibernateTransactionCoordinatorTest.class, DecidrGlobalsTest.class,
-        LifetimeValidatorTest.class, SystemFacadeTest.class,
-        FileFacadeTest.class, TenantFacadeTest.class, UserFacadeTest.class,
+        LifetimeValidatorTest.class,
+        SystemFacadeTest.class,
+        FileFacadeTest.class,
+        TenantFacadeTest.class,
+        // UserFacadeTest.class,
         WorkflowModelFacadeTest.class, SystemCommandsTest.class,
         DefaultAccessControlListTest.class,
         IsRoleEqualToAccessedUserAsserterTest.class,
