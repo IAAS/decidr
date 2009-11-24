@@ -29,6 +29,7 @@ import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -98,8 +99,6 @@ public class RegisterUserCommand extends AclEnabledCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        // DH: send email to new user
-        
         registeredUser = null;
         /*
          * Does a user who has the given email or username already exist?
@@ -156,6 +155,8 @@ public class RegisterUserCommand extends AclEnabledCommand {
                 DecidrGlobals.getTime().getTime(), Password.getRandomAuthKey());
         evt.getSession().saveOrUpdate(request);
         existingUser.setRegistrationRequest(request);
+
+        NotificationEvents.createdRegistrationRequest(request);
 
         registeredUser = existingUser;
     }

@@ -21,16 +21,17 @@ import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.Invitation;
 import de.decidr.model.entities.PasswordResetRequest;
+import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
@@ -42,12 +43,16 @@ import de.decidr.model.webservices.EmailInterface;
 /**
  * Provides a very simple means of sending notifications to users.
  * 
+ * XXX this class violates DNRY. ~dh
+ * 
  * @author Daniel Huss
  * @author Markus Fischer
  * 
  * @version 0.1
  */
 public final class NotificationEvents {
+
+    private static final String AMERICAN_DATE_FORMAT = "MM/dd/yyyy ";
 
     static EmailInterface client;
 
@@ -114,6 +119,74 @@ public final class NotificationEvents {
     }
 
     /**
+     * Sends a confirmation email to the newly registered user.
+     * 
+     * @param request
+     *            registration request that has been created
+     * @throws TransactionException
+     */
+    public static void createdRegistrationRequest(RegistrationRequest request)
+            throws TransactionException {
+
+        try {
+            client = de.decidr.model.webservices.DynamicClients
+                    .getEmailClient();
+        } catch (MalformedURLException e) {
+            throw new TransactionException(e);
+        }
+
+        if (request.getUser() == null
+                || request.getUser().getUserProfile() == null) {
+            throw new IllegalArgumentException(
+                    "Registration request is missing user or user profile property.");
+        }
+
+        // create email content
+
+        UserProfile profile = request.getUser().getUserProfile();
+
+        String confirmationUrl;
+        try {
+            confirmationUrl = new URLGenerator().getConfirmRegistrationURL(Long
+                    .toString(request.getUser().getId()), request.getAuthKey());
+        } catch (UnsupportedEncodingException e) {
+            throw new TransactionException(e);
+        }
+
+        SystemSettings settings = DecidrGlobals.getSettings();
+
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.add(Calendar.SECOND, settings
+                .getRegistrationRequestLifetimeSeconds());
+
+        String expireDateString = new SimpleDateFormat(AMERICAN_DATE_FORMAT)
+                .format(expireDate.getTime());
+
+        String subject = NotificationText.getConfirmRegistrationSubject();
+        String bodyHtml = NotificationText.getConfirmRegistrationHTML(profile
+                .getUsername(), confirmationUrl, expireDateString, "");
+        String bodyText = NotificationText.getConfirmRegistrationHTML(profile
+                .getUsername(), confirmationUrl, expireDateString, "");
+
+        AbstractUserList to = new AbstractUserList();
+        EmailUser receiver = new EmailUser();
+        receiver.setEmail(request.getUser().getEmail());
+        to.getEmailUser().add(receiver);
+
+        try {
+            client.sendEmail(to, null, null, settings.getSystemName(), settings
+                    .getSystemEmailAddress(), subject, null, bodyText, bodyHtml,
+                    null);
+        } catch (Exception e) {
+            if (e instanceof TransactionException) {
+                throw (TransactionException) e;
+            } else {
+                throw new TransactionException(e);
+            }
+        }
+    }
+
+    /**
      * Sends a confirmation email to the new email address.
      * 
      * @param request
@@ -163,8 +236,8 @@ public final class NotificationEvents {
         creationDate.setTime(request.getCreationDate());
         creationDate.add(Calendar.SECOND, requestLifeTime);
 
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());
+        SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
+        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 
         String bodyTXT = NotificationText.getChangeEmailRequestText(userName,
                 confirmationUrl, expireDate, signature);
@@ -240,8 +313,8 @@ public final class NotificationEvents {
         creationDate.setTime(request.getCreationDate());
         creationDate.add(Calendar.SECOND, requestLifeTime);
 
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());
+        SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
+        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 
         // create body text
         String signature = "";
@@ -276,7 +349,7 @@ public final class NotificationEvents {
     }
 
     /**
-     * Informs the user, that is tenant has been rejected.
+     * Informs the user that his tenant has been rejected.
      * 
      * @param user
      *            user who created the tenant
@@ -370,8 +443,8 @@ public final class NotificationEvents {
         creationDate.setTime(invitation.getCreationDate());
         creationDate.add(Calendar.SECOND, invitationLifeTime);
 
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());
+        SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
+        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 
         // create body text
         String signature = "";
@@ -452,8 +525,8 @@ public final class NotificationEvents {
         creationDate.setTime(invitation.getCreationDate());
         creationDate.add(Calendar.SECOND, invitationLifeTime);
 
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());
+        SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
+        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 
         // create body text
         String signature = "";
@@ -750,8 +823,8 @@ public final class NotificationEvents {
         creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
                 .getInvitationLifetimeSeconds());
 
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());
+        SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
+        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 
         String tenantName = model.getTenant().getName();
         String invitationUrl;
@@ -830,8 +903,8 @@ public final class NotificationEvents {
         creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
                 .getInvitationLifetimeSeconds());
 
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());
+        SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
+        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 
         String tenantName = model.getTenant().getName();
         String userName = invitation.getReceiver().getUserProfile()
@@ -912,8 +985,8 @@ public final class NotificationEvents {
         creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
                 .getInvitationLifetimeSeconds());
 
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());
+        SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
+        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 
         String tenantName = createdWorkflowInstance.getDeployedWorkflowModel()
                 .getTenant().getName();
@@ -995,8 +1068,8 @@ public final class NotificationEvents {
         creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
                 .getInvitationLifetimeSeconds());
 
-        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
-        String expireDate = sd.format(new Date());
+        SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
+        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 
         String tenantName = createdWorkflowInstance.getDeployedWorkflowModel()
                 .getTenant().getName();
