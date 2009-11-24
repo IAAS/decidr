@@ -630,6 +630,8 @@ public class TenantFacade extends AbstractFacade {
      * <li>creationDate: Date - date when the workflow model was created</li>
      * <li>published: Boolean - whether this workflow model is available for
      * import by other tenants.</li>
+     * <li>executable: Boolean - whether the workflow model has been flagged as
+     * executable</li
      * </ul>
      * 
      * @param tenantId
@@ -655,7 +657,8 @@ public class TenantFacade extends AbstractFacade {
 
         List<Item> outList = new ArrayList<Item>();
         List<WorkflowModel> inList = new ArrayList<WorkflowModel>();
-        String[] properties = { "id", "name", "creationDate", "published" };
+        String[] properties = { "id", "name", "creationDate", "published",
+                "executable" };
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
         inList = command.getResult();
