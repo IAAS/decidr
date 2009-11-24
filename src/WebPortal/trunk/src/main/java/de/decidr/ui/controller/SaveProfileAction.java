@@ -36,7 +36,6 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * This action saves changes of the user profile
  * 
  * @author Geoffrey-Alexeij Heinze
- * @reviewed ~tk, ~dh
  */
 public class SaveProfileAction implements ClickListener {
 
@@ -63,16 +62,9 @@ public class SaveProfileAction implements ClickListener {
         try {
             UserProfile uP = fillUserProfile();
             userFacade.setProfile(userId, uP);
-            //GH NullPointerException muss man nicht abfangen (Runtime Errors)
-            //GH kein StackTrace(), macht keinen Sinn im Code, etweder loggen oder forwarden ~tk,dh
         } catch (EntityNotFoundException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-            e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
@@ -80,7 +72,8 @@ public class SaveProfileAction implements ClickListener {
 
     }
     
-    //GH validator for this data needed in the UI
+    //gh validator for this data needed in the UI
+    //DH, TK what should be validated here?
     private UserProfile fillUserProfile() {
         UserRole role = new UserRole(userId);
         GetUserWithProfileCommand cmd = new GetUserWithProfileCommand(role,

@@ -218,8 +218,7 @@ div > .dcdr_vnav .v-button.v-button-link:hover .v-button-caption,
 .v-ie7 .dcdr_vnav .v-button-link:hover .v-button-caption,
 .v-ie7 .dcdr_vnav .v-button-link.v-pressed:hover .v-button-caption,
 div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
-.v-ie7 .dcdr_vnav .v-button-link.v-disabled:hover .v-button-caption,
-.dcdr_vnav .v-button.v-button-link:hover{
+.v-ie7 .dcdr_vnav .v-button-link.v-disabled:hover .v-button-caption{
 	text-decoration: underline;
 	}
 	
@@ -359,8 +358,7 @@ div > .dcdr_content .v-button.v-button-link:hover .v-button-caption,
 .v-ie7 .dcdr_content .v-button-link:hover .v-button-caption,
 .v-ie7 .dcdr_content .v-button-link.v-pressed:hover .v-button-caption,
 div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
-.v-ie7 .dcdr_content .v-button-link.v-disabled:hover .v-button-caption,
-.dcdr_content .v-button.v-button-link:hover{
+.v-ie7 .dcdr_content .v-button-link.v-disabled:hover .v-button-caption{
 	text-decoration: underline;
 	background-image: none;
 	}
@@ -449,4 +447,63 @@ div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
 	margin: -4px 9px 0px 0px;
 	padding: 6px 5px 0px 14px;
 	height: 25px;
+	}
+
+
+
+/* help window */
+/* =========== */
+/* buttons */
+.popupContent .v-accordion .v-button,
+.popupContent .v-accordion .v-button:focus,
+.popupContent .v-accordion .v-button:active,
+.v-ie7 .popupContent .v-accordion .v-button,
+.v-ie7 .popupContent .v-accordion .v-button:focus,
+.v-ie7 .popupContent .v-accordion .v-button:active{
+	background: none;
+	}
+	
+.popupContent .v-accordion .v-button:hover,
+.v-ie7 .popupContent .v-accordion .v-button:hover{
+	background: none;
+	}
+
+.popupContent .v-accordion .v-button span,
+.popupContent .v-accordion .v-button:focus span,
+.popupContent .v-accordion .v-button:active span,
+.popupContent .v-accordion .v-button.v-pressed span,
+.v-ie7 .popupContent .v-accordion .v-button span,
+.v-ie7 .popupContent .v-accordion .v-button:focus span,
+.v-ie7 .popupContent .v-accordion .v-button:active span,
+.v-ie7 .popupContent .v-accordion .v-button.v-pressed span{
+	background: none;
+	}
+	
+.popupContent .v-accordion .v-button:hover span,
+.popupContent .v-accordion .v-button:hover .v-button-caption,
+.v-ie7 .popupContent .v-accordion .v-button:hover span,
+.v-ie7 .popupContent .v-accordion .v-button:hover .v-button-caption{
+	background: none;
+	}
+	
+/* buttons with link-style */
+.popupContent .v-accordion .v-button.v-button-link .v-button-caption,
+.v-ie7 .popupContent .v-accordion .v-button-link .v-button-caption,
+.v-ie7 .popupContent .v-accordion .v-button-link.v-pressed .v-button-caption,
+.popupContent .v-accordion .v-button.v-button-link.v-disabled .v-button-caption,
+.v-ie7 .popupContent .v-accordion .v-button-link.v-disabled.v-button-caption{
+	margin: 0px;
+	padding: 0px;
+	color: #006AB1;
+	text-decoration: none;
+	background-image: none;
+	}	
+	
+.popupContent .v-accordion .v-button.v-button-link:hover .v-button-caption,
+.v-ie7 .popupContent .v-accordion .v-button-link:hover .v-button-caption,
+.v-ie7 .popupContent .v-accordion .v-button-link.v-pressed:hover .v-button-caption,
+.popupContent .v-accordion .v-button.v-button-link.v-disabled:hover .v-button-caption,
+.v-ie7 .popupContent .v-accordion .v-button-link.v-disabled:hover .v-button-caption{
+	text-decoration: underline;
+	background-image: none;
 	}

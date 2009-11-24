@@ -25,7 +25,6 @@ import de.decidr.ui.view.Main;
  * This action hides the help window
  *
  * @author Geoffrey-Alexeij Heinze
- * @reviewed ~tk, ~dh
  */
 public class HideHelpDialogAction implements ClickListener{
 
@@ -34,8 +33,9 @@ public class HideHelpDialogAction implements ClickListener{
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        //GH: what if getHelpDialog() returns null? ~dh,tk
-        Main.getCurrent().getUIDirector().getHelpDialog().hide();
+        if (Main.getCurrent().getUIDirector().getHelpDialog() != null){
+            Main.getCurrent().getUIDirector().getHelpDialog().hide();
+        }
     }
 
 }

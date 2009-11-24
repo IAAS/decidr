@@ -61,18 +61,24 @@ public class AppointWorkflowAdminAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-         /*
-         * GH user is allowed to enter email addresses as well as usernames just
-         * like in google calendar (see spec) ~dh ~tk
-         */
+               
+        List<String> emails = new ArrayList<String>();
         List<String> userNames = new ArrayList<String>();
         for (Integer c = 1; c <= appointForm.getItemPropertyIds().size(); c++) {
-            userNames.add(appointForm.getItemProperty("user" + c).getValue()
-                    .toString());
-
+                if (appointForm.getItemProperty("user" + c.toString()) != null) {
+                        if (appointForm.getItemProperty("user" + c.toString())
+                                        .getValue().toString().contains("@")) {
+                                emails.add(appointForm
+                                                .getItemProperty("user" + c.toString()).getValue()
+                                                .toString());
+                        } else {
+                                userNames.add(appointForm.getItemProperty(
+                                                "user" + c.toString()).getValue().toString());
+                        }
+                }
         }
         try {
-            wfmFacade.setWorkflowAdministrators(wfmId, null, userNames);
+            wfmFacade.setWorkflowAdministrators(wfmId, emails, userNames);
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

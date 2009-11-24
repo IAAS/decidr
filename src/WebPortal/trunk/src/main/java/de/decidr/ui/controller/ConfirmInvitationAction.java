@@ -16,8 +16,6 @@
 
 package de.decidr.ui.controller;
 
-import javax.servlet.http.HttpSession;
-
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -34,9 +32,6 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @reviewed ~tk, ~dh
  */
 public class ConfirmInvitationAction implements ClickListener {
-
-    //GH session is not used ~dh, ~tk
-    private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = null;
     private UserFacade userFacade = null;
