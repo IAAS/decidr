@@ -438,7 +438,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             adminFacade.getTenant("");
             fail("managed to get tenant ID with empty parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
@@ -457,7 +457,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         try {
             userFacade.getTenant("");
             fail("managed to get tenant ID with empty parameter");
-        } catch (TransactionException e) {
+        } catch (IllegalArgumentException e) {
             // supposed to happen
         }
         try {
