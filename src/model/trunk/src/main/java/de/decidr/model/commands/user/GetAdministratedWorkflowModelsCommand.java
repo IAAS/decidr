@@ -18,7 +18,7 @@ package de.decidr.model.commands.user;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
@@ -106,7 +106,7 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
 
         criteria.add(Subqueries.exists(adminCriteria));
 
-        criteria.setResultTransformer(Criteria.ROOT_ENTITY);
+        criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 
         Filters.apply(criteria, filters, paginator);
 

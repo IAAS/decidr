@@ -43,8 +43,8 @@ import de.decidr.model.testing.GlobalPreconditionsSuite;
         FileReadPermissionTest.class, FileReplacePermissionTest.class,
         BasicRoleTest.class, EmailRoleTest.class, HumanTaskRoleTest.class,
         ServerLoadUpdaterRoleTest.class, TenantAdminRoleTest.class,
-        UserRoleTest.class, WorkflowAdminRoleTest.class,
-// UserOwnsWorkItemAsserterTest.class,
+        UserRoleTest.class, WorkflowAdminRoleTest.class
+// , UserOwnsWorkItemAsserterTest.class,
 // UserOwnsWorkflowModelAsserterTest.class
 })
 public class AclTestSuite extends GlobalPreconditionsSuite {
