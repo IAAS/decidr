@@ -56,8 +56,6 @@ public class UserIsInvitationReceiverAsserterTest extends LowLevelDatabaseTest {
 
     // private static Long tenantId;
 
-    private static final String USERNAME_PREFIX = "testuser";
-
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
@@ -73,15 +71,15 @@ public class UserIsInvitationReceiverAsserterTest extends LowLevelDatabaseTest {
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
 
-        userProfile.setUsername(USERNAME_PREFIX + "TenantAdmin");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "TenantAdmin");
         tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
                 "qwertz", userProfile);
 
-        userProfile.setUsername(USERNAME_PREFIX + "WFAdmin");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "WFAdmin");
         workflowAdminId = userFacade.registerUser(UserFacadeTest
                 .getTestEmail(2), "qwertz", userProfile);
 
-        userProfile.setUsername(USERNAME_PREFIX + "User");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "User");
         userId = userFacade.registerUser(UserFacadeTest.getTestEmail(3),
                 "qwertz", userProfile);
 

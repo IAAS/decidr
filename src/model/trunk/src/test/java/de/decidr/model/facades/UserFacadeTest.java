@@ -70,7 +70,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     static final String TEST_EMAIL = "decidr.iaas@googlemail.com";
     static final String TEST_PASSWORD = "asd";
     static final String TEST_USERNAME = "tEsstUsser";
-    static final String USERNAME_PREFIX = "testuser";
+    public static final String USERNAME_PREFIX = "testuser";
 
     private static boolean checkPWD(String pwd) throws TransactionException {
         try {

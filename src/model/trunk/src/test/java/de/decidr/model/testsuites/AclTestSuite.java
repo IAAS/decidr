@@ -23,8 +23,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import de.decidr.model.acl.PasswordTest;
-import de.decidr.model.acl.asserters.UserOwnsWorkItemAsserterTest;
-import de.decidr.model.acl.asserters.UserOwnsWorkflowModelAsserterTest;
 import de.decidr.model.acl.permissions.CommandPermissionTest;
 import de.decidr.model.acl.permissions.FileDeletePermissionTest;
 import de.decidr.model.acl.permissions.FileReadPermissionTest;
@@ -46,8 +44,9 @@ import de.decidr.model.testing.GlobalPreconditionsSuite;
         BasicRoleTest.class, EmailRoleTest.class, HumanTaskRoleTest.class,
         ServerLoadUpdaterRoleTest.class, TenantAdminRoleTest.class,
         UserRoleTest.class, WorkflowAdminRoleTest.class,
-        UserOwnsWorkItemAsserterTest.class,
-        UserOwnsWorkflowModelAsserterTest.class })
+// UserOwnsWorkItemAsserterTest.class,
+// UserOwnsWorkflowModelAsserterTest.class
+})
 public class AclTestSuite extends GlobalPreconditionsSuite {
     private static boolean inSuite;
 

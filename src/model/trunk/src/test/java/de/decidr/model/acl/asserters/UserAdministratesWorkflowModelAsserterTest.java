@@ -58,8 +58,6 @@ public class UserAdministratesWorkflowModelAsserterTest extends
     // private static Long tenantId;
     private static Long wfmId;
 
-    private static final String USERNAME_PREFIX = "testuser";
-
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
@@ -75,15 +73,15 @@ public class UserAdministratesWorkflowModelAsserterTest extends
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
 
-        userProfile.setUsername(USERNAME_PREFIX + "TenantAdmin");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "TenantAdmin");
         tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
                 "qwertz", userProfile);
 
-        userProfile.setUsername(USERNAME_PREFIX + "WFAdmin");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "WFAdmin");
         workflowAdminId = userFacade.registerUser(UserFacadeTest
                 .getTestEmail(1), "qwertz", userProfile);
 
-        userProfile.setUsername(USERNAME_PREFIX + "User");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "User");
         // userId =
         userFacade.registerUser(UserFacadeTest.getTestEmail(1), "qwertz",
                 userProfile);

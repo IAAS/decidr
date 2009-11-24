@@ -56,9 +56,8 @@ public class UserIsWorkflowParticipantAsserterTest extends LowLevelDatabaseTest 
     private static Long userId;
 
     private static Long tenantId;
-    // private static Long wfmId;
 
-    private static final String USERNAME_PREFIX = "testuser";
+    // private static Long wfmId;
 
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
@@ -75,15 +74,15 @@ public class UserIsWorkflowParticipantAsserterTest extends LowLevelDatabaseTest 
         userProfile.setStreet("test st.");
         userProfile.setPostalCode("12test");
 
-        userProfile.setUsername(USERNAME_PREFIX + "TenantAdmin");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "TenantAdmin");
         tenantAdminId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
                 "qwertz", userProfile);
 
-        userProfile.setUsername(USERNAME_PREFIX + "WFAdmin");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "WFAdmin");
         workflowAdminId = userFacade.registerUser(UserFacadeTest
                 .getTestEmail(2), "qwertz", userProfile);
 
-        userProfile.setUsername(USERNAME_PREFIX + "User");
+        userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "User");
         userId = userFacade.registerUser(UserFacadeTest.getTestEmail(3),
                 "qwertz", userProfile);
 
