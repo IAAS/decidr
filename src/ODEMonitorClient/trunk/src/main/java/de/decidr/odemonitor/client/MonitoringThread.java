@@ -179,14 +179,14 @@ public class MonitoringThread extends Thread {
                 log.debug("...success");
                 break;
             } catch (TransactionException e) {
-                log.debug("...failed");
+                log.debug("...failed", e);
                 try {
                     Thread.sleep(updateInterval);
                 } catch (InterruptedException ex) {
                     // we wake and resume work due to someone watching us
                 }
             } catch (IllegalArgumentException e) {
-                log.fatal("The specified ODE server ID could not be found.");
+                log.fatal("The specified ODE server ID could not be found.", e);
                 System.exit(1);
             }
         }
@@ -279,7 +279,7 @@ public class MonitoringThread extends Thread {
                     log.debug("...success");
                     break;
                 } catch (TransactionException e) {
-                    log.debug("...failed");
+                    log.debug("...failed", e);
                     try {
                         Thread.sleep(updateInterval);
                     } catch (InterruptedException ex) {
