@@ -32,10 +32,10 @@ import de.decidr.model.logging.DefaultLogger;
  * transactions.
  * <p>
  * The HibernateTransactionCoordinator is implemented as a thread-local
- * singleton (see {@link ThreadLocal}. The freshly initialized instance uses a
- * default configuration which it reads from the first "hibernate.cfg.xml" that
- * it finds in the classpath. You can change the configuration at any time using
- * the <code>setConfiguration</code> method.
+ * "pseudo singleton" (see {@link ThreadLocal}. The freshly initialized instance
+ * uses a default configuration which it reads from the first
+ * "hibernate.cfg.xml" that it finds in the classpath. You can change the
+ * configuration at any time using the <code>setConfiguration</code> method.
  * 
  * @author Daniel Huss
  * @author Markus Fischer
@@ -45,6 +45,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
     private static Logger logger = DefaultLogger
             .getLogger(HibernateTransactionCoordinator.class);
+
+    /**
+     * The thread-local instances.
+     */
+    private static ThreadLocal<HibernateTransactionCoordinator> instance;
 
     /**
      * The current Hibernate session.
@@ -84,7 +89,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     private Configuration configuration;
 
     /**
-     * @return the singleton instance.
+     * @return the thread-local instance.
      */
     public static synchronized HibernateTransactionCoordinator getInstance() {
         if (instance == null) {
@@ -100,12 +105,12 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Creates the HibernateTransactionCoordinator singleton instance using the
-     * default configuration.
+     * Creates the HibernateTransactionCoordinator thread-local instance using
+     * the default configuration.
      */
     private HibernateTransactionCoordinator() {
         logger
-                .debug("Creating HibernateTransactionCoordinator singleton instance.");
+                .debug("Creating HibernateTransactionCoordinator thread-local instance.");
         this.setConfiguration(new Configuration().configure());
         logger.debug("Initial Hibernate configuration successfully applied.");
         this.currentTransaction = null;
@@ -350,11 +355,4 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 transactionDepth > 1);
         receiver.transactionCommitted(event);
     }
-
-    /**
-     * The singleton instance. This has been moved to the bottom to make sure it
-     * is the last static part of the class during initialization. Otherwise
-     * accessing static parts in the contructor would be impossible.
-     */
-    private static ThreadLocal<HibernateTransactionCoordinator> instance;
 }

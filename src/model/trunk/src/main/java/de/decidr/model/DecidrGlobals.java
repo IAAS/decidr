@@ -97,10 +97,7 @@ public class DecidrGlobals {
     public static final String URL_PARAM_REGISTRATION_REQUIRED = "regreq";
 
     /**
-     * Hardcoded ID of the default tenant.
-     * 
-     * DH HUGE todo!! The current model doesn't really care about any special
-     * cases if the default tenant is involved (especially asserters!)
+     * By convention, the default tenant has the ID 1.
      */
     public static final long DEFAULT_TENANT_ID = 1L;
 
