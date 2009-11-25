@@ -343,37 +343,37 @@ public class TestDataGenerator {
         help.append(DecidrGlobals.DISCLAIMER);
         help.append("\n\n");
         help.append("Usage: java -jar testdatagenerator.jar "
-                + "[--property=value]+ [--switch]\n");
+                + "[--property=value]+ [--switch]+\n");
 
         help.append("\n\nProperties:\n--------------------\n");
         help.append(PROPERTY_CONNECTION_URL);
-        help.append("\n");
+        help.append("\t - \tHibernate connection URL override such as 'jdbc:mysql://localhost:3306/decidrdb'\n");
         help.append(PROPERTY_USERS);
-        help.append("\n");
+        help.append("\t - \tTotal number of users to create\n");
         help.append(PROPERTY_TENANTS);
-        help.append("\n");
+        help.append("\t - \tTotal number of tenants to create\n");
         help.append(PROPERTY_MODELS);
-        help.append("\n");
+        help.append("\t - \tTotal number of workflow models to create\n");
         help.append(PROPERTY_MODELS_PER_TENANT);
-        help.append("\n");
+        help.append("\t - \tNumber of workflow models per tenant\n");
         help.append(PROPERTY_INSTANCES);
-        help.append("\n");
+        help.append("\t - \tTotal number of workflow instances to create\n");
         help.append(PROPERTY_WORKITEMS);
-        help.append("\n");
+        help.append("\t - \tTotal number of work items to create\n");
         help.append(PROPERTY_INVITATIONS);
-        help.append("\n");
+        help.append("\t - \tTotal number of invitations to create\n");
         help.append(PROPERTY_MAX_USERS_PER_TENANT);
-        help.append("\n");
+        help.append("\t - \tMaximum number of users to associate with each tenant\n");
 
         help.append("\nSwitches:\n--------------------\n");
         help.append(SWITCH_HELP);
-        help.append("\n");
+        help.append("\t - \tDisplay this help then exit\n");
         help.append(SWITCH_NON_INTERACTIVE);
-        help.append("\n");
+        help.append("\t - \tDo not prompt for user input\n");
         help.append(SWITCH_NO_STDOUT);
-        help.append("\n");
+        help.append("\t - \tSuppress output to STDOUT\n");
         help.append(SWITCH_NO_STDERR);
-        help.append("\n");
+        help.append("\t - \tSuppress output to STDERR\n");
 
         System.out.println(help.toString());
     }
