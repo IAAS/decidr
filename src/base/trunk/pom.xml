@@ -156,6 +156,17 @@
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
 		<repository>
+			<id>java.net</id>
+			<name>java.net</name>
+			<url>https://maven-repository.dev.java.net/nonav/repository/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
 			<id>iaassrv7-releases</id>
 			<name>iaassrv7-releases</name>
 			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
