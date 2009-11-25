@@ -201,7 +201,7 @@ public class MonitoringThread extends Thread {
             log.debug("managed to get config from the web service");
         } catch (Exception e) {
             log.error("There seems to be a problem with the"
-                    + "ODE monitoring web service - using default config", e);
+                    + " ODE monitoring web service - using default config", e);
         }
 
         try {

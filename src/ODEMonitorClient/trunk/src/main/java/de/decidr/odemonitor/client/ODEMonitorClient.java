@@ -166,6 +166,9 @@ public class ODEMonitorClient {
             }
         }
 
+        DefaultLogger.getLogger("org.apache.axis2").setLevel(
+                log.getEffectiveLevel());
+
         if (ID == null) {
             log.error("You have to specify the ID"
                     + " of the local ODE server.");

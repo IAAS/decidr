@@ -17,7 +17,6 @@
 package de.decidr.model.notifications;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,7 +67,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -131,7 +130,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -175,8 +174,8 @@ public final class NotificationEvents {
 
         try {
             client.sendEmail(to, null, null, settings.getSystemName(), settings
-                    .getSystemEmailAddress(), subject, null, bodyText, bodyHtml,
-                    null);
+                    .getSystemEmailAddress(), subject, null, bodyText,
+                    bodyHtml, null);
         } catch (Exception e) {
             if (e instanceof TransactionException) {
                 throw (TransactionException) e;
@@ -199,7 +198,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -284,7 +283,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -362,7 +361,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -415,7 +414,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -499,7 +498,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -579,7 +578,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -639,7 +638,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -698,7 +697,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -755,7 +754,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -810,7 +809,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -890,7 +889,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -951,7 +950,6 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-
     }
 
     /**
@@ -972,7 +970,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
@@ -1034,7 +1032,6 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-
     }
 
     /**
@@ -1055,7 +1052,7 @@ public final class NotificationEvents {
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new TransactionException(e);
         }
 
