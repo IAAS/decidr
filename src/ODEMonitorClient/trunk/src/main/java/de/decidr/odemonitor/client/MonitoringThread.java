@@ -191,16 +191,16 @@ public class MonitoringThread extends Thread {
                 server.registerODE(booleanHolder, odeID);
                 log.debug("...success");
                 break;
-            } catch (TransactionException e) {
+            } catch (IllegalArgumentException e) {
+                log.fatal("The specified ODE server ID could not be found.", e);
+                System.exit(1);
+            } catch (Exception e) {
                 log.debug("...failed", e);
                 try {
                     Thread.sleep(updateInterval);
                 } catch (InterruptedException ex) {
                     // we wake and resume work due to someone watching us
                 }
-            } catch (IllegalArgumentException e) {
-                log.fatal("The specified ODE server ID could not be found.", e);
-                System.exit(1);
             }
 
             if (exitLoop) {

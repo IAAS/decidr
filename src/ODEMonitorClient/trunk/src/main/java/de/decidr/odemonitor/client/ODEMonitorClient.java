@@ -273,7 +273,9 @@ public class ODEMonitorClient {
         System.out.println("");
         System.out.println("\t-k");
         System.out
-                .println("\t\tStops the locally running ODE Monitoring Client");
+                .println("\t\tStops the locally running ODE Monitoring Client.");
+        System.out
+                .println("\t\t(Due to the nature of java, this option currently does not work)");
         System.out.println("");
         System.out.println("\t--start");
         System.out.println("\t\tOnly start the monitored ODE instance.");
