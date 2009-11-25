@@ -52,6 +52,15 @@ public class MonitoringThread extends Thread {
     private XMLGregorianCalendar lastUpdate;
     private Map<Long, Integer> loadMap = new HashMap<Long, Integer>();
 
+    private boolean exitLoop = false;
+
+    /**
+     * Tells the Client to exit the loop and stop the loop.
+     */
+    public void stopClient() {
+        exitLoop = true;
+    }
+
     /**
      * Change the updating interval and force an update.
      * 
@@ -173,6 +182,10 @@ public class MonitoringThread extends Thread {
         // register with server
         // try to register every updateInterval until we succeed
         while (true) {
+            if (exitLoop) {
+                break;
+            }
+
             log.debug("trying to register with the web service...");
             try {
                 server.registerODE(booleanHolder, odeID);
@@ -188,6 +201,10 @@ public class MonitoringThread extends Thread {
             } catch (IllegalArgumentException e) {
                 log.fatal("The specified ODE server ID could not be found.", e);
                 System.exit(1);
+            }
+
+            if (exitLoop) {
+                break;
             }
         }
         poolInstance = booleanHolder.value;
@@ -210,6 +227,10 @@ public class MonitoringThread extends Thread {
             // run periodic update
             while (true) {
                 errorOccurred = false;
+
+                if (exitLoop) {
+                    break;
+                }
 
                 // use current server (ESB might have changed)
                 log.debug("try to refresh server...");
@@ -261,6 +282,10 @@ public class MonitoringThread extends Thread {
                                     + "ODE monitoring web service", e);
                         }
                     }
+                }
+
+                if (exitLoop) {
+                    break;
                 }
 
                 try {

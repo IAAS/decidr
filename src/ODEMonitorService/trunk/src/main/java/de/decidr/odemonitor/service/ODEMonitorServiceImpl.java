@@ -211,7 +211,9 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         boolean isLocked = server.isLocked();
 
         commands.clear();
-        if ((isLocked && ((minHighInstances > wfInstances) || ((avgLoad > -1) && (avgLoad < minHighSysLoad))))
+        // don't lock poolInstances
+        if ((isLocked && ((minHighInstances > wfInstances) || ((avgLoad > -1)
+                && (avgLoad < minHighSysLoad) && server.isDynamicallyAdded())))
                 || (!isLocked && ((maxInstances < wfInstances) || ((avgLoad > -1) && (avgLoad > maxSysLoad))))) {
             commands.add(new LockServerCommand(ODE_ROLE, odeID, !isLocked));
         }
@@ -227,7 +229,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
                 try {
                     NotificationEvents.requestNewODEInstance(null);
                     break;
-                } catch (TransactionException e) {
+                } catch (Exception e) {
                     if (i > 1) {
                         log.error("Couldn't request new ODE instance", e);
                     } else {

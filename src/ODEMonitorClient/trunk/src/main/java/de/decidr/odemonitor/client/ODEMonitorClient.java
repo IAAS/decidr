@@ -67,6 +67,10 @@ public class ODEMonitorClient {
      *            <td>Activates trace mode.</td>
      *            </tr>
      *            <tr>
+     *            <td><code>-k</code></td>
+     *            <td>Shuts down the local ODE Monitoring Client.</td>
+     *            </tr>
+     *            <tr>
      *            <td><code>--version | -V</code></td>
      *            <td>Prints version information to stdout and quits.</td>
      *            </tr>
@@ -100,6 +104,10 @@ public class ODEMonitorClient {
      *            </table>
      */
     public static void main(String[] args) {
+        // in milliseconds
+        long timeToWait = 5000;
+        long maxTimeToWait = 300000;
+        double waitingFactor = 1.1;
         int interval = -1;
         Long ID = null;
         LocalInstanceManager localInstanceManager = new LocalInstanceManager();
@@ -108,6 +116,30 @@ public class ODEMonitorClient {
             if (args[i].equals("--wfm")) {
                 System.out.println(new LocalInstanceStats().getNumModels());
                 return;
+            } else if (args[i].equals("-k")) {
+                if (monitor != null) {
+                    monitor.stopClient();
+
+                    System.out.print("waiting for local ODE Monitoring"
+                            + " Client to exit");
+                    while (!monitor.getState().equals(Thread.State.TERMINATED)) {
+                        try {
+                            Thread.sleep(timeToWait);
+                            timeToWait = Math.round(timeToWait * waitingFactor);
+                            if (timeToWait > maxTimeToWait) {
+                                timeToWait = maxTimeToWait;
+                            }
+
+                            System.out.print(".");
+                        } catch (InterruptedException e) {
+                            // we wake and resume work due to someone watching
+                            // us
+                        }
+                    }
+                    System.out.println();
+                }
+
+                System.exit(0);
             } else if (args[i].equals("-i")) {
                 i++;
                 interval = new Integer(args[i]);
@@ -186,10 +218,6 @@ public class ODEMonitorClient {
             log.error("can't start any instances locally");
         }
 
-        // in milliseconds
-        long timeToWait = 5000;
-        long maxTimeToWait = 300000;
-        double waitingFactor = 1.1;
         while (!localInstanceManager.isRunning()) {
             log.info("Waiting " + Math.round(timeToWait / 1000.0)
                     + "s for local instance to become available...");
@@ -220,7 +248,7 @@ public class ODEMonitorClient {
                 .println("This is the command line interface to the DecidR ODE Monitoring Client.");
         System.out.println("");
         System.out
-                .println("java -jar ODEMonitorClient.jar --id <long> [-h | --help | -V | --version | --debug | --trace | --start");
+                .println("java -jar ODEMonitorClient.jar --id <long> [-h | --help | -V | --version | --debug | --trace | -k | --start");
         System.out
                 .println("                               | --stop | --cpu | --mem | --inst | -wfm | -i <int>");
         System.out
@@ -241,7 +269,11 @@ public class ODEMonitorClient {
         System.out.println("");
         System.out.println("\t--trace");
         System.out
-                .println("\t\tTurn on trace level logging. Overrides any previous --trace parameters.");
+                .println("\t\tTurn on trace level logging. Overrides any previous --debug parameters.");
+        System.out.println("");
+        System.out.println("\t-k");
+        System.out
+                .println("\t\tStops the locally running ODE Monitoring Client");
         System.out.println("");
         System.out.println("\t--start");
         System.out.println("\t\tOnly start the monitored ODE instance.");
