@@ -32,7 +32,7 @@ import javax.xml.ws.WebFault;
 public class MalformedURLExceptionWrapper extends MalformedURLException {
     public static final long serialVersionUID = 20090612164657L;
 
-    private java.lang.String malformedURLException;
+    private String malformedURLException = "";
 
     public MalformedURLExceptionWrapper() {
         super();
@@ -43,12 +43,12 @@ public class MalformedURLExceptionWrapper extends MalformedURLException {
     }
 
     public MalformedURLExceptionWrapper(String message,
-            java.lang.String malformedURLException) {
+            String malformedURLException) {
         super(message);
         this.malformedURLException = malformedURLException;
     }
 
-    public java.lang.String getFaultInfo() {
+    public String getFaultInfo() {
         return this.malformedURLException;
     }
 }

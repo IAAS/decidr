@@ -26,7 +26,7 @@ import javax.xml.ws.WebFault;
 public class ReportingException extends Exception {
     public static final long serialVersionUID = 20090710155853L;
 
-    private java.lang.String reportingException;
+    private String serviceDetail = "";
 
     public ReportingException() {
         super();
@@ -40,19 +40,18 @@ public class ReportingException extends Exception {
         super(message, cause);
     }
 
-    public ReportingException(String message,
-            java.lang.String reportingException) {
+    public ReportingException(String message, String reportingException) {
         super(message);
-        this.reportingException = reportingException;
+        this.serviceDetail = reportingException;
     }
 
-    public ReportingException(String message,
-            java.lang.String reportingException, Throwable cause) {
+    public ReportingException(String message, String reportingException,
+            Throwable cause) {
         super(message, cause);
-        this.reportingException = reportingException;
+        this.serviceDetail = reportingException;
     }
 
-    public java.lang.String getFaultInfo() {
-        return this.reportingException;
+    public String getFaultInfo() {
+        return this.serviceDetail;
     }
 }

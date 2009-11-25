@@ -28,8 +28,8 @@ import javax.xml.ws.WebFault;
 public class IllegalArgumentExceptionWrapper extends IllegalArgumentException {
 
     private static final long serialVersionUID = 1L;
-    
-    private String faultInfo;
+
+    private String faultInfo = "";
 
     public IllegalArgumentExceptionWrapper() {
         super();

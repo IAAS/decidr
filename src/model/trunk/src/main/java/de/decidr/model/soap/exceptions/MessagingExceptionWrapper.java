@@ -32,7 +32,7 @@ import javax.xml.ws.WebFault;
 public class MessagingExceptionWrapper extends MessagingException {
     public static final long serialVersionUID = 20090612164657L;
 
-    private java.lang.String messagingException;
+    private String messagingException = "";
 
     public MessagingExceptionWrapper() {
         super();

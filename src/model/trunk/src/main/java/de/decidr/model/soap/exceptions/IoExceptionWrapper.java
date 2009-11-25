@@ -31,7 +31,7 @@ import javax.xml.ws.WebFault;
 public class IoExceptionWrapper extends IOException {
     public static final long serialVersionUID = 20090612164657L;
 
-    private String ioException;
+    private String ioException = "";
 
     public IoExceptionWrapper() {
         super();
