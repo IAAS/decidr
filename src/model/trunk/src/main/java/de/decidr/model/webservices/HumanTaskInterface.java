@@ -51,8 +51,9 @@ public interface HumanTaskInterface {
     public static final String PORT_NAME = "HumanTaskSOAP11";
     public static final String ENDPOINT_NAME = "HumanTaskProxyHttpSoap11Endpoint";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/HumanTask";
+    // DH RR XXX revert once the ESB works
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
-            SERVICE_NAME + "Proxy");
+            SERVICE_NAME + "." + PORT_NAME);
     public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
             ENDPOINT_NAME);
 

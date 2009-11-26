@@ -36,9 +36,10 @@ import de.decidr.model.DecidrGlobals;
 public class EmailClientStatic extends Service {
 
     public EmailClientStatic() throws MalformedURLException {
+        // DH RR XXX revert once the ESB works
         this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "Proxy")),
-                EmailInterface.SERVICE);
+                .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
+                        + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
     }
 
     public EmailClientStatic(URL wsdlLocation) {
