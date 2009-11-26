@@ -53,7 +53,7 @@ public interface HumanTaskInterface {
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/HumanTask";
     // DH RR XXX revert once the ESB works
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
-            SERVICE_NAME + "." + PORT_NAME);
+            SERVICE_NAME);
     public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
             ENDPOINT_NAME);
 
