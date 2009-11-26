@@ -32,6 +32,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -41,53 +42,58 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class ImportWorkflowModelAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
+	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
-    private Long tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
-    private Table table = null;
+	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+			"tenantId");
+	private Table table = null;
 
-    /**
-     * Constructor, requires the table which contains the data
-     * 
-     * @param table
-     *            : requires Table with data
-     */
-    public ImportWorkflowModelAction(Table table) {
-        this.table = table;
-    }
+	/**
+	 * Constructor, requires the table which contains the data
+	 * 
+	 * @param table
+	 *            : requires Table with data
+	 */
+	public ImportWorkflowModelAction(Table table) {
+		this.table = table;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        List<Long> wfms = new ArrayList<Long>();
-        Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-            	Item item = (Item)iter.next();
-                wfms.add((Long) item.getItemProperty("id")
-                        .getValue());
-            }
-        }
-        try {
-            tenantFacade.importPublishedWorkflowModels(tenantId, wfms);
-            Set<?> values = (Set<?>) table.getValue();
-            if ((values != null) && (values.size() != 0)) {
-                for (Iterator<?> iter = values.iterator(); iter.hasNext();) {
-                    table.removeItem(iter.next());
-                }
-            }
-            table.requestRepaint();
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		List<Long> wfms = new ArrayList<Long>();
+		Set<?> value = (Set<?>) table.getValue();
+		if ((value != null) && (value.size() != 0)) {
+			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+				Item item = (Item) iter.next();
+				wfms.add((Long) item.getItemProperty("id").getValue());
+			}
+			try {
+				tenantFacade.importPublishedWorkflowModels(tenantId, wfms);
+				Main
+						.getCurrent()
+						.getMainWindow()
+						.addWindow(
+								new InformationDialogComponent(
+										"Published workflow model(s) successfully imported",
+										"Success"));
+			} catch (TransactionException e) {
+				Main.getCurrent().getMainWindow().addWindow(
+						new TransactionErrorDialogComponent(e));
+			}
+		} else {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("Please select an item",
+							"Information"));
+		}
+
+	}
 }

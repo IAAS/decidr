@@ -32,6 +32,7 @@ import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -48,7 +49,6 @@ public class PublishWorkflowModelAction implements ClickListener {
 			new TenantAdminRole(userId));
 
 	private Table currentTenantTable = null;
-	private Table publicModelTable = null;
 
 	/**
 	 * Constructor, requires the table which contains the data
@@ -56,9 +56,8 @@ public class PublishWorkflowModelAction implements ClickListener {
 	 * @param table
 	 *            : requires Table with data
 	 */
-	public PublishWorkflowModelAction(Table table, Table table2) {
+	public PublishWorkflowModelAction(Table table) {
 		this.currentTenantTable = table;
-		this.publicModelTable = table2;
 	}
 
 	/*
@@ -73,22 +72,24 @@ public class PublishWorkflowModelAction implements ClickListener {
 		Set<?> value = (Set<?>) currentTenantTable.getValue();
 		if ((value != null) && (value.size() != 0)) {
 			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-				Item item = (Item)iter.next();
+				Item item = (Item) iter.next();
 				wfms.add((Long) item.getItemProperty("id").getValue());
 			}
-		}
-		try {
-			wfmFacade.publishWorkflowModels(wfms);
-			Set<?> values = (Set<?>) currentTenantTable.getValue();
-			if ((values != null) && (values.size() != 0)) {
-				for (Iterator<?> iter = values.iterator(); iter.hasNext();) {
-					publicModelTable.removeItem(iter.next());
-				}
+			try {
+				wfmFacade.publishWorkflowModels(wfms);
+				Main.getCurrent().getMainWindow().addWindow(
+						new InformationDialogComponent(
+								"Workflow model(s) successfully published",
+								"Success"));
+			} catch (TransactionException e) {
+				Main.getCurrent().getMainWindow().addWindow(
+						new TransactionErrorDialogComponent(e));
 			}
-			publicModelTable.requestRepaint();
-		} catch (TransactionException e) {
+		} else {
 			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(e));
+					new InformationDialogComponent("Please select an item",
+							"Information"));
 		}
+
 	}
 }

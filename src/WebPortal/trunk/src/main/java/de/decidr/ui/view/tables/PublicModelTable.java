@@ -69,6 +69,7 @@ public class PublicModelTable extends Table {
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
 		setMultiSelect(true);
+		setPageLength(7);
 	}
 
 }

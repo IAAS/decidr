@@ -30,6 +30,7 @@ import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -72,12 +73,20 @@ public class LockWorkflowModelAction implements ClickListener {
 				try {
 					wfmFacade.setExecutable((Long) item.getItemProperty("id")
 							.getValue(), false);
+					Main.getCurrent().getMainWindow().addWindow(
+							new InformationDialogComponent(item
+									.getItemProperty("name").getValue()
+									+ " successfully locked", "Success"));
 				} catch (TransactionException e) {
 					Main.getCurrent().getMainWindow().addWindow(
 							new TransactionErrorDialogComponent(e));
 					e.printStackTrace();
 				}
 			}
+		} else {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("Please select an item",
+							"Information"));
 		}
 	}
 }

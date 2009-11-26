@@ -74,7 +74,7 @@ public class PublicModelContainer implements Container,
         filterList.add(filter);
         try {
             publishedModelList = workflowModelFacade
-                    .getAllPublishedWorkflowModels(filterList, paginator);
+                    .getAllPublishedWorkflowModels(null, null);
             for (Item item : publishedModelList) {
                 addItem(item);
             }

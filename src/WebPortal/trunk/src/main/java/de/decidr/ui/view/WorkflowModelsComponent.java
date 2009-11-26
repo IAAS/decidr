@@ -142,11 +142,9 @@ public class WorkflowModelsComponent extends CustomComponent {
 		unlockModelButton = new Button("Unlock", new UnlockWorkflowModelAction(
 				workflowModelTable));
 		publishModelButton = new Button("Publish",
-				new PublishWorkflowModelAction(workflowModelTable,
-						publicModelTable));
+				new PublishWorkflowModelAction(workflowModelTable));
 		unpublishModelButton = new Button("Un-publish",
-				new UnpublishWorkflowModelAction(workflowModelTable,
-						publicModelTable));
+				new UnpublishWorkflowModelAction(workflowModelTable));
 		appointWorkflowAdminButton = new Button("Appoint workflow admin",
 				new ShowAppointWorkflowAdminAction(workflowModelTable));
 

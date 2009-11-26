@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -51,7 +53,7 @@ public class WorkflowModelContainer implements Container {
 	List<Item> workflowModelList = null;
 
 	private ArrayList<Object> propertyIds = new ArrayList<Object>();
-	private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
+	private Map<Object, Object> items = new LinkedHashMap<Object, Object>();
 
 	/**
 	 * Default constructor. The workflow model items are added to the container
@@ -178,6 +180,8 @@ public class WorkflowModelContainer implements Container {
 				return Long.class;
 			} else if (propertyId.equals("creationDate")) {
 				return Date.class;
+			} else if (propertyId.equals("published")) {
+				return Boolean.class;
 			} else {
 				return null;
 			}
@@ -218,8 +222,13 @@ public class WorkflowModelContainer implements Container {
 	@Override
 	public boolean removeItem(Object itemId)
 			throws UnsupportedOperationException {
-		items.remove(itemId);
-		return true;
+		if (items.containsKey(itemId)) {
+			items.remove(itemId);
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	/*
@@ -232,4 +241,5 @@ public class WorkflowModelContainer implements Container {
 		return items.size();
 	}
 
+	
 }
