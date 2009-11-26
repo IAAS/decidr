@@ -247,7 +247,8 @@ public class NotificationText {
 
         String message = bundle.getString("ChangeEmailRequest_Message");
         message = message.replaceAll("<userName>", userName);
-        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<confirmationUrl>", "<a href=\""
+                + confirmationUrl + "\">" + confirmationUrl + "</a>");
         message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" + message + "</html>";
@@ -311,7 +312,8 @@ public class NotificationText {
 
         String message = bundle.getString("ConfirmRegistration_Message");
         message = message.replaceAll("<userName>", userName);
-        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<confirmationUrl>", "<a href=\""
+                + confirmationUrl + "\">" + confirmationUrl + "</a>");
         message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" + message + "</html>";
@@ -554,8 +556,10 @@ public class NotificationText {
         message = message.replaceAll("<userName>", userName);
         message = message.replaceAll("<inviterName>", inviterName);
         message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<tenantUrl>", tenantUrl);
-        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<tenantUrl>", "<a href=\"" + tenantUrl
+                + "\">" + tenantUrl + "</a>");
+        message = message.replaceAll("<invitationUrl>", "<a href=\""
+                + invitationUrl + "\">" + invitationUrl + "</a>");
         message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" + message + "</html>";
@@ -640,8 +644,10 @@ public class NotificationText {
                 .getString("InviteUnregisteredUserAsTenantMember_Message");
         message = message.replaceAll("<inviterName>", inviterName);
         message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<tenantUrl>", tenantUrl);
-        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<tenantUrl>", "<a href=\"" + tenantUrl
+                + "\">" + tenantUrl + "</a>");
+        message = message.replaceAll("<invitationUrl>", "<a href=\""
+                + invitationUrl + "\">" + invitationUrl + "</a>");
         message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" + message + "</html>";
@@ -779,7 +785,8 @@ public class NotificationText {
 
         String message = bundle.getString("PasswordResetRequest_Message");
         message = message.replaceAll("<userName>", userName);
-        message = message.replaceAll("<confirmationUrl>", confirmationUrl);
+        message = message.replaceAll("<confirmationUrl>", "<a href=\""
+                + confirmationUrl + "\">" + confirmationUrl + "</a>");
         message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" + message + "</html>";
@@ -1018,7 +1025,8 @@ public class NotificationText {
         String message = bundle
                 .getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
         message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<invitationUrl>", "<a href=\""
+                + invitationUrl + "\">" + invitationUrl + "</a>");
         message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<signature>", signature);
         message = "<html>" + message + "</html>";
@@ -1088,7 +1096,8 @@ public class NotificationText {
         String message = bundle
                 .getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
         message = message.replaceAll("<userName>", userName);
-        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<invitationUrl>", "<a href=\""
+                + invitationUrl + "\">" + invitationUrl + "</a>");
         message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<tenantName>", tenantName);
         message = message.replaceAll("<signature>", signature);
@@ -1163,7 +1172,8 @@ public class NotificationText {
         String message = bundle
                 .getString("InvitedUserAsWorkflowParticipant_Message");
         message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<invitationUrl>", "<a href=\""
+                + invitationUrl + "\">" + invitationUrl + "</a>");
         message = message.replaceAll("<expireDate>", expireDate);
         message = message.replaceAll("<workflowName>", workflowName);
         message = message.replaceAll("<signature>", signature);

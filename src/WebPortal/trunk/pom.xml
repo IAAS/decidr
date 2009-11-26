@@ -90,7 +90,7 @@
 			<artifactId>ModelingTool</artifactId>
 			<version>0.0.1</version>
 			<type>jar</type>
-			<!-- scope>compile</scope -->
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>de.decidr.modelingtool</groupId>

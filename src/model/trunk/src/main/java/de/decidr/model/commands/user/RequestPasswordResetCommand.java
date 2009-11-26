@@ -56,7 +56,7 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
 
         if (emailOrUsername == null || emailOrUsername.isEmpty()) {
             throw new IllegalArgumentException(
-                    "Email / username must not be null or empty.");
+                    "Email/username must not be null or empty.");
         }
 
         this.emailOrUsername = emailOrUsername;
