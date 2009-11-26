@@ -48,6 +48,7 @@ public class ShowProfileSettingsAction implements ClickListener {
 	private UserFacade userFacade = new UserFacade(new UserRole((Long) Main
 			.getCurrent().getSession().getAttribute("userId")));
 
+	@SuppressWarnings("unchecked")
 	Class<? extends Role> role = (Class<Role>) Main.getCurrent().getSession()
 			.getAttribute("role");
 

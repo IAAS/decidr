@@ -155,9 +155,8 @@ public class ConnectionDragBox extends DragBox {
                 dc = DndRegistry.getInstance().getDragController(
                         "OutputPortDragController");
             }
-        }
+        } //JS: add else case with some warning/error ~rr
 
         dc.makeDraggable(this);
     }
-
 }

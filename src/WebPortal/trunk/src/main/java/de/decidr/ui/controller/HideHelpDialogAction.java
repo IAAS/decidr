@@ -19,23 +19,27 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
 import de.decidr.ui.view.Main;
 
 /**
  * This action hides the help window
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class HideHelpDialogAction implements ClickListener{
+@Reviewed(reviewers = "RR", lastRevision = "2179")
+public class HideHelpDialogAction implements ClickListener {
 
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        if (Main.getCurrent().getUIDirector().getHelpDialog() != null){
+        if (Main.getCurrent().getUIDirector().getHelpDialog() != null) {
             Main.getCurrent().getUIDirector().getHelpDialog().hide();
         }
     }
-
 }

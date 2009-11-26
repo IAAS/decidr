@@ -16,6 +16,7 @@
 
 package de.decidr.ui.view.help;
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -80,8 +81,8 @@ public class HelpDialogComponent extends Window {
     }
     
     public void show(){
-        setWidth(400, VerticalLayout.UNITS_PIXELS);
-        setHeight(600, VerticalLayout.UNITS_PIXELS);
+        setWidth(400, Sizeable.UNITS_PIXELS);
+        setHeight(600, Sizeable.UNITS_PIXELS);
         center();
         setVisible(true);
         

@@ -20,6 +20,11 @@ import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
 
+/**
+ * TODO: add comment
+ *
+ * @author TODO
+ */
 public class VModelingTool extends
         de.decidr.modelingtool.client.ModelingToolWidget implements Paintable {
 
@@ -44,7 +49,6 @@ public class VModelingTool extends
         // This method call of the Paintable interface sets the component
         // style name in DOM tree
         setStyleName(CLASSNAME);
-
     }
 
     @Override
@@ -77,7 +81,5 @@ public class VModelingTool extends
 
         // Set the DWDL document received from server
         setDWDL(uidl.getStringVariable("dwdl"));
-
     }
-
 }

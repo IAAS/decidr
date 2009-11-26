@@ -148,6 +148,7 @@ public class IfContainerModel extends ContainerModel {
      *            the condition
      * @return all the child node models of the branch
      */
+    // JS: make sure condition is not null (=null check) ~rr
     public List<NodeModel> getChildNodesOfCondition(Condition condition) {
         List<NodeModel> branch = new ArrayList<NodeModel>();
 
@@ -183,6 +184,7 @@ public class IfContainerModel extends ContainerModel {
      *            the condition
      * @return all the child connection models of the branch
      */
+    // JS: make sure condition is not null (=null check) ~rr
     public List<ConnectionModel> getChildConnectionsOfCondition(
             Condition condition) {
         List<ConnectionModel> branch = new ArrayList<ConnectionModel>();

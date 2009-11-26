@@ -26,17 +26,18 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action appoints a list of users as workflow admins
+ * This action appoints a list of users as workflow admins.
  * 
  * @author Geoffrey-Alexeij Heinze
- * @reviewed ~tk, ~dh
  */
+@Reviewed(reviewers = { "TK", "DH", "RR" }, lastRevision = "2179")
 public class AppointWorkflowAdminAction implements ClickListener {
 
     private HttpSession session = Main.getCurrent().getSession();
@@ -61,22 +62,22 @@ public class AppointWorkflowAdminAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-               
         List<String> emails = new ArrayList<String>();
         List<String> userNames = new ArrayList<String>();
+
         for (Integer c = 1; c <= appointForm.getItemPropertyIds().size(); c++) {
-                if (appointForm.getItemProperty("user" + c.toString()) != null) {
-                        if (appointForm.getItemProperty("user" + c.toString())
-                                        .getValue().toString().contains("@")) {
-                                emails.add(appointForm
-                                                .getItemProperty("user" + c.toString()).getValue()
-                                                .toString());
-                        } else {
-                                userNames.add(appointForm.getItemProperty(
-                                                "user" + c.toString()).getValue().toString());
-                        }
+            if (appointForm.getItemProperty("user" + c.toString()) != null) {
+                if (appointForm.getItemProperty("user" + c.toString())
+                        .getValue().toString().contains("@")) {
+                    emails.add(appointForm.getItemProperty(
+                            "user" + c.toString()).getValue().toString());
+                } else {
+                    userNames.add(appointForm.getItemProperty(
+                            "user" + c.toString()).getValue().toString());
                 }
+            }
         }
+
         try {
             wfmFacade.setWorkflowAdministrators(wfmId, emails, userNames);
         } catch (TransactionException e) {

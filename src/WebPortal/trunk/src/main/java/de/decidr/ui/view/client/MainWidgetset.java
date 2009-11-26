@@ -76,5 +76,4 @@ public class MainWidgetset extends DefaultWidgetSet {
         // Let the DefaultWidgetSet handle resolution of default widgets
         return c;
     }
-
 }

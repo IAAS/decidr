@@ -54,7 +54,6 @@ public class LoginComponent extends CustomComponent {
 
     /**
      * Default constructor.
-     * 
      */
     public LoginComponent() {
         init(null);
@@ -62,7 +61,6 @@ public class LoginComponent extends CustomComponent {
 
     /**
      * Default constructor.
-     * 
      */
     public LoginComponent(InvitationDialogComponent invD) {
         init(invD);
@@ -88,8 +86,9 @@ public class LoginComponent extends CustomComponent {
 
     /**
      * This method initializes the components for the login component.
-     * 
      */
+    // Aleks, GH: use a form/add a listener/do whatever is necessary to allow
+    // pressing enter to log in ~rr
     private void init(InvitationDialogComponent invD) {
         verticalLayout = new VerticalLayout();
 
@@ -104,11 +103,13 @@ public class LoginComponent extends CustomComponent {
 
         if (invD == null) {
             loginButton = new Button("Login", new LoginAction());
+            usernameTextField.focus();
         } else {
             loginButton = new Button("Login", new LoginWithInvitationAction(
                     invD));
+            loginButton.focus();
         }
-        loginButton.focus();
+
         forgotPasswordButton = new Button("Forgot your password?",
                 new ShowResetPasswordAction());
         forgotPasswordButton.setStyleName(Button.STYLE_LINK);
@@ -126,5 +127,4 @@ public class LoginComponent extends CustomComponent {
         verticalLayout.addComponent(forgotPasswordButton);
         verticalLayout.addComponent(registerButton);
     }
-
 }

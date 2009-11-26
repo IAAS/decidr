@@ -42,42 +42,43 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class ShowEditUserAction implements ClickListener {
 
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-	private SiteFrame siteFrame = uiDirector.getTemplateView();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private UserFacade userFacade = null;
+    private UserFacade userFacade = null;
 
-	private Table table = null;
+    private Table table = null;
 
-	Class<? extends Role> role = (Class<Role>) Main.getCurrent().getSession()
-	.getAttribute("role");
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		table = ((UserListComponent) siteFrame.getContent()).getUserListTable();
-		Item item = table.getItem(table.getValue());
+    @SuppressWarnings("unchecked")
+    Class<? extends Role> role = (Class<Role>) Main.getCurrent().getSession()
+            .getAttribute("role");
 
-		userFacade = new UserFacade(new UserRole((Long) Main.getCurrent()
-				.getSession().getAttribute("userId")));
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        table = ((UserListComponent) siteFrame.getContent()).getUserListTable();
+        Item item = table.getItem(table.getValue());
 
-		try {
-			Item profileItem = userFacade.getUserProfile((Long) item
-					.getItemProperty("id").getValue());
-			ProfileSettingsComponent profile = new ProfileSettingsComponent(
-					profileItem);
-			siteFrame.setContent(profile);
-			if (role.equals(TenantAdminRole.class)) {
-				profile.getCancelMembershipLink().setVisible(true);
-			}
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(e));
-		}
-	}
+        userFacade = new UserFacade(new UserRole((Long) Main.getCurrent()
+                .getSession().getAttribute("userId")));
+
+        try {
+            Item profileItem = userFacade.getUserProfile((Long) item
+                    .getItemProperty("id").getValue());
+            ProfileSettingsComponent profile = new ProfileSettingsComponent(
+                    profileItem);
+            siteFrame.setContent(profile);
+            if (role.equals(TenantAdminRole.class)) {
+                profile.getCancelMembershipLink().setVisible(true);
+            }
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
+        }
+    }
 }

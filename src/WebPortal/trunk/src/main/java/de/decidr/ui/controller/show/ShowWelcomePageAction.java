@@ -45,5 +45,4 @@ public class ShowWelcomePageAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new WelcomePageComponent());
     }
-
 }

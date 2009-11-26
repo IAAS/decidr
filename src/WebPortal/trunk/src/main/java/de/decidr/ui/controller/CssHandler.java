@@ -46,7 +46,7 @@ import de.decidr.ui.view.TenantSettingsComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This class handles the css saving
+ * This class handles the CSS saving.
  * 
  * @author AT
  * @reviewed ~tk, ~dh
@@ -66,7 +66,6 @@ public class CssHandler {
 
 	/**
 	 * The default constructor stores the given parameter.
-	 * 
 	 */
 	public CssHandler(TenantSettingsComponent component) {
 		tenantId = (Long) Main.getCurrent().getSession().getAttribute("tenantId");

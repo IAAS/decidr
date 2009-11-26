@@ -22,6 +22,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.AppointWorkflowAdminComponent;
 import de.decidr.ui.view.Main;
@@ -33,6 +34,7 @@ import de.decidr.ui.view.SiteFrame;
  * 
  * @author AT
  */
+@Reviewed(reviewers = "RR", lastRevision = "2173")
 public class ShowAppointWorkflowAdminAction implements ClickListener {
 
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
@@ -61,10 +63,10 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
             siteFrame.setContent(new AppointWorkflowAdminComponent((Long) table
                     .getContainerProperty(table.getValue(), "id").getValue()));
         } else {
+            // Aleks, GH: why? there can be several according to model &
+            // AppointWorkflowAdminAction ~rr
             Main.getCurrent().getMainWindow().showNotification(
                     "Please select only one admin");
         }
-
     }
-
 }

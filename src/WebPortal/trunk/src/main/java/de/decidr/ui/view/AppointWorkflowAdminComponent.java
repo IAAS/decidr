@@ -24,6 +24,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
 import de.decidr.ui.controller.AppointWorkflowAdminAction;
 
 /**
@@ -32,6 +33,7 @@ import de.decidr.ui.controller.AppointWorkflowAdminAction;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = "RR", lastRevision = "2048")
 public class AppointWorkflowAdminComponent extends CustomComponent {
 
     private Integer userCounter = 0;
@@ -41,12 +43,11 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     private HorizontalLayout horizontalLayout = null;
     private Form appointForm = null;
     private Label descriptionLabel = null;
-    private TextField appointSelf = null;
     private Button addField = null;
     private Button appointUsers = null;
 
     /**
-     * Default constructor. The given workflow model id is stored in a variable.
+     * Default constructor. The given workflow model ID is stored in a variable.
      * 
      * @param workflowModelId
      */
@@ -57,7 +58,6 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
 
     /**
      * Adds a user to the form.
-     * 
      */
     private void addUser() {
         userCounter += 1;
@@ -66,10 +66,12 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     }
 
     /**
-     * Initializes the components for the appoint workflow admin component.
-     * 
+     * Initializes the components for the {@link AppointWorkflowAdminComponent}.
      */
+    // Aleks, GH: set initial focus? ~rr
     private void init() {
+        TextField appointSelf = null;
+
         userCounter = 1;
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
@@ -82,8 +84,9 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         appointForm = new Form();
         appointForm.setWriteThrough(true);
 
-        descriptionLabel = new Label(
-                "Add new workflow admins by pressing Add User and entering their username.<br/>Yourself will always be added automatically.",
+        descriptionLabel = new Label("Add new workflow admins by pressing "
+                + "\"Add User\" and entering their username.<br/>"
+                + "You will always be added automatically.",
                 Label.CONTENT_XHTML);
 
         appointSelf = new TextField();
