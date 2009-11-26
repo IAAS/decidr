@@ -64,8 +64,8 @@ public interface EmailInterface {
     // DH RR XXX revert once the ESB works
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME);
-    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            ENDPOINT_NAME);
+    // DH RR XXX revert once the ESB works
+    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
 
     /**
      * The web service operation used to send an e-mail.

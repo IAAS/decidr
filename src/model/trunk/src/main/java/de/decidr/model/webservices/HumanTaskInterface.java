@@ -54,8 +54,8 @@ public interface HumanTaskInterface {
     // DH RR XXX revert once the ESB works
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME);
-    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            ENDPOINT_NAME);
+    // DH RR XXX revert once the ESB works
+    public final static QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
 
     /**
      * This method creates an entry in the database representing a work item to
