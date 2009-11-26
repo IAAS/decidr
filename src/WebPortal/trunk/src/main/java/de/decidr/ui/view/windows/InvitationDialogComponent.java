@@ -101,5 +101,4 @@ public class InvitationDialogComponent extends Window {
         this.setCaption("Invitation");
         this.setContent(verticalLayout);
     }
-
 }

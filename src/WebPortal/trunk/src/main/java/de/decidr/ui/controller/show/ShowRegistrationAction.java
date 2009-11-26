@@ -43,7 +43,5 @@ public class ShowRegistrationAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new RegistrationComponent());
-
     }
-
 }

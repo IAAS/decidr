@@ -132,7 +132,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                             .getMainWindow()
                             .addWindow(
                                     new InformationDialogComponent(
-                                            "You successfully completed your registration!<br>You can now login with your account.",
+                                            "You successfully completed your registration!<br>You can now log into your account.",
                                             "Registration Complete!"));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(

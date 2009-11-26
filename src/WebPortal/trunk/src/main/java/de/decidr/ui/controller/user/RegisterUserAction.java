@@ -54,6 +54,7 @@ public class RegisterUserAction implements ClickListener {
 
 		Form form = content.getRegistrationForm();
 		boolean notEmpty = true;
+		// GH Aleks: *English* comments!!!
 		// Geht die einzelnen Felder durch und prüft ob die Felder nicht leer
 		// (notEmpty) sind.
 		// Sobald ein Feld leer ist, wird notEmpty auf false gesetzt. Dabei

@@ -150,7 +150,6 @@ public class Main extends Application implements TransactionListener {
     @Override
     public void transactionEnd(Application application, Object transactionData) {
         Main.removeCurrent();
-
     }
 
     /*
@@ -165,5 +164,4 @@ public class Main extends Application implements TransactionListener {
         //This code everytime a request is made
     	Main.setCurrent(this);
     }
-
 }
