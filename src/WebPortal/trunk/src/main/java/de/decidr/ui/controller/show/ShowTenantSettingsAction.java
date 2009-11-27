@@ -17,6 +17,7 @@
 package de.decidr.ui.controller.show;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -87,6 +88,10 @@ public class ShowTenantSettingsAction implements ClickListener {
                             in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
                         }
 
+                        if (in == null){
+                            in = new FileInputStream("themes/decidr/img/logo.png");
+                        }
+                        
                         if (in == null){
                             Main.getCurrent().getMainWindow().showNotification("no input stream");
                         }
