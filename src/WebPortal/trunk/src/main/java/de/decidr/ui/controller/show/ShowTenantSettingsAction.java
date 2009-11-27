@@ -82,14 +82,14 @@ public class ShowTenantSettingsAction implements ClickListener {
 			
 			
 			InputStream in = tenantFacade.getLogo(tenantId);
-                        File file = new File("themes/"+tenantName+"/img/decidrlogo.png");
+                        File file = new File("VAADIN/themes/"+tenantName+"/img/decidrlogo.png");
 			
                         if (in == null){
                             in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
                         }
 
                         if (in == null){
-                            in = new FileInputStream("themes/decidr/img/decidrlogo.png");
+                            in = new FileInputStream("VAADIN/themes/decidr/img/decidrlogo.png");
                         }
                         
                         if (in == null){
