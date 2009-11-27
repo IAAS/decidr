@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
@@ -55,8 +55,8 @@ public class SaveTenantSettingsAction implements ClickListener {
 	public void buttonClick(ClickEvent event) {
 		session = Main.getCurrent().getSession();
 		userId = (Long) session.getAttribute("userId");
-		tenantFacade = new TenantFacade(new UserRole(userId));
-		fileFacade = new FileFacade(new UserRole(userId));
+		tenantFacade = new TenantFacade(new TenantAdminRole(userId));
+		fileFacade = new FileFacade(new TenantAdminRole(userId));
 		content = (TenantSettingsComponent) Main.getCurrent().getUIDirector()
 				.getTemplateView().getContent();
 		Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
