@@ -113,8 +113,7 @@ public class CssHandler {
 				f = getFileFromInputStream(in);
 				   //AT: was ist wenn der MIME Typ nicht erkannt wird? ~dh,tk
 				fileFacade.replaceFile(colorSchemeId, in, f.length(), f
-						.getAbsolutePath(), new MimetypesFileTypeMap()
-						.getContentType(f));
+						.getAbsolutePath(), "text/css");
 				tenantFacade.setCurrentColorScheme(tenantId, advanced);
 			} else if (settings.getItemProperty("simpleColorSchemeId") != null) {
 				colorSchemeId = (Long) settings.getItemProperty(
