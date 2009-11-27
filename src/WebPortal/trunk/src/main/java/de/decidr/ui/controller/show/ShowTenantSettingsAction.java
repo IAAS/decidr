@@ -34,6 +34,7 @@ import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TenantSettingsComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action shows the TenantSettingsComponent in the content area
@@ -70,6 +71,7 @@ public class ShowTenantSettingsAction implements ClickListener {
 		try {
 			tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
 			tenantName = tenantFacade.getTenant(tenantId).getName();
+			//GH remove
 			Main.getCurrent().getMainWindow().showNotification(tenantId.toString());
 			
 			String description = "";
@@ -94,14 +96,11 @@ public class ShowTenantSettingsAction implements ClickListener {
 			
 			siteFrame.setContent(new TenantSettingsComponent(tenantName, description, file.getName()));
 		} catch (TransactionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
 		}
 		
 		
