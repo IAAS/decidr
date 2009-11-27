@@ -71,8 +71,6 @@ public class ShowTenantSettingsAction implements ClickListener {
 		try {
 			tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
 			tenantName = tenantFacade.getTenant(tenantId).getName();
-			//GH remove
-			Main.getCurrent().getMainWindow().showNotification(tenantId.toString());
 			
 			String description = "";
 			if(tenantFacade.getTenantSettings(tenantId).getItemProperty("description").getValue() != null){
@@ -82,7 +80,10 @@ public class ShowTenantSettingsAction implements ClickListener {
 			
 			
 			InputStream in = tenantFacade.getLogo(tenantId);
-			File file = new File("themes/"+tenantName+"/img/logo.png");
+			
+		
+	                File file = new File("themes/"+tenantName+"/img/logo.png");
+	                file.createNewFile();
 			OutputStream out = new FileOutputStream(file);
 			byte[] buf = new byte[1024];
 			int len;
