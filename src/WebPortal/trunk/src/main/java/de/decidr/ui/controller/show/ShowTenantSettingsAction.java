@@ -83,29 +83,25 @@ public class ShowTenantSettingsAction implements ClickListener {
 			
 			InputStream in = tenantFacade.getLogo(tenantId);
                         File file = new File("VAADIN/themes/"+tenantName+"/img/decidrlogo.png");
-			
+                        file.createNewFile();
+                        
                         if (in == null){
                             in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
                         }
 
-                        if (in == null){
-                            in = new FileInputStream("129.69.214.90:8080/WebPortal/VAADIN/themes/decidr/img/decidrlogo.png");
-                        }
                         
                         if (in == null){
                             Main.getCurrent().getMainWindow().showNotification("no input stream");
+                        }else{
+                                OutputStream out = new FileOutputStream(file);
+        	                byte[] buf = new byte[1024];
+        	                int i = in.read(buf);
+        	                while(i != -1){
+        	                    out.write(buf, 0, i);
+        	                    i = in.read(buf);
+        	                }
+        	                out.close();
                         }
-                        
-	                file.createNewFile();
-	                        
-	                OutputStream out = new FileOutputStream(file);
-	                byte[] buf = new byte[1024];
-	                int i = in.read(buf);
-	                while(i != -1){
-	                    out.write(buf, 0, i);
-	                    i = in.read(buf);
-	                }
-	                out.close();
 	                        
 			
 			in.close();
