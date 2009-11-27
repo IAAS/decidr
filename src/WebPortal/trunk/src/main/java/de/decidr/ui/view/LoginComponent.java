@@ -16,6 +16,9 @@
 
 package de.decidr.ui.view;
 
+import com.vaadin.event.Action;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.Action.Handler;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
@@ -34,7 +37,7 @@ import de.decidr.ui.view.windows.InvitationDialogComponent;
  * 
  * @author AT
  */
-public class LoginComponent extends CustomComponent {
+public class LoginComponent extends CustomComponent implements Handler {
 
     /**
      * Serial Version UID
@@ -51,6 +54,9 @@ public class LoginComponent extends CustomComponent {
     private Button loginButton = null;
     private Button forgotPasswordButton = null;
     private Button registerButton = null;
+    private Button.ClickListener loginListener = null;
+    
+    private ShortcutAction loginAction = new ShortcutAction("Login", ShortcutAction.KeyCode.ENTER, null);
 
     /**
      * Default constructor.
@@ -102,11 +108,12 @@ public class LoginComponent extends CustomComponent {
         passwordTextField.setSecret(true);
 
         if (invD == null) {
-            loginButton = new Button("Login", new LoginAction());
+            loginListener = new LoginAction();
+            loginButton = new Button("Login", loginListener);
             usernameTextField.focus();
         } else {
-            loginButton = new Button("Login", new LoginWithInvitationAction(
-                    invD));
+            loginListener = new LoginWithInvitationAction(invD);
+            loginButton = new Button("Login", loginListener);
             loginButton.focus();
         }
 
@@ -126,5 +133,26 @@ public class LoginComponent extends CustomComponent {
         verticalLayout.addComponent(loginButton);
         verticalLayout.addComponent(forgotPasswordButton);
         verticalLayout.addComponent(registerButton);
+        
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.event.Action.Handler#getActions(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public Action[] getActions(Object target, Object sender) {
+        return new Action[]{ loginAction};
+    }
+
+    /* (non-Javadoc)
+     * @see com.vaadin.event.Action.Handler#handleAction(com.vaadin.event.Action, java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public void handleAction(Action action, Object sender, Object target) {
+        if (action == loginAction ){
+            loginListener.buttonClick(loginButton.new ClickEvent( loginButton ));
+        }
+        
     }
 }
