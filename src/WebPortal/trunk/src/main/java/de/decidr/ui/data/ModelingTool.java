@@ -21,12 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.XMLParser;
 import com.vaadin.data.Item;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
@@ -107,9 +109,18 @@ public class ModelingTool extends AbstractComponent {
     }
 
     private String convertUserHashMapToString(HashMap<Long, String> userList) {
-        Document doc = XMLParser.createDocument();
 
+        DocumentBuilder builder = null;
+        try {
+            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            // TODO Auto-generated catch block
+            // JS
+            e.printStackTrace();
+        }
+        Document doc = builder.newDocument();
         Element root = doc.createElement("userlist");
+
         for (Long userId : userList.keySet()) {
             Element user = doc.createElement("user");
             user.setAttribute("id", userId.toString());
@@ -117,6 +128,7 @@ public class ModelingTool extends AbstractComponent {
             root.appendChild(user);
         }
 
+        doc.appendChild(root);
         return doc.toString();
     }
 
