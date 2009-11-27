@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMSource;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -49,6 +50,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * component which is wrapped by a window and displayed to the user.
  * 
  * @author AT
+ * @author Jonas Schlaak
  */
 @SuppressWarnings("serial")
 public class ModelingTool extends AbstractComponent {
@@ -129,6 +131,10 @@ public class ModelingTool extends AbstractComponent {
         }
 
         doc.appendChild(root);
+
+        logger.debug(doc.toString());
+        logger.debug(new DOMSource(doc).toString());
+
         return doc.toString();
     }
 
