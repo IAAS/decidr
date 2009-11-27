@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
@@ -82,22 +83,25 @@ public class ShowTenantSettingsAction implements ClickListener {
 			InputStream in = tenantFacade.getLogo(tenantId);
                         File file = new File("themes/"+tenantName+"/img/logo.png");
 			
-			if (in.available() > 0){
+                        if (in == null){
+                            in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
+                        }
 
-	                        Main.getCurrent().getMainWindow().showNotification("Data available");
-
-	                        file.createNewFile();
+                        if (in == null){
+                            Main.getCurrent().getMainWindow().showNotification("no input stream");
+                        }
+                        
+	                file.createNewFile();
 	                        
-	                        OutputStream out = new FileOutputStream(file);
-	                        byte[] buf = new byte[1024];
-	                        int i = in.read(buf);
-	                        while(i != -1){
-	                                out.write(buf, 0, i);
-	                                i = in.read(buf);
-	                        }
-	                        out.close();
+	                OutputStream out = new FileOutputStream(file);
+	                byte[] buf = new byte[1024];
+	                int i = in.read(buf);
+	                while(i != -1){
+	                    out.write(buf, 0, i);
+	                    i = in.read(buf);
+	                }
+	                out.close();
 	                        
-			}
 			
 			in.close();
 			
