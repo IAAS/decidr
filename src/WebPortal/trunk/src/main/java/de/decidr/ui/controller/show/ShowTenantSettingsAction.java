@@ -89,7 +89,7 @@ public class ShowTenantSettingsAction implements ClickListener {
                         }
 
                         if (in == null){
-                            in = new FileInputStream("http://129.69.214.90:8080/WebPortal/VAADIN/themes/decidr/img/decidrlogo.png");
+                            in = new FileInputStream("129.69.214.90:8080/WebPortal/VAADIN/themes/decidr/img/decidrlogo.png");
                         }
                         
                         if (in == null){
