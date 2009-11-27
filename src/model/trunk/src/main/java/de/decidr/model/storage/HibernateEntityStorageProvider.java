@@ -22,6 +22,10 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import javax.lang.model.type.NullType;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeVisitor;
+
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -183,6 +187,13 @@ public class HibernateEntityStorageProvider implements StorageProvider {
 
     }
 
+    /**
+     * Internal class that represents the <code>null</code> value.
+     */
+    private class NullObject {
+        // No content intended
+    }
+
     @Override
     public InputStream getFile(Long fileId) throws StorageException {
         checkFileId(fileId);
@@ -205,6 +216,9 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         } else if (dataObject instanceof byte[]) {
             stream = new ByteArrayInputStream((byte[]) dataObject);
         } else {
+            if (dataObject == null) {
+                dataObject = new NullObject();
+            }
             String message = String
                     .format(
                             "The property %1$s has type %2$s, which cannot be mapped to a byte array.",
