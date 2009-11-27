@@ -16,9 +16,13 @@
 
 package de.decidr.ui.view.client.ui;
 
+import org.apache.log4j.Logger;
+
 import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
+
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * TODO: add comment
@@ -60,6 +64,8 @@ public class VModelingTool extends
             return;
         }
 
+       Logger logger =DefaultLogger.getLogger(VModelingTool.class);
+       logger.debug(dwdl);
         // Communicate the user interaction parameters to server.
         // This call will initiate an AJAX request to the server.
         client.updateVariable(uidlId, "dwdl", dwdl, false);
