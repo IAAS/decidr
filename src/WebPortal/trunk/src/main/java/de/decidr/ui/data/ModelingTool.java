@@ -138,7 +138,9 @@ public class ModelingTool extends AbstractComponent {
             logger.debug("Getting user list from server...");
             List<Item> users = tenantFacade.getUsersOfTenant(tenantId, null);
             for (Item item : users) {
-                if (item.getItemProperty("username").equals("")) {
+                if (item.getItemProperty("username").getValue() == null
+                        || item.getItemProperty("username").getValue().equals(
+                                "")) {
                     /*
                      * If the user name is empty, we want to display the email
                      * address as user name.
@@ -150,16 +152,10 @@ public class ModelingTool extends AbstractComponent {
                      * user name is not empty, but we want to set the user name
                      * to a more "fancy" string, for example: John Doe (jdoe42)
                      */
-                    userList.put((Long) item.getItemProperty("id").getValue(),
-                            (String) item.getItemProperty("first_name")
-                                    .getValue()
-                                    + " "
-                                    + (String) item
-                                            .getItemProperty("last_name")
-                                            .getValue()
-                                    + " ("
-                                    + (String) item.getItemProperty("username")
-                                            .getValue() + ")");
+                    Long id = (Long) item.getItemProperty("id").getValue();
+                    String username = (String) item.getItemProperty("username")
+                            .getValue();
+                    userList.put(id, username);
                 }
             }
             logger.debug("Succeded retrieving user list from server.");
