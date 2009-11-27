@@ -68,9 +68,9 @@ public class SaveTenantSettingsAction implements ClickListener {
 			fileId = (Long) Main.getCurrent().getMainWindow().getData();
 			tenantFacade.setLogo(tenantId, fileId);
 
-			CssHandler cssHandler = new CssHandler(content);
-			cssHandler.saveCss(tenantFacade, content
-					.getShowAdvancedOptionsButton().booleanValue(), fileFacade);
+			//CssHandler cssHandler = new CssHandler(content);
+			//cssHandler.saveCss(tenantFacade, content
+					//.getShowAdvancedOptionsButton().booleanValue(), fileFacade);
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));

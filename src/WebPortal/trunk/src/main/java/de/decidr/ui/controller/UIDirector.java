@@ -47,8 +47,6 @@ import de.decidr.ui.view.uibuilder.UIBuilder;
  */
 public class UIDirector {
 
-    private static Logger logger = DefaultLogger.getLogger(UIDirector.class);
-
     private static String hash = null;
 
     private UIBuilder uiBuilder = null;

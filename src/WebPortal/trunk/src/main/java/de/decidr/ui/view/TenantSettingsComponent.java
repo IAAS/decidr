@@ -16,6 +16,11 @@
 
 package de.decidr.ui.view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.HashSet;
+
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -25,15 +30,26 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Upload.FinishedEvent;
+import com.vaadin.ui.Upload.StartedEvent;
+import com.vaadin.ui.Upload.SucceededEvent;
 
+import de.decidr.model.acl.permissions.FilePermission;
+import de.decidr.model.acl.permissions.FileReadPermission;
+import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.FileFacade;
 import de.decidr.ui.controller.CssHandler;
 import de.decidr.ui.controller.tenant.RestoreDefaultTenantSettingsAction;
 import de.decidr.ui.controller.tenant.SaveTenantSettingsAction;
 import de.decidr.ui.controller.tenant.UploadTenantLogoAction;
+import de.decidr.ui.view.windows.InformationDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * The tenant can change his settings. He change his theme by choosing a given
@@ -91,6 +107,8 @@ public class TenantSettingsComponent extends CustomComponent {
 	private String tenantName;
 	private String description;
 	private String logo;
+	
+	private FileFacade fileFacade = new FileFacade(new TenantAdminRole((Long)Main.getCurrent().getSession().getAttribute("userId")));
 
 	/**
 	 * Default constructor.
@@ -129,7 +147,52 @@ public class TenantSettingsComponent extends CustomComponent {
 
 		logoUpload = new Upload("Upload Logo", new UploadTenantLogoAction());
 		logoUpload.setButtonCaption("Upload Logo");
+		
+		
+		logoUpload.addListener(new Upload.SucceededListener() {
+			
+			@Override
+			public void uploadSucceeded(SucceededEvent event) {
+				UploadTenantLogoAction action = (UploadTenantLogoAction)TenantSettingsComponent.this.getUpload().getReceiver();
+				File file = action.getFile();
+				if (file == null) {
+					Main.getCurrent().getMainWindow().addWindow(
+							new InformationDialogComponent(
+									"Illegalt Argument File must not be null",
+									"Failure"));
+				} else {
+					FileInputStream fis;
+					try {
+						fis = new FileInputStream(file);
+						HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
+						filePermission.add(FileReadPermission.class);
 
+						Long fileId = fileFacade.createFile(fis, file.length(), event
+								.getFilename(), event.getMIMEType(), true,
+								filePermission);
+
+						Main.getCurrent().getMainWindow().setData(fileId);
+						Main.getCurrent().getMainWindow().addWindow(
+								new InformationDialogComponent("File "
+										+ event.getFilename()
+										+ " successfully uploaded!", "Success"));
+						logoEmbedded.setSource(new ThemeResource(file.getAbsolutePath()));
+						logoEmbedded.requestRepaint();
+					} catch (FileNotFoundException e) {
+						Main.getCurrent().getMainWindow().addWindow(
+								new InformationDialogComponent(
+										"File couldn't be found", "File not found"));
+					} catch (TransactionException e) {
+						Main.getCurrent().getMainWindow().addWindow(
+								new TransactionErrorDialogComponent(e));
+					}
+
+				}
+				
+				
+			}
+		});
+		
 		saveButton = new Button("Save", new SaveTenantSettingsAction());
 		cancelButton = new Button("Cancel");
 		restoreDefaultSettingsButton = new Button("Restore default settings",
@@ -166,6 +229,15 @@ public class TenantSettingsComponent extends CustomComponent {
 		buttonHorizontalLayout.addComponent(cancelButton);
 		buttonHorizontalLayout.addComponent(restoreDefaultSettingsButton);
 
+	}
+
+	/**
+	 * Returns the embedded ui object
+	 *
+	 * @return the logoEmbedded
+	 */
+	public Embedded getLogoEmbedded() {
+		return logoEmbedded;
 	}
 
 	/**

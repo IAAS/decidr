@@ -21,8 +21,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.httpclient.methods.GetMethod;
-
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;

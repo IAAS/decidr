@@ -30,10 +30,10 @@ public class WorkflowModelTable extends Table {
 	private Container container = null;
 
 	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
-			"creationDate", "published" };
+			"creationDate", "published", "executable" };
 
 	public static final String[] COL_HEADERS = new String[] { "ID", "Name",
-			"Creation Date", "Published" };
+			"Creation Date", "Published", "Locked" };
 
 	/**
 	 * Default constructor.
@@ -56,7 +56,7 @@ public class WorkflowModelTable extends Table {
 		addContainerProperty("name", String.class, null);
 		addContainerProperty("creationDate", String.class, null);
 		addContainerProperty("published", Boolean.class, null);
-		// TODO: Add two more properties
+		addContainerProperty("executable", Boolean.class, null);
 
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);

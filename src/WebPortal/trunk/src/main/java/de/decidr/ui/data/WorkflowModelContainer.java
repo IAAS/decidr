@@ -42,7 +42,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class WorkflowModelContainer implements Container {
+public class WorkflowModelContainer implements Container, Container.Ordered {
 
 	private HttpSession session = Main.getCurrent().getSession();
 
@@ -54,6 +54,8 @@ public class WorkflowModelContainer implements Container {
 
 	private ArrayList<Object> propertyIds = new ArrayList<Object>();
 	private Map<Object, Object> items = new LinkedHashMap<Object, Object>();
+
+	private List<Object> itemIdList = null;
 
 	/**
 	 * Default constructor. The workflow model items are added to the container
@@ -180,7 +182,8 @@ public class WorkflowModelContainer implements Container {
 				return Long.class;
 			} else if (propertyId.equals("creationDate")) {
 				return Date.class;
-			} else if (propertyId.equals("published")) {
+			} else if (propertyId.equals("published")
+					|| propertyId.equals("executable")) {
 				return Boolean.class;
 			} else {
 				return null;
@@ -241,5 +244,108 @@ public class WorkflowModelContainer implements Container {
 		return items.size();
 	}
 
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
+	 */
+	@Override
+	public Object addItemAfter(Object previousItemId)
+			throws UnsupportedOperationException {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object,
+	 * java.lang.Object)
+	 */
+	@Override
+	public Item addItemAfter(Object previousItemId, Object newItemId)
+			throws UnsupportedOperationException {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container.Ordered#firstItemId()
+	 */
+	@Override
+	public Object firstItemId() {
+		itemIdList = new ArrayList<Object>(items.keySet());
+		return itemIdList.get(0);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
+	 */
+	@Override
+	public boolean isFirstId(Object itemId) {
+		itemIdList = new ArrayList<Object>(items.keySet());
+		Object object = firstItemId();
+		if (itemId.equals(object)) {
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
+	 */
+	@Override
+	public boolean isLastId(Object itemId) {
+		itemIdList = new ArrayList<Object>(items.keySet());
+		Object object = lastItemId();
+		if (itemId.equals(object)) {
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container.Ordered#lastItemId()
+	 */
+	@Override
+	public Object lastItemId() {
+		itemIdList = new ArrayList<Object>(items.keySet());
+		return itemIdList.get(itemIdList.size());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
+	 */
+	@Override
+	public Object nextItemId(Object itemId) {
+		itemIdList = new ArrayList<Object>(items.keySet());
+		int index = itemIdList.indexOf(itemId);
+		if (index == itemIdList.size() - 1) {
+			return itemIdList.get(index);
+		} else {
+			return itemIdList.get(index + 1);
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
+	 */
+	@Override
+	public Object prevItemId(Object itemId) {
+		itemIdList = new ArrayList<Object>(items.keySet());
+		int index = itemIdList.indexOf(itemId);
+		return itemIdList.get(index - 1);
+	}
+
 }
