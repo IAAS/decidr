@@ -22,6 +22,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
@@ -31,10 +33,10 @@ import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
 
 import de.decidr.model.acl.roles.TenantAdminRole;
-import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -46,127 +48,140 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
+@SuppressWarnings("serial")
 public class ModelingTool extends AbstractComponent {
 
-	private HttpSession session = null;
-	private Long userId = null;
-	private Long tenantId = null;
-	private TenantFacade tenantFacade = null;
-	private WorkflowModelFacade workflowModelFacade = null;
-	private Long workflowModelId = null;
-	private HashMap<Long, String> userList = null;
+    private Logger logger = DefaultLogger.getLogger(ModelingTool.class);
 
-	/**
-	 * Default constructor which initialises the server side components which
-	 * are needed to gain access to the database.
-	 */
-	public ModelingTool(Long workflowModelId) {
-		super();
-		session = Main.getCurrent().getSession();
-		userId = (Long) session.getAttribute("userId");
-		tenantId = (Long) Main.getCurrent().getSession().getAttribute(
-		"tenantId");
-		tenantFacade = new TenantFacade(new TenantAdminRole(userId));
-		workflowModelFacade = new WorkflowModelFacade(new TenantAdminRole(userId));
-		this.workflowModelId = workflowModelId;
-		this.setSizeFull();
-		this.setImmediate(true);
-	}
+    private HttpSession session = null;
+    private Long userId = null;
+    private Long tenantId = null;
+    private TenantFacade tenantFacade = null;
+    private WorkflowModelFacade workflowModelFacade = null;
+    private Long workflowModelId = null;
+    private HashMap<Long, String> userList = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vaadin.ui.AbstractComponent#changeVariables(java.lang.Object,
-	 * java.util.Map)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void changeVariables(Object source, Map variables) {
-		if (variables.containsKey("dwdl")) {
-			byte[] dwdl = (byte[]) variables.get("dwdl");
-			try {
-				workflowModelFacade.saveWorkflowModel(workflowModelId, "", "",
-						dwdl);
-			} catch (TransactionException e) {
-				Main.getCurrent().addWindow(
-						new TransactionErrorDialogComponent(e));
-			}
-		}
-	}
+    /**
+     * Default constructor which initializes the server side components which
+     * are needed to gain access to the database.
+     */
+    public ModelingTool(Long workflowModelId) {
+        super();
+        session = Main.getCurrent().getSession();
+        userId = (Long) session.getAttribute("userId");
+        tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+                "tenantId");
+        tenantFacade = new TenantFacade(new TenantAdminRole(userId));
+        workflowModelFacade = new WorkflowModelFacade(new TenantAdminRole(
+                userId));
+        this.workflowModelId = workflowModelId;
+        this.setSizeFull();
+        this.setImmediate(true);
+    }
 
-	private String convertUserHashMapToString(HashMap<Long, String> userList) {
-		Document doc = XMLParser.createDocument();
+    @Override
+    public String getTag() {
+        return "modelingtool";
+    }
 
-		Element root = doc.createElement("userlist");
-		for (Long userId : userList.keySet()) {
-			Element user = doc.createElement("user");
-			user.setAttribute("id", userId.toString());
-			user.setAttribute("name", userList.get(user));
-			root.appendChild(user);
-		}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.AbstractComponent#changeVariables(java.lang.Object,
+     * java.util.Map)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void changeVariables(Object source, Map variables) {
+        if (variables.containsKey("dwdl")) {
+            byte[] dwdl = (byte[]) variables.get("dwdl");
+            try {
 
-		return doc.toString();
-	}
+                workflowModelFacade.saveWorkflowModel(workflowModelId, "", "",
+                        dwdl);
+            } catch (TransactionException e) {
+                Main.getCurrent().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        }
+    }
 
-	private String getDWDL() {		
-		try {
+    private String convertUserHashMapToString(HashMap<Long, String> userList) {
+        Document doc = XMLParser.createDocument();
 
-			Item workflowModel = workflowModelFacade
-					.getWorkflowModel(workflowModelId);
-			return new String((byte[]) workflowModel.getItemProperty("dwdl")
-					.getValue());
+        Element root = doc.createElement("userlist");
+        for (Long userId : userList.keySet()) {
+            Element user = doc.createElement("user");
+            user.setAttribute("id", userId.toString());
+            user.setAttribute("name", userList.get(user));
+            root.appendChild(user);
+        }
 
-		} catch (TransactionException e) {
-			Main.getCurrent().addWindow(new TransactionErrorDialogComponent(e));
-			return null;
-		}
-	}
+        return doc.toString();
+    }
 
-	@Override
-	public String getTag() {
-		return "modelingtool";
-	}
+    private String getDWDL() {
+        try {
+            Item workflowModel = workflowModelFacade
+                    .getWorkflowModel(workflowModelId);
+            return new String((byte[]) workflowModel.getItemProperty("dwdl")
+                    .getValue());
 
-	private String getUsers() {
-		tenantFacade = new TenantFacade(new UserRole(userId));
-		try {
-			List<Item> users = tenantFacade.getUsersOfTenant(tenantId, null);
-			for (Item item : users) {
-				if (!item.getItemProperty("username").equals("")) {
-					userList.put((Long) item.getItemProperty("id").getValue(),
-							(String) item.getItemProperty("first_name")
-									.getValue()
-									+ " "
-									+ (String) item
-											.getItemProperty("last_name")
-											.getValue()
-									+ " ("
-									+ (String) item.getItemProperty("username")
-											.getValue() + ")");
-				} else {
-					userList.put((Long) item.getItemProperty("id").getValue(),
-							(String) item.getItemProperty("email").getValue());
-				}
-			}
-			return convertUserHashMapToString(userList);
-		} catch (TransactionException exception) {
-			Main.getCurrent().addWindow(
-					new TransactionErrorDialogComponent(exception));
-			return null;
-		}
-	}
+        } catch (TransactionException e) {
+            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(e));
+            return null;
+        }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vaadin.ui.AbstractComponent#paintContent(com.vaadin.terminal.PaintTarget
-	 * )
-	 */
-	@Override
-	public void paintContent(PaintTarget target) throws PaintException {
-		super.paintContent(target);
-		target.addVariable(this, "dwdl", getDWDL());
-		target.addVariable(this, "users", getUsers());
-	}
+    private String getUsers() {
+        try {
+            logger.debug("Getting user list from server...");
+            List<Item> users = tenantFacade.getUsersOfTenant(tenantId, null);
+            for (Item item : users) {
+                if (item.getItemProperty("username").equals("")) {
+                    /*
+                     * If the user name is empty, we want to display the email
+                     * address as user name.
+                     */
+                    userList.put((Long) item.getItemProperty("id").getValue(),
+                            (String) item.getItemProperty("email").getValue());
+                } else {
+                    /*
+                     * user name is not empty, but we want to set the user name
+                     * to a more "fancy" string, for example: John Doe (jdoe42)
+                     */
+                    userList.put((Long) item.getItemProperty("id").getValue(),
+                            (String) item.getItemProperty("first_name")
+                                    .getValue()
+                                    + " "
+                                    + (String) item
+                                            .getItemProperty("last_name")
+                                            .getValue()
+                                    + " ("
+                                    + (String) item.getItemProperty("username")
+                                            .getValue() + ")");
+                }
+            }
+            logger.debug("Succeded retrieving user list from server.");
+            return convertUserHashMapToString(userList);
+        } catch (TransactionException exception) {
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(exception));
+            return null;
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.ui.AbstractComponent#paintContent(com.vaadin.terminal.PaintTarget
+     * )
+     */
+    @Override
+    public void paintContent(PaintTarget target) throws PaintException {
+        super.paintContent(target);
+        target.addVariable(this, "dwdl", getDWDL());
+        target.addVariable(this, "users", getUsers());
+    }
 }
