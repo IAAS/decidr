@@ -80,17 +80,25 @@ public class ShowTenantSettingsAction implements ClickListener {
 			
 			
 			InputStream in = tenantFacade.getLogo(tenantId);
+                        File file = new File("themes/"+tenantName+"/img/logo.png");
 			
-		
-	                File file = new File("themes/"+tenantName+"/img/logo.png");
-//	                file.createNewFile();
-//			OutputStream out = new FileOutputStream(file);
-//			byte[] buf = new byte[1024];
-//			int len;
-//			while((len = in.read(buf)) > 0){
-//				out.write(buf, 0, len);
-//			}
-//			out.close();
+			if (in.available() > 0){
+
+	                        Main.getCurrent().getMainWindow().showNotification("Data available");
+
+	                        file.createNewFile();
+	                        
+	                        OutputStream out = new FileOutputStream(file);
+	                        byte[] buf = new byte[1024];
+	                        int i = in.read(buf);
+	                        while(i != -1){
+	                                out.write(buf, 0, i);
+	                                i = in.read(buf);
+	                        }
+	                        out.close();
+	                        
+			}
+			
 			in.close();
 			
 			
