@@ -134,6 +134,7 @@ public class ModelingTool extends AbstractComponent {
     }
 
     private String getUsers() {
+        userList = new HashMap<Long, String>();
         try {
             logger.debug("Getting user list from server...");
             List<Item> users = tenantFacade.getUsersOfTenant(tenantId, null);
