@@ -70,6 +70,7 @@ public class ShowTenantSettingsAction implements ClickListener {
 		try {
 			tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
 			tenantName = tenantFacade.getTenant(tenantId).getName();
+			Main.getCurrent().getMainWindow().showNotification(tenantId.toString());
 			
 			String description = "";
 			if(tenantFacade.getTenantSettings(tenantId).getItemProperty("description").getValue() != null){
@@ -88,6 +89,8 @@ public class ShowTenantSettingsAction implements ClickListener {
 			}
 			out.close();
 			in.close();
+			
+			
 			
 			siteFrame.setContent(new TenantSettingsComponent(tenantName, description, file.getName()));
 		} catch (TransactionException e) {
