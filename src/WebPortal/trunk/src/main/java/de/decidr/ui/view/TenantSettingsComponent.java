@@ -88,6 +88,7 @@ public class TenantSettingsComponent extends CustomComponent {
 	final String[] fonts = new String[] { "Times New Roman", "Arial",
 			"Courier New", "Verdana" };
 	
+	private String tenantName;
 	private String description;
 	private String logo;
 
@@ -95,7 +96,8 @@ public class TenantSettingsComponent extends CustomComponent {
 	 * Default constructor.
 	 * 
 	 */
-	public TenantSettingsComponent(String description, String logo) {
+	public TenantSettingsComponent(String name, String description, String logo) {
+	        this.tenantName = name;
 		this.description = description;
 		this.logo = logo;
 		init();
@@ -116,7 +118,7 @@ public class TenantSettingsComponent extends CustomComponent {
 		schemePanel.setCaption("Color Scheme");
 		buttonPanel = new Panel();
 
-		tenantSettingsLabel = new Label("<h2>Tenant Settings</h2>");
+		tenantSettingsLabel = new Label("<h2>Tenant Settings for "+tenantName+"</h2>");
 		tenantSettingsLabel.setContentMode(Label.CONTENT_XHTML);
 
 		textArea = new TextField();

@@ -79,7 +79,7 @@ public class ShowTenantSettingsAction implements ClickListener {
 			
 			
 			InputStream in = tenantFacade.getLogo(tenantId);
-			File file = new File("themes/"+tenantName+"img/logo.png");
+			File file = new File("themes/"+tenantName+"/img/logo.png");
 			OutputStream out = new FileOutputStream(file);
 			byte[] buf = new byte[1024];
 			int len;
@@ -89,7 +89,7 @@ public class ShowTenantSettingsAction implements ClickListener {
 			out.close();
 			in.close();
 			
-			siteFrame.setContent(new TenantSettingsComponent(description, file.getName()));
+			siteFrame.setContent(new TenantSettingsComponent(tenantName, description, file.getName()));
 		} catch (TransactionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
