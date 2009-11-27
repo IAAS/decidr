@@ -22,6 +22,7 @@ import com.vaadin.event.Action.Handler;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -50,6 +51,7 @@ public class LoginComponent extends CustomComponent implements Handler {
 
     private TextField usernameTextField = null;
     private TextField passwordTextField = null;
+    private Panel invisiblePanel = null;
 
     private Button loginButton = null;
     private Button forgotPasswordButton = null;
@@ -98,6 +100,10 @@ public class LoginComponent extends CustomComponent implements Handler {
     private void init(InvitationDialogComponent invD) {
         verticalLayout = new VerticalLayout();
 
+        invisiblePanel = new Panel();
+        invisiblePanel.setVisible(false);
+        invisiblePanel.addActionHandler(this);
+        
         loginLabel = new Label("<h3>Login:</h3>");
         loginLabel.setContentMode(Label.CONTENT_XHTML);
 
@@ -127,6 +133,7 @@ public class LoginComponent extends CustomComponent implements Handler {
 
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
+        verticalLayout.addComponent(invisiblePanel);
         verticalLayout.addComponent(loginLabel);
         verticalLayout.addComponent(usernameTextField);
         verticalLayout.addComponent(passwordTextField);
