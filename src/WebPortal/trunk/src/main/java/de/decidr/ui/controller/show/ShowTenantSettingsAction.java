@@ -81,40 +81,40 @@ public class ShowTenantSettingsAction implements ClickListener {
 			}
 			
 			
-			InputStream in = tenantFacade.getLogo(tenantId);
-                        File file = new File("VAADIN/themes/"+tenantName+"/img/decidrlogo.png");
-                        file.createNewFile();
-                        
-                        if (in == null){
-                            in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
-                        }
-
-                        
-                        if (in == null){
-                            Main.getCurrent().getMainWindow().showNotification("no input stream");
-                        }else{
-                                OutputStream out = new FileOutputStream(file);
-        	                byte[] buf = new byte[1024];
-        	                int i = in.read(buf);
-        	                while(i != -1){
-        	                    out.write(buf, 0, i);
-        	                    i = in.read(buf);
-        	                }
-        	                out.close();
-                        }
-	                        
+//			InputStream in = tenantFacade.getLogo(tenantId);
+//                        File file = new File("themes/"+tenantName+"/img/decidrlogo.png");
+//                        file.createNewFile();
+//                        
+//                        if (in == null){
+//                            in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
+//                        }
+//
+//                        
+//                        if (in == null){
+//                            Main.getCurrent().getMainWindow().showNotification("no input stream");
+//                        }else{
+//                                OutputStream out = new FileOutputStream(file);
+//        	                byte[] buf = new byte[1024];
+//        	                int i = in.read(buf);
+//        	                while(i != -1){
+//        	                    out.write(buf, 0, i);
+//        	                    i = in.read(buf);
+//        	                }
+//        	                out.close();
+//                        }
+//	                        
+//			
+//			in.close();
 			
-			in.close();
 			
 			
-			
-			siteFrame.setContent(new TenantSettingsComponent(tenantName, description, file.getName()));
+			siteFrame.setContent(new TenantSettingsComponent(tenantName, description, "filename"));
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
-		} catch (FileNotFoundException e) {
-                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
-		} catch (IOException e) {
-                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
+//		} catch (FileNotFoundException e) {
+//                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
+//		} catch (IOException e) {
+//                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
 		}
 		
 		
