@@ -38,7 +38,7 @@ import de.decidr.ui.view.windows.InvitationDialogComponent;
  * 
  * @author AT
  */
-public class LoginComponent extends CustomComponent implements Handler {
+public class LoginComponent extends CustomComponent  implements Handler {
 
     /**
      * Serial Version UID
@@ -101,7 +101,6 @@ public class LoginComponent extends CustomComponent implements Handler {
         verticalLayout = new VerticalLayout();
 
         invisiblePanel = new Panel();
-        invisiblePanel.setVisible(false);
         invisiblePanel.addActionHandler(this);
         
         loginLabel = new Label("<h3>Login:</h3>");
@@ -109,6 +108,7 @@ public class LoginComponent extends CustomComponent implements Handler {
 
         usernameTextField = new TextField();
         usernameTextField.setCaption("Username");
+        usernameTextField.setImmediate(true);
         passwordTextField = new TextField();
         passwordTextField.setCaption("Password");
         passwordTextField.setSecret(true);
@@ -131,12 +131,15 @@ public class LoginComponent extends CustomComponent implements Handler {
 
         setCompositionRoot(verticalLayout);
 
+        ((VerticalLayout) invisiblePanel.getContent()).setSpacing(false);
+        ((VerticalLayout) invisiblePanel.getContent()).setMargin(false);
+        invisiblePanel.addComponent(usernameTextField);
+        invisiblePanel.addComponent(passwordTextField);
+        
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
-        verticalLayout.addComponent(invisiblePanel);
         verticalLayout.addComponent(loginLabel);
-        verticalLayout.addComponent(usernameTextField);
-        verticalLayout.addComponent(passwordTextField);
+        verticalLayout.addComponent(invisiblePanel);
         verticalLayout.addComponent(loginButton);
         verticalLayout.addComponent(forgotPasswordButton);
         verticalLayout.addComponent(registerButton);
@@ -158,6 +161,7 @@ public class LoginComponent extends CustomComponent implements Handler {
     @Override
     public void handleAction(Action action, Object sender, Object target) {
         if (action == loginAction ){
+            Main.getCurrent().getMainWindow().showNotification("enter pressed");
             loginListener.buttonClick(loginButton.new ClickEvent( loginButton ));
         }
         

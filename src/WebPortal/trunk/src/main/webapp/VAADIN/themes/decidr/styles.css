@@ -31,7 +31,16 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 	border-right: 1px solid #CCCCCC;
 	}
 	
-
+.v-panel-content,
+.v-sa .v-panel-caption,
+.v-sa .v-panel-nocaption,
+.v-ff3 .v-panel-caption,
+.v-ff3 .v-panel-nocaption,
+.v-panel-caption,
+.v-panel-nocaption{
+	border-width: 0px;
+	border-color: transparent;
+	}
 
 /* header of the Website */
 /* ===================== */
