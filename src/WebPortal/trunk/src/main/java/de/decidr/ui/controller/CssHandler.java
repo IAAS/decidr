@@ -58,20 +58,17 @@ public class CssHandler {
 	private Long fileId = null;
 
 	private Long tenantId = null;
-	//AT: tenantName muss auch rein. ~tk, ~dh
+	// AT: tenantName muss auch rein. ~tk, ~dh
 
 	private String tenant = "";
-
-	private String cssFilePath = "";
 
 	/**
 	 * The default constructor stores the given parameter.
 	 */
 	public CssHandler(TenantSettingsComponent component) {
-		tenantId = (Long) Main.getCurrent().getSession().getAttribute("tenantId");
+		tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+				"tenantId");
 		this.component = component;
-		cssFilePath = +File.separatorChar + "themes" + File.separator + tenant
-				+ File.separator + "styles.css";
 	}
 
 	/**
@@ -84,6 +81,7 @@ public class CssHandler {
 			FileFacade fileFacade) throws TransactionException {
 		try {
 			Item settings = tenantFacade.getTenantSettings(tenantId);
+			tenant = settings.getItemProperty("name").getValue().toString();
 			Long colorSchemeId;
 			File f;
 			InputStream in;
@@ -105,18 +103,18 @@ public class CssHandler {
 			// FileFacade, um die file Id zu bekommen. Als letztes wird
 			// das vorhanden CSS file ersetzt mit der gleichen file id und dem
 			// neuen input. Das gleiche auch für simple CSS.
-			if ((settings.getItemProperty("advancedColorSchemeId") != null)
+			if ((settings.getItemProperty("advancedColorSchemeId").getValue() != null)
 					&& advanced) {
 				colorSchemeId = (Long) settings.getItemProperty(
 						"advancedColorSchemeId").getValue();
 
 				f = getFileFromInputStream(in);
-				   //AT: was ist wenn der MIME Typ nicht erkannt wird? ~dh,tk
+				// AT: was ist wenn der MIME Typ nicht erkannt wird? ~dh,tk
 				fileFacade.replaceFile(colorSchemeId, in, f.length(), f
 						.getAbsolutePath(), new MimetypesFileTypeMap()
 						.getContentType(f));
 				tenantFacade.setCurrentColorScheme(tenantId, advanced);
-			} else if (settings.getItemProperty("simpleColorSchemeId") != null) {
+			} else if (settings.getItemProperty("simpleColorSchemeId").getValue() != null) {
 				colorSchemeId = (Long) settings.getItemProperty(
 						"simpleColorSchemeId").getValue();
 
@@ -150,8 +148,12 @@ public class CssHandler {
 	private String saveSimpleCss() {
 		InputSource source = new InputSource();
 		String css = "";
+		File file = new File("themes" + File.separator + tenant
+				+ File.separator + "styles.css");
+		System.out.println(file.getAbsolutePath());
 		try {
-			InputStream stream = new FileInputStream(new File(cssFilePath));
+			InputStream stream = new FileInputStream(new File("themes" + File.separator + tenant
+					+ File.separator + "styles.css"));
 			source.setByteStream(stream);
 
 			CSSOMParser p = new CSSOMParser();
@@ -234,7 +236,8 @@ public class CssHandler {
 	 * @return File f
 	 */
 	private File getFileFromInputStream(InputStream in) {
-		File f = new File(cssFilePath);
+		File f = new File("themes" + File.separator + tenant
+				+ File.separator + "styles.css");
 		InputStream input = in;
 		try {
 			OutputStream output = new FileOutputStream(f);

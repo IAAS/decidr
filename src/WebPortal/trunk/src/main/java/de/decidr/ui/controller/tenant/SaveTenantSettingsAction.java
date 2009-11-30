@@ -28,6 +28,7 @@ import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.controller.CssHandler;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TenantSettingsComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -66,11 +67,16 @@ public class SaveTenantSettingsAction implements ClickListener {
 					.getTenantDescription().getValue().toString());
 
 			fileId = (Long) Main.getCurrent().getMainWindow().getData();
-			tenantFacade.setLogo(tenantId, fileId);
+			if (fileId != null) {
+				tenantFacade.setLogo(tenantId, fileId);
+			}
 
-			//CssHandler cssHandler = new CssHandler(content);
-			//cssHandler.saveCss(tenantFacade, content
-					//.getShowAdvancedOptionsButton().booleanValue(), fileFacade);
+			CssHandler cssHandler = new CssHandler(content);
+			cssHandler.saveCss(tenantFacade, content
+					.getShowAdvancedOptionsButton().booleanValue(), fileFacade);
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent(
+							"Tenant settings successfully saved", "Success"));
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));
