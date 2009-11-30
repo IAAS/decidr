@@ -24,10 +24,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 
 import javax.activation.MimetypesFileTypeMap;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSRuleList;
@@ -35,7 +37,6 @@ import org.w3c.dom.css.CSSStyleSheet;
 
 import com.steadystate.css.parser.CSSOMParser;
 import com.vaadin.data.Item;
-
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.exceptions.TransactionException;
@@ -43,6 +44,7 @@ import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TenantSettingsComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -66,16 +68,18 @@ public class CssHandler {
 	 * The default constructor stores the given parameter.
 	 */
 	public CssHandler(TenantSettingsComponent component) {
+
 		tenantId = (Long) Main.getCurrent().getSession().getAttribute(
 				"tenantId");
 		this.component = component;
 	}
 
 	/**
-	 * Saves the css file and returns the file id
+	 * Saves the css file
 	 * 
-	 * @return fileId
+	 * 
 	 * @throws TransactionException
+	 *             , IOException
 	 */
 	public void saveCss(TenantFacade tenantFacade, boolean advanced,
 			FileFacade fileFacade) throws TransactionException {
@@ -84,59 +88,76 @@ public class CssHandler {
 			tenant = settings.getItemProperty("name").getValue().toString();
 			Long colorSchemeId;
 			File f;
-			InputStream in;
+			InputStream in = null;
 			// Checkt ob advanced color scheme oder simple color scheme
 			// ausgewählt ist und erzeugt dementsprechend
 			// einen input stream. Entweder, dass was der User eingibt im
 			// Advanced Modus oder das was er auswählt beim
 			// simple.
-			if (advanced) {
-				in = getInputStream(component.getCssTextField().getValue()
-						.toString());
-			} else {
-				String cssValue = saveSimpleCss();
-				in = getInputStream(cssValue);
-			}
-			// Checkt ob die advancedColorSchemeId gesetzt ist und ob der User
-			// eine Advanced CSS speichern möchte. Wenn ja,
-			// dann holt er sich die Id, das dazugehörige File aus der
-			// FileFacade, um die file Id zu bekommen. Als letztes wird
-			// das vorhanden CSS file ersetzt mit der gleichen file id und dem
-			// neuen input. Das gleiche auch für simple CSS.
-			if ((settings.getItemProperty("advancedColorSchemeId").getValue() != null)
-					&& advanced) {
-				colorSchemeId = (Long) settings.getItemProperty(
-						"advancedColorSchemeId").getValue();
+			try {
+				if (advanced) {
+					in = getInputStream(component.getCssTextField().getValue()
+							.toString());
+				} else {
+					String cssValue = saveSimpleCss();
+					in = getInputStream(cssValue);
+				}
+				// Checkt ob die advancedColorSchemeId gesetzt ist und ob der
+				// User
+				// eine Advanced CSS speichern möchte. Wenn ja,
+				// dann holt er sich die Id, das dazugehörige File aus der
+				// FileFacade, um die file Id zu bekommen. Als letztes wird
+				// das vorhanden CSS file ersetzt mit der gleichen file id und
+				// dem
+				// neuen input. Das gleiche auch für simple CSS.
+				if ((settings.getItemProperty("advancedColorSchemeId")
+						.getValue() != null)
+						&& advanced) {
+					colorSchemeId = (Long) settings.getItemProperty(
+							"advancedColorSchemeId").getValue();
 
-				f = getFileFromInputStream(in);
-				// AT: was ist wenn der MIME Typ nicht erkannt wird? ~dh,tk
-				fileFacade.replaceFile(colorSchemeId, in, f.length(), f
-						.getAbsolutePath(), new MimetypesFileTypeMap()
-						.getContentType(f));
-				tenantFacade.setCurrentColorScheme(tenantId, advanced);
-			} else if (settings.getItemProperty("simpleColorSchemeId").getValue() != null) {
-				colorSchemeId = (Long) settings.getItemProperty(
-						"simpleColorSchemeId").getValue();
+					f = getFileFromInputStream(in);
+					in.reset();
+					// AT: was ist wenn der MIME Typ nicht erkannt wird? ~dh,tk
+					fileFacade.replaceFile(colorSchemeId, in, f.length(), f
+							.getAbsolutePath(), new MimetypesFileTypeMap()
+							.getContentType(f));
+				} else if (settings.getItemProperty("simpleColorSchemeId")
+						.getValue() != null) {
+					colorSchemeId = (Long) settings.getItemProperty(
+							"simpleColorSchemeId").getValue();
 
-				f = getFileFromInputStream(in);
+					f = getFileFromInputStream(in);
+					in.reset();
+					fileFacade.replaceFile(colorSchemeId, in, f.length(), f
+							.getAbsolutePath(), new MimetypesFileTypeMap()
+							.getContentType(f));
+				} else {
+					// AT getFileFromInputStream can return null, but null value
+					// is not handled! ~dh
+					f = getFileFromInputStream(in);
+					in.reset();
+					HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
+					filePermission.add(FileReadPermission.class);
+					fileId = fileFacade.createFile(in, f.length(), f
+							.getAbsolutePath(), new MimetypesFileTypeMap()
+							.getContentType(f), false, filePermission);
+					tenantFacade.setColorScheme(tenantId, fileId, advanced);
 
-				fileFacade.replaceFile(colorSchemeId, in, f.length(), f
-						.getAbsolutePath(), new MimetypesFileTypeMap()
-						.getContentType(f));
-				tenantFacade.setCurrentColorScheme(tenantId, advanced);
-			} else {
-				f = getFileFromInputStream(in);
-				HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
-				filePermission.add(FileReadPermission.class);
-				fileId = fileFacade.createFile(in, f.length(), f
-						.getAbsolutePath(), new MimetypesFileTypeMap()
-						.getContentType(f), false, filePermission);
-				tenantFacade.setColorScheme(tenantId, fileId, advanced);
-				tenantFacade.setCurrentColorScheme(tenantId, advanced);
+				}
+			} finally {
+				if (in != null) {
+					tenantFacade.setCurrentColorScheme(tenantId, advanced);
+					in.close();
+				}
 			}
 		} catch (TransactionException exception) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(exception));
+		} catch (IOException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("Failed to load the file",
+							"Failure"));
 		}
 	}
 
@@ -148,12 +169,9 @@ public class CssHandler {
 	private String saveSimpleCss() {
 		InputSource source = new InputSource();
 		String css = "";
-		File file = new File("themes" + File.separator + tenant
-				+ File.separator + "styles.css");
-		System.out.println(file.getAbsolutePath());
 		try {
-			InputStream stream = new FileInputStream(new File("themes" + File.separator + tenant
-					+ File.separator + "styles.css"));
+			InputStream stream = new FileInputStream(new File("themes"
+					+ File.separator + "decidr" + File.separator + "styles.css"));
 			source.setByteStream(stream);
 
 			CSSOMParser p = new CSSOMParser();
@@ -197,8 +215,7 @@ public class CssHandler {
 					index = substring.indexOf("}");
 					substring = substring.substring(12, index);
 					rule = rule.replace(substring, component
-							.getBackgroundSelect().getValue().toString()
-							+ ";");
+							.getBackgroundSelect().getValue().toString());
 				}
 				css += rule;
 			}
@@ -223,32 +240,37 @@ public class CssHandler {
 	private InputStream getInputStream(String cssValue) {
 		InputStream input;
 
-		byte[] cssValueBytes = cssValue.getBytes();
-		input = new ByteArrayInputStream(cssValueBytes);
+		byte[] cssValueBytes;
+		try {
+			cssValueBytes = cssValue.getBytes("UTF-8");
+			input = new ByteArrayInputStream(cssValueBytes);
 
-		return input;
-
+			return input;
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Fatal: UTF-8 not supported");
+		}
 	}
 
 	/**
 	 * Returns a file object from the input stream of the entered css string
 	 * 
+	 * 
 	 * @return File f
 	 */
 	private File getFileFromInputStream(InputStream in) {
-		File f = new File("themes" + File.separator + tenant
-				+ File.separator + "styles.css");
-		InputStream input = in;
+		File f = new File("themes" + File.separator + tenant + File.separator
+				+ "styles.css");
+		OutputStream output = null;
 		try {
-			OutputStream output = new FileOutputStream(f);
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = input.read(buf)) > 0) {
-				output.write(buf, 0, len);
+			try {
+				output = new FileOutputStream(f);
+				IOUtils.copy(in, output);
+				return f;
+			} finally {
+				if (output != null) {
+					output.close();
+				}
 			}
-			output.close();
-			input.close();
-			return f;
 		} catch (FileNotFoundException e) {
 			return null;
 		} catch (IOException e) {

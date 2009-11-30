@@ -49,6 +49,7 @@ public class RestoreDefaultTenantSettingsAction implements ClickListener {
         content.getForegroundSelect().setValue("aqua");
         content.getFontSelect().setValue("Arial");
         content.getFontSizeSelect().setValue("12");
+        Main.getCurrent().getMainWindow().setTheme("decidr");
 
     }
 

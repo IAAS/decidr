@@ -27,7 +27,6 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.controller.UIDirector;
@@ -56,7 +55,6 @@ public class Login {
 	private UIBuilder uiBuilder = null;
 
 	private UserFacade userFacade = new UserFacade(new UserRole());
-	private TenantFacade tenantFacade = null;
 
 	private Long userId = null;
 	private Long tenantId = null;
@@ -90,7 +88,6 @@ public class Login {
 		if (session.getAttribute("tenantId") == null) {
 			tenantId = userFacade.getCurrentTenantId(userId);
 		} else {
-			tenantFacade = new TenantFacade(new UserRole(userId));
 			tenantId = (Long)session.getAttribute("tenantId");
 			userFacade.setCurrentTenantId(userId, tenantId);
 		}

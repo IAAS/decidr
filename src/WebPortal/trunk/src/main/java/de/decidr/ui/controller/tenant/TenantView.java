@@ -24,13 +24,12 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.io.IOUtils;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -41,8 +40,6 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author AT
  */
 public class TenantView {
-	
-	Logger logger = DefaultLogger.getLogger(TenantView.class);
 
 	private HttpSession session = Main.getCurrent().getSession();
 
@@ -50,7 +47,8 @@ public class TenantView {
 	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
 
 	private String tenantName = null;
-	private Long tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
+	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+			"tenantId");
 
 	private InputStream css = null;
 	private InputStream logo = null;
@@ -65,10 +63,10 @@ public class TenantView {
 	 * 
 	 */
 	public void synchronize() {
-		
+
 		try {
 			tenantName = tenantFacade.getTenant(tenantId).getName();
-			
+
 			cssFile = new File("themes" + File.separator + tenantName
 					+ File.separator + "styles.css");
 			logoFile = new File("themes" + File.separator + tenantName
@@ -79,34 +77,56 @@ public class TenantView {
 				css = tenantFacade
 						.getCurrentColorScheme(DecidrGlobals.DEFAULT_TENANT_ID);
 			}
+
+			if (css == null) {
+				throw new RuntimeException("No css file found in the database");
+			}
+
 			logo = tenantFacade.getLogo(tenantId);
 			if (logo == null) {
 				logo = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
 			}
 
+			if (logo == null) {
+				throw new RuntimeException("No logo file found in the database");
+			}
+
 			if (cssFile.exists()) {
 				cssFile.delete();
+			}
+			if (!cssFile.getParentFile().exists()) {
+				if (!cssFile.getParentFile().mkdirs()) {
+					throw new IOException("Cannot create directories.");
+				}
 			}
 			if (logoFile.exists()) {
 				logoFile.delete();
 			}
+			if (!logoFile.getParentFile().exists()) {
+				if (!logoFile.getParentFile().mkdirs()) {
+					throw new IOException("Cannot create directories.");
+				}
+			}
 
-			OutputStream cssOut = new FileOutputStream(cssFile);
-			OutputStream logoOut = new FileOutputStream(logoFile);
-			byte cssbuf[] = new byte[102400];
-			byte logobuf[] = new byte[10485760];
-			int csslen;
-			int logolen;
-			while ((csslen = css.read(cssbuf)) > 0) {
-				cssOut.write(cssbuf, 0, csslen);
+			OutputStream cssOut = null;
+			OutputStream logoOut = null;
+			try {
+				cssOut = new FileOutputStream(cssFile);
+				logoOut = new FileOutputStream(logoFile);
+
+				IOUtils.copy(css, cssOut);
+				IOUtils.copy(logo, logoOut);
+
+			} finally {
+				if (cssOut != null) {
+					cssOut.close();
+				}
+				css.close();
+				if (logoOut != null) {
+					logoOut.close();
+				}
+				logo.close();
 			}
-			cssOut.close();
-			css.close();
-			while ((logolen = logo.read(logobuf)) > 0) {
-				logoOut.write(logobuf, 0, logolen);
-			}
-			logoOut.close();
-			logo.close();
 		} catch (IOException exception) {
 			Main.getCurrent().getMainWindow().showNotification("IOException");
 		} catch (TransactionException e) {
