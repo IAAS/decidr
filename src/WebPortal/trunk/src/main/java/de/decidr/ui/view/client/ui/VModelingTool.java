@@ -72,7 +72,7 @@ public class VModelingTool extends
 
         // Communicate the user interaction parameters to server.
         // This call will initiate an AJAX request to the server.
-        client.updateVariable(uidlId, "dwdl", dwdl, false);
+        client.updateVariable(uidlId, "dwdl", dwdl, true);
 
         logger.debug("[Modeling Tool] Sending DWDL document was successful.");
         logger.debug("[Modeling Tool] DWDL:" + dwdl);
