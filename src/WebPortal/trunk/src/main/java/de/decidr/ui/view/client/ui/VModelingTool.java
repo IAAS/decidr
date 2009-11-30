@@ -59,13 +59,14 @@ public class VModelingTool extends
 
     @Override
     public void sendDWDLtoServer(String dwdl) {
-        logger.debug("Trying to send the DWDL document to the server...");
+        logger
+                .debug("[Modeling Tool] Trying to send the DWDL document to the server...");
 
         // Updating the state to the server can not be done
         // before the server connection is known, i.e., before
         // updateFromUIDL() has been called.
         if ((uidlId == null) || (client == null)) {
-            logger.debug("Failed. UidlId or client are null");
+            logger.debug("[Modeling Tool] Failed. UidlId or client are null");
             return;
         }
 
@@ -73,7 +74,8 @@ public class VModelingTool extends
         // This call will initiate an AJAX request to the server.
         client.updateVariable(uidlId, "dwdl", dwdl, false);
 
-        logger.debug("Sending DWDL document was successful.");
+        logger.debug("[Modeling Tool] Sending DWDL document was successful.");
+        logger.debug("[Modeling Tool] DWDL:" + dwdl);
     }
 
     public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
@@ -92,8 +94,8 @@ public class VModelingTool extends
 
         // Set the DWDL document received from server
         setDWDL(uidl.getStringVariable("dwdl"));
-        
-        //Set the user list received from server
+
+        // Set the user list received from server
         setUsers(uidl.getStringVariable("users"));
     }
 }

@@ -118,7 +118,7 @@ public class ModelingTool extends AbstractComponent {
         } catch (ParserConfigurationException e) {
             // TODO Auto-generated catch block
             // JS
-            e.printStackTrace();
+            logger.debug("[Modeling Tool]: Exception", e);
         }
         Document doc = builder.newDocument();
         Element root = doc.createElement("userlist");
@@ -142,11 +142,17 @@ public class ModelingTool extends AbstractComponent {
         try {
             Item workflowModel = workflowModelFacade
                     .getWorkflowModel(workflowModelId);
+            logger
+                    .debug("[Modeling Tool] Retrieving dwdl document was successfull");
+            // JS remove this line
+            logger.debug("[Modeling Tool] DWDL: "
+                    + new String((byte[]) workflowModel.getItemProperty("dwdl")
+                            .getValue()));
             return new String((byte[]) workflowModel.getItemProperty("dwdl")
                     .getValue());
-
         } catch (TransactionException e) {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent(e));
+            logger.debug("[Modeling Tool] Retrieving dwdl document failed");
             return null;
         }
     }
@@ -154,7 +160,7 @@ public class ModelingTool extends AbstractComponent {
     private String getUsers() {
         userList = new HashMap<Long, String>();
         try {
-            logger.debug("Getting user list from server...");
+            logger.debug("[Modeling Tool] Getting user list from server...");
             List<Item> users = tenantFacade.getUsersOfTenant(tenantId, null);
             for (Item item : users) {
                 if (item.getItemProperty("username").getValue() == null
@@ -177,11 +183,12 @@ public class ModelingTool extends AbstractComponent {
                     userList.put(id, username);
                 }
             }
-            logger.debug("Succeded retrieving user list from server.");
+            logger.debug("[Modeling Tool] Succeded retrieving user list from server.");
             return convertUserHashMapToString(userList);
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(
                     new TransactionErrorDialogComponent(exception));
+            logger.debug("[Modeling Tool] Failed retrieving user list from server.");
             return null;
         }
     }
