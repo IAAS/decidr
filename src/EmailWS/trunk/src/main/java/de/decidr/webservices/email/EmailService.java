@@ -112,6 +112,8 @@ public class EmailService implements EmailInterface {
         StorageProvider store = StorageProviderFactory.getDefaultFactory()
                 .getStorageProvider();
         SystemSettings config = DecidrGlobals.getSettings();
+        Set<Long> normalisedIDs = new HashSet<Long>(attachments.getId().size());
+        normalisedIDs.addAll(attachments.getId());
 
         log.debug("getting settings");
         int maxAtts = config.getMaxAttachmentsPerEmail();
@@ -122,7 +124,7 @@ public class EmailService implements EmailInterface {
         }
 
         log.debug("attaching files");
-        for (Long id : attachments.getId()) {
+        for (Long id : normalisedIDs) {
             email.addFile(store.getFile(id));
         }
         log.trace("Leaving " + EmailService.class.getSimpleName()

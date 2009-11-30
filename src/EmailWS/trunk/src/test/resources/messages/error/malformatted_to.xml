@@ -14,10 +14,7 @@
 	<!-- specific language governing permissions and limitations -->
 	<!-- under the License. -->
 
-	<!--
-		This test makes sure that a message contining an HTML body is
-		delivered correctly.
-	-->
+	<!-- This test should fail due to a malformatted recipient -->
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email"
 	xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes"
@@ -27,8 +24,7 @@
 		<ema:sendEmail>
 			<to>
 				<dec:emailUser>
-					<dec:email>decidr.iaas@googlemail.com
-					</dec:email>
+					<dec:email>decidr@iaas@googlemail.com</dec:email>
 				</dec:emailUser>
 			</to>
 			<cc xsi:nil="true" />
@@ -37,8 +33,8 @@
 			<fromAddress>root@localhost</fromAddress>
 			<subject>asd</subject>
 			<headers xsi:nil="true" />
-			<bodyTXT xsi:nil="true" />
-			<bodyHTML>&lt;html&gt;&lt;body&gt;&lt;p&gt;HTML-Test-Body&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</bodyHTML>
+			<bodyTXT>ddddddddassdf</bodyTXT>
+			<bodyHTML xsi:nil="true" />
 			<attachments xsi:nil="true" />
 		</ema:sendEmail>
 	</soap:Body>

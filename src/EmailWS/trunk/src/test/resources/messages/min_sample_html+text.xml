@@ -14,6 +14,10 @@
 	<!-- specific language governing permissions and limitations -->
 	<!-- under the License. -->
 
+	<!--
+		This tests makes sure that a message containing different body parts
+		(both HTML and text) are sent properly
+	-->
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email"
 	xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes"
@@ -23,7 +27,8 @@
 		<ema:sendEmail>
 			<to>
 				<dec:emailUser>
-					<dec:email>decidr.iaas@googlemail.com</dec:email>
+					<dec:email>decidr.iaas@googlemail.com
+					</dec:email>
 				</dec:emailUser>
 			</to>
 			<cc xsi:nil="true" />
