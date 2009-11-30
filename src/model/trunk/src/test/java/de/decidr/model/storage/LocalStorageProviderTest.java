@@ -90,7 +90,7 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
 
-        BasicFile = new java.io.File("./src/test/java/decidr.jpg");
+        BasicFile = new java.io.File("./src/test/resources/decidr.jpg");
 
         DataFile = new de.decidr.model.entities.File();
 
@@ -120,7 +120,7 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
                 BasicFile.length());
 
         FileInputStream stream = new FileInputStream(
-                "./src/test/java/decidr.jpg");
+                "./src/test/resources/decidr.jpg");
 
         byte[] In = readInputStream(stream);
         byte[] Out = readInputStream((FileInputStream) storageProvider

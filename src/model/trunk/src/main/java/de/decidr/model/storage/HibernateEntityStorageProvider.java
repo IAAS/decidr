@@ -19,13 +19,8 @@ package de.decidr.model.storage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.util.List;
 import java.util.Properties;
-
-import javax.lang.model.type.NullType;
-import javax.lang.model.type.TypeKind;
-import javax.lang.model.type.TypeVisitor;
 
 import org.apache.log4j.Logger;
 import org.hibernate.EntityMode;

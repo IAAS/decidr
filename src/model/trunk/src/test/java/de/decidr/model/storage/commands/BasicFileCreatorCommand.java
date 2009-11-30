@@ -67,7 +67,7 @@ public class BasicFileCreatorCommand extends AbstractTransactionalCommand {
     @Override
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
-        basicFile = new java.io.File("./src/test/java/decidr.jpg");
+        basicFile = new java.io.File("./src/test/resources/decidr.jpg");
         assertTrue(basicFile.exists());
 
         dataFile = new de.decidr.model.entities.File();
