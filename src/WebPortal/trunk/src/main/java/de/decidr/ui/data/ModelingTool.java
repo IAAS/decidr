@@ -100,13 +100,16 @@ public class ModelingTool extends AbstractComponent {
         if (variables.containsKey("dwdl")) {
             byte[] dwdl = (byte[]) variables.get("dwdl");
             try {
-
                 workflowModelFacade.saveWorkflowModel(workflowModelId, "", "",
                         dwdl);
+                logger.debug("[Modeling Tool] DWDL stored successfully.");
             } catch (TransactionException e) {
                 Main.getCurrent().addWindow(
                         new TransactionErrorDialogComponent(e));
+                logger.debug("[Modeling Tool] DWDL storing failed.");
             }
+        }else {
+            logger.debug("[Modeling Tool] Client variables did not contain a dwdl key.");
         }
     }
 
