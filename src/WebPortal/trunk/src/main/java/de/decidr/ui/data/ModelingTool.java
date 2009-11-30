@@ -24,11 +24,12 @@ import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
 
 import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.output.DOMOutputter;
+import org.jdom.output.XMLOutputter;
 
 import com.vaadin.data.Item;
 import com.vaadin.terminal.PaintException;
@@ -109,8 +110,9 @@ public class ModelingTool extends AbstractComponent {
                         new TransactionErrorDialogComponent(e));
                 logger.debug("[Modeling Tool] DWDL storing failed.");
             }
-        }else {
-            logger.debug("[Modeling Tool] Client variables did not contain a dwdl key.");
+        } else {
+            logger
+                    .debug("[Modeling Tool] Client variables did not contain a dwdl key.");
         }
     }
 
@@ -124,22 +126,18 @@ public class ModelingTool extends AbstractComponent {
             // JS
             logger.debug("[Modeling Tool]: Exception", e);
         }
-        Document doc = builder.newDocument();
-        Element root = doc.createElement("userlist");
+        Document doc = new Document();
+
+        doc.setRootElement(new Element("userlist"));
 
         for (Long userId : userList.keySet()) {
-            Element user = doc.createElement("user");
+            Element user = new Element("user");
             user.setAttribute("id", userId.toString());
             user.setAttribute("name", userList.get(user));
-            root.appendChild(user);
+            doc.getRootElement().addContent(user);
         }
 
-        doc.appendChild(root);
-
-        logger.debug(doc.toString());
-        logger.debug(new DOMSource(doc).toString());
-
-        return doc.toString();
+        return new XMLOutputter().outputString(doc);
     }
 
     private String getDWDL() {
@@ -187,12 +185,17 @@ public class ModelingTool extends AbstractComponent {
                     userList.put(id, username);
                 }
             }
-            logger.debug("[Modeling Tool] Succeded retrieving user list from server.");
-            return convertUserHashMapToString(userList);
+            logger
+                    .debug("[Modeling Tool] Succeded retrieving user list from server.");
+            String userListString = convertUserHashMapToString(userList);
+            // JS remove this line
+            logger.debug("[Modeling Tool] User list: " + userListString);
+            return userListString;
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(
                     new TransactionErrorDialogComponent(exception));
-            logger.debug("[Modeling Tool] Failed retrieving user list from server.");
+            logger
+                    .debug("[Modeling Tool] Failed retrieving user list from server.");
             return null;
         }
     }
