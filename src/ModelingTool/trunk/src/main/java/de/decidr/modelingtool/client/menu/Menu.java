@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.menu;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.MenuBar;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**
@@ -29,7 +30,7 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
  */
 public class Menu extends MenuBar {
 
-    public Menu() {
+    public Menu(ModelingToolWidget modelingToolWidget) {
         // argument false = non vertical
         super(false);
 
@@ -38,7 +39,7 @@ public class Menu extends MenuBar {
         MenuImageBundle imgBundle = GWT.create(MenuImageBundle.class);
 
         addItem(imgBundle.clear().getHTML(), true, new ClearWorkflowMenuItem());
-        addItem(imgBundle.save().getHTML(), true, new SaveMenuItem());
+        addItem(imgBundle.save().getHTML(), true, new SaveMenuItem(modelingToolWidget));
         addItem(imgBundle.undo().getHTML(), true, new UndoMenuItem());
         addItem(imgBundle.redo().getHTML(), true, new RedoMenuItem());
         addItem(imgBundle.delete().getHTML(), true, new DeleteMenuItem());

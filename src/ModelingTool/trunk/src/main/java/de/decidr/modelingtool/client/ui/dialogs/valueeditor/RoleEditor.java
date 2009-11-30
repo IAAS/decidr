@@ -62,6 +62,7 @@ public class RoleEditor extends ModelingToolDialog {
     private HashMap<Long, String> tenantUsers;
     private List<Long> roleUserIds;
 
+    private HashMap<Long, String> users;
     private Variable variable;
 
     /**
@@ -195,8 +196,7 @@ public class RoleEditor extends ModelingToolDialog {
         roleUsersStore.setStoreSorter(new StoreSorter<RoleEditorUser>(
                 new RoleEditorUserComparator()));
         for (Long userId : roleUserIds) {
-            roleUsersStore.add(new RoleEditorUser(userId, ModelingToolWidget
-                    .getInstance().getUsers().get(userId)));
+            roleUsersStore.add(new RoleEditorUser(userId, users.get(userId)));
         }
         roleUsersView.setStore(roleUsersStore);
     }
@@ -229,6 +229,11 @@ public class RoleEditor extends ModelingToolDialog {
         roleUsersView.getStore().removeAll();
     }
 
+    //JS this method must be called in invoker
+    public void setUsers(HashMap<Long, String> users) {
+        this.users = users;
+    }
+
     /**
      * Sets the "role" variable that is to be modeled with this dialog.
      * 
@@ -236,6 +241,8 @@ public class RoleEditor extends ModelingToolDialog {
      *            the variable
      */
     public void setVariable(Variable variable) {
+        //JS this must be replaced by above method
+        this.users = ModelingToolWidget.getInstance().getUsers();
         this.variable = variable;
     }
 
@@ -247,9 +254,8 @@ public class RoleEditor extends ModelingToolDialog {
     @Override
     public Boolean initialize() {
         tenantUsers = new HashMap<Long, String>();
-        for (Long userId : ModelingToolWidget.getInstance().getUsers().keySet()) {
-            tenantUsers.put(new Long(userId), new String(ModelingToolWidget
-                    .getInstance().getUsers().get(userId)));
+        for (Long userId : users.keySet()) {
+            tenantUsers.put(new Long(userId), new String(users.get(userId)));
         }
         roleUserIds = new ArrayList<Long>();
 

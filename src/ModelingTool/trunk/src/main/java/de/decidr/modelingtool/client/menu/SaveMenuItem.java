@@ -31,6 +31,18 @@ import de.decidr.modelingtool.client.ui.Workflow;
  */
 public class SaveMenuItem implements Command {
 
+    private ModelingToolWidget modelingToolWidget;
+
+    /**
+     * TODO: add comment
+     * 
+     * @param modelingToolWidget
+     */
+    public SaveMenuItem(ModelingToolWidget modelingToolWidget) {
+        super();
+        this.modelingToolWidget = modelingToolWidget;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -41,7 +53,8 @@ public class SaveMenuItem implements Command {
         /* Invoke parser and send resulting dwdl document to server */
         WorkflowParser parser = new WorkflowParserImpl();
         String dwdl = parser.parse(Workflow.getInstance().getModel());
-        ModelingToolWidget.getInstance().sendDWDLtoServer(dwdl);
+        modelingToolWidget.setDWDL(dwdl);
+        modelingToolWidget.sendDWDLtoServer(dwdl);
     }
 
 }

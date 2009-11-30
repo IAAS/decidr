@@ -65,10 +65,6 @@ public class ModelingToolWidget extends Composite implements
 
     private static ModelingToolWidget instance;
 
-    // private static final String html = "<table align=\"center\">"
-    // + "<tr><td id=\"menu\"></td></tr>"
-    // + "<tr><td id=\"workflow\"></td></tr>" + "</table>";
-
     public static ModelingToolWidget getInstance() {
         if (instance == null) {
             instance = new ModelingToolWidget();
@@ -82,7 +78,7 @@ public class ModelingToolWidget extends Composite implements
         VerticalPanel panel = new VerticalPanel();
 
         // create menu
-        Menu menu = new Menu();
+        Menu menu = new Menu(this);
         panel.add(menu);
 
         // create workflow and add to the root panel.

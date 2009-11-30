@@ -30,19 +30,17 @@ public class ModelingTool implements EntryPoint {
      */
     public void onModuleLoad() {
 
-        RootPanel.get("panel").add(ModelingToolWidget.getInstance());
+        ModelingToolWidget modelingToolWidget = new ModelingToolWidget();
+
+        RootPanel.get("panel").add(modelingToolWidget);
 
         // Some test user data
-        ModelingToolWidget
-                .getInstance()
-                .setUsers(
-                        "<userlist><user id=\"23\" name=\"Clark Kent\"/><user id=\"42\" name=\"Bruce Wayne\"/><user id=\"113\" name=\"Peter Parker\"/></userlist>");
+        modelingToolWidget
+                .setUsers("<userlist><user id=\"23\" name=\"Clark Kent\"/><user id=\"42\" name=\"Bruce Wayne\"/><user id=\"113\" name=\"Peter Parker\"/></userlist>");
 
         // A very basic workflow
-        ModelingToolWidget
-                .getInstance()
-                .setDWDL(
-                        "<workflow name=\"Simple Workflow\" id=\"3141\" targetNamespace=\"namespace\" xmlns=\"schema\"><description></description><variables /><roles /><faultHandler><setProperty name=\"message\" /><recipient><setProperty name=\"name\" /></recipient></faultHandler><nodes><startNode name=\"de.decidr.modelingtool.client.model.StartNodeModel\" id=\"4815162342\"><description></description><graphics x=\"20\" y=\"20\" width=\"50\" height=\"30\" /></startNode><endNode name=\"de.decidr.modelingtool.client.model.EndNodeModel\" id=\"108\"><description></description><graphics x=\"200\" y=\"200\" width=\"50\" height=\"30\" /><notificationOfSuccess><setProperty name=\"successMessage\" /><setProperty name=\"recipient\" /></notificationOfSuccess></endNode></nodes><arcs /></workflow>");
+        modelingToolWidget
+                .setDWDL("<workflow name=\"Simple Workflow\" id=\"3141\" targetNamespace=\"namespace\" xmlns=\"schema\"><description></description><variables /><roles /><faultHandler><setProperty name=\"message\" /><recipient><setProperty name=\"name\" /></recipient></faultHandler><nodes><startNode name=\"de.decidr.modelingtool.client.model.StartNodeModel\" id=\"4815162342\"><description></description><graphics x=\"20\" y=\"20\" width=\"50\" height=\"30\" /></startNode><endNode name=\"de.decidr.modelingtool.client.model.EndNodeModel\" id=\"108\"><description></description><graphics x=\"200\" y=\"200\" width=\"50\" height=\"30\" /><notificationOfSuccess><setProperty name=\"successMessage\" /><setProperty name=\"recipient\" /></notificationOfSuccess></endNode></nodes><arcs /></workflow>");
     }
 
 }
