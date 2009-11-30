@@ -99,7 +99,7 @@ public class CreateTenantAction implements ClickListener {
 						new InformationDialogComponent(
 								"Tenant successfully created", "Success"));
 				uiDirector.switchView(tenantAdminViewBuilder);
-				siteFrame.setContent(new TenantSettingsComponent(tenantName,"", "decidrlogo.png"));
+				siteFrame.setContent(new TenantSettingsComponent(tenantId));
 				((HorizontalNavigationMenu) uiDirector.getTemplateView()
 						.getHNavigation()).getLogoutButton().setVisible(true);
 			} catch (TransactionException e) {

@@ -55,7 +55,6 @@ public class ShowTenantSettingsAction implements ClickListener {
 
 	private Long userId = (Long) Main.getCurrent().getSession().getAttribute(
 			"userId");
-	private String tenantName = null;
 
 	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
 
@@ -69,58 +68,8 @@ public class ShowTenantSettingsAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		Long tenantId;
-		try {
-			tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
-			tenantName = tenantFacade.getTenant(tenantId).getName();
-			
-			String description = "";
-			if(tenantFacade.getTenantSettings(tenantId).getItemProperty("description").getValue() != null){
-				description = tenantFacade.getTenantSettings(tenantId)
-				.getItemProperty("description").getValue().toString();
-			}
-			
-			
-//			InputStream in = tenantFacade.getLogo(tenantId);
-//                        File file = new File("themes/"+tenantName+"/img/decidrlogo.png");
-//                        file.createNewFile();
-//                        
-//                        if (in == null){
-//                            in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
-//                        }
-//
-//                        
-//                        if (in == null){
-//                            Main.getCurrent().getMainWindow().showNotification("no input stream");
-//                        }else{
-//                                OutputStream out = new FileOutputStream(file);
-//        	                byte[] buf = new byte[1024];
-//        	                int i = in.read(buf);
-//        	                while(i != -1){
-//        	                    out.write(buf, 0, i);
-//        	                    i = in.read(buf);
-//        	                }
-//        	                out.close();
-//                        }
-//	                        
-//			
-//			in.close();
-			
-			
-			
-			siteFrame.setContent(new TenantSettingsComponent(tenantName, description, "filename"));
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
-//		} catch (FileNotFoundException e) {
-//                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
-//		} catch (IOException e) {
-//                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
-		}
-		
-		
-		
-		
-		
+		Long tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
+		siteFrame.setContent(new TenantSettingsComponent(tenantId));
 		
 	}
 }

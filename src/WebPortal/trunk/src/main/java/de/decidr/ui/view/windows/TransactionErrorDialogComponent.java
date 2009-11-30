@@ -29,11 +29,9 @@ public class TransactionErrorDialogComponent extends InformationDialogComponent 
      */
     public TransactionErrorDialogComponent(Exception e) {
         super(
-                "An error occured while performing your request."
-                        // GH, Aleks can the following line ever be the reason?
-                        // ~rr
-                        + "<br/>Please check your internet connection and try again later."
-                        + "<br/>Error description:<br/>"
+                "An error occured while performing your request. Please try again."
+                        + "<br/><br/>If this error occurs repeatedly please inform the system administrator."
+                        + "<br/><br/>Error description:<br/>"
                         + e.getClass().getSimpleName() + ": " + e.getMessage(),
                 "Transaction Error");
     }

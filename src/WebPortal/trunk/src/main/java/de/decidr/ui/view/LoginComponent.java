@@ -95,8 +95,6 @@ public class LoginComponent extends CustomComponent  implements Handler {
     /**
      * This method initializes the components for the login component.
      */
-    // Aleks, GH: use a form/add a listener/do whatever is necessary to allow
-    // pressing enter to log in ~rr
     private void init(InvitationDialogComponent invD) {
         verticalLayout = new VerticalLayout();
 
@@ -161,7 +159,6 @@ public class LoginComponent extends CustomComponent  implements Handler {
     @Override
     public void handleAction(Action action, Object sender, Object target) {
         if (action == loginAction ){
-            Main.getCurrent().getMainWindow().showNotification("enter pressed");
             loginListener.buttonClick(loginButton.new ClickEvent( loginButton ));
         }
         
