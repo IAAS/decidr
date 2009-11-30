@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.ui.selection;
 
 import com.allen_sauer.gwt.dnd.client.DragController;
+import com.google.gwt.core.client.GWT;
 
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.ContainerExitPort;
@@ -155,7 +156,9 @@ public class ConnectionDragBox extends DragBox {
                 dc = DndRegistry.getInstance().getDragController(
                         "OutputPortDragController");
             }
-        } //JS: add else case with some warning/error ~rr
+        } else {
+            GWT.log("Could not make port draggable", null);
+        }
 
         dc.makeDraggable(this);
     }

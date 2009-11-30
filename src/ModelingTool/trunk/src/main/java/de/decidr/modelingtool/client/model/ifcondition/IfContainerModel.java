@@ -146,29 +146,31 @@ public class IfContainerModel extends ContainerModel {
      * 
      * @param condition
      *            the condition
-     * @return all the child node models of the branch
+     * @return all the child node models of the branch as a list. Returns empty
+     *         list if condition is null or no child nodes could be found.
      */
-    // JS: make sure condition is not null (=null check) ~rr
     public List<NodeModel> getChildNodesOfCondition(Condition condition) {
         List<NodeModel> branch = new ArrayList<NodeModel>();
 
-        boolean loop = true;
-        ConnectionModel connection = condition;
-        /*
-         * This loop starts with a connections and follows it to its target, a
-         * node. The node is added to the branch. The loop follows the output of
-         * the node (a connection), and adds the target node to the branch. This
-         * is continued until the connection reaches the if container (the end
-         * of the branch). There has to be at least one node in the branch,
-         * otherwise there would be now condition.
-         */
-        while (loop) {
-            NodeModel node = connection.getTarget();
-            branch.add(node);
-            connection = node.getOutput();
-            if (connection == null
-                    || connection.getTarget().getId().equals(this.getId())) {
-                loop = false;
+        if (condition != null) {
+            boolean loop = true;
+            ConnectionModel connection = condition;
+            /*
+             * This loop starts with a connections and follows it to its target,
+             * a node. The node is added to the branch. The loop follows the
+             * output of the node (a connection), and adds the target node to
+             * the branch. This is continued until the connection reaches the if
+             * container (the end of the branch). There has to be at least one
+             * node in the branch, otherwise there would be now condition.
+             */
+            while (loop) {
+                NodeModel node = connection.getTarget();
+                branch.add(node);
+                connection = node.getOutput();
+                if (connection == null
+                        || connection.getTarget().getId().equals(this.getId())) {
+                    loop = false;
+                }
             }
         }
 
@@ -182,31 +184,33 @@ public class IfContainerModel extends ContainerModel {
      * 
      * @param condition
      *            the condition
-     * @return all the child connection models of the branch
+     * @return all the child connection models of the branch. Returns empty list
+     *         if condition is null or no child connections could be found.
      */
-    // JS: make sure condition is not null (=null check) ~rr
     public List<ConnectionModel> getChildConnectionsOfCondition(
             Condition condition) {
         List<ConnectionModel> branch = new ArrayList<ConnectionModel>();
 
-        boolean loop = true;
-        ConnectionModel connection = condition;
-        branch.add(connection);
-        /*
-         * This loop starts with a connections and follows it to its target, a
-         * node. The loop follows the output of the node (a connection), and
-         * adds it to the branch. This is continued until the connection reaches
-         * the if container (the end of the branch).
-         */
-        while (loop) {
-            NodeModel node = connection.getTarget();
-            connection = node.getOutput();
-            if (connection != null) {
-                branch.add(connection);
-            }
-            if (connection == null
-                    || connection.getTarget().getId().equals(this.getId())) {
-                loop = false;
+        if (condition != null) {
+            boolean loop = true;
+            ConnectionModel connection = condition;
+            branch.add(connection);
+            /*
+             * This loop starts with a connections and follows it to its target,
+             * a node. The loop follows the output of the node (a connection),
+             * and adds it to the branch. This is continued until the connection
+             * reaches the if container (the end of the branch).
+             */
+            while (loop) {
+                NodeModel node = connection.getTarget();
+                connection = node.getOutput();
+                if (connection != null) {
+                    branch.add(connection);
+                }
+                if (connection == null
+                        || connection.getTarget().getId().equals(this.getId())) {
+                    loop = false;
+                }
             }
         }
 
