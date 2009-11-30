@@ -98,6 +98,7 @@ public class ModelingTool extends AbstractComponent {
     @SuppressWarnings("unchecked")
     @Override
     public void changeVariables(Object source, Map variables) {
+    	super.changeVariables(source, variables);
         logger.debug("[Modeling Tool] Trying to store the DWDL.");
         if (variables.containsKey("dwdl")) {
             byte[] dwdl = (byte[]) variables.get("dwdl");
@@ -133,7 +134,7 @@ public class ModelingTool extends AbstractComponent {
         for (Long userId : userList.keySet()) {
             Element user = new Element("user");
             user.setAttribute("id", userId.toString());
-            user.setAttribute("name", userList.get(user));
+            user.setAttribute("name", userList.get(userId));
             doc.getRootElement().addContent(user);
         }
 
