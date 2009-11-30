@@ -97,6 +97,7 @@ public class ModelingTool extends AbstractComponent {
     @SuppressWarnings("unchecked")
     @Override
     public void changeVariables(Object source, Map variables) {
+        logger.debug("[Modeling Tool] Trying to store the DWDL.");
         if (variables.containsKey("dwdl")) {
             byte[] dwdl = (byte[]) variables.get("dwdl");
             try {
