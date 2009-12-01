@@ -149,10 +149,10 @@
 		<wsdl:part element="tns:removeTaskResponse" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="transactionException">
-		<wsdl:part element="mex:transactionException" name="parameters" />
+		<wsdl:part element="mex:transactionException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="reportingException">
-		<wsdl:part element="sex:reportingException" name="parameters" />
+		<wsdl:part element="sex:reportingException" name="fault" />
 	</wsdl:message>
 
 	<wsdl:portType name="HumanTaskPT">
@@ -161,29 +161,34 @@
 				wsaw:Action="urn:createTask" />
 			<wsdl:output name="createTaskResponse" message="tns:createTaskResponse"
 				wsaw:Action="urn:createTaskResponse" />
-			<wsdl:fault name="transactionException" message="tns:transactionException" />
+			<wsdl:fault name="transactionException" message="tns:transactionException"
+				wsaw="urn:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="taskCompleted">
 			<wsdl:input name="taskCompletedRequest" message="tns:taskCompletedRequest"
 				wsaw:Action="urn:taskCompleted" />
 			<wsdl:output name="taskCompletedResponse" message="tns:taskCompletedResponse"
 				wsaw:Action="urn:taskCompletedResponse" />
-			<wsdl:fault name="transactionException" message="tns:transactionException" />
-			<wsdl:fault name="reportingException" message="tns:reportingException" />
+			<wsdl:fault name="transactionException" message="tns:transactionException"
+				wsaw="urn:transactionException" />
+			<wsdl:fault name="reportingException" message="tns:reportingException"
+				wsaw="urn:reportingException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
 			<wsdl:input name="removeTasksRequest" message="tns:removeTasksRequest"
 				wsaw:Action="urn:removeTasks" />
 			<wsdl:output name="removeTasksResponse" message="tns:removeTasksResponse"
 				wsaw:Action="urn:removeTasksResponse" />
-			<wsdl:fault name="transactionException" message="tns:transactionException" />
+			<wsdl:fault name="transactionException" message="tns:transactionException"
+				wsaw="urn:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTask">
 			<wsdl:input name="removeTaskRequest" message="tns:removeTaskRequest"
 				wsaw:Action="urn:removeTask" />
 			<wsdl:output name="removeTaskResponse" message="tns:removeTaskResponse"
 				wsaw:Action="urn:removeTaskResponse" />
-			<wsdl:fault name="transactionException" message="tns:transactionException" />
+			<wsdl:fault name="transactionException" message="tns:transactionException"
+				wsaw="urn:transactionException" />
 		</wsdl:operation>
 	</wsdl:portType>
 

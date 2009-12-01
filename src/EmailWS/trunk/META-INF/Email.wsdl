@@ -91,22 +91,22 @@
 	</wsdl:message>
 	<wsdl:message name="incompleteConfigurationException">
 		<wsdl:part element="mex:incompleteConfigurationException"
-			name="parameters" />
+			name="fault" />
 	</wsdl:message>
 	<wsdl:message name="storageException">
-		<wsdl:part element="mex:storageException" name="parameters" />
+		<wsdl:part element="mex:storageException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="transactionException">
-		<wsdl:part element="mex:transactionException" name="parameters" />
+		<wsdl:part element="mex:transactionException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="ioException">
-		<wsdl:part element="sex:ioException" name="parameters" />
+		<wsdl:part element="sex:ioException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="malformedURLException">
-		<wsdl:part element="sex:malformedURLException" name="parameters" />
+		<wsdl:part element="sex:malformedURLException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="messagingException">
-		<wsdl:part element="sex:messagingException" name="parameters" />
+		<wsdl:part element="sex:messagingException" name="fault" />
 	</wsdl:message>
 
 	<wsdl:portType name="EmailPT">
@@ -117,11 +117,16 @@
 				wsaw:Action="urn:sendEmailResponse" />
 			<wsdl:fault name="incompleteConfigurationException"
 				message="tns:incompleteConfigurationException" />
-			<wsdl:fault name="storageException" message="tns:storageException" />
-			<wsdl:fault name="transactionException" message="tns:transactionException" />
-			<wsdl:fault name="ioException" message="tns:ioException" />
-			<wsdl:fault name="malformedURLException" message="tns:malformedURLException" />
-			<wsdl:fault name="messagingException" message="tns:messagingException" />
+			<wsdl:fault name="storageException" message="tns:storageException"
+				wsaw="urn:storageException" />
+			<wsdl:fault name="transactionException" message="tns:transactionException"
+				wsaw="urn:transactionException" />
+			<wsdl:fault name="ioException" message="tns:ioException"
+				wsaw="urn:ioException" />
+			<wsdl:fault name="malformedURLException" message="tns:malformedURLException"
+				wsaw="urn:malformedURLException" />
+			<wsdl:fault name="messagingException" message="tns:messagingException"
+				wsaw="urn:messagingException" />
 		</wsdl:operation>
 	</wsdl:portType>
 

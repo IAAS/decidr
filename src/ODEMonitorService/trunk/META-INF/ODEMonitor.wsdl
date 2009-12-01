@@ -132,10 +132,10 @@
 		<wsdl:part element="tns:getConfigResponse" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="transactionException">
-		<wsdl:part element="ex:transactionException" name="parameters" />
+		<wsdl:part element="ex:transactionException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="illegalArgumentException">
-		<wsdl:part element="ex:illegalArgumentException" name="parameters" />
+		<wsdl:part element="ex:illegalArgumentException" name="fault" />
 	</wsdl:message>
 
 	<wsdl:portType name="ODEMonitorPT">
