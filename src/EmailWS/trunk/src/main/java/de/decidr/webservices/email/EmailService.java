@@ -303,8 +303,8 @@ public class EmailService implements EmailInterface {
             log.debug("checking parameters for nulls");
             if ((to == null) || (fromAddress == null) || (subject == null)
                     || subject.isEmpty()) {
-                log
-                        .error("A main parameter (to, fromAddress, subject) is null!");
+                log.error("A main parameter (to, "
+                        + "fromAddress, subject) is null!");
                 throw new IllegalArgumentExceptionWrapper(
                         "The main parameters (to, "
                                 + "fromAddress, subject) must not be null!");
@@ -313,7 +313,7 @@ public class EmailService implements EmailInterface {
                     && ((bodyTXT == null) || bodyTXT.isEmpty())) {
                 log.error("Neither HTML nor text body was passed!");
                 throw new IllegalArgumentExceptionWrapper(
-                        "There must be either an " + "HTML or a text body");
+                        "There must be either an HTML or a text body");
             }
             if (((to.getEmailUser() == null) || to.getEmailUser().isEmpty())
                     && ((to.getActorUser() == null) || to.getActorUser()
@@ -371,9 +371,9 @@ public class EmailService implements EmailInterface {
                 } catch (IOException e) {
                     throw new IoExceptionWrapper(e.getMessage(), e.getCause());
                 } catch (InstantiationException e) {
-                    throw new RuntimeException(e);
+                    throw new TransactionException(e);
                 } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                    throw new TransactionException(e);
                 }
             }
 
@@ -391,7 +391,7 @@ public class EmailService implements EmailInterface {
         } catch (IllegalArgumentExceptionWrapper e) {
             throw e;
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(e.getMessage(), e.getCause());
+            throw new IllegalArgumentExceptionWrapper(e.getMessage(), e.getCause());
         }
 
         log.trace("Leaving " + EmailService.class.getSimpleName()
