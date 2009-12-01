@@ -301,22 +301,25 @@ public class EmailService implements EmailInterface {
                 + ", attachments: " + attachments);
         try {
             log.debug("checking parameters for nulls");
-            if ((to == null) || (fromAddress == null) || (subject == null)) {
+            if ((to == null) || (fromAddress == null) || (subject == null)
+                    || subject.isEmpty()) {
                 log
                         .error("A main parameter (to, fromAddress, subject) is null!");
                 throw new IllegalArgumentExceptionWrapper(
                         "The main parameters (to, "
                                 + "fromAddress, subject) must not be null!");
             }
-            if ((bodyHTML == null) && (bodyTXT == null)) {
+            if (((bodyHTML == null) || bodyHTML.isEmpty())
+                    && ((bodyTXT == null) || bodyTXT.isEmpty())) {
                 log.error("Neither HTML nor text body was passed!");
                 throw new IllegalArgumentExceptionWrapper(
                         "There must be either an " + "HTML or a text body");
             }
-            if ((to.getEmailUser() == null || to.getEmailUser().isEmpty())
-                    && (to.getActorUser() == null || to.getActorUser()
+            if (((to.getEmailUser() == null) || to.getEmailUser().isEmpty())
+                    && ((to.getActorUser() == null) || to.getActorUser()
                             .isEmpty())
-                    && (to.getRoleUser() == null || to.getRoleUser().isEmpty())) {
+                    && ((to.getRoleUser() == null) || to.getRoleUser()
+                            .isEmpty())) {
                 log.error("No recipient specified!");
                 throw new IllegalArgumentExceptionWrapper(
                         "The to list was empty");
@@ -339,7 +342,7 @@ public class EmailService implements EmailInterface {
                 email.addHeaders(parseStringMap(headers));
             }
 
-            if (bodyHTML != null) {
+            if ((bodyHTML != null) && !bodyHTML.isEmpty()) {
                 log.debug("adding HTML body");
                 try {
                     email.setBodyHTML(bodyHTML);
@@ -348,7 +351,7 @@ public class EmailService implements EmailInterface {
                 }
             }
 
-            if (bodyTXT != null) {
+            if ((bodyTXT != null) && !bodyTXT.isEmpty()) {
                 log.debug("adding text body");
                 try {
                     email.setBodyText(bodyTXT);
