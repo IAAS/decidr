@@ -116,17 +116,17 @@
 			<wsdl:output name="sendEmailResponse" message="tns:sendEmailResponse"
 				wsaw:Action="urn:sendEmailResponse" />
 			<wsdl:fault name="incompleteConfigurationException"
-				message="tns:incompleteConfigurationException" />
+				message="tns:incompleteConfigurationException" wsaw:Action="urn:incompleteConfigurationException" />
 			<wsdl:fault name="storageException" message="tns:storageException"
-				wsaw="urn:storageException" />
+				wsaw:Action="urn:storageException" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw="urn:transactionException" />
+				wsaw:Action="urn:transactionException" />
 			<wsdl:fault name="ioException" message="tns:ioException"
-				wsaw="urn:ioException" />
+				wsaw:Action="urn:ioException" />
 			<wsdl:fault name="malformedURLException" message="tns:malformedURLException"
-				wsaw="urn:malformedURLException" />
+				wsaw:Action="urn:malformedURLException" />
 			<wsdl:fault name="messagingException" message="tns:messagingException"
-				wsaw="urn:messagingException" />
+				wsaw:Action="urn:messagingException" />
 		</wsdl:operation>
 	</wsdl:portType>
 

@@ -162,7 +162,7 @@
 			<wsdl:output name="createTaskResponse" message="tns:createTaskResponse"
 				wsaw:Action="urn:createTaskResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw="urn:transactionException" />
+				wsaw:Action="urn:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="taskCompleted">
 			<wsdl:input name="taskCompletedRequest" message="tns:taskCompletedRequest"
@@ -170,9 +170,9 @@
 			<wsdl:output name="taskCompletedResponse" message="tns:taskCompletedResponse"
 				wsaw:Action="urn:taskCompletedResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw="urn:transactionException" />
+				wsaw:Action="urn:transactionException" />
 			<wsdl:fault name="reportingException" message="tns:reportingException"
-				wsaw="urn:reportingException" />
+				wsaw:Action="urn:reportingException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTasks">
 			<wsdl:input name="removeTasksRequest" message="tns:removeTasksRequest"
@@ -180,7 +180,7 @@
 			<wsdl:output name="removeTasksResponse" message="tns:removeTasksResponse"
 				wsaw:Action="urn:removeTasksResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw="urn:transactionException" />
+				wsaw:Action="urn:transactionException" />
 		</wsdl:operation>
 		<wsdl:operation name="removeTask">
 			<wsdl:input name="removeTaskRequest" message="tns:removeTaskRequest"
@@ -188,7 +188,7 @@
 			<wsdl:output name="removeTaskResponse" message="tns:removeTaskResponse"
 				wsaw:Action="urn:removeTaskResponse" />
 			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw="urn:transactionException" />
+				wsaw:Action="urn:transactionException" />
 		</wsdl:operation>
 	</wsdl:portType>
 
