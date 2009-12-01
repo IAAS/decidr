@@ -34,9 +34,6 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    /**
-     * RR: add comment
-     */
     private static final String EXCEPTION_NAMESPACE = "http://decidr.de/model/exceptions";
 
     private final static QName _TransactionException_QNAME = new QName(

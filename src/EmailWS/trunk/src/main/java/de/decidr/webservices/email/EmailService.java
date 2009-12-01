@@ -344,20 +344,12 @@ public class EmailService implements EmailInterface {
 
             if ((bodyHTML != null) && !bodyHTML.isEmpty()) {
                 log.debug("adding HTML body");
-                try {
-                    email.setBodyHTML(bodyHTML);
-                } catch (MessagingException e) {
-                    throw new MessagingExceptionWrapper(e.getMessage());
-                }
+                email.setBodyHTML(bodyHTML);
             }
 
             if ((bodyTXT != null) && !bodyTXT.isEmpty()) {
                 log.debug("adding text body");
-                try {
-                    email.setBodyText(bodyTXT);
-                } catch (MessagingException e) {
-                    throw new MessagingExceptionWrapper(e.getMessage());
-                }
+                email.setBodyText(bodyTXT);
             }
 
             if (attachments != null) {
@@ -366,10 +358,6 @@ public class EmailService implements EmailInterface {
                     addAttachments(email, attachments);
                 } catch (MalformedURLException e) {
                     throw new MalformedURLExceptionWrapper(e.getMessage());
-                } catch (MessagingException e) {
-                    throw new MessagingExceptionWrapper(e.getMessage());
-                } catch (IOException e) {
-                    throw new IoExceptionWrapper(e.getMessage(), e.getCause());
                 } catch (InstantiationException e) {
                     throw new TransactionException(e);
                 } catch (IllegalAccessException e) {
@@ -381,17 +369,20 @@ public class EmailService implements EmailInterface {
             applyConfig(email);
 
             log.debug("sending e-mail");
-            try {
-                email.sendMessage();
-            } catch (MessagingException e) {
-                throw new MessagingExceptionWrapper(e.getMessage());
-            } catch (IOException e) {
-                throw new IoExceptionWrapper(e.getMessage(), e.getCause());
-            }
+            email.sendMessage();
+        } catch (MessagingExceptionWrapper e) {
+            throw e;
+        } catch (IoExceptionWrapper e) {
+            throw e;
         } catch (IllegalArgumentExceptionWrapper e) {
             throw e;
+        } catch (IOException e) {
+            throw new IoExceptionWrapper(e.getMessage(), e.getCause());
+        } catch (MessagingException e) {
+            throw new MessagingExceptionWrapper(e.getMessage());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentExceptionWrapper(e.getMessage(), e.getCause());
+            throw new IllegalArgumentExceptionWrapper(e.getMessage(), e
+                    .getCause());
         }
 
         log.trace("Leaving " + EmailService.class.getSimpleName()

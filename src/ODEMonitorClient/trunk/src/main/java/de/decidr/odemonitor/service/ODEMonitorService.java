@@ -46,10 +46,12 @@ public interface ODEMonitorService {
     public static final String PORT_TYPE_NAME = "ODEMonitorPT";
     public static final String PORT_NAME = "ODEMonitorSOAP11Endpoint";
     public static final String ENDPOINT_NAME = "ODEMonitorProxyHttpSoap11Endpoint";
+    // DH RR XXX revert once the ESB works
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
-            SERVICE_NAME + "Proxy");
+            SERVICE_NAME);
+    // DH RR XXX revert once the ESB works
     public static final QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            ENDPOINT_NAME);
+            PORT_NAME);
 
     /**
      * Returns the current configuration.

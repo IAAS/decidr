@@ -33,10 +33,11 @@ import de.decidr.model.DecidrGlobals;
 @WebServiceClient(name = ODEMonitorService.SERVICE_NAME, targetNamespace = ODEMonitorService.TARGET_NAMESPACE)
 public class ODEMonitor extends Service {
     public ODEMonitor() throws MalformedURLException {
-        this(
-                new URL(DecidrGlobals
-                        .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME
-                                + "Proxy")), ODEMonitorService.SERVICE);
+        // DH RR XXX revert once the ESB works
+        this(new URL(DecidrGlobals
+                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
+                        + ODEMonitorService.PORT_NAME)),
+                ODEMonitorService.SERVICE);
     }
 
     public ODEMonitor(URL wsdlLocation) {
@@ -68,20 +69,22 @@ public class ODEMonitor extends Service {
 
     public static ODEMonitorService getODEMonitorClient()
             throws MalformedURLException {
-        Service service = Service.create(
-                new URL(DecidrGlobals
-                        .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME
-                                + "Proxy")), ODEMonitorService.SERVICE);
+        // DH RR XXX revert once the ESB works
+        Service service = Service.create(new URL(DecidrGlobals
+                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
+                        + ODEMonitorService.PORT_NAME)),
+                ODEMonitorService.SERVICE);
         return service.getPort(ODEMonitorService.ENDPOINT,
                 ODEMonitorService.class);
     }
 
     public static ODEMonitorService getODEMonitorClient(
             WebServiceFeature... features) throws MalformedURLException {
-        Service service = Service.create(
-                new URL(DecidrGlobals
-                        .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME
-                                + "Proxy")), ODEMonitorService.SERVICE);
+        // DH RR XXX revert once the ESB works
+        Service service = Service.create(new URL(DecidrGlobals
+                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
+                        + ODEMonitorService.PORT_NAME)),
+                ODEMonitorService.SERVICE);
         return service.getPort(ODEMonitorService.ENDPOINT,
                 ODEMonitorService.class, features);
     }
