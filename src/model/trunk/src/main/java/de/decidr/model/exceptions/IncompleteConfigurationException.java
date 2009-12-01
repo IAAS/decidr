@@ -26,6 +26,9 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(targetNamespace = "http://decidr.de/model/exceptions", name = "incompleteConfigurationException")
 public class IncompleteConfigurationException extends Exception {
+
+    private static final long serialVersionUID = 1L;
+
     private String serviceDetail = "";
 
     /**
@@ -48,14 +51,12 @@ public class IncompleteConfigurationException extends Exception {
     }
 
     /**
-     * Method returning {@link TransactionException#serviceDetail} needed for
+     * Method returning {@link TransactionException#getFaultInfo} needed for
      * {@link WebFault} annotation.
      */
-    String getServiceDetail() {
+    String getFaultInfo() {
         return serviceDetail;
     }
-
-    private static final long serialVersionUID = 1L;
 
     public IncompleteConfigurationException() {
         super();
