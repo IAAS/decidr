@@ -14,7 +14,7 @@
 	<!-- specific language governing permissions and limitations -->
 	<!-- under the License. -->
 
-	<!-- This test makes sure that basic functionality is working -->
+	<!-- This test should fail due to an empty body. -->
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email"
 	xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes"
@@ -33,7 +33,7 @@
 			<fromAddress>root@localhost</fromAddress>
 			<subject>asd</subject>
 			<headers xsi:nil="true" />
-			<bodyTXT>ddddddddassdf</bodyTXT>
+			<bodyTXT></bodyTXT>
 			<bodyHTML xsi:nil="true" />
 			<attachments xsi:nil="true" />
 		</ema:sendEmail>

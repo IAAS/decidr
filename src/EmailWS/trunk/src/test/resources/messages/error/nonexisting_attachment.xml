@@ -14,7 +14,10 @@
 	<!-- specific language governing permissions and limitations -->
 	<!-- under the License. -->
 
-	<!-- This test makes sure that basic functionality is working -->
+	<!--
+		This test attempts to attach a nonexistant file. Please make sure the
+		specified attachment does not exist.
+	-->
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email"
 	xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes"
@@ -24,7 +27,8 @@
 		<ema:sendEmail>
 			<to>
 				<dec:emailUser>
-					<dec:email>decidr.iaas@googlemail.com</dec:email>
+					<dec:email>decidr.iaas@googlemail.com
+					</dec:email>
 				</dec:emailUser>
 			</to>
 			<cc xsi:nil="true" />
@@ -35,7 +39,10 @@
 			<headers xsi:nil="true" />
 			<bodyTXT>ddddddddassdf</bodyTXT>
 			<bodyHTML xsi:nil="true" />
-			<attachments xsi:nil="true" />
+			<!-- Please make sure it exists -->
+			<attachments>
+				<dec1:id>-1</dec1:id>
+			</attachments>
 		</ema:sendEmail>
 	</soap:Body>
 </soap:Envelope>

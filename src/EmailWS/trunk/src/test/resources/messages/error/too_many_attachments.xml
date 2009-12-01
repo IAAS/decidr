@@ -14,7 +14,11 @@
 	<!-- specific language governing permissions and limitations -->
 	<!-- under the License. -->
 
-	<!-- This test makes sure that basic functionality is working -->
+	<!--
+		This test attempts to send an e-mail containing too many attachments.
+		Please make sure that the amount of individual attachments is
+		sufficient to trigger the error.
+	-->
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email"
 	xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes"
@@ -35,7 +39,24 @@
 			<headers xsi:nil="true" />
 			<bodyTXT>ddddddddassdf</bodyTXT>
 			<bodyHTML xsi:nil="true" />
-			<attachments xsi:nil="true" />
+			<!-- Please make sure it exists -->
+			<attachments>
+				<dec1:id>1</dec1:id>
+				<dec1:id>2</dec1:id>
+				<dec1:id>3</dec1:id>
+				<dec1:id>4</dec1:id>
+				<dec1:id>5</dec1:id>
+				<dec1:id>6</dec1:id>
+				<dec1:id>7</dec1:id>
+				<dec1:id>8</dec1:id>
+				<dec1:id>9</dec1:id>
+				<dec1:id>10</dec1:id>
+				<dec1:id>11</dec1:id>
+				<dec1:id>12</dec1:id>
+				<dec1:id>13</dec1:id>
+				<dec1:id>14</dec1:id>
+				<dec1:id>15</dec1:id>
+			</attachments>
 		</ema:sendEmail>
 	</soap:Body>
 </soap:Envelope>

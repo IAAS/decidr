@@ -113,13 +113,15 @@ public class EmailService implements EmailInterface {
                 .getStorageProvider();
         SystemSettings config = DecidrGlobals.getSettings();
         Set<Long> normalisedIDs = new HashSet<Long>(attachments.getId().size());
-        normalisedIDs.addAll(attachments.getId());
 
         log.debug("getting settings");
         int maxAtts = config.getMaxAttachmentsPerEmail();
 
+        log.debug("removing duplicate attachments");
+        normalisedIDs.addAll(attachments.getId());
+
         log.debug("checking that there aren't too many attachments");
-        if (attachments.getId().toArray().length > maxAtts) {
+        if (normalisedIDs.toArray().length > maxAtts) {
             throw new IllegalArgumentExceptionWrapper("too many attachments");
         }
 
