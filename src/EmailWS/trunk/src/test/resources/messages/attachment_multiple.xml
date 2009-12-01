@@ -14,28 +14,33 @@
 	<!-- specific language governing permissions and limitations -->
 	<!-- under the License. -->
 
-	<!-- This test makes sure that basic functionality is working -->
-<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+	<!-- Tests multiple attachments. -->
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email"
 	xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes"
 >
 	<soap:Header />
 	<soap:Body>
 		<ema:sendEmail>
-			<to>
+			<ema:to>
 				<dec:emailUser>
-					<dec:email>decidr.iaas@googlemail.com</dec:email>
+					<dec:email>decidr.iaas@googlemail.com
+					</dec:email>
 				</dec:emailUser>
-			</to>
-			<cc xsi:nil="true" />
-			<bcc xsi:nil="true" />
-			<fromName>idiot</fromName>
-			<fromAddress>root@localhost</fromAddress>
-			<subject>asd</subject>
-			<headers xsi:nil="true" />
-			<bodyTXT>ddddddddassdf</bodyTXT>
-			<bodyHTML xsi:nil="true" />
-			<attachments xsi:nil="true" />
+			</ema:to>
+			<ema:cc xsi:nil="true" />
+			<ema:bcc xsi:nil="true" />
+			<ema:fromName>idiot</ema:fromName>
+			<ema:fromAddress>root@localhost</ema:fromAddress>
+			<ema:subject>attachment multiple</ema:subject>
+			<ema:headers xsi:nil="true" />
+			<ema:bodyTXT>ddddddddassdf</ema:bodyTXT>
+			<ema:bodyHTML xsi:nil="true" />
+			<!-- Please make sure these exist -->
+			<ema:attachments>
+				<dec1:id>10</dec1:id>
+				<dec1:id>11</dec1:id>
+			</ema:attachments>
 		</ema:sendEmail>
 	</soap:Body>
 </soap:Envelope>

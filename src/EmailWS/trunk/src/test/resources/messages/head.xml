@@ -15,37 +15,37 @@
 	<!-- under the License. -->
 
 	<!-- This test makes sure that custom headers are sent properly. -->
-<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ema="http://decidr.de/webservices/Email"
 	xmlns:dec="http://decidr.de/schema/DecidrTypes" xmlns:dec1="http://decidr.de/schema/DecidrWSTypes"
 >
 	<soap:Header />
 	<soap:Body>
 		<ema:sendEmail>
-			<to>
+			<ema:to>
 				<dec:emailUser>
 					<dec:email>decidr.iaas@googlemail.com
 					</dec:email>
 				</dec:emailUser>
-			</to>
-			<cc xsi:nil="true" />
-			<bcc xsi:nil="true" />
-			<fromName>idiot</fromName>
-			<fromAddress>root@localhost</fromAddress>
-			<subject>asd</subject>
-			<headers>
-				<item>
-					<name>X-Test-HeaderA</name>
-					<value>A</value>
-				</item>
-				<item>
-					<name>X-Test-HeaderB</name>
-					<value>B</value>
-				</item>
-			</headers>
-			<bodyTXT>ddddddddassdf</bodyTXT>
-			<bodyHTML xsi:nil="true" />
-			<attachments xsi:nil="true" />
+			</ema:to>
+			<ema:cc xsi:nil="true" />
+			<ema:bcc xsi:nil="true" />
+			<ema:fromName>idiot</ema:fromName>
+			<ema:fromAddress>root@localhost</ema:fromAddress>
+			<ema:subject>head</ema:subject>
+			<ema:headers>
+				<dec1:item>
+					<dec1:name>X-Test-HeaderA</dec1:name>
+					<dec1:value>A</dec1:value>
+				</dec1:item>
+				<dec1:item>
+					<dec1:name>X-Test-HeaderB</dec1:name>
+					<dec1:value>B</dec1:value>
+				</dec1:item>
+			</ema:headers>
+			<ema:bodyTXT>ddddddddassdf</ema:bodyTXT>
+			<ema:bodyHTML xsi:nil="true" />
+			<ema:attachments xsi:nil="true" />
 		</ema:sendEmail>
 	</soap:Body>
 </soap:Envelope>
