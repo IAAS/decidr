@@ -168,7 +168,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         createEntity = Boolean.valueOf(config.getProperty(
                 CONFIG_KEY_CREATE_ENTITY, "false"));
 
-        if (entityTypeName == null || "".equals(entityTypeName)) {
+        if (entityTypeName == null || entityTypeName.isEmpty()) {
             throw new IncompleteConfigurationException(
                     CONFIG_KEY_ENTITY_TYPE_NAME
                             + " is a required configuration option.");
@@ -185,7 +185,6 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                     CONFIG_KEY_DATA_PROPERTY_NAME
                             + " is a required configuration option.");
         }
-
     }
 
     /**
@@ -254,7 +253,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                 // Persistent property can be missing or explicitly true
                 && Boolean.parseBoolean(config.getProperty(
                         PERSISTENT_CONFIG_KEY, Boolean.toString(true)))
-                // Local property can be missing or explicity false
+                // Local property can be missing or explicitly false
                 && !Boolean.parseBoolean(config.getProperty(LOCAL_CONFIG_KEY,
                         Boolean.toString(false)));
     }

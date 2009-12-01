@@ -20,13 +20,16 @@
 	xmlns:dwsdl="http://decidr.de/wsdl/basicProcess" xmlns:basic="http://decidr.de/schema/DecidrTypes"
 	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
 	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
-	xmlns:ex="http://decidr.de/exceptions" xmlns:hut="http://decidr.de/schema/humanTask"
-	name="HumanTask" targetNamespace="http://decidr.de/webservices/HumanTask"
+	xmlns:mex="http://decidr.de/exceptions" xmlns:sex="http://decidr.de/exceptions"
+	xmlns:hut="http://decidr.de/schema/humanTask" name="HumanTask"
+	targetNamespace="http://decidr.de/webservices/HumanTask"
 >
 
 	<wsdl:types>
-		<xsd:schema targetNamespace="http://decidr.de/exceptions">
+		<xsd:schema targetNamespace="http://decidr.de/model/exceptions">
 			<xsd:element name="transactionException" type="xsd:string" />
+		</xsd:schema>
+		<xsd:schema targetNamespace="http://decidr.de/model/soap/exceptions">
 			<xsd:element name="reportingException" type="xsd:string" />
 		</xsd:schema>
 		<xsd:schema targetNamespace="http://decidr.de/webservices/HumanTask">
@@ -146,10 +149,10 @@
 		<wsdl:part element="tns:removeTaskResponse" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="transactionException">
-		<wsdl:part element="ex:transactionException" name="parameters" />
+		<wsdl:part element="mex:transactionException" name="fault" />
 	</wsdl:message>
 	<wsdl:message name="reportingException">
-		<wsdl:part element="ex:reportingException" name="parameters" />
+		<wsdl:part element="sex:reportingException" name="fault" />
 	</wsdl:message>
 
 	<wsdl:portType name="HumanTaskPT">

@@ -91,7 +91,7 @@
 	</wsdl:message>
 	<wsdl:message name="incompleteConfigurationException">
 		<wsdl:part element="mex:incompleteConfigurationException"
-			name="fault" />
+			name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="storageException">
 		<wsdl:part element="mex:storageException" name="fault" />
