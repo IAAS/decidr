@@ -149,10 +149,10 @@
 		<wsdl:part element="tns:removeTaskResponse" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="transactionException">
-		<wsdl:part element="mex:transactionException" name="fault" />
+		<wsdl:part element="mex:transactionException" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="reportingException">
-		<wsdl:part element="sex:reportingException" name="fault" />
+		<wsdl:part element="sex:reportingException" name="parameters" />
 	</wsdl:message>
 
 	<wsdl:portType name="HumanTaskPT">

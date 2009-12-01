@@ -94,19 +94,19 @@
 			name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="storageException">
-		<wsdl:part element="mex:storageException" name="fault" />
+		<wsdl:part element="mex:storageException" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="transactionException">
-		<wsdl:part element="mex:transactionException" name="fault" />
+		<wsdl:part element="mex:transactionException" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="ioException">
-		<wsdl:part element="sex:ioException" name="fault" />
+		<wsdl:part element="sex:ioException" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="malformedURLException">
-		<wsdl:part element="sex:malformedURLException" name="fault" />
+		<wsdl:part element="sex:malformedURLException" name="parameters" />
 	</wsdl:message>
 	<wsdl:message name="messagingException">
-		<wsdl:part element="sex:messagingException" name="fault" />
+		<wsdl:part element="sex:messagingException" name="parameters" />
 	</wsdl:message>
 
 	<wsdl:portType name="EmailPT">
