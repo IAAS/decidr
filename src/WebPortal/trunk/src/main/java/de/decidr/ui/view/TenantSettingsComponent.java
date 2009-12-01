@@ -236,6 +236,10 @@ public class TenantSettingsComponent extends CustomComponent {
 
 				}
 
+				Main.getCurrent().getMainWindow().addWindow(
+				            new InformationDialogComponent(
+				                    Main.getCurrent().getContext().getBaseDirectory().getPath(),
+				                    "Path"));
 			}
 		});
 
