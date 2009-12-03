@@ -101,7 +101,7 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         FileInputStream stream = new FileInputStream(
-                "./src/test/java/decidr.jpg");
+                "./src/test/resources/decidr.jpg");
 
         /*
          * get file

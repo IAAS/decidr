@@ -292,7 +292,9 @@ public class DecidrGlobals {
         }
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
-        return "http://" + getEsb().getLocation() + "/soap/" + webServiceName;
+        // DH RR XXX revert "/axis2/services/" to "/soap/" once the ESB works
+        return "http://" + getEsb().getLocation() + "/axis2/services/"
+                + webServiceName;
     }
 
     /**
@@ -302,7 +304,6 @@ public class DecidrGlobals {
      *         identified by webServiceName
      * @throws IllegalArgumentException
      *             if webServiceName is <code>null</code> or empty.
-     * 
      */
     public static String getWebServiceWsdlUrl(String webServiceName) {
         // This may change if we switch from Synapse to another ESB that's not
@@ -311,8 +312,7 @@ public class DecidrGlobals {
             throw new IllegalArgumentException(
                     "Web service name must not be null or empty.");
         }
-        return "http://" + getEsb().getLocation() + "/soap/" + webServiceName
-                + "?wsdl";
+        return getWebServiceUrl(webServiceName) + "?wsdl";
     }
 
     /**

@@ -16,100 +16,120 @@
 
 package de.decidr.model.workflowmodel.validation;
 
+import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.io.FileOutputStream;
 
-import junit.framework.TestCase;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ode.bpel.compiler.BpelC;
 import org.apache.ode.bpel.compiler.api.CompilationException;
 import org.apache.ode.bpel.compiler.api.CompilationMessage;
 import org.apache.ode.bpel.compiler.api.CompileListener;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
+import de.decidr.model.workflowmodel.factories.DWDLFactory;
+import de.decidr.model.workflowmodel.factories.DecidrWebserviceAdapterFactory;
+import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 
 /**
  * Testcase for BPEL validation according to <code>StaticCheckSuite.java</code>
- *
+ * 
  * @author Modood Alvi
  */
-public class BPELStaticValidationTest extends TestCase implements CompileListener {
-    
-    
-    private int idx = 0;
-    private String name;
-    private BpelC _compiler;
-    private List<CompilationMessage> _errors = new ArrayList<CompilationMessage>();
-    private Set<InputStream> _streams = new HashSet<InputStream>();
-    private URL _bpelURL;
-    private String _wsdlURI;
-   
-    BPELStaticValidationTest(String name) {
-      super(name);
-      this.name = name;
+public class BPELStaticValidationTest {
+
+    static DWDL2BPEL bpelConverter = null;
+    static DWDL2WSDL wsdlConverter = null;
+    static Workflow dwdl = null;
+    static String tenant = null;
+    static DecidrWebserviceAdapter humanTask = null;
+    static DecidrWebserviceAdapter email = null;
+    static Map<String, DecidrWebserviceAdapter> adapters;
+    static String location = null;
+
+    static BpelC compiler;
+    static List<CompilationMessage> errors = new ArrayList<CompilationMessage>();
+    static File bpelFile;
+    static File wsdlFile;
+
+    /**
+     * Initialize all relevant input objects
+     * 
+     * @throws java.lang.Exception
+     */
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        adapters = new HashMap<String, DecidrWebserviceAdapter>();
+        bpelConverter = new DWDL2BPEL();
+        wsdlConverter = new DWDL2WSDL();
+        dwdl = DWDLFactory.getDWDLWorkflow();
+        tenant = "Hugo";
+        location = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
+        humanTask = DecidrWebserviceAdapterFactory
+                .getHumanTaskWebserviceAdapter();
+        email = DecidrWebserviceAdapterFactory.getEmailWebserviceAdapter();
+        adapters.put("Decidr-HumanTask", humanTask);
+        adapters.put("Decidr-Email", email);
+
+        compiler = BpelC.newBpelCompiler();
+        compiler.setCompileListener(new CompileListener() {
+
+            @Override
+            public void onCompilationMessage(CompilationMessage arg0) {
+                this.onCompilationMessage(arg0);
+            }
+        });
+
+        byte[] bpeldata = TransformUtil.bpelToBytes(bpelConverter.getBPEL(dwdl,
+                adapters));
+        byte[] wsdldata = TransformUtil.definitionToBytes(wsdlConverter
+                .getWSDL(dwdl, location, tenant));
+
+        bpelFile = new File(tenant + ".bpel");
+        FileOutputStream fos = new FileOutputStream(bpelFile);
+        fos.write(bpeldata);
+        fos.flush();
+        fos.close();
+        fos = null;
+        wsdlFile = new File(tenant + ".wsdl");
+        fos = new FileOutputStream(wsdlFile);
+        fos.write(wsdldata);
+        compiler.setProcessWSDL(BPELStaticValidationTest.class.getResource(
+                wsdlFile.getAbsolutePath()).toURI());
     }
-   
-    public BPELStaticValidationTest(String name, int idx) {
-      super(name + idx);
-      this.name = name;
-      this.idx = idx;
-    }
-   
-    protected void setUp() throws Exception {
-      super.setUp();
-      _compiler = BpelC.newBpelCompiler();
-      _compiler.setCompileListener(this);
-      _errors.clear();
-   
-      String baseFname = name + ((idx > 0)
-                                 ? Integer.toString(idx)
-                                 : "");
-      _bpelURL = getClass().getResource(baseFname + ".bpel");
-      _wsdlURI = (baseFname + ".wsdl");
-   
-      _compiler.setProcessWSDL(new URI(_wsdlURI));
-    }
-   
-    protected void tearDown() throws Exception {
-      for (InputStream s: _streams) {
-        s.close();
-      }
-      _streams.clear();
-      super.tearDown();
-    }
-   
+
+    @Test
     public void runTest() throws Exception {
-      try {
-        _compiler.compile(new File(_bpelURL.toURI()));
-        fail("Expected compilation exception.");
-      } catch (CompilationException ce) {
-        _errors.add(ce.getCompilationMessage());
-      }
-   
-      assertTrue(_errors.size()!=0);
-   
-      boolean found = false;
-      for (Iterator<CompilationMessage> i = _errors.iterator(); i.hasNext(); ) {
-        CompilationMessage msg = i.next();
-        if (msg.severity == CompilationMessage.ERROR && msg.code.equals(name)) {
-          found = true;
+        try {
+            compiler.compile(bpelFile);
+        } catch (CompilationException ce) {
+            errors.add(ce.getCompilationMessage());
         }
-      }
-   
-      assertTrue("Expected error \"" + name + "\" not found in " + _errors, found);
+
+        assertTrue(errors.size() == 0);
     }
-   
-    public void onCompilationMessage(CompilationMessage compilationMessage) {
-      _errors.add(compilationMessage);
+
+    public static void onCompilationMessage(
+            CompilationMessage compilationMessage) {
+        errors.add(compilationMessage);
     }
-   
-    public void setBaseURI(URI u) {
+
+    @AfterClass
+    public void afterTest() throws Exception {
+        boolean deleted = bpelFile.delete();
+        assertTrue(deleted);
     }
 
 }

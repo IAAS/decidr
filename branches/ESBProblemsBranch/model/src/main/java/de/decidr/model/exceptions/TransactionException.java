@@ -63,10 +63,10 @@ public class TransactionException extends Exception {
     }
 
     /**
-     * Method returning {@link TransactionException#serviceDetail} needed for
+     * Method returning {@link TransactionException#getFaultInfo} needed for
      * {@link WebFault} annotation.
      */
-    String getServiceDetail() {
+    public String getFaultInfo() {
         return serviceDetail;
     }
 }

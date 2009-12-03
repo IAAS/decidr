@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -30,6 +31,7 @@ import org.hibernate.SessionException;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
@@ -86,6 +88,9 @@ public class HibernateEntityStorageProvider implements StorageProvider {
      * attempt to create a new entity when "putting" a file. Defaults to false.
      */
     public static final String CONFIG_KEY_CREATE_ENTITY = "createEntity";
+
+    private static Logger logger = DefaultLogger
+            .getLogger(HibernateEntityStorageProvider.class);
 
     private String entityTypeName = null;
     private String dataPropertyName = null;
@@ -163,7 +168,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         createEntity = Boolean.valueOf(config.getProperty(
                 CONFIG_KEY_CREATE_ENTITY, "false"));
 
-        if (entityTypeName == null || "".equals(entityTypeName)) {
+        if (entityTypeName == null || entityTypeName.isEmpty()) {
             throw new IncompleteConfigurationException(
                     CONFIG_KEY_ENTITY_TYPE_NAME
                             + " is a required configuration option.");
@@ -175,21 +180,30 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                             + " is a required configuration option.");
         }
 
-        if (dataPropertyName == null | "".equals(dataPropertyName)) {
+        if (dataPropertyName == null || "".equals(dataPropertyName)) {
             throw new IncompleteConfigurationException(
                     CONFIG_KEY_DATA_PROPERTY_NAME
                             + " is a required configuration option.");
         }
+    }
 
+    /**
+     * Internal class that represents the <code>null</code> value.
+     */
+    private class NullObject {
+        // No content other than class definition intended
     }
 
     @Override
     public InputStream getFile(Long fileId) throws StorageException {
+        logger.debug("Retrieving file with ID "
+                + (fileId == null ? "null" : fileId.toString()));
         checkFileId(fileId);
         Session session = getCurrentSession();
 
         String hql = "select f." + dataPropertyName + " from " + entityTypeName
                 + " f where f." + idPropertyName + "=" + fileId.toString();
+        logger.debug("HQL query: " + hql);
 
         List<?> data = session.createQuery(hql).setMaxResults(1).list();
         if (data.isEmpty()) {
@@ -205,10 +219,22 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         } else if (dataObject instanceof byte[]) {
             stream = new ByteArrayInputStream((byte[]) dataObject);
         } else {
+            // we cannot deal with this kind of content
+            if (dataObject == null) {
+                dataObject = new NullObject();
+            }
+            String className;
+            Class<? extends Object> clazz = dataObject.getClass();
+            if (clazz == null) {
+                className = "!unknown class!";
+            } else {
+                className = clazz.getName();
+            }
+
             String message = String
                     .format(
                             "The property %1$s has type %2$s, which cannot be mapped to a byte array.",
-                            dataPropertyName, dataObject.getClass().getName());
+                            dataPropertyName, className);
             throw new StorageException(message);
         }
 
@@ -227,7 +253,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                 // Persistent property can be missing or explicitly true
                 && Boolean.parseBoolean(config.getProperty(
                         PERSISTENT_CONFIG_KEY, Boolean.toString(true)))
-                // Local property can be missing or explicity false
+                // Local property can be missing or explicitly false
                 && !Boolean.parseBoolean(config.getProperty(LOCAL_CONFIG_KEY,
                         Boolean.toString(false)));
     }
@@ -252,6 +278,8 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     @Override
     public void putFile(InputStream data, Long fileId, Long fileSize)
             throws StorageException {
+        logger.debug("Putting file with ID "
+                + (fileId == null ? "null" : fileId.toString()));
         checkFileId(fileId);
         checkFileSize(fileSize);
         if (data == null) {
@@ -312,6 +340,8 @@ public class HibernateEntityStorageProvider implements StorageProvider {
 
     @Override
     public void removeFile(Long fileId) throws StorageException {
+        logger.debug("Removing file with ID "
+                + (fileId == null ? "null" : fileId.toString()));
         checkFileId(fileId);
 
         String hql;
@@ -323,6 +353,8 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                     + "=null where f." + idPropertyName + "="
                     + fileId.toString();
         }
+
+        logger.debug("HQL query: " + hql);
 
         getCurrentSession().createQuery(hql).executeUpdate();
     }

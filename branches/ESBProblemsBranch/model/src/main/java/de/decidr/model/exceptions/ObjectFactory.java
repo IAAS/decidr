@@ -34,15 +34,16 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private static final String EXCEPTION_NAMESPACE = "http://decidr.de/model/exceptions";
+
     private final static QName _TransactionException_QNAME = new QName(
-            "http://decidr.de/model/exceptions", "transactionException");
+            EXCEPTION_NAMESPACE, "transactionException");
 
     private final static QName _StorageException_QNAME = new QName(
-            "http://decidr.de/model/exceptions", "storageException");
+            EXCEPTION_NAMESPACE, "storageException");
 
     private final static QName _IncompleteConfigurationException_QNAME = new QName(
-            "http://decidr.de/model/exceptions",
-            "incompleteConfiguratioException");
+            EXCEPTION_NAMESPACE, "incompleteConfiguratioException");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of
@@ -55,7 +56,7 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = "http://decidr.de/model/exceptions", name = "transactionException")
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "transactionException")
     public JAXBElement<String> createTransactionException(String value) {
         return new JAXBElement<String>(_TransactionException_QNAME,
                 String.class, null, value);
@@ -64,7 +65,7 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = "http://decidr.de/model/exceptions", name = "storageException")
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "storageException")
     public JAXBElement<String> createStorageException(String value) {
         return new JAXBElement<String>(_StorageException_QNAME, String.class,
                 null, value);
@@ -73,7 +74,7 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = "http://decidr.de/model/exceptions", name = "incompleteConfiguratioException")
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "incompleteConfiguratioException")
     public JAXBElement<String> createIncompleteConfigurationException(
             String value) {
         return new JAXBElement<String>(_IncompleteConfigurationException_QNAME,

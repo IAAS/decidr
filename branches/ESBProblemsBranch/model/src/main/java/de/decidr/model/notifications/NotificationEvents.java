@@ -164,7 +164,7 @@ public final class NotificationEvents {
         String subject = NotificationText.getConfirmRegistrationSubject();
         String bodyHtml = NotificationText.getConfirmRegistrationHTML(profile
                 .getUsername(), confirmationUrl, expireDateString, "");
-        String bodyText = NotificationText.getConfirmRegistrationHTML(profile
+        String bodyText = NotificationText.getConfirmRegistrationText(profile
                 .getUsername(), confirmationUrl, expireDateString, "");
 
         AbstractUserList to = new AbstractUserList();
@@ -312,6 +312,8 @@ public final class NotificationEvents {
         creationDate.setTime(request.getCreationDate());
         creationDate.add(Calendar.SECOND, requestLifeTime);
 
+        // DH here and everywhere else: nope, this doesn't expire the moment
+        // it's sent ~rr
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
         String expireDate = sd.format(DecidrGlobals.getTime().getTime());
 

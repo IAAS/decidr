@@ -58,7 +58,7 @@
 
 		<testResources>
 			<testResource>
-				<directory>src/test/java</directory>
+				<directory>src/test/resources</directory>
 				<includes>
 					<include>**/hibernate.cfg.xml</include>
 					<include>**/decidr-storage.xml</include>
@@ -93,7 +93,7 @@
 						</goals>
 						<configuration>
 							<executable>${mysql_client}</executable>
-							<workingDirectory>src/test/java/sql</workingDirectory>
+							<workingDirectory>src/test/resources/sql</workingDirectory>
 							<arguments>
 								<argument>--host=${mysql_host}</argument>
 								<argument>--user=${mysql_root}</argument>
@@ -112,7 +112,7 @@
 						</goals>
 						<configuration>
 							<executable>${mysql_client}</executable>
-							<workingDirectory>src/test/java/sql</workingDirectory>
+							<workingDirectory>src/test/resources/sql</workingDirectory>
 							<arguments>
 								<argument>--host=${mysql_host}</argument>
 								<argument>--user=${mysql_user}</argument>
