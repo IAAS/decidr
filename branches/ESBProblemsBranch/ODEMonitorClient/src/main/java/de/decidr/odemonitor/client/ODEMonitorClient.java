@@ -166,6 +166,7 @@ public class ODEMonitorClient {
                     log.error("ODE monitoring instance has "
                             + "not been started yet.");
                 }
+                return;
             } else if (args[i].equals("--help") || args[i].equals("-h")) {
                 printUsage();
                 return;
@@ -198,7 +199,9 @@ public class ODEMonitorClient {
             }
         }
 
-        Logger.getRootLogger().setLevel(log.getEffectiveLevel());
+        Logger.getRootLogger().setLevel(Level.WARN);
+        // RR uncomment
+        // Logger.getRootLogger().setLevel(log.getEffectiveLevel());
 
         if (ID == null) {
             log.error("You have to specify the ID"
@@ -303,15 +306,11 @@ public class ODEMonitorClient {
                 .println("\t\tChanges the update interval in seconds. Overwritten by the next change to the");
         System.out.println("\t\tglobal configuration.");
         System.out.println("");
-        System.out.println("\t--esb <ESB_URL_AND_PATH>");
-        System.out
-                .println("\t\tForces the use of the specified ESB rather than the default one.");
-        System.out
-                .println("\t\tIf either \"default\" or \"config\" are passed, the default ESB is used.");
-        System.out.println("");
         System.out.println("\t--config");
         System.out
                 .println("\t\tForces an update of the local configuration to the global configration.");
+        System.out
+                .println("\t\t(Due to the nature of java, this option currently does not work)");
         System.out.println("");
     }
 
