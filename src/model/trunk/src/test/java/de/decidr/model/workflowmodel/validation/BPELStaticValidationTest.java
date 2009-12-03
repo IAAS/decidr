@@ -21,18 +21,11 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import junit.framework.TestCase;
 
 import org.apache.ode.bpel.compiler.BpelC;
 import org.apache.ode.bpel.compiler.api.CompilationException;
@@ -48,7 +41,6 @@ import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
 import de.decidr.model.workflowmodel.factories.DecidrWebserviceAdapterFactory;
-import de.decidr.model.workflowmodel.transformation.Definition;
 import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
 
 /**
