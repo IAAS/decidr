@@ -22,7 +22,7 @@
 	<artifactId>ODEMonitorService</artifactId>
 	<packaging>jar</packaging>
 	<name>ODEMonitorService</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-ESBTest</version>
 
 	<parent>
 		<artifactId>base</artifactId>
@@ -44,12 +44,12 @@
 		<dependency>
 			<groupId>de.decidr</groupId>
 			<artifactId>model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1-ESBTest</version>
 		</dependency>
 		<dependency>
 			<groupId>de.decidr</groupId>
 			<artifactId>ODEMonitorClient</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1-ESBTest</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>

@@ -21,7 +21,7 @@
 	<groupId>de.decidr</groupId>
 	<artifactId>ODEMonitorClient</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-ESBTest</version>
 	<name>ODEMonitorClient</name>
 
 	<parent>
@@ -55,7 +55,7 @@
 		<dependency>
 			<groupId>de.decidr</groupId>
 			<artifactId>model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1-ESBTest</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ode</groupId>
