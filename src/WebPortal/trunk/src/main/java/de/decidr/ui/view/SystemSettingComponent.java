@@ -189,7 +189,7 @@ public class SystemSettingComponent extends CustomComponent {
         setCompositionRoot(verticalLayout);
         setCaption("System Setting");
 
-        fillForm();
+        //fillForm();
 
         verticalLayout.addComponent(settingsForm);
         verticalLayout.addComponent(saveButton);
