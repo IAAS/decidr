@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.Invitation" table="invitation" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="administrateWorkflowModel" class="de.decidr.model.entities.WorkflowModel" fetch="select">
+            <column name="`administrateWorkflowModelId`">
+                <comment>If not set to null the receiver is invited to administrate the given workflow model. Furthermore the user will join the tenant that owns the workflow
+                model</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="sender" class="de.decidr.model.entities.User" fetch="select">
+            <column name="`senderId`" not-null="true" />
+        </many-to-one>
+        <many-to-one name="receiver" class="de.decidr.model.entities.User" fetch="select">
+            <column name="`receiverId`" not-null="true" />
+        </many-to-one>
+        <many-to-one name="joinTenant" class="de.decidr.model.entities.Tenant" fetch="select">
+            <column name="`joinTenantId`">
+                <comment>If not set to null the receiver is invited to join a tenant as a normal tenant member.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="participateInWorkflowInstance" class="de.decidr.model.entities.WorkflowInstance" fetch="select">
+            <column name="`participateInWorkflowInstanceId`">
+                <comment>If not set to null the receiver is invited to participate in the given workflow instance. Furthermore the user will join the tenant that owns the workflow
+                instance.</comment>
+            </column>
+        </many-to-one>
+        <property name="creationDate" type="timestamp">
+            <column name="`creationDate`" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

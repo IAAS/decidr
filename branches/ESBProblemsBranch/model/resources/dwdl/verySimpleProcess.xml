@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="12" name="SimpleProcess" targetNamespace="http://decidr.de/decidr/simple"
+	xmlns="http://decidr.de/schema/dwdl">
+</workflow>

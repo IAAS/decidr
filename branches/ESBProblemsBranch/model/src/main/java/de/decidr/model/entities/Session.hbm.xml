@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.Session" table="session" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="sessionId" type="string">
+            <column name="sessionId" length="64" />
+            <generator class="assigned" />
+        </id>
+        <property name="app" type="string">
+            <column name="`app`" />
+        </property>
+        <property name="data" type="binary">
+            <column name="`data`" />
+        </property>
+        <property name="lastAccessed" type="long">
+            <column name="`lastAccessed`" not-null="true" />
+        </property>
+        <property name="maxInactive" type="int">
+            <column name="`maxInactive`" not-null="true" />
+        </property>
+        <property name="valid" type="boolean">
+            <column name="`valid`" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
