@@ -16,13 +16,18 @@
 
 package de.decidr.ui.controller.show;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.SystemSettingComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This component displays the SystemSettingsComponent in the content area
@@ -31,23 +36,36 @@ import de.decidr.ui.view.SystemSettingComponent;
  */
 public class ShowSystemSettingsAction implements ClickListener {
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -7440471792474065901L;
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = -7440471792474065901L;
 
-    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        siteFrame.setContent(new SystemSettingComponent());
-    }
+	SystemFacade systemFacade = new SystemFacade(new SuperAdminRole((Long) Main
+			.getCurrent().getSession().getAttribute("userId")));
+
+	private Item systemSettingsItem = null;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		try {
+			systemSettingsItem = systemFacade.getSettings();
+			siteFrame
+					.setContent(new SystemSettingComponent(systemSettingsItem));
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
+
+	}
 
 }

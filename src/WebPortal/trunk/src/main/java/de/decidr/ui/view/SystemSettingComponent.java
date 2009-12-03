@@ -15,8 +15,6 @@
  */
 package de.decidr.ui.view;
 
-import java.util.Arrays;
-
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerValidator;
@@ -31,7 +29,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.SaveSystemSettingsAction;
-import de.decidr.ui.data.SystemSettingsItem;
 
 public class SystemSettingComponent extends CustomComponent {
 
@@ -42,8 +39,8 @@ public class SystemSettingComponent extends CustomComponent {
      * @author AT
      */
     private static final long serialVersionUID = 3389525551936631625L;
-
-    private SystemSettingsItem settingsItem = new SystemSettingsItem();
+    
+    private Item settingsItem = null;
 
     private VerticalLayout verticalLayout = null;
 
@@ -78,7 +75,8 @@ public class SystemSettingComponent extends CustomComponent {
      * Default constructor
      * 
      */
-    public SystemSettingComponent() {
+    public SystemSettingComponent(Item settingsItem) {
+    	this.settingsItem = settingsItem;
         init();
     }
 
@@ -156,8 +154,6 @@ public class SystemSettingComponent extends CustomComponent {
         settingsForm = new Form();
         settingsForm.setWriteThrough(false);
         settingsForm.setItemDataSource(settingsItem);
-        settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
-                "logLevel", "autoAcceptNewTenants" }));
 
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
