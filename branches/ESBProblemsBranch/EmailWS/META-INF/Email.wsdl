@@ -102,6 +102,9 @@
 	<wsdl:message name="ioException">
 		<wsdl:part element="sex:ioException" name="fault" />
 	</wsdl:message>
+	<wsdl:message name="illegalArgumentException">
+		<wsdl:part element="sex:illegalArgumentException" name="fault" />
+	</wsdl:message>
 	<wsdl:message name="malformedURLException">
 		<wsdl:part element="sex:malformedURLException" name="fault" />
 	</wsdl:message>
@@ -116,12 +119,19 @@
 			<wsdl:output name="sendEmailResponse" message="tns:sendEmailResponse"
 				wsaw:Action="urn:sendEmailResponse" />
 			<wsdl:fault name="incompleteConfigurationException"
-				message="tns:incompleteConfigurationException" />
-			<wsdl:fault name="storageException" message="tns:storageException" />
-			<wsdl:fault name="transactionException" message="tns:transactionException" />
-			<wsdl:fault name="ioException" message="tns:ioException" />
-			<wsdl:fault name="malformedURLException" message="tns:malformedURLException" />
-			<wsdl:fault name="messagingException" message="tns:messagingException" />
+				message="tns:incompleteConfigurationException" wsaw:Action="urn:incompleteConfigurationException" />
+			<wsdl:fault name="storageException" message="tns:storageException"
+				wsaw:Action="urn:storageException" />
+			<wsdl:fault name="transactionException" message="tns:transactionException"
+				wsaw:Action="urn:transactionException" />
+			<wsdl:fault name="ioException" message="tns:ioException"
+				wsaw:Action="urn:ioException" />
+			<wsdl:fault name="illegalArgumentException" message="tns:illegalArgumentException"
+				wsaw:Action="urn:illegalArgumentException" />
+			<wsdl:fault name="malformedURLException" message="tns:malformedURLException"
+				wsaw:Action="urn:malformedURLException" />
+			<wsdl:fault name="messagingException" message="tns:messagingException"
+				wsaw:Action="urn:messagingException" />
 		</wsdl:operation>
 	</wsdl:portType>
 
@@ -151,6 +161,9 @@
 			</wsdl:fault>
 			<wsdl:fault name="ioException">
 				<soap:fault name="ioException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="illegalArgumentException">
+				<soap:fault name="illegalArgumentException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="malformedURLException">
 				<soap:fault name="malformedURLException" use="literal" />
@@ -183,6 +196,9 @@
 			</wsdl:fault>
 			<wsdl:fault name="ioException">
 				<soap11:fault name="ioException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="illegalArgumentException">
+				<soap11:fault name="illegalArgumentException" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="malformedURLException">
 				<soap11:fault name="malformedURLException" use="literal" />
