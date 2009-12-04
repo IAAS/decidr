@@ -284,22 +284,19 @@ public class CssHandler {
                     }
 	                    
 		}
-		Main.getCurrent().getMainWindow().showNotification("file exists: " + f.exists(), Window.Notification.TYPE_ERROR_MESSAGE);
+		//Main.getCurrent().getMainWindow().showNotification("file exists: " + f.exists(), Window.Notification.TYPE_ERROR_MESSAGE);
 		//Main.getCurrent().getMainWindow().showNotification("file path: " + f.getAbsolutePath(), Window.Notification.TYPE_ERROR_MESSAGE);
 		
 		OutputStream output = null;
 		try {
-			try {
+			
 				output = new FileOutputStream(f);
 				IOUtils.copy(in, output);
+				output.close();
 				return f;
-			} finally {
-			    Main.getCurrent().getMainWindow().showNotification("could not create output file", Window.Notification.TYPE_ERROR_MESSAGE);
-				if (output != null) {
-					output.close();
-				}
-			}
+			
 		} catch (FileNotFoundException e) {
+		        
 		        Main.getCurrent().getMainWindow().showNotification("FileNotFound:" + e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
 			return null;
 		} catch (IOException e) {
