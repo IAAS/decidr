@@ -68,3 +68,57 @@ The solution is *not*, as indicated by the Synapse documentation, to change the 
 }}}
 
 That's it. After restarting Synapse you can verify your changes in the WSDL of your service proxies.
+
+= Getting XSD imports to work =
+I was writing a more detailed article including a description of the problem, but my browser ate it. So instead here's a concise description of what you need to do if you want to import schema definitions in your WSDL file:
+
+ # If you're using the Synapse version that comes with the decidr install package, you're done, but you may want to read on to see what had to be changed in order to get Synapse to work. 
+ # Get the XML Schema Library version 1.4.3 and use it to replace the library that comes bundled with Synapse. There is a bug in 1.4.2 that throws nasty `XmlSchemaException`s.
+ # Do NOT use the Axis-generated WSDL URL in your service proxy definitions. Doing so will cause Synapse to look for a *local* file named "MyService?xsd=someSchema":
+
+{{{
+Bad example:
+<proxy>
+ ...
+<publishWSDL uri="http://localhost:8080/axis2/services/MyService?wsdl"/>
+</proxy>
+}}}
+
+ Instead, copy all your required WSDLs and XSDs to the Synapse repository and create "local registry entries" that point to the copied files. Make sure that the "location" attribute of the "resource" node is equal to the schemaLocation that is given in the WSDL file:
+
+{{{
+Good example:
+    <localEntry key="wsdl-email" src="file:repository/wsdl/Email.wsdl"/>
+    <localEntry key="xsd-decidrwstypes" src="file:repository/wsdl/DecidrWSTypes.xsd"/>
+    <localEntry key="xsd-decidrtypes" src="file:repository/wsdl/DecidrTypes.xsd"/>
+
+    <proxy name="EmailProxy" transports="http,https" faultSequence="defaultFaultHandler">
+        <target>
+            <endpoint>
+                <address uri="http://localhost:8080/axis2/services/Email.EmailSOAP11"/>
+            </endpoint>
+            <outSequence>
+                <log level="full"/>  
+                <send/>
+            </outSequence>
+        </target>
+        <publishWSDL key="wsdl-email">
+            <resource location="DecidrWSTypes.xsd" key="xsd-decidrwstypes"/>
+            <resource location="DecidrTypes.xsd" key="xsd-decidrtypes"/>
+        </publishWSDL>
+    </proxy>
+
+}}}
+
+The corresponding WSDL containing the import: 
+{{{
+...
+			<xsd:import schemaLocation="DecidrWSTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrWSTypes" />
+			<xsd:import schemaLocation="DecidrTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrTypes" />
+...
+
+}}}
+
+If the gods are mercifuly, Synapse should now start up without throwing exceptions in your face.
