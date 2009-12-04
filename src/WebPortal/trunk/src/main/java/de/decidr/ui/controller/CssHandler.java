@@ -274,6 +274,7 @@ public class CssHandler {
 		File f = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator + "themes" + File.separator + tenant + File.separator
 				+ "styles.css");
 		try {
+		f.mkdirs();
 		f.createNewFile();
 		Main.getCurrent().getMainWindow().showNotification("file exists: " + f.exists(), Window.Notification.TYPE_ERROR_MESSAGE);
 		Main.getCurrent().getMainWindow().showNotification("file path: " + f.getAbsolutePath(), Window.Notification.TYPE_ERROR_MESSAGE);
@@ -289,8 +290,10 @@ public class CssHandler {
 				}
 			}
 		} catch (FileNotFoundException e) {
+		        Main.getCurrent().getMainWindow().showNotification(e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
 			return null;
 		} catch (IOException e) {
+		        Main.getCurrent().getMainWindow().showNotification(e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
 			return null;
 		}
 	}
