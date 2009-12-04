@@ -53,7 +53,8 @@ public class SaveMenuItem implements Command {
         /* Invoke parser and send resulting dwdl document to server */
         WorkflowParser parser = new WorkflowParserImpl();
         String dwdl = parser.parse(Workflow.getInstance().getModel());
-        modelingToolWidget.setDWDL(dwdl);
+        // JS decide whether to remove or uncomment this line
+        // modelingToolWidget.setDWDL(dwdl);
         modelingToolWidget.sendDWDLtoServer(dwdl);
     }
 

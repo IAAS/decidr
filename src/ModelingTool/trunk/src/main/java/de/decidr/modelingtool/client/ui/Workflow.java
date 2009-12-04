@@ -17,6 +17,7 @@
 package de.decidr.modelingtool.client.ui;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import com.google.gwt.event.dom.client.HasKeyDownHandlers;
@@ -60,7 +61,10 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
     /** The drag controller which makes the nodes in the workflow draggable. */
     // private WorkflowDragController dragController;
+    /** The workflow model */
     private WorkflowModel model = null;
+
+    private HashMap<Long, String> users = null;
 
     /** All nodes in the workflow except for the nodes in a container. */
     private Collection<Node> childNodes = new HashSet<Node>();
@@ -235,4 +239,24 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         WorkflowPropertyWindowInvoker.invoke(Workflow.getInstance().getModel());
     }
 
+    /**
+     *Sets the List of tenant users.
+     * 
+     * @param users
+     *            the user hash map
+     */
+    public void setUsers(HashMap<Long, String> users) {
+        this.users = users;
+
+    }
+
+    /**
+     * Returns the tenant users (of the tenant admin who is currently modeling
+     * this workflow) as a hash map with user id and display username.
+     * 
+     * @return the user hash map
+     */
+    public HashMap<Long, String> getUsers() {
+        return users;
+    }
 }

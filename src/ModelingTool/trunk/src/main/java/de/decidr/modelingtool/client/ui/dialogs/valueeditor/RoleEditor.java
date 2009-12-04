@@ -164,14 +164,9 @@ public class RoleEditor extends ModelingToolDialog {
      *            the first list - source
      * @param roleUsersView
      *            the second list - target
-     * @param tenantUsers
-     *            all user names of the tenant
-     * @param roleUserIds
-     *            the users selected for the role
      */
     private void setStores(ListView<RoleEditorUser> tenantUsersView,
-            ListView<RoleEditorUser> roleUsersView,
-            HashMap<Long, String> tenantUsers, List<Long> roleUserIds) {
+            ListView<RoleEditorUser> roleUsersView) {
         /* Check lists for consistency */
         for (Long userId : roleUserIds) {
             if (tenantUsers.containsKey(userId)) {
@@ -229,11 +224,6 @@ public class RoleEditor extends ModelingToolDialog {
         roleUsersView.getStore().removeAll();
     }
 
-    //JS this method must be called in invoker
-    public void setUsers(HashMap<Long, String> users) {
-        this.users = users;
-    }
-
     /**
      * Sets the "role" variable that is to be modeled with this dialog.
      * 
@@ -241,8 +231,6 @@ public class RoleEditor extends ModelingToolDialog {
      *            the variable
      */
     public void setVariable(Variable variable) {
-        //JS this must be replaced by above method
-        this.users = ModelingToolWidget.getInstance().getUsers();
         this.variable = variable;
     }
 
@@ -254,11 +242,12 @@ public class RoleEditor extends ModelingToolDialog {
     @Override
     public Boolean initialize() {
         tenantUsers = new HashMap<Long, String>();
-        for (Long userId : users.keySet()) {
-            tenantUsers.put(new Long(userId), new String(users.get(userId)));
+        for (Long userId : Workflow.getInstance().getUsers().keySet()) {
+            tenantUsers.put(new Long(userId), new String(Workflow.getInstance()
+                    .getUsers().get(userId)));
         }
-        roleUserIds = new ArrayList<Long>();
 
+        roleUserIds = new ArrayList<Long>();
         for (String userId : variable.getValues()) {
             try {
                 roleUserIds.add(new Long(userId));
@@ -269,7 +258,8 @@ public class RoleEditor extends ModelingToolDialog {
                 return false;
             }
         }
-        setStores(tenantUsersView, roleUsersView, tenantUsers, roleUserIds);
+
+        setStores(tenantUsersView, roleUsersView);
         return true;
     }
 

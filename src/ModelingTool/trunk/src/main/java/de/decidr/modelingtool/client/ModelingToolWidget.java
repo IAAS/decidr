@@ -61,16 +61,7 @@ public class ModelingToolWidget extends Composite implements
 
     private static Messages messages;
 
-    private static HashMap<Long, String> users;
-
-    private static ModelingToolWidget instance;
-
-    public static ModelingToolWidget getInstance() {
-        if (instance == null) {
-            instance = new ModelingToolWidget();
-        }
-        return instance;
-    }
+    private HashMap<Long, String> users;
 
     public ModelingToolWidget() {
         super();
@@ -168,15 +159,9 @@ public class ModelingToolWidget extends Composite implements
             String name = element.getAttribute("name");
             users.put(id, name);
         }
-    }
-
-    /**
-     * Returns the tenant users as a hash map with user id and display username.
-     * 
-     * @return the user hash map
-     */
-    public HashMap<Long, String> getUsers() {
-        return users;
+        // JS remove
+        GWT.log("Users properly set", null);
+        Workflow.getInstance().setUsers(users);
     }
 
     public void sendDWDLtoServer(String dwdl) {
