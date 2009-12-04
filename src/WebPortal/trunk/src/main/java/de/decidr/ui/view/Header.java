@@ -51,6 +51,7 @@ public class Header extends CustomComponent {
         this.setCompositionRoot(horizontalLayout);
 
         horizontalLayout.setWidth(800, Sizeable.UNITS_PIXELS);
+        horizontalLayout.setHeight(70, Sizeable.UNITS_PIXELS);
 
         decidrLogo = new Embedded("", new ThemeResource("img/logo.png"));
 
