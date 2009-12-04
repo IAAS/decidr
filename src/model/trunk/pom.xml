@@ -15,8 +15,7 @@
 	<!-- under the License. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
->
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.decidr</groupId>
 	<artifactId>model</artifactId>
@@ -139,11 +138,15 @@
 			<artifactId>vaadin</artifactId>
 			<version>6.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+			<version>1.6.2</version>
+		</dependency>
 		<!--
-			dependency> <groupId>wsdl4j</groupId> <artifactId>wsdl4j</artifactId>
-			<version>1.6.2</version> </dependency> <dependency>
-			<groupId>wsdl4j</groupId> <artifactId>wsdl4j-qname</artifactId>
-			<version>1.6.1</version> </dependency
+			dependency> <groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j-qname</artifactId> <version>1.6.1</version>
+			</dependency
 		-->
 		<dependency>
 			<groupId>javax.mail</groupId>

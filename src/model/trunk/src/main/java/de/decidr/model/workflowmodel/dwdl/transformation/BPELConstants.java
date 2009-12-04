@@ -23,33 +23,42 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
  */
 public final class BPELConstants {
     
-    // global process variables names
-    public static final String SUCCESS_MESSAGE_REQUEST = "successMessageRequest";
-    public static final String SUCCESS_MESSAGE_RESPONSE = "successMessageResponse";
-    public static final String FAULT_MESSAGE_REQUEST = "faultMessageRequest";
-    public static final String FAULT_MESSAGE_RESPONSE = "faultMessageResponse";
-    public static final String HUMANTASK_RESPONSE = "humanTaskResponse";
-    public static final String PROCESS_INPUT_VARIABLE = "processIn";
-    public static final String PROCESS_OUTPUT_VARIABLE = "processOut";
-
-    // namespace prefixes
-    public static final String DECIDRTYPES_PREFIX = "decidr";
-    public static final String DECIDRPROCESSTYPES_PREFIX = "pdecidr";
-    public static final String PROCESS_PREFIX = "tns";
-
-    // process partner link names and types
-    public static final String PROCESS_PARTNERLINK = "ProcessPL";
-    public static final String PROCESS_MYROLE = "ProcessProvider";
-
-    // Decidr web services' names
-    public static final String EMAIL_ACTIVITY_NAME = "Decidr-Email";
-    public static final String HUMANTASK_ACTIVITY_NAME = "Decidr-HumanTask";
+    static class Process {
+        
+        public static final String NS_PREFIX = "tns";
+        public static final String PARTNERLINK = "ProcessPL";
+        public static final String MYROLE = "ProcessProvider";
+        public static final String CORRELATION = "standard-correlation";
+        public static final String[] CORRELATION_PROPERTIES = {"taskID"};
+    }
     
+    static class Humantask {
+        public static final String NAME = "Decidr-HumanTask";
+        
+    }
     
-    // correlation properties used
-    public static final String HUMANTASK_CORRELATION_NAME = "standard-correlation";
-    public static final String[] CORRELATION_PROPERTIES = {"taskID"};
-    public static final String PROPERTY_TASKID = "taskID";
+    static class Email {
+        public static final String NAME = "Decidr-Email";
+    }
+    
+    static class Types {
+        public static final String NS_PREFIX = "decidr";
+    }
+    
+    static class Processtypes {
+        public static final String NS_PREFIX = "pdecidr";
+    }
+    
+    static class Variables {
+        public static final String SUCCESS_IN = "successIn";
+        public static final String SUCCESS_OUT = "successOut";
+        public static final String FAULT_IN = "faultMessageIn";
+        public static final String FAULT_OUT = "faultMessageOut";
+        public static final String HUMANTASK_CALLBACK_IN = "humanTaskCallbackIn";
+        public static final String PROCESS_IN = "processIn";
+        public static final String PROCESS_OUT = "processOut";
+    }
+    
     
     
     private BPELConstants(){

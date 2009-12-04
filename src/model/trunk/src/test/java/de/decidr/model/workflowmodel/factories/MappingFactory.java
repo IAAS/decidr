@@ -22,6 +22,7 @@ import javax.xml.namespace.QName;
 
 import de.decidr.model.webservices.EmailInterface;
 import de.decidr.model.webservices.HumanTaskInterface;
+import de.decidr.model.workflowmodel.dwdl.transformation.BPELConstants;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.webservices.ObjectFactory;
 import de.decidr.model.workflowmodel.webservices.PLTInfo;
@@ -44,7 +45,7 @@ public class MappingFactory {
         WebserviceMapping email = new WebserviceMapping();
 
         // setting email mappings
-        email.setActivity("Decidr-Email");
+        email.setActivity();
         email.setPortType(EmailInterface.PORT_TYPE_NAME);
         email.setOperation("sendEmail");
         email.setBinding(EmailInterface.BINDING_NAME);
