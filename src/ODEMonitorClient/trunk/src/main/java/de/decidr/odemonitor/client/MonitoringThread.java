@@ -258,7 +258,7 @@ public class MonitoringThread extends Thread {
                             + " unable to do it's job", e);
                     errorOccurred = true;
                 } catch (Exception e) {
-                    log.error("There seems to be a problem with the"
+                    log.error("There seems to be a problem contacting the "
                             + "ODE monitoring web service", e);
                     errorOccurred = true;
                 }

@@ -46,11 +46,14 @@ public class LocalInstanceManager implements InstanceManager {
         log.trace("Entering " + LocalInstanceManager.class.getSimpleName()
                 + ".isRunning()");
         boolean running = false;
+
+        URL localOdeUrl = null;
+        URLConnection con = null;
         try {
             log.debug("attempting to contact local ODE");
             // get URLConnection
-            URL localOdeUrl = new URL(LOCAL_ODE_LOCATION);
-            URLConnection con = localOdeUrl.openConnection();
+            localOdeUrl = new URL(LOCAL_ODE_LOCATION);
+            con = localOdeUrl.openConnection();
 
             // set connection properties & connect
             con.setDoInput(true);
@@ -61,12 +64,24 @@ public class LocalInstanceManager implements InstanceManager {
             running = con.getHeaderField(0).matches(".*(2\\d\\d|3\\d\\d).*");
             log.debug((running ? "managed" : "failed")
                     + " to contact local ODE");
-
-            // close unneeded streams
-            con.getInputStream().close();
-            con.getOutputStream().close();
         } catch (Exception e) {
             // apparently the local instance isn't accessible
+        } finally {
+            if (con != null) {
+                // close unneeded streams
+                try {
+                    con.getInputStream().close();
+                } catch (Throwable t) {
+                    // in this case, I believe we can assume the stream is
+                    // closed...
+                }
+                try {
+                    con.getOutputStream().close();
+                } catch (Throwable t) {
+                    // in this case, I believe we can assume the stream is
+                    // closed...
+                }
+            }
         }
         log.trace("Leaving " + LocalInstanceManager.class.getSimpleName()
                 + ".isRunning()");

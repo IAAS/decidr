@@ -21,7 +21,6 @@ import java.util.Iterator;
 import javax.xml.namespace.QName;
 
 import org.apache.axiom.om.OMElement;
-import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
 import org.apache.ode.axis2.service.ServiceClientUtil;
 
@@ -66,7 +65,7 @@ public class LocalInstanceStats {
                 list.next();
                 numInst++;
             }
-        } catch (AxisFault e) {
+        } catch (Exception e) {
             log.error("Couldn't communicate with "
                     + "ODE process management service", e);
         }
@@ -102,7 +101,7 @@ public class LocalInstanceStats {
                 list.next();
                 numModels++;
             }
-        } catch (AxisFault e) {
+        } catch (Exception e) {
             log.error("Couldn't communicate with "
                     + "ODE process management service", e);
         }
