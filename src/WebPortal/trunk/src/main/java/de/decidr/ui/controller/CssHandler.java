@@ -280,7 +280,7 @@ public class CssHandler {
 	 * @return File f
 	 */
 	private File getFileFromInputStream(InputStream in) {
-		File f = new File("themes" + File.separator + tenant + File.separator
+		File f = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator + "themes" + File.separator + tenant + File.separator
 				+ "styles.css");
 		OutputStream output = null;
 		try {
