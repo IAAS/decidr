@@ -114,7 +114,7 @@ public class SystemFacade extends AbstractFacade {
      * that should never be shut down automatically by the monitor service</li>
      * <li>minServerLoadForLock: {@link Byte} - if server load goes above this
      * value, the server will be locked.</li>
-     * <li>minServerLoadForUnlock: {@link Byte} - if server load goes below this
+     * <li>maxServerLoadForUnlock: {@link Byte} - if server load goes below this
      * value, the server will be unlocked</li>
      * <li>maxServerLoadForShutdown: {@link Byte} - if server load goes below
      * this value, the load monitor will consider shutting down the affected
