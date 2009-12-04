@@ -26,6 +26,7 @@ import com.vaadin.ui.Window;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.controller.parameterhandler.ConfirmationParameterHandler;
 import de.decidr.ui.controller.parameterhandler.InvitationParameterHandler;
+import de.decidr.ui.controller.parameterhandler.LoginParameterHandler;
 import de.decidr.ui.controller.parameterhandler.TenantParameterHandler;
 import de.decidr.ui.view.uibuilder.UIBuilder;
 import de.decidr.ui.view.uibuilder.UnregisteredUserViewBuilder;
@@ -71,6 +72,7 @@ public class Main extends Application implements TransactionListener {
         main.addParameterHandler(new InvitationParameterHandler());
         main.addParameterHandler(new ConfirmationParameterHandler());
         main.addParameterHandler(new TenantParameterHandler());
+        main.addParameterHandler(new LoginParameterHandler());
         
     	director = new UIDirector();
     	

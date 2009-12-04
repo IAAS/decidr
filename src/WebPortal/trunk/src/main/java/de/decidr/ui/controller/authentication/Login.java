@@ -26,6 +26,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
@@ -115,6 +116,45 @@ public class Login {
 
 	}
 
+	
+	public void loginById(Long userId, String authentificationKey) throws EntityNotFoundException, TransactionException{
+	    userFacade = new UserFacade(new UserRole(userId));
+
+            if (userFacade.authKeyMatches(userId, authentificationKey)){
+                HttpSession session = Main.getCurrent().getSession();
+                
+                if (session.getAttribute("tenantId") == null) {
+                    tenantId = userFacade.getCurrentTenantId(userId);
+                } else {
+                        tenantId = (Long)session.getAttribute("tenantId");
+                        userFacade.setCurrentTenantId(userId, tenantId);
+                }
+    
+                if (tenantId == null) {
+                        tenant = DecidrGlobals.getDefaultTenant();
+                        tenantId = tenant.getId();
+                        userFacade.setCurrentTenantId(userId, tenantId);
+                }
+    
+                GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(
+                                new SuperAdminRole(DecidrGlobals.getSettings().getSuperAdmin()
+                                                .getId()), tenantId);
+                HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+                Tenant tenant = cmd.getTenantSettings();
+                tenantName = tenant.getName();
+    
+                role = userFacade.getUserRoleForTenant(userId, tenantId);
+    
+                session.setAttribute("userId", userId);
+                session.setAttribute("tenantId", tenantId);
+                session.setAttribute("role", role);
+    
+                loadProtectedResources();    
+	    }
+	}
+	
+	
+	
 	/**
 	 * Loads the protected resources if and only if the user is logged in.
 	 * 
