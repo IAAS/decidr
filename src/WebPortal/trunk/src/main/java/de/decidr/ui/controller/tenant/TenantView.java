@@ -67,9 +67,11 @@ public class TenantView {
 		try {
 			tenantName = tenantFacade.getTenant(tenantId).getName();
 
-			cssFile = new File("themes" + File.separator + tenantName
+			cssFile = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator +
+			                "themes" + File.separator + tenantName
 					+ File.separator + "styles.css");
-			logoFile = new File("themes" + File.separator + tenantName
+			logoFile = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator +
+			                "themes" + File.separator + tenantName
 					+ File.separator + "img" + File.separator + "logo.png");
 
 			css = tenantFacade.getCurrentColorScheme(tenantId);
