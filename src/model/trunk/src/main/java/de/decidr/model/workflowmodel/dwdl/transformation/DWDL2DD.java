@@ -128,7 +128,7 @@ public class DWDL2DD {
     private PartnerLink getProcessPartnerLink(Process bpel){
         if (bpel.isSetPartnerLinks()){
             for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()){
-                if(partnerLink.getName().equals(BPELConstants.PROCESS_PARTNERLINK)){
+                if(partnerLink.getName().equals(BPELConstants.Process.PARTNERLINK)){
                     return partnerLink;
                 }
             }

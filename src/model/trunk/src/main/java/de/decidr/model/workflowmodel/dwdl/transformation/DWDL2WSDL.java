@@ -231,9 +231,9 @@ public class DWDL2WSDL {
         wsdl.addNamespace("tns", wsdl.getTargetNamespace());
         wsdl.addNamespace("vprop", Constants.VARPROP_NAMESPACE);
         wsdl.addNamespace("xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        wsdl.addNamespace(BPELConstants.DECIDRTYPES_PREFIX,
+        wsdl.addNamespace(BPELConstants.Types.NS_PREFIX,
                 Constants.DECIDRTYPES_NAMESPACE);
-        wsdl.addNamespace(BPELConstants.DECIDRPROCESSTYPES_PREFIX,
+        wsdl.addNamespace(BPELConstants.Processtypes.NS_PREFIX,
                 Constants.DECIDRPROCESSTYPES_NAMESPACE);
     }
 

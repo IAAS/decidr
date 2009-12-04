@@ -45,7 +45,7 @@ public class MappingFactory {
         WebserviceMapping email = new WebserviceMapping();
 
         // setting email mappings
-        email.setActivity();
+        email.setActivity("Decidr-Email");
         email.setPortType(EmailInterface.PORT_TYPE_NAME);
         email.setOperation("sendEmail");
         email.setBinding(EmailInterface.BINDING_NAME);
