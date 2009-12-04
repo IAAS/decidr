@@ -20,8 +20,11 @@ import java.util.List;
 
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
+import org.hibernate.type.Type;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
@@ -104,6 +107,16 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
         adminCriteria.add(Restrictions.eqProperty("rel.workflowModel", "m"))
                 .add(Restrictions.eq("rel.user.id", getUserId()));
 
+        /*
+         * Workaround for Hibernate issue HHH-993: Criteria subquery without
+         * projection fails throwing NullPointerException.
+         * 
+         * Additionally, Mysql doesn't seem to like aliases in EXISTS
+         * subqueries, so we have to explicitly specify "*"
+         */
+        Projection existsSubqueryProjection = Projections.sqlProjection("*",
+                new String[0], new Type[0]);
+        adminCriteria.setProjection(existsSubqueryProjection);
         criteria.add(Subqueries.exists(adminCriteria));
 
         criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
