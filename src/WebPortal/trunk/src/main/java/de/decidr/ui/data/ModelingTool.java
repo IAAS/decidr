@@ -21,14 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.output.DOMOutputter;
 import org.jdom.output.XMLOutputter;
 
 import com.vaadin.data.Item;
@@ -64,7 +60,7 @@ public class ModelingTool extends AbstractComponent {
     private TenantFacade tenantFacade = null;
     private WorkflowModelFacade workflowModelFacade = null;
     private Long workflowModelId = null;
-    private HashMap<Long, String> userList = null;
+    private HashMap<Long, String> userMap = null;
 
     /**
      * Default constructor which initializes the server side components which
@@ -98,8 +94,8 @@ public class ModelingTool extends AbstractComponent {
     @SuppressWarnings("unchecked")
     @Override
     public void changeVariables(Object source, Map variables) {
-    	super.changeVariables(source, variables);
-        logger.debug("[Modeling Tool] Trying to store the DWDL.");
+        super.changeVariables(source, variables);
+        logger.debug("[Modeling Tool] Trying to store the DWDL...");
         if (variables.containsKey("dwdl")) {
             byte[] dwdl = (byte[]) variables.get("dwdl");
             try {
@@ -117,24 +113,23 @@ public class ModelingTool extends AbstractComponent {
         }
     }
 
-    private String convertUserHashMapToString(HashMap<Long, String> userList) {
-
-        DocumentBuilder builder = null;
-        try {
-            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            // TODO Auto-generated catch block
-            // JS
-            logger.debug("[Modeling Tool]: Exception", e);
-        }
+    /**
+     * Converts a user map into an xml string. This has to be done because the
+     * vaadin interface can only transmit simple types.
+     * 
+     * @param userMap
+     *            list of tenant users as map
+     * @return xml formatted user list
+     */
+    private String convertUserMapToString(HashMap<Long, String> userMap) {
         Document doc = new Document();
 
         doc.setRootElement(new Element("userlist"));
 
-        for (Long userId : userList.keySet()) {
+        for (Long userId : userMap.keySet()) {
             Element user = new Element("user");
             user.setAttribute("id", userId.toString());
-            user.setAttribute("name", userList.get(userId));
+            user.setAttribute("name", userMap.get(userId));
             doc.getRootElement().addContent(user);
         }
 
@@ -161,9 +156,10 @@ public class ModelingTool extends AbstractComponent {
     }
 
     private String getUsers() {
-        userList = new HashMap<Long, String>();
+        userMap = new HashMap<Long, String>();
         try {
-            logger.debug("[Modeling Tool] Getting user list from server...");
+            logger
+                    .debug("[Modeling Tool] Trying to get the tenant user list...");
             List<Item> users = tenantFacade.getUsersOfTenant(tenantId, null);
             for (Item item : users) {
                 if (item.getItemProperty("username").getValue() == null
@@ -173,7 +169,7 @@ public class ModelingTool extends AbstractComponent {
                      * If the user name is empty, we want to display the email
                      * address as user name.
                      */
-                    userList.put((Long) item.getItemProperty("id").getValue(),
+                    userMap.put((Long) item.getItemProperty("id").getValue(),
                             (String) item.getItemProperty("email").getValue());
                 } else {
                     /*
@@ -183,20 +179,18 @@ public class ModelingTool extends AbstractComponent {
                     Long id = (Long) item.getItemProperty("id").getValue();
                     String username = (String) item.getItemProperty("username")
                             .getValue();
-                    userList.put(id, username);
+                    userMap.put(id, username);
                 }
             }
             logger
-                    .debug("[Modeling Tool] Succeded retrieving user list from server.");
-            String userListString = convertUserHashMapToString(userList);
-            // JS remove this line
-            logger.debug("[Modeling Tool] User list: " + userListString);
-            return userListString;
+                    .debug("[Modeling Tool] Succeded retrieving tenant user list. No. of users: "
+                            + userMap.size());
+            String userXMLString = convertUserMapToString(userMap);
+            return userXMLString;
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(
                     new TransactionErrorDialogComponent(exception));
-            logger
-                    .debug("[Modeling Tool] Failed retrieving user list from server.");
+            logger.debug("[Modeling Tool] Failed retrieving tenant user list.");
             return null;
         }
     }

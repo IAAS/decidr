@@ -20,7 +20,6 @@ import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
 
-
 /**
  * TODO: add comment
  * 
@@ -28,7 +27,6 @@ import com.vaadin.terminal.gwt.client.UIDL;
  */
 public class VModelingTool extends
         de.decidr.modelingtool.client.ModelingToolWidget implements Paintable {
-
 
     /** Set the tagname used to statically resolve widget from UIDL. */
     public static final String TAGNAME = "modelingtool";
@@ -55,6 +53,7 @@ public class VModelingTool extends
 
     @Override
     public void sendDWDLtoServer(String dwdl) {
+        this.debug = 1;
 
         // Updating the state to the server can not be done
         // before the server connection is known, i.e., before
@@ -62,6 +61,8 @@ public class VModelingTool extends
         if ((uidlId == null) || (client == null)) {
             return;
         }
+
+        super.sendDWDLtoServer(dwdl);
 
         // Communicate the user interaction parameters to server.
         // This call will initiate an AJAX request to the server.
