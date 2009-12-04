@@ -276,7 +276,8 @@ public class CssHandler {
 		
 		if (!f.exists()){
 	            try {
-	                f.mkdirs();
+	                File dir = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator + "themes" + File.separator + tenant);
+	                dir.mkdirs();
                         f.createNewFile();
                     } catch (IOException e) {
                         Main.getCurrent().getMainWindow().showNotification(f.getAbsolutePath() + "does not exist, creating failed", Window.Notification.TYPE_ERROR_MESSAGE);
