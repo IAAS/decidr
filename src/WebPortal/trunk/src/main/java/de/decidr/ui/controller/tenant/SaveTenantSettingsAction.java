@@ -18,6 +18,7 @@ package de.decidr.ui.controller.tenant;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -69,6 +70,8 @@ public class SaveTenantSettingsAction implements ClickListener {
 			fileId = (Long) Main.getCurrent().getMainWindow().getData();
 			if (fileId != null) {
 				tenantFacade.setLogo(tenantId, fileId);
+			}else{
+			    Main.getCurrent().getMainWindow().showNotification("file id is null",Window.Notification.TYPE_ERROR_MESSAGE);
 			}
 
 			CssHandler cssHandler = new CssHandler(content);

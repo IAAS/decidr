@@ -217,7 +217,7 @@ public class TenantSettingsComponent extends CustomComponent {
 						Long fileId = fileFacade.createFile(fis, file.length(),
 								event.getFilename(), event.getMIMEType(), true,
 								filePermission);
-
+						
 						Main.getCurrent().getMainWindow().setData(fileId);
 						Main.getCurrent().getMainWindow()
 								.addWindow(
