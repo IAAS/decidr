@@ -37,11 +37,14 @@ import org.w3c.dom.css.CSSStyleSheet;
 
 import com.steadystate.css.parser.CSSOMParser;
 import com.vaadin.data.Item;
+import com.vaadin.ui.Window;
+
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.workflowmodel.dwdl.Notification;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TenantSettingsComponent;
 import de.decidr.ui.view.windows.InformationDialogComponent;
@@ -141,25 +144,16 @@ public class CssHandler {
 					// is not handled! ~dh
 					f = getFileFromInputStream(in);
 					if (f == null){
-					    Main.getCurrent().getMainWindow().addWindow(
-                                                    new InformationDialogComponent(
-                                                            "input file is null!",
-                                                            "nulls everywhere"));
+					    Main.getCurrent().getMainWindow().showNotification("input file is null");
 					}
 					in.reset();
 					HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
 					filePermission.add(FileReadPermission.class);
 					if (fileFacade == null){
-                                            Main.getCurrent().getMainWindow().addWindow(
-                                                    new InformationDialogComponent(
-                                                            "file facade is null!",
-                                                            "nulls everywhere"));
+                                            Main.getCurrent().getMainWindow().showNotification("fileFacade is null");
                                         }
 					if (in == null){
-                                            Main.getCurrent().getMainWindow().addWindow(
-                                                    new InformationDialogComponent(
-                                                            "input stream is null!",
-                                                            "nulls everywhere"));
+                                            Main.getCurrent().getMainWindow().showNotification("input stream is null");
                                         }
 					fileId = fileFacade.createFile(in, f.length(), f
 							.getAbsolutePath(), new MimetypesFileTypeMap()
@@ -282,6 +276,7 @@ public class CssHandler {
 	private File getFileFromInputStream(InputStream in) {
 		File f = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator + "themes" + File.separator + tenant + File.separator
 				+ "styles.css");
+		Main.getCurrent().getMainWindow().showNotification("file exists: " + f.exists(), Window.Notification.TYPE_ERROR_MESSAGE);
 		OutputStream output = null;
 		try {
 			try {
