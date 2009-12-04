@@ -165,8 +165,9 @@ public class TenantFacade extends AbstractFacade {
 
     /**
      * Saves the given <code>{@link FileInputStream}</code> as Logo of the given
-     * tenant. To remove the current logo including the file on the storage
-     * backend, pass <code>null</code> as the fileId.
+     * tenant. The old logo is deleted automatically. To remove the current logo
+     * including the file on the storage backend, pass <code>null</code> as the
+     * fileId.
      * 
      * @param tenantId
      *            the tenant to which the logo will be set
