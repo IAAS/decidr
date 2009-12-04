@@ -104,7 +104,7 @@ public class CssHandler {
 				} else {
 					String cssValue = saveSimpleCss();
 					in = getInputStream(cssValue);
-					Main.getCurrent().getMainWindow().showNotification("css: "+cssValue, Window.Notification.TYPE_ERROR_MESSAGE);
+					
 				}
 				// Checkt ob die advancedColorSchemeId gesetzt ist und ob der
 				// User
@@ -273,10 +273,12 @@ public class CssHandler {
 	private File getFileFromInputStream(InputStream in) {
 		File f = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator + "themes" + File.separator + tenant + File.separator
 				+ "styles.css");
+		try {
+		f.createNewFile();
 		Main.getCurrent().getMainWindow().showNotification("file exists: " + f.exists(), Window.Notification.TYPE_ERROR_MESSAGE);
 		Main.getCurrent().getMainWindow().showNotification("file path: " + f.getAbsolutePath(), Window.Notification.TYPE_ERROR_MESSAGE);
 		OutputStream output = null;
-		try {
+		
 			try {
 				output = new FileOutputStream(f);
 				IOUtils.copy(in, output);
