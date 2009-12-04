@@ -64,6 +64,10 @@ public class DecidrGlobals {
      */
     public static final String URL_PARAM_CONFIRM_REGISTRATION_ID = "registration";
     /**
+     * URL parameter name that contains the id of the user who is allowed to login with this link.
+     */
+    public static final String URL_PARAM_LOGIN_ID = "login";
+    /**
      * URL parameter name that contains the file id.
      */
     public static final String URL_PARAM_FILE_ID = "file";
