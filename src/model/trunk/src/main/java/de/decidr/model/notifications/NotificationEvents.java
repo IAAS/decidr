@@ -155,6 +155,7 @@ public final class NotificationEvents {
         SystemSettings settings = DecidrGlobals.getSettings();
 
         Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(request.getCreationDate());
         expireDate.add(Calendar.SECOND, settings
                 .getRegistrationRequestLifetimeSeconds());
 
@@ -231,17 +232,17 @@ public final class NotificationEvents {
         SystemSettings settings = DecidrGlobals.getSettings();
         int requestLifeTime = settings.getChangeEmailRequestLifetimeSeconds();
 
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.setTime(request.getCreationDate());
-        creationDate.add(Calendar.SECOND, requestLifeTime);
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(request.getCreationDate());
+        expireDate.add(Calendar.SECOND, requestLifeTime);
 
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
-        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
+        String expireDateString = sd.format(expireDate.getTime());
 
         String bodyTXT = NotificationText.getChangeEmailRequestText(userName,
-                confirmationUrl, expireDate, signature);
+                confirmationUrl, expireDateString, signature);
         String bodyHTML = NotificationText.getChangeEmailRequestHTML(userName,
-                confirmationUrl, expireDate, signature);
+                confirmationUrl, expireDateString, signature);
         String subject = NotificationText.getChangeEmailRequestSubject();
 
         // sender and receiver data creation
@@ -308,22 +309,20 @@ public final class NotificationEvents {
         // calculate Date
         int requestLifeTime = settings.getPasswordResetRequestLifetimeSeconds();
 
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.setTime(request.getCreationDate());
-        creationDate.add(Calendar.SECOND, requestLifeTime);
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(request.getCreationDate());
+        expireDate.add(Calendar.SECOND, requestLifeTime);
 
-        // DH here and everywhere else: nope, this doesn't expire the moment
-        // it's sent ~rr
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
-        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
+        String expireDateString = sd.format(expireDate.getTime());
 
         // create body text
         String signature = "";
 
         String bodyTXT = NotificationText.getPasswordResetRequestText(userName,
-                confirmationUrl, expireDate, signature);
+                confirmationUrl, expireDateString, signature);
         String bodyHTML = NotificationText.getPasswordResetRequestHTML(
-                userName, confirmationUrl, expireDate, signature);
+                userName, confirmationUrl, expireDateString, signature);
         String subject = NotificationText.getPasswordResetRequestSubject();
 
         // sender and receiver data creation
@@ -440,12 +439,12 @@ public final class NotificationEvents {
         // calculate Date
         int invitationLifeTime = settings.getInvitationLifetimeSeconds();
 
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, invitationLifeTime);
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(invitation.getCreationDate());
+        expireDate.add(Calendar.SECOND, invitationLifeTime);
 
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
-        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
+        String expireDateString = sd.format(expireDate.getTime());
 
         // create body text
         String signature = "";
@@ -453,11 +452,11 @@ public final class NotificationEvents {
         String bodyTXT = NotificationText
                 .getInviteRegisteredUserAsTenantMemberText(userName,
                         inviterName, tenantName, tenantUrl, invitationUrl,
-                        expireDate, signature);
+                        expireDateString, signature);
         String bodyHTML = NotificationText
                 .getInviteRegisteredUserAsTenantMemberHTML(userName,
                         inviterName, tenantName, tenantUrl, invitationUrl,
-                        expireDate, signature);
+                        expireDateString, signature);
         String subject = NotificationText
                 .getInviteRegisteredUserAsTenantMemberSubject(tenantName);
 
@@ -522,23 +521,23 @@ public final class NotificationEvents {
         // calculate Date
         int invitationLifeTime = settings.getInvitationLifetimeSeconds();
 
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, invitationLifeTime);
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(invitation.getCreationDate());
+        expireDate.add(Calendar.SECOND, invitationLifeTime);
 
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
-        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
+        String expireDateString = sd.format(expireDate.getTime());
 
         // create body text
         String signature = "";
 
         String bodyTXT = NotificationText
                 .getInviteUnregisteredUserAsTenantMemberText(inviterName,
-                        tenantName, tenantUrl, invitationUrl, expireDate,
+                        tenantName, tenantUrl, invitationUrl, expireDateString,
                         signature);
         String bodyHTML = NotificationText
                 .getInviteUnregisteredUserAsTenantMemberHTML(inviterName,
-                        tenantName, tenantUrl, invitationUrl, expireDate,
+                        tenantName, tenantUrl, invitationUrl, expireDateString,
                         signature);
         String subject = NotificationText
                 .getInviteUnregisteredUserAsTenantMemberSubject();
@@ -819,13 +818,13 @@ public final class NotificationEvents {
         String signature = "";
 
         // get expire Date
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(invitation.getCreationDate());
+        expireDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
                 .getInvitationLifetimeSeconds());
 
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
-        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
+        String expireDateString = sd.format(expireDate.getTime());
 
         String tenantName = model.getTenant().getName();
         String invitationUrl;
@@ -839,10 +838,10 @@ public final class NotificationEvents {
 
         String bodyTXT = NotificationText
                 .getInvitedUnregisteredUserAsWorkflowAdminText(tenantName,
-                        invitationUrl, expireDate, signature);
+                        invitationUrl, expireDateString, signature);
         String bodyHTML = NotificationText
                 .getInvitedUnregisteredUserAsWorkflowAdminHTML(tenantName,
-                        invitationUrl, expireDate, signature);
+                        invitationUrl, expireDateString, signature);
         String subject = NotificationText
                 .getInvitedUnregisteredUserAsWorkflowAdminSubject();
 
@@ -899,13 +898,13 @@ public final class NotificationEvents {
         String signature = "";
 
         // get expire Date
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(invitation.getCreationDate());
+        expireDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
                 .getInvitationLifetimeSeconds());
 
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
-        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
+        String expireDateString = sd.format(expireDate.getTime());
 
         String tenantName = model.getTenant().getName();
         String userName = invitation.getReceiver().getUserProfile()
@@ -922,10 +921,10 @@ public final class NotificationEvents {
 
         String bodyTXT = NotificationText
                 .getInvitedRegisteredUserAsWorkflowAdminText(userName,
-                        invitationUrl, expireDate, tenantName, signature);
+                        invitationUrl, expireDateString, tenantName, signature);
         String bodyHTML = NotificationText
                 .getInvitedRegisteredUserAsWorkflowAdminHTML(userName,
-                        invitationUrl, expireDate, tenantName, signature);
+                        invitationUrl, expireDateString, tenantName, signature);
         String subject = NotificationText
                 .getInvitedRegisteredUserAsWorkflowAdminSubject();
 
@@ -980,13 +979,13 @@ public final class NotificationEvents {
         String signature = "";
 
         // get expire Date
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(invitation.getCreationDate());
+        expireDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
                 .getInvitationLifetimeSeconds());
 
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
-        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
+        String expireDateString = sd.format(expireDate.getTime());
 
         String tenantName = createdWorkflowInstance.getDeployedWorkflowModel()
                 .getTenant().getName();
@@ -1004,10 +1003,12 @@ public final class NotificationEvents {
 
         String bodyTXT = NotificationText
                 .getInvitedUserAsWorkflowParticipantText(tenantName,
-                        invitationUrl, expireDate, workflowName, signature);
+                        invitationUrl, expireDateString, workflowName,
+                        signature);
         String bodyHTML = NotificationText
                 .getInvitedUserAsWorkflowParticipantHTML(tenantName,
-                        invitationUrl, expireDate, workflowName, signature);
+                        invitationUrl, expireDateString, workflowName,
+                        signature);
         String subject = NotificationText
                 .getInvitedUserAsWorkflowParticipantSubject();
 
@@ -1062,13 +1063,13 @@ public final class NotificationEvents {
         String signature = "";
 
         // get expire Date
-        Calendar creationDate = Calendar.getInstance();
-        creationDate.setTime(invitation.getCreationDate());
-        creationDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
+        Calendar expireDate = DecidrGlobals.getTime();
+        expireDate.setTime(invitation.getCreationDate());
+        expireDate.add(Calendar.SECOND, DecidrGlobals.getSettings()
                 .getInvitationLifetimeSeconds());
 
         SimpleDateFormat sd = new SimpleDateFormat(AMERICAN_DATE_FORMAT);
-        String expireDate = sd.format(DecidrGlobals.getTime().getTime());
+        String expireDateString = sd.format(expireDate.getTime());
 
         String tenantName = createdWorkflowInstance.getDeployedWorkflowModel()
                 .getTenant().getName();
@@ -1086,10 +1087,12 @@ public final class NotificationEvents {
 
         String bodyTXT = NotificationText
                 .getInvitedUserAsWorkflowParticipantText(tenantName,
-                        invitationUrl, expireDate, workflowName, signature);
+                        invitationUrl, expireDateString, workflowName,
+                        signature);
         String bodyHTML = NotificationText
                 .getInvitedUserAsWorkflowParticipantHTML(tenantName,
-                        invitationUrl, expireDate, workflowName, signature);
+                        invitationUrl, expireDateString, workflowName,
+                        signature);
         String subject = NotificationText
                 .getInvitedUserAsWorkflowParticipantSubject();
 
