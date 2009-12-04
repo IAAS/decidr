@@ -170,7 +170,7 @@ public class CssHandler {
 		InputSource source = new InputSource();
 		String css = "";
 		try {
-			InputStream stream = new FileInputStream(new File("themes"
+			InputStream stream = new FileInputStream(new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator + "themes"
 					+ File.separator + "decidr" + File.separator + "styles.css"));
 			source.setByteStream(stream);
 
