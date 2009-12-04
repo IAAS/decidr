@@ -102,9 +102,9 @@ public class SaveSystemSettingsAction implements ClickListener {
 					.toString()));
 		}
 		if (item
-					.getItemProperty("maxUploadFileSizeByte").getValue() != null) {
+					.getItemProperty("maxUploadFileSizeBytes").getValue() != null) {
 			settings.setMaxUploadFileSizeBytes(Long.parseLong(item
-					.getItemProperty("maxUploadFileSizeByte").getValue()
+					.getItemProperty("maxUploadFileSizeBytes").getValue()
 					.toString()));
 		}
 		if (item.getItemProperty("mtaHostname")
@@ -133,17 +133,17 @@ public class SaveSystemSettingsAction implements ClickListener {
 					"mtaUseTls").getValue().toString()));
 		}
 		if (item.getItemProperty(
-							"passwordResetRequestLifeTimeSeconds").getValue() != null) {
+							"passwordResetRequestLifetimeSeconds").getValue() != null) {
 			settings.setPasswordResetRequestLifetimeSeconds(Integer
 					.parseInt(item.getItemProperty(
-							"passwordResetRequestLifeTimeSeconds").getValue()
+							"passwordResetRequestLifetimeSeconds").getValue()
 							.toString()));
 		}
 		if (item.getItemProperty(
-		"registrationRequestLifetimeSecond").getValue() != null) {
+		"registrationRequestLifetimeSeconds").getValue() != null) {
 			settings.setRegistrationRequestLifetimeSeconds(Integer
 					.parseInt(item.getItemProperty(
-							"registrationRequestLifetimeSecond").getValue()
+							"registrationRequestLifetimeSeconds").getValue()
 							.toString()));
 		}
 		//settings.setSuperAdmin((User) item.getItemProperty("superAdmin")
@@ -185,9 +185,9 @@ public class SaveSystemSettingsAction implements ClickListener {
 					.toString()));
 		}
 		if (item
-					.getItemProperty("maxServerLoadForUnLock").getValue() != null) {
+					.getItemProperty("maxServerLoadForUnlock").getValue() != null) {
 			settings.setMaxServerLoadForUnlock(Byte.parseByte(item
-					.getItemProperty("maxServerLoadForUnLock").getValue()
+					.getItemProperty("maxServerLoadForUnlock").getValue()
 					.toString()));
 		}
 		if (item
@@ -209,9 +209,9 @@ public class SaveSystemSettingsAction implements ClickListener {
 					.toString()));
 		}
 		if (item
-					.getItemProperty("maxWorkflowInstanceForUnlock").getValue() != null) {
+					.getItemProperty("maxWorkflowInstancesForUnlock").getValue() != null) {
 			settings.setMaxWorkflowInstancesForUnlock(Integer.parseInt(item
-					.getItemProperty("maxWorkflowInstanceForUnlock").getValue()
+					.getItemProperty("maxWorkflowInstancesForUnlock").getValue()
 					.toString()));
 		}
 		if (item

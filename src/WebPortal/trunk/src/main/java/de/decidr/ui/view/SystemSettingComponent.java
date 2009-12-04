@@ -36,7 +36,7 @@ import de.decidr.ui.controller.SaveSystemSettingsAction;
 public class SystemSettingComponent extends CustomComponent {
 
 	/**
-	 * The user can change the system settings. 
+	 * The user can change the system settings.
 	 * 
 	 * @author AT
 	 */
@@ -62,7 +62,6 @@ public class SystemSettingComponent extends CustomComponent {
 		init();
 	}
 
-
 	public Form getSettingsForm() {
 		return settingsForm;
 	}
@@ -83,14 +82,27 @@ public class SystemSettingComponent extends CustomComponent {
 
 	private void init() {
 		settingsForm = new Form();
-		//settingsForm.setFormFieldFactory(new SystemSettingsFieldFactory());
+		// settingsForm.setFormFieldFactory(new SystemSettingsFieldFactory());
 		settingsForm.setWriteThrough(true);
 		settingsForm.setImmediate(true);
 		settingsForm.setItemDataSource(settingsItem);
+		Object[] visiblePropertyIds = new Object[] { "autoAcceptNewTenants",
+				"logLevel", "changeEmailRequestLifetimeSeconds", "domain",
+				"invitationLifetimeSeconds", "maxAttachmentsPerEmail",
+				"maxUploadFileSizeBytes", "maxUploadFileSizeBytes",
+				"mtaHostname", "mtaPassword", "mtaPort", "mtaUsername",
+				"mtaUseTls", "passwordResetRequestLifetimeSeconds",
+				"registrationRequestLifetimeSeconds", "systemName",
+				"systemEmailAddress", "monitorUpdateIntervalSeconds",
+				"monitorAveragingPeriodSeconds", "serverPoolInstances",
+				"minServerLoadForLock", "maxServerLoadForUnlock",
+				"maxServerLoadForShutdown", "minUnlockedServers",
+				"minWorkflowInstancesForLock", "maxWorkflowInstancesForUnlock",
+				"maxWorkflowInstancesForShutdown" };
+		settingsForm.setVisibleItemProperties(visiblePropertyIds);
 
 		verticalLayout = new VerticalLayout();
 		verticalLayout.setSpacing(true);
-
 
 		saveButton = new Button("Save", new SaveSystemSettingsAction());
 
@@ -134,12 +146,11 @@ public class SystemSettingComponent extends CustomComponent {
 				}
 				nativeSelect.setNullSelectionAllowed(false);
 				nativeSelect.setValue(logLevel[0]);
-			}else if("superAdmin".equals(propertyId)){
+			} else if ("superAdmin".equals(propertyId)) {
 				TextField tf = (TextField) field;
 				tf.setCaption("Super admin");
 				tf.setColumns(30);
-			}
-			else if ("autoAcceptNewTenants".equals(propertyId)) {
+			} else if ("autoAcceptNewTenants".equals(propertyId)) {
 				CheckBox checkbox = (CheckBox) field;
 				checkbox.setCaption("Automatically approve all new tenants");
 			} else if ("systemName".equals(propertyId)) {
@@ -166,12 +177,12 @@ public class SystemSettingComponent extends CustomComponent {
 				slider.setCaption("Registration request lifetime");
 				slider.setMax(259200);
 				slider.setMin(0);
-			} /*else if ("changeEmailRequestLifetimeSeconds".equals(propertyId)) {
-				Slider slider = (Slider) field;
-				slider.setCaption("Change email request lifetime");
-				slider.setMax(259200);
-				slider.setMin(0);
-			} */else if ("invitationLifetimeSeconds".equals(propertyId)) {
+			} /*
+			 * else if ("changeEmailRequestLifetimeSeconds".equals(propertyId))
+			 * { Slider slider = (Slider) field;
+			 * slider.setCaption("Change email request lifetime");
+			 * slider.setMax(259200); slider.setMin(0); }
+			 */else if ("invitationLifetimeSeconds".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Invitation lifetime");
 				slider.setMax(259200);
@@ -203,57 +214,57 @@ public class SystemSettingComponent extends CustomComponent {
 				slider.setCaption("Max upload size");
 				slider.setMax(10000);
 				slider.setMin(0);
-			}else if("maxAttachmentSlider".equals(propertyId)){
+			} else if ("maxAttachmentSlider".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Max attachments per email");
 				slider.setMax(10000);
 				slider.setMin(0);
-			}else if("monitorUpdateIntervalSeconds".equals(propertyId)){
+			} else if ("monitorUpdateIntervalSeconds".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Monitor update interval seconds");
 				slider.setMax(10000);
 				slider.setMin(0);
-			}else if("monitorAveragingPeriodSeconds".equals(propertyId)){
+			} else if ("monitorAveragingPeriodSeconds".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Monitor average period seconds");
 				slider.setMax(10000);
 				slider.setMin(0);
-			}else if("serverPoolInstances".equals(propertyId)){
+			} else if ("serverPoolInstances".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Server pool instances");
 				slider.setMax(10);
 				slider.setMin(0);
-			}else if("minServerLoadForLock".equals(propertyId)){
+			} else if ("minServerLoadForLock".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Min server load for locking");
 				slider.setMax(10000);
 				slider.setMin(0);
-			}else if("minServerLoadForUnlock".equals(propertyId)){
+			} else if ("minServerLoadForUnlock".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Min server load for unlocking");
 				slider.setMax(10000);
 				slider.setMin(0);
-			}else if("maxServerLoadForShutdown".equals(propertyId)){
+			} else if ("maxServerLoadForShutdown".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Max server load for shutdown");
 				slider.setMax(10000);
 				slider.setMin(0);
-			}else if("minUnlockedServers".equals(propertyId)){
+			} else if ("minUnlockedServers".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Min unlocked servers");
 				slider.setMax(10);
 				slider.setMin(0);
-			}else if("minWorkflowInstancesForLock".equals(propertyId)){
+			} else if ("minWorkflowInstancesForLock".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Min workflow instances for locking");
 				slider.setMax(100);
 				slider.setMin(0);
-			}else if("maxWorkflowInstanceForUnlock".equals(propertyId)){
+			} else if ("maxWorkflowInstanceForUnlock".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Max workflow instances for locking");
 				slider.setMax(100);
 				slider.setMin(0);
-			}else if("maxWorkflowInstancesForShutdown".equals(propertyId)){
+			} else if ("maxWorkflowInstancesForShutdown".equals(propertyId)) {
 				Slider slider = (Slider) field;
 				slider.setCaption("Max workflow instances for shutdown");
 				slider.setMax(100);
