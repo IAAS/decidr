@@ -101,6 +101,10 @@ public class CssHandler {
 				} else {
 					String cssValue = saveSimpleCss();
 					in = getInputStream(cssValue);
+					Main.getCurrent().getMainWindow().addWindow(
+	                                            new InformationDialogComponent(
+	                                                    cssValue,
+	                                                    "css file"));
 				}
 				// Checkt ob die advancedColorSchemeId gesetzt ist und ob der
 				// User
@@ -136,9 +140,27 @@ public class CssHandler {
 					// AT getFileFromInputStream can return null, but null value
 					// is not handled! ~dh
 					f = getFileFromInputStream(in);
+					if (f == null){
+					    Main.getCurrent().getMainWindow().addWindow(
+                                                    new InformationDialogComponent(
+                                                            "input file is null!",
+                                                            "nulls everywhere"));
+					}
 					in.reset();
 					HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
 					filePermission.add(FileReadPermission.class);
+					if (fileFacade == null){
+                                            Main.getCurrent().getMainWindow().addWindow(
+                                                    new InformationDialogComponent(
+                                                            "file facade is null!",
+                                                            "nulls everywhere"));
+                                        }
+					if (in == null){
+                                            Main.getCurrent().getMainWindow().addWindow(
+                                                    new InformationDialogComponent(
+                                                            "input stream is null!",
+                                                            "nulls everywhere"));
+                                        }
 					fileId = fileFacade.createFile(in, f.length(), f
 							.getAbsolutePath(), new MimetypesFileTypeMap()
 							.getContentType(f), false, filePermission);
