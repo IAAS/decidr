@@ -104,10 +104,7 @@ public class CssHandler {
 				} else {
 					String cssValue = saveSimpleCss();
 					in = getInputStream(cssValue);
-					Main.getCurrent().getMainWindow().addWindow(
-	                                            new InformationDialogComponent(
-	                                                    cssValue,
-	                                                    "css file"));
+					Main.getCurrent().getMainWindow().showNotification("css: "+cssValue, Window.Notification.TYPE_ERROR_MESSAGE);
 				}
 				// Checkt ob die advancedColorSchemeId gesetzt ist und ob der
 				// User
@@ -144,16 +141,16 @@ public class CssHandler {
 					// is not handled! ~dh
 					f = getFileFromInputStream(in);
 					if (f == null){
-					    Main.getCurrent().getMainWindow().showNotification("input file is null");
+					    Main.getCurrent().getMainWindow().showNotification("input file is null", Window.Notification.TYPE_ERROR_MESSAGE);
 					}
 					in.reset();
 					HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
 					filePermission.add(FileReadPermission.class);
 					if (fileFacade == null){
-                                            Main.getCurrent().getMainWindow().showNotification("fileFacade is null");
+                                            Main.getCurrent().getMainWindow().showNotification("fileFacade is null", Window.Notification.TYPE_ERROR_MESSAGE);
                                         }
 					if (in == null){
-                                            Main.getCurrent().getMainWindow().showNotification("input stream is null");
+                                            Main.getCurrent().getMainWindow().showNotification("input stream is null", Window.Notification.TYPE_ERROR_MESSAGE);
                                         }
 					fileId = fileFacade.createFile(in, f.length(), f
 							.getAbsolutePath(), new MimetypesFileTypeMap()
@@ -239,10 +236,10 @@ public class CssHandler {
 			return css;
 		} catch (FileNotFoundException e) {
 			Main.getCurrent().getMainWindow()
-					.showNotification("File not found");
+					.showNotification("saveSimpleCSS: File not found", Window.Notification.TYPE_ERROR_MESSAGE);
 			return "";
 		} catch (IOException e) {
-			Main.getCurrent().getMainWindow().showNotification("IO failure");
+			Main.getCurrent().getMainWindow().showNotification("saveSimpleCSS: IO failure", Window.Notification.TYPE_ERROR_MESSAGE);
 			return "";
 		}
 	}
@@ -277,6 +274,7 @@ public class CssHandler {
 		File f = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator + "themes" + File.separator + tenant + File.separator
 				+ "styles.css");
 		Main.getCurrent().getMainWindow().showNotification("file exists: " + f.exists(), Window.Notification.TYPE_ERROR_MESSAGE);
+		Main.getCurrent().getMainWindow().showNotification("file path: " + f.getAbsolutePath(), Window.Notification.TYPE_ERROR_MESSAGE);
 		OutputStream output = null;
 		try {
 			try {
