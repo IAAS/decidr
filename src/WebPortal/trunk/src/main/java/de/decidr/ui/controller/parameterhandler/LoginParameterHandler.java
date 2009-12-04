@@ -72,7 +72,6 @@ public class LoginParameterHandler implements ParameterHandler{
                 }
         }
         
-        Main.getCurrent().getMainWindow().showNotification(authKey);
         
         if (userId != null && authKey != null){
             // try to login

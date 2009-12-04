@@ -77,6 +77,7 @@ public class SaveTenantSettingsAction implements ClickListener {
 			Main.getCurrent().getMainWindow().addWindow(
 					new InformationDialogComponent(
 							"Tenant settings successfully saved", "Success"));
+			Main.getCurrent().getMainWindow().requestRepaint();
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));

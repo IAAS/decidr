@@ -59,7 +59,7 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 	}
 
 .v-gridlayout-margin{
-	background: transparent url(img/background/fade_blue_o20_1200.png) no-repeat center top;
+	background: transparent url(../decidr/img/background/fade_blue_o20_1200.png) no-repeat center top;
 	}
 	
 	
@@ -68,7 +68,7 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 /* ======================================== */
 
 .dcdr_hnav{
-	background: #000000 url(img/hnav/bar/background_o20_5050.png) repeat center;
+	background: #000000 url(../decidr/img/hnav/bar/background_o20_5050.png) repeat center;
 	}
 
 /*.v-ie7 .dcdr_hnav{
@@ -93,7 +93,7 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 	padding: 0px 6px 0px 6px;
 	
 	background-image: none;
-	background: #000000 url(img/hnav/bar/background_o20_5050.png) repeat center;
+	background: #000000 url(../decidr/img/hnav/bar/background_o20_5050.png) repeat center;
 	
 	border-left: 1px dashed #0E0E0E;
 	border-right: 1px dashed #0E0E0E;
@@ -144,7 +144,7 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 	padding: 1px 0px 0px 0px;
 	height: 25px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/right.png) no-repeat center right;
+	background: transparent url(../decidr/img/button/button1/right.png) no-repeat center right;
 	display: inline-block;
 	}
 	
@@ -152,7 +152,7 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 .v-ie7 .dcdr_vnav .v-button:hover{
 	border: 0px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/right_hl.png) no-repeat center right;
+	background: transparent url(../decidr/img/button/button1/right_hl.png) no-repeat center right;
 	}
 
 .dcdr_vnav .v-button span,
@@ -167,7 +167,7 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 	margin: -2px 9px 0px 0px;
 	padding: 5px 5px 0px 14px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/left.png) no-repeat center left;
+	background: transparent url(../decidr/img/button/button1/left.png) no-repeat center left;
 	}
 	
 .dcdr_vnav .v-button:hover span,
@@ -176,19 +176,19 @@ div > .v-button .v-button-caption, .v-ie7 .v-button .v-button-caption, div > .v-
 .v-ie7 .dcdr_vnav .v-button:hover .v-button-caption{
 	border: 0px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/left_hl.png) no-repeat center left;
+	background: transparent url(../decidr/img/button/button1/left_hl.png) no-repeat center left;
 	}
 	
 .dcdr_vnav .gwt-Button{
 	border: 0px;
 	width: 104px;
-	background: transparent url(img/button/button1/full_104.png) no-repeat center;
+	background: transparent url(../decidr/img/button/button1/full_104.png) no-repeat center;
 	}
 	
 .dcdr_vnav .gwt-Button:hover{
 	border: 0px;
 	width: 104px;
-	background: transparent url(img/button/button1/full_104_hl.png) no-repeat center;
+	background: transparent url(../decidr/img/button/button1/full_104_hl.png) no-repeat center;
 	}
 
 .v-ie7 .dcdr_vnav .v-button,
@@ -265,7 +265,7 @@ div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
 
 /* tables */
 .dcdr_content .v-table-header-wrap{
-	background: #E8E8E8 url(img/hnav/bar/background_o20_5050.png) repeat center;
+	background: #E8E8E8 url(../decidr/img/hnav/bar/background_o20_5050.png) repeat center;
 	}
 
 .dcdr_content .v-table-caption-container{
@@ -283,7 +283,7 @@ div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
 	padding: 1px 0px 0px 0px;
 	height: 25px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/right.png) no-repeat center right;
+	background: transparent url(../decidr/img/button/button1/right.png) no-repeat center right;
 	display: inline-block;
 	}
 	
@@ -291,7 +291,7 @@ div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
 .v-ie7 .dcdr_content .v-button:hover{
 	border: 0px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/right_hl.png) no-repeat center right;
+	background: transparent url(../decidr/img/button/button1/right_hl.png) no-repeat center right;
 	}
 
 .dcdr_content .v-button span,
@@ -306,7 +306,7 @@ div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
 	margin: -2px 9px 0px 0px;
 	padding: 5px 5px 0px 14px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/left.png) no-repeat center left;
+	background: transparent url(../decidr/img/button/button1/left.png) no-repeat center left;
 	}
 	
 .dcdr_content .v-button:hover span,
@@ -315,19 +315,19 @@ div > .dcdr_vnav .v-button.v-button-link.v-disabled:hover .v-button-caption,
 .v-ie7 .dcdr_content .v-button:hover .v-button-caption{
 	border: 0px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/left_hl.png) no-repeat center left;
+	background: transparent url(../decidr/img/button/button1/left_hl.png) no-repeat center left;
 	}
 	
 .dcdr_content .gwt-Button{
 	border: 0px;
 	width: 104px;
-	background: transparent url(img/button/button1/full_104.png) no-repeat center;
+	background: transparent url(../decidr/img/button/button1/full_104.png) no-repeat center;
 	}
 	
 .dcdr_content .gwt-Button:hover{
 	border: 0px;
 	width: 104px;
-	background: transparent url(img/button/button1/full_104_hl.png) no-repeat center;
+	background: transparent url(../decidr/img/button/button1/full_104_hl.png) no-repeat center;
 	}
 
 .v-ie7 .dcdr_content .v-button,
@@ -384,7 +384,7 @@ div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
 .popupContent .v-window-outerheader,
 .v-ie7 .popupContent .v-window-outerheader{
 	padding: 0px;
-	background: transparent url(img/hnav/bar/background_o20_5050.png) repeat center;
+	background: transparent url(../decidr/img/hnav/bar/background_o20_5050.png) repeat center;
 	height: 25px;
 	margin: 0px;
 	}
@@ -410,13 +410,13 @@ div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
 	padding: 1px 0px 0px 0px;
 	height: 25px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/right.png) no-repeat center right;
+	background: transparent url(../decidr/img/button/button1/right.png) no-repeat center right;
 	}
 	
 .popupContent .v-button:hover,
 .v-ie7 .popupContent .v-button:hover{
 	background-position: 0px left;
-	background: transparent url(img/button/button1/right_hl.png) no-repeat center right;
+	background: transparent url(../decidr/img/button/button1/right_hl.png) no-repeat center right;
 	}
 
 .popupContent .v-button span,
@@ -430,7 +430,7 @@ div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
 	margin: -2px 9px 0px 0px;
 	padding: 5px 5px 0px 14px;
 	background-position: 0px left;
-	background: transparent url(img/button/button1/left.png) no-repeat center left;
+	background: transparent url(../decidr/img/button/button1/left.png) no-repeat center left;
 	}
 	
 .popupContent .v-button:hover span,
@@ -438,7 +438,7 @@ div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
 .v-ie7 .popupContent .v-button:hover span,
 .v-ie7 .popupContent .v-button:hover .v-button-caption{
 	background-position: 0px left;
-	background: transparent url(img/button/button1/left_hl.png) no-repeat center left;
+	background: transparent url(../decidr/img/button/button1/left_hl.png) no-repeat center left;
 	}
 
 .v-ie7 .popupContent .v-button,
