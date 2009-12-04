@@ -32,12 +32,11 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.entities.SystemSettings;
-import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
-import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SystemSettingComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class SaveSystemSettingsAction implements ClickListener {
@@ -47,7 +46,6 @@ public class SaveSystemSettingsAction implements ClickListener {
 	private Long userId = (Long) session.getAttribute("userId");
 	private SystemFacade systemFacade = new SystemFacade(new SuperAdminRole(
 			userId));
-	private UserFacade userFacade = new UserFacade(new SuperAdminRole(userId));
 
 	private SystemSettingComponent content = null;
 	private Item item = null;
@@ -67,20 +65,18 @@ public class SaveSystemSettingsAction implements ClickListener {
 		content.saveSettingsItem();
 		item = content.getSettingsItem();
 
-		if(item.getItemProperty("autoAcceptNewTenants").getValue() != null){
-			settings
-			.setAutoAcceptNewTenants(Boolean.parseBoolean(item
+		if (item.getItemProperty("autoAcceptNewTenants").getValue() != null) {
+			settings.setAutoAcceptNewTenants(Boolean.parseBoolean(item
 					.getItemProperty("autoAcceptNewTenants").getValue()
 					.toString()));
 		}
-		
+
 		if (item.getItemProperty("logLevel").getValue() != null) {
 			settings.setLogLevel(item.getItemProperty("logLevel").getValue()
 					.toString());
 		}
-		if (item
-					.getItemProperty("changeEmailRequestLifetimeSeconds")
-					.getValue() != null) {
+		if (item.getItemProperty("changeEmailRequestLifetimeSeconds")
+				.getValue() != null) {
 			settings.setChangeEmailRequestLifetimeSeconds(Integer.parseInt(item
 					.getItemProperty("changeEmailRequestLifetimeSeconds")
 					.getValue().toString()));
@@ -89,140 +85,121 @@ public class SaveSystemSettingsAction implements ClickListener {
 			settings.setDomain(item.getItemProperty("domain").getValue()
 					.toString());
 		}
-		if (item
-					.getItemProperty("invitationLifetimeSeconds").getValue() != null) {
+		if (item.getItemProperty("invitationLifetimeSeconds").getValue() != null) {
 			settings.setInvitationLifetimeSeconds(Integer.parseInt(item
 					.getItemProperty("invitationLifetimeSeconds").getValue()
 					.toString()));
 		}
-		if (item
-					.getItemProperty("maxAttachmentsPerEmail").getValue() != null) {
+		if (item.getItemProperty("maxAttachmentsPerEmail").getValue() != null) {
 			settings.setMaxAttachmentsPerEmail(Integer.parseInt(item
 					.getItemProperty("maxAttachmentsPerEmail").getValue()
 					.toString()));
 		}
-		if (item
-					.getItemProperty("maxUploadFileSizeBytes").getValue() != null) {
+		if (item.getItemProperty("maxUploadFileSizeBytes").getValue() != null) {
 			settings.setMaxUploadFileSizeBytes(Long.parseLong(item
 					.getItemProperty("maxUploadFileSizeBytes").getValue()
 					.toString()));
 		}
-		if (item.getItemProperty("mtaHostname")
-					.getValue() != null) {
+		if (item.getItemProperty("mtaHostname").getValue() != null) {
 			settings.setMtaHostname(item.getItemProperty("mtaHostname")
 					.getValue().toString());
 		}
-		if (item.getItemProperty("mtaPassword")
-					.getValue() != null) {
+		if (item.getItemProperty("mtaPassword").getValue() != null) {
 			settings.setMtaPassword(item.getItemProperty("mtaPassword")
 					.getValue().toString());
 		}
-		if (item
-					.getItemProperty("mtaPort").getValue() != null) {
+		if (item.getItemProperty("mtaPort").getValue() != null) {
 			settings.setMtaPort(Integer.parseInt(item
 					.getItemProperty("mtaPort").getValue().toString()));
 		}
-		if (item.getItemProperty("mtaUsername")
-					.getValue() != null) {
+		if (item.getItemProperty("mtaUsername").getValue() != null) {
 			settings.setMtaUsername(item.getItemProperty("mtaUsername")
 					.getValue().toString());
 		}
-		if (item.getItemProperty(
-					"mtaUseTls").getValue() != null) {
+		if (item.getItemProperty("mtaUseTls").getValue() != null) {
 			settings.setMtaUseTls(Boolean.parseBoolean(item.getItemProperty(
 					"mtaUseTls").getValue().toString()));
 		}
-		if (item.getItemProperty(
-							"passwordResetRequestLifetimeSeconds").getValue() != null) {
+		if (item.getItemProperty("passwordResetRequestLifetimeSeconds")
+				.getValue() != null) {
 			settings.setPasswordResetRequestLifetimeSeconds(Integer
 					.parseInt(item.getItemProperty(
 							"passwordResetRequestLifetimeSeconds").getValue()
 							.toString()));
 		}
-		if (item.getItemProperty(
-		"registrationRequestLifetimeSeconds").getValue() != null) {
+		if (item.getItemProperty("registrationRequestLifetimeSeconds")
+				.getValue() != null) {
 			settings.setRegistrationRequestLifetimeSeconds(Integer
 					.parseInt(item.getItemProperty(
 							"registrationRequestLifetimeSeconds").getValue()
 							.toString()));
 		}
-		//settings.setSuperAdmin((User) item.getItemProperty("superAdmin")
-				//.getValue());
-		if (item.getItemProperty("systemName")
-					.getValue() != null) {
+		// settings.setSuperAdmin((User) item.getItemProperty("superAdmin")
+		// .getValue());
+		if (item.getItemProperty("systemName").getValue() != null) {
 			settings.setSystemName(item.getItemProperty("systemName")
 					.getValue().toString());
 		}
-		if (item.getItemProperty(
-					"systemEmailAddress").getValue() != null) {
+		if (item.getItemProperty("systemEmailAddress").getValue() != null) {
 			settings.setSystemEmailAddress(item.getItemProperty(
 					"systemEmailAddress").getValue().toString());
 		}
-		if (item.getItemProperty(
-							"monitorUpdateIntervalSeconds").getValue() != null) {
+		if (item.getItemProperty("monitorUpdateIntervalSeconds").getValue() != null) {
 			settings.setPasswordResetRequestLifetimeSeconds(Integer
 					.parseInt(item.getItemProperty(
 							"monitorUpdateIntervalSeconds").getValue()
 							.toString()));
 		}
-		if (item
-					.getItemProperty("monitorAveragingPeriodSeconds")
-					.getValue() != null) {
+		if (item.getItemProperty("monitorAveragingPeriodSeconds").getValue() != null) {
 			settings.setMonitorAveragingPeriodSeconds(Integer.parseInt(item
 					.getItemProperty("monitorAveragingPeriodSeconds")
 					.getValue().toString()));
 		}
-		if (item
-					.getItemProperty("serverPoolInstances").getValue() != null) {
+		if (item.getItemProperty("serverPoolInstances").getValue() != null) {
 			settings.setServerPoolInstances(Integer.parseInt(item
 					.getItemProperty("serverPoolInstances").getValue()
 					.toString()));
 		}
-		if (item
-					.getItemProperty("minServerLoadForLock").getValue() != null) {
+		if (item.getItemProperty("minServerLoadForLock").getValue() != null) {
 			settings.setMinServerLoadForLock(Byte.parseByte(item
 					.getItemProperty("minServerLoadForLock").getValue()
 					.toString()));
 		}
-		if (item
-					.getItemProperty("maxServerLoadForUnlock").getValue() != null) {
+		if (item.getItemProperty("maxServerLoadForUnlock").getValue() != null) {
 			settings.setMaxServerLoadForUnlock(Byte.parseByte(item
 					.getItemProperty("maxServerLoadForUnlock").getValue()
 					.toString()));
 		}
-		if (item
-					.getItemProperty("maxServerLoadForShutdown").getValue() != null) {
+		if (item.getItemProperty("maxServerLoadForShutdown").getValue() != null) {
 			settings.setMaxServerLoadForShutdown(Byte.parseByte(item
 					.getItemProperty("maxServerLoadForShutdown").getValue()
 					.toString()));
 		}
-		if (item
-					.getItemProperty("minUnlockedServers").getValue() != null) {
+		if (item.getItemProperty("minUnlockedServers").getValue() != null) {
 			settings.setMinUnlockedServers(Integer.parseInt(item
 					.getItemProperty("minUnlockedServers").getValue()
 					.toString()));
 		}
-		if (item
-					.getItemProperty("minWorkflowInstancesForLock").getValue() != null) {
+		if (item.getItemProperty("minWorkflowInstancesForLock").getValue() != null) {
 			settings.setMinWorkflowInstancesForLock(Integer.parseInt(item
 					.getItemProperty("minWorkflowInstancesForLock").getValue()
 					.toString()));
 		}
-		if (item
-					.getItemProperty("maxWorkflowInstancesForUnlock").getValue() != null) {
+		if (item.getItemProperty("maxWorkflowInstancesForUnlock").getValue() != null) {
 			settings.setMaxWorkflowInstancesForUnlock(Integer.parseInt(item
-					.getItemProperty("maxWorkflowInstancesForUnlock").getValue()
-					.toString()));
+					.getItemProperty("maxWorkflowInstancesForUnlock")
+					.getValue().toString()));
 		}
-		if (item
-					.getItemProperty("maxWorkflowInstancesForShutdown")
-					.getValue() != null) {
+		if (item.getItemProperty("maxWorkflowInstancesForShutdown").getValue() != null) {
 			settings.setMaxWorkflowInstancesForShutdown(Integer.parseInt(item
 					.getItemProperty("maxWorkflowInstancesForShutdown")
 					.getValue().toString()));
 		}
 		try {
 			systemFacade.setSettings(settings);
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent(
+							"System settings successfully saved", "Success"));
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));

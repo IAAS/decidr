@@ -316,7 +316,7 @@ public class WorkflowModelContainer implements Container, Container.Ordered, Con
 	@Override
 	public Object lastItemId() {
 		itemIdList = new ArrayList<Object>(items.keySet());
-		return itemIdList.get(itemIdList.size());
+		return itemIdList.get(itemIdList.size() - 1);
 	}
 
 	/*

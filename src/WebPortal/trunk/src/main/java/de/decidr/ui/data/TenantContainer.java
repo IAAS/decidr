@@ -30,6 +30,7 @@ import com.vaadin.data.Property;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.filters.Paginator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -52,13 +53,17 @@ public class TenantContainer implements Container,
 
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
+    private List<Object> itemIdList = null;
+    
+    private Paginator paginator = new Paginator();
 
     /**
      * Default constructor. The tenant items are added to the container.
      * 
      */
     public TenantContainer() {
-        try {
+        paginator.setItemsPerPage(10);
+    	try {
             tenantList = tenantFacade.getAllTenants(null, null);
             for (Item item : tenantList) {
                 addItem(item);
@@ -81,11 +86,9 @@ public class TenantContainer implements Container,
     public boolean addContainerProperty(Object propertyId, Class<?> type,
             Object defaultValue) throws UnsupportedOperationException {
         if (propertyIds.contains(propertyId)) {
-            propertyIds.add(propertyId);
             return false;
-
         }
-
+        propertyIds.add(propertyId);
         return true;
     }
 
@@ -118,8 +121,7 @@ public class TenantContainer implements Container,
     @Override
     public Object addItemAfter(Object previousItemId)
             throws UnsupportedOperationException {
-        new UnsupportedOperationException();
-        return null;
+    	throw new UnsupportedOperationException();
     }
 
     /*
@@ -131,8 +133,7 @@ public class TenantContainer implements Container,
     @Override
     public Item addItemAfter(Object previousItemId, Object newItemId)
             throws UnsupportedOperationException {
-        new UnsupportedOperationException();
-        return null;
+    	throw new UnsupportedOperationException();
     }
 
     /*
@@ -152,8 +153,8 @@ public class TenantContainer implements Container,
      */
     @Override
     public Object firstItemId() {
-        Object[] itemsArray = getItemIds().toArray();
-        return itemsArray[0];
+    	itemIdList = new ArrayList<Object>(items.keySet());
+		return itemIdList.get(0);
     }
 
     /*
@@ -214,7 +215,7 @@ public class TenantContainer implements Container,
                 return String.class;
             } else if (propertyId.equals("numDeployedWorkflowModels")
                     || propertyId.equals("numMembers")
-                    || propertyId.equals("numWorkflowInstance")
+                    || propertyId.equals("numWorkflowInstances")
                     || propertyId.equals("id")) {
                 return Long.class;
             } else {
@@ -232,11 +233,12 @@ public class TenantContainer implements Container,
      */
     @Override
     public boolean isFirstId(Object itemId) {
-        if (firstItemId().equals(itemId)) {
-            return true;
-        } else {
-            return false;
-        }
+    	itemIdList = new ArrayList<Object>(items.keySet());
+		Object object = firstItemId();
+		if (itemId.equals(object)) {
+			return true;
+		}
+		return false;
     }
 
     /*
@@ -246,11 +248,12 @@ public class TenantContainer implements Container,
      */
     @Override
     public boolean isLastId(Object itemId) {
-        if (lastItemId().equals(itemId)) {
-            return true;
-        } else {
-            return false;
-        }
+    	itemIdList = new ArrayList<Object>(items.keySet());
+		Object object = lastItemId();
+		if (itemId.equals(object)) {
+			return true;
+		}
+		return false;
     }
 
     /*
@@ -260,8 +263,8 @@ public class TenantContainer implements Container,
      */
     @Override
     public Object lastItemId() {
-        Object[] itemsArray = getItemIds().toArray();
-        return itemsArray[getItemIds().size()];
+    	itemIdList = new ArrayList<Object>(items.keySet());
+		return itemIdList.get(itemIdList.size() - 1);
     }
 
     /*
@@ -271,8 +274,13 @@ public class TenantContainer implements Container,
      */
     @Override
     public Object nextItemId(Object itemId) {
-        // Aleks, GH Auto-generated method stub
-        return null;
+    	itemIdList = new ArrayList<Object>(items.keySet());
+		int index = itemIdList.indexOf(itemId);
+		if (index == itemIdList.size() - 1) {
+			return itemIdList.get(index);
+		} else {
+			return itemIdList.get(index + 1);
+		}
     }
 
     /*
@@ -282,8 +290,9 @@ public class TenantContainer implements Container,
      */
     @Override
     public Object prevItemId(Object itemId) {
-        // Aleks, GH Auto-generated method stub
-        return null;
+    	itemIdList = new ArrayList<Object>(items.keySet());
+		int index = itemIdList.indexOf(itemId);
+		return itemIdList.get(index - 1);
     }
 
     
