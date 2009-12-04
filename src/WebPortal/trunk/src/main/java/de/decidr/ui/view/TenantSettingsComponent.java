@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.util.HashSet;
 
 
+import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -224,6 +225,7 @@ public class TenantSettingsComponent extends CustomComponent {
 												+ event.getFilename()
 												+ " successfully uploaded!",
 												"Success"));
+						logoEmbedded.setSource(new FileResource(file, Main.getCurrent()));
 					} catch (FileNotFoundException e) {
 						Main.getCurrent().getMainWindow().addWindow(
 								new InformationDialogComponent(
