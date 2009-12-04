@@ -18,6 +18,7 @@ package de.decidr.model.commands.tenant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 import de.decidr.model.acl.permissions.Permission;
@@ -35,7 +36,6 @@ import de.decidr.model.transactions.TransactionEvent;
  * Save all tenants which have to be approved in the result variable.
  * 
  * @author Markus Fischer
- * 
  * @version 0.1
  */
 public class GetTenantsToApproveCommand extends AclEnabledCommand {
@@ -76,7 +76,7 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
 
         Filters.apply(c, filters, paginator);
 
-        result = c.list();
+        result = c.setResultTransformer(Criteria.ROOT_ENTITY).list();
     }
 
     /**
