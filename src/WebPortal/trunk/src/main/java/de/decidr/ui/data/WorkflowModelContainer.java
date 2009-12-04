@@ -42,7 +42,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class WorkflowModelContainer implements Container, Container.Ordered {
+public class WorkflowModelContainer implements Container, Container.Ordered, Container.Filterable {
 
 	private HttpSession session = Main.getCurrent().getSession();
 
@@ -346,6 +346,34 @@ public class WorkflowModelContainer implements Container, Container.Ordered {
 		itemIdList = new ArrayList<Object>(items.keySet());
 		int index = itemIdList.indexOf(itemId);
 		return itemIdList.get(index - 1);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object, java.lang.String, boolean, boolean)
+	 */
+	@Override
+	public void addContainerFilter(Object propertyId, String filterString,
+			boolean ignoreCase, boolean onlyMatchPrefix) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vaadin.data.Container.Filterable#removeAllContainerFilters()
+	 */
+	@Override
+	public void removeAllContainerFilters() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang.Object)
+	 */
+	@Override
+	public void removeContainerFilters(Object propertyId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

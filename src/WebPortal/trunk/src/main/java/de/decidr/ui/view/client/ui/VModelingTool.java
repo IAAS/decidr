@@ -16,13 +16,10 @@
 
 package de.decidr.ui.view.client.ui;
 
-import org.apache.log4j.Logger;
-
 import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
 
-import de.decidr.model.logging.DefaultLogger;
 
 /**
  * TODO: add comment
@@ -32,7 +29,6 @@ import de.decidr.model.logging.DefaultLogger;
 public class VModelingTool extends
         de.decidr.modelingtool.client.ModelingToolWidget implements Paintable {
 
-    private Logger logger = DefaultLogger.getLogger(VModelingTool.class);
 
     /** Set the tagname used to statically resolve widget from UIDL. */
     public static final String TAGNAME = "modelingtool";
@@ -59,14 +55,11 @@ public class VModelingTool extends
 
     @Override
     public void sendDWDLtoServer(String dwdl) {
-        logger
-                .debug("[Modeling Tool] Trying to send the DWDL document to the server...");
 
         // Updating the state to the server can not be done
         // before the server connection is known, i.e., before
         // updateFromUIDL() has been called.
         if ((uidlId == null) || (client == null)) {
-            logger.debug("[Modeling Tool] Failed. UidlId or client are null");
             return;
         }
 
@@ -74,8 +67,6 @@ public class VModelingTool extends
         // This call will initiate an AJAX request to the server.
         client.updateVariable(uidlId, "dwdl", dwdl, true);
 
-        logger.debug("[Modeling Tool] Sending DWDL document was successful.");
-        logger.debug("[Modeling Tool] DWDL:" + dwdl);
     }
 
     public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {

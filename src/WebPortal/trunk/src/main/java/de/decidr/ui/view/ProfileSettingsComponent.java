@@ -124,7 +124,6 @@ public class ProfileSettingsComponent extends CustomComponent {
     private Label usernameNameLabel = null;
     private Label emailNameLabel = null;
 
-    private Label addressDataLabel = null;
     private Button changeEmailLink = null;
     private Button changePasswordLink = null;
     private Button leaveTenantLink = null;
@@ -193,8 +192,6 @@ public class ProfileSettingsComponent extends CustomComponent {
                 "username").getValue());
         emailNameLabel = new Label((String) settingsItem.getItemProperty(
                 "email").getValue());
-        addressDataLabel = new Label((String) settingsItem.getItemProperty(
-                "street").getValue());
 
         changeEmailLink = new Button("Change email",
                 new ShowChangeEmailAction());
