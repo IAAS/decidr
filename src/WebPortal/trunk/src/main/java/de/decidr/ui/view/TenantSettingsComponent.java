@@ -240,6 +240,14 @@ public class TenantSettingsComponent extends CustomComponent {
 				            new InformationDialogComponent(
 				                    Main.getCurrent().getContext().getBaseDirectory().getPath(),
 				                    "Path"));
+				File tmpF = null;
+				tmpF = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + "/VAADIN/themes/decidr/styles.css");
+				if (tmpF.exists()){
+				    Main.getCurrent().getMainWindow().addWindow(
+                                            new InformationDialogComponent(
+                                                    Main.getCurrent().getContext().getBaseDirectory().getPath(),
+                                                    "we got em! <br/>"+tmpF.getAbsolutePath()));
+				}
 			}
 		});
 
