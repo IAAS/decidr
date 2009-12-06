@@ -25,7 +25,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
+
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
@@ -41,7 +42,7 @@ public class DeleteTenantAction implements ClickListener {
     private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+    private TenantFacade tenantFacade = new TenantFacade(new SuperAdminRole(userId));
 
     private Table table = null;
 

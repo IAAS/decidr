@@ -18,7 +18,6 @@ package de.decidr.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,20 +27,21 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.data.Container.Ordered;
 
-import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This container holds the workflow models. The models are represented as items
- * in a table
+ * This container holds the approving tenants. The tenants are represented as
+ * items in a table
  * 
  * @author AT
  */
-public class WorkflowModelContainer implements Container, Container.Ordered, Container.Filterable {
+public class ApproveTenantContainer implements Container, Ordered {
 
 	/**
 	 * Serial version uid
@@ -52,27 +52,19 @@ public class WorkflowModelContainer implements Container, Container.Ordered, Con
 
 	private Long userId = (Long) session.getAttribute("userId");
 
-	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
+	TenantFacade tenantFacade = new TenantFacade(new SuperAdminRole(userId));
 
-	List<Item> workflowModelList = null;
+	private List<Item> approveTenantsList = null;
 
 	private ArrayList<Object> propertyIds = new ArrayList<Object>();
 	private Map<Object, Object> items = new LinkedHashMap<Object, Object>();
 
 	private List<Object> itemIdList = null;
 
-	/**
-	 * Default constructor. The workflow model items are added to the container
-	 * 
-	 */
-	public WorkflowModelContainer() {
-
+	public ApproveTenantContainer() {
 		try {
-			Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
-					"tenantId");
-			workflowModelList = tenantFacade.getWorkflowModels(tenantId, null,
-					null);
-			for (Item item : workflowModelList) {
+			approveTenantsList = tenantFacade.getTenantsToApprove(null, null);
+			for (Item item : approveTenantsList) {
 				addItem(item);
 			}
 		} catch (TransactionException e) {
@@ -180,15 +172,12 @@ public class WorkflowModelContainer implements Container, Container.Ordered, Con
 	@Override
 	public Class<?> getType(Object propertyId) {
 		if (getContainerPropertyIds().contains(propertyId)) {
-			if (propertyId.equals("name")) {
+			if (propertyId.equals("name")
+					|| propertyId.equals("adminFirstName")
+					|| propertyId.equals("adminLastName")) {
 				return String.class;
-			} else if (propertyId.equals("id")) {
+			} else if (propertyId.equals("id") || propertyId.equals("adminId")) {
 				return Long.class;
-			} else if (propertyId.equals("creationDate")) {
-				return Date.class;
-			} else if (propertyId.equals("published")
-					|| propertyId.equals("executable")) {
-				return Boolean.class;
 			} else {
 				return null;
 			}
@@ -350,34 +339,6 @@ public class WorkflowModelContainer implements Container, Container.Ordered, Con
 		itemIdList = new ArrayList<Object>(items.keySet());
 		int index = itemIdList.indexOf(itemId);
 		return itemIdList.get(index - 1);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object, java.lang.String, boolean, boolean)
-	 */
-	@Override
-	public void addContainerFilter(Object propertyId, String filterString,
-			boolean ignoreCase, boolean onlyMatchPrefix) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see com.vaadin.data.Container.Filterable#removeAllContainerFilters()
-	 */
-	@Override
-	public void removeAllContainerFilters() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang.Object)
-	 */
-	@Override
-	public void removeContainerFilters(Object propertyId) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

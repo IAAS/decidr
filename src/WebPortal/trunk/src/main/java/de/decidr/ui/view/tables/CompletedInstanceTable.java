@@ -65,6 +65,7 @@ public class CompletedInstanceTable extends Table {
 		addContainerProperty("model", String.class, null);
 		addContainerProperty("startedDate", Date.class, null);
 		addContainerProperty("completedDate", Date.class, null);
+		
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);

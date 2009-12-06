@@ -22,9 +22,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
-
-import de.decidr.ui.controller.tenant.ApproveTenantAction;
-import de.decidr.ui.controller.tenant.DeclineTenantAction;
 import de.decidr.ui.controller.tenant.DeleteTenantAction;
 import de.decidr.ui.data.TenantContainer;
 import de.decidr.ui.view.tables.TenantTable;
@@ -55,8 +52,7 @@ public class EditTenantComponent extends CustomComponent {
     private TenantTable tenantTable = null;
 
     private Button deleteButton = null;
-    private Button approveButton = null;
-    private Button declineButton = null;
+    
 
     /**
      * Default constructor.
@@ -86,10 +82,7 @@ public class EditTenantComponent extends CustomComponent {
         searchPanel = new SearchPanel(tenantTable);
 
         deleteButton = new Button("Delete", new DeleteTenantAction(tenantTable));
-        approveButton = new Button("Approve", new ApproveTenantAction(
-                tenantTable));
-        declineButton = new Button("Decline", new DeclineTenantAction(
-                tenantTable));
+        
 
         setCompositionRoot(verticalLayout);
 
@@ -102,8 +95,7 @@ public class EditTenantComponent extends CustomComponent {
         buttonPanel.setCaption("Selected tenants:");
         buttonPanel.addComponent(buttonHorizontalLayout);
         buttonHorizontalLayout.setSpacing(true);
-        buttonHorizontalLayout.addComponent(approveButton);
-        buttonHorizontalLayout.addComponent(declineButton);
+       
         buttonHorizontalLayout.addComponent(deleteButton);
 
     }

@@ -43,7 +43,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 public class TenantContainer implements Container,
          Container.Ordered {
 
-    private HttpSession session = Main.getCurrent().getSession();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
 

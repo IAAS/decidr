@@ -41,7 +41,7 @@ public class TenantTable extends Table {
 			"Last name", "#Deployed Models", "#Members", "#Instances"  };
 
 	/**
-	 * Default constructor.
+	 * Default constructor with container which is set as data source
 	 * 
 	 */
 	public TenantTable(Container container) {
