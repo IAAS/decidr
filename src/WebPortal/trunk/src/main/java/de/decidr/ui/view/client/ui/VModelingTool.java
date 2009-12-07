@@ -21,9 +21,11 @@ import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
 
 /**
- * TODO: add comment
+ * This class represents the client side from the modeling tool
+ * integrated in the web portal
  * 
- * @author TODO
+ * @author AT
+ * @author JS
  */
 public class VModelingTool extends
         de.decidr.modelingtool.client.ModelingToolWidget implements Paintable {

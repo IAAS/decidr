@@ -20,7 +20,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -38,11 +38,18 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author Geoffrey-Alexeij Heinze
  */
 public class RegisterUserAction implements ClickListener {
-	
+
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private UserFacade userFacade = new UserFacade(new UserRole());
+	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+			"role");
+
+	private UserFacade userFacade = new UserFacade(role);
 
 	private RegisterUserComponent content = null;
 

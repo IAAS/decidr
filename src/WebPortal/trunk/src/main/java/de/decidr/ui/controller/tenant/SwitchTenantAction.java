@@ -16,8 +16,12 @@
 
 package de.decidr.ui.controller.tenant;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -48,7 +52,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class SwitchTenantAction implements ClickListener {
 
-    private String tenantName = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String tenantName = null;
 
     private HttpSession session = null;
     private Class<? extends Role> role = null;
@@ -82,38 +91,45 @@ public class SwitchTenantAction implements ClickListener {
     @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
-        if (table.getItem(table.getValue()) == null) {
-            Main.getCurrent().getMainWindow().addWindow(
+    	Set<?> set = (Set<?>) table.getValue();
+        if (table.getValue() != null && set.size() == 1) {
+        	Iterator<?> iter = set.iterator();
+        	while(iter.hasNext()){
+        		Item item = (Item) iter.next();
+        		try {
+                    session = Main.getCurrent().getSession();
+                    userId = (Long) session.getAttribute("userId");
+                    oldRole = (Class<Role>) session.getAttribute("role");
+
+                    userFacade = new UserFacade(new UserRole(userId));
+
+                    tenantName = item.getItemProperty(
+                            "name").getValue().toString();
+                    tenantId = (Long) item
+                            .getItemProperty("id").getValue();
+                    role = userFacade.getUserRoleForTenant(userId, tenantId);
+
+                    userFacade.setCurrentTenantId(userId, tenantId);
+
+                    session.setAttribute("tenant", tenantName);
+                    session.setAttribute("role", role);
+
+                    loadProtectedResources();
+
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent("Switched to "
+                                    + tenantName, "Success"));
+                } catch (TransactionException exception) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent(exception));
+                }
+                
+        	}
+        	
+        } else {
+        	Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent("Please select an item",
                             "Information"));
-        } else {
-            try {
-                session = Main.getCurrent().getSession();
-                userId = (Long) session.getAttribute("userId");
-                oldRole = (Class<Role>) session.getAttribute("role");
-
-                userFacade = new UserFacade(new UserRole(userId));
-
-                tenantName = table.getItem(table.getValue()).getItemProperty(
-                        "name").getValue().toString();
-                tenantId = (Long) table.getItem(table.getValue())
-                        .getItemProperty("id").getValue();
-                role = userFacade.getUserRoleForTenant(userId, tenantId);
-
-                userFacade.setCurrentTenantId(userId, tenantId);
-
-                session.setAttribute("tenant", tenantName);
-                session.setAttribute("role", role);
-
-                loadProtectedResources();
-
-                Main.getCurrent().getMainWindow().addWindow(
-                        new InformationDialogComponent("Switched to "
-                                + tenantName, "Success"));
-            } catch (TransactionException exception) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent(exception));
-            }
         }
 
     }

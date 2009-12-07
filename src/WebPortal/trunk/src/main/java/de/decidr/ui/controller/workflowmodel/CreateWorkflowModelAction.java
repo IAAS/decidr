@@ -24,7 +24,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
@@ -41,13 +41,17 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class CreateWorkflowModelAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(
-			userId));
+	private Role role = (Role) session.getAttribute("role");
+	private TenantFacade tenantFacade = new TenantFacade(role);
 	private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-			new TenantAdminRole(userId));
+			role);
 
 	private Long tenantId = null;
 

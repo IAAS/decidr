@@ -49,7 +49,7 @@ public class ShowProfileSettingsAction implements ClickListener {
 			.getCurrent().getSession().getAttribute("userId")));
 
 	@SuppressWarnings("unchecked")
-	Class<? extends Role> role = (Class<Role>) Main.getCurrent().getSession()
+	Role role = (Role) Main.getCurrent().getSession()
 			.getAttribute("role");
 
 	/*
@@ -66,7 +66,7 @@ public class ShowProfileSettingsAction implements ClickListener {
 			ProfileSettingsComponent profile = new ProfileSettingsComponent(
 					item);
 			siteFrame.setContent(profile);
-			if (role.equals(TenantAdminRole.class)) {
+			if (role instanceof TenantAdminRole) {
 				profile.getCancelMembershipLink().setVisible(true);
 			}
 		} catch (TransactionException e) {

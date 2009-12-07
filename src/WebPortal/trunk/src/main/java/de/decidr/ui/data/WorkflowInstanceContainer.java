@@ -75,10 +75,10 @@ public class WorkflowInstanceContainer implements Container {
             filterList = new ArrayList<Filter>();
             filterList.add(new StartableWorkflowModelFilter());
             filterList.add(new EqualsFilter(true, "tenant.id", tenantId));
-            paginator.setItemsPerPage(10);
+            //paginator.setItemsPerPage(10);
 
             workflowModelList = userFacade.getAdministratedWorkflowModels(
-                    userId, filterList, paginator);
+                    userId, null, null);
             for (Item item : workflowModelList) {
                 addItem(item);
             }

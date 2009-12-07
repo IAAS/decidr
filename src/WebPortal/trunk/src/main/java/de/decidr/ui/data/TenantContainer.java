@@ -30,7 +30,7 @@ import com.vaadin.data.Property;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.filters.Paginator;
+
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -59,16 +59,15 @@ public class TenantContainer implements Container,
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
     private List<Object> itemIdList = null;
-    
-    private Paginator paginator = new Paginator();
 
     /**
      * Default constructor. The tenant items are added to the container.
      * 
      */
     public TenantContainer() {
-        paginator.setItemsPerPage(10);
+        
     	try {
+    		//AT: Adding filter
             tenantList = tenantFacade.getAllTenants(null, null);
             for (Item item : tenantList) {
                 addItem(item);

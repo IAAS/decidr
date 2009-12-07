@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -31,6 +32,7 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -40,44 +42,53 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class ApproveTenantAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private TenantFacade tenantFacade = new TenantFacade(new SuperAdminRole(userId));
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Table table = null;
+	private Long userId = (Long) session.getAttribute("userId");
+	private TenantFacade tenantFacade = new TenantFacade(new SuperAdminRole(
+			userId));
 
-    /**
-     * Contructor, requires the table which contains the data
-     * 
-     * @param table
-     *            : requires Table with data
-     */
-    public ApproveTenantAction(Table table) {
-        this.table = table;
-    }
+	private Table table = null;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        List<Long> tenants = new ArrayList<Long>();
-        Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                tenants.add((Long) table
-                        .getContainerProperty(iter.next(), "id").getValue());
-            }
-        }
-        try {
-            tenantFacade.approveTenants(tenants);
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-    }
+	/**
+	 * Contructor, requires the table which contains the data
+	 * 
+	 * @param table
+	 *            : requires Table with data
+	 */
+	public ApproveTenantAction(Table table) {
+		this.table = table;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		List<Long> tenants = new ArrayList<Long>();
+		Set<?> value = (Set<?>) table.getValue();
+		if ((value != null) && (value.size() != 0)) {
+			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+				Item item = (Item) iter.next();
+				tenants.add((Long)item.getItemProperty("id").getValue());
+			}
+		}
+		try {
+			tenantFacade.approveTenants(tenants);
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent(
+							"Tenant(s) successfully approved", "Success"));
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
+	}
 }

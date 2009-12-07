@@ -23,13 +23,9 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.decidr.model.acl.roles.Role;
-import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.ui.controller.tenant.SwitchTenantAction;
 import de.decidr.ui.data.CurrentTenantContainer;
-import de.decidr.ui.data.TenantContainer;
 import de.decidr.ui.view.tables.CurrentTenantModelTable;
-import de.decidr.ui.view.tables.TenantTable;
 
 public class ChangeTenantComponent extends CustomComponent {
 
@@ -42,12 +38,10 @@ public class ChangeTenantComponent extends CustomComponent {
 	private static final long serialVersionUID = 5599429204495615788L;
 
 	private CurrentTenantContainer currentTenantContainer = null;
-	private TenantContainer tenantContainer = null;
 
 	private VerticalLayout verticalLayout = null;
 
 	private Label changeTenantLabel = null;
-	private Label waitingForApprovalLabel = null;
 
 	private ButtonPanel buttonPanel = null;
 
@@ -56,17 +50,13 @@ public class ChangeTenantComponent extends CustomComponent {
 	private List<Button> buttonList = new LinkedList<Button>();
 
 	private CurrentTenantModelTable tenantTable = null;
-	private TenantTable approvalTable = null;
 
 	/**
 	 * Default constructor
 	 * 
 	 */
-	public ChangeTenantComponent(Class<? extends Role> role) {
+	public ChangeTenantComponent() {
 		init();
-		if (role.equals(SuperAdminRole.class)) {
-			changeToSuperAdmin();
-		}
 	}
 
 	/**
@@ -106,21 +96,4 @@ public class ChangeTenantComponent extends CustomComponent {
 		buttonPanel = new ButtonPanel(buttonList);
 		buttonPanel.setCaption("Edit tenant");
 	}
-
-	/**
-	 * Adds a table to the component with all tenants for the super admin
-	 * 
-	 */
-	private void changeToSuperAdmin() {
-		waitingForApprovalLabel = new Label("<h2> Waiting for approval </h2>");
-		waitingForApprovalLabel.setContentMode(Label.CONTENT_XHTML);
-
-		tenantContainer = new TenantContainer();
-
-		approvalTable = new TenantTable(tenantContainer);
-
-		verticalLayout.addComponent(waitingForApprovalLabel, 3);
-		verticalLayout.addComponent(approvalTable, 4);
-	}
-
 }

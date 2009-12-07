@@ -16,6 +16,7 @@
 
 package de.decidr.ui.controller.authentication;
 
+
 import javax.servlet.http.HttpSession;
 
 import de.decidr.model.DecidrGlobals;
@@ -107,10 +108,16 @@ public class Login {
 		tenantName = tenant.getName();
 
 		role = userFacade.getUserRoleForTenant(userId, tenantId);
+		Role roleInstance = null;
+		try {
+			roleInstance = role.getConstructor(Long.class).newInstance(userId);
+		} catch(Exception exception){
+			throw new RuntimeException(exception);
+		}
 
 		session.setAttribute("userId", userId);
 		session.setAttribute("tenantId", tenantId);
-		session.setAttribute("role", role);
+		session.setAttribute("role", roleInstance);
 
 		loadProtectedResources();
 

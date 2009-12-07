@@ -29,7 +29,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
-import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
@@ -49,10 +49,10 @@ public class WorkflowModelContainer implements Container, Container.Ordered, Con
 	private static final long serialVersionUID = 1L;
 
 	private HttpSession session = Main.getCurrent().getSession();
+	
+	private Role role = (Role)session.getAttribute("role");
 
-	private Long userId = (Long) session.getAttribute("userId");
-
-	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
+	TenantFacade tenantFacade = new TenantFacade(role);
 
 	List<Item> workflowModelList = null;
 
