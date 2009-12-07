@@ -42,10 +42,6 @@ public class Resources {
 
     private ThemeResource imgDecidrLogo = null;
 
-    private Resources() {
-        // nothing to do yet
-    }
-
     /**
      * Returns the decidr logo as a theme resource
      * 

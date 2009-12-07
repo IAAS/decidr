@@ -33,7 +33,12 @@ import de.decidr.ui.view.windows.StartConfigurationWindow;
  */
 public class DeleteUploadComponent extends CustomComponent {
 
-    private HorizontalLayout horizontlLayout = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private HorizontalLayout horizontlLayout = null;
 
     private Label label = null;
 

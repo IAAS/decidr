@@ -123,6 +123,11 @@ public class WorkflowModelsComponent extends CustomComponent {
 		nativeSelect.setImmediate(true);
 		nativeSelect.addListener(new Property.ValueChangeListener() {
 
+			/**
+			 * Serial version uid
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				changeToPublic();

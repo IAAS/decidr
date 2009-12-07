@@ -31,51 +31,55 @@ import de.decidr.ui.controller.show.ShowRegisterUserAction;
  * @author Geoffrey-Alexeij Heinze
  */
 public class RegistrationComponent extends CustomComponent {
-    private VerticalLayout verticalLayout = null;
-    private HorizontalLayout horizontalLayout = null;
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private VerticalLayout verticalLayout = null;
+	private HorizontalLayout horizontalLayout = null;
 
-    private Label descriptionLabel = null;
+	private Label descriptionLabel = null;
 
-    private Button registerUser = null;
-    private Button registerTenant = null;
+	private Button registerUser = null;
+	private Button registerTenant = null;
 
-    /**
-     * Default constructor
-     * 
-     */
-    public RegistrationComponent() {
-        init();
-    }
+	/**
+	 * Default constructor
+	 * 
+	 */
+	public RegistrationComponent() {
+		init();
+	}
 
-    /**
-     * This method initializes the components of the registration component
-     * 
-     */
-    private void init() {
-        verticalLayout = new VerticalLayout();
-        verticalLayout.setSizeFull();
-        verticalLayout.setSpacing(true);
-        this.setCompositionRoot(verticalLayout);
+	/**
+	 * This method initializes the components of the registration component
+	 * 
+	 */
+	private void init() {
+		verticalLayout = new VerticalLayout();
+		verticalLayout.setSizeFull();
+		verticalLayout.setSpacing(true);
+		this.setCompositionRoot(verticalLayout);
 
-        descriptionLabel = new Label("Please select what you want to do:",
-                Label.CONTENT_XHTML);
+		descriptionLabel = new Label("Please select what you want to do:",
+				Label.CONTENT_XHTML);
 
-        registerTenant = new Button("create new tenant",
-                new ShowRegisterTenantAction());
-        registerTenant.setStyleName(Button.STYLE_LINK);
+		registerTenant = new Button("create new tenant",
+				new ShowRegisterTenantAction());
+		registerTenant.setStyleName(Button.STYLE_LINK);
 
-        registerUser = new Button("create new user",
-                new ShowRegisterUserAction());
-        registerUser.setStyleName(Button.STYLE_LINK);
+		registerUser = new Button("create new user",
+				new ShowRegisterUserAction());
+		registerUser.setStyleName(Button.STYLE_LINK);
 
-        horizontalLayout = new HorizontalLayout();
-        horizontalLayout.setSpacing(true);
-        horizontalLayout.addComponent(registerUser);
-        horizontalLayout.addComponent(registerTenant);
-        horizontalLayout.setComponentAlignment(registerUser, "center bottom");
-        horizontalLayout.setComponentAlignment(registerTenant, "center bottom");
+		horizontalLayout = new HorizontalLayout();
+		horizontalLayout.setSpacing(true);
+		horizontalLayout.addComponent(registerUser);
+		horizontalLayout.addComponent(registerTenant);
+		horizontalLayout.setComponentAlignment(registerUser, "center bottom");
+		horizontalLayout.setComponentAlignment(registerTenant, "center bottom");
 
-        verticalLayout.addComponent(descriptionLabel);
-        verticalLayout.addComponent(horizontalLayout);
-    }
+		verticalLayout.addComponent(descriptionLabel);
+		verticalLayout.addComponent(horizontalLayout);
+	}
 }

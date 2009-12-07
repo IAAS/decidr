@@ -29,6 +29,11 @@ import com.vaadin.ui.Panel;
  */
 public class ButtonPanel extends Panel {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private List<Button> buttonList;
 
 	private HorizontalLayout horizontalLayout;

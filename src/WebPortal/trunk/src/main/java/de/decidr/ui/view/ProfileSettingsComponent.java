@@ -49,232 +49,236 @@ import de.decidr.ui.controller.user.ChangeStatusAction;
  */
 public class ProfileSettingsComponent extends CustomComponent {
 
-    /**
-     * This FieldFactory creates the input fields of the Form used above
-     * 
-     * @author Geoffrey-Alexeij Heinze
-     */
-    private class SettingsFieldFactory extends DefaultFieldFactory {
-        // Aleks, GH: Werden die Felder automatische mit den Werten gefüllt
-        @Override
-        public Field createField(Item item, Object propertyId,
-                Component uiContext) {
-            Field field = super.createField(item, propertyId, uiContext);
+	/**
+	 * This FieldFactory creates the input fields of the Form used above
+	 * 
+	 * @author Geoffrey-Alexeij Heinze
+	 */
+	private class SettingsFieldFactory extends DefaultFieldFactory {
+		/**
+		 * Serial version uid
+		 */
+		private static final long serialVersionUID = 1L;
 
-            if ("firstName".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.setRequired(true);
-                tf
-                        .addValidator(new StringLengthValidator(
-                                "Please enter your forename. Your forename may contain up to 50 characters",
-                                0, 50, false));
-                tf.setCaption("First Name");
-                tf.setColumns(30);
-            } else if ("lastName".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.setRequired(true);
-                tf
-                        .addValidator(new StringLengthValidator(
-                                "Please enter your surename. Your surename may contain up to 50 characters",
-                                0, 50, false));
-                tf.setCaption("Last Name");
-                tf.setColumns(30);
-            } else if ("street".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.setCaption("Street");
-                tf.setColumns(30);
-            } else if ("postalCode".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
-                        "Please enter only numbers"));
-                tf.setCaption("Postal Code");
-                tf.setColumns(30);
-            } else if ("city".equals(propertyId)) {
-                TextField tf = (TextField) field;
-                tf.setCaption("City");
-                tf.setColumns(30);
-            }
+		@Override
+		public Field createField(Item item, Object propertyId,
+				Component uiContext) {
+			Field field = super.createField(item, propertyId, uiContext);
 
-            return field;
-        }
-    }
+			if ("firstName".equals(propertyId)) {
+				TextField tf = (TextField) field;
+				tf.setRequired(true);
+				tf
+						.addValidator(new StringLengthValidator(
+								"Please enter your forename. Your forename may contain up to 50 characters",
+								0, 50, false));
+				tf.setCaption("First Name");
+				tf.setColumns(30);
+			} else if ("lastName".equals(propertyId)) {
+				TextField tf = (TextField) field;
+				tf.setRequired(true);
+				tf
+						.addValidator(new StringLengthValidator(
+								"Please enter your surename. Your surename may contain up to 50 characters",
+								0, 50, false));
+				tf.setCaption("Last Name");
+				tf.setColumns(30);
+			} else if ("street".equals(propertyId)) {
+				TextField tf = (TextField) field;
+				tf.setCaption("Street");
+				tf.setColumns(30);
+			} else if ("postalCode".equals(propertyId)) {
+				TextField tf = (TextField) field;
+				tf.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
+						"Please enter only numbers"));
+				tf.setCaption("Postal Code");
+				tf.setColumns(30);
+			} else if ("city".equals(propertyId)) {
+				TextField tf = (TextField) field;
+				tf.setCaption("City");
+				tf.setColumns(30);
+			}
 
-    private Item settingsItem = null;
+			return field;
+		}
+	}
 
-    private Form settingsForm = new Form();
+	private Item settingsItem = null;
 
-    /**
+	private Form settingsForm = new Form();
+
+	/**
 	 * 
 	 */
-    private static final long serialVersionUID = 1L;
-    private Panel addressPanel = null;
-    private Panel buttonPanel = null;
-    private Panel usernamePanel = null;
+	private static final long serialVersionUID = 1L;
+	private Panel addressPanel = null;
+	private Panel buttonPanel = null;
+	private Panel usernamePanel = null;
 
-    private Panel profileButtonPanel = null;
-    private VerticalLayout verticalLayout = null;
-    private GridLayout usernameGridLayout = null;
-    private VerticalLayout addressVerticalLayout = null;
-    private HorizontalLayout buttonHorizontalLayout = null;
+	private Panel profileButtonPanel = null;
+	private VerticalLayout verticalLayout = null;
+	private GridLayout usernameGridLayout = null;
+	private VerticalLayout addressVerticalLayout = null;
+	private HorizontalLayout buttonHorizontalLayout = null;
 
-    private HorizontalLayout profileButtonHorizontalLayout = null;
-    private Label myProfileLabel = null;
-    private Label usernameLabel = null;
-    private Label emailLabel = null;
-    private Label usernameNameLabel = null;
-    private Label emailNameLabel = null;
+	private HorizontalLayout profileButtonHorizontalLayout = null;
+	private Label myProfileLabel = null;
+	private Label usernameLabel = null;
+	private Label emailLabel = null;
+	private Label usernameNameLabel = null;
+	private Label emailNameLabel = null;
 
-    private Button changeEmailLink = null;
-    private Button changePasswordLink = null;
-    private Button leaveTenantLink = null;
+	private Button changeEmailLink = null;
+	private Button changePasswordLink = null;
+	private Button leaveTenantLink = null;
 
-    private Button cancelMembershipLink = null;
+	private Button cancelMembershipLink = null;
 
-    private Button saveButton = null;
+	private Button saveButton = null;
 
-    private CheckBox statusCheckBox = null;
+	private CheckBox statusCheckBox = null;
 
-    /**
-     * Default constructor
-     * 
-     */
-    public ProfileSettingsComponent(Item item) {
-        this.settingsItem = item;
-        init();
-    }
+	/**
+	 * Default constructor
+	 * 
+	 */
+	public ProfileSettingsComponent(Item item) {
+		this.settingsItem = item;
+		init();
+	}
 
-    /**
-     * Returns the settings item where the information are stored.
-     * 
-     * @return settingsItem
-     */
-    public Item getSettingsItem() {
+	/**
+	 * Returns the settings item where the information are stored.
+	 * 
+	 * @return settingsItem
+	 */
+	public Item getSettingsItem() {
 
-        return settingsItem;
-    }
+		return settingsItem;
+	}
 
-    /**
-     * Returns the status check box.
-     * 
-     * @return statusCheckBox
-     */
-    public CheckBox getStatus() {
-        return statusCheckBox;
-    }
+	/**
+	 * Returns the status check box.
+	 * 
+	 * @return statusCheckBox
+	 */
+	public CheckBox getStatus() {
+		return statusCheckBox;
+	}
 
-    /**
-     * This method initializes the components of the profile settings component
-     * 
-     */
-    private void init() {
-        settingsForm.setWriteThrough(false);
-        settingsForm.setFormFieldFactory(new SettingsFieldFactory());
-        settingsForm.setItemDataSource(settingsItem);
-        settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
-                "firstName", "lastName", "street", "postalCode", "city" }));
+	/**
+	 * This method initializes the components of the profile settings component
+	 * 
+	 */
+	private void init() {
+		settingsForm.setWriteThrough(false);
+		settingsForm.setFormFieldFactory(new SettingsFieldFactory());
+		settingsForm.setItemDataSource(settingsItem);
+		settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
+				"firstName", "lastName", "street", "postalCode", "city" }));
 
-        addressPanel = new Panel();
-        buttonPanel = new Panel();
-        usernamePanel = new Panel();
-        profileButtonPanel = new Panel();
+		addressPanel = new Panel();
+		buttonPanel = new Panel();
+		usernamePanel = new Panel();
+		profileButtonPanel = new Panel();
 
-        usernameGridLayout = new GridLayout(2, 2);
-        verticalLayout = new VerticalLayout();
-        addressVerticalLayout = new VerticalLayout();
-        buttonHorizontalLayout = new HorizontalLayout();
-        profileButtonHorizontalLayout = new HorizontalLayout();
+		usernameGridLayout = new GridLayout(2, 2);
+		verticalLayout = new VerticalLayout();
+		addressVerticalLayout = new VerticalLayout();
+		buttonHorizontalLayout = new HorizontalLayout();
+		profileButtonHorizontalLayout = new HorizontalLayout();
 
-        myProfileLabel = new Label("<h2> My Profile </h2>");
-        myProfileLabel.setContentMode(Label.CONTENT_XHTML);
-        usernameLabel = new Label("Username: ");
-        emailLabel = new Label("Email address: ");
-        usernameNameLabel = new Label((String) settingsItem.getItemProperty(
-                "username").getValue());
-        emailNameLabel = new Label((String) settingsItem.getItemProperty(
-                "email").getValue());
+		myProfileLabel = new Label("<h2> My Profile </h2>");
+		myProfileLabel.setContentMode(Label.CONTENT_XHTML);
+		usernameLabel = new Label("Username: ");
+		emailLabel = new Label("Email address: ");
+		usernameNameLabel = new Label((String) settingsItem.getItemProperty(
+				"username").getValue());
+		emailNameLabel = new Label((String) settingsItem.getItemProperty(
+				"email").getValue());
 
-        changeEmailLink = new Button("Change email",
-                new ShowChangeEmailAction());
-        changeEmailLink.setStyleName(Button.STYLE_LINK);
-        changePasswordLink = new Button("Change password",
-                new ShowChangePasswordAction());
-        changePasswordLink.setStyleName(Button.STYLE_LINK);
-        leaveTenantLink = new Button("Leave tenant",
-                new ShowLeaveTenantDialogAction());
-        leaveTenantLink.setStyleName(Button.STYLE_LINK);
-        cancelMembershipLink = new Button("Cancel Membership",
-                new ShowCancelMembershipAction());
-        cancelMembershipLink.setVisible(false);
-        cancelMembershipLink.setStyleName(Button.STYLE_LINK);
+		changeEmailLink = new Button("Change email",
+				new ShowChangeEmailAction());
+		changeEmailLink.setStyleName(Button.STYLE_LINK);
+		changePasswordLink = new Button("Change password",
+				new ShowChangePasswordAction());
+		changePasswordLink.setStyleName(Button.STYLE_LINK);
+		leaveTenantLink = new Button("Leave tenant",
+				new ShowLeaveTenantDialogAction());
+		leaveTenantLink.setStyleName(Button.STYLE_LINK);
+		cancelMembershipLink = new Button("Cancel Membership",
+				new ShowCancelMembershipAction());
+		cancelMembershipLink.setVisible(false);
+		cancelMembershipLink.setStyleName(Button.STYLE_LINK);
 
-        saveButton = new Button("Save", new SaveProfileAction());
+		saveButton = new Button("Save", new SaveProfileAction());
 
-        statusCheckBox = new CheckBox();
-        statusCheckBox.addListener(new ChangeStatusAction());
-        statusCheckBox.setImmediate(true);
+		statusCheckBox = new CheckBox();
+		statusCheckBox.addListener(new ChangeStatusAction());
+		statusCheckBox.setImmediate(true);
 
-        this.setCompositionRoot(verticalLayout);
+		this.setCompositionRoot(verticalLayout);
 
-        verticalLayout.setSpacing(true);
-        verticalLayout.addComponent(myProfileLabel);
-        verticalLayout.addComponent(usernamePanel);
+		verticalLayout.setSpacing(true);
+		verticalLayout.addComponent(myProfileLabel);
+		verticalLayout.addComponent(usernamePanel);
 
-        usernamePanel.addComponent(usernameGridLayout);
-        usernameGridLayout.setSpacing(true);
-        usernameGridLayout.addComponent(usernameLabel, 0, 0);
-        usernameGridLayout.addComponent(usernameNameLabel, 1, 0);
-        usernameGridLayout.addComponent(emailLabel, 0, 1);
-        usernameGridLayout.addComponent(emailNameLabel, 1, 1);
+		usernamePanel.addComponent(usernameGridLayout);
+		usernameGridLayout.setSpacing(true);
+		usernameGridLayout.addComponent(usernameLabel, 0, 0);
+		usernameGridLayout.addComponent(usernameNameLabel, 1, 0);
+		usernameGridLayout.addComponent(emailLabel, 0, 1);
+		usernameGridLayout.addComponent(emailNameLabel, 1, 1);
 
-        verticalLayout.addComponent(profileButtonPanel);
+		verticalLayout.addComponent(profileButtonPanel);
 
-        profileButtonPanel.addComponent(profileButtonHorizontalLayout);
-        profileButtonHorizontalLayout.setSpacing(true);
-        profileButtonHorizontalLayout.addComponent(changeEmailLink);
-        profileButtonHorizontalLayout.addComponent(changePasswordLink);
+		profileButtonPanel.addComponent(profileButtonHorizontalLayout);
+		profileButtonHorizontalLayout.setSpacing(true);
+		profileButtonHorizontalLayout.addComponent(changeEmailLink);
+		profileButtonHorizontalLayout.addComponent(changePasswordLink);
 
-        verticalLayout.addComponent(addressPanel);
-        
-        addressPanel.addComponent(addressVerticalLayout);
-        
-        addressVerticalLayout.setSpacing(true);
-        addressVerticalLayout.addComponent(settingsForm);
+		verticalLayout.addComponent(addressPanel);
 
-        addressVerticalLayout.addComponent(statusCheckBox);
-        statusCheckBox.setCaption("Set my status to unavailable");
+		addressPanel.addComponent(addressVerticalLayout);
 
-        verticalLayout.addComponent(buttonPanel);
-        verticalLayout
-                .setComponentAlignment(buttonPanel, Alignment.BOTTOM_LEFT);
+		addressVerticalLayout.setSpacing(true);
+		addressVerticalLayout.addComponent(settingsForm);
 
-        buttonPanel.addComponent(buttonHorizontalLayout);
-        buttonHorizontalLayout.setSpacing(true);
-        buttonHorizontalLayout.addComponent(saveButton);
-        buttonHorizontalLayout.addComponent(leaveTenantLink);
-        buttonHorizontalLayout.addComponent(cancelMembershipLink);
-    }
+		addressVerticalLayout.addComponent(statusCheckBox);
+		statusCheckBox.setCaption("Set my status to unavailable");
 
-    // Aleks, GH: make private when no longer needed for testing
-    public void saveSettingsItem() {
-        try {
-            settingsForm.commit();
+		verticalLayout.addComponent(buttonPanel);
+		verticalLayout
+				.setComponentAlignment(buttonPanel, Alignment.BOTTOM_LEFT);
 
-        } catch (Exception e) {
-            Main.getCurrent().getMainWindow().showNotification(e.getMessage());
-        }
-    }
+		buttonPanel.addComponent(buttonHorizontalLayout);
+		buttonHorizontalLayout.setSpacing(true);
+		buttonHorizontalLayout.addComponent(saveButton);
+		buttonHorizontalLayout.addComponent(leaveTenantLink);
+		buttonHorizontalLayout.addComponent(cancelMembershipLink);
+	}
 
-    /**
-     * Gets the settings form
-     * 
-     * @return the settingsForm
-     */
-    public Form getSettingsForm() {
-        return settingsForm;
-    }
-    
-    public Button getCancelMembershipLink(){
-    	return cancelMembershipLink;
-    }
+	// Aleks, GH: make private when no longer needed for testing
+	public void saveSettingsItem() {
+		try {
+			settingsForm.commit();
+
+		} catch (Exception e) {
+			Main.getCurrent().getMainWindow().showNotification(e.getMessage());
+		}
+	}
+
+	/**
+	 * Gets the settings form
+	 * 
+	 * @return the settingsForm
+	 */
+	public Form getSettingsForm() {
+		return settingsForm;
+	}
+
+	public Button getCancelMembershipLink() {
+		return cancelMembershipLink;
+	}
 
 }

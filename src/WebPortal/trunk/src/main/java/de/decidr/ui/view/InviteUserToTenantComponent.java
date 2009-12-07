@@ -34,7 +34,12 @@ import de.decidr.ui.controller.user.InviteUserToTenantAction;
  */
 public class InviteUserToTenantComponent extends CustomComponent {
 
-    private Integer userCounter = 0;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer userCounter = 0;
 
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;

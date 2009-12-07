@@ -38,6 +38,11 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
  * @author Geoffrey-Alexeij Heinze
  */
 public class RegisterUserComponent extends CustomComponent {
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private VerticalLayout verticalLayout = null;
 
 	private Label descriptionLabel = null;

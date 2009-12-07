@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 
 import java.util.HashSet;
 
-
 import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
@@ -41,11 +40,10 @@ import com.vaadin.ui.Upload.SucceededEvent;
 
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
-import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.ui.controller.CssHandler;
 import de.decidr.ui.controller.tenant.RestoreDefaultTenantSettingsAction;
 import de.decidr.ui.controller.tenant.SaveTenantSettingsAction;
 import de.decidr.ui.controller.tenant.UploadTenantLogoAction;
@@ -101,13 +99,12 @@ public class TenantSettingsComponent extends CustomComponent {
 
 	final String[] fonts = new String[] { "Times New Roman", "Arial",
 			"Courier New", "Verdana" };
-	
-	private Long tenantId;
+
 	private String tenantDescription;
 	private String tenantName;
 	private String logoFileName;
-	
-	private Long userId;
+
+	private Role role;
 	private TenantFacade tenantFacade = null;
 	private FileFacade fileFacade = null;
 
@@ -116,54 +113,51 @@ public class TenantSettingsComponent extends CustomComponent {
 	 * 
 	 */
 	public TenantSettingsComponent(Long tenantId) {
-	        this.tenantId = tenantId;
-	        
-	        userId = (Long) Main.getCurrent().getSession().getAttribute(
-	        "userId");
-	        tenantFacade = new TenantFacade(new TenantAdminRole(userId));
-	        fileFacade = new FileFacade(new TenantAdminRole((Long)Main.getCurrent().getSession().getAttribute("userId")));
-	        
-	        tenantDescription = "";
-	        try {
-                    tenantName = tenantFacade.getTenant(tenantId).getName();
-                    if(tenantFacade.getTenantSettings(tenantId).getItemProperty("description").getValue() != null){
-                        tenantDescription = tenantFacade.getTenantSettings(tenantId)
-                            .getItemProperty("description").getValue().toString();
-                    }
-                } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(new TransactionErrorDialogComponent(e));
-                }
-                
-                
-                
-                // get logo
-//              InputStream in = tenantFacade.getLogo(tenantId);
-//                File file = new File("themes/"+tenantName+"/img/decidrlogo.png");
-//                file.createNewFile();
-//                
-//                if (in == null){
-//                    in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
-//                }
-//
-//                
-//                if (in == null){
-//                    Main.getCurrent().getMainWindow().showNotification("no input stream");
-//                }else{
-//                        OutputStream out = new FileOutputStream(file);
-//                      byte[] buf = new byte[1024];
-//                      int i = in.read(buf);
-//                      while(i != -1){
-//                          out.write(buf, 0, i);
-//                          i = in.read(buf);
-//                      }
-//                      out.close();
-//                }
-//                      
-//              
-//              in.close();
-                
-                // get css
-	        
+		role = (Role) Main.getCurrent().getSession().getAttribute("role");
+		tenantFacade = new TenantFacade(role);
+		fileFacade = new FileFacade(role);
+
+		tenantDescription = "";
+		try {
+			tenantName = tenantFacade.getTenant(tenantId).getName();
+			if (tenantFacade.getTenantSettings(tenantId).getItemProperty(
+					"description").getValue() != null) {
+				tenantDescription = tenantFacade.getTenantSettings(tenantId)
+						.getItemProperty("description").getValue().toString();
+			}
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
+
+		// get logo
+		// InputStream in = tenantFacade.getLogo(tenantId);
+		// File file = new File("themes/"+tenantName+"/img/decidrlogo.png");
+		// file.createNewFile();
+		//                
+		// if (in == null){
+		// in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
+		// }
+		//
+		//                
+		// if (in == null){
+		// Main.getCurrent().getMainWindow().showNotification("no input stream");
+		// }else{
+		// OutputStream out = new FileOutputStream(file);
+		// byte[] buf = new byte[1024];
+		// int i = in.read(buf);
+		// while(i != -1){
+		// out.write(buf, 0, i);
+		// i = in.read(buf);
+		// }
+		// out.close();
+		// }
+		//                      
+		//              
+		// in.close();
+
+		// get css
+
 		init();
 	}
 
@@ -196,7 +190,12 @@ public class TenantSettingsComponent extends CustomComponent {
 		logoUpload.setButtonCaption("Upload Logo");
 
 		logoUpload.addListener(new Upload.SucceededListener() {
-			
+
+			/**
+			 * Serial version uid
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void uploadSucceeded(SucceededEvent event) {
 				UploadTenantLogoAction action = (UploadTenantLogoAction) TenantSettingsComponent.this
@@ -217,7 +216,7 @@ public class TenantSettingsComponent extends CustomComponent {
 						Long fileId = fileFacade.createFile(fis, file.length(),
 								event.getFilename(), event.getMIMEType(), true,
 								filePermission);
-						
+
 						Main.getCurrent().getMainWindow().setData(fileId);
 						Main.getCurrent().getMainWindow()
 								.addWindow(
@@ -225,7 +224,8 @@ public class TenantSettingsComponent extends CustomComponent {
 												+ event.getFilename()
 												+ " successfully uploaded!",
 												"Success"));
-						logoEmbedded.setSource(new FileResource(file, Main.getCurrent()));
+						logoEmbedded.setSource(new FileResource(file, Main
+								.getCurrent()));
 					} catch (FileNotFoundException e) {
 						Main.getCurrent().getMainWindow().addWindow(
 								new InformationDialogComponent(
@@ -239,16 +239,21 @@ public class TenantSettingsComponent extends CustomComponent {
 				}
 
 				Main.getCurrent().getMainWindow().addWindow(
-				            new InformationDialogComponent(
-				                    Main.getCurrent().getContext().getBaseDirectory().getPath(),
-				                    "Path"));
+						new InformationDialogComponent(Main.getCurrent()
+								.getContext().getBaseDirectory().getPath(),
+								"Path"));
 				File tmpF = null;
-				tmpF = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + "/VAADIN/themes/decidr/styles.css");
-				if (tmpF.exists()){
-				    Main.getCurrent().getMainWindow().addWindow(
-                                            new InformationDialogComponent(
-                                                    Main.getCurrent().getContext().getBaseDirectory().getPath(),
-                                                    "we got em! <br/>"+tmpF.getAbsolutePath()));
+				tmpF = new File(Main.getCurrent().getContext()
+						.getBaseDirectory().getPath()
+						+ "/VAADIN/themes/decidr/styles.css");
+				if (tmpF.exists()) {
+					Main.getCurrent().getMainWindow()
+							.addWindow(
+									new InformationDialogComponent(Main
+											.getCurrent().getContext()
+											.getBaseDirectory().getPath(),
+											"we got em! <br/>"
+													+ tmpF.getAbsolutePath()));
 				}
 			}
 		});
@@ -257,7 +262,8 @@ public class TenantSettingsComponent extends CustomComponent {
 		restoreDefaultSettingsButton = new Button("Restore default settings",
 				new RestoreDefaultTenantSettingsAction());
 
-		logoEmbedded = new Embedded("", new ThemeResource("img/"+logoFileName));
+		logoEmbedded = new Embedded("",
+				new ThemeResource("img/" + logoFileName));
 		logoEmbedded.setCaption("Logo");
 		logoEmbedded.setImmediate(true);
 
@@ -307,6 +313,11 @@ public class TenantSettingsComponent extends CustomComponent {
 		showBasicOptionsButton = new Button("Show basic options");
 		showBasicOptionsButton.addListener(new Button.ClickListener() {
 
+			/**
+			 * Serial version uid
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				changeToBasic();
@@ -338,6 +349,11 @@ public class TenantSettingsComponent extends CustomComponent {
 		showAdvancedOptionsButton = new Button("Show advanced options");
 		showAdvancedOptionsButton.setSwitchMode(true);
 		showAdvancedOptionsButton.addListener(new Button.ClickListener() {
+
+			/**
+			 * Serial version uid
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {

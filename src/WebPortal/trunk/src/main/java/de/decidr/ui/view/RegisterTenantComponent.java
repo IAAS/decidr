@@ -38,6 +38,11 @@ import de.decidr.ui.controller.tenant.RegisterTenantAction;
  */
 public class RegisterTenantComponent extends CustomComponent {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private VerticalLayout verticalLayout = null;
 
 	private Label descriptionLabel = null;

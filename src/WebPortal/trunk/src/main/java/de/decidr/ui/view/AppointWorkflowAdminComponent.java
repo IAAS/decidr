@@ -37,7 +37,11 @@ import de.decidr.ui.controller.AppointWorkflowAdminAction;
 @Reviewed(reviewers = "RR", lastRevision = "2048", currentReviewState = State.PassedWithComments)
 public class AppointWorkflowAdminComponent extends CustomComponent {
 
-    private Integer userCounter = 0;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer userCounter = 0;
     private Long wfmId = null;
 
     private VerticalLayout verticalLayout = null;

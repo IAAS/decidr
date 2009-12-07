@@ -22,9 +22,7 @@ package de.decidr.ui.view;
  *
  * @author Geoffrey-Alexeij Heinze
  */
-// Aleks, GH: what if no tenant is stored, as the user isn't logged in yet?
-// Also, do you mean "welcome page for a specific tenant"? If so, you also
-// need a generic welcome page ~rr
+
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.ui.CustomComponent;
@@ -32,17 +30,22 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class WelcomePageComponent extends CustomComponent {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = null;
 
 	private Long tenantId = null;
-	private Long userId = null;
+	private Role role = null;
 	private TenantFacade tenantFacade = null;
 
 	private String tenantDescription = null;
@@ -65,8 +68,8 @@ public class WelcomePageComponent extends CustomComponent {
 		this.setCompositionRoot(verticalLayout);
 
 		session = Main.getCurrent().getSession();
-		userId = (Long) session.getAttribute("userId");
-		tenantFacade = new TenantFacade(new UserRole(userId));
+		role = (Role) session.getAttribute("role");
+		tenantFacade = new TenantFacade(role);
 		tenantId = (Long) Main.getCurrent().getSession().getAttribute(
 				"tenantId");
 		try {
@@ -80,11 +83,9 @@ public class WelcomePageComponent extends CustomComponent {
 			} else {
 				labelDesc = new Label(
 
-				// Aleks, GH: please specify some error/warning
-						// message!!! ~rr
-						"<h2>Welcome</h2><br/>"
-								+ DecidrGlobals.getDefaultTenant()
-										.getDescription(), Label.CONTENT_XHTML);
+				"<h2>Welcome</h2><br/>"
+						+ DecidrGlobals.getDefaultTenant().getDescription(),
+						Label.CONTENT_XHTML);
 			}
 
 			verticalLayout.addComponent(labelDesc);

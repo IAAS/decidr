@@ -35,7 +35,6 @@ import de.decidr.ui.controller.show.ShowWorkItemWindowAction;
 import de.decidr.ui.data.WorkItemContainer;
 import de.decidr.ui.view.tables.WorkItemTable;
 
-
 public class WorkItemComponent extends CustomComponent {
 
 	/**
@@ -117,12 +116,17 @@ public class WorkItemComponent extends CustomComponent {
 		}
 		tenantNativeSelect.addListener(new Property.ValueChangeListener() {
 
+			/**
+			 * Serial version uid
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 
 				if (tenantNativeSelect.isSelected("Current tenant")) {
 
-					tenantId = (Long)session.getAttribute("tenantId");
+					tenantId = (Long) session.getAttribute("tenantId");
 					EqualsFilter filter = new EqualsFilter(true,
 							"workflowInstance.deployedWorkflowModel.tenant.id",
 							tenantId);

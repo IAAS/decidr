@@ -24,7 +24,6 @@ package de.decidr.ui.view;
  */
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.view.help.AccountManagementHelpComponent;
@@ -45,7 +44,6 @@ import de.decidr.ui.view.help.WorkflowParticipationHelpComponent;
 public class HelpComponent extends CustomComponent {
 
     private VerticalLayout verticalLayout = null;
-    private Label labelHelp = null;
     private Accordion acc = null;
 
     /**
