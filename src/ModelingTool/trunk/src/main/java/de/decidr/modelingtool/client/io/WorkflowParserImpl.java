@@ -166,7 +166,7 @@ public class WorkflowParserImpl implements WorkflowParser {
                         DWDLNames.initValue, variable.getValues().get(0)));
             }
         }
-        
+
         return variableElement;
     }
 
@@ -414,8 +414,12 @@ public class WorkflowParserImpl implements WorkflowParser {
                         .getLabel()));
                 taskItem.appendChild(createTextElement(doc, DWDLNames.hint, ti
                         .getHint()));
-                taskItem.appendChild(createTextElement(doc, DWDLNames.value,
-                        variable.getValues().get(0)));
+                /* Only set predefined valued if there are any */
+                if (variable.getValues() != null
+                        && variable.getValues().isEmpty() != false) {
+                    taskItem.appendChild(createTextElement(doc,
+                            DWDLNames.value, variable.getValues().get(0)));
+                }
                 humanTaskData.appendChild(taskItem);
             }
         }

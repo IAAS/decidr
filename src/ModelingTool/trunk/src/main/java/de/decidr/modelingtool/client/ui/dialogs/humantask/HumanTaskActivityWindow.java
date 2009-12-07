@@ -247,7 +247,7 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         descriptionField.setStore(Workflow.getInstance().getModel()
                 .getVariablesOfTypeAsStore(VariableType.STRING));
         descriptionField.setValue(Workflow.getInstance().getModel()
-                .getVariable(model.getWorkItemNameVariableId()));
+                .getVariable(model.getWorkItemDescriptionVariableId()));
         descriptionField.setEditable(false);
         descriptionField.setWidth("200px");
         table.insertRow(table.getRowCount());
