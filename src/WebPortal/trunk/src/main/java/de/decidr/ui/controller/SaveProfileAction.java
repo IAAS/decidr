@@ -72,8 +72,7 @@ public class SaveProfileAction implements ClickListener {
 
     }
     
-    //gh validator for this data needed in the UI
-    //DH, TK what should be validated here?
+    //GH length validator for this data needed in the UI
     private UserProfile fillUserProfile() {
         UserRole role = new UserRole(userId);
         GetUserWithProfileCommand cmd = new GetUserWithProfileCommand(role,
