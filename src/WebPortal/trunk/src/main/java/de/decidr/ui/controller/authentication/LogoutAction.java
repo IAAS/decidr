@@ -33,7 +33,11 @@ import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
  */
 public class LogoutAction implements ClickListener {
 
-    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
     /*
      * (non-Javadoc)

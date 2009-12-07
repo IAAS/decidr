@@ -34,7 +34,11 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
  */
 public class LoginAction implements ClickListener {
 
-    private Login login = new Login();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Login login = new Login();
     UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
     /*
