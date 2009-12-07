@@ -75,7 +75,12 @@ public class DeleteUploadComponent extends CustomComponent {
         button = new Button("Delete");
         button.addListener(new Button.ClickListener() {
 
-            @Override
+            /**
+			 * Serial version uid
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void buttonClick(com.vaadin.ui.Button.ClickEvent event) {
                 deleteUploadComponent = (DeleteUploadComponent) event
                         .getSource();

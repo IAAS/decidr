@@ -83,6 +83,7 @@ public class CssHandler {
 	 * @throws TransactionException
 	 *             , IOException
 	 */
+	@SuppressWarnings("null")
 	public void saveCss(TenantFacade tenantFacade, boolean advanced,
 			FileFacade fileFacade) throws TransactionException {
 		try {

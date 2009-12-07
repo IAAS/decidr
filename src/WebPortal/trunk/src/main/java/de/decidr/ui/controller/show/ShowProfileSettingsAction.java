@@ -44,7 +44,6 @@ public class ShowProfileSettingsAction implements ClickListener {
 	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 	
-	@SuppressWarnings("unchecked")
 	Role role = (Role) Main.getCurrent().getSession()
 			.getAttribute("role");
 

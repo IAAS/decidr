@@ -40,7 +40,6 @@ public class ShowChangeTenantAction implements ClickListener {
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new ChangeTenantComponent());

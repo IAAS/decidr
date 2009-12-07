@@ -97,7 +97,12 @@ public class InviteUserToTenantComponent extends CustomComponent {
         inviteForm.getField("user" + userCounter.toString()).setRequired(true);
 
         addField = new Button("Add User", new Button.ClickListener() {
-            public void buttonClick(Button.ClickEvent event) {
+            /**
+			 * Serial version uid
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void buttonClick(Button.ClickEvent event) {
                 addUser();
             }
         });

@@ -52,7 +52,6 @@ public class ShowEditUserAction implements ClickListener {
 
     private Table table = null;
 
-    @SuppressWarnings("unchecked")
     Role role = (Role) Main.getCurrent().getSession()
             .getAttribute("role");
 

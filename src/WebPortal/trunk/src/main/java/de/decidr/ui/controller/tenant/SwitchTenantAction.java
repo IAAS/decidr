@@ -89,7 +89,6 @@ public class SwitchTenantAction implements ClickListener {
 	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
 	 * ClickEvent)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void buttonClick(ClickEvent event) {
 		Set<?> set = (Set<?>) table.getValue();

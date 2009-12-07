@@ -102,7 +102,12 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         appointForm.addField("user" + userCounter.toString(), appointSelf);
 
         addField = new Button("Add User", new Button.ClickListener() {
-            public void buttonClick(Button.ClickEvent event) {
+            /**
+			 * Serial version uid
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void buttonClick(Button.ClickEvent event) {
                 addUser();
             }
         });
