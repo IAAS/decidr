@@ -30,6 +30,7 @@ import de.decidr.ui.view.RegisterUserComponent;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.WelcomePageComponent;
 import de.decidr.ui.view.windows.InformationDialogComponent;
+import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action creates a new user.
@@ -97,9 +98,7 @@ public class RegisterUserAction implements ClickListener {
 										"Null selection"));
 			} catch (TransactionException e) {
 				Main.getCurrent().getMainWindow().addWindow(
-						new InformationDialogComponent(
-								"The transaction was aborted",
-								"Transaction abortion"));
+						new TransactionErrorDialogComponent(e));
 			}
 		} else {
 			Main.getCurrent().getMainWindow().addWindow(
