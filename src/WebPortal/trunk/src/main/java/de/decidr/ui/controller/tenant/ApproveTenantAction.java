@@ -49,7 +49,7 @@ public class ApproveTenantAction implements ClickListener {
 
 	private HttpSession session = Main.getCurrent().getSession();
 
-	private Role role = (Role) session.getAttribute("userId");
+	private Role role = (Role) session.getAttribute("role");
 	private TenantFacade tenantFacade = new TenantFacade(role);
 
 	private Table table = null;

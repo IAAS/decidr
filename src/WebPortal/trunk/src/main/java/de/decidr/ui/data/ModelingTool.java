@@ -28,7 +28,6 @@ import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 
 import com.vaadin.data.Item;
-import com.vaadin.data.Property;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;

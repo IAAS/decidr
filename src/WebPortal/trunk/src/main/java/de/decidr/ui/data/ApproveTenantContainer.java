@@ -29,7 +29,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Container.Ordered;
 
-import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
@@ -50,9 +50,9 @@ public class ApproveTenantContainer implements Container, Ordered {
 
 	private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
+	private Role role = (Role) session.getAttribute("role");
 
-	TenantFacade tenantFacade = new TenantFacade(new SuperAdminRole(userId));
+	TenantFacade tenantFacade = new TenantFacade(role);
 
 	private List<Item> approveTenantsList = null;
 

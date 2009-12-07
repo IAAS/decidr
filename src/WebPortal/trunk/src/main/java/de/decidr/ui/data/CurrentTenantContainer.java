@@ -27,7 +27,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
@@ -41,193 +41,195 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class CurrentTenantContainer implements Container {
 
-    private HttpSession session = Main.getCurrent().getSession();
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private Long userId = (Long) session.getAttribute("userId");
+	private HttpSession session = Main.getCurrent().getSession();
 
-    UserFacade userFacade = new UserFacade(new UserRole(userId));
+	private Long userId = (Long) session.getAttribute("userId");
 
-    List<Item> currentTenantList = null;
+	private Role role = (Role) session.getAttribute("role");
 
-    private ArrayList<Object> propertyIds = new ArrayList<Object>();
-    private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
+	UserFacade userFacade = new UserFacade(role);
 
-    /**
-     * Default constructor. Adds tenant items to the container.
-     * 
-     */
-    public CurrentTenantContainer() {
-        try {
-            currentTenantList = userFacade.getJoinedTenants(userId);
-            for (Item item : currentTenantList) {
-                addItem(item);
-            }
-        } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
-        }
-    }
+	List<Item> currentTenantList = null;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object,
-     * java.lang.Class, java.lang.Object)
-     */
-    @Override
-    public boolean addContainerProperty(Object propertyId, Class<?> type,
-            Object defaultValue) throws UnsupportedOperationException {
-        if (propertyIds.contains(propertyId)) {
-            return false;
-        }
-        propertyIds.add(propertyId);
-        return true;
-    }
+	private ArrayList<Object> propertyIds = new ArrayList<Object>();
+	private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#addItem()
-     */
-    @Override
-    public Object addItem() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
+	/**
+	 * Default constructor. Adds tenant items to the container.
+	 * 
+	 */
+	public CurrentTenantContainer() {
+		try {
+			currentTenantList = userFacade.getJoinedTenants(userId);
+			for (Item item : currentTenantList) {
+				addItem(item);
+			}
+		} catch (TransactionException exception) {
+			Main.getCurrent().addWindow(
+					new TransactionErrorDialogComponent(exception));
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#addItem(java.lang.Object)
-     */
-    @Override
-    public Item addItem(Object itemId) throws UnsupportedOperationException {
-        items.put(itemId, itemId);
-        return getItem(itemId);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#addContainerProperty(java.lang.Object,
+	 * java.lang.Class, java.lang.Object)
+	 */
+	@Override
+	public boolean addContainerProperty(Object propertyId, Class<?> type,
+			Object defaultValue) throws UnsupportedOperationException {
+		if (propertyIds.contains(propertyId)) {
+			return false;
+		}
+		propertyIds.add(propertyId);
+		return true;
+	}
 
-    
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#addItem()
+	 */
+	@Override
+	public Object addItem() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#containsId(java.lang.Object)
-     */
-    @Override
-    public boolean containsId(Object itemId) {
-        return items.containsKey(itemId);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#addItem(java.lang.Object)
+	 */
+	@Override
+	public Item addItem(Object itemId) throws UnsupportedOperationException {
+		items.put(itemId, itemId);
+		return getItem(itemId);
+	}
 
-    
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#containsId(java.lang.Object)
+	 */
+	@Override
+	public boolean containsId(Object itemId) {
+		return items.containsKey(itemId);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#getContainerProperty(java.lang.Object,
-     * java.lang.Object)
-     */
-    @Override
-    public Property getContainerProperty(Object itemId, Object propertyId) {
-        return getItem(itemId).getItemProperty(propertyId);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#getContainerProperty(java.lang.Object,
+	 * java.lang.Object)
+	 */
+	@Override
+	public Property getContainerProperty(Object itemId, Object propertyId) {
+		return getItem(itemId).getItemProperty(propertyId);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#getContainerPropertyIds()
-     */
-    @Override
-    public Collection<?> getContainerPropertyIds() {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#getContainerPropertyIds()
+	 */
+	@Override
+	public Collection<?> getContainerPropertyIds() {
 
-        return propertyIds;
-    }
+		return propertyIds;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#getItem(java.lang.Object)
-     */
-    @Override
-    public Item getItem(Object itemId) {
-        Item item = (Item) items.get(itemId);
-        return item;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#getItem(java.lang.Object)
+	 */
+	@Override
+	public Item getItem(Object itemId) {
+		Item item = (Item) items.get(itemId);
+		return item;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#getItemIds()
-     */
-    @Override
-    public Collection<?> getItemIds() {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#getItemIds()
+	 */
+	@Override
+	public Collection<?> getItemIds() {
 
-        return items.keySet();
-    }
+		return items.keySet();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#getType(java.lang.Object)
-     */
-    @Override
-    public Class<?> getType(Object propertyId) {
-        if (getContainerPropertyIds().contains(propertyId)) {
-            if (propertyId.equals("id")) {
-                return Long.class;
-            } else if (propertyId.equals("name")) {
-                return String.class;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#getType(java.lang.Object)
+	 */
+	@Override
+	public Class<?> getType(Object propertyId) {
+		if (getContainerPropertyIds().contains(propertyId)) {
+			if (propertyId.equals("id")) {
+				return Long.class;
+			} else if (propertyId.equals("name")) {
+				return String.class;
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
 
-    }
+	}
 
-    
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#removeAllItems()
+	 */
+	@Override
+	public boolean removeAllItems() throws UnsupportedOperationException {
+		items.clear();
+		return true;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#removeAllItems()
-     */
-    @Override
-    public boolean removeAllItems() throws UnsupportedOperationException {
-        items.clear();
-        return true;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#removeContainerProperty(java.lang.Object)
+	 */
+	@Override
+	public boolean removeContainerProperty(Object propertyId)
+			throws UnsupportedOperationException {
+		propertyIds.remove(propertyId);
+		return true;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#removeContainerProperty(java.lang.Object)
-     */
-    @Override
-    public boolean removeContainerProperty(Object propertyId)
-            throws UnsupportedOperationException {
-        propertyIds.remove(propertyId);
-        return true;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#removeItem(java.lang.Object)
+	 */
+	@Override
+	public boolean removeItem(Object itemId)
+			throws UnsupportedOperationException {
+		items.remove(itemId);
+		return true;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#removeItem(java.lang.Object)
-     */
-    @Override
-    public boolean removeItem(Object itemId)
-            throws UnsupportedOperationException {
-        items.remove(itemId);
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.data.Container#size()
-     */
-    @Override
-    public int size() {
-        return items.size();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.data.Container#size()
+	 */
+	@Override
+	public int size() {
+		return items.size();
+	}
 
 }

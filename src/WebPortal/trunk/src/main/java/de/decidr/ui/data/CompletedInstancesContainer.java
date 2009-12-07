@@ -28,7 +28,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
-import de.decidr.model.acl.roles.WorkflowAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -43,11 +43,18 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class CompletedInstancesContainer implements Container {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = Main.getCurrent().getSession();
+
+	private Role role = (Role) session.getAttribute("role");
 
 	private Long userId = (Long) session.getAttribute("userId");
 
-	UserFacade userFacade = new UserFacade(new WorkflowAdminRole(userId));
+	UserFacade userFacade = new UserFacade(role);
 
 	private List<Item> workflowInstanceList = null;
 
