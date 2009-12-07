@@ -104,7 +104,7 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
         DetachedCriteria adminCriteria = DetachedCriteria.forClass(
                 UserAdministratesWorkflowModel.class, "rel");
 
-        adminCriteria.add(Restrictions.eqProperty("rel.workflowModel", "m"))
+        adminCriteria.add(Restrictions.eqProperty("rel.workflowModel.id", "m.id"))
                 .add(Restrictions.eq("rel.user.id", getUserId()));
 
         /*
