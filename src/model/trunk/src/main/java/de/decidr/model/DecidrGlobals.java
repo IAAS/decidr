@@ -296,8 +296,7 @@ public class DecidrGlobals {
         }
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
-        // DH RR XXX revert "/axis2/services/" to "/soap/" once the ESB works
-        return "http://" + getEsb().getLocation() + "/axis2/services/"
+        return "http://" + getEsb().getLocation() + "/soap/"
                 + webServiceName;
     }
 

@@ -28,6 +28,7 @@ import de.decidr.model.transactions.TransactionEvent;
  * Sets the given logo as tenant logo to the given tenant. The logo will be
  * saved on permanent storage an a file entity will be created. The id of the
  * entity and the id of the file in the storage service for will be the same.
+ * The old logo is deleted automatically.
  * <p>
  * To delete a tenant logo, use <code>null</code> as the logo ID. In this case
  * the command will also remove the tenant logo from the default storage
@@ -46,7 +47,8 @@ public class SetTenantLogoCommand extends TenantCommand {
      * Creates a new SetTenantLogoCommand. This commands sets the given logo as
      * tenant logo to the given tenant. The logo will be saved on permanent
      * storage an a file entity will be created. The id of the entity and the id
-     * of the file in the storage service for will be the same.
+     * of the file in the storage service for will be the same. The old logo is
+     * deleted automatically.
      * <p>
      * <strong>Passing <code>null</code> as the file ID will remove the current
      * tenant logo from the database and the default storage provider.</strong>
@@ -73,27 +75,35 @@ public class SetTenantLogoCommand extends TenantCommand {
             throws TransactionException {
         Tenant tenant = fetchTenant(evt.getSession());
 
-        if (fileId == null) {
-            File currentLogo = tenant.getLogo();
-            if (currentLogo != null) {
-                StorageProvider storage;
-                try {
-                    storage = StorageProviderFactory.getDefaultFactory()
-                            .getStorageProvider();
+        /*
+         * First we delete the old logo.
+         */
+        File currentLogo = tenant.getLogo();
+        if (currentLogo != null) {
+            StorageProvider storage;
+            try {
+                storage = StorageProviderFactory.getDefaultFactory()
+                        .getStorageProvider();
 
-                    storage.removeFile(currentLogo.getId());
-                    tenant.setLogo(null);
-                    evt.getSession().update(tenant);
-                    evt.getSession().delete(currentLogo);
-                } catch (Exception e) {
-                    if (e instanceof TransactionException) {
-                        throw (TransactionException) e;
-                    } else {
-                        throw new TransactionException(e);
-                    }
+                storage.removeFile(currentLogo.getId());
+                tenant.setLogo(null);
+                evt.getSession().update(tenant);
+                evt.getSession().delete(currentLogo);
+            } catch (Exception e) {
+                if (e instanceof TransactionException) {
+                    throw (TransactionException) e;
+                } else {
+                    throw new TransactionException(e);
                 }
             }
-        } else {
+        }
+
+        /*
+         * If desired, we set a new logo. Note the transaction anomaly if we
+         * cannot find the logo file entity: not every StorageProvider will roll
+         * back the removeFile invocation.
+         */
+        if (fileId != null) {
             File logo = (File) evt.getSession().get(File.class, fileId);
             if (logo == null) {
                 throw new EntityNotFoundException(File.class, fileId);
