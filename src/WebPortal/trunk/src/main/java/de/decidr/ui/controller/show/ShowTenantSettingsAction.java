@@ -16,27 +16,19 @@
 
 package de.decidr.ui.controller.show;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.DecidrGlobals;
-import de.decidr.model.acl.roles.TenantAdminRole;
-import de.decidr.model.exceptions.TransactionException;
+
+import de.decidr.model.acl.roles.Role;
+
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TenantSettingsComponent;
-import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
+
 
 /**
  * This action shows the TenantSettingsComponent in the content area
@@ -53,12 +45,12 @@ public class ShowTenantSettingsAction implements ClickListener {
 	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private Long userId = (Long) Main.getCurrent().getSession().getAttribute(
-			"userId");
+	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+			"role");
 
-	TenantFacade tenantFacade = new TenantFacade(new TenantAdminRole(userId));
+	TenantFacade tenantFacade = new TenantFacade(role);
 
-	FileFacade fileFacade = new FileFacade(new TenantAdminRole(userId));
+	FileFacade fileFacade = new FileFacade(role);
 
 	/*
 	 * (non-Javadoc)

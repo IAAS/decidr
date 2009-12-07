@@ -20,7 +20,7 @@ import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.controller.UIDirector;
@@ -44,8 +44,10 @@ public class ShowSystemSettingsAction implements ClickListener {
 	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	SystemFacade systemFacade = new SystemFacade(new SuperAdminRole((Long) Main
-			.getCurrent().getSession().getAttribute("userId")));
+	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+			"role");
+
+	SystemFacade systemFacade = new SystemFacade(role);
 
 	private Item systemSettingsItem = null;
 

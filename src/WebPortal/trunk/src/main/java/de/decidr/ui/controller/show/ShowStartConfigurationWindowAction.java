@@ -23,7 +23,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
@@ -45,12 +45,17 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class ShowStartConfigurationWindowAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private Long userId = (Long) session.getAttribute("userId");
+	private HttpSession session = Main.getCurrent().getSession();
+    
+    private Role role = (Role) session.getAttribute("role");
 
     private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-            new UserRole(userId));
+            role);
 
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 

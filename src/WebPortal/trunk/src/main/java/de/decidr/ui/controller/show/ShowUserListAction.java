@@ -19,9 +19,9 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
-import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
@@ -49,7 +49,9 @@ public class ShowUserListAction implements ClickListener {
 	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
 			"tenantId");
 	private Long userId = (Long) Main.getCurrent().getSession().getAttribute(
-			"userId");
+	"userId");
+	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+			"role");
 
 	/*
 	 * (non-Javadoc)
@@ -59,7 +61,7 @@ public class ShowUserListAction implements ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		userFacade = new UserFacade(new UserRole(userId));
+		userFacade = new UserFacade(role);
 		try {
 			siteFrame.setContent(new UserListComponent());
 			if (userFacade.getUserRoleForTenant(userId, tenantId).equals(

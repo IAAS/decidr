@@ -27,7 +27,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
@@ -45,12 +45,16 @@ import de.decidr.ui.view.windows.WorkItemWindow;
  */
 public class ShowWorkItemWindowAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
+	private Role role = (Role) session.getAttribute("role");
 
-	private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
-			userId));
+	private WorkItemFacade workItemFacade = new WorkItemFacade(role);
 
 	private Table table = null;
 
