@@ -16,7 +16,6 @@
 
 package de.decidr.ui.view.uibuilder;
 
-import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**

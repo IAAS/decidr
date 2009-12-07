@@ -39,7 +39,11 @@ import de.decidr.ui.controller.user.ChangeEmailAction;
 
 public class ChangeEmailWindow extends Window {
 
-    private VerticalLayout verticalLayout = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
 
     private Label infoLabel = null;

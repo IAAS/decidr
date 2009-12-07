@@ -35,7 +35,11 @@ import de.decidr.ui.controller.user.RefuseInvitationAction;
 
 public class InvitationDialogComponent extends Window {
 
-    private Long invitationId = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Long invitationId = null;
     private Long userId = null;
 
     private VerticalLayout verticalLayout = null;

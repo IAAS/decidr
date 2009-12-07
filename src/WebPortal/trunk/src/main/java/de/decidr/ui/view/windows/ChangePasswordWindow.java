@@ -36,7 +36,11 @@ import de.decidr.ui.controller.user.ChangePasswordAction;
 
 public class ChangePasswordWindow extends Window {
 
-    private VerticalLayout verticalLayout = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
 
     private Form passwordForm = null;

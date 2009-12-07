@@ -27,6 +27,11 @@ import com.vaadin.ui.Table;
  */
 public class WorkflowModelTable extends Table {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Container container = null;
 
 	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",

@@ -35,7 +35,11 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class ConfirmDialogWindow extends Window {
 
-    private VerticalLayout verticalLayout = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
 
     private Label infoLabel = null;

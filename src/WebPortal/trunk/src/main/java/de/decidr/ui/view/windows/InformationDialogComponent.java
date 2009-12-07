@@ -33,8 +33,12 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 
 public class InformationDialogComponent extends Window {
 
-    private VerticalLayout verticalLayout = null;
-    // private HorizontalLayout horizontalLayout = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private VerticalLayout verticalLayout = null;
 
     private Label infoLabel = null;
 

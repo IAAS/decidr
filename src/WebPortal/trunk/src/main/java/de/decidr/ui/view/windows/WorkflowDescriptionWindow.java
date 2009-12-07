@@ -22,7 +22,6 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Button.ClickEvent;
 
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.workflowmodel.CreateWorkflowModelAction;
@@ -36,6 +35,10 @@ import de.decidr.ui.controller.workflowmodel.CreateWorkflowModelAction;
  */
 public class WorkflowDescriptionWindow extends Window {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 	private VerticalLayout verticalLayout = null;
 	private HorizontalLayout buttonHorizontalLayout = null;
 
