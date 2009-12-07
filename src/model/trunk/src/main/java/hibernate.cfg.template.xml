@@ -4,6 +4,11 @@
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
+		<!--
+			uncomment the line below to log most sql statements that get sent to
+			the server
+		-->
+		<!--		<property name="show_sql">true</property>-->
 		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
 		<property name="hibernate.connection.characterEncoding">utf8</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
