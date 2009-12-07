@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA
+// Generated 07.12.2009 17:47:57 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,10 +11,6 @@ import java.util.Set;
  */
 public class WorkflowInstance implements java.io.Serializable {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
     private Long id;
     private DeployedWorkflowModel deployedWorkflowModel;
     private Server server;

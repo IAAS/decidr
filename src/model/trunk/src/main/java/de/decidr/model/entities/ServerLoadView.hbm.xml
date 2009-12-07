@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 16.11.2009 18:35:09 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 07.12.2009 17:48:00 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.ServerLoadView" table="server_load_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="long">
@@ -33,7 +33,9 @@
             <column name="`lastLoadUpdate`" length="19" />
         </property>
         <property name="serverType" type="string">
-            <column name="`serverType`" length="100" not-null="true" />
+            <column name="`serverType`" length="100" not-null="true">
+                <comment>unique web service identifier such as "EmailProxy"</comment>
+            </column>
         </property>
         <property name="numInstances" type="long">
             <column name="`numInstances`" not-null="true" />
