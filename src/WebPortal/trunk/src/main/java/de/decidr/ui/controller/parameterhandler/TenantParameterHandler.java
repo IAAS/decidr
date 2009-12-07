@@ -37,6 +37,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class TenantParameterHandler implements ParameterHandler {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = null;
 
 	private String tenantName = null;

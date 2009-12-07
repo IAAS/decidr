@@ -38,7 +38,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class LoginParameterHandler implements ParameterHandler{
 
-    private UserFacade userFacade = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private UserFacade userFacade = null;
     
     /* (non-Javadoc)
      * @see com.vaadin.terminal.ParameterHandler#handleParameters(java.util.Map)

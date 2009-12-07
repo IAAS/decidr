@@ -19,7 +19,6 @@ package de.decidr.ui.controller.parameterhandler;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import com.vaadin.terminal.ParameterHandler;
 
@@ -41,7 +40,10 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class ConfirmationParameterHandler implements ParameterHandler {
 
-    private HttpSession session = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 
     private UserFacade userFacade = null;
 
@@ -83,7 +85,6 @@ public class ConfirmationParameterHandler implements ParameterHandler {
         }
 
         if (confirmationId != null) {
-            session = Main.getCurrent().getSession();
             userFacade = new UserFacade(new UserRole(Long.parseLong(userId)));
 
             if (action.equals("email")) {

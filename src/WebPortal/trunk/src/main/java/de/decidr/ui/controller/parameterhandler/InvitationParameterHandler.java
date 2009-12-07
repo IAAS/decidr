@@ -42,7 +42,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class InvitationParameterHandler implements ParameterHandler {
 
-    private HttpSession session = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private HttpSession session = null;
     private UserFacade userFacade = null;
 
     private Long invitationId = null;
