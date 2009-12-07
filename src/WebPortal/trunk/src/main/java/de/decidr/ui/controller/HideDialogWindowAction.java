@@ -28,7 +28,12 @@ import de.decidr.ui.view.Main;
  */
 public class HideDialogWindowAction implements ClickListener {
 
-    @Override
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
     public void buttonClick(ClickEvent event) {
         Main.getCurrent().getMainWindow().removeWindow(
                 event.getButton().getWindow());

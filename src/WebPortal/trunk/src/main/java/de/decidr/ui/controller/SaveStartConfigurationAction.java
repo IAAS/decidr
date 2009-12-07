@@ -23,7 +23,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
 import de.decidr.model.exceptions.UserUnavailableException;
@@ -35,7 +35,6 @@ import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.windows.StartConfigurationWindow;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -47,6 +46,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class SaveStartConfigurationAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Form form = null;
 
 	private Tree tree = null;
@@ -56,10 +60,11 @@ public class SaveStartConfigurationAction implements ClickListener {
 	private Long workflowModelId = null;
 
 	private boolean checked = false;
+	
+	private Role role = (Role) Main.getCurrent().getSession().getAttribute("role");
 
 	private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-			new UserRole((Long) Main.getCurrent().getSession().getAttribute(
-					"userId")));
+			role);
 
 	/**
 	 * AT the constructor does not actually perform the save action~dh
@@ -93,10 +98,7 @@ public class SaveStartConfigurationAction implements ClickListener {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void buttonClick(ClickEvent event) {
-	    // AT see compile warning: stWindows is never read.
-		StartConfigurationWindow stWindow = (StartConfigurationWindow) event
-				.getSource();
+	public void buttonClick(ClickEvent event) {		
 		for (TRole role : tConfiguration.getRoles().getRole()) {
 			Collection<TActor> collect = tree.getChildren(role.getName());
 			if (collect.size() > 0) {

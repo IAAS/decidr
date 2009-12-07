@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.user.GetUserWithProfileCommand;
 import de.decidr.model.entities.UserProfile;
@@ -39,10 +40,16 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class SaveProfileAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Role role = (Role) session.getAttribute("role");
+    private UserFacade userFacade = new UserFacade(role);
 
     private ProfileSettingsComponent content = null;
 

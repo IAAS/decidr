@@ -15,16 +15,6 @@
  */
 
 package de.decidr.ui.controller;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.security.MessageDigest;
-
-import org.apache.log4j.Logger;
-
-import de.decidr.model.DecidrGlobals;
-import de.decidr.model.acl.Password;
-import de.decidr.model.logging.DefaultLogger;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.help.HelpDialogComponent;
 import de.decidr.ui.view.uibuilder.UIBuilder;
@@ -47,7 +37,6 @@ import de.decidr.ui.view.uibuilder.UIBuilder;
  */
 public class UIDirector {
 
-    private static String hash = null;
 
     private UIBuilder uiBuilder = null;
 
@@ -55,29 +44,6 @@ public class UIDirector {
 
     private HelpDialogComponent helpDialog = null;
     
-    
-    /**
-     * The default constructor
-     * 
-     */
-    public UIDirector() {
-        // Aleks, GH: document: why is this empty
-        // Generate hash to verify singleton object identity
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        DataOutputStream stream = new DataOutputStream(out);
-        try {
-            stream.writeLong(DecidrGlobals.getTime().getTimeInMillis());
-            stream.write(hashCode());
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            hash = Password.getDigestNotation(digest.digest(out.toByteArray()));
-        } catch (Exception e) {
-            if (e instanceof RuntimeException) {
-                throw (RuntimeException) e;
-            } else {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
     /**
      * Constructs the view which is shown to the user. Here the header, the

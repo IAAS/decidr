@@ -16,6 +16,7 @@
 
 package de.decidr.ui.controller;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,7 +31,7 @@ import com.vaadin.ui.Upload.SucceededListener;
 
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.ui.view.DeleteUploadComponent;
@@ -44,17 +45,24 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-public class UploadFileStartConfigurationAction implements FailedListener, Receiver,
-		SucceededListener {
+public class UploadFileStartConfigurationAction implements FailedListener,
+		Receiver, SucceededListener {
+
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private StartConfigurationWindow startConfigurationWindow = new StartConfigurationWindow();
 
 	private DeleteUploadComponent deleteUploadComponent = new DeleteUploadComponent();
 
-	private java.io.File file = null;
+	private File file = null;
 
-	private FileFacade fileFacade = new FileFacade(new UserRole((Long) Main
-			.getCurrent().getSession().getAttribute("userId")));
+	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+			"role");
+
+	private FileFacade fileFacade = new FileFacade(role);
 
 	private Long fileId = null;
 
@@ -94,7 +102,7 @@ public class UploadFileStartConfigurationAction implements FailedListener, Recei
 			startConfigurationWindow.getUpload().setVisible(false);
 			startConfigurationWindow.getAssignmentForm().getLayout()
 					.addComponent(deleteUploadComponent);
-			
+
 			Main.getCurrent().getMainWindow().setData(fileId);
 		} catch (FileNotFoundException exception) {
 			Main.getCurrent().getMainWindow()
@@ -119,8 +127,6 @@ public class UploadFileStartConfigurationAction implements FailedListener, Recei
 				"File " + event.getFilename() + "uplaod not successful!");
 
 	}
-
-	
 
 	/*
 	 * (non-Javadoc)

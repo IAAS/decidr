@@ -33,7 +33,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class ConfirmInvitationAction implements ClickListener {
 
-    private Long userId = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Long userId = null;
     private UserFacade userFacade = null;
 
     private Long invitationId = null;

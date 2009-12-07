@@ -25,7 +25,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
@@ -40,11 +40,16 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 @Reviewed(reviewers = { "TK", "DH", "RR" }, lastRevision = "2179")
 public class AppointWorkflowAdminAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private Long userId = (Long) session.getAttribute("userId");
+	private HttpSession session = Main.getCurrent().getSession();
+
+    private Role role = (Role) session.getAttribute("role");
     private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(
-            new TenantAdminRole(userId));
+            role);
 
     private Form appointForm = null;
     private Long wfmId = null;

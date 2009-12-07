@@ -22,7 +22,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.WorkflowAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowInstanceFacade;
 import de.decidr.ui.view.Main;
@@ -36,11 +36,16 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class TerminateWorkflowInstanceAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
+	private Role role = (Role) session.getAttribute("role");
 	private WorkflowInstanceFacade wfiFacade = new WorkflowInstanceFacade(
-			new WorkflowAdminRole(userId));
+			role);
 
 	private Table table = null;
 

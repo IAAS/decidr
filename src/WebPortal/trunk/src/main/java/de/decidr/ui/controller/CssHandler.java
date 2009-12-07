@@ -44,7 +44,6 @@ import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.workflowmodel.dwdl.Notification;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.TenantSettingsComponent;
 import de.decidr.ui.view.windows.InformationDialogComponent;

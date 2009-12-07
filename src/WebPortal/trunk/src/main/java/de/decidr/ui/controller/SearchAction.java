@@ -30,7 +30,11 @@ import com.vaadin.ui.Button.ClickListener;
  */
 public class SearchAction implements ClickListener {
 
-    private Table searchTable = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Table searchTable = null;
     private TextField searchField = null;
 
     /**

@@ -22,7 +22,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
@@ -37,14 +37,20 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class SaveWorkItemAction implements ClickListener {
 
-    private Form form = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Form form = null;
 
     private THumanTaskData tHumanTaskData = null;
     
     private Long workItemId = null;
+    
+    private Role role = (Role) Main.getCurrent().getSession().getAttribute("role");
 
-    private WorkItemFacade workItemFacade = new WorkItemFacade(new UserRole(
-            (Long) Main.getCurrent().getSession().getAttribute("userId")));
+    private WorkItemFacade workItemFacade = new WorkItemFacade(role);
 
     /**
      * Constructor which has a form and a tHumanTaskData as parameter so the
