@@ -772,7 +772,7 @@ CREATE TABLE IF NOT EXISTS `decidrdb`.`server_load_view` (`id` INT, `location` I
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`tenant_summary_view`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_summary_view` (`id` INT, `tenantName` INT, `adminFirstName` INT, `adminLastName` INT, `numWorkflowModels` INT, `numDeployedWorkflowModels` INT, `numWorkflowInstances` INT, `numMembers` INT);
+CREATE TABLE IF NOT EXISTS `decidrdb`.`tenant_summary_view` (`id` INT, `tenantName` INT, `approvedSince` INT, `adminFirstName` INT, `adminLastName` INT, `numWorkflowModels` INT, `numDeployedWorkflowModels` INT, `numWorkflowInstances` INT, `numMembers` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `decidrdb`.`tenant_with_admin_view`
@@ -831,26 +831,34 @@ DROP TABLE IF EXISTS `decidrdb`.`tenant_summary_view`;
 #Retrieves a tenant summary including the number of (deployed) workflow models, worfklow instances and users.
 
 CREATE  OR REPLACE VIEW `decidrdb`.`tenant_summary_view` AS
-SELECT DISTINCT t.id AS id, t.`name` AS tenantName,
+SELECT t.id AS id, t.`name` AS tenantName,
+                t.approvedSince AS approvedSince,
                 a.`firstName` AS adminFirstName, 
                 a.`lastName` AS adminLastName,
-                COUNT(wfm.id) AS numWorkflowModels, 
-                COUNT(dwfm.id) AS numDeployedWorkflowModels, 
-                COUNT(wfi.id) AS numWorkflowInstances, 
-                COUNT(u.id) + 1 AS numMembers
-FROM `tenant` AS t,
-     `user_profile` AS a, 
-     `user` AS u, 
-     `workflow_model` AS wfm, 
-     `deployed_workflow_model` AS dwfm,
-     `workflow_instance` AS wfi,
-     `user_is_member_of_tenant` AS member
-WHERE (t.adminId = a.id) AND 
-      (member.userId = u.id) AND (member.tenantId = t.id) AND
-      (wfm.tenantId = t.id) AND
-      (dwfm.tenantId = t.id) AND
-      (wfi.deployedWorkflowModelId = dwfm.id)
-GROUP BY t.id, t.`name`;
+                (
+                    SELECT COUNT(wfm.id) 
+                    FROM  `workflow_model` AS wfm 
+                    WHERE  (wfm.tenantId = t.id) 
+                ) AS numWorkflowModels, 
+                (
+                    SELECT COUNT(dwfm.id)
+                    FROM deployed_workflow_model AS dwfm 
+                    WHERE (dwfm.tenantId = t.id)
+                ) AS numDeployedWorkflowModels, 
+                (
+                    SELECT COUNT(wfi.id)
+                    FROM workflow_instance AS wfi,
+                              deployed_workflow_model AS dwfm
+                    WHERE (wfi.deployedWorkflowModelId = dwfm.id)
+                    AND (dwfm.tenantId = t.id)
+                ) AS numWorkflowInstances , 
+                (
+                    SELECT COUNT(*) + 1 FROM 
+                    user_is_member_of_tenant AS member 
+                    WHERE (member.tenantId = t.id)
+                ) AS numMembers
+FROM tenant AS t
+LEFT JOIN `user_profile` AS a ON (t.adminId = a.id);
 
 -- -----------------------------------------------------
 -- View `decidrdb`.`tenant_with_admin_view`
