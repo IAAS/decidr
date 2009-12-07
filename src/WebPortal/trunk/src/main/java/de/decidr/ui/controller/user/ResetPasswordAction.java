@@ -37,6 +37,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class ResetPasswordAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// private Long userId = (Long) session.getAttribute("userId");
 	private UserFacade userFacade = new UserFacade(new UserRole());
 

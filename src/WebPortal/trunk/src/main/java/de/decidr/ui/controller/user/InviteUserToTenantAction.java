@@ -25,7 +25,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
@@ -38,10 +38,15 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class InviteUserToTenantAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+	private Role role = (Role) session.getAttribute("role");
+	private TenantFacade tenantFacade = new TenantFacade(role);
 
 	private Form inviteForm = null;
 	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(

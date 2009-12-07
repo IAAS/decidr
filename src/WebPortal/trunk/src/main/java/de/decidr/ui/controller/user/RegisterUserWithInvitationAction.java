@@ -36,7 +36,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class RegisterUserWithInvitationAction implements ClickListener {
 
-    private UserFacade userFacade = new UserFacade(new UserRole());
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private UserFacade userFacade = new UserFacade(new UserRole());
 
     private Form settingsForm = null;
     private Long invitationId = null;

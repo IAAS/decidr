@@ -16,8 +16,6 @@
 
 package de.decidr.ui.controller.user;
 
-import javax.servlet.http.HttpSession;
-
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -34,7 +32,10 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class RefuseInvitationAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 
     private Long userId = null;
     private UserFacade userFacade = null;

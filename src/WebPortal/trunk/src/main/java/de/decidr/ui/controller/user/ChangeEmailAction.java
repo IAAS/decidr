@@ -28,7 +28,7 @@ import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
@@ -37,10 +37,16 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 public class ChangeEmailAction implements ClickListener {
 
-    private HttpSession session = Main.getCurrent().getSession();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
-    private UserFacade userFacade = new UserFacade(new UserRole(userId));
+    private Role role = (Role) session.getAttribute("role");
+    private UserFacade userFacade = new UserFacade(role);
 
     private Item email = null;
 
