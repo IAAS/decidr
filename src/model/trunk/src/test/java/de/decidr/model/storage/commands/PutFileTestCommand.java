@@ -21,7 +21,7 @@ import java.io.FileInputStream;
 
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.storage.HibernateEntityStorageProvider;
+import de.decidr.model.storage.hibernate.HibernateEntityStorageProvider;
 import de.decidr.model.transactions.TransactionEvent;
 
 public class PutFileTestCommand extends AbstractTransactionalCommand {

@@ -14,17 +14,15 @@
  * under the License.
  */
 
-package de.decidr.model.storage;
+package de.decidr.model.storage.hibernate;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.hibernate.EntityMode;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 
@@ -32,6 +30,7 @@ import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 
 /**
@@ -89,12 +88,26 @@ public class HibernateEntityStorageProvider implements StorageProvider {
      */
     public static final String CONFIG_KEY_CREATE_ENTITY = "createEntity";
 
+    /**
+     * Fully qualified name of the class that is used to create new file
+     * entities. This setting is optional, if not set the default is used (see
+     * below).
+     */
+    public static final String CONFIG_KEY_ENTITY_INITIALIZER = "entityInitializer";
+
+    /**
+     * Default file entity initializer.
+     */
+    public static final String DEFAULT_ENTITY_INITIALIZER = "de.decidr.model.storage.hibernate.DefaultFileEntityInitializer";
+
     private static Logger logger = DefaultLogger
             .getLogger(HibernateEntityStorageProvider.class);
 
     private String entityTypeName = null;
     private String dataPropertyName = null;
     private String idPropertyName = null;
+    private String entityInitializerClass = null;
+
     /**
      * Whether removing a file should also remove the entity. If set to false,
      * the data property is set to null when deleting a file.
@@ -167,6 +180,8 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                 CONFIG_KEY_DELETE_ENTITY, "false"));
         createEntity = Boolean.valueOf(config.getProperty(
                 CONFIG_KEY_CREATE_ENTITY, "false"));
+        entityInitializerClass = config.getProperty(
+                CONFIG_KEY_ENTITY_INITIALIZER, DEFAULT_ENTITY_INITIALIZER);
 
         if (entityTypeName == null || entityTypeName.isEmpty()) {
             throw new IncompleteConfigurationException(
@@ -309,32 +324,39 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                     Object newEntity = session.getSessionFactory()
                             .getClassMetadata(entityTypeName).instantiate(
                                     fileId, EntityMode.POJO);
+                    logger.debug("Creating new file entity of type "
+                            + entityTypeName);
+                    initNewFileEntity(newEntity);
                     session.save(newEntity);
                 }
             }
 
             // at this point we may assume that the entity identified by fileId
             // exists.
-            int updatedRows = session.createQuery(
-                    "update " + entityTypeName + " f set f." + dataPropertyName
-                            + "=:bytes where f." + idPropertyName + "="
-                            + fileId.toString()).setBinary("bytes", bytes)
-                    .executeUpdate();
+            String hql = "update " + entityTypeName + " f set f."
+                    + dataPropertyName + " = :bytes where f." + idPropertyName
+                    + " = " + fileId.toString();
+            logger.debug("HQL query: " + hql);
+            int updatedRows = session.createQuery(hql)
+                    .setBinary("bytes", bytes).executeUpdate();
 
             if (updatedRows == 0) {
                 // The user has set createEntity to false, but forgot to create
                 // an entity himself.
                 String message = String
                         .format(
-                                "Cannot put file since there is no existing entity for ID %1$s.\n"
+                                "Cannot put file since there is "
+                                        + "no existing entity for ID %1$s.\n"
                                         + "Please create a corresponding %2$s entity first.",
                                 fileId, entityTypeName);
                 throw new StorageException(message);
             }
-        } catch (HibernateException e) {
-            throw new StorageException(e);
-        } catch (IOException e) {
-            throw new StorageException(e);
+        } catch (Exception e) {
+            if (e instanceof StorageException) {
+                throw (StorageException) e;
+            } else {
+                throw new StorageException(e);
+            }
         }
     }
 
@@ -357,5 +379,38 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         logger.debug("HQL query: " + hql);
 
         getCurrentSession().createQuery(hql).executeUpdate();
+    }
+
+    /**
+     * Initializes the given file entity with default values for all properties
+     * that are not nullable.
+     * 
+     * @param entity
+     *            entity to initialize
+     * @throws ClassNotFoundException
+     *             if the entity initializer class cannot be found.
+     * @throws IllegalAccessException
+     *             if the entity initalizer cannot be instantiated because its
+     *             parameterless constructor is not visible.
+     * @throws InstantiationException
+     *             if the entity initializer cannot be instantiated.
+     * @throws ClassCastException
+     *             if the provided file entity initializer class does not
+     *             actually implement {@link FileEntityInitializer}
+     */
+    private void initNewFileEntity(Object entity)
+            throws ClassNotFoundException, StorageException,
+            InstantiationException, IllegalAccessException {
+        logger.debug("Initializing new file entity.");
+        Class<?> clazz = Class.forName(entityInitializerClass);
+        if (!FileEntityInitializer.class.isAssignableFrom(clazz)) {
+            throw new ClassCastException("Given file entity initializer '"
+                    + entityInitializerClass
+                    + "' does not implement FileEntityInitializer interface.");
+        }
+
+        FileEntityInitializer instance = (FileEntityInitializer) clazz
+                .newInstance();
+        instance.initEntity(entity);
     }
 }

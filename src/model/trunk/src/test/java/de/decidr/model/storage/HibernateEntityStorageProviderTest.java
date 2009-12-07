@@ -36,6 +36,7 @@ import de.decidr.model.storage.commands.PutFileTestCommand;
 import de.decidr.model.storage.commands.PutFileTestFaultyCommand;
 import de.decidr.model.storage.commands.RemoveFileFaultyTestCommand;
 import de.decidr.model.storage.commands.RemoveFileTestCommand;
+import de.decidr.model.storage.hibernate.HibernateEntityStorageProvider;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 

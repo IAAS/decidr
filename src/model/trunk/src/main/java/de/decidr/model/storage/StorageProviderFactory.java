@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.storage.hibernate.HibernateEntityStorageProvider;
 
 /**
  * A factory that can be used to create a <code>{@link StorageProvider}</code>
