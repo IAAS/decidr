@@ -16,7 +16,6 @@
 
 package de.decidr.ui.controller.authentication;
 
-
 import javax.servlet.http.HttpSession;
 
 import de.decidr.model.DecidrGlobals;
@@ -90,7 +89,7 @@ public class Login {
 		if (session.getAttribute("tenantId") == null) {
 			tenantId = userFacade.getCurrentTenantId(userId);
 		} else {
-			tenantId = (Long)session.getAttribute("tenantId");
+			tenantId = (Long) session.getAttribute("tenantId");
 			userFacade.setCurrentTenantId(userId, tenantId);
 		}
 
@@ -111,7 +110,7 @@ public class Login {
 		Role roleInstance = null;
 		try {
 			roleInstance = role.getConstructor(Long.class).newInstance(userId);
-		} catch(Exception exception){
+		} catch (Exception exception) {
 			throw new RuntimeException(exception);
 		}
 
@@ -123,45 +122,49 @@ public class Login {
 
 	}
 
-	
-	public void loginById(Long userId, String authentificationKey) throws EntityNotFoundException, TransactionException{
-	    userFacade = new UserFacade(new UserRole(userId));
+	public void loginById(Long userId, String authentificationKey)
+			throws EntityNotFoundException, TransactionException {
+		userFacade = new UserFacade(new UserRole(userId));
 
-            if (userFacade.authKeyMatches(userId, authentificationKey)){
-                HttpSession session = Main.getCurrent().getSession();
-                
-                if (session.getAttribute("tenantId") == null) {
-                    tenantId = userFacade.getCurrentTenantId(userId);
-                } else {
-                        tenantId = (Long)session.getAttribute("tenantId");
-                        userFacade.setCurrentTenantId(userId, tenantId);
-                }
-    
-                if (tenantId == null) {
-                        tenant = DecidrGlobals.getDefaultTenant();
-                        tenantId = tenant.getId();
-                        userFacade.setCurrentTenantId(userId, tenantId);
-                }
-    
-                GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(
-                                new SuperAdminRole(DecidrGlobals.getSettings().getSuperAdmin()
-                                                .getId()), tenantId);
-                HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-                Tenant tenant = cmd.getTenantSettings();
-                tenantName = tenant.getName();
-    
-                role = userFacade.getUserRoleForTenant(userId, tenantId);
-    
-                session.setAttribute("userId", userId);
-                session.setAttribute("tenantId", tenantId);
-                session.setAttribute("role", role);
-    
-                loadProtectedResources();    
-	    }
+		if (userFacade.authKeyMatches(userId, authentificationKey)) {
+			HttpSession session = Main.getCurrent().getSession();
+
+			if (session.getAttribute("tenantId") == null) {
+				tenantId = userFacade.getCurrentTenantId(userId);
+			} else {
+				tenantId = (Long) session.getAttribute("tenantId");
+				userFacade.setCurrentTenantId(userId, tenantId);
+			}
+
+			if (tenantId == null) {
+				tenant = DecidrGlobals.getDefaultTenant();
+				tenantId = tenant.getId();
+				userFacade.setCurrentTenantId(userId, tenantId);
+			}
+
+			GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(
+					new SuperAdminRole(DecidrGlobals.getSettings()
+							.getSuperAdmin().getId()), tenantId);
+			HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+			Tenant tenant = cmd.getTenantSettings();
+			tenantName = tenant.getName();
+
+			role = userFacade.getUserRoleForTenant(userId, tenantId);
+			Role roleInstance = null;
+			try {
+				roleInstance = role.getConstructor(Long.class).newInstance(userId);
+			} catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+
+			session.setAttribute("userId", userId);
+			session.setAttribute("tenantId", tenantId);
+			session.setAttribute("role", roleInstance);
+
+			loadProtectedResources();
+		}
 	}
-	
-	
-	
+
 	/**
 	 * Loads the protected resources if and only if the user is logged in.
 	 * 

@@ -22,7 +22,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
@@ -39,9 +39,14 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class SaveTenantSettingsAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = null;
 
-	private Long userId = null;
+	private Role role = null;
 	private Long fileId = null;
 	private TenantFacade tenantFacade = null;
 	private FileFacade fileFacade = null;
@@ -56,9 +61,9 @@ public class SaveTenantSettingsAction implements ClickListener {
 	@Override
 	public void buttonClick(ClickEvent event) {
 		session = Main.getCurrent().getSession();
-		userId = (Long) session.getAttribute("userId");
-		tenantFacade = new TenantFacade(new TenantAdminRole(userId));
-		fileFacade = new FileFacade(new TenantAdminRole(userId));
+		role = (Role) session.getAttribute("role");
+		tenantFacade = new TenantFacade(role);
+		fileFacade = new FileFacade(role);
 		content = (TenantSettingsComponent) Main.getCurrent().getUIDirector()
 				.getTemplateView().getContent();
 		Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
@@ -69,10 +74,14 @@ public class SaveTenantSettingsAction implements ClickListener {
 
 			fileId = (Long) Main.getCurrent().getMainWindow().getData();
 			if (fileId != null) {
-			    Main.getCurrent().getMainWindow().showNotification(fileId.toString(),Window.Notification.TYPE_ERROR_MESSAGE);
+				Main.getCurrent().getMainWindow().showNotification(
+						fileId.toString(),
+						Window.Notification.TYPE_ERROR_MESSAGE);
 				tenantFacade.setLogo(tenantId, fileId);
-			}else{
-			    Main.getCurrent().getMainWindow().showNotification("file id is null",Window.Notification.TYPE_ERROR_MESSAGE);
+			} else {
+				Main.getCurrent().getMainWindow().showNotification(
+						"file id is null",
+						Window.Notification.TYPE_ERROR_MESSAGE);
 			}
 
 			CssHandler cssHandler = new CssHandler(content);

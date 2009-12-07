@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
@@ -43,8 +43,8 @@ public class TenantView {
 
 	private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+	private Role role = (Role) session.getAttribute("role");
+	private TenantFacade tenantFacade = new TenantFacade(role);
 
 	private String tenantName = null;
 	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
@@ -67,12 +67,27 @@ public class TenantView {
 		try {
 			tenantName = tenantFacade.getTenant(tenantId).getName();
 
-			cssFile = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator +
-			                "themes" + File.separator + tenantName
-					+ File.separator + "styles.css");
-			logoFile = new File(Main.getCurrent().getContext().getBaseDirectory().getPath() + File.separator + "VAADIN" + File.separator +
-			                "themes" + File.separator + tenantName
-					+ File.separator + "img" + File.separator + "logo.png");
+			cssFile = new File(Main.getCurrent().getContext()
+					.getBaseDirectory().getPath()
+					+ File.separator
+					+ "VAADIN"
+					+ File.separator
+					+ "themes"
+					+ File.separator
+					+ tenantName
+					+ File.separator
+					+ "styles.css");
+			logoFile = new File(Main.getCurrent().getContext()
+					.getBaseDirectory().getPath()
+					+ File.separator
+					+ "VAADIN"
+					+ File.separator
+					+ "themes"
+					+ File.separator
+					+ tenantName
+					+ File.separator
+					+ "img"
+					+ File.separator + "logo.png");
 
 			css = tenantFacade.getCurrentColorScheme(tenantId);
 			if (css == null) {

@@ -40,6 +40,10 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class RegisterTenantAction implements ClickListener {
 	
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
 

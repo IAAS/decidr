@@ -35,6 +35,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 import de.decidr.ui.view.uibuilder.SuperAdminViewBuilder;
 import de.decidr.ui.view.uibuilder.TenantAdminViewBuilder;
 import de.decidr.ui.view.uibuilder.UIBuilder;
@@ -52,113 +53,121 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class SwitchTenantAction implements ClickListener {
 
-    /**
+	/**
 	 * Serial version uid
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private String tenantName = null;
 
-    private HttpSession session = null;
-    private Class<? extends Role> role = null;
-    private Class<? extends Role> oldRole = null;
+	private HttpSession session = null;
+	private Class<? extends Role> role = null;
+	private Role oldRole = null;
 
-    private Long userId = null;
-    private UserFacade userFacade = null;
+	private Long userId = null;
+	private UserFacade userFacade = null;
 
-    private Long tenantId = null;
+	private Long tenantId = null;
 
-    private Table table = null;
+	private Table table = null;
 
-    private UIBuilder uiBuilder = null;
-    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+	private UIBuilder uiBuilder = null;
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
-    /**
-     * Constructor which is given a tenant name to determine to which tenant the
-     * user wants to switch
-     * 
-     */
-    public SwitchTenantAction(Table table) {
-        this.table = table;
-    }
+	/**
+	 * Constructor which is given a tenant name to determine to which tenant the
+	 * user wants to switch
+	 * 
+	 */
+	public SwitchTenantAction(Table table) {
+		this.table = table;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public void buttonClick(ClickEvent event) {
-    	Set<?> set = (Set<?>) table.getValue();
-        if (table.getValue() != null && set.size() == 1) {
-        	Iterator<?> iter = set.iterator();
-        	while(iter.hasNext()){
-        		Item item = (Item) iter.next();
-        		try {
-                    session = Main.getCurrent().getSession();
-                    userId = (Long) session.getAttribute("userId");
-                    oldRole = (Class<Role>) session.getAttribute("role");
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void buttonClick(ClickEvent event) {
+		Set<?> set = (Set<?>) table.getValue();
+		if (table.getValue() != null && set.size() == 1) {
+			Iterator<?> iter = set.iterator();
+			while (iter.hasNext()) {
+				Item item = (Item) iter.next();
+				try {
+					session = Main.getCurrent().getSession();
+					userId = (Long) session.getAttribute("userId");
+					oldRole = (Role) session.getAttribute("role");
 
-                    userFacade = new UserFacade(new UserRole(userId));
+					userFacade = new UserFacade(new UserRole(userId));
 
-                    tenantName = item.getItemProperty(
-                            "name").getValue().toString();
-                    tenantId = (Long) item
-                            .getItemProperty("id").getValue();
-                    role = userFacade.getUserRoleForTenant(userId, tenantId);
+					tenantName = item.getItemProperty("name").getValue()
+							.toString();
+					tenantId = (Long) item.getItemProperty("id").getValue();
 
-                    userFacade.setCurrentTenantId(userId, tenantId);
+					role = userFacade.getUserRoleForTenant(userId, tenantId);
+					Role roleInstance = role.getConstructor(Long.class)
+							.newInstance(userId);
 
-                    session.setAttribute("tenant", tenantName);
-                    session.setAttribute("role", role);
+					userFacade.setCurrentTenantId(userId, tenantId);
 
-                    loadProtectedResources();
+					session.setAttribute("tenantId", tenantId);
+					session.setAttribute("role", roleInstance);
 
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent("Switched to "
-                                    + tenantName, "Success"));
-                } catch (TransactionException exception) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(exception));
-                }
-                
-        	}
-        	
-        } else {
-        	Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent("Please select an item",
-                            "Information"));
-        }
+					loadProtectedResources();
 
-    }
+					Main.getCurrent().getMainWindow().addWindow(
+							new InformationDialogComponent("Switched to "
+									+ tenantName, "Success"));
+				} catch (TransactionException exception) {
+					Main.getCurrent().getMainWindow().addWindow(
+							new TransactionErrorDialogComponent(exception));
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
 
-    /**
-     * Loads the protected resources if and only if the user is logged in.
-     * 
-     */
-    private void loadProtectedResources() {
-        if (UserRole.class.equals(role) || role == null) {
-            uiBuilder = new UserViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (WorkflowAdminRole.class.equals(role)) {
-            uiBuilder = new WorkflowAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (TenantAdminRole.class.equals(role)) {
-            uiBuilder = new TenantAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (SuperAdminRole.class.equals(role)) {
-            uiBuilder = new SuperAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Role class not found");
-        }
-        if (!oldRole.equals(role)) {
-            uiDirector.constructView();
-        }
+			}
 
-        Main.getCurrent().setTheme(tenantName);
-    }
+		} else {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent("Please select an item",
+							"Information"));
+		}
+
+	}
+
+	/**
+	 * Loads the protected resources if and only if the user is logged in.
+	 * 
+	 */
+	private void loadProtectedResources() {
+		TenantView tenantView = new TenantView();
+		if (UserRole.class.equals(role) || role == null) {
+			uiBuilder = new UserViewBuilder();
+			uiDirector.setUiBuilder(uiBuilder);
+		} else if (WorkflowAdminRole.class.equals(role)) {
+			uiBuilder = new WorkflowAdminViewBuilder();
+			uiDirector.setUiBuilder(uiBuilder);
+		} else if (TenantAdminRole.class.equals(role)) {
+			uiBuilder = new TenantAdminViewBuilder();
+			uiDirector.setUiBuilder(uiBuilder);
+		} else if (SuperAdminRole.class.equals(role)) {
+			uiBuilder = new SuperAdminViewBuilder();
+			uiDirector.setUiBuilder(uiBuilder);
+		} else {
+			Main.getCurrent().getMainWindow().showNotification(
+					"Role class not found");
+		}
+		if (!oldRole.getClass().equals(role)) {
+			tenantView.synchronize();
+			uiDirector.constructView();
+			((HorizontalNavigationMenu) uiDirector.getTemplateView()
+					.getHNavigation()).getLogoutButton().setVisible(true);
+		}
+
+		Main.getCurrent().setTheme(tenantName);
+	}
 }

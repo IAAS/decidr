@@ -23,7 +23,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
@@ -43,11 +42,17 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class CreateTenantAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HttpSession session = Main.getCurrent().getSession();
 
 	private Long userId = (Long) session.getAttribute("userId");
-	private TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
-	private UserFacade userFacade = new UserFacade(new UserRole(userId));
+	private Role role = (Role) session.getAttribute("role");
+	private TenantFacade tenantFacade = new TenantFacade(role);
+	private UserFacade userFacade = new UserFacade(role);
 
 	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private TenantAdminViewBuilder tenantAdminViewBuilder = new TenantAdminViewBuilder();
@@ -90,9 +95,10 @@ public class CreateTenantAction implements ClickListener {
 						.toString(), userId);
 				userFacade.setCurrentTenantId(userId, tenantId);
 				
-				Class<? extends Role> role = userFacade.getHighestUserRole(userId);
+				Class<? extends Role> roleClass = userFacade.getHighestUserRole(userId);
+				Role roleInstance = roleClass.getConstructor(Long.class).newInstance(userId);
 				
-				Main.getCurrent().getSession().setAttribute("role", role);
+				Main.getCurrent().getSession().setAttribute("role", roleInstance);
 				Main.getCurrent().getSession().setAttribute("tenant", tenantName);
 				
 				Main.getCurrent().getMainWindow().addWindow(
@@ -105,7 +111,9 @@ public class CreateTenantAction implements ClickListener {
 			} catch (TransactionException e) {
 				Main.getCurrent().getMainWindow().addWindow(
 						new TransactionErrorDialogComponent(e));
-			}
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			} 
 		} else {
 			Main.getCurrent().getMainWindow().addWindow(
 					new InformationDialogComponent(

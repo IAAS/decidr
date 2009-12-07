@@ -32,6 +32,10 @@ import de.decidr.ui.view.TenantSettingsComponent;
  */
 public class RestoreDefaultTenantSettingsAction implements ClickListener {
 	
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 	UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	SiteFrame siteFrame = uiDirector.getTemplateView();
 

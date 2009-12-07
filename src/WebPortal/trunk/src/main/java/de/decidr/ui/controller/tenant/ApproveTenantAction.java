@@ -28,7 +28,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
@@ -49,9 +49,8 @@ public class ApproveTenantAction implements ClickListener {
 
 	private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private TenantFacade tenantFacade = new TenantFacade(new SuperAdminRole(
-			userId));
+	private Role role = (Role) session.getAttribute("userId");
+	private TenantFacade tenantFacade = new TenantFacade(role);
 
 	private Table table = null;
 
@@ -78,7 +77,7 @@ public class ApproveTenantAction implements ClickListener {
 		if ((value != null) && (value.size() != 0)) {
 			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
 				Item item = (Item) iter.next();
-				tenants.add((Long)item.getItemProperty("id").getValue());
+				tenants.add((Long) item.getItemProperty("id").getValue());
 			}
 		}
 		try {
