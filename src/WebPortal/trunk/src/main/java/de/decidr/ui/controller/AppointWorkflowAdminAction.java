@@ -27,6 +27,7 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
@@ -37,19 +38,18 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = { "TK", "DH", "RR" }, lastRevision = "2179")
+@Reviewed(reviewers = { "TK", "DH", "RR" }, lastRevision = "2179", currentReviewState = State.NeedsReview)
 public class AppointWorkflowAdminAction implements ClickListener {
 
     /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+     * Serial version uid
+     */
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
-    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(
-            role);
+    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
 
     private Form appointForm = null;
     private Long wfmId = null;

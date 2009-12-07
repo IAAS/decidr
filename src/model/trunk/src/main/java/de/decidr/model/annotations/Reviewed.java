@@ -41,4 +41,14 @@ public @interface Reviewed {
      * The SVN revision reviewed by the last reviewer.
      */
     String lastRevision();
+
+    /**
+     * Indicates the current review {@link State}. Should be changed every
+     * review or set to {@link State#NeedsReview} whenever a big change is made.
+     */
+    State currentReviewState();
+
+    public enum State {
+        Passed, Rejected, PassedWithComments, NeedsReview
+    }
 }

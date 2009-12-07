@@ -25,6 +25,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.AppointWorkflowAdminAction;
 
 /**
@@ -33,7 +34,7 @@ import de.decidr.ui.controller.AppointWorkflowAdminAction;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = "RR", lastRevision = "2048")
+@Reviewed(reviewers = "RR", lastRevision = "2048", currentReviewState = State.PassedWithComments)
 public class AppointWorkflowAdminComponent extends CustomComponent {
 
     private Integer userCounter = 0;

@@ -23,6 +23,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.AppointWorkflowAdminComponent;
 import de.decidr.ui.view.Main;
@@ -34,14 +35,11 @@ import de.decidr.ui.view.SiteFrame;
  * 
  * @author AT
  */
-@Reviewed(reviewers = "RR", lastRevision = "2173")
+@Reviewed(reviewers = "RR", lastRevision = "2173", currentReviewState = State.Rejected)
 public class ShowAppointWorkflowAdminAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private static final long serialVersionUID = 1L;
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     private Table table = null;

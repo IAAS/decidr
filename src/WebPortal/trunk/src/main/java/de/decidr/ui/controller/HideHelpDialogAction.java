@@ -20,6 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
 
 /**
@@ -27,15 +28,12 @@ import de.decidr.ui.view.Main;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = "RR", lastRevision = "2179")
+@Reviewed(reviewers = "RR", lastRevision = "2179", currentReviewState = State.Passed)
 public class HideHelpDialogAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
