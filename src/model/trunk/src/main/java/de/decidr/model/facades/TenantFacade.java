@@ -428,12 +428,13 @@ public class TenantFacade extends AbstractFacade {
      * The returned items contain the following properties:<br>
      * <ul>
      * <li>id: {@link Long} - user id</li>
-     * <li>username {@link String} - username (only if the user is registered)</li>
-     * <li>firstName {@link String} - user first name (only if the user is
+     * <li>username: {@link String} - username (only present if the user is
      * registered)</li>
-     * <li>lastName {@link String} - user last name (only if the user is
-     * registered)</li>
-     * <li>email</li>
+     * <li>firstName: {@link String} - user first name (only present if the user
+     * is registered)</li>
+     * <li>lastName: {@link String} - user last name (only present if the user
+     * is registered)</li>
+     * <li>email: String - user's email address</li>
      * </ul>
      * 
      * @param tenantId
