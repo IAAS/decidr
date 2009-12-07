@@ -26,29 +26,32 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.ui.data.WorkflowModelContainer;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * Aleks: add comment
+ * This class removes workflow models from the ui table
  * 
  * @author AT
  */
 public class RemoveWorkflowModelsAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-			new TenantAdminRole((Long) Main.getCurrent().getSession()
-					.getAttribute("userId")));
+			(Role) Main.getCurrent().getSession().getAttribute("role"));
 
 	private Table table = null;
 
 	/**
-	 * Aleks: add comment
+	 * Default constructor which stores the given table to get the selected item
 	 * 
 	 */
 	public RemoveWorkflowModelsAction(Table table) {
@@ -88,7 +91,8 @@ public class RemoveWorkflowModelsAction implements ClickListener {
 			}
 		} else {
 			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent("Please select an item from the table",
+					new InformationDialogComponent(
+							"Please select an item from the table",
 							"Information"));
 		}
 
