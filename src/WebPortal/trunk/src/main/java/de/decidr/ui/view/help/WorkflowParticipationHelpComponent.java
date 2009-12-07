@@ -28,7 +28,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class WorkflowParticipationHelpComponent extends VerticalLayout {
 
-    private Button currentTenantWorkItemsButton = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Button currentTenantWorkItemsButton = null;
     private Label currentTenantWorkItemsLabel = null;
 
     private Button allTenantWorkItemsButton = null;

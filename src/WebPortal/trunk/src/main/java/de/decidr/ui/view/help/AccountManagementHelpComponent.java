@@ -28,7 +28,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class AccountManagementHelpComponent extends VerticalLayout {
 
-    private Button registerAsTenantAdminButton = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Button registerAsTenantAdminButton = null;
     private Label registerAsTenantAdminLabel = null;
     
     private Button registerAsUserButton = null;

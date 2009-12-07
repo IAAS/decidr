@@ -27,7 +27,11 @@ import com.vaadin.ui.Button.ClickListener;
  */
 public class ToggleLabelAction implements ClickListener  {
 
-    private Label myLabel = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Label myLabel = null;
     
     /**
      * Constructor

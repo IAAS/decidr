@@ -28,7 +28,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class TenantUserManagementHelpComponent extends VerticalLayout {
 
-    private Button inviteUserButton = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Button inviteUserButton = null;
     private Label inviteUserLabel = null;
 
     private Button removeUserButton = null;

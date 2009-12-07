@@ -28,7 +28,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class SystemSettingsHelpComponent extends VerticalLayout {
 
-    private Button editSettingsButton = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Button editSettingsButton = null;
     private Label editSettingsLabel = null;
     
     public SystemSettingsHelpComponent(){

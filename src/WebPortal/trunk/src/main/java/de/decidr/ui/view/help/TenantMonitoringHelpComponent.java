@@ -28,7 +28,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class TenantMonitoringHelpComponent extends VerticalLayout{
 
-    private Button tenantStatusButton = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Button tenantStatusButton = null;
     private Label tenantStatusLabel = null;
     
     public TenantMonitoringHelpComponent(){

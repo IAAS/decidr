@@ -27,6 +27,10 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class GlossaryHelpComponent extends VerticalLayout{
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 	private Label glossLabel = null;
 	
 	public GlossaryHelpComponent(){

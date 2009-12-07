@@ -34,7 +34,11 @@ import de.decidr.ui.controller.show.ShowHelpAction;
  */
 public class HelpDialogComponent extends Window {
     
-    private Accordion acc = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Accordion acc = null;
     private Button closeButton = null;
     private Button showMainScreenHelp = null;
     private HorizontalLayout horLayout = null;

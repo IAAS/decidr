@@ -28,7 +28,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
 
-    private Button workflowModelsButton = null;
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private Button workflowModelsButton = null;
     private Label workflowModelsLabel = null;
 
     private Button workflowInstancesButton = null;
