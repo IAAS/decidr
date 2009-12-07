@@ -335,8 +335,6 @@ public class TestDataGenerator {
      * and properties
      */
     private void displayHelp() {
-        // TODO actually describe the properties and switches instead of just
-        // listing them. ~dh
         StringBuffer help = new StringBuffer(10000);
 
         help.append("DecidR test data generator\n\n");

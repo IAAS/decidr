@@ -28,6 +28,8 @@ import de.decidr.test.database.main.ProgressListener;
  */
 public class WorkflowInstanceFactory extends EntityFactory {
 
+    private XmlFactory xmlFactory;
+
     /**
      * Constructor
      * 
@@ -35,6 +37,7 @@ public class WorkflowInstanceFactory extends EntityFactory {
      */
     public WorkflowInstanceFactory(Session session) {
         super(session);
+        xmlFactory = new XmlFactory(session);
     }
 
     /**
@@ -44,6 +47,7 @@ public class WorkflowInstanceFactory extends EntityFactory {
     public WorkflowInstanceFactory(Session session,
             ProgressListener progressListener) {
         super(session, progressListener);
+        xmlFactory = new XmlFactory(session);
     }
 
     /**
@@ -105,7 +109,7 @@ public class WorkflowInstanceFactory extends EntityFactory {
 
             newInstance.setOdePid(Password.getRandomAuthKey());
             newInstance.setServer(servers.get(rnd.nextInt(servers.size())));
-            newInstance.setStartConfiguration(getBlobStub());
+            newInstance.setStartConfiguration(xmlFactory.createStartConfiguration());
             newInstance.setDeployedWorkflowModel(deployedModels.get(rnd
                     .nextInt(deployedModels.size())));
 

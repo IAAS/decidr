@@ -18,6 +18,8 @@ package de.decidr.test.database.factories;
 
 import org.hibernate.Session;
 
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+
 /**
  * Creates useful XML test data (or stubs) using existing database contents.
  * 
@@ -40,7 +42,7 @@ public class XmlFactory extends EntityFactory {
      * @return a random start configuration as raw xml bytes
      */
     public byte[] createStartConfiguration() {
-        return getBlobStub();
+        return getFileBytes("files/startconfiguration.xml");
     }
 
     /**
@@ -69,5 +71,12 @@ public class XmlFactory extends EntityFactory {
     public byte[] getWsdl(String webServiceName) {
         // convention: all wsdl files have to be named <webservicename>.wsdl
         return getFileBytes("wsdl/" + webServiceName + ".wsdl");
+    }
+
+    /**
+     * @return raw xml data of a "random" work item
+     */
+    public byte[] getWorkItem() {
+        return getFileBytes("files/workitem.xml");
     }
 }

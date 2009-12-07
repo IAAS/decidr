@@ -20,11 +20,14 @@ import de.decidr.test.database.main.ProgressListener;
  */
 public class WorkItemFactory extends EntityFactory {
 
+    private XmlFactory xmlFactory;
+
     /**
      * Constructor
      */
     public WorkItemFactory(Session session) {
         super(session);
+        xmlFactory = new XmlFactory(session);
     }
 
     /**
@@ -33,6 +36,7 @@ public class WorkItemFactory extends EntityFactory {
      */
     public WorkItemFactory(Session session, ProgressListener progressListener) {
         super(session, progressListener);
+        xmlFactory = new XmlFactory(session);
     }
 
     /**
@@ -70,7 +74,7 @@ public class WorkItemFactory extends EntityFactory {
             if (randomParticipatingUser != null) {
                 WorkItem item = new WorkItem();
                 item.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
-                item.setData(getBlobStub());
+                item.setData(xmlFactory.getWorkItem());
                 item
                         .setDescription("A random work item created by the test data generator. Created in loop #"
                                 + Integer.toString(i));

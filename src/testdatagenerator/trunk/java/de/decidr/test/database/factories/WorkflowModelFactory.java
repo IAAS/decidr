@@ -186,8 +186,8 @@ public class WorkflowModelFactory extends EntityFactory {
         deployed.setDescription(model.getDescription());
         deployed.setDwdl(model.getDwdl());
         deployed.setName(model.getName());
-        deployed.setSoapTemplate(getBlobStub());
-        deployed.setWsdl(getBlobStub());
+        deployed.setSoapTemplate(new byte[0]);
+        deployed.setWsdl(new byte[0]);
         deployed.setTenant(model.getTenant());
 
         // make it seem as if the model had been deployed on an ODE server, but

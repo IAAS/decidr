@@ -156,14 +156,6 @@ public class EntityFactory {
     }
 
     /**
-     * @return a (not so large) blob that contains the binary UTF-8
-     *         representation of the string "empty".
-     */
-    public byte[] getBlobStub() {
-        return "empty".getBytes(Charset.forName("UTF-8"));
-    }
-
-    /**
      * Fires a progress event.
      * 
      * @param totalItems
