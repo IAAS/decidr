@@ -31,7 +31,7 @@ import de.decidr.ui.view.navigationmenus.SuperAdminNavigationMenu;
 public class SuperAdminViewBuilder extends UIBuilder {
 	
 	/**
-	 * TODO: add comment
+	 * Default constructor. Initializes the site frame
 	 *
 	 */
 	public SuperAdminViewBuilder() {

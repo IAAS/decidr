@@ -31,7 +31,7 @@ import de.decidr.ui.view.navigationmenus.UserNavigationMenu;
 public class UserViewBuilder extends UIBuilder {
 	
 	/**
-	 * TODO: add comment
+	 * Default constructor. Initializes the site frame
 	 *
 	 */
 	public UserViewBuilder() {

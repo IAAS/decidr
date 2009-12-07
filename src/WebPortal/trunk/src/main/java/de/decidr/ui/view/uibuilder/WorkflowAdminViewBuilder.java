@@ -32,7 +32,7 @@ import de.decidr.ui.view.navigationmenus.WorkflowAdminNavigationMenu;
 public class WorkflowAdminViewBuilder extends UIBuilder {
 	
 	/**
-	 * TODO: add comment
+	 * Default constructor. Initializes the site frame
 	 *
 	 */
 	public WorkflowAdminViewBuilder() {
