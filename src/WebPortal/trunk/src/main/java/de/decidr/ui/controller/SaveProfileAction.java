@@ -31,6 +31,7 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -40,69 +41,72 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class SaveProfileAction implements ClickListener {
 
-    /**
+	/**
 	 * Serial version uid
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
-    private Role role = (Role) session.getAttribute("role");
-    private UserFacade userFacade = new UserFacade(role);
+	private Long userId = (Long) session.getAttribute("userId");
+	private Role role = (Role) session.getAttribute("role");
+	private UserFacade userFacade = new UserFacade(role);
 
-    private ProfileSettingsComponent content = null;
+	private ProfileSettingsComponent content = null;
 
-    private UserProfile userProfile = null;
+	private UserProfile userProfile = null;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        content = (ProfileSettingsComponent) Main.getCurrent().getUIDirector()
-                .getTemplateView().getContent();
-        content.saveSettingsItem();
-        try {
-            UserProfile uP = fillUserProfile();
-            userFacade.setProfile(userId, uP);
-        } catch (EntityNotFoundException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		content = (ProfileSettingsComponent) Main.getCurrent().getUIDirector()
+				.getTemplateView().getContent();
+		content.saveSettingsItem();
+		try {
+			UserProfile uP = fillUserProfile();
+			userFacade.setProfile(userId, uP);
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent(
+							"Profile successfully saved", "Success"));
+		} catch (EntityNotFoundException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+		}
 
-    }
-    
-    //GH length validator for this data needed in the UI
-    private UserProfile fillUserProfile() {
-        UserRole role = new UserRole(userId);
-        GetUserWithProfileCommand cmd = new GetUserWithProfileCommand(role,
-                userId);
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-            userProfile = cmd.getResult().getUserProfile();
-            userProfile.setFirstName(content.getSettingsItem().getItemProperty(
-                    "firstName").getValue().toString());
-            userProfile.setLastName(content.getSettingsItem().getItemProperty(
-                    "lastName").getValue().toString());
-            userProfile.setCity(content.getSettingsItem().getItemProperty(
-                    "city").getValue().toString());
-            userProfile.setPostalCode(content.getSettingsItem()
-                    .getItemProperty("postalCode").getValue().toString());
-            userProfile.setStreet(content.getSettingsItem().getItemProperty(
-                    "street").getValue().toString());
-            return userProfile;
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-            return null;
-        }
+	}
 
-    }
+	// GH length validator for this data needed in the UI
+	private UserProfile fillUserProfile() {
+		UserRole role = new UserRole(userId);
+		GetUserWithProfileCommand cmd = new GetUserWithProfileCommand(role,
+				userId);
+		try {
+			HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+			userProfile = cmd.getResult().getUserProfile();
+			userProfile.setFirstName(content.getSettingsItem().getItemProperty(
+					"firstName").getValue().toString());
+			userProfile.setLastName(content.getSettingsItem().getItemProperty(
+					"lastName").getValue().toString());
+			userProfile.setCity(content.getSettingsItem().getItemProperty(
+					"city").getValue().toString());
+			userProfile.setPostalCode(content.getSettingsItem()
+					.getItemProperty("postalCode").getValue().toString());
+			userProfile.setStreet(content.getSettingsItem().getItemProperty(
+					"street").getValue().toString());
+			return userProfile;
+		} catch (TransactionException e) {
+			Main.getCurrent().getMainWindow().addWindow(
+					new TransactionErrorDialogComponent(e));
+			return null;
+		}
+
+	}
 }

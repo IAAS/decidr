@@ -31,7 +31,12 @@ import de.decidr.ui.view.windows.ConfirmDialogWindow;
 
 public class ShowCancelMembershipAction implements ClickListener {
 
-    /*
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/*
      * (non-Javadoc)
      * 
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.

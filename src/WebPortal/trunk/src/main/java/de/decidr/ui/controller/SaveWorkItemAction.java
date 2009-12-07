@@ -25,7 +25,9 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
+import de.decidr.model.workflowmodel.humantask.TContent;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+import de.decidr.model.workflowmodel.humantask.TInformation;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -77,7 +79,13 @@ public class SaveWorkItemAction implements ClickListener {
             if(object instanceof TTaskItem){
                 TTaskItem tTaskItem = (TTaskItem)object;
                 tTaskItem.setValue(form.getField(tTaskItem.getName()).getValue());
+            }else{
+            	TInformation tInformation = (TInformation) object;
+            	TContent tContent = new TContent();
+            	tContent.setAny(form.getField(tInformation.getName()).getValue());
+            	tInformation.setContent(tContent);
             }
+            
         }
         try{
             if (event.getButton().getCaption().equals("OK")) {

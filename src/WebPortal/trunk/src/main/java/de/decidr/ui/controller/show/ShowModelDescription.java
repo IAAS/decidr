@@ -31,6 +31,10 @@ import de.decidr.ui.view.windows.WorkflowDescriptionWindow;
  */
 public class ShowModelDescription implements ClickListener {
 	
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 	private Table table = null;
 	
 	/**

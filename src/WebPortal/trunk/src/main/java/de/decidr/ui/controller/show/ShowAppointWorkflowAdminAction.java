@@ -37,7 +37,11 @@ import de.decidr.ui.view.SiteFrame;
 @Reviewed(reviewers = "RR", lastRevision = "2173")
 public class ShowAppointWorkflowAdminAction implements ClickListener {
 
-    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     private Table table = null;

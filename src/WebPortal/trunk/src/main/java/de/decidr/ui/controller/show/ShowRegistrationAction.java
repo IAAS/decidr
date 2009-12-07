@@ -31,7 +31,11 @@ import de.decidr.ui.view.SiteFrame;
  */
 public class ShowRegistrationAction implements ClickListener {
 
-    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*

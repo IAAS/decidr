@@ -29,7 +29,12 @@ import de.decidr.ui.view.windows.ChangePasswordWindow;
  */
 public class ShowChangePasswordAction implements ClickListener {
 
-    /*
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/*
      * (non-Javadoc)
      * 
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.

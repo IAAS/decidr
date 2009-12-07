@@ -37,6 +37,10 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
  */
 public class ShowModelingToolAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 	UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	SiteFrame siteFrame = uiDirector.getTemplateView();
 

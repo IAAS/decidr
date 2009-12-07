@@ -22,7 +22,6 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.TenantAdminRole;
-import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
@@ -44,13 +43,14 @@ public class ShowProfileSettingsAction implements ClickListener {
 
 	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 	private SiteFrame siteFrame = uiDirector.getTemplateView();
-
-	private UserFacade userFacade = new UserFacade(new UserRole((Long) Main
-			.getCurrent().getSession().getAttribute("userId")));
-
+	
 	@SuppressWarnings("unchecked")
 	Role role = (Role) Main.getCurrent().getSession()
 			.getAttribute("role");
+
+	private UserFacade userFacade = new UserFacade(role);
+
+	
 
 	/*
 	 * (non-Javadoc)

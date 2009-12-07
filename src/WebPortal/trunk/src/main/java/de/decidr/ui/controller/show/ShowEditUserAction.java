@@ -23,7 +23,6 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.TenantAdminRole;
-import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
@@ -42,7 +41,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  */
 public class ShowEditUserAction implements ClickListener {
 
-    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    /**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
+	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     private UserFacade userFacade = null;
@@ -50,7 +53,7 @@ public class ShowEditUserAction implements ClickListener {
     private Table table = null;
 
     @SuppressWarnings("unchecked")
-    Class<? extends Role> role = (Class<Role>) Main.getCurrent().getSession()
+    Role role = (Role) Main.getCurrent().getSession()
             .getAttribute("role");
 
     /*
@@ -64,8 +67,7 @@ public class ShowEditUserAction implements ClickListener {
         table = ((UserListComponent) siteFrame.getContent()).getUserListTable();
         Item item = table.getItem(table.getValue());
 
-        userFacade = new UserFacade(new UserRole((Long) Main.getCurrent()
-                .getSession().getAttribute("userId")));
+        userFacade = new UserFacade(role);
 
         try {
             Item profileItem = userFacade.getUserProfile((Long) item

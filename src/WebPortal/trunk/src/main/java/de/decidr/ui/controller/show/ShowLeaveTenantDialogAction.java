@@ -33,6 +33,10 @@ import de.decidr.ui.view.windows.ConfirmDialogWindow;
 
 public class ShowLeaveTenantDialogAction implements ClickListener {
 
+	/**
+	 * Serial version uid
+	 */
+	private static final long serialVersionUID = 1L;
 	private HttpSession session = null;
 	private Long tenantId = null;
 
