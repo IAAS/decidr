@@ -23,6 +23,8 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
@@ -33,27 +35,24 @@ import de.decidr.ui.view.UserListComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action gets the user profile which belongs to the user selected from the
- * table and shows up the profile settings component with the values of the
- * selected user.
+ * This action gets the user profile which belongs to the user selected in the
+ * table and displays the {@link ProfileSettingsComponent} with the values of
+ * the selected user.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2358", currentReviewState = State.Passed)
 public class ShowEditUserAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private static final long serialVersionUID = 1L;
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     private UserFacade userFacade = null;
 
     private Table table = null;
 
-    Role role = (Role) Main.getCurrent().getSession()
-            .getAttribute("role");
+    Role role = (Role) Main.getCurrent().getSession().getAttribute("role");
 
     /*
      * (non-Javadoc)

@@ -21,53 +21,52 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.SystemSettingComponent;
+import de.decidr.ui.view.SystemSettingsComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This component displays the SystemSettingsComponent in the content area
+ * This component displays the {@link SystemSettingsComponent} in the content
+ * area.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2349", currentReviewState = State.Passed)
 public class ShowSystemSettingsAction implements ClickListener {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = -7440471792474065901L;
+    private static final long serialVersionUID = -7440471792474065901L;
 
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-	private SiteFrame siteFrame = uiDirector.getTemplateView();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
-			"role");
+    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+            "role");
 
-	SystemFacade systemFacade = new SystemFacade(role);
+    SystemFacade systemFacade = new SystemFacade(role);
 
-	private Item systemSettingsItem = null;
+    private Item systemSettingsItem = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		try {
-			systemSettingsItem = systemFacade.getSettings();
-			siteFrame
-					.setContent(new SystemSettingComponent(systemSettingsItem));
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(e));
-		}
-
-	}
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        try {
+            systemSettingsItem = systemFacade.getSettings();
+            siteFrame
+                    .setContent(new SystemSettingsComponent(systemSettingsItem));
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
+        }
+    }
 }

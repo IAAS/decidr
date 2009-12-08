@@ -19,23 +19,23 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterTenantComponent;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * This action shows the RegisterTenantComponent in the content area
+ * This action shows the {@link RegisterTenantComponent} in the content area.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.Passed)
 public class ShowRegisterTenantAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private static final long serialVersionUID = 1L;
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*
@@ -48,5 +48,4 @@ public class ShowRegisterTenantAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new RegisterTenantComponent());
     }
-
 }

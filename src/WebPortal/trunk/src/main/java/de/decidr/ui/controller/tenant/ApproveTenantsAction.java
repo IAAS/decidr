@@ -14,13 +14,14 @@
  * under the License.
  */
 
-package de.decidr.ui.controller.show;
+package de.decidr.ui.controller.tenant;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBException;
 
 import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
@@ -31,43 +32,35 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.WorkItemFacade;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
-import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
-import de.decidr.ui.view.windows.WorkItemWindow;
 
 /**
- * This action opens a window for representing the work item the user has chosen
- * to work on.
+ * This action approves a list of tenants.
  * 
- * @author AT
+ * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2349", currentReviewState = State.Passed)
-public class ShowWorkItemWindowAction implements ClickListener {
+@Reviewed(reviewers = { "RR" }, lastRevision = "2360", currentReviewState = State.Passed)
+public class ApproveTenantsAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
 
     private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
-
-    private WorkItemFacade workItemFacade = new WorkItemFacade(role);
+    private TenantFacade tenantFacade = new TenantFacade(role);
 
     private Table table = null;
 
-    private Long workItemId = null;
-
-    private byte[] ht = null;
-
-    private THumanTaskData tHumanTaskData = null;
-
     /**
-     * Stores the given work item table
+     * Requires a table which contains the data.
+     * 
+     * @param table
+     *            requires a {@link Table} with data
      */
-    public ShowWorkItemWindowAction(Table table) {
+    public ApproveTenantsAction(Table table) {
         this.table = table;
     }
 
@@ -79,30 +72,31 @@ public class ShowWorkItemWindowAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
+        List<Long> tenants = new ArrayList<Long>();
+        List<Item> itemList = new ArrayList<Item>();
         Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() == 1)) {
+        if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 Item item = (Item) iter.next();
-                workItemId = (Long) item.getItemProperty("id").getValue();
-                try {
-                    ht = (byte[]) workItemFacade.getWorkItem(workItemId)
-                            .getItemProperty("data").getValue();
-                    tHumanTaskData = TransformUtil.bytesToHumanTask(ht);
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new WorkItemWindow(tHumanTaskData, workItemId));
-                } catch (TransactionException exception) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(exception));
-                } catch (JAXBException exception) {
-                    Main.getCurrent().getMainWindow().showNotification(
-                            "JAXB error!");
-                }
+                tenants.add((Long) item.getItemProperty("id").getValue());
+                itemList.add(item);
             }
+        }
 
-        } else {
+        try {
+            tenantFacade.approveTenants(tenants);
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(
-                            "Please select a work item!", "Information"));
+                            "Tenant(s) successfully approved!", "Success"));
+
+            for (Item item : itemList) {
+                table.removeItem(item);
+            }
+
+            table.requestRepaint();
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
         }
     }
 }

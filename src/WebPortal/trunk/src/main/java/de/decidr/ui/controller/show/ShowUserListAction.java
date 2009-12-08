@@ -22,6 +22,8 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
@@ -31,56 +33,52 @@ import de.decidr.ui.view.UserListComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This actions shows the UserListComponent in the content area
+ * This actions shows the {@link UserListComponent} in the content area.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2349", currentReviewState = State.Passed)
 public class ShowUserListAction implements ClickListener {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = 8622917418547074320L;
+    private static final long serialVersionUID = 8622917418547074320L;
 
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-	private SiteFrame siteFrame = uiDirector.getTemplateView();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private UserFacade userFacade = null;
-	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
-			"tenantId");
-	private Long userId = (Long) Main.getCurrent().getSession().getAttribute(
-	"userId");
-	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
-			"role");
+    private UserFacade userFacade = null;
+    private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+            "tenantId");
+    private Long userId = (Long) Main.getCurrent().getSession().getAttribute(
+            "userId");
+    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+            "role");
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		userFacade = new UserFacade(role);
-		try {
-			siteFrame.setContent(new UserListComponent());
-			if (userFacade.getUserRoleForTenant(userId, tenantId).equals(
-					SuperAdminRole.class)) {
-				((UserListComponent) siteFrame.getContent())
-						.changeToSuperAdmin();
-			} else if (userFacade.getUserRoleForTenant(userId, tenantId)
-					.equals(TenantAdminRole.class)) {
-				((UserListComponent) siteFrame.getContent())
-						.changeToTenantAdmin();
-			} else {
-				((UserListComponent) siteFrame.getContent()).getUserListTable()
-						.removeContainerProperty("Edit");
-			}
-		} catch (TransactionException exception) {
-			Main.getCurrent().addWindow(
-					new TransactionErrorDialogComponent(exception));
-		}
-
-	}
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        userFacade = new UserFacade(role);
+        try {
+            siteFrame.setContent(new UserListComponent());
+            if (userFacade.getUserRoleForTenant(userId, tenantId).equals(
+                    SuperAdminRole.class)) {
+                ((UserListComponent) siteFrame.getContent())
+                        .changeToSuperAdmin();
+            } else if (userFacade.getUserRoleForTenant(userId, tenantId)
+                    .equals(TenantAdminRole.class)) {
+                ((UserListComponent) siteFrame.getContent())
+                        .changeToTenantAdmin();
+            } else {
+                ((UserListComponent) siteFrame.getContent()).getUserListTable()
+                        .removeContainerProperty("Edit");
+            }
+        } catch (TransactionException exception) {
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(exception));
+        }
+    }
 }

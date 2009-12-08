@@ -22,6 +22,8 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
@@ -35,44 +37,37 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2358", currentReviewState = State.Passed)
 public class ShowProfileSettingsAction implements ClickListener {
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = 33661750285092369L;
+    private static final long serialVersionUID = 33661750285092369L;
 
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-	private SiteFrame siteFrame = uiDirector.getTemplateView();
-	
-	Role role = (Role) Main.getCurrent().getSession()
-			.getAttribute("role");
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private UserFacade userFacade = new UserFacade(role);
+    Role role = (Role) Main.getCurrent().getSession().getAttribute("role");
 
-	
+    private UserFacade userFacade = new UserFacade(role);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		try {
-			Item item = userFacade.getUserProfile((Long) Main.getCurrent()
-					.getSession().getAttribute("userId"));
-			ProfileSettingsComponent profile = new ProfileSettingsComponent(
-					item);
-			siteFrame.setContent(profile);
-			if (role instanceof TenantAdminRole) {
-				profile.getCancelMembershipLink().setVisible(true);
-			}
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(e));
-		}
-
-	}
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        try {
+            Item item = userFacade.getUserProfile((Long) Main.getCurrent()
+                    .getSession().getAttribute("userId"));
+            ProfileSettingsComponent profile = new ProfileSettingsComponent(
+                    item);
+            siteFrame.setContent(profile);
+            if (role instanceof TenantAdminRole) {
+                profile.getCancelMembershipLink().setVisible(true);
+            }
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
+        }
+    }
 }

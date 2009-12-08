@@ -19,16 +19,18 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.help.HelpDialogComponent;
 
 /**
- * This actions shows the HelpDialogComponent in a new subwindow
+ * This actions shows the {@link HelpDialogComponent} in a new sub-window.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@SuppressWarnings("serial")
+@Reviewed(reviewers = { "RR" }, lastRevision = "2151", currentReviewState = State.Passed)
 public class ShowHelpDialogAction implements ClickListener {
 
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
@@ -44,11 +46,10 @@ public class ShowHelpDialogAction implements ClickListener {
 
         if (uiDirector.getHelpDialog() == null) {
             uiDirector.setHelpDialog(new HelpDialogComponent());
-            Main.getCurrent().getMainWindow().addWindow(uiDirector.getHelpDialog());
+            Main.getCurrent().getMainWindow().addWindow(
+                    uiDirector.getHelpDialog());
         }
 
         uiDirector.getHelpDialog().show();
-        
     }
-
 }

@@ -25,6 +25,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
@@ -37,22 +39,20 @@ import de.decidr.ui.view.windows.StartConfigurationWindow;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action takes the configuration file and unmarshall it to an object. This
- * object is given as parameter to the StartConfigurationWindow where the object
- * is parsed so that the values stored in the file can be shown to the user as a
- * form and a tree.
+ * This action takes the configuration file and unmarshalls it to an object.
+ * This object is given as parameter to the StartConfigurationWindow where the
+ * object is parsed so that the values stored in the file can be shown to the
+ * user as a form and a tree.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2360", currentReviewState = State.Passed)
 public class ShowStartConfigurationWindowAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
-    
+    private HttpSession session = Main.getCurrent().getSession();
+
     private Role role = (Role) session.getAttribute("role");
 
     private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
@@ -73,7 +73,7 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
     /*
      * (non-Javadoc)
      * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
     @Override
@@ -90,11 +90,11 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
                     new StartConfigurationWindow(tConfiguration,
                             workflowModelId));
         } catch (JAXBException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(exception));
         } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(new TransactionErrorDialogComponent(exception));
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(exception));
         }
-
     }
-
 }

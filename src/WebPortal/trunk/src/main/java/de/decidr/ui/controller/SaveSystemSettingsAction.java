@@ -36,7 +36,7 @@ import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.SystemSettingComponent;
+import de.decidr.ui.view.SystemSettingsComponent;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -50,7 +50,7 @@ public class SaveSystemSettingsAction implements ClickListener {
     private Role role = (Role) session.getAttribute("role");
     private SystemFacade systemFacade = new SystemFacade(role);
 
-    private SystemSettingComponent content = null;
+    private SystemSettingsComponent content = null;
     private Item item = null;
 
     /*
@@ -64,7 +64,7 @@ public class SaveSystemSettingsAction implements ClickListener {
         SystemSettings settings = DecidrGlobals.getSettings();
 
         // Aleks, GH: expect a ClassCastException here ~rr
-        content = (SystemSettingComponent) Main.getCurrent().getUIDirector()
+        content = (SystemSettingsComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
         content.saveSettingsItem();
         item = content.getSettingsItem();

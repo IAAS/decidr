@@ -19,17 +19,19 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.HelpComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * This actions shows the HelpWindow in the content area
+ * This actions shows the {@link HelpComponent} in the content area.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@SuppressWarnings("serial")
+@Reviewed(reviewers = { "RR" }, lastRevision = "2151", currentReviewState = State.Passed)
 public class ShowHelpAction implements ClickListener {
 
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
@@ -43,9 +45,6 @@ public class ShowHelpAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-    	
         siteFrame.setContent(new HelpComponent());
-        
     }
-
 }

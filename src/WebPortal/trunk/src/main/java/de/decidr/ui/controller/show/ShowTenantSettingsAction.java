@@ -19,8 +19,9 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
@@ -29,39 +30,36 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TenantSettingsComponent;
 
-
 /**
- * This action shows the TenantSettingsComponent in the content area
+ * This action shows the {@link TenantSettingsComponent} in the content area.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2349", currentReviewState = State.Passed)
 public class ShowTenantSettingsAction implements ClickListener {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = 7134005638789261L;
+    private static final long serialVersionUID = 7134005638789261L;
 
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-	private SiteFrame siteFrame = uiDirector.getTemplateView();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
-			"role");
+    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+            "role");
 
-	TenantFacade tenantFacade = new TenantFacade(role);
+    TenantFacade tenantFacade = new TenantFacade(role);
 
-	FileFacade fileFacade = new FileFacade(role);
+    FileFacade fileFacade = new FileFacade(role);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		Long tenantId = (Long)Main.getCurrent().getSession().getAttribute("tenantId");
-		siteFrame.setContent(new TenantSettingsComponent(tenantId));
-		
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+                "tenantId");
+        siteFrame.setContent(new TenantSettingsComponent(tenantId));
+    }
 }

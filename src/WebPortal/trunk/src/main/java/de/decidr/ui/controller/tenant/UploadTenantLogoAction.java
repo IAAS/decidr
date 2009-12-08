@@ -24,46 +24,46 @@ import java.io.OutputStream;
 
 import com.vaadin.ui.Upload;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
- * This action handles the upload of the tenant logo
+ * This action handles the upload of the tenant logo.
  * 
  * @author Geoff
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2350", currentReviewState = State.Passed)
 public class UploadTenantLogoAction implements Upload.Receiver {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private File file = null;
+    private static final long serialVersionUID = 1L;
+    private File file = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String,
-	 * java.lang.String)
-	 */
-	@Override
-	public OutputStream receiveUpload(String filename, String MIMEType) {
-		FileOutputStream fos = null;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String,
+     * java.lang.String)
+     */
+    @Override
+    public OutputStream receiveUpload(String filename, String MIMEType) {
+        FileOutputStream fos = null;
 
-		try {
-			file = File.createTempFile("decidr", "temp");
+        try {
+            file = File.createTempFile("decidr", "tmp");
 
-			fos = new FileOutputStream(file);
-		} catch (IOException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent("IOException", "Failure"));
-		}
+            fos = new FileOutputStream(file);
+        } catch (IOException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+            // Aleks, GH: a little more verbose, if you please! ~rr
+                    new InformationDialogComponent("IOException", "Failure"));
+        }
 
-		return fos;
+        return fos;
+    }
 
-	}
-
-	public File getFile() {
-		return file;
-	}
+    public File getFile() {
+        return file;
+    }
 }

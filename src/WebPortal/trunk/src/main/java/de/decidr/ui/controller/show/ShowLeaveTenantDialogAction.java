@@ -16,45 +16,43 @@
 
 package de.decidr.ui.controller.show;
 
-/**
- * This action displays the ConfirmDialogComponent
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.tenant.LeaveTenantAction;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ConfirmDialogWindow;
 
+/**
+ * This action displays the {@link ConfirmDialogWindow}.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.Passed)
 public class ShowLeaveTenantDialogAction implements ClickListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private HttpSession session = null;
-	private Long tenantId = null;
+    private static final long serialVersionUID = 1L;
+    private HttpSession session = null;
+    private Long tenantId = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		session = Main.getCurrent().getSession();
-		tenantId = (Long) session.getAttribute("tenantId");
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        session = Main.getCurrent().getSession();
+        tenantId = (Long) session.getAttribute("tenantId");
 
-		Main.getCurrent().getMainWindow().addWindow(
-				new ConfirmDialogWindow(
-						"Please confirm that you want to leave your tenant.",
-						new LeaveTenantAction(tenantId)));
-
-	}
+        Main.getCurrent().getMainWindow().addWindow(
+                new ConfirmDialogWindow("Please confirm that you want "
+                        + "to leave this tenant.", new LeaveTenantAction(
+                        tenantId)));
+    }
 }

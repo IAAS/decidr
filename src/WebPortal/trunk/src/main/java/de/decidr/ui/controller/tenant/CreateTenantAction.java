@@ -23,6 +23,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
@@ -36,90 +38,91 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action creates a new tenant
+ * This action creates a new tenant.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2350", currentReviewState = State.Passed)
 public class CreateTenantAction implements ClickListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private Role role = (Role) session.getAttribute("role");
-	private TenantFacade tenantFacade = new TenantFacade(role);
-	private UserFacade userFacade = new UserFacade(role);
+    private Long userId = (Long) session.getAttribute("userId");
+    private Role role = (Role) session.getAttribute("role");
+    private TenantFacade tenantFacade = new TenantFacade(role);
+    private UserFacade userFacade = new UserFacade(role);
 
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-	private TenantAdminViewBuilder tenantAdminViewBuilder = new TenantAdminViewBuilder();
-	private SiteFrame siteFrame = uiDirector.getTemplateView();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private TenantAdminViewBuilder tenantAdminViewBuilder = new TenantAdminViewBuilder();
+    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private Form createForm = null;
+    private Form createForm = null;
 
-	public CreateTenantAction(Form form) {
-		createForm = form;
-	}
+    public CreateTenantAction(Form form) {
+        createForm = form;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		boolean notEmpty = true;
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        boolean notEmpty = true;
 
-		for (Object id : createForm.getItemPropertyIds()) {
-			if (notEmpty) {
-				if (createForm.getField(id).getValue().toString().equals("")
-						&& createForm.getField(id).isRequired()) {
-					notEmpty = false;
-				}
-			}
-		}
+        for (Object id : createForm.getItemPropertyIds()) {
+            if (notEmpty) {
+                if (createForm.getField(id).getValue().toString().equals("")
+                        && createForm.getField(id).isRequired()) {
+                    notEmpty = false;
+                }
+            }
+        }
 
-		if (notEmpty) {
-			createForm.commit();
-			
-			String tenantName = createForm.getItemProperty(
-			"tenantName").getValue().toString();
+        if (notEmpty) {
+            createForm.commit();
 
-			try {				
-				Long tenantId = tenantFacade.createTenant(tenantName, createForm
-						.getItemProperty("tenantDescription").getValue()
-						.toString(), userId);
-				userFacade.setCurrentTenantId(userId, tenantId);
-				
-				Class<? extends Role> roleClass = userFacade.getHighestUserRole(userId);
-				Role roleInstance = roleClass.getConstructor(Long.class).newInstance(userId);
-				
-				Main.getCurrent().getSession().setAttribute("role", roleInstance);
-				Main.getCurrent().getSession().setAttribute("tenant", tenantName);
-				
-				Main.getCurrent().getMainWindow().addWindow(
-						new InformationDialogComponent(
-								"Tenant successfully created", "Success"));
-				uiDirector.switchView(tenantAdminViewBuilder);
-				siteFrame.setContent(new TenantSettingsComponent(tenantId));
-				((HorizontalNavigationMenu) uiDirector.getTemplateView()
-						.getHNavigation()).getLogoutButton().setVisible(true);
-			} catch (TransactionException e) {
-				Main.getCurrent().getMainWindow().addWindow(
-						new TransactionErrorDialogComponent(e));
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			} 
-		} else {
-			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent(
-							"Please enter the required information",
-							"Form not complete"));
-		}
+            String tenantName = createForm.getItemProperty("tenantName")
+                    .getValue().toString();
 
-	}
+            try {
+                Long tenantId = tenantFacade.createTenant(tenantName,
+                        createForm.getItemProperty("tenantDescription")
+                                .getValue().toString(), userId);
+                userFacade.setCurrentTenantId(userId, tenantId);
+
+                Class<? extends Role> roleClass = userFacade
+                        .getHighestUserRole(userId);
+                Role roleInstance = roleClass.getConstructor(Long.class)
+                        .newInstance(userId);
+
+                Main.getCurrent().getSession().setAttribute("role",
+                        roleInstance);
+                Main.getCurrent().getSession().setAttribute("tenant",
+                        tenantName);
+
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Tenant successfully created!", "Success"));
+                uiDirector.switchView(tenantAdminViewBuilder);
+                siteFrame.setContent(new TenantSettingsComponent(tenantId));
+                ((HorizontalNavigationMenu) uiDirector.getTemplateView()
+                        .getHNavigation()).getLogoutButton().setVisible(true);
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please enter the required information!",
+                            "Missing Information"));
+        }
+    }
 }

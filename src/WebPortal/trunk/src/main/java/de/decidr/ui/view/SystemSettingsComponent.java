@@ -24,7 +24,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.SaveSystemSettingsAction;
 
-public class SystemSettingComponent extends CustomComponent {
+public class SystemSettingsComponent extends CustomComponent {
 
 	/**
 	 * The user can change the system settings.
@@ -45,7 +45,7 @@ public class SystemSettingComponent extends CustomComponent {
 	 * Default constructor
 	 * 
 	 */
-	public SystemSettingComponent(Item settingsItem) {
+	public SystemSettingsComponent(Item settingsItem) {
 		this.settingsItem = settingsItem;
 		init();
 	}

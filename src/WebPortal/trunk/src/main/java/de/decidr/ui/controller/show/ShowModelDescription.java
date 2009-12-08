@@ -20,6 +20,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.WorkflowDescriptionWindow;
 
@@ -29,21 +31,18 @@ import de.decidr.ui.view.windows.WorkflowDescriptionWindow;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.Passed)
 public class ShowModelDescription implements ClickListener {
-	
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Table table = null;
-	
-	/**
-	 * Default constructor which gets the container 
-	 *
-	 */
-	public ShowModelDescription(Table table) {
-		this.table = table;
-	}
+
+    private static final long serialVersionUID = 1L;
+    private Table table = null;
+
+    /**
+     * Default constructor which gets the container
+     */
+    public ShowModelDescription(Table table) {
+        this.table = table;
+    }
 
     /*
      * (non-Javadoc)
@@ -56,5 +55,4 @@ public class ShowModelDescription implements ClickListener {
         Main.getCurrent().getMainWindow().addWindow(
                 new WorkflowDescriptionWindow(table));
     }
-
 }

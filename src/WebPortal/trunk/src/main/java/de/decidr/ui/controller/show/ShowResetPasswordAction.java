@@ -19,22 +19,22 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ResetPasswordWindow;
 
 /**
- * This action displays the ResetPasswordComponent
+ * This action displays the {@link ResetPasswordWindow}.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2349", currentReviewState = State.Passed)
 public class ShowResetPasswordAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
@@ -42,7 +42,6 @@ public class ShowResetPasswordAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Main.getCurrent().getMainWindow().addWindow(
-                new ResetPasswordWindow());
+        Main.getCurrent().getMainWindow().addWindow(new ResetPasswordWindow());
     }
 }

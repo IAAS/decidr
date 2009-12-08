@@ -19,17 +19,19 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.WorkflowInstanceComponent;
 
 /**
- * This action shows the WorkflowInstanceComponent in the content area
+ * This action shows the {@link WorkflowInstanceComponent} in the content area.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@SuppressWarnings("serial")
+@Reviewed(reviewers = { "RR" }, lastRevision = "2151", currentReviewState = State.Passed)
 public class ShowWorkflowInstancesAction implements ClickListener {
 
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
@@ -44,7 +46,5 @@ public class ShowWorkflowInstancesAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new WorkflowInstanceComponent());
-
     }
-
 }

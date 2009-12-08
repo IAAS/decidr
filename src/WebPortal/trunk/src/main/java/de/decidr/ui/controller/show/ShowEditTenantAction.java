@@ -19,21 +19,21 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.EditTenantComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * This action shows the EditTenantComponent is the content area
+ * This action shows the {@link EditTenantComponent} is the content area.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2151", currentReviewState = State.Passed)
 public class ShowEditTenantAction implements ClickListener {
 
-    /**
-     * Serial Version UID
-     */
     private static final long serialVersionUID = -48267747213888848L;
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
@@ -47,7 +47,5 @@ public class ShowEditTenantAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new EditTenantComponent());
-
     }
-
 }
