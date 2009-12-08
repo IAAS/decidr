@@ -73,11 +73,13 @@ public class ApproveTenantAction implements ClickListener {
 	@Override
 	public void buttonClick(ClickEvent event) {
 		List<Long> tenants = new ArrayList<Long>();
+		List<Item> itemList = new ArrayList<Item>();
 		Set<?> value = (Set<?>) table.getValue();
 		if ((value != null) && (value.size() != 0)) {
 			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
 				Item item = (Item) iter.next();
 				tenants.add((Long) item.getItemProperty("id").getValue());
+				itemList.add(item);
 			}
 		}
 		try {
@@ -85,6 +87,10 @@ public class ApproveTenantAction implements ClickListener {
 			Main.getCurrent().getMainWindow().addWindow(
 					new InformationDialogComponent(
 							"Tenant(s) successfully approved", "Success"));
+			for(Item item : itemList){
+				table.removeItem(item);
+			}
+			table.requestRepaint();
 		} catch (TransactionException e) {
 			Main.getCurrent().getMainWindow().addWindow(
 					new TransactionErrorDialogComponent(e));

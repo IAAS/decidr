@@ -19,6 +19,7 @@ package de.decidr.ui.controller.show;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -79,8 +80,8 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         table = ((CreateWorkflowInstanceComponent) siteFrame.getContent())
                 .getInstanceTable();
-        workflowModelId = (Long) table.getContainerProperty(table.getValue(),
-                "id").getValue();
+        Item item = table.getItem(table.getValue());
+        workflowModelId = (Long) item.getItemProperty("id").getValue();
         try {
             wsc = workflowModelFacade
                     .getLastStartConfiguration(workflowModelId);

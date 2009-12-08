@@ -18,7 +18,6 @@ package de.decidr.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -78,7 +77,6 @@ public class WorkflowInstanceContainer implements Container {
 			filterList = new ArrayList<Filter>();
 			filterList.add(new StartableWorkflowModelFilter());
 			filterList.add(new EqualsFilter(true, "tenant.id", tenantId));
-			// paginator.setItemsPerPage(10);
 
 			workflowModelList = userFacade.getAdministratedWorkflowModels(
 					userId, null, null);
@@ -193,10 +191,8 @@ public class WorkflowInstanceContainer implements Container {
 		if (getContainerPropertyIds().contains(propertyId)) {
 			if (propertyId.equals("id")) {
 				return Long.class;
-			} else if (propertyId.equals("startedDate")
-					|| propertyId.equals("completedDate")) {
-				return Date.class;
-			} else if (propertyId.equals("model")) {
+			} else if (propertyId.equals("name")
+					|| propertyId.equals("description")) {
 				return String.class;
 			} else {
 				return null;

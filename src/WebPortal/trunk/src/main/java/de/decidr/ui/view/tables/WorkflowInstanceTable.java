@@ -61,7 +61,7 @@ public class WorkflowInstanceTable extends Table {
 		setVisibleColumns(NAT_COL_ORDER);
 		setColumnHeaders(COL_HEADERS);
 		setSelectable(true);
-		setMultiSelect(true);
+		setMultiSelect(false);
 	}
 
 }
