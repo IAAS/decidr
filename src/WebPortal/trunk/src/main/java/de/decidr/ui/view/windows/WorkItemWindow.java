@@ -28,6 +28,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.workflowmodel.humantask.DWDLSimpleVariableType;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TInformation;
@@ -36,19 +38,17 @@ import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.SaveWorkItemAction;
 
 /**
- * This window represents a form where the work items from the user are
- * represented. Here he can enter his values for the given fields and save them.
+ * This window represents a form where the work items of the user are displayed.
+ * Here he can enter his data into the provided fields and save them.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2357", currentReviewState = State.PassedWithComments)
 public class WorkItemWindow extends Window {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private VerticalLayout verticalLayout = null;
+    private VerticalLayout verticalLayout = null;
 
     private HorizontalLayout horizontalLayout = null;
 
@@ -63,22 +63,22 @@ public class WorkItemWindow extends Window {
     private Button markAsDoneButton = null;
 
     /**
-     * Constructor with a given THumanTaskData object which calls the init
-     * method.
-     * 
+     * Constructor with a given {@link THumanTaskData} object which calls the
+     * init method.
      */
     public WorkItemWindow(THumanTaskData tHumanTaskData, Long workItemId) {
         init(tHumanTaskData, workItemId);
     }
 
     /**
-     * Fills the form with the specific settings from the THumanTaskData. For
-     * every simple type an other Field is added to the form and if necessary a
-     * validator is added, so the user can't enter invalid values. Also a
-     * tooltip shows the user what he has to enter in the fields. And if a value
-     * already exists this value is shown.
+     * Fills the form with the specific settings from the {@link THumanTaskData}
+     * . For every simple type another Field is added to the form and if
+     * necessary a validator is added, so that the user can't enter invalid
+     * data. A tooltip shows the user some information on what to enter into the
+     * fields. If a value already exists, this value is shown.
      * 
      * @param tHumanTaskData
+     *            TODO document
      */
     private void fillForm(THumanTaskData tHumanTaskData) {
         for (int i = 0; i < tHumanTaskData.getTaskItemOrInformation().size(); i++) {
@@ -103,9 +103,12 @@ public class WorkItemWindow extends Window {
                         DWDLSimpleVariableType.FLOAT) == 0) {
                     getItemForm().addField(taskItem.getName(),
                             new TextField(taskItem.getLabel()));
-                    getItemForm().getField(taskItem.getName()).addValidator(
-                            new RegexpValidator("[+]?[0-9]*\\p{.}?[0-9]*",
-                                    "Please enter a valid float number!"));
+                    getItemForm()
+                            .getField(taskItem.getName())
+                            .addValidator(
+                                    new RegexpValidator(
+                                            "[+]?[0-9]*\\p{.}?[0-9]*",
+                                            "Please enter a valid floating point number!"));
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.INTEGER) == 0) {
                     getItemForm().addField(taskItem.getName(),
@@ -129,20 +132,20 @@ public class WorkItemWindow extends Window {
                     getItemForm().getField(taskItem.getName()).setValue(
                             taskItem.getValue());
                 }
-            }
-            else{
-                TInformation tInformation = (TInformation)tHumanTaskData
-                .getTaskItemOrInformation().get(i);
+            } else {
+                TInformation tInformation = (TInformation) tHumanTaskData
+                        .getTaskItemOrInformation().get(i);
                 getItemForm().addField(tInformation.getName(), new TextField());
-                getItemForm().getField(tInformation.getName()).setValue(tInformation.getContent().getAny());
+                getItemForm().getField(tInformation.getName()).setValue(
+                        tInformation.getContent().getAny());
             }
         }
     }
 
     /**
-     * Returns the item form
+     * Returns the item {@link Form}.
      * 
-     * @return itemForm
+     * @return itemForm TODO document
      */
     public Form getItemForm() {
         return itemForm;
@@ -150,9 +153,10 @@ public class WorkItemWindow extends Window {
 
     /**
      * Initializes the components for the window and fills the form with the
-     * information from the THumanTaskData.
+     * information from the {@link THumanTaskData}.
      * 
      * @param tHumanTaskData
+     *            TODO document
      */
     private void init(THumanTaskData tHumanTaskData, Long workItemId) {
         verticalLayout = new VerticalLayout();
@@ -182,7 +186,5 @@ public class WorkItemWindow extends Window {
         horizontalLayout.addComponent(cancelButton);
 
         verticalLayout.addComponent(horizontalLayout);
-
     }
-
 }

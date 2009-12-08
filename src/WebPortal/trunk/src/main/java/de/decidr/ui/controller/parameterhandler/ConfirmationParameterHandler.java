@@ -19,11 +19,12 @@ package de.decidr.ui.controller.parameterhandler;
 import java.util.Iterator;
 import java.util.Map;
 
-
 import com.vaadin.terminal.ParameterHandler;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
@@ -31,19 +32,17 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This paramter handler handles the url for confirming users. If a users has to
- * confirm his registration he gets a special link. This link has a special
- * syntax. To extract the information from the url this parameter handler is
- * used.
+ * This parameter handler handles the URL for confirming user actions. If a
+ * users has to confirm his registration he gets a special link. This link
+ * conforms to a special syntax. This parameter handler is used to extract the
+ * information from the URL.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2346", currentReviewState = State.Rejected)
 public class ConfirmationParameterHandler implements ParameterHandler {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private UserFacade userFacade = null;
 
@@ -64,6 +63,8 @@ public class ConfirmationParameterHandler implements ParameterHandler {
     public void handleParameters(Map parameters) {
         confirmationId = null;
         userId = null;
+        // Aleks, GH: you should display some error message if a parameter is
+        // specified twice or two conflicting parameters are passed ~rr
         for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
             key = it.next();
             value = ((String[]) parameters.get(key))[0];
@@ -81,6 +82,9 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                     .equals(DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID)) {
                 confirmationId = value;
                 action = "pass";
+            } else {
+                // GH, Aleks: show some error about the unrecognised parameter!
+                // ~rr
             }
         }
 
@@ -114,11 +118,15 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                             .getMainWindow()
                             .addWindow(
                                     new InformationDialogComponent(
-                                            "A new password has been created and sent to your email address.",
+                                            "A new password has been created and sent "
+                                                    + "to your email address.<br>You should change "
+                                                    + "it immediately to avoid a third party from "
+                                                    + "using an intercepted password!",
                                             "Password Reset Confirmed!"));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
+                    // GH, Aleks: WTF? not even a logger?!? ~rr
                     e.printStackTrace();
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
@@ -133,19 +141,21 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                             .getMainWindow()
                             .addWindow(
                                     new InformationDialogComponent(
-                                            "You successfully completed your registration!<br>You can now log into your account.",
+                                            "You successfully completed the registration!<br>"
+                                                    + "You can now log into your account.",
                                             "Registration Complete!"));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
+                    // GH, Aleks: WTF? not even a logger?!? ~rr
                     e.printStackTrace();
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
                 }
             }
+        } else {
+            // GH, Aleks: show some error message ~rr
         }
-
     }
-
 }

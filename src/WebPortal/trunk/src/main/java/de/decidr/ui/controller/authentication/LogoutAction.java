@@ -21,23 +21,23 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 
 /**
- * This action logs a user out, invalidates the session, makes the logout button
+ * This action logs out users, invalidates the session, makes the logout button
  * invisible and returns to the main page of the DecidR application.
  * 
  * @author AT
  */
+@Reviewed(reviewers={"RR"}, lastRevision="2345", currentReviewState=State.PassedWithComments)
 public class LogoutAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private static final long serialVersionUID = 1L;
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
     /*
      * (non-Javadoc)
@@ -51,8 +51,16 @@ public class LogoutAction implements ClickListener {
         ((HorizontalNavigationMenu) uiDirector.getTemplateView()
                 .getHNavigation()).getLogoutButton().setVisible(false);
         Main.getCurrent().getMainWindow().open(
+                /*
+                 * Aleks, GH: It's way better to look through the header and
+                 * find out what URL the user uses to access the WebPortal and
+                 * only fall back to this method when the first fails. (And no,
+                 * this method doesn't work all the time - remember our setup,
+                 * where the domain name isn't accessible from anywhere but on
+                 * the server itself? Better yet, just forward the user to "/")
+                 * ~rr
+                 */
                 new ExternalResource("http://"
                         + DecidrGlobals.getSettings().getDomain()));
     }
-
 }

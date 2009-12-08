@@ -71,7 +71,6 @@ public class ConfirmPasswordResetCommand extends UserCommand {
         newPassword = null;
 
         // is there a password reset request?
-
         PasswordResetRequest request = (PasswordResetRequest) evt.getSession()
                 .get(PasswordResetRequest.class, getUserId());
 

@@ -30,12 +30,15 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * Opens the appoint workflow admin component. So the user is able to decide
- * which user is a workflow administrator for a worklfow instance.
+ * Opens the {@link AppointWorkflowAdminComponent}, so that the user is able to
+ * decide which user is a workflow administrator for a workflow instance.<br>
+ * Aleks, GH: several problems with this comment: a) The user decides nothing,
+ * that's got to be an admin doing this b) If the workflow admin supervises the
+ * instance, what is the name of the work model admin? ~rr
  * 
  * @author AT
  */
-@Reviewed(reviewers = "RR", lastRevision = "2173", currentReviewState = State.Rejected)
+@Reviewed(reviewers = "RR", lastRevision = "2354", currentReviewState = State.Rejected)
 public class ShowAppointWorkflowAdminAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
@@ -45,9 +48,8 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
     private Table table = null;
 
     /**
-     * Constructor which gets a table as parameter to determine which item is
-     * selected from which table.
-     * 
+     * Constructor which gets a {@link Table} as parameter to determine which
+     * item is selected from which table.
      */
     public ShowAppointWorkflowAdminAction(Table table) {
         this.table = table;

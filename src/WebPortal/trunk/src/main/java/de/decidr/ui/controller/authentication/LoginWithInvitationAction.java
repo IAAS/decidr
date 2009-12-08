@@ -19,6 +19,8 @@ package de.decidr.ui.controller.authentication;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.LoginComponent;
@@ -27,27 +29,23 @@ import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 import de.decidr.ui.view.windows.InvitationDialogComponent;
 
 /**
- * This action implements the login. It calls the authenticate method and logs
- * the user into the application and shows
+ * This action implements the login procedure. It calls the authenticate method
+ * and logs the user into the application and shows TODO finish sentence ~rr
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2345", currentReviewState = State.PassedWithComments)
 public class LoginWithInvitationAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Login login = new Login();
+    private static final long serialVersionUID = 1L;
+    private Login login = new Login();
     UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private InvitationDialogComponent invitationDialog = null;
 
     /**
-     * Constructor
-     * 
      * @param invD
-     *            InvitationDialogComponent that is shown after successfull
-     *            login
+     *            {@link InvitationDialogComponent} that is shown after
+     *            successful login
      */
     public LoginWithInvitationAction(InvitationDialogComponent invD) {
         invitationDialog = invD;
@@ -62,6 +60,7 @@ public class LoginWithInvitationAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         try {
+            // GH, Aleks: Please!!! try to avoid these! ~rr
             login
                     .authenticate(((LoginComponent) uiDirector
                             .getTemplateView().getContent())
@@ -74,10 +73,8 @@ public class LoginWithInvitationAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(invitationDialog);
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().showNotification(
-                    "Login unsuccessful");
+                    "Login unsuccessful!");
         }
         System.out.println(Main.getCurrent().getUser());
-
     }
-
 }

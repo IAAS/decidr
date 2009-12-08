@@ -17,26 +17,27 @@
 package de.decidr.ui.controller.show;
 
 /**
- * This actions displays the ConfirmDialogComponent
+ * This actions displays the ConfirmDialogComponent<br>
+ * Aleks, GH: this comment is wrong on so many levels... ;-)
+ * (pun intended - class comments go over the class, not the imports) ~rr
  *
  * @author Geoffrey-Alexeij Heinze
  */
-
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.user.CancelMembershipAction;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ConfirmDialogWindow;
 
+@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.PassedWithComments)
 public class ShowCancelMembershipAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
@@ -45,7 +46,9 @@ public class ShowCancelMembershipAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         Main.getCurrent().getMainWindow().addWindow(
-                new ConfirmDialogWindow("Cancel membership?",
+                new ConfirmDialogWindow(
+                        "Do you want to cancel your membership "
+                                + "with this tenant?",
                         new CancelMembershipAction()));
     }
 }

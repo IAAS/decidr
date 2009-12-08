@@ -19,22 +19,22 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ChangeEmailWindow;
 
 /**
- * This action shows the ChangeEmailComponent
+ * This action displays the {@link ChangeEmailWindow}.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.Passed)
 public class ShowChangeEmailAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.

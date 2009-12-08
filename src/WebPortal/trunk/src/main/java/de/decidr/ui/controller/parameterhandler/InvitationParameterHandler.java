@@ -36,17 +36,17 @@ import de.decidr.ui.view.windows.InvitationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This class handles URL parameters for invitation tasks,
+ * This class handles URL parameters for invitation tasks.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class InvitationParameterHandler implements ParameterHandler {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private HttpSession session = null;
+    private static final String ERROR_AUTHENTICATING = "An error occured handling your invitation.<br/>"
+            + "Please try again and do not modify the provided link!";
+
+    private static final long serialVersionUID = 1L;
+    private HttpSession session = null;
     private UserFacade userFacade = null;
 
     private Long invitationId = null;
@@ -83,16 +83,15 @@ public class InvitationParameterHandler implements ParameterHandler {
                 } else if (key
                         .equals(DecidrGlobals.URL_PARAM_REGISTRATION_REQUIRED)) {
                     registrationRequired = true;
+                } else {
+                    // GH, Aleks: show some error about the unrecognised
+                    // parameter! ~rr
                 }
 
             } catch (NumberFormatException e) {
-                Main
-                        .getCurrent()
-                        .getMainWindow()
-                        .addWindow(
-                                new InformationDialogComponent(
-                                        "An error occured while handling your invitation.<br/>Please try again and do not modify the provided link!",
-                                        "Invitation Error"));
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(ERROR_AUTHENTICATING,
+                                "Invitation Error"));
             }
         }
 
@@ -108,7 +107,6 @@ public class InvitationParameterHandler implements ParameterHandler {
                     concern = "Join this tenant: "
                             + invitationItem.getItemProperty("joinTenantName")
                                     .getValue().toString();
-
                 }
 
                 if (!isNullOrEmpty(invitationItem.getItemProperty(
@@ -119,7 +117,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                                         "administratedWorkflowModelName")
                                         .getValue().toString();
                     } else {
-                        concern = ", admininstrate a workflow: "
+                        concern = " and admininstrate a workflow: "
                                 + invitationItem.getItemProperty(
                                         "administratedWorkflowModelName")
                                         .getValue().toString();
@@ -129,9 +127,11 @@ public class InvitationParameterHandler implements ParameterHandler {
                 if (!isNullOrEmpty(invitationItem.getItemProperty(
                         "workflowInstanceId").getValue().toString())) {
                     if (concern == null) {
+                        // Aleks, GH: which one ~rr
                         concern = "Participate in a workflow";
                     } else {
-                        concern = ", participate in a workflow";
+                        // Aleks, GH: which one ~rr
+                        concern = " and participate in a workflow";
                     }
                 }
 
@@ -139,7 +139,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                     concern = "No reason specified.";
                 }
 
-                String invDescription = "You received an invitation.<br/>"
+                String invDescription = "You have received an invitation.<br/>"
                         + "Sender: "
                         + invitationItem.getItemProperty("senderFirstName")
                                 .getValue().toString()
@@ -161,7 +161,9 @@ public class InvitationParameterHandler implements ParameterHandler {
                                             userId));
                         } else {
                             // not logged in
-                            Main.getCurrent().getUIDirector()
+                            Main
+                                    .getCurrent()
+                                    .getUIDirector()
                                     .getTemplateView()
                                     .setVerticalNavigation(
                                             new LoginComponent(
@@ -180,8 +182,12 @@ public class InvitationParameterHandler implements ParameterHandler {
 
                     } else {
                         // User not yet registered
-                        Main.getCurrent().getUIDirector().getTemplateView().setContent(
-                                new RegisterUserComponent(invitationId));
+                        Main
+                                .getCurrent()
+                                .getUIDirector()
+                                .getTemplateView()
+                                .setContent(
+                                        new RegisterUserComponent(invitationId));
                     }
                 } else {
                     if (authKey.equals("")) {
@@ -196,7 +202,9 @@ public class InvitationParameterHandler implements ParameterHandler {
                             // not logged in
                             // check if user is even registered
                             if (userFacade.isRegistered(userId)) {
-                                Main.getCurrent().getUIDirector()
+                                Main
+                                        .getCurrent()
+                                        .getUIDirector()
                                         .getTemplateView()
                                         .setVerticalNavigation(
                                                 new LoginComponent(

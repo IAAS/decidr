@@ -23,6 +23,8 @@ import com.vaadin.terminal.ParameterHandler;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -33,18 +35,20 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This parameter handler allows automated logins with a given link.
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class LoginParameterHandler implements ParameterHandler{
+@Reviewed(reviewers = { "RR" }, lastRevision = "2346", currentReviewState = State.PassedWithComments)
+public class LoginParameterHandler implements ParameterHandler {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private UserFacade userFacade = null;
-    
-    /* (non-Javadoc)
+    private static final String ERROR_AUTHENTICATING = "An error occured handling your login.<br/>"
+            + "Please try again and do not modify the provided link!";
+    private static final long serialVersionUID = 1L;
+    private UserFacade userFacade = null;
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.vaadin.terminal.ParameterHandler#handleParameters(java.util.Map)
      */
     @SuppressWarnings("unchecked")
@@ -54,64 +58,48 @@ public class LoginParameterHandler implements ParameterHandler{
         String authKey = null;
         String key = null;
         String value = null;
-        
-        for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
-                key = it.next();
-                value = ((String[]) parameters.get(key))[0];
-                try {
-                        if (key.equals(DecidrGlobals.URL_PARAM_LOGIN_ID)) {
-                                userId = Long.getLong(value);
-                        }else if (key.equals(DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY)) {
-                                authKey = value;
-                        }
 
-                } catch (NumberFormatException e) {
-                        Main
-                                        .getCurrent()
-                                        .getMainWindow()
-                                        .addWindow(
-                                                        new InformationDialogComponent(
-                                                                        "An error occured while handling your login.<br/>Please try again and do not modify the provided link!",
-                                                                        "Invitation Error"));
-                }
-        }
-        
-        
-        if (userId != null && authKey != null){
-            // try to login
-            userFacade = new UserFacade(new UserRole(userId)); 
+        for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
+            key = it.next();
+            value = ((String[]) parameters.get(key))[0];
             try {
-                if (userFacade.authKeyMatches(userId, authKey)){
-                    //auth key is valid
-                    Login loginAssistant = new Login();
-                    loginAssistant.loginById(userId, authKey);
-                }else{
-                    Main
-                    .getCurrent()
-                    .getMainWindow()
-                    .addWindow(
-                                    new InformationDialogComponent(
-                                                    "An error occured while handling your login.<br/>Please try again and do not modify the provided link!",
-                                                    "Invitation Error"));
+                if (key.equals(DecidrGlobals.URL_PARAM_LOGIN_ID)) {
+                    userId = Long.getLong(value);
+                } else if (key
+                        .equals(DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY)) {
+                    authKey = value;
+                } else {
+                    // GH, Aleks: show some error about the unrecognised
+                    // parameter! ~rr
                 }
-            } catch (EntityNotFoundException e) {
-                Main
-                .getCurrent()
-                .getMainWindow()
-                .addWindow(
-                                new InformationDialogComponent(
-                                                "An error occured while handling your login.<br/>Please try again and do not modify the provided link!",
-                                                "Invitation Error"));
-            } catch (TransactionException e) {
-                Main
-                .getCurrent()
-                .getMainWindow()
-                .addWindow(
-                                new TransactionErrorDialogComponent(e));
+            } catch (NumberFormatException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(ERROR_AUTHENTICATING,
+                                "Invitation Error"));
             }
         }
 
-        
+        if (userId != null && authKey != null) {
+            // try to login
+            userFacade = new UserFacade(new UserRole(userId));
+            try {
+                if (userFacade.authKeyMatches(userId, authKey)) {
+                    // auth key is valid
+                    Login loginAssistant = new Login();
+                    loginAssistant.loginById(userId, authKey);
+                } else {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    ERROR_AUTHENTICATING, "Invitation Error"));
+                }
+            } catch (EntityNotFoundException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(ERROR_AUTHENTICATING,
+                                "Invitation Error"));
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        }
     }
-
 }

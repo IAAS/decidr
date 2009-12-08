@@ -24,6 +24,8 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.terminal.ParameterHandler;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
@@ -35,75 +37,66 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2346", currentReviewState = State.Passed)
 public class TenantParameterHandler implements ParameterHandler {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = null;
+    private HttpSession session = null;
 
-	private String tenantName = null;
+    private String tenantName = null;
 
-	private Long tenantId = null;
+    private Long tenantId = null;
 
-	String key = null;
-	String value = null;
+    String key = null;
+    String value = null;
 
-	private TenantFacade tenantFacade = new TenantFacade(new UserRole());
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole());
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vaadin.terminal.ParameterHandler#handleParameters(java.util.Map)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void handleParameters(Map parameters) {
-		tenantName = "";
-		for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
-			key = it.next();
-			value = ((String[]) parameters.get(key))[0];
-			try {
-				if (key.equals("tenant")) {
-					tenantName = value;
-				}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.terminal.ParameterHandler#handleParameters(java.util.Map)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void handleParameters(Map parameters) {
+        tenantName = "";
+        for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
+            key = it.next();
+            value = ((String[]) parameters.get(key))[0];
+            try {
+                if (key.equals("tenant")) {
+                    tenantName = value;
+                }
+            } catch (NumberFormatException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "An error occured handling your invitation.<br/>"
+                                        + "Please try again and do not "
+                                        + "modify the provided link!",
+                                "Invitation Error"));
+            }
+        }
+        session = Main.getCurrent().getSession();
+        if (session.getAttribute("userId") == null) {
+            if (tenantName != "") {
+                // specific tenant selected
+                try {
+                    if (session != null) {
 
-			} catch (NumberFormatException e) {
-				Main
-						.getCurrent()
-						.getMainWindow()
-						.addWindow(
-								new InformationDialogComponent(
-										"An error occured while handling your invitation.<br/>Please try again and do not modify the provided link!",
-										"Invitation Error"));
-			}
-		}
-		session = Main.getCurrent().getSession();
-		if (session.getAttribute("userId") == null) {
-			if (tenantName != "") {
-				// specific tenant selected
+                        tenantId = tenantFacade.getTenant(tenantName).getId();
+                        session.setAttribute("tenantId", tenantId);
+                    }
 
-				try {
-					if (session != null) {
-
-						tenantId = tenantFacade.getTenant(tenantName).getId();
-						session.setAttribute("tenantId", tenantId);
-
-					}
-
-					Main.getCurrent().setTheme(tenantName);
-				} catch (TransactionException exception) {
-					Main.getCurrent().getMainWindow().addWindow(
-							new TransactionErrorDialogComponent(exception));
-				}
-
-			} else {
-				Main.getCurrent().setTheme("decidr");
-			}
-		}
-
-	}
-
+                    Main.getCurrent().setTheme(tenantName);
+                } catch (TransactionException exception) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent(exception));
+                }
+            } else {
+                Main.getCurrent().setTheme("decidr");
+            }
+        }
+    }
 }

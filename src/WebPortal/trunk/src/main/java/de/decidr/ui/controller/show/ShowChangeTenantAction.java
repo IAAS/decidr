@@ -18,17 +18,20 @@ package de.decidr.ui.controller.show;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.ChangeTenantComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * This action shows the ChangeTenantComponent in the in the content area
+ * This action shows the {@link ChangeTenantComponent} in the content area.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@SuppressWarnings("serial")
+@Reviewed(reviewers = { "RR" }, lastRevision = "2358", currentReviewState = State.Passed)
 public class ShowChangeTenantAction implements ClickListener {
 
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();

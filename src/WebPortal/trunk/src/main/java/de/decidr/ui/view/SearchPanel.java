@@ -22,16 +22,19 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.SearchAction;
 
+/**
+ * This is a panel containing a text field and a button. This should represent a
+ * search widget.
+ * 
+ * @author AT
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2048", currentReviewState = State.PassedWithComments)
 public class SearchPanel extends Panel {
 
-    /**
-     * This is a panel containing a text field and a button. This should
-     * represent a search widget.
-     * 
-     * @author AT
-     */
     private static final long serialVersionUID = 8703352734047305920L;
 
     private HorizontalLayout searchHorizontalLayout = null;
@@ -43,10 +46,11 @@ public class SearchPanel extends Panel {
     private Button searchButton = null;
 
     /**
-     * Constructor requires a table to know in which table the keyword should be
-     * searched.
+     * Requires a table to know in which table the keyword should be searched
+     * for.
      * 
      * @param table
+     *            TODO document
      */
     public SearchPanel(Table table) {
         init(table);
@@ -62,8 +66,8 @@ public class SearchPanel extends Panel {
     }
 
     /**
-     * This method initializes the components of the search panel component
-     * 
+     * This method initializes the components of the {@link SearchPanel}
+     * component.
      */
     private void init(Table table) {
         searchHorizontalLayout = new HorizontalLayout();
@@ -82,5 +86,4 @@ public class SearchPanel extends Panel {
         searchHorizontalLayout.addComponent(searchTextField);
         searchHorizontalLayout.addComponent(searchButton);
     }
-
 }

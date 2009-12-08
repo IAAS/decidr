@@ -19,23 +19,23 @@ package de.decidr.ui.controller.show;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.CreateTenantComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 
 /**
- * This action shows the CreateTenantComponent in the content area
+ * This action shows the {@link CreateTenantComponent} in the content area.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.Passed)
 public class ShowCreateTenantAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private static final long serialVersionUID = 1L;
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*
@@ -47,7 +47,5 @@ public class ShowCreateTenantAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         siteFrame.setContent(new CreateTenantComponent());
-
     }
-
 }
