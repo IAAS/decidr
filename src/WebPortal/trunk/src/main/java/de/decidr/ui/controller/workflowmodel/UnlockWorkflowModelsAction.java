@@ -43,60 +43,54 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 @Reviewed(reviewers = { "RR" }, lastRevision = "2352", currentReviewState = State.PassedWithComments)
 public class UnlockWorkflowModelsAction implements ClickListener {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private HttpSession session = Main.getCurrent().getSession();
+	private HttpSession session = Main.getCurrent().getSession();
 
-    private Role role = (Role) session.getAttribute("role");
-    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
+	private Role role = (Role) session.getAttribute("role");
+	private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
 
-    private Table table = null;
+	private Table table = null;
 
-    /**
-     * Requires a table which contains the data.
-     * 
-     * @param table
-     *            requires {@link Table} with data
-     */
-    public UnlockWorkflowModelsAction(Table table) {
-        this.table = table;
-    }
+	/**
+	 * Requires a table which contains the data.
+	 * 
+	 * @param table
+	 *            requires {@link Table} with data
+	 */
+	public UnlockWorkflowModelsAction(Table table) {
+		this.table = table;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-     * ClickEvent)
-     */
-    @Override
-    public void buttonClick(ClickEvent event) {
-        Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                try {
-                    wfmFacade.setExecutable((Long) item.getItemProperty("id")
-                            .getValue(), true);
-                    // Aleks, GH: Do you want to kill the user through boredom
-                    // or just ruin his mouse? The idea behind selecting several
-                    // WFMs is to be able to *save* work, not taunt the user
-                    // into suicide by first promising a reduction of workload
-                    // and then making him click himself to death.
-                    // It does make for a nice integration into a windows work
-                    // environment, though... ~rr
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent(item
-                                    .getItemProperty("name").getValue()
-                                    + " successfully unlocked!", "Success"));
-                } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(e));
-                }
-            }
-        } else {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                            "Please select a workflow model.", "Information"));
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+	 * ClickEvent)
+	 */
+	@Override
+	public void buttonClick(ClickEvent event) {
+		Set<?> value = (Set<?>) table.getValue();
+		if ((value != null) && (value.size() != 0)) {
+			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+				Item item = (Item) iter.next();
+				try {
+					wfmFacade.setExecutable((Long) item.getItemProperty("id")
+							.getValue(), true);
+				} catch (TransactionException e) {
+					Main.getCurrent().getMainWindow().addWindow(
+							new TransactionErrorDialogComponent(e));
+				}
+			}
+			Main.getCurrent().getMainWindow()
+					.addWindow(
+							new InformationDialogComponent(
+									"Workflow models successfully unlocked!",
+									"Success"));
+		} else {
+			Main.getCurrent().getMainWindow().addWindow(
+					new InformationDialogComponent(
+							"Please select a workflow model.", "Information"));
+		}
+	}
 }

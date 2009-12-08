@@ -18,6 +18,7 @@ package de.decidr.ui.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,6 +31,8 @@ import com.vaadin.data.Property;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.filters.EqualsFilter;
+import de.decidr.model.filters.Filter;
 
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -58,6 +61,8 @@ public class TenantContainer implements Container, Container.Ordered {
 	private ArrayList<Object> propertyIds = new ArrayList<Object>();
 	private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
 	private List<Object> itemIdList = null;
+	
+	private List<Filter> filterList = null;
 
 	/**
 	 * Default constructor. The tenant items are added to the container.
@@ -66,7 +71,8 @@ public class TenantContainer implements Container, Container.Ordered {
 	public TenantContainer() {
 
 		try {
-			// AT: Adding filter
+			filterList = new ArrayList<Filter>();
+			filterList.add(new EqualsFilter(true, "approvedSince", new Date()));
 			tenantList = tenantFacade.getAllTenants(null, null);
 			for (Item item : tenantList) {
 				addItem(item);
