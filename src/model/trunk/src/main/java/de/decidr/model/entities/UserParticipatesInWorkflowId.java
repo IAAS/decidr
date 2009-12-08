@@ -36,6 +36,7 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
         this.workflowInstanceId = workflowInstanceId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -50,6 +51,7 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
                         .getWorkflowInstanceId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 
@@ -57,5 +59,4 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
         result = 37 * result + (int) this.getWorkflowInstanceId();
         return result;
     }
-
 }

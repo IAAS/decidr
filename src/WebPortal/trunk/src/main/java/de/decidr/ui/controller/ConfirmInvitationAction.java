@@ -20,33 +20,35 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action confirms an invitation
+ * This action confirms an invitation.
  * 
  * @author Geoffrey-Alexeij Heinze
- * @reviewed ~tk, ~dh
  */
+@Reviewed(reviewers = { "TK", "DH", "RR" }, lastRevision = "2343", currentReviewState = State.PassedWithComments)
 public class ConfirmInvitationAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Long userId = null;
+    private static final long serialVersionUID = 1L;
+    private Long userId = null;
     private UserFacade userFacade = null;
 
     private Long invitationId = null;
 
     /**
-     * Constructor, requires id of the invitation
+     * Requires the ID of the invitation.<br>
+     * Aleks, GH: Description incomplete ~rr
      * 
      * @param invId
-     *            : Id of the invitation
+     *            ID of the invitation
+     * @param uId
+     *            TODO document
      */
     public ConfirmInvitationAction(Long invId, Long uId) {
         invitationId = invId;
@@ -69,6 +71,5 @@ public class ConfirmInvitationAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
         }
-
     }
 }

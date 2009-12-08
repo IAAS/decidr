@@ -22,30 +22,32 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This action filters a table and shows only these entries, which contain the
- * search string (partially or complete)
+ * This action filters a table and shows only the entries that contain the
+ * search string (partially or complete).
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2343", currentReviewState = State.PassedWithComments)
 public class SearchAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Table searchTable = null;
+    private static final long serialVersionUID = 1L;
+    private Table searchTable = null;
     private TextField searchField = null;
 
     /**
-     * Constructor, requires the Table which should be filtered and the
-     * TextField, which contains the search string
+     * Requires the {@link Table} which should be filtered and the
+     * {@link TextField}, which contains the search string.
      * 
      * @param table
-     *            : Table to be searched
+     *            {@link Table} to be searched
      * @param textField
-     *            : TextField, which contains the search string
+     *            {@link TextField}, which contains the search string
      */
+    // GH, Aleks: What if the input is null? ~rr
     public SearchAction(Table table, TextField textField) {
         searchTable = table;
         searchField = textField;

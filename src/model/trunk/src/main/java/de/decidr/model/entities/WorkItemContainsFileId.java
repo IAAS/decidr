@@ -36,6 +36,7 @@ public class WorkItemContainsFileId implements java.io.Serializable {
         this.fileId = fileId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -49,6 +50,7 @@ public class WorkItemContainsFileId implements java.io.Serializable {
                 && (this.getFileId() == castOther.getFileId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 
@@ -56,5 +58,4 @@ public class WorkItemContainsFileId implements java.io.Serializable {
         result = 37 * result + (int) this.getFileId();
         return result;
     }
-
 }

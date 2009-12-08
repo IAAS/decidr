@@ -24,7 +24,7 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
 
 /**
- * This action hides the help window
+ * This action hides the help window.
  * 
  * @author Geoffrey-Alexeij Heinze
  */

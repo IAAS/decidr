@@ -27,6 +27,9 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.ui.view.Main;
@@ -37,72 +40,69 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * Marks a selected work item as done.
  * 
  * @author AT
- * @reviewed ~tk, ~dh
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2343", currentReviewState = State.PassedWithComments)
 public class MarkWorkItemAsDoneAction implements ClickListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Role role = (Role) session.getAttribute("role");
-	private WorkItemFacade workItemFacade = new WorkItemFacade(role);
+    private Role role = (Role) session.getAttribute("role");
+    private WorkItemFacade workItemFacade = new WorkItemFacade(role);
 
-	private Table table = null;
+    private Table table = null;
 
-	/**
-	 * Constructor which gets a work item id as a parameter to know which work
-	 * item is to be marked done. AT description incorrect, there is no id
-	 * parameter ~dh, ~tk
-	 */
-	public MarkWorkItemAsDoneAction(Table table) {
-		this.table = table;
-	}
+    /**
+     * Constructor which gets a work item id as a parameter to know which work
+     * item is to be marked as done.<br>
+     * Aleks: description incorrect, there is no id parameter ~dh, ~tk
+     */
+    public MarkWorkItemAsDoneAction(Table table) {
+        this.table = table;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		// AT maximum line width exceeded ~dh, ~tk
-		Set<?> value = (Set<?>) table.getValue();
-		if ((value != null) && (value.size() != 0)) {
-			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-				Item item = (Item) iter.next();
-				Long workItemId = (Long) item.getItemProperty("id").getValue();
-				// AT use enumeration instead of magic string ~dh, ~tk
-				if (item.getItemProperty("workItemStatus").getValue()
-						.toString().equals("Done")) {
-					Main.getCurrent().getMainWindow().addWindow(
-							new InformationDialogComponent(
-									"The selected work item is already done",
-									"Information"));
-				} else {
-					try {
-						workItemFacade.markWorkItemAsDone(workItemId);
-						item.getItemProperty("workItemStatus").setValue(
-								workItemFacade.getWorkItem(workItemId)
-										.getItemProperty("status").getValue());
-						table.requestRepaint();
-						Main.getCurrent().getMainWindow().addWindow(
-								new InformationDialogComponent(
-										"Marked as done", "Success"));
-					} catch (TransactionException e) {
-						Main.getCurrent().getMainWindow().addWindow(
-								new TransactionErrorDialogComponent(e));
-					}
-				}
-			}
-		} else {
-			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent("Please select an item",
-							"Information"));
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        Set<?> value = (Set<?>) table.getValue();
+        if ((value != null) && (value.size() != 0)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+                Item item = (Item) iter.next();
+                Long workItemId = (Long) item.getItemProperty("id").getValue();
+                // Aleks use enumeration instead of magic string ~dh, ~tk
+                // Aleks I've done this for you ~rr
+                if (item.getItemProperty("workItemStatus").equals(
+                        WorkItemStatus.Done)) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "The selected work item is already done",
+                                    "Information"));
+                } else {
+                    try {
+                        workItemFacade.markWorkItemAsDone(workItemId);
+                        item.getItemProperty("workItemStatus").setValue(
+                                workItemFacade.getWorkItem(workItemId)
+                                        .getItemProperty("status").getValue());
+                        table.requestRepaint();
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new InformationDialogComponent(
+                                        "Marked as done", "Success"));
+                    } catch (TransactionException e) {
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new TransactionErrorDialogComponent(e));
+                    }
+                }
+            }
+        } else {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please select a work item!", "Information"));
+        }
+    }
 }

@@ -22,18 +22,15 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.ui.view.Main;
 
 /**
- * This action hides a sub window (i.e. ChangeEmailComponent)
+ * This action hides a sub-window (e.g. ChangeEmailComponent).
  * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class HideDialogWindowAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
+    @Override
     public void buttonClick(ClickEvent event) {
         Main.getCurrent().getMainWindow().removeWindow(
                 event.getButton().getWindow());

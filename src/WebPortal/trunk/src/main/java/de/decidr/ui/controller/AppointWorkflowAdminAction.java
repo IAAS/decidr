@@ -38,12 +38,9 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = { "TK", "DH", "RR" }, lastRevision = "2179", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "TK", "DH", "RR" }, lastRevision = "2354", currentReviewState = State.Passed)
 public class AppointWorkflowAdminAction implements ClickListener {
 
-    /**
-     * Serial version uid
-     */
     private static final long serialVersionUID = 1L;
 
     private HttpSession session = Main.getCurrent().getSession();

@@ -21,6 +21,7 @@ import java.util.Queue;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 /**
  * Provides delayed logging using the {@link DefaultLogger}.
@@ -124,19 +125,19 @@ public class LogQueue {
      */
     private void writeToLogger(int level, Object message, Throwable t) {
         switch (level) {
-        case Level.DEBUG_INT:
+        case Priority.DEBUG_INT:
             logger.debug(message, t);
             break;
 
-        case Level.ERROR_INT:
+        case Priority.ERROR_INT:
             logger.error(message, t);
             break;
 
-        case Level.FATAL_INT:
+        case Priority.FATAL_INT:
             logger.fatal(message, t);
             break;
 
-        case Level.INFO_INT:
+        case Priority.INFO_INT:
             logger.info(message, t);
             break;
 
@@ -144,7 +145,7 @@ public class LogQueue {
             logger.trace(message, t);
             break;
 
-        case Level.WARN_INT:
+        case Priority.WARN_INT:
             logger.warn(message, t);
             break;
 

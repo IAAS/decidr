@@ -18,7 +18,7 @@ package de.decidr.model.commands.tenant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Criteria;
+import org.hibernate.criterion.CriteriaSpecification;
 
 import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
@@ -71,7 +71,7 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
                 evt.getSession());
         Filters.apply(c, filters, paginator);
 
-        result = c.setResultTransformer(Criteria.ROOT_ENTITY).list();
+        result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
     }
 
     /**

@@ -37,6 +37,7 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
         this.serverId = serverId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -51,6 +52,7 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
                 && (this.getServerId() == castOther.getServerId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 
@@ -58,5 +60,4 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
         result = 37 * result + (int) this.getServerId();
         return result;
     }
-
 }

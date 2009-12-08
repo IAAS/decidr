@@ -15,41 +15,41 @@
  */
 
 package de.decidr.ui.controller;
+
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.help.HelpDialogComponent;
 import de.decidr.ui.view.uibuilder.UIBuilder;
 
 /**
- * This class is the director for building the ui. In the DecidR application
+ * This class is the director for building the UI. In the DecidR application
  * there are different roles. Every role has an other authority and other items
- * are displayed. The user with most less authority is the unregistered user. He
+ * are displayed. The user with lowest authority is the unregistered user. He
  * only can browse through the application. The next level is the registered
- * user. He is able to edit his personal settings and to log in. The worklfow
+ * user. He is able to edit his personal settings and to log in. The workflow
  * administrator is able to administrate a workflow instance which is started
  * within the DecidR application. The tenant administrator administrates an
- * amount of user which belongs to him. He can make his sepcifi look and feel
- * from the application with CSS. And he is able to leave a user and to invite a
- * user. The super administrator is the one with full functionality. He can do
- * evereything. He is able to delete user from the application and to manage
- * server specific adjustments.
+ * amount of users which belong to him. He can create/adapt a tenant-specific
+ * look and feel within the application using CSS. He is also able to remove or
+ * invite a user. The super administrator can access the full functionality. He
+ * is able to make server specific adjustments.
  * 
  * @author AT
  */
+@Reviewed(reviewers = "RR", lastRevision = "2343", currentReviewState = State.PassedWithComments)
 public class UIDirector {
-
 
     private UIBuilder uiBuilder = null;
 
     private SiteFrame siteFrame = null;
 
     private HelpDialogComponent helpDialog = null;
-    
 
     /**
      * Constructs the view which is shown to the user. Here the header, the
-     * specific content and the specific vertical navigation menu is build
+     * specific content and the specific vertical navigation menu is built
      * depending on which role the user has.
-     * 
      */
     public void constructView() {
         uiBuilder.buildHeader();
@@ -58,36 +58,39 @@ public class UIDirector {
     }
 
     /**
-     * Sets the ui builder which determines how the user interface is built.
+     * Sets the {@link UIBuilder} which determines how the user interface is
+     * built.
      * 
      * @param uiBuilder
+     *            TODO document
      */
     public void setUiBuilder(UIBuilder uiBuilder) {
         this.uiBuilder = uiBuilder;
     }
 
     /**
-     * This method creates a new SiteFrame object, where the header, content and
-     * navigation is set.
-     * 
+     * This method creates a new {@link SiteFrame} object, where the header,
+     * content and navigation are set.
      */
     public void createNewView() {
         siteFrame = new SiteFrame();
     }
 
     /**
-     * This method returns the SiteFrame object.
+     * This method returns the {@link SiteFrame} object.
      * 
-     * @return templateView
+     * @return templateView TODO document
      */
     public SiteFrame getTemplateView() {
         return siteFrame;
     }
 
     /**
-     * Sets the given uiBuilder and constructs the belonging user interface
+     * Sets the given {@link UIBuilder} and constructs the belonging user
+     * interface
      * 
      * @param uiBuilder
+     *            TODO document
      */
     public void switchView(UIBuilder uiBuilder) {
         setUiBuilder(uiBuilder);
@@ -101,5 +104,4 @@ public class UIDirector {
     public HelpDialogComponent getHelpDialog() {
         return helpDialog;
     }
-
 }

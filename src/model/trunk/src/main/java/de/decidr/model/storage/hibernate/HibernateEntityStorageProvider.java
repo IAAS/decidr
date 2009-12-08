@@ -209,6 +209,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         // No content other than class definition intended
     }
 
+    @SuppressWarnings("null")
     @Override
     public InputStream getFile(Long fileId) throws StorageException {
         logger.debug("Retrieving file with ID "
@@ -290,6 +291,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
      * @throws IllegalArgumentException
      *             if any of the parameters are <code>null</code>
      */
+    @SuppressWarnings("null")
     @Override
     public void putFile(InputStream data, Long fileId, Long fileSize)
             throws StorageException {
@@ -360,6 +362,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void removeFile(Long fileId) throws StorageException {
         logger.debug("Removing file with ID "
@@ -399,8 +402,8 @@ public class HibernateEntityStorageProvider implements StorageProvider {
      *             actually implement {@link FileEntityInitializer}
      */
     private void initNewFileEntity(Object entity)
-            throws ClassNotFoundException, StorageException,
-            InstantiationException, IllegalAccessException {
+            throws ClassNotFoundException, InstantiationException,
+            IllegalAccessException {
         logger.debug("Initializing new file entity.");
         Class<?> clazz = Class.forName(entityInitializerClass);
         if (!FileEntityInitializer.class.isAssignableFrom(clazz)) {

@@ -36,6 +36,7 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
         this.workflowModelId = workflowModelId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -49,6 +50,7 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
                 && (this.getWorkflowModelId() == castOther.getWorkflowModelId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 

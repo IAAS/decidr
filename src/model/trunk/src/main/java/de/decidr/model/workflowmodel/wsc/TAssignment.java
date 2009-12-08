@@ -5,7 +5,6 @@
 // Generated on: 2009.08.28 at 04:33:51 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.wsc;
 
 import java.util.ArrayList;
@@ -16,34 +15,32 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tAssignment complex type.
+ * <p>
+ * Java class for tAssignment complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tAssignment">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="key" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="value" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *       &lt;/sequence>
- *       &lt;attribute name="valueType" type="{http://www.w3.org/2001/XMLSchema}string" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tAssignment&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name=&quot;key&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
+ *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name=&quot;valueType&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tAssignment", propOrder = {
-    "key",
-    "value"
-})
+@XmlType(name = "tAssignment", propOrder = { "key", "value" })
 public class TAssignment {
+    // XXX file wants a proper header comment
 
     @XmlElement(required = true)
     protected String key;
@@ -55,10 +52,7 @@ public class TAssignment {
     /**
      * Gets the value of the key property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
      */
     public String getKey() {
         return key;
@@ -68,9 +62,7 @@ public class TAssignment {
      * Sets the value of the key property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
      */
     public void setKey(String value) {
         this.key = value;
@@ -80,23 +72,21 @@ public class TAssignment {
      * Gets the value of the value property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the value property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the value property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getValue().add(newItem);
+     * getValue().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link String }
      */
     public List<String> getValue() {
         if (value == null) {
@@ -108,10 +98,7 @@ public class TAssignment {
     /**
      * Gets the value of the valueType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
      */
     public String getValueType() {
         return valueType;
@@ -121,12 +108,9 @@ public class TAssignment {
      * Sets the value of the valueType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
      */
     public void setValueType(String value) {
         this.valueType = value;
     }
-
 }

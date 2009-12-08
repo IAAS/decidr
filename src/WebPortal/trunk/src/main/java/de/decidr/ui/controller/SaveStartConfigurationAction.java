@@ -24,6 +24,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
 import de.decidr.model.exceptions.UserUnavailableException;
@@ -42,104 +44,108 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * set the entered value in the start configuration object
  * 
  * @author AT
- * @reviewed ~tk, ~dh
  */
+@Reviewed(reviewers = { "TK", "DH", "RR" }, lastRevision = "2343", currentReviewState = State.PassedWithComments)
 public class SaveStartConfigurationAction implements ClickListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Form form = null;
+    private Form form = null;
 
-	private Tree tree = null;
+    private Tree tree = null;
 
-	private TConfiguration tConfiguration = null;
+    private TConfiguration tConfiguration = null;
 
-	private Long workflowModelId = null;
+    private Long workflowModelId = null;
 
-	private boolean checked = false;
-	
-	private Role role = (Role) Main.getCurrent().getSession().getAttribute("role");
+    private boolean checked = false;
 
-	private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-			role);
+    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+            "role");
 
-	/**
-	 * AT the constructor does not actually perform the save action~dh
-	 * 
-	 * Constructor which saves the role tree, the form of the start
-	 * configuration window. Also the start configuration object,
-	 * tConfiguration, is saved with the given workflow model id. And a boolean
-	 * value is saved if the user wants to start the workflow instance
-	 * immediately or not.
-	 * 
-	 * @param tree
-	 * @param form
-	 * @param tConfiguation
-	 * @param workflowModelId
-	 * @param checked
-	 */
-	public SaveStartConfigurationAction(Tree tree, Form form,
-			TConfiguration tConfiguation, Long workflowModelId, boolean checked) {
-		this.tree = tree;
-		this.form = form;
-		this.tConfiguration = tConfiguation;
-		this.workflowModelId = workflowModelId;
-		this.checked = checked;
-	}
+    private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
+            role);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void buttonClick(ClickEvent event) {		
-		for (TRole role : tConfiguration.getRoles().getRole()) {
-			Collection<TActor> collect = tree.getChildren(role.getName());
-			if (collect.size() > 0) {
-				for (TActor tActor : collect) {
-					role.getActor().add(tActor);
-				}
-			}
-		}
-		//AT bitte checken, ob es überhaupt den ValueType "File" gibt ~tk,dh
-		for (TAssignment assignment : tConfiguration.getAssignment()) {
-			if (assignment.getValueType().equals("File")) {
-				assignment.getValue().add(
-						String.valueOf(Main.getCurrent().getMainWindow()
-								.getData()));
-			} else {
-				assignment.getValue().add(
-						form.getField(assignment.getKey()).getValue()
-								.toString());
-			}
+    /**
+     * Aleks the constructor does not actually perform the save action ~dh
+     * 
+     * Constructor which saves the role tree, the form of the start
+     * configuration window. Also the start configuration object,
+     * {@link TConfiguration}, is saved with the given workflow model ID. And a
+     * boolean value is saved, indicating whether the user wants to start the
+     * workflow instance immediately or not.
+     * 
+     * @param tree
+     *            TODO document
+     * @param form
+     *            TODO document
+     * @param tConfiguation
+     *            TODO document
+     * @param workflowModelId
+     *            TODO document
+     * @param checked
+     *            TODO document
+     */
+    public SaveStartConfigurationAction(Tree tree, Form form,
+            TConfiguration tConfiguation, Long workflowModelId, boolean checked) {
+        this.tree = tree;
+        this.form = form;
+        this.tConfiguration = tConfiguation;
+        this.workflowModelId = workflowModelId;
+        this.checked = checked;
+    }
 
-		}
-		try {
-			workflowModelFacade.startWorkflowInstance(workflowModelId,
-					tConfiguration, checked);
-		} catch (UsernameNotFoundException expception) {
-			Main.getCurrent().getMainWindow().showNotification(
-					"Username not found!");
-		} catch (UserDisabledException expception) {
-			Main.getCurrent().getMainWindow().showNotification(
-					"Username disabled!");
-		} catch (UserUnavailableException exceptions) {
-			Main.getCurrent().getMainWindow().showNotification(
-					"User unavailable!");
-		} catch (WorkflowModelNotStartableException exception) {
-			Main.getCurrent().getMainWindow().showNotification(
-					"Workflow model is not startable!");
-		} catch (TransactionException exception) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(exception));
-		}
-		new HideDialogWindowAction();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void buttonClick(ClickEvent event) {
+        for (TRole role : tConfiguration.getRoles().getRole()) {
+            Collection<TActor> collect = tree.getChildren(role.getName());
+            if (collect.size() > 0) {
+                for (TActor tActor : collect) {
+                    role.getActor().add(tActor);
+                }
+            }
+        }
 
+        // AT bitte checken, ob es überhaupt den ValueType "File" gibt ~tk,dh
+        for (TAssignment assignment : tConfiguration.getAssignment()) {
+            if (assignment.getValueType().equals("File")) {
+                assignment.getValue().add(
+                        String.valueOf(Main.getCurrent().getMainWindow()
+                                .getData()));
+            } else {
+                assignment.getValue().add(
+                        form.getField(assignment.getKey()).getValue()
+                                .toString());
+            }
+        }
+
+        try {
+            workflowModelFacade.startWorkflowInstance(workflowModelId,
+                    tConfiguration, checked);
+        } catch (UsernameNotFoundException e) {
+            Main.getCurrent().getMainWindow().showNotification(
+                    "Username not found!");
+        } catch (UserDisabledException e) {
+            Main.getCurrent().getMainWindow()
+                    .showNotification("User disabled!");
+        } catch (UserUnavailableException e) {
+            Main.getCurrent().getMainWindow().showNotification(
+                    "User unavailable!");
+        } catch (WorkflowModelNotStartableException e) {
+            Main.getCurrent().getMainWindow().showNotification(
+                    "Workflow model is not startable!");
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
+        }
+
+        new HideDialogWindowAction();
+    }
 }

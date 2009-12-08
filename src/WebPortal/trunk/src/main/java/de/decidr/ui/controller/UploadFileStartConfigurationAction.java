@@ -32,6 +32,8 @@ import com.vaadin.ui.Upload.SucceededListener;
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.ui.view.DeleteUploadComponent;
@@ -45,99 +47,100 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
+@Reviewed(reviewers = "RR", lastRevision = "2343", currentReviewState = State.PassedWithComments)
 public class UploadFileStartConfigurationAction implements FailedListener,
-		Receiver, SucceededListener {
+        Receiver, SucceededListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private StartConfigurationWindow startConfigurationWindow = new StartConfigurationWindow();
+    private StartConfigurationWindow startConfigurationWindow = new StartConfigurationWindow();
 
-	private DeleteUploadComponent deleteUploadComponent = new DeleteUploadComponent();
+    private DeleteUploadComponent deleteUploadComponent = new DeleteUploadComponent();
 
-	private File file = null;
+    private File file = null;
 
-	private Role role = (Role) Main.getCurrent().getSession().getAttribute(
-			"role");
+    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+            "role");
 
-	private FileFacade fileFacade = new FileFacade(role);
+    private FileFacade fileFacade = new FileFacade(role);
 
-	private Long fileId = null;
+    private Long fileId = null;
 
-	/**
-	 * Returns the filed Id
-	 * 
-	 * @return fileId
-	 */
-	public Long getFileId() {
-		return fileId;
-	}
+    /**
+     * Returns the filed Id
+     * 
+     * @return fileId
+     */
+    public Long getFileId() {
+        // GH, Aleks: what if fileId is null? ~rr
+        return fileId;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String,
-	 * java.lang.String)
-	 */
-	@Override
-	public OutputStream receiveUpload(String filename, String MIMEType) {
-		FileOutputStream fos = null;
-		FileInputStream fis = null;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.Upload.Receiver#receiveUpload(java.lang.String,
+     * java.lang.String)
+     */
+    @Override
+    public OutputStream receiveUpload(String filename, String MIMEType) {
+        FileOutputStream fos = null;
+        FileInputStream fis = null;
 
-		file = new java.io.File(filename);
+        file = new java.io.File(filename);
 
-		try {
-			fis = new FileInputStream(file);
-			fos = new FileOutputStream(file);
-			HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
-			filePermission.add(FileReadPermission.class);
-			fileId = fileFacade.createFile(fis, file.length(), filename,
-					MIMEType, true, filePermission);
-			Main.getCurrent().getMainWindow().showNotification(
-					"File " + filename + "successfully temporarily saved!");
+        try {
+            fis = new FileInputStream(file);
+            fos = new FileOutputStream(file);
+            HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
+            filePermission.add(FileReadPermission.class);
+            fileId = fileFacade.createFile(fis, file.length(), filename,
+                    MIMEType, true, filePermission);
+            Main.getCurrent().getMainWindow().showNotification(
+                    "File " + filename + "successfully temporarily saved!");
 
-			deleteUploadComponent.getLabel().setValue(filename);
-			startConfigurationWindow.getUpload().setVisible(false);
-			startConfigurationWindow.getAssignmentForm().getLayout()
-					.addComponent(deleteUploadComponent);
+            deleteUploadComponent.getLabel().setValue(filename);
+            startConfigurationWindow.getUpload().setVisible(false);
+            startConfigurationWindow.getAssignmentForm().getLayout()
+                    .addComponent(deleteUploadComponent);
 
-			Main.getCurrent().getMainWindow().setData(fileId);
-		} catch (FileNotFoundException exception) {
-			Main.getCurrent().getMainWindow()
-					.showNotification("File not found");
-		} catch (TransactionException exception) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(exception));
-		}
-		return fos;
-	}
+            Main.getCurrent().getMainWindow().setData(fileId);
+        } catch (FileNotFoundException exception) {
+            Main.getCurrent().getMainWindow()
+            // GH, Aleks: which file? Please be a little more verbose... ~rr
+                    .showNotification("File not found.");
+        } catch (TransactionException exception) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(exception));
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload
-	 * .FailedEvent)
-	 */
-	@Override
-	public void uploadFailed(FailedEvent event) {
-		Main.getCurrent().getMainWindow().showNotification(
-				"File " + event.getFilename() + "uplaod not successful!");
+        // GH, Aleks: this will return null if an Exception is thrown - is that
+        // on purpose? ~rr
+        return fos;
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload
+     * .FailedEvent)
+     */
+    @Override
+    public void uploadFailed(FailedEvent event) {
+        Main.getCurrent().getMainWindow().showNotification(
+                "File " + event.getFilename() + " upload not successful!");
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.
-	 * Upload.SucceededEvent)
-	 */
-	@Override
-	public void uploadSucceeded(SucceededEvent event) {
-		Main.getCurrent().getMainWindow().showNotification("Upload succeeded");
-	}
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.
+     * Upload.SucceededEvent)
+     */
+    @Override
+    public void uploadSucceeded(SucceededEvent event) {
+        Main.getCurrent().getMainWindow().showNotification("Upload succeeded!");
+    }
 }

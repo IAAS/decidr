@@ -36,6 +36,7 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
         this.tenantId = tenantId;
     }
 
+    @Override
     public boolean equals(Object other) {
         if ((this == other))
             return true;
@@ -49,6 +50,7 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
                 && (this.getTenantId() == castOther.getTenantId());
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
 
@@ -56,5 +58,4 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
         result = 37 * result + (int) this.getTenantId();
         return result;
     }
-
 }
