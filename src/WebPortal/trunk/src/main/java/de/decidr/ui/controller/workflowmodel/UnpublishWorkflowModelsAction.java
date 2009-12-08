@@ -14,14 +14,16 @@
  * under the License.
  */
 
-package de.decidr.ui.controller.user;
+package de.decidr.ui.controller.workflowmodel;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -30,26 +32,27 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.UserFacade;
+import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action disables a user account.
+ * This action unpublishes a list of workflow models.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Passed)
-public class DeactivateAccountAction implements ClickListener {
+@Reviewed(reviewers = { "RR" }, lastRevision = "2352", currentReviewState = State.Passed)
+public class UnpublishWorkflowModelsAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
 
     private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
-    private UserFacade userFacade = new UserFacade(role);
+    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
 
-    private Table table = null;
+    private Table currentTenantTable = null;
 
     /**
      * Requires a table which contains the data.
@@ -57,31 +60,39 @@ public class DeactivateAccountAction implements ClickListener {
      * @param table
      *            requires {@link Table} with data
      */
-    public DeactivateAccountAction(Table table) {
-        this.table = table;
+    public UnpublishWorkflowModelsAction(Table table) {
+        this.currentTenantTable = table;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Set<?> value = (Set<?>) table.getValue();
+        List<Long> wfms = new ArrayList<Long>();
+        Set<?> value = (Set<?>) currentTenantTable.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                try {
-                    userFacade.setDisabledSince(
-                            (Long) table
-                                    .getContainerProperty(iter.next(), "id")
-                                    .getValue(), new Date());
-                } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(e));
-                }
+                Item item = (Item) iter.next();
+                wfms.add((Long) item.getItemProperty("id").getValue());
             }
+            try {
+                wfmFacade.unpublishWorkflowModels(wfms);
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Workflow model(s) successfully unpublished!",
+                                "Success"));
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        } else {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please select a workflow model!", "Information"));
         }
     }
 }

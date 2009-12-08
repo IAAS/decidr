@@ -26,6 +26,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
@@ -36,14 +38,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class ActivateAccountAction implements ClickListener {
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Passed)
+public class ActivateAccountsAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
     private UserFacade userFacade = new UserFacade(role);
@@ -51,12 +51,12 @@ public class ActivateAccountAction implements ClickListener {
     private Table table = null;
 
     /**
-     * Contructor, requires the table which contains the data
+     * Requires a table which contains the data
      * 
      * @param table
-     *            : requires Table with data
+     *            requires {@link Table} with data
      */
-    public ActivateAccountAction(Table table) {
+    public ActivateAccountsAction(Table table) {
         this.table = table;
     }
 

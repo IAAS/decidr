@@ -26,6 +26,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
@@ -33,18 +35,16 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action deletes a tenant
+ * This action deletes a tenant.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2350", currentReviewState = State.Passed)
 public class DeleteTenantAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
     private TenantFacade tenantFacade = new TenantFacade(role);
@@ -52,10 +52,10 @@ public class DeleteTenantAction implements ClickListener {
     private Table table = null;
 
     /**
-     * Constructor, requires the table which contains the data
+     * Requires a table which contains the data
      * 
      * @param table
-     *            : requires Table with data
+     *            requires {@link Table} with data
      */
     public DeleteTenantAction(Table table) {
         this.table = table;

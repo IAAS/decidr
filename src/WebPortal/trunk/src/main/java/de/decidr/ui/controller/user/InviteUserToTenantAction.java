@@ -26,67 +26,66 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action invites a list of users and/or email addresses to join the tenant
+ * This action invites a list of users and/or email addresses to join a tenant.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Passed)
 public class InviteUserToTenantAction implements ClickListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Role role = (Role) session.getAttribute("role");
-	private TenantFacade tenantFacade = new TenantFacade(role);
+    private Role role = (Role) session.getAttribute("role");
+    private TenantFacade tenantFacade = new TenantFacade(role);
 
-	private Form inviteForm = null;
-	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
-			"tenantId");
+    private Form inviteForm = null;
+    private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+            "tenantId");
 
-	public InviteUserToTenantAction(Form form) {
-		inviteForm = form;
-	}
+    public InviteUserToTenantAction(Form form) {
+        inviteForm = form;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
 
-		List<String> emails = new ArrayList<String>();
-		List<String> userNames = new ArrayList<String>();
-		for (Integer c = 1; c <= inviteForm.getItemPropertyIds().size(); c++) {
-			if (inviteForm.getItemProperty("user" + c.toString()) != null) {
-				if (inviteForm.getItemProperty("user" + c.toString())
-						.getValue().toString().contains("@")) {
-					emails.add(inviteForm
-							.getItemProperty("user" + c.toString()).getValue()
-							.toString());
-				} else {
-					userNames.add(inviteForm.getItemProperty(
-							"user" + c.toString()).getValue().toString());
-				}
-			}
-		}
+        List<String> emails = new ArrayList<String>();
+        List<String> userNames = new ArrayList<String>();
+        for (Integer c = 1; c <= inviteForm.getItemPropertyIds().size(); c++) {
+            if (inviteForm.getItemProperty("user" + c.toString()) != null) {
+                if (inviteForm.getItemProperty("user" + c.toString())
+                        .getValue().toString().contains("@")) {
+                    emails.add(inviteForm
+                            .getItemProperty("user" + c.toString()).getValue()
+                            .toString());
+                } else {
+                    userNames.add(inviteForm.getItemProperty(
+                            "user" + c.toString()).getValue().toString());
+                }
+            }
+        }
 
-		try {
-			tenantFacade.inviteUsersAsMembers(tenantId, emails, userNames);
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(e));
-		}
-	}
-
+        try {
+            tenantFacade.inviteUsersAsMembers(tenantId, emails, userNames);
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
+        }
+    }
 }

@@ -28,128 +28,136 @@ import org.apache.commons.io.IOUtils;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * Gets the css file and the logos from the current tenant from the database and
+ * Gets the CSS file and the logos of the current tenant from the database and
  * saves it to the VAADIN folder, where all themes are stored.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2350", currentReviewState = State.Rejected)
 public class TenantView {
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Role role = (Role) session.getAttribute("role");
-	private TenantFacade tenantFacade = new TenantFacade(role);
+    private Role role = (Role) session.getAttribute("role");
+    private TenantFacade tenantFacade = new TenantFacade(role);
 
-	private String tenantName = null;
-	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
-			"tenantId");
+    private String tenantName = null;
+    private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+            "tenantId");
 
-	private InputStream css = null;
-	private InputStream logo = null;
+    private InputStream css = null;
+    private InputStream logo = null;
 
-	private File cssFile = null;
-	private File logoFile = null;
+    private File cssFile = null;
+    private File logoFile = null;
 
-	/**
-	 * This method gets the css and the logo and stores it in variables. If css
-	 * or logo files exist already they will be deleted and new css and logo
-	 * files are genereated with the data from the database.
-	 * 
-	 */
-	public void synchronize() {
+    /**
+     * This method gets the CSS and the logo and stores it in variables. If CSS
+     * or logo files already exist, they will be overwritten with the data from
+     * the database.
+     */
+    public void synchronize() {
 
-		try {
-			tenantName = tenantFacade.getTenant(tenantId).getName();
+        try {
+            tenantName = tenantFacade.getTenant(tenantId).getName();
 
-			cssFile = new File(Main.getCurrent().getContext()
-					.getBaseDirectory().getPath()
-					+ File.separator
-					+ "VAADIN"
-					+ File.separator
-					+ "themes"
-					+ File.separator
-					+ tenantName
-					+ File.separator
-					+ "styles.css");
-			logoFile = new File(Main.getCurrent().getContext()
-					.getBaseDirectory().getPath()
-					+ File.separator
-					+ "VAADIN"
-					+ File.separator
-					+ "themes"
-					+ File.separator
-					+ tenantName
-					+ File.separator
-					+ "img"
-					+ File.separator + "logo.png");
+            cssFile = new File(Main.getCurrent().getContext()
+                    .getBaseDirectory().getPath()
+                    + File.separator
+                    + "VAADIN"
+                    + File.separator
+                    + "themes"
+                    + File.separator
+                    + tenantName
+                    + File.separator
+                    + "styles.css");
+            logoFile = new File(Main.getCurrent().getContext()
+                    .getBaseDirectory().getPath()
+                    + File.separator
+                    + "VAADIN"
+                    + File.separator
+                    + "themes"
+                    + File.separator
+                    + tenantName
+                    + File.separator
+                    + "img"
+                    + File.separator + "logo.png");
 
-			css = tenantFacade.getCurrentColorScheme(tenantId);
-			if (css == null) {
-				css = tenantFacade
-						.getCurrentColorScheme(DecidrGlobals.DEFAULT_TENANT_ID);
-			}
+            css = tenantFacade.getCurrentColorScheme(tenantId);
+            if (css == null) {
+                css = tenantFacade
+                        .getCurrentColorScheme(DecidrGlobals.DEFAULT_TENANT_ID);
+            }
 
-			if (css == null) {
-				throw new RuntimeException("No css file found in the database");
-			}
+            if (css == null) {
+                throw new RuntimeException(
+                        "No style information found in the database.");
+            }
 
-			logo = tenantFacade.getLogo(tenantId);
-			if (logo == null) {
-				logo = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
-			}
+            logo = tenantFacade.getLogo(tenantId);
+            if (logo == null) {
+                logo = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
+            }
 
-			if (logo == null) {
-				throw new RuntimeException("No logo file found in the database");
-			}
+            if (logo == null) {
+                throw new RuntimeException(
+                        "No logo file found in the database.");
+            }
 
-			if (cssFile.exists()) {
-				cssFile.delete();
-			}
-			if (!cssFile.getParentFile().exists()) {
-				if (!cssFile.getParentFile().mkdirs()) {
-					throw new IOException("Cannot create directories.");
-				}
-			}
-			if (logoFile.exists()) {
-				logoFile.delete();
-			}
-			if (!logoFile.getParentFile().exists()) {
-				if (!logoFile.getParentFile().mkdirs()) {
-					throw new IOException("Cannot create directories.");
-				}
-			}
+            if (cssFile.exists()) {
+                cssFile.delete();
+            }
+            if (!cssFile.getParentFile().exists()) {
+                if (!cssFile.getParentFile().mkdirs()) {
+                    // Aleks, GH: which ones? ~rr
+                    throw new IOException("Cannot create directories.");
+                }
+            }
+            if (logoFile.exists()) {
+                logoFile.delete();
+            }
+            if (!logoFile.getParentFile().exists()) {
+                if (!logoFile.getParentFile().mkdirs()) {
+                    // Aleks, GH: which ones? ~rr
+                    throw new IOException("Cannot create directories.");
+                }
+            }
 
-			OutputStream cssOut = null;
-			OutputStream logoOut = null;
-			try {
-				cssOut = new FileOutputStream(cssFile);
-				logoOut = new FileOutputStream(logoFile);
+            OutputStream cssOut = null;
+            OutputStream logoOut = null;
+            try {
+                cssOut = new FileOutputStream(cssFile);
+                logoOut = new FileOutputStream(logoFile);
 
-				IOUtils.copy(css, cssOut);
-				IOUtils.copy(logo, logoOut);
+                IOUtils.copy(css, cssOut);
+                IOUtils.copy(logo, logoOut);
 
-			} finally {
-				if (cssOut != null) {
-					cssOut.close();
-				}
-				css.close();
-				if (logoOut != null) {
-					logoOut.close();
-				}
-				logo.close();
-			}
-		} catch (IOException exception) {
-			Main.getCurrent().getMainWindow().showNotification("IOException");
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(e));
-			e.printStackTrace();
-		}
-	}
+            } finally {
+                if (cssOut != null) {
+                    cssOut.close();
+                }
+                css.close();
+                if (logoOut != null) {
+                    logoOut.close();
+                }
+                logo.close();
+            }
+        } catch (IOException exception) {
+            // Aleks, GH: verbosity, guys, verbosity! ~rr
+            Main.getCurrent().getMainWindow().showNotification("IOException");
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
+            // Aleks, GH: WTF? another one of those???
+            e.printStackTrace();
+        }
+    }
 }

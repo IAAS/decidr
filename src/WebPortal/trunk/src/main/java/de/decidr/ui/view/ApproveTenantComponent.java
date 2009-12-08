@@ -25,7 +25,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.tenant.ApproveTenantsAction;
-import de.decidr.ui.controller.tenant.DeclineTenantAction;
+import de.decidr.ui.controller.tenant.DeclineTenantsAction;
 import de.decidr.ui.data.ApproveTenantContainer;
 import de.decidr.ui.view.tables.ApproveTenantTable;
 
@@ -98,7 +98,7 @@ public class ApproveTenantComponent extends CustomComponent {
 		
 		approveButton = new Button("Approve", new ApproveTenantsAction(
                 approveTenantTable));
-        declineButton = new Button("Decline", new DeclineTenantAction(
+        declineButton = new Button("Decline", new DeclineTenantsAction(
                 approveTenantTable));
         
         

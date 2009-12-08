@@ -16,12 +16,6 @@
 
 package de.decidr.ui.controller.user;
 
-/**
- * This action cancels the membership of a user.
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -30,31 +24,36 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
+/**
+ * This action cancels the membership of a user.<br>
+ * Aleks, GH: what membership? The one with the royal society? ~rr
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Rejected)
 public class CancelMembershipAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
     private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(role);
 
     /**
-     * Overrides default buttonClick(ClickEvent event) of ClickListener to
-     * implement desired functionality
+     * Overrides the default buttonClick(ClickEvent event) of ClickListener to
+     * implement desired functionality.<br>
+     * Aleks, GH: no, it doesn't
      */
-    @Override
     public void buttonClick(ClickEvent event) {
-
         // Aleks, GH: how to cancel membership?
 
         try {
@@ -63,10 +62,12 @@ public class CancelMembershipAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
         }
+
         Main.getCurrent().getMainWindow().showNotification(
-                "you are no longer a member of decidr");
+        // Aleks, GH: I'm pretty sure we don't implement this functionality. Ask
+                // DH ~rr
+                "You are no longer a member of DecidR");
         Main.getCurrent().getMainWindow().removeWindow(
                 event.getButton().getWindow());
-
     }
 }

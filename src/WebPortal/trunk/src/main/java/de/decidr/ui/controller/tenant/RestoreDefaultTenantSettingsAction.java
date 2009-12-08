@@ -19,25 +19,25 @@ package de.decidr.ui.controller.tenant;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.TenantSettingsComponent;
 
 /**
- * Restores the default settings from the the tenant settings. The css settings
- * and other settings are restored and set to a decidr global setting.
+ * Reverts the tenant settings back to their defaults. The CSS settings and
+ * other settings are reverted to the global settings.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2350", currentReviewState = State.Passed)
 public class RestoreDefaultTenantSettingsAction implements ClickListener {
-	
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	UIDirector uiDirector = Main.getCurrent().getUIDirector();
-	SiteFrame siteFrame = uiDirector.getTemplateView();
+
+    private static final long serialVersionUID = 1L;
+    UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    SiteFrame siteFrame = uiDirector.getTemplateView();
 
     /*
      * (non-Javadoc)
@@ -47,14 +47,13 @@ public class RestoreDefaultTenantSettingsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        TenantSettingsComponent content = (TenantSettingsComponent)siteFrame.getContent();
+        TenantSettingsComponent content = (TenantSettingsComponent) siteFrame
+                .getContent();
         content.changeToBasic();
         content.getBackgroundSelect().setValue("aqua");
         content.getForegroundSelect().setValue("aqua");
         content.getFontSelect().setValue("Arial");
         content.getFontSizeSelect().setValue("12");
         Main.getCurrent().getMainWindow().setTheme("decidr");
-
     }
-
 }

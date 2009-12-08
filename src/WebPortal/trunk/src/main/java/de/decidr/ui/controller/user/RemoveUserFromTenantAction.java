@@ -27,67 +27,66 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action removes a list users from a tenant
+ * This action removes a list users from a tenant.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Passed)
 public class RemoveUserFromTenantAction implements ClickListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Role role = (Role) session.getAttribute("role");
-	private UserFacade userFacade = new UserFacade(role);
+    private Role role = (Role) session.getAttribute("role");
+    private UserFacade userFacade = new UserFacade(role);
 
-	private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
-			"tenantId");
+    private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+            "tenantId");
 
-	private Table table = null;
+    private Table table = null;
 
-	/**
-	 * Constructor, requires the table which contains the data
-	 * 
-	 * @param table
-	 *            : requires Table with data
-	 */
-	public RemoveUserFromTenantAction(Table table) {
-		this.table = table;
-	}
+    /**
+     * Requires a table which contains the data.
+     * 
+     * @param table
+     *            requires Table with data
+     */
+    public RemoveUserFromTenantAction(Table table) {
+        this.table = table;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
 
-		Set<?> value = (Set<?>) table.getValue();
-		if ((value != null) && (value.size() != 0)) {
-			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-				Item item = (Item) iter.next();
-				try {
-					Object itemId = iter.next();
-					userFacade.removeFromTenant((Long) item.getItemProperty(
-							"id").getValue(), tenantId);
-					table.removeItem(itemId);
-				} catch (TransactionException e) {
-					Main.getCurrent().getMainWindow().addWindow(
-							new TransactionErrorDialogComponent(e));
-				}
-			}
-		}
-
-	}
+        Set<?> value = (Set<?>) table.getValue();
+        if ((value != null) && (value.size() != 0)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+                Item item = (Item) iter.next();
+                try {
+                    Object itemId = iter.next();
+                    userFacade.removeFromTenant((Long) item.getItemProperty(
+                            "id").getValue(), tenantId);
+                    table.removeItem(itemId);
+                } catch (TransactionException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent(e));
+                }
+            }
+        }
+    }
 }

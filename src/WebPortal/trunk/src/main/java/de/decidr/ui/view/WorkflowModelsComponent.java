@@ -32,8 +32,8 @@ import de.decidr.ui.controller.show.ShowModelingToolAction;
 import de.decidr.ui.controller.workflowmodel.LockWorkflowModelAction;
 import de.decidr.ui.controller.workflowmodel.PublishWorkflowModelAction;
 import de.decidr.ui.controller.workflowmodel.RemoveWorkflowModelsAction;
-import de.decidr.ui.controller.workflowmodel.UnlockWorkflowModelAction;
-import de.decidr.ui.controller.workflowmodel.UnpublishWorkflowModelAction;
+import de.decidr.ui.controller.workflowmodel.UnlockWorkflowModelsAction;
+import de.decidr.ui.controller.workflowmodel.UnpublishWorkflowModelsAction;
 import de.decidr.ui.data.PublicModelContainer;
 import de.decidr.ui.data.WorkflowModelContainer;
 import de.decidr.ui.view.tables.PublicModelTable;
@@ -144,12 +144,12 @@ public class WorkflowModelsComponent extends CustomComponent {
 				new RemoveWorkflowModelsAction(workflowModelTable));
 		lockModelButton = new Button("Lock", new LockWorkflowModelAction(
 				workflowModelTable));
-		unlockModelButton = new Button("Unlock", new UnlockWorkflowModelAction(
+		unlockModelButton = new Button("Unlock", new UnlockWorkflowModelsAction(
 				workflowModelTable));
 		publishModelButton = new Button("Publish",
 				new PublishWorkflowModelAction(workflowModelTable));
 		unpublishModelButton = new Button("Un-publish",
-				new UnpublishWorkflowModelAction(workflowModelTable));
+				new UnpublishWorkflowModelsAction(workflowModelTable));
 		appointWorkflowAdminButton = new Button("Appoint workflow admin",
 				new ShowAppointWorkflowAdminAction(workflowModelTable));
 

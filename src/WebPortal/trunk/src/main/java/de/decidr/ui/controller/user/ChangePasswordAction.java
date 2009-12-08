@@ -23,6 +23,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
@@ -30,18 +32,16 @@ import de.decidr.ui.view.windows.ChangePasswordWindow;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This actions changes password of a user.
+ * This action changes the password of a user.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Passed)
 public class ChangePasswordAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
     private Role role = (Role) session.getAttribute("role");
@@ -65,7 +65,7 @@ public class ChangePasswordAction implements ClickListener {
         if (!passwd.equals(passwords.getItemProperty("newPasswordConfirm")
                 .getValue().toString())) {
             Main.getCurrent().getMainWindow().showNotification(
-                    "new passwords don't match!");
+                    "The new passwords don't match!");
         } else {
             try {
                 userFacade.setPassword(userId, passwords.getItemProperty(

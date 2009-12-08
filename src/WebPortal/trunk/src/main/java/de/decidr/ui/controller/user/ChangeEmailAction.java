@@ -16,12 +16,6 @@
 
 package de.decidr.ui.controller.user;
 
-/**
- * This action requests an e-mail address change.
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
@@ -29,20 +23,25 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ChangeEmailWindow;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
+/**
+ * This action requests an e-mail address change.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Passed)
 public class ChangeEmailAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
     private Long userId = (Long) session.getAttribute("userId");
     private Role role = (Role) session.getAttribute("role");
@@ -53,7 +52,7 @@ public class ChangeEmailAction implements ClickListener {
     /*
      * (non-Javadoc)
      * 
-     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
     @Override
@@ -70,6 +69,5 @@ public class ChangeEmailAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
         }
-
     }
 }

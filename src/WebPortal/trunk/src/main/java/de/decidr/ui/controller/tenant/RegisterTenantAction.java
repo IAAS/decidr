@@ -21,6 +21,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
@@ -34,107 +36,108 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action first creates a new user, then a new tenant
+ * This action first creates a new user, then a new tenant.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2350", currentReviewState = State.PassedWithComments)
 public class RegisterTenantAction implements ClickListener {
-	
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-	private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private UserFacade userFacade = new UserFacade(new UserRole());
-	private TenantFacade tenantFacade = new TenantFacade(new UserRole());
+    private static final long serialVersionUID = 1L;
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private Long userId = null;
-	private RegisterTenantComponent content = null;
+    private UserFacade userFacade = new UserFacade(new UserRole());
+    private TenantFacade tenantFacade = new TenantFacade(new UserRole());
 
-	private UserProfile userProfile = null;
+    private Long userId = null;
+    private RegisterTenantComponent content = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		content = (RegisterTenantComponent) Main.getCurrent().getUIDirector()
-				.getTemplateView().getContent();
-		Form form = content.getRegistrationForm();
-		boolean notEmpty = true;
-		// Geht die einzelnen Felder durch und prüft ob die Felder nicht leer
-		// (notEmpty) sind.
-		// Sobald ein Feld leer ist, wird notEmpty auf false gesetzt. Dabei
-		// werden nur die Felder durchgegangen, die
-		// required sind und deren Wert leer ist.
-		for (Object propertyId : content.getRegistrationForm()
-				.getItemPropertyIds()) {
-			if (notEmpty) {
-				if (form.getField(propertyId).isRequired()
-						&& form.getField(propertyId).getValue().toString()
-								.equals("")) {
-					notEmpty = false;
-				}
-			}
-		}
-		// Hier wird nun geschaut ob die Felder leer sind. Wenn sie nicht leer
-		// sind, dann
-		// speichere die Einträge und registriere den User. Wenn die Felder leer
-		// sind,
-		// dann wird der User aufgefordert die nötigen Felder auszufüllen.
-		if (notEmpty) {
-			content.saveRegistrationForm();
+    private UserProfile userProfile = null;
 
-			try {
-				userId = userFacade.registerUser(content.getRegistrationForm()
-						.getItemProperty("email").getValue().toString(),
-						content.getRegistrationForm().getItemProperty(
-								"password").getValue().toString(),
-						fillUserProfile());
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        content = (RegisterTenantComponent) Main.getCurrent().getUIDirector()
+                .getTemplateView().getContent();
+        Form form = content.getRegistrationForm();
+        boolean notEmpty = true;
 
-				tenantFacade.createTenant(content.getRegistrationForm()
-						.getItemProperty("tenantName").getValue().toString(),
-						"", userId);
-				Main.getCurrent().getMainWindow().addWindow(
-						new InformationDialogComponent(
-								"Tenant successfully registered",
-								"Registration successfully"));
-				siteFrame.setContent(new WelcomePageComponent());
-			} catch (NullPointerException e) {
-				Main.getCurrent().getMainWindow().addWindow(
-						new TransactionErrorDialogComponent(e));
-			} catch (TransactionException e) {
-				Main.getCurrent().getMainWindow().addWindow(
-						new TransactionErrorDialogComponent(e));
-			}
-		} else {
-			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent(
-							"Please enter the required information",
-							"Empty fields"));
-		}
-	}
+        // Aleks, GH: here ye go again with yer bloody german comments!!11! ~rr
+        // Geht die einzelnen Felder durch und prüft ob die Felder nicht leer
+        // (notEmpty) sind.
+        // Sobald ein Feld leer ist, wird notEmpty auf false gesetzt. Dabei
+        // werden nur die Felder durchgegangen, die
+        // required sind und deren Wert leer ist.
+        for (Object propertyId : content.getRegistrationForm()
+                .getItemPropertyIds()) {
+            if (notEmpty) {
+                if (form.getField(propertyId).isRequired()
+                        && form.getField(propertyId).getValue().toString()
+                                .equals("")) {
+                    notEmpty = false;
+                }
+            }
+        }
 
-	private UserProfile fillUserProfile() {
-		userProfile = new UserProfile();
-		userProfile.setFirstName(content.getRegistrationForm().getItemProperty(
-				"firstName").getValue().toString());
-		userProfile.setLastName(content.getRegistrationForm().getItemProperty(
-				"lastName").getValue().toString());
-		userProfile.setCity(content.getRegistrationForm().getItemProperty(
-				"city").getValue().toString());
-		userProfile.setPostalCode(content.getRegistrationForm()
-				.getItemProperty("postalCode").getValue().toString());
-		userProfile.setStreet(content.getRegistrationForm().getItemProperty(
-				"street").getValue().toString());
-		userProfile.setUsername(content.getRegistrationForm().getItemProperty(
-				"userName").getValue().toString());
-		return userProfile;
+        // Aleks, GH: here ye go again with yer bloody german comments!!11! ~rr
+        // Hier wird nun geschaut ob die Felder leer sind. Wenn sie nicht leer
+        // sind, dann
+        // speichere die Einträge und registriere den User. Wenn die Felder leer
+        // sind,
+        // dann wird der User aufgefordert die nötigen Felder auszufüllen.
+        if (notEmpty) {
+            content.saveRegistrationForm();
 
-	}
+            try {
+                userId = userFacade.registerUser(content.getRegistrationForm()
+                        .getItemProperty("email").getValue().toString(),
+                        content.getRegistrationForm().getItemProperty(
+                                "password").getValue().toString(),
+                        fillUserProfile());
+
+                tenantFacade.createTenant(content.getRegistrationForm()
+                        .getItemProperty("tenantName").getValue().toString(),
+                        "", userId);
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Tenant successfully registered",
+                                "Registration successfully"));
+                siteFrame.setContent(new WelcomePageComponent());
+            } catch (NullPointerException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        } else {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please enter the required information!",
+                            "Missing Information"));
+        }
+    }
+
+    private UserProfile fillUserProfile() {
+        userProfile = new UserProfile();
+        userProfile.setFirstName(content.getRegistrationForm().getItemProperty(
+                "firstName").getValue().toString());
+        userProfile.setLastName(content.getRegistrationForm().getItemProperty(
+                "lastName").getValue().toString());
+        userProfile.setCity(content.getRegistrationForm().getItemProperty(
+                "city").getValue().toString());
+        userProfile.setPostalCode(content.getRegistrationForm()
+                .getItemProperty("postalCode").getValue().toString());
+        userProfile.setStreet(content.getRegistrationForm().getItemProperty(
+                "street").getValue().toString());
+        userProfile.setUsername(content.getRegistrationForm().getItemProperty(
+                "userName").getValue().toString());
+        return userProfile;
+    }
 }

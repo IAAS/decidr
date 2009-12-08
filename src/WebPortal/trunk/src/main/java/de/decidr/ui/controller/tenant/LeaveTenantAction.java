@@ -16,12 +16,6 @@
 
 package de.decidr.ui.controller.tenant;
 
-/**
- * This action removes a user from a tenant
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.ui.Button.ClickEvent;
@@ -33,47 +27,48 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
+/**
+ * This action removes a user from a tenant.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
 public class LeaveTenantAction implements ClickListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private Role role = (Role) session.getAttribute("role");
-	private UserFacade userFacade = new UserFacade(role);
+    private Long userId = (Long) session.getAttribute("userId");
+    private Role role = (Role) session.getAttribute("role");
+    private UserFacade userFacade = new UserFacade(role);
 
-	private Long tenantId = null;
+    private Long tenantId = null;
 
-	/**
-	 * Constructor, requires id of the tenant to be left
-	 * 
-	 * @param id
-	 *            : Id of the tenant to be left
-	 */
-	public LeaveTenantAction(Long id) {
-		tenantId = id;
-	}
+    /**
+     * Requires the ID of the tenant to leave.
+     * 
+     * @param id
+     *            ID of the tenant to leave
+     */
+    public LeaveTenantAction(Long id) {
+        tenantId = id;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		try {
-			userFacade.leaveTenant(userId, tenantId);
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new TransactionErrorDialogComponent(e));
-		}
-		Main.getCurrent().getMainWindow().removeWindow(
-				event.getButton().getWindow());
-
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        try {
+            userFacade.leaveTenant(userId, tenantId);
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
+        }
+        Main.getCurrent().getMainWindow().removeWindow(
+                event.getButton().getWindow());
+    }
 }

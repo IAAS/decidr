@@ -49,6 +49,21 @@ public @interface Reviewed {
     State currentReviewState();
 
     public enum State {
-        Passed, Rejected, PassedWithComments, NeedsReview
+        /**
+         * Means that the subject passed the review.
+         */
+        Passed,
+        /**
+         * Means that the subject contains grave or numerous mistakes.
+         */
+        Rejected,
+        /**
+         * Means that the subject is generally good but needs some polish.
+         */
+        PassedWithComments,
+        /**
+         * Means that the subject should be reviewed.
+         */
+        NeedsReview
     }
 }

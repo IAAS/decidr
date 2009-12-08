@@ -23,7 +23,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.ui.controller.show.ShowInviteUserToTenantAction;
-import de.decidr.ui.controller.user.ActivateAccountAction;
+import de.decidr.ui.controller.user.ActivateAccountsAction;
 import de.decidr.ui.controller.user.DeactivateAccountAction;
 import de.decidr.ui.controller.user.RemoveUserFromTenantAction;
 import de.decidr.ui.data.UserListContainer;
@@ -80,7 +80,7 @@ public class UserListComponent extends CustomComponent {
 		deactivateAccountButton = new Button("Deactivate account",
 				new DeactivateAccountAction(userListTable));
 		activateAccountButton = new Button("Activate account",
-				new ActivateAccountAction(userListTable));
+				new ActivateAccountsAction(userListTable));
 		getInviteUserButton().setVisible(true);
 		getButtonHorizontalLayout().addComponent(removeFromTenantButton);
 		getButtonHorizontalLayout().addComponent(deactivateAccountButton);

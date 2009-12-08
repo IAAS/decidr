@@ -16,12 +16,6 @@
 
 package de.decidr.ui.controller.user;
 
-/**
- * This action changes the status of a user, either available or unavailable
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -30,53 +24,57 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
+/**
+ * This action changes the status of a user to either available or unavailable.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Passed)
 public class ChangeStatusAction implements ValueChangeListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Long userId = (Long) session.getAttribute("userId");
-	private Role role = (Role) session.getAttribute("role");
-	private UserFacade userFacade = new UserFacade(role);
+    private Long userId = (Long) session.getAttribute("userId");
+    private Role role = (Role) session.getAttribute("role");
+    private UserFacade userFacade = new UserFacade(role);
 
-	private ProfileSettingsComponent content = null;
+    private ProfileSettingsComponent content = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void valueChange(ValueChangeEvent event) {
-		content = (ProfileSettingsComponent) Main.getCurrent().getUIDirector()
-				.getTemplateView().getContent();
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void valueChange(ValueChangeEvent event) {
+        content = (ProfileSettingsComponent) Main.getCurrent().getUIDirector()
+                .getTemplateView().getContent();
 
-		if (content.getStatus().booleanValue()) {
-			try {
-				userFacade.setUnavailableSince(userId, new Date());
-			} catch (TransactionException e) {
-				Main.getCurrent().getMainWindow().addWindow(
-						new TransactionErrorDialogComponent(e));
-			}
-		} else {
-			try {
-				userFacade.setUnavailableSince(userId, null);
-			} catch (TransactionException e) {
-				Main.getCurrent().getMainWindow().addWindow(
-						new TransactionErrorDialogComponent(e));
-			}
-		}
-
-	}
+        if (content.getStatus().booleanValue()) {
+            try {
+                userFacade.setUnavailableSince(userId, new Date());
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        } else {
+            try {
+                userFacade.setUnavailableSince(userId, null);
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        }
+    }
 }

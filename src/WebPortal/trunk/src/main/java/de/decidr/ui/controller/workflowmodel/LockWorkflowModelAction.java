@@ -27,6 +27,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
@@ -34,63 +36,61 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action locks a list of workflow models
+ * This action locks a list of workflow models.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2352", currentReviewState = State.Passed)
 public class LockWorkflowModelAction implements ClickListener {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Role role = (Role) session.getAttribute("role");
-	private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
+    private Role role = (Role) session.getAttribute("role");
+    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
 
-	private Table table = null;
+    private Table table = null;
 
-	/**
-	 * Constructor, requires the table which contains the data
-	 * 
-	 * @param table
-	 *            : requires Table with data
-	 */
-	public LockWorkflowModelAction(Table table) {
-		this.table = table;
-	}
+    /**
+     * Requires a table which contains the data
+     * 
+     * @param table
+     *            requires {@link Table} with data
+     */
+    public LockWorkflowModelAction(Table table) {
+        this.table = table;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		Set<?> value = (Set<?>) table.getValue();
-		if ((value != null) && (value.size() != 0)) {
-			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-				Item item = (Item) iter.next();
-				try {
-					wfmFacade.setExecutable((Long) item.getItemProperty("id")
-							.getValue(), false);
-					Main.getCurrent().getMainWindow().addWindow(
-							new InformationDialogComponent(item
-									.getItemProperty("name").getValue()
-									+ " successfully locked", "Success"));
-				} catch (TransactionException e) {
-					Main.getCurrent().getMainWindow().addWindow(
-							new TransactionErrorDialogComponent(e));
-					e.printStackTrace();
-				}
-			}
-		} else {
-			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent("Please select an item",
-							"Information"));
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        Set<?> value = (Set<?>) table.getValue();
+        if ((value != null) && (value.size() != 0)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+                Item item = (Item) iter.next();
+                try {
+                    wfmFacade.setExecutable((Long) item.getItemProperty("id")
+                            .getValue(), false);
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent("Workflow model \""
+                                    + item.getItemProperty("name").getValue()
+                                    + "\" successfully locked!", "Success"));
+                } catch (TransactionException e) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent(e));
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please select a workflow model!", "Information"));
+        }
+    }
 }

@@ -22,6 +22,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -30,18 +32,17 @@ import de.decidr.ui.view.windows.InvitationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action creates a new user and performs the given invitation.
+ * This action creates a new user and registers it with the tenant specified by
+ * the invitation.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.Rejected)
 public class RegisterUserWithInvitationAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private UserFacade userFacade = new UserFacade(new UserRole());
+    private UserFacade userFacade = new UserFacade(new UserRole());
 
     private Form settingsForm = null;
     private Long invitationId = null;
@@ -66,6 +67,8 @@ public class RegisterUserWithInvitationAction implements ClickListener {
         } catch (NullPointerException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
+            // Aleks, GH: the least you could have done is search for these bad
+            // boyz... ~rr
             e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
@@ -95,7 +98,7 @@ public class RegisterUserWithInvitationAction implements ClickListener {
                                         "administratedWorkflowModelName")
                                         .getValue().toString();
                     } else {
-                        concern = ", admininstrate a workflow: "
+                        concern = " and admininstrate a workflow: "
                                 + invitationItem.getItemProperty(
                                         "administratedWorkflowModelName")
                                         .getValue().toString();
@@ -107,11 +110,14 @@ public class RegisterUserWithInvitationAction implements ClickListener {
                     if (concern == null) {
                         concern = "Participate in a workflow";
                     } else {
-                        concern = ", participate in a workflow";
+                        concern = " and participate in a workflow";
                     }
                 }
 
                 if (concern == null) {
+                    // Aleks, GH: *please* try to use your imagination - the
+                    // user's actually supposed to glean some information from
+                    // this, you now!? ~rr
                     concern = "No reason specified.";
                 }
 
@@ -123,12 +129,11 @@ public class RegisterUserWithInvitationAction implements ClickListener {
                         + invitationItem.getItemProperty("senderLastName")
                                 .getValue().toString() + "<br/><br/>"
                         + "You have been invited to: " + concern + "<br/><br/>"
-                        + "Confirm this invitation?";
+                        + "Do you want to confirm this invitation?";
 
                 Main.getCurrent().getMainWindow().addWindow(
                         new InvitationDialogComponent(invDescription,
                                 invitationId, userId));
-
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
@@ -154,11 +159,13 @@ public class RegisterUserWithInvitationAction implements ClickListener {
     }
 
     /**
-     * Returns true if the given String is null or empty
+     * Returns <code>true</code> if the passed {@link String} is
+     * <code>null</code> or empty.
      * 
      * @param t
-     *            The string to be checked
-     * @return True if the given string is null or empty, False if not.
+     *            The string to be checked.
+     * @return <code>true</code> if the given string is <code>null</code> or
+     *         empty, <code>false</code> if not.
      */
     private boolean isNullOrEmpty(String t) {
         if ((t == null) || t.isEmpty()) {

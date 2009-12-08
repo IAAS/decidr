@@ -20,22 +20,22 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action refuses an invitation
+ * This action refuses an invitation.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.PassedWithComments)
 public class RefuseInvitationAction implements ClickListener {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private Long userId = null;
     private UserFacade userFacade = null;
@@ -43,10 +43,12 @@ public class RefuseInvitationAction implements ClickListener {
     private Long invitationId = null;
 
     /**
-     * Constructor, requires id of the invitation
+     * Requires the ID of an invitation
      * 
      * @param invId
-     *            : Id of the invitation
+     *            ID of the invitation
+     * @param uId
+     *            TODO document
      */
     public RefuseInvitationAction(Long invId, Long uId) {
         invitationId = invId;
@@ -71,6 +73,5 @@ public class RefuseInvitationAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
         }
-
     }
 }
