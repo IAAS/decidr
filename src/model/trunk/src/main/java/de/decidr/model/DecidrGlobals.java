@@ -247,8 +247,6 @@ public class DecidrGlobals {
      * result will be cached for one minute before another database query is
      * made.
      * 
-     * An open session is required to communicate with the database
-     * 
      * @return the esb server
      */
     public static Server getEsb() {
