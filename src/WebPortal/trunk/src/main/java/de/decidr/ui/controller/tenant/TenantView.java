@@ -151,13 +151,11 @@ public class TenantView {
                 logo.close();
             }
         } catch (IOException exception) {
-            // Aleks, GH: verbosity, guys, verbosity! ~rr
-            Main.getCurrent().getMainWindow().showNotification("IOException");
+        	Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(exception));
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
-            // Aleks, GH: WTF? another one of those???
-            e.printStackTrace();
         }
     }
 }
