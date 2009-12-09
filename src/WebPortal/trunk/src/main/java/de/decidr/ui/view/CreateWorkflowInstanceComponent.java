@@ -23,17 +23,20 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.show.ShowStartConfigurationWindowAction;
 import de.decidr.ui.data.WorkflowInstanceContainer;
 import de.decidr.ui.view.tables.WorkflowInstanceTable;
 
 /**
  * In this component the user can create a workflow instance from a workflow
- * model. The user has to choose a workflow model from table and push the create
- * button.
+ * model. The user has to choose a workflow model from a table and push the
+ * &quot;Create&quot; button.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2151", currentReviewState = State.PassedWithComments)
 public class CreateWorkflowInstanceComponent extends CustomComponent {
 
     private static final long serialVersionUID = -2283442464298218331L;
@@ -47,42 +50,38 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
     private Label createWorkflowInstanceLabel = null;
 
     private WorkflowInstanceTable instanceTable = null;
-    
+
     private List<Button> buttonList = new LinkedList<Button>();
-    
+
     private Button createInstanceButton = null;
-    
+
     private ButtonPanel buttonPanel = null;
 
     /**
-     * Default constructor
-     * 
+     * TODO document
      */
     public CreateWorkflowInstanceComponent() {
         init();
     }
 
     /**
-     * Returns the workflow instance table
-     * 
-     * @return instanceTable
+     * @return instanceTable the workflow {@link WorkflowInstanceTable}.
      */
     public WorkflowInstanceTable getInstanceTable() {
         return instanceTable;
     }
 
     /**
-     * This method initializes the components of the create workflow instance
-     * component
-     * 
+     * This method initializes the components of the
+     * {@link CreateWorkflowInstanceComponent}.
      */
     private void init() {
-    	verticalLayout = new VerticalLayout();
-    	
-        workflowInstanceContainer = new WorkflowInstanceContainer();        
+        verticalLayout = new VerticalLayout();
+
+        workflowInstanceContainer = new WorkflowInstanceContainer();
 
         createWorkflowInstanceLabel = new Label(
-                "<h2> Create Workflow Instance </h2>");
+                "<h2>Create Workflow Instance</h2>");
         createWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
 
         instanceTable = new WorkflowInstanceTable(workflowInstanceContainer);
@@ -90,7 +89,7 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
         searchPanel = new SearchPanel(instanceTable);
 
         setCompositionRoot(verticalLayout);
-        
+
         initButtonPanel();
 
         verticalLayout.setSpacing(true);
@@ -99,16 +98,15 @@ public class CreateWorkflowInstanceComponent extends CustomComponent {
 
         verticalLayout.addComponent(instanceTable);
         verticalLayout.addComponent(buttonPanel);
-
-    }
-    
-    private void initButtonPanel(){
-    	createInstanceButton = new Button("Create instance", new ShowStartConfigurationWindowAction());
-    	
-    	buttonList.add(createInstanceButton);
-    	
-    	buttonPanel = new ButtonPanel(buttonList);
-    	buttonPanel.setCaption("Edit instance");
     }
 
+    private void initButtonPanel() {
+        createInstanceButton = new Button("Create instance",
+                new ShowStartConfigurationWindowAction());
+
+        buttonList.add(createInstanceButton);
+
+        buttonPanel = new ButtonPanel(buttonList);
+        buttonPanel.setCaption("Edit instance");
+    }
 }

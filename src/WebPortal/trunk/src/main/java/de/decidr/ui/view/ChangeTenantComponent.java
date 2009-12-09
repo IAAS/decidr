@@ -23,77 +23,78 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.tenant.SwitchTenantAction;
 import de.decidr.ui.data.CurrentTenantContainer;
 import de.decidr.ui.view.tables.CurrentTenantModelTable;
 
+/**
+ * The user can change the tenant if he wants. He has to choose one tenant from
+ * the table and push the switch tenant button.
+ * 
+ * @author AT
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2342", currentReviewState = State.PassedWithComments)
 public class ChangeTenantComponent extends CustomComponent {
 
-	/**
-	 * The user can change the tenant if he wants. He has to choose one tenant
-	 * from the table and push the switch tenant button.
-	 * 
-	 * @author AT
-	 */
-	private static final long serialVersionUID = 5599429204495615788L;
+    private static final long serialVersionUID = 5599429204495615788L;
 
-	private CurrentTenantContainer currentTenantContainer = null;
+    private CurrentTenantContainer currentTenantContainer = null;
 
-	private VerticalLayout verticalLayout = null;
+    private VerticalLayout verticalLayout = null;
 
-	private Label changeTenantLabel = null;
+    private Label changeTenantLabel = null;
 
-	private ButtonPanel buttonPanel = null;
+    private ButtonPanel buttonPanel = null;
 
-	private Button changeTenantButton = null;
+    private Button changeTenantButton = null;
 
-	private List<Button> buttonList = new LinkedList<Button>();
+    private List<Button> buttonList = new LinkedList<Button>();
 
-	private CurrentTenantModelTable tenantTable = null;
+    private CurrentTenantModelTable tenantTable = null;
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public ChangeTenantComponent() {
-		init();
-	}
+    /**
+     * TODO document
+     */
+    public ChangeTenantComponent() {
+        init();
+    }
 
-	/**
-	 * This method initializes the components of the change tenant component
-	 * 
-	 */
-	private void init() {
-		currentTenantContainer = new CurrentTenantContainer();
+    /**
+     * This method initializes the components of the
+     * {@link ChangeTenantComponent}.
+     */
+    private void init() {
+        currentTenantContainer = new CurrentTenantContainer();
 
-		verticalLayout = new VerticalLayout();
+        verticalLayout = new VerticalLayout();
 
-		changeTenantLabel = new Label("<h2> Change Tenant </h2>");
-		changeTenantLabel.setContentMode(Label.CONTENT_XHTML);
+        changeTenantLabel = new Label("<h2> Change Tenant </h2>");
+        changeTenantLabel.setContentMode(Label.CONTENT_XHTML);
 
-		tenantTable = new CurrentTenantModelTable(currentTenantContainer);
+        tenantTable = new CurrentTenantModelTable(currentTenantContainer);
 
-		initButtonPanel();
+        initButtonPanel();
 
-		setCompositionRoot(verticalLayout);
+        setCompositionRoot(verticalLayout);
 
-		verticalLayout.setSpacing(true);
-		verticalLayout.addComponent(changeTenantLabel);
-		verticalLayout.addComponent(tenantTable);
-		verticalLayout.addComponent(buttonPanel);
-	}
+        verticalLayout.setSpacing(true);
+        verticalLayout.addComponent(changeTenantLabel);
+        verticalLayout.addComponent(tenantTable);
+        verticalLayout.addComponent(buttonPanel);
+    }
 
-	/**
-	 * Inititalizes the button panel
-	 *
-	 */
-	private void initButtonPanel() {
-		changeTenantButton = new Button("Change tenant",
-				new SwitchTenantAction(tenantTable));
+    /**
+     * Inititalizes the {@link ButtonPanel}.
+     */
+    private void initButtonPanel() {
+        changeTenantButton = new Button("Change tenant",
+                new SwitchTenantAction(tenantTable));
 
-		buttonList.add(changeTenantButton);
+        buttonList.add(changeTenantButton);
 
-		buttonPanel = new ButtonPanel(buttonList);
-		buttonPanel.setCaption("Edit tenant");
-	}
+        buttonPanel = new ButtonPanel(buttonList);
+        buttonPanel.setCaption("Edit tenant");
+    }
 }

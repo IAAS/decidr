@@ -16,12 +16,6 @@
 
 package de.decidr.ui.data;
 
-/**
- * This item stores the system settings.
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
@@ -30,10 +24,19 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
+/**
+ * This {@link Item} stores the {@link SystemSettings}.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2139", currentReviewState = State.Passed)
 public class SystemSettingsItem implements Item {
 
     private HttpSession session = Main.getCurrent().getSession();
@@ -93,5 +96,4 @@ public class SystemSettingsItem implements Item {
             throws UnsupportedOperationException {
         return item.removeItemProperty(id);
     }
-
 }

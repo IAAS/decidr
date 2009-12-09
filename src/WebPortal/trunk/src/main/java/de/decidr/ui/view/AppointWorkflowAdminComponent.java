@@ -37,11 +37,8 @@ import de.decidr.ui.controller.AppointWorkflowAdminAction;
 @Reviewed(reviewers = "RR", lastRevision = "2048", currentReviewState = State.PassedWithComments)
 public class AppointWorkflowAdminComponent extends CustomComponent {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Integer userCounter = 0;
+    private static final long serialVersionUID = 1L;
+    private Integer userCounter = 0;
     private Long wfmId = null;
 
     private VerticalLayout verticalLayout = null;
@@ -52,9 +49,10 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     private Button appointUsers = null;
 
     /**
-     * Default constructor. The given workflow model ID is stored in a variable.
+     * The given workflow model ID is stored in a variable.
      * 
      * @param workflowModelId
+     *            TODO document
      */
     public AppointWorkflowAdminComponent(Long workflowModelId) {
         wfmId = workflowModelId;
@@ -102,12 +100,9 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         appointForm.addField("user" + userCounter.toString(), appointSelf);
 
         addField = new Button("Add User", new Button.ClickListener() {
-            /**
-			 * Serial version uid
-			 */
-			private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-			public void buttonClick(Button.ClickEvent event) {
+            public void buttonClick(Button.ClickEvent event) {
                 addUser();
             }
         });

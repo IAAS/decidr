@@ -24,54 +24,52 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.tenant.ApproveTenantsAction;
 import de.decidr.ui.controller.tenant.DeclineTenantsAction;
 import de.decidr.ui.data.ApproveTenantContainer;
 import de.decidr.ui.view.tables.ApproveTenantTable;
 
 /**
- * This class provides the tenants which are to be approved in a component.
- * The super admin can approve and decline tenants.
+ * This class provides the tenants which are to be approved in a component. The
+ * super admin can approve and decline these tenants.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2365", currentReviewState = State.PassedWithComments)
 public class ApproveTenantComponent extends CustomComponent {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private ApproveTenantContainer approveTenantContainer = null;
-	
-	private VerticalLayout verticalLayout = null;
-    
+    private static final long serialVersionUID = 1L;
+
+    private ApproveTenantContainer approveTenantContainer = null;
+
+    private VerticalLayout verticalLayout = null;
+
     private Label approveTenantLabel = null;
-    
+
     private SearchPanel searchPanel = null;
     private ButtonPanel buttonPanel = null;
-    
+
     private ApproveTenantTable approveTenantTable = null;
-    
+
     private Button approveButton = null;
     private Button declineButton = null;
-    
-    private List<Button> buttonList = null;
-    
-    /**
-	 * Default constructor
-	 *
-	 */
-	public ApproveTenantComponent() {
-		init();
-	}
 
-	/**
-	 * This method initializes the components for the approve tenant component.
-	 *
-	 */
-	private void init() {
-		approveTenantContainer = new ApproveTenantContainer();
+    private List<Button> buttonList = null;
+
+    /**
+     * TODO document
+     */
+    public ApproveTenantComponent() {
+        init();
+    }
+
+    /**
+     * This method initializes the components for the approve tenant component.
+     */
+    private void init() {
+        approveTenantContainer = new ApproveTenantContainer();
 
         verticalLayout = new VerticalLayout();
 
@@ -81,32 +79,29 @@ public class ApproveTenantComponent extends CustomComponent {
         approveTenantTable = new ApproveTenantTable(approveTenantContainer);
 
         searchPanel = new SearchPanel(approveTenantTable);
-        
+
         fillButtonList();
-        
+
         setCompositionRoot(verticalLayout);
         verticalLayout.setSpacing(true);
         verticalLayout.addComponent(approveTenantLabel);
         verticalLayout.addComponent(searchPanel);
         verticalLayout.addComponent(approveTenantTable);
         verticalLayout.addComponent(buttonPanel);
-		
-	}
-	
-	private void fillButtonList(){
-		buttonList = new LinkedList<Button>();
-		
-		approveButton = new Button("Approve", new ApproveTenantsAction(
+
+    }
+
+    private void fillButtonList() {
+        buttonList = new LinkedList<Button>();
+
+        approveButton = new Button("Approve", new ApproveTenantsAction(
                 approveTenantTable));
         declineButton = new Button("Decline", new DeclineTenantsAction(
                 approveTenantTable));
-        
-        
-        
+
         buttonList.add(approveButton);
         buttonList.add(declineButton);
-		
-		buttonPanel = new ButtonPanel(buttonList);
-	}
 
+        buttonPanel = new ButtonPanel(buttonList);
+    }
 }

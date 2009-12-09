@@ -22,45 +22,44 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
  * This class builds a button panel which can be added to a component.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2355", currentReviewState = State.Passed)
 public class ButtonPanel extends Panel {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private List<Button> buttonList;
+    private List<Button> buttonList;
 
-	private HorizontalLayout horizontalLayout;
+    private HorizontalLayout horizontalLayout;
 
-	/**
-	 * Constructor which saves the given button list and calls the init method
-	 * 
-	 * @param buttonList
-	 *            - A list with buttons
-	 */
-	public ButtonPanel(List<Button> buttonList) {
-		this.buttonList = buttonList;
-		init();
-	}
+    /**
+     * Constructor which saves the given button list and calls the init method.
+     * 
+     * @param buttonList
+     *            - A list with buttons.
+     */
+    public ButtonPanel(List<Button> buttonList) {
+        this.buttonList = buttonList;
+        init();
+    }
 
-	/**
-	 * Adds buttons to the panel
-	 * 
-	 */
-	private void init() {
-		horizontalLayout = new HorizontalLayout();
-		horizontalLayout.setSpacing(true);
-		for (Button button : buttonList) {
-			horizontalLayout.addComponent(button);
-		}
+    /**
+     * Adds buttons to the panel.
+     */
+    private void init() {
+        horizontalLayout = new HorizontalLayout();
+        horizontalLayout.setSpacing(true);
+        for (Button button : buttonList) {
+            horizontalLayout.addComponent(button);
+        }
 
-		this.setContent(horizontalLayout);
-	}
-
+        this.setContent(horizontalLayout);
+    }
 }

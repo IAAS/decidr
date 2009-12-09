@@ -22,23 +22,23 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Upload;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UploadFileStartConfigurationAction;
 import de.decidr.ui.view.windows.StartConfigurationWindow;
 
 /**
- * This component represents the filename and a button to delete the uploaded
+ * This component represents the filename and a button to delete an uploaded
  * file.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2358", currentReviewState = State.PassedWithComments)
 public class DeleteUploadComponent extends CustomComponent {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HorizontalLayout horizontlLayout = null;
+    private HorizontalLayout horizontlLayout = null;
 
     private Label label = null;
 
@@ -49,15 +49,15 @@ public class DeleteUploadComponent extends CustomComponent {
     private DeleteUploadComponent deleteUploadComponent = null;
 
     /**
-     * Default constructor
-     * 
+     * TODO document
      */
     public DeleteUploadComponent() {
         init();
     }
 
     /**
-     * Returns the label
+     * Returns the label<br>
+     * Aleks, GH: what label? contents, guys, contents! ~rr
      * 
      * @return label
      */
@@ -66,8 +66,7 @@ public class DeleteUploadComponent extends CustomComponent {
     }
 
     /**
-     * Initializes the components of the delete upload component
-     * 
+     * Initializes the components of the {@link DeleteUploadComponent}.
      */
     private void init() {
         horizontlLayout = new HorizontalLayout();
@@ -75,12 +74,9 @@ public class DeleteUploadComponent extends CustomComponent {
         button = new Button("Delete");
         button.addListener(new Button.ClickListener() {
 
-            /**
-			 * Serial version uid
-			 */
-			private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-			@Override
+            @Override
             public void buttonClick(com.vaadin.ui.Button.ClickEvent event) {
                 deleteUploadComponent = (DeleteUploadComponent) event
                         .getSource();
@@ -88,9 +84,9 @@ public class DeleteUploadComponent extends CustomComponent {
                         .getWindow();
                 deleteUploadComponent.setVisible(false);
                 sCWindow.getAssignmentForm().getLayout().addComponent(
-                        new Upload("Upload", new UploadFileStartConfigurationAction()));
+                        new Upload("Upload",
+                                new UploadFileStartConfigurationAction()));
             }
-
         });
 
         this.setCompositionRoot(horizontlLayout);
@@ -99,7 +95,5 @@ public class DeleteUploadComponent extends CustomComponent {
 
         horizontlLayout.addComponent(label);
         horizontlLayout.addComponent(button);
-
     }
-
 }
