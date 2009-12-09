@@ -73,7 +73,7 @@ public class AccountManagementHelpComponent extends VerticalLayout {
                         + "\t<li>Please make sure that your email address is valid, "
                         + "because it is required for the activation of your account.</li>\n"
                         + "\t<li>Press the &quot;Continue&quot; button.</li>\n"
-                        + "\t<li>You will receive a confirmation mail</li>\n</ol>\n<br/>"
+                        + "\t<li>You will receive a confirmation email</li>\n</ol>\n<br/>"
                         + "Possible problems:<br/>"
                         + "You can't register, because your data is invalid."
                         + " This can have several reasons:\n<ul>\n"
@@ -82,7 +82,7 @@ public class AccountManagementHelpComponent extends VerticalLayout {
                         + "\t<li>Your username or tenant name are not long enough."
                         + " Please make sure that your username or tenant name contain more"
                         + " than 3 characters.</li>\n</ul>\n<br/>",
-                Label.CONTENT_XHTML);
+                Label.CONTENT_RAW);
         registerAsTenantAdminLabel.setVisible(false);
         registerAsTenantAdminButton = new Button(
                 "How do I register as a tenant admin?", new ToggleLabelAction(
