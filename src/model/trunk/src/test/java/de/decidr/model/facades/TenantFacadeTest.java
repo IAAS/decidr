@@ -499,6 +499,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         assertEquals(1, userFacade.getUsersOfTenant(testTenantID, null).size());
 
         Item user = adminFacade.getUsersOfTenant(testTenantID, null).get(0);
+        // RR a user only has username if he/she has registered. getItemProperty
+        // returns null if the user hasn't registered.
         assertNotNull(user.getItemProperty("username").getValue());
         assertNotNull(user.getItemProperty("id").getValue());
         assertNotNull(user.getItemProperty("email").getValue());

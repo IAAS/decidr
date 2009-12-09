@@ -58,7 +58,7 @@ public class DecidrGlobalsTest extends DecidrOthersTest {
             timeWithMillis = DecidrGlobals.getTime(false);
             timeWithoutMillis = DecidrGlobals.getTime(true);
             millis = timeWithMillis.get(Calendar.MILLISECOND);
-        } while ((millis == 1 || millis > 900) && safety > 0);
+        } while ((millis == 0 || millis > 900) && safety > 0);
 
         if (safety <= 0) {
             fail("Couldn't get a time that has more than zero "

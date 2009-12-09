@@ -593,6 +593,8 @@ public class TenantFacade extends AbstractFacade {
      * <li>numWorkflowInstances: Long - the number of workflow instances that
      * this tenant owns.</li>
      * <li>tenantName: String - the name of this tenant.</li>
+     * <li>approvedSince: Date - date when the tenant was approved (null if not
+     * approved)</li>
      * </ul>
      * 
      * @param filters

@@ -302,7 +302,7 @@ public class DecidrGlobals {
 
     /**
      * @param webServiceName
-     *            name of the web service such as "EmailWS"
+     *            name of the web service such as "Email"
      * @return An URL which can be used to retrieve the WSDL of the web service
      *         identified by webServiceName
      * @throws IllegalArgumentException

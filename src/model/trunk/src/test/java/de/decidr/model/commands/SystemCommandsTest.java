@@ -62,6 +62,8 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * <p>
  * <em>NOTE: due to time constraints, {@link SystemFacadeTest} may be more complete in places!</em>
  * 
+ * RR the system settings test breaks the system settings (MTA, email port set to 22...) ~dh
+ * 
  * @author Reinhold
  */
 public class SystemCommandsTest extends CommandsTest {

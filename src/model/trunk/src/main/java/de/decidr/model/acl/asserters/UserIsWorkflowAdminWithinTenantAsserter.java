@@ -45,7 +45,6 @@ public class UserIsWorkflowAdminWithinTenantAsserter extends
             throws TransactionException {
         boolean result = false;
 
-        // DH I fixed this (hopefully); please check ~rr
         if (permission instanceof CommandPermission
                 && role instanceof WorkflowAdminRole
                 && role.getActorId() != null
