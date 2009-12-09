@@ -298,12 +298,13 @@ public class DecidrGlobals {
         /*
          * RR DH workaround until the ESB is re-integrated: use Axis2 server
          * location as the ESB location (by changing the corresponding database
-         * entry) and append "/axis2/" instead of "/soap/".
+         * entry) and append "/axis2/services/" instead of "/soap/".
          * 
          * Should be changed back to "/soap/" once the WS client interface is
          * decoupled from Axis2.
          */
-        return "http://" + getEsb().getLocation() + "/axis2/" + webServiceName;
+        return "http://" + getEsb().getLocation() + "/axis2/services/"
+                + webServiceName;
     }
 
     /**
