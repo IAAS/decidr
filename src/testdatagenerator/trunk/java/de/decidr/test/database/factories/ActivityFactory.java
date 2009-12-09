@@ -61,11 +61,11 @@ public class ActivityFactory extends EntityFactory {
 
         // create known web services
         KnownWebService emailWS = new KnownWebService();
-        emailWS.setName("EmailProxy");
+        emailWS.setName("Email");
         session.save(emailWS);
 
         KnownWebService humanTaskWS = new KnownWebService();
-        humanTaskWS.setName("HumanTaskProxy");
+        humanTaskWS.setName("HumanTask");
         session.save(humanTaskWS);
 
         // create activities that use the known web services

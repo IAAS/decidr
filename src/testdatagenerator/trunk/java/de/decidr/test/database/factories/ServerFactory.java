@@ -51,17 +51,17 @@ public class ServerFactory extends EntityFactory {
 
         // ODE
         List<String> odeServers = new ArrayList<String>();
-        odeServers.add("174.129.24.232:8080");
+        odeServers.add("localhost:8080");
         servers.put(ServerTypeEnum.Ode, odeServers);
 
         // ESB
         List<String> esbServers = new ArrayList<String>();
-        esbServers.add("174.129.25.57:8280");
+        esbServers.add("localhost:8280");
         servers.put(ServerTypeEnum.Esb, esbServers);
 
         // Web Portal
         List<String> portalServers = new ArrayList<String>();
-        portalServers.add("174.129.25.24:8080");
+        portalServers.add("localhost:8080");
         servers.put(ServerTypeEnum.WebPortal, portalServers);
 
         // Storage

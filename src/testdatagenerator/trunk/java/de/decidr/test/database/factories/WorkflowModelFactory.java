@@ -73,14 +73,13 @@ public class WorkflowModelFactory extends EntityFactory {
     public List<WorkflowModel> createRandomWorkflowModels(int numModels,
             int modelsPerTenant) {
 
-        if (modelsPerTenant < 1) {
-            throw new IllegalArgumentException(
-                    "modelsPerTenant must be greater than zero");
-        }
-
         ArrayList<WorkflowModel> result = new ArrayList<WorkflowModel>(
                 numModels);
 
+        if (modelsPerTenant < 1) {
+            return result;
+        }
+        
         Date now = DecidrGlobals.getTime().getTime();
 
         // find suitable owning tenants

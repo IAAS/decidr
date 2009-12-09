@@ -55,9 +55,8 @@ public class TenantFactory extends EntityFactory {
      * 
      * @return the default tenant
      */
-    public Tenant createDefaultTenant() {
+    public void createDefaultTenant() {
         Tenant result = new Tenant();
-        result.setId(DecidrGlobals.DEFAULT_TENANT_ID);
         result.setAdmin(DecidrGlobals.getSettings().getSuperAdmin());
         result.setName("Default Tenant");
         result.setDescription("This is the default tenant description");
@@ -68,7 +67,11 @@ public class TenantFactory extends EntityFactory {
 
         session.save(result);
 
-        return result;
+        // workaround for Hibernate ignoring setId()
+        session.createQuery(
+                "update Tenant set id = :defaultId where id = :currentId")
+                .setLong("defaultId", DecidrGlobals.DEFAULT_TENANT_ID).setLong(
+                        "currentId", result.getId()).executeUpdate();
     }
 
     /**
@@ -118,7 +121,8 @@ public class TenantFactory extends EntityFactory {
 
             result.add(tenant);
 
-            int numTenantMembers = rnd.nextInt(maxMembersPerTenant) + 1;
+            int numTenantMembers = maxMembersPerTenant == 0 ? 0 : rnd
+                    .nextInt(maxMembersPerTenant) + 1;
             associateUsersWithTenant(tenant, numTenantMembers);
 
             fireProgressEvent(numTenants, i + 1);
