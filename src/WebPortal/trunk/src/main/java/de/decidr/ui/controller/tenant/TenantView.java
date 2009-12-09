@@ -41,7 +41,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2350", currentReviewState = State.Rejected)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2374", currentReviewState = State.Rejected)
 public class TenantView {
 
     private HttpSession session = Main.getCurrent().getSession();
@@ -151,7 +151,8 @@ public class TenantView {
                 logo.close();
             }
         } catch (IOException exception) {
-        	Main.getCurrent().getMainWindow().addWindow(
+            Main.getCurrent().getMainWindow().addWindow(
+            // Aleks, GH: This isn't a TransactionException, is it? ~rr
                     new TransactionErrorDialogComponent(exception));
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(

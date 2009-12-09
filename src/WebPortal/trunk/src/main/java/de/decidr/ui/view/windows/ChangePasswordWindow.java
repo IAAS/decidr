@@ -16,7 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-
 import com.vaadin.data.Item;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
@@ -26,21 +25,21 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.user.ChangePasswordAction;
 
 /**
- * The user can change his password by inserting his old and new password.
- *
+ * The user can change his password by entering his old and new password.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2368", currentReviewState = State.PassedWithComments)
 public class ChangePasswordWindow extends Window {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private VerticalLayout verticalLayout = null;
+    private static final long serialVersionUID = 1L;
+    private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
 
     private Form passwordForm = null;
@@ -53,8 +52,7 @@ public class ChangePasswordWindow extends Window {
     private Button cancelButton = null;
 
     /**
-     * Default constructor
-     * 
+     * TODO document
      */
     public ChangePasswordWindow() {
         init();
@@ -62,17 +60,17 @@ public class ChangePasswordWindow extends Window {
 
     /**
      * Return the password form item which contains the new and the old
-     * password.
+     * password.<br>
+     * Aleks, GH: that's *not* what's happening ~rr
      * 
-     * @return passwordForm
+     * @return passwordForm TODO document
      */
     public Item getPasswords() {
         return passwordForm;
     }
 
     /**
-     * Initializes the components for the change password component
-     * 
+     * Initializes the components for the {@link ChangePasswordWindow}.
      */
     private void init() {
         passwordForm = new Form();
@@ -126,5 +124,4 @@ public class ChangePasswordWindow extends Window {
         this.setCaption("Change Password");
         this.setContent(verticalLayout);
     }
-
 }

@@ -29,14 +29,13 @@ import de.decidr.ui.view.navigationmenus.UserNavigationMenu;
  * @author AT
  */
 public class UserViewBuilder extends UIBuilder {
-	
-	/**
-	 * Default constructor. Initializes the site frame
-	 *
-	 */
-	public UserViewBuilder() {
-		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
-	}
+
+    /**
+     * Default constructor. Initializes the site frame
+     */
+    public UserViewBuilder() {
+        siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+    }
 
     /*
      * (non-Javadoc)

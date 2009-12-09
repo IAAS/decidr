@@ -37,148 +37,145 @@ import de.decidr.ui.view.tables.UserListTable;
  */
 public class UserListComponent extends CustomComponent {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = -9044763020637727581L;
+    private static final long serialVersionUID = -9044763020637727581L;
 
-	private UserListContainer userListContainer = null;
+    private UserListContainer userListContainer = null;
 
-	private VerticalLayout verticalLayout = null;
-	private HorizontalLayout buttonHorizontalLayout = null;
+    private VerticalLayout verticalLayout = null;
+    private HorizontalLayout buttonHorizontalLayout = null;
 
-	private Label userListLabel = null;
+    private Label userListLabel = null;
 
-	private SearchPanel searchPanel = null;
-	private Panel buttonPanel = null;
+    private SearchPanel searchPanel = null;
+    private Panel buttonPanel = null;
 
-	private UserListTable userListTable = null;
+    private UserListTable userListTable = null;
 
-	private Button inviteUserButton = null;
-	private Button removeUserButton = null;
-	private Button promoteToTenantAdminButton = null;
-	private Button removeFromTenantButton = null;
-	private Button deactivateAccountButton = null;
-	private Button activateAccountButton = null;
+    private Button inviteUserButton = null;
+    private Button removeUserButton = null;
+    private Button promoteToTenantAdminButton = null;
+    private Button removeFromTenantButton = null;
+    private Button deactivateAccountButton = null;
+    private Button activateAccountButton = null;
 
-	/**
-	 * Default constructor.
-	 * 
-	 */
-	public UserListComponent() {
-		init();
-	}
+    /**
+     * Default constructor.
+     * 
+     */
+    public UserListComponent() {
+        init();
+    }
 
-	/**
-	 * Changes the user list component view for the super administrator.
-	 * 
-	 */
-	public void changeToSuperAdmin() {
-		init();
-		removeFromTenantButton = new Button("Remove from tenant",
-				new RemoveUserFromTenantAction(userListTable));
-		deactivateAccountButton = new Button("Deactivate account",
-				new DeactivateAccountAction(userListTable));
-		activateAccountButton = new Button("Activate account",
-				new ActivateAccountsAction(userListTable));
-		getInviteUserButton().setVisible(true);
-		getButtonHorizontalLayout().addComponent(removeFromTenantButton);
-		getButtonHorizontalLayout().addComponent(deactivateAccountButton);
-		getButtonHorizontalLayout().addComponent(activateAccountButton);
-		getVerticalLayout().addComponent(getButtonPanel());
-	}
+    /**
+     * Changes the user list component view for the super administrator.
+     * 
+     */
+    public void changeToSuperAdmin() {
+        init();
+        removeFromTenantButton = new Button("Remove from tenant",
+                new RemoveUserFromTenantAction(userListTable));
+        deactivateAccountButton = new Button("Deactivate account",
+                new DeactivateAccountAction(userListTable));
+        activateAccountButton = new Button("Activate account",
+                new ActivateAccountsAction(userListTable));
+        getInviteUserButton().setVisible(true);
+        getButtonHorizontalLayout().addComponent(removeFromTenantButton);
+        getButtonHorizontalLayout().addComponent(deactivateAccountButton);
+        getButtonHorizontalLayout().addComponent(activateAccountButton);
+        getVerticalLayout().addComponent(getButtonPanel());
+    }
 
-	/**
-	 * Changes the user list component view for the tenant.
-	 * 
-	 */
-	public void changeToTenantAdmin() {
-		init();
-		removeUserButton = new Button("Remove user",
-				new RemoveUserFromTenantAction(userListTable));
-		promoteToTenantAdminButton = new Button("Promote to tenant admin");
-		getButtonHorizontalLayout().addComponent(removeUserButton);
-		getButtonHorizontalLayout().addComponent(promoteToTenantAdminButton);
-		getVerticalLayout().addComponent(getButtonPanel());
-	}
+    /**
+     * Changes the user list component view for the tenant.
+     * 
+     */
+    public void changeToTenantAdmin() {
+        init();
+        removeUserButton = new Button("Remove user",
+                new RemoveUserFromTenantAction(userListTable));
+        promoteToTenantAdminButton = new Button("Promote to tenant admin");
+        getButtonHorizontalLayout().addComponent(removeUserButton);
+        getButtonHorizontalLayout().addComponent(promoteToTenantAdminButton);
+        getVerticalLayout().addComponent(getButtonPanel());
+    }
 
-	/**
-	 * Returns the horizontal layout from the button panel.
-	 * 
-	 * @return buttonHorizontalLayout
-	 */
-	public HorizontalLayout getButtonHorizontalLayout() {
-		return buttonHorizontalLayout;
-	}
+    /**
+     * Returns the horizontal layout from the button panel.
+     * 
+     * @return buttonHorizontalLayout
+     */
+    public HorizontalLayout getButtonHorizontalLayout() {
+        return buttonHorizontalLayout;
+    }
 
-	/**
-	 * Returns the button panel.
-	 * 
-	 * @return buttonPanel
-	 */
-	public Panel getButtonPanel() {
-		return buttonPanel;
-	}
+    /**
+     * Returns the button panel.
+     * 
+     * @return buttonPanel
+     */
+    public Panel getButtonPanel() {
+        return buttonPanel;
+    }
 
-	/**
-	 * Returns the button for inviting user.
-	 * 
-	 * @return inviteUserButton
-	 */
-	public Button getInviteUserButton() {
-		return inviteUserButton;
-	}
+    /**
+     * Returns the button for inviting user.
+     * 
+     * @return inviteUserButton
+     */
+    public Button getInviteUserButton() {
+        return inviteUserButton;
+    }
 
-	/**
-	 * Returns the vertical layout.
-	 * 
-	 * @return verticalLayout
-	 */
-	public VerticalLayout getVerticalLayout() {
-		return verticalLayout;
-	}
+    /**
+     * Returns the vertical layout.
+     * 
+     * @return verticalLayout
+     */
+    public VerticalLayout getVerticalLayout() {
+        return verticalLayout;
+    }
 
-	/**
-	 * This method initializes the components for the user list component.
-	 * 
-	 */
-	private void init() {
-		userListContainer = new UserListContainer();
+    /**
+     * This method initializes the components for the user list component.
+     * 
+     */
+    private void init() {
+        userListContainer = new UserListContainer();
 
-		verticalLayout = new VerticalLayout();
-		buttonHorizontalLayout = new HorizontalLayout();
+        verticalLayout = new VerticalLayout();
+        buttonHorizontalLayout = new HorizontalLayout();
 
-		userListLabel = new Label("<h2> User list </h2>");
-		userListLabel.setContentMode(Label.CONTENT_XHTML);
+        userListLabel = new Label("<h2> User list </h2>");
+        userListLabel.setContentMode(Label.CONTENT_XHTML);
 
-		buttonPanel = new Panel();
+        buttonPanel = new Panel();
 
-		userListTable = new UserListTable(userListContainer);
+        userListTable = new UserListTable(userListContainer);
 
-		searchPanel = new SearchPanel(userListTable);
+        searchPanel = new SearchPanel(userListTable);
 
-		inviteUserButton = new Button("Invite user",
-				new ShowInviteUserToTenantAction());
-		inviteUserButton.setVisible(false);
+        inviteUserButton = new Button("Invite user",
+                new ShowInviteUserToTenantAction());
+        inviteUserButton.setVisible(false);
 
-		setCompositionRoot(verticalLayout);
+        setCompositionRoot(verticalLayout);
 
-		verticalLayout.setSpacing(true);
-		verticalLayout.addComponent(userListLabel);
-		verticalLayout.addComponent(searchPanel);
-		verticalLayout.addComponent(inviteUserButton);
-		verticalLayout.addComponent(userListTable);
-		buttonPanel.addComponent(buttonHorizontalLayout);
-		buttonHorizontalLayout.setSpacing(true);
-	}
+        verticalLayout.setSpacing(true);
+        verticalLayout.addComponent(userListLabel);
+        verticalLayout.addComponent(searchPanel);
+        verticalLayout.addComponent(inviteUserButton);
+        verticalLayout.addComponent(userListTable);
+        buttonPanel.addComponent(buttonHorizontalLayout);
+        buttonHorizontalLayout.setSpacing(true);
+    }
 
-	/**
-	 * Gets the userlist table
-	 * 
-	 * @return the userListTable
-	 */
-	public UserListTable getUserListTable() {
-		return userListTable;
-	}
+    /**
+     * Gets the userlist table
+     * 
+     * @return the userListTable
+     */
+    public UserListTable getUserListTable() {
+        return userListTable;
+    }
 
 }

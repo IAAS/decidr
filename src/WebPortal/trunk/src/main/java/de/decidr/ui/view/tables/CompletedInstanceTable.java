@@ -22,55 +22,55 @@ import com.vaadin.ui.Table;
 
 import de.decidr.ui.data.CompletedInstancesContainer;
 
+/**
+ * This table represents the completed workflow instances. The instances are
+ * stored in items. The table is connected to the
+ * {@link CompletedInstancesContainer}.
+ * 
+ * @author AT
+ */
 public class CompletedInstanceTable extends Table {
 
-	/**
-	 * This table represents the completed workflow instances. The instances are
-	 * stored in items. The table is connected to the
-	 * {@link CompletedInstancesContainer}.
-	 * 
-	 * @author AT
-	 */
-	private static final long serialVersionUID = -4341477724807479177L;
+    private static final long serialVersionUID = -4341477724807479177L;
 
-	private Container workflowInstanceContainer = null;
+    private Container workflowInstanceContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "model",
-			"startedDate", "completedDate" };
+    public static final Object[] NAT_COL_ORDER = new Object[] { "model",
+            "startedDate", "completedDate" };
 
-	public static final String[] COL_HEADERS = new String[] { "Model",
-			"Started date", "Completed date" };
+    public static final String[] COL_HEADERS = new String[] { "Model",
+            "Started date", "Completed date" };
 
-	/**
-	 * The table is added as an observer to the container.
-	 * 
-	 * @param observable
-	 * @param container
-	 */
-	public CompletedInstanceTable(Container container) {
-		workflowInstanceContainer = container;
-		init();
-	}
+    /**
+     * The table is added as an observer to the container.
+     * 
+     * @param observable
+     * @param container
+     */
+    public CompletedInstanceTable(Container container) {
+        workflowInstanceContainer = container;
+        init();
+    }
 
-	/**
-	 * Initializes the properties for the table like the data source and the
-	 * container property.
-	 * 
-	 * @param observable
-	 * @param container
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(workflowInstanceContainer);
-		addContainerProperty("model", String.class, null);
-		addContainerProperty("startedDate", Date.class, null);
-		addContainerProperty("completedDate", Date.class, null);
-		
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(true);
-		setPageLength(7);
-	}
+    /**
+     * Initializes the properties for the table like the data source and the
+     * container property.
+     * 
+     * @param observable
+     * @param container
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(workflowInstanceContainer);
+        addContainerProperty("model", String.class, null);
+        addContainerProperty("startedDate", Date.class, null);
+        addContainerProperty("completedDate", Date.class, null);
+
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(true);
+        setPageLength(7);
+    }
 
 }

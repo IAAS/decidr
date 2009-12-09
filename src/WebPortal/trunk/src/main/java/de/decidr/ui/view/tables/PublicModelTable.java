@@ -28,48 +28,45 @@ import com.vaadin.ui.Table;
  */
 public class PublicModelTable extends Table {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = -8901605163680575150L;
+    private static final long serialVersionUID = -8901605163680575150L;
 
-	private Container publicModelContainer = null;
+    private Container publicModelContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "name",
-			"modifiedDate", "tenantName"};
+    public static final Object[] NAT_COL_ORDER = new Object[] { "name",
+            "modifiedDate", "tenantName" };
 
-	public static final String[] COL_HEADERS = new String[] { "Name", "Modified date",
-			"Tenant name"};
+    public static final String[] COL_HEADERS = new String[] { "Name",
+            "Modified date", "Tenant name" };
 
-	/**
-	 * Default constructor. Adds this table as an observer to the container
-	 * which notifies the table if there are any changes in the data.
-	 * 
-	 */
-	public PublicModelTable(Container container) {
-		publicModelContainer = container;
-		init();
-	}
+    /**
+     * Default constructor. Adds this table as an observer to the container
+     * which notifies the table if there are any changes in the data.
+     * 
+     */
+    public PublicModelTable(Container container) {
+        publicModelContainer = container;
+        init();
+    }
 
-	/**
-	 * Initializes the table and sets the container and the properties.
-	 * 
-	 * @param observable
-	 * @param container
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(publicModelContainer);
+    /**
+     * Initializes the table and sets the container and the properties.
+     * 
+     * @param observable
+     * @param container
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(publicModelContainer);
 
-		addContainerProperty("name", String.class, null);
-		addContainerProperty("modifiedDate", Date.class, null);
-		addContainerProperty("tenantName", String.class, null);
-		
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(true);
-		setPageLength(7);
-	}
+        addContainerProperty("name", String.class, null);
+        addContainerProperty("modifiedDate", Date.class, null);
+        addContainerProperty("tenantName", String.class, null);
+
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(true);
+        setPageLength(7);
+    }
 
 }

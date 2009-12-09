@@ -16,7 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.terminal.Sizeable;
@@ -28,22 +27,22 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.user.ChangeEmailAction;
 
 /**
- * In this window the user can change his email address by inserting 
- * his new email address.
- *
+ * In this window the user can change his email address by entering his new
+ * email address.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2368", currentReviewState = State.PassedWithComments)
 public class ChangeEmailWindow extends Window {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private VerticalLayout verticalLayout = null;
+    private static final long serialVersionUID = 1L;
+    private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
 
     private Label infoLabel = null;
@@ -56,8 +55,7 @@ public class ChangeEmailWindow extends Window {
     private Button cancelButton = null;
 
     /**
-     * Default constructor
-     * 
+     * TODO document
      */
     public ChangeEmailWindow() {
         init();
@@ -68,8 +66,7 @@ public class ChangeEmailWindow extends Window {
     }
 
     /**
-     * Initializes the components for the change email component.
-     * 
+     * Initializes the components for the {@link ChangeEmailWindow}.
      */
     private void init() {
         emailForm = new Form();
@@ -86,16 +83,17 @@ public class ChangeEmailWindow extends Window {
         horizontalLayout.setSizeUndefined();
 
         infoLabel = new Label(
-                "To change your email address, insert your new email address and click Change E-mail.<br/>"
+                "To change your email address, enter your new email address and click"
+                        + " &quot;Change Email&quot;.<br/>"
                         + "A confirmation email will be send to the new address.",
                 Label.CONTENT_XHTML);
         infoLabel.setWidth(350, Sizeable.UNITS_PIXELS);
 
         newEmailText = new TextField();
-        newEmailText.setCaption("New E-mail Address");
+        newEmailText.setCaption("New Email Address");
         newEmailText.setColumns(20);
 
-        submitButton = new Button("Change E-mail", new ChangeEmailAction());
+        submitButton = new Button("Change Email", new ChangeEmailAction());
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         emailForm.setWidth(370, Sizeable.UNITS_PIXELS);
@@ -120,5 +118,4 @@ public class ChangeEmailWindow extends Window {
         this.setCaption("Change E-mail Address");
         this.setContent(verticalLayout);
     }
-
 }

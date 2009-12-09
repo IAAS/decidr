@@ -16,13 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-/**
- * Some information are shown in a subwindow to inform the user 
- * about certain processes.
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -31,14 +24,17 @@ import com.vaadin.ui.Window;
 
 import de.decidr.ui.controller.HideDialogWindowAction;
 
+/**
+ * Some information are shown in a subwindow to inform the user about certain
+ * processes.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
 public class InformationDialogComponent extends Window {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private VerticalLayout verticalLayout = null;
+    private VerticalLayout verticalLayout = null;
 
     private Label infoLabel = null;
 

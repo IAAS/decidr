@@ -18,52 +18,52 @@ package de.decidr.ui.view.tables;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+/**
+ * The table represents the work items as items.
+ * 
+ * @author AT
+ */
 public class WorkItemTable extends Table {
 
-	/**
-	 * The table represents the work items as items.
-	 * 
-	 * @author AT
-	 */
-	private static final long serialVersionUID = 24861377458898625L;
+    private static final long serialVersionUID = 24861377458898625L;
 
-	private Container workItemContainer = null;
+    private Container workItemContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "workItemName",
-			"workflowInstanceId", "creationDate", "workItemStatus" };
+    public static final Object[] NAT_COL_ORDER = new Object[] { "workItemName",
+            "workflowInstanceId", "creationDate", "workItemStatus" };
 
-	public static final String[] COL_HEADERS = new String[] { "Name", "WfI#",
-			"Creation date", "Status" };
+    public static final String[] COL_HEADERS = new String[] { "Name", "WfI#",
+            "Creation date", "Status" };
 
-	/**
-	 * Default constructor.
-	 * 
-	 * @param container
-	 */
-	public WorkItemTable(Container container) {
-		this.workItemContainer = container;
-		init();
-	}
-	
-	public WorkItemTable(){
-		init();
-	}
+    /**
+     * Default constructor.
+     * 
+     * @param container
+     */
+    public WorkItemTable(Container container) {
+        this.workItemContainer = container;
+        init();
+    }
 
-	/**
-	 * Initializes the table and sets the container data source.
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(workItemContainer);
+    public WorkItemTable() {
+        init();
+    }
 
-		addContainerProperty("workItemName", String.class, null);
-		addContainerProperty("workflowInstanceId", Long.class, null);
-		addContainerProperty("creationDate", String.class, null);
-		addContainerProperty("workItemStatus", String.class, null);
+    /**
+     * Initializes the table and sets the container data source.
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(workItemContainer);
 
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(true);
-	}
+        addContainerProperty("workItemName", String.class, null);
+        addContainerProperty("workflowInstanceId", Long.class, null);
+        addContainerProperty("creationDate", String.class, null);
+        addContainerProperty("workItemStatus", String.class, null);
+
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(true);
+    }
 }

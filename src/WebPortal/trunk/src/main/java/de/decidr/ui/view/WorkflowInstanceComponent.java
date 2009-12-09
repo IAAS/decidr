@@ -39,106 +39,103 @@ import de.decidr.ui.view.tables.RunningInstanceTable;
  */
 public class WorkflowInstanceComponent extends CustomComponent {
 
-	/**
+    private static final long serialVersionUID = -8769293137331802152L;
+
+    private RunningInstanceContainer runningInstanceContainer = null;
+
+    private CompletedInstancesContainer completedInstanceContainer = null;
+
+    private VerticalLayout verticalLayout = null;
+
+    private VerticalLayout tableVerticalLayout = null;
+
+    private SearchPanel searchPanel = null;
+
+    private Panel tablePanel = null;
+
+    private Label workflowInstanceLabel = null;
+    private Label runningWorkflowInstanceLabel = null;
+    private Label completedWorkflowInstanceLabel = null;
+
+    private RunningInstanceTable runningInstanceTable = null;
+    private CompletedInstanceTable completedInstanceTable = null;
+
+    private Button terminateButton = null;
+
+    private ButtonPanel buttonPanel = null;
+
+    private List<Button> buttonList = new LinkedList<Button>();
+
+    /**
+     * Default constructor
      * 
      */
-	private static final long serialVersionUID = -8769293137331802152L;
+    public WorkflowInstanceComponent() {
+        init();
+    }
 
-	private RunningInstanceContainer runningInstanceContainer = null;
+    /**
+     * 
+     * This method initializes the components of the workflow instance component
+     * 
+     */
+    private void init() {
+        runningInstanceContainer = new RunningInstanceContainer();
 
-	private CompletedInstancesContainer completedInstanceContainer = null;
+        completedInstanceContainer = new CompletedInstancesContainer();
 
-	private VerticalLayout verticalLayout = null;
+        verticalLayout = new VerticalLayout();
 
-	private VerticalLayout tableVerticalLayout = null;
+        tableVerticalLayout = new VerticalLayout();
 
-	private SearchPanel searchPanel = null;
+        workflowInstanceLabel = new Label("<h2> Workflow instances </h2>");
+        workflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
+        runningWorkflowInstanceLabel = new Label(
+                "<h3> Running workflow instances </h3>");
+        runningWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
+        completedWorkflowInstanceLabel = new Label(
+                "<h3> Completed workflow instances </h3>");
+        completedWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
 
-	private Panel tablePanel = null;
+        runningInstanceTable = new RunningInstanceTable(
+                runningInstanceContainer);
 
-	private Label workflowInstanceLabel = null;
-	private Label runningWorkflowInstanceLabel = null;
-	private Label completedWorkflowInstanceLabel = null;
+        searchPanel = new SearchPanel(runningInstanceTable);
 
-	private RunningInstanceTable runningInstanceTable = null;
-	private CompletedInstanceTable completedInstanceTable = null;
+        tablePanel = new Panel();
 
-	private Button terminateButton = null;
+        completedInstanceTable = new CompletedInstanceTable(
+                completedInstanceContainer);
 
-	private ButtonPanel buttonPanel = null;
+        setCompositionRoot(verticalLayout);
 
-	private List<Button> buttonList = new LinkedList<Button>();
+        initButtonPanel();
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public WorkflowInstanceComponent() {
-		init();
-	}
+        verticalLayout.setSpacing(true);
+        verticalLayout.addComponent(workflowInstanceLabel);
+        verticalLayout.addComponent(searchPanel);
 
-	/**
-	 * 
-	 * This method initializes the components of the workflow instance component
-	 * 
-	 */
-	private void init() {
-		runningInstanceContainer = new RunningInstanceContainer();
+        tablePanel.setContent(tableVerticalLayout);
+        tablePanel.setScrollable(true);
 
-		completedInstanceContainer = new CompletedInstancesContainer();
+        tableVerticalLayout.setSpacing(true);
+        tableVerticalLayout.addComponent(runningWorkflowInstanceLabel);
+        tableVerticalLayout.addComponent(runningInstanceTable);
+        tableVerticalLayout.addComponent(completedWorkflowInstanceLabel);
+        tableVerticalLayout.addComponent(completedInstanceTable);
 
-		verticalLayout = new VerticalLayout();
+        verticalLayout.addComponent(tablePanel);
+        verticalLayout.addComponent(buttonPanel);
+    }
 
-		tableVerticalLayout = new VerticalLayout();
+    private void initButtonPanel() {
+        terminateButton = new Button("Terminate instance",
+                new TerminateWorkflowInstanceAction(runningInstanceTable));
 
-		workflowInstanceLabel = new Label("<h2> Workflow instances </h2>");
-		workflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
-		runningWorkflowInstanceLabel = new Label(
-				"<h3> Running workflow instances </h3>");
-		runningWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
-		completedWorkflowInstanceLabel = new Label(
-				"<h3> Completed workflow instances </h3>");
-		completedWorkflowInstanceLabel.setContentMode(Label.CONTENT_XHTML);
+        buttonList.add(terminateButton);
 
-		runningInstanceTable = new RunningInstanceTable(
-				runningInstanceContainer);
-
-		searchPanel = new SearchPanel(runningInstanceTable);
-
-		tablePanel = new Panel();
-
-		completedInstanceTable = new CompletedInstanceTable(
-				completedInstanceContainer);
-
-		setCompositionRoot(verticalLayout);
-		
-		initButtonPanel();
-
-		verticalLayout.setSpacing(true);
-		verticalLayout.addComponent(workflowInstanceLabel);
-		verticalLayout.addComponent(searchPanel);
-
-		tablePanel.setContent(tableVerticalLayout);
-		tablePanel.setScrollable(true);
-
-		tableVerticalLayout.setSpacing(true);
-		tableVerticalLayout.addComponent(runningWorkflowInstanceLabel);
-		tableVerticalLayout.addComponent(runningInstanceTable);
-		tableVerticalLayout.addComponent(completedWorkflowInstanceLabel);
-		tableVerticalLayout.addComponent(completedInstanceTable);
-
-		verticalLayout.addComponent(tablePanel);
-		verticalLayout.addComponent(buttonPanel);
-	}
-
-	private void initButtonPanel() {
-		terminateButton = new Button("Terminate instance",
-				new TerminateWorkflowInstanceAction(runningInstanceTable));
-		
-		buttonList.add(terminateButton);
-		
-		buttonPanel = new ButtonPanel(buttonList);
-		buttonPanel.setCaption("Edit instance");
-	}
+        buttonPanel = new ButtonPanel(buttonList);
+        buttonPanel.setCaption("Edit instance");
+    }
 
 }

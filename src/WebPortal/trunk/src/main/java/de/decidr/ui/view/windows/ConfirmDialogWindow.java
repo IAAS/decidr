@@ -16,13 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-/**
- * The user can confirm his invitation to the decidr application via
- * this dialog.
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -33,13 +26,16 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.ui.controller.HideDialogWindowAction;
 
+/**
+ * The user can confirm his invitation to the decidr application via this
+ * dialog.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
 public class ConfirmDialogWindow extends Window {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private VerticalLayout verticalLayout = null;
+    private static final long serialVersionUID = 1L;
+    private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
 
     private Label infoLabel = null;

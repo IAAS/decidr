@@ -21,35 +21,34 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * This component is a part of the integrated manual
- * and contains information related to system settings
+ * This component is a part of the integrated manual and contains information
+ * related to system settings
  * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class SystemSettingsHelpComponent extends VerticalLayout {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Button editSettingsButton = null;
+    private static final long serialVersionUID = 1L;
+    private Button editSettingsButton = null;
     private Label editSettingsLabel = null;
-    
-    public SystemSettingsHelpComponent(){
+
+    public SystemSettingsHelpComponent() {
         setMargin(false, true, true, true);
 
-        editSettingsLabel = new Label("1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'System Settings' navigation link.<br/>"
-                +"2) The system displays following information:<br/>"
-                +"    - Whether the super admin must confirm all new tenants or they are accepted automatically<br/>"
-                +"    - Amount of logic to perform<br/><br/>",
+        editSettingsLabel = new Label(
+                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'System Settings' navigation link.<br/>"
+                        + "2) The system displays following information:<br/>"
+                        + "    - Whether the super admin must confirm all new tenants or they are accepted automatically<br/>"
+                        + "    - Amount of logic to perform<br/><br/>",
                 Label.CONTENT_XHTML);
         editSettingsLabel.setVisible(false);
-        editSettingsButton = new Button("How to edit system settings?", new ToggleLabelAction(editSettingsLabel));
+        editSettingsButton = new Button("How to edit system settings?",
+                new ToggleLabelAction(editSettingsLabel));
         editSettingsButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(editSettingsButton);
         this.addComponent(editSettingsLabel);
 
     }
-    
+
 }

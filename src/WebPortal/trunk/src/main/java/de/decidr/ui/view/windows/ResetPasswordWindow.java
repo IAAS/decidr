@@ -16,11 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-/**
- * By pushing the button the user can reset his password.
- *
- * @author Geoffrey-Alexeij Heinze
- */
 
 import com.vaadin.data.Item;
 import com.vaadin.terminal.Sizeable;
@@ -34,13 +29,15 @@ import com.vaadin.ui.Window;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.user.ResetPasswordAction;
 
+/**
+ * By pushing the button the user can reset his password.
+ *
+ * @author Geoffrey-Alexeij Heinze
+ */
 public class ResetPasswordWindow extends Window {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private VerticalLayout verticalLayout = null;
+    private static final long serialVersionUID = 1L;
+    private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
 
     private Form requestForm = null;

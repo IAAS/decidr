@@ -20,51 +20,51 @@ import java.util.Date;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+/**
+ * This table holds the running workflow instances as items.
+ * 
+ * @author AT
+ */
 public class RunningInstanceTable extends Table {
 
-	/**
-	 * This table holds the running workflow instances as items.
-	 * 
-	 * @author AT
-	 */
-	private static final long serialVersionUID = 49258596599726066L;
+    private static final long serialVersionUID = 49258596599726066L;
 
-	private Container runningInstanceContainer = null;
+    private Container runningInstanceContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "model",
-			"startedDate" };
+    public static final Object[] NAT_COL_ORDER = new Object[] { "model",
+            "startedDate" };
 
-	public static final String[] COL_HEADERS = new String[] { "Model",
-			"Started date" };
+    public static final String[] COL_HEADERS = new String[] { "Model",
+            "Started date" };
 
-	/**
-	 * Default construtctor.
-	 * 
-	 * @param container
-	 */
-	public RunningInstanceTable(Container container) {
-		runningInstanceContainer = container;
-		init();
-	}
+    /**
+     * Default construtctor.
+     * 
+     * @param container
+     */
+    public RunningInstanceTable(Container container) {
+        runningInstanceContainer = container;
+        init();
+    }
 
-	/**
-	 * Initializes the table and sets the container.
-	 * 
-	 * @param observable
-	 * @param container
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(runningInstanceContainer);
+    /**
+     * Initializes the table and sets the container.
+     * 
+     * @param observable
+     * @param container
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(runningInstanceContainer);
 
-		addContainerProperty("model", String.class, null);
-		addContainerProperty("startedDate", Date.class, null);
-		
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(false);
-		setPageLength(7);
-	}
+        addContainerProperty("model", String.class, null);
+        addContainerProperty("startedDate", Date.class, null);
+
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(false);
+        setPageLength(7);
+    }
 
 }

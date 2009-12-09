@@ -23,48 +23,53 @@ import de.decidr.ui.view.WelcomePageComponent;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
 
 /**
- * One concrete builder class which extends the UIBuilder and builds the unregistered
- * user specific header, content and navigation for the DecidR site.
- *
+ * One concrete builder class which extends the UIBuilder and builds the
+ * unregistered user specific header, content and navigation for the DecidR
+ * site.
+ * 
  * @author AT
  */
 public class UnregisteredUserViewBuilder extends UIBuilder {
-	
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public UnregisteredUserViewBuilder() {
-		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
-	}
-	
 
-	/* (non-Javadoc)
-	 * @see de.decidr.ui.view.UIBuilder#buildContent()
-	 */
-	@Override
-	public void buildContent() {
-		siteFrame.setContent(new WelcomePageComponent());
+    /**
+     * Default constructor
+     */
+    public UnregisteredUserViewBuilder() {
+        siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.ui.view.UIBuilder#buildContent()
+     */
+    @Override
+    public void buildContent() {
+        siteFrame.setContent(new WelcomePageComponent());
 
-	/* (non-Javadoc)
-	 * @see de.decidr.ui.view.UIBuilder#buildHeader()
-	 */
-	@Override
-	public void buildHeader() {
-		siteFrame.setHeader(new Header());
-		siteFrame.setHorizontalNavigation(new HorizontalNavigationMenu());
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.ui.view.UIBuilder#buildHeader()
+     */
+    @Override
+    public void buildHeader() {
+        siteFrame.setHeader(new Header());
+        siteFrame.setHorizontalNavigation(new HorizontalNavigationMenu());
 
-	/* (non-Javadoc)
-	 * @see de.decidr.ui.view.UIBuilder#buildNavigation()
-	 */
-	@Override
-	public void buildNavigation() {
-		siteFrame.setVerticalNavigation(new LoginComponent());
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.ui.view.UIBuilder#buildNavigation()
+     */
+    @Override
+    public void buildNavigation() {
+        siteFrame.setVerticalNavigation(new LoginComponent());
+
+    }
 
 }

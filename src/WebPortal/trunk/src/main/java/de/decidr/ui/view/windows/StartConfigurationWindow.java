@@ -63,323 +63,320 @@ import de.decidr.ui.view.Main;
  */
 public class StartConfigurationWindow extends Window {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HorizontalLayout horizontalLayout = null;
+    private HorizontalLayout horizontalLayout = null;
 
-	private VerticalLayout verticalLayout = null;
+    private VerticalLayout verticalLayout = null;
 
-	private VerticalLayout mainVerticalLayout = null;
+    private VerticalLayout mainVerticalLayout = null;
 
-	private HorizontalLayout buttonHorizontalLayout = null;
+    private HorizontalLayout buttonHorizontalLayout = null;
 
-	private SplitPanel splitPanel = null;
+    private SplitPanel splitPanel = null;
 
-	private Tree rolesTree = null;
+    private Tree rolesTree = null;
 
-	private Form assignmentForm = null;
+    private Form assignmentForm = null;
 
-	private TextField emailTextField = null;
+    private TextField emailTextField = null;
 
-	private Button applyButton = null;
+    private Button applyButton = null;
 
-	private Button okButton = null;
+    private Button okButton = null;
 
-	private Button cancelButton = null;
+    private Button cancelButton = null;
 
-	private CheckBox checkBox = null;
+    private CheckBox checkBox = null;
 
-	private ComboBox comboBox = null;
+    private ComboBox comboBox = null;
 
-	private Upload upload = null;
+    private Upload upload = null;
 
-	private TConfiguration tConfiguration = null;
+    private TConfiguration tConfiguration = null;
 
-	private Long workflowModelId = null;
+    private Long workflowModelId = null;
 
-	private static final Action ACTION_ADD = new Action("Add child item");
-	private static final Action ACTION_DELETE = new Action("Delete");
+    private static final Action ACTION_ADD = new Action("Add child item");
+    private static final Action ACTION_DELETE = new Action("Delete");
 
-	private static final Action[] ACTIONS = new Action[] { ACTION_ADD,
-			ACTION_DELETE };
+    private static final Action[] ACTIONS = new Action[] { ACTION_ADD,
+            ACTION_DELETE };
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public StartConfigurationWindow() {
-		init(this.tConfiguration, this.workflowModelId);
-	}
+    /**
+     * Default constructor
+     * 
+     */
+    public StartConfigurationWindow() {
+        init(this.tConfiguration, this.workflowModelId);
+    }
 
-	/**
-	 * Default constructor with TConfiguration as parameter.
-	 * 
-	 */
-	public StartConfigurationWindow(TConfiguration tConfiguration,
-			Long workflowModelId) {
-		this.tConfiguration = tConfiguration;
-		this.workflowModelId = workflowModelId;
-		init(tConfiguration, workflowModelId);
-	}
+    /**
+     * Default constructor with TConfiguration as parameter.
+     * 
+     */
+    public StartConfigurationWindow(TConfiguration tConfiguration,
+            Long workflowModelId) {
+        this.tConfiguration = tConfiguration;
+        this.workflowModelId = workflowModelId;
+        init(tConfiguration, workflowModelId);
+    }
 
-	/**
-	 * Initializes the components for the start configuration window. The
-	 * Tconfiguration which represents the start configuration xml file is given
-	 * as parametrer.
-	 * 
-	 * @param tconfiguration
-	 */
-	private void init(TConfiguration tconfiguration, Long workflowModelId) {
-		splitPanel = new SplitPanel();
-		horizontalLayout = new HorizontalLayout();
-		verticalLayout = new VerticalLayout();
-		mainVerticalLayout = new VerticalLayout();
-		buttonHorizontalLayout = new HorizontalLayout();
-		rolesTree = new Tree("Rollen");
-		assignmentForm = new Form();
-		emailTextField = new TextField("E-Mail: ");
-		applyButton = new Button("Apply");
-		okButton = new Button("OK", new SaveStartConfigurationAction(rolesTree,
-				assignmentForm, tconfiguration, workflowModelId, checkBox
-						.booleanValue()));
-		cancelButton = new Button("Cancel", new HideDialogWindowAction());
-		checkBox = new CheckBox();
-		comboBox = new ComboBox("Wählen sie einen User aus!");
-		upload = new Upload("Upload", new UploadFileStartConfigurationAction());
+    /**
+     * Initializes the components for the start configuration window. The
+     * Tconfiguration which represents the start configuration xml file is given
+     * as parametrer.
+     * 
+     * @param tconfiguration
+     */
+    private void init(TConfiguration tconfiguration, Long workflowModelId) {
+        splitPanel = new SplitPanel();
+        horizontalLayout = new HorizontalLayout();
+        verticalLayout = new VerticalLayout();
+        mainVerticalLayout = new VerticalLayout();
+        buttonHorizontalLayout = new HorizontalLayout();
+        rolesTree = new Tree("Rollen");
+        assignmentForm = new Form();
+        emailTextField = new TextField("E-Mail: ");
+        applyButton = new Button("Apply");
+        okButton = new Button("OK", new SaveStartConfigurationAction(rolesTree,
+                assignmentForm, tconfiguration, workflowModelId, checkBox
+                        .booleanValue()));
+        cancelButton = new Button("Cancel", new HideDialogWindowAction());
+        checkBox = new CheckBox();
+        comboBox = new ComboBox("Wählen sie einen User aus!");
+        upload = new Upload("Upload", new UploadFileStartConfigurationAction());
 
-		rolesTree.setItemCaptionPropertyId("caption");
-		rolesTree.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_PROPERTY);
-		rolesTree.addListener(new Property.ValueChangeListener() {
+        rolesTree.setItemCaptionPropertyId("caption");
+        rolesTree.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_PROPERTY);
+        rolesTree.addListener(new Property.ValueChangeListener() {
 
-			/**
-			 * Serial version uid
-			 */
-			private static final long serialVersionUID = 1L;
+            /**
+             * Serial version uid
+             */
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				// gets the selected item from the tree
-				Item item = rolesTree.getItem(rolesTree.getValue());
-				// gets the property ids from the item
-				Collection<?> collect = item.getItemPropertyIds();
-				// Goes through the propertyIds and looks if username, email is
-				// set.
-				// If username or email is set, then the field is returned. //
-				// ein
-				// The value from the field is displayed to the user.
-				for (int i = 0; i < collect.size(); i++) {
-					if (collect.contains(item.getItemProperty("combobox"))) {
-						ComboBox cb = (ComboBox) item.getItemProperty(
-								"combobox").getValue();
-						comboBox.setValue(cb.getValue());
-					}
-					if (collect.contains(item.getItemProperty("email"))) {
-						TextField tf = (TextField) item
-								.getItemProperty("email").getValue();
-						emailTextField.setValue(tf.getValue().toString());
-					}
-					if (!collect.contains(item.getItemProperty("combobox"))
-							&& !collect.contains(item.getItemProperty("email"))) {
-						showNotification("Please enter a value so they can be shown");
-					}
-				}
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                // gets the selected item from the tree
+                Item item = rolesTree.getItem(rolesTree.getValue());
+                // gets the property ids from the item
+                Collection<?> collect = item.getItemPropertyIds();
+                // Goes through the propertyIds and looks if username, email is
+                // set.
+                // If username or email is set, then the field is returned. //
+                // ein
+                // The value from the field is displayed to the user.
+                for (int i = 0; i < collect.size(); i++) {
+                    if (collect.contains(item.getItemProperty("combobox"))) {
+                        ComboBox cb = (ComboBox) item.getItemProperty(
+                                "combobox").getValue();
+                        comboBox.setValue(cb.getValue());
+                    }
+                    if (collect.contains(item.getItemProperty("email"))) {
+                        TextField tf = (TextField) item
+                                .getItemProperty("email").getValue();
+                        emailTextField.setValue(tf.getValue().toString());
+                    }
+                    if (!collect.contains(item.getItemProperty("combobox"))
+                            && !collect.contains(item.getItemProperty("email"))) {
+                        showNotification("Please enter a value so they can be shown");
+                    }
+                }
 
-			}
+            }
 
-		});
-		rolesTree.addActionHandler(new Action.Handler() {
+        });
+        rolesTree.addActionHandler(new Action.Handler() {
 
-			/**
-			 * Serial version uid
-			 */
-			private static final long serialVersionUID = 1L;
+            /**
+             * Serial version uid
+             */
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public Action[] getActions(Object target, Object sender) {
+            @Override
+            public Action[] getActions(Object target, Object sender) {
 
-				return ACTIONS;
-			}
+                return ACTIONS;
+            }
 
-			@Override
-			public void handleAction(Action action, Object sender, Object target) {
-				if (action == ACTION_ADD) {
-					Object itemId = rolesTree.addItem();
-					// Sets the parent node. The children can't have children.
-					// Also, the caption is set.
-					rolesTree.setParent(itemId, target);
-					rolesTree.setChildrenAllowed(itemId, false);
+            @Override
+            public void handleAction(Action action, Object sender, Object target) {
+                if (action == ACTION_ADD) {
+                    Object itemId = rolesTree.addItem();
+                    // Sets the parent node. The children can't have children.
+                    // Also, the caption is set.
+                    rolesTree.setParent(itemId, target);
+                    rolesTree.setChildrenAllowed(itemId, false);
 
-					Item item = rolesTree.getItem(itemId);
-					Property caption = item.getItemProperty("caption");
-					caption.setValue("New Actor");
-				} else if (action == ACTION_DELETE) {
-					rolesTree.removeItem(target);
-				}
+                    Item item = rolesTree.getItem(itemId);
+                    Property caption = item.getItemProperty("caption");
+                    caption.setValue("New Actor");
+                } else if (action == ACTION_DELETE) {
+                    rolesTree.removeItem(target);
+                }
 
-			}
+            }
 
-		});
+        });
 
-		comboBox.setWidth(175, UNITS_PIXELS);
-		comboBox.setFilteringMode(Filtering.FILTERINGMODE_STARTSWITH);
-		comboBox.setImmediate(true);
-		comboBox.setMultiSelect(false);
-		comboBox.setNullSelectionAllowed(true);
-		comboBox.setNewItemsAllowed(false);
-		fillContainer();
+        comboBox.setWidth(175, UNITS_PIXELS);
+        comboBox.setFilteringMode(Filtering.FILTERINGMODE_STARTSWITH);
+        comboBox.setImmediate(true);
+        comboBox.setMultiSelect(false);
+        comboBox.setNullSelectionAllowed(true);
+        comboBox.setNewItemsAllowed(false);
+        fillContainer();
 
-		// The edited value should be taken and set as caption in the roles tree
-		applyButton.addListener(new Button.ClickListener() {
+        // The edited value should be taken and set as caption in the roles tree
+        applyButton.addListener(new Button.ClickListener() {
 
-			/**
-			 * Serial version uid
-			 */
-			private static final long serialVersionUID = 1L;
+            /**
+             * Serial version uid
+             */
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				Item item = rolesTree.getItem(rolesTree.getValue());
-				Property caption = item.getItemProperty("caption");
-				if (!comboBox.getValue().equals("")) {
-					caption.setValue(comboBox.getValue());
-					item.addItemProperty("comboBox", comboBox);
-				} else if (!emailTextField.getValue().equals("")) {
-					caption.setValue(emailTextField.getValue());
-					item.addItemProperty("email", emailTextField);
-				} else {
-					showNotification("Please fill in a value in one of the three fields!");
-				}
+            @Override
+            public void buttonClick(ClickEvent event) {
+                Item item = rolesTree.getItem(rolesTree.getValue());
+                Property caption = item.getItemProperty("caption");
+                if (!comboBox.getValue().equals("")) {
+                    caption.setValue(comboBox.getValue());
+                    item.addItemProperty("comboBox", comboBox);
+                } else if (!emailTextField.getValue().equals("")) {
+                    caption.setValue(emailTextField.getValue());
+                    item.addItemProperty("email", emailTextField);
+                } else {
+                    showNotification("Please fill in a value in one of the three fields!");
+                }
 
-			}
+            }
 
-		});
+        });
 
-		this.setContent(mainVerticalLayout);
+        this.setContent(mainVerticalLayout);
 
-		this.setModal(true);
+        this.setModal(true);
 
-		horizontalLayout.setSpacing(true);
-		horizontalLayout.addComponent(rolesTree);
-		addRolesToTree(tconfiguration);
+        horizontalLayout.setSpacing(true);
+        horizontalLayout.addComponent(rolesTree);
+        addRolesToTree(tconfiguration);
 
-		verticalLayout.setSpacing(true);
-		verticalLayout.addComponent(emailTextField);
-		verticalLayout.setMargin(false, true, false, false);
+        verticalLayout.setSpacing(true);
+        verticalLayout.addComponent(emailTextField);
+        verticalLayout.setMargin(false, true, false, false);
 
-		horizontalLayout.addComponent(verticalLayout);
-		horizontalLayout.addComponent(applyButton);
+        horizontalLayout.addComponent(verticalLayout);
+        horizontalLayout.addComponent(applyButton);
 
-		splitPanel.setFirstComponent(horizontalLayout);
+        splitPanel.setFirstComponent(horizontalLayout);
 
-		assignmentForm.setCaption("Liste der Konfigurationsvariablen");
-		assignmentForm.setWriteThrough(false);
-		assignmentForm.setInvalidCommitted(false);
-		addAssignmentToForm(tconfiguration);
+        assignmentForm.setCaption("Liste der Konfigurationsvariablen");
+        assignmentForm.setWriteThrough(false);
+        assignmentForm.setInvalidCommitted(false);
+        addAssignmentToForm(tconfiguration);
 
-		splitPanel.setSecondComponent(assignmentForm);
+        splitPanel.setSecondComponent(assignmentForm);
 
-		mainVerticalLayout.addComponent(splitPanel);
+        mainVerticalLayout.addComponent(splitPanel);
 
-		buttonHorizontalLayout.setSpacing(true);
-		buttonHorizontalLayout.addComponent(checkBox);
-		checkBox.setCaption("Start Immediately");
-		buttonHorizontalLayout.setComponentAlignment(checkBox,
-				Alignment.MIDDLE_RIGHT);
-		buttonHorizontalLayout.addComponent(okButton);
-		buttonHorizontalLayout.addComponent(cancelButton);
+        buttonHorizontalLayout.setSpacing(true);
+        buttonHorizontalLayout.addComponent(checkBox);
+        checkBox.setCaption("Start Immediately");
+        buttonHorizontalLayout.setComponentAlignment(checkBox,
+                Alignment.MIDDLE_RIGHT);
+        buttonHorizontalLayout.addComponent(okButton);
+        buttonHorizontalLayout.addComponent(cancelButton);
 
-		mainVerticalLayout.addComponent(buttonHorizontalLayout);
-	}
+        mainVerticalLayout.addComponent(buttonHorizontalLayout);
+    }
 
-	/**
-	 * Adds a field for every assignment which is in the start configuration xml
-	 * file. So for every assignment the user can enter his desired value.
-	 * 
-	 * @param tConfiguration
-	 */
-	private void addAssignmentToForm(TConfiguration tConfiguration) {
-		for (TAssignment assignment : tConfiguration.getAssignment()) {
+    /**
+     * Adds a field for every assignment which is in the start configuration xml
+     * file. So for every assignment the user can enter his desired value.
+     * 
+     * @param tConfiguration
+     */
+    private void addAssignmentToForm(TConfiguration tConfiguration) {
+        for (TAssignment assignment : tConfiguration.getAssignment()) {
 
-			if (assignment.getValueType().equals("String")) {
-				assignmentForm.addField(assignment.getKey(), new TextField(
-						assignment.getKey()));
-				assignmentForm.getField(assignment.getKey()).addValidator(
-						new RegexpValidator("[a-zA-Z]",
-								"Please enter a value of the type string"));
-			} else if (assignment.getValueType().equals("Integer")) {
-				assignmentForm.addField(assignment.getKey(), new TextField(
-						assignment.getKey()));
-				assignmentForm.getField(assignment.getKey()).addValidator(
-						new IntegerValidator(
-								"Please enter a value of the type integer"));
-			} else if (assignment.getValueType().equals("File")) {
-				assignmentForm.getLayout().addComponent(upload);
+            if (assignment.getValueType().equals("String")) {
+                assignmentForm.addField(assignment.getKey(), new TextField(
+                        assignment.getKey()));
+                assignmentForm.getField(assignment.getKey()).addValidator(
+                        new RegexpValidator("[a-zA-Z]",
+                                "Please enter a value of the type string"));
+            } else if (assignment.getValueType().equals("Integer")) {
+                assignmentForm.addField(assignment.getKey(), new TextField(
+                        assignment.getKey()));
+                assignmentForm.getField(assignment.getKey()).addValidator(
+                        new IntegerValidator(
+                                "Please enter a value of the type integer"));
+            } else if (assignment.getValueType().equals("File")) {
+                assignmentForm.getLayout().addComponent(upload);
 
-			}
-		}
-	}
+            }
+        }
+    }
 
-	/**
-	 * Adds a child to the tree which will be a parent node and which represents
-	 * the roles which are stored in the start configuration xml file. Also the
-	 * nodes can contain children and they will be expanded.
-	 * 
-	 * @param tConfiguration
-	 */
-	private void addRolesToTree(TConfiguration tConfiguration) {
-		for (TRole role : tConfiguration.getRoles().getRole()) {
-			rolesTree.addItem(role.getName());
-			rolesTree.setChildrenAllowed(role.getName(), true);
-			rolesTree.expandItem(role.getName());
+    /**
+     * Adds a child to the tree which will be a parent node and which represents
+     * the roles which are stored in the start configuration xml file. Also the
+     * nodes can contain children and they will be expanded.
+     * 
+     * @param tConfiguration
+     */
+    private void addRolesToTree(TConfiguration tConfiguration) {
+        for (TRole role : tConfiguration.getRoles().getRole()) {
+            rolesTree.addItem(role.getName());
+            rolesTree.setChildrenAllowed(role.getName(), true);
+            rolesTree.expandItem(role.getName());
 
-		}
+        }
 
-	}
+    }
 
-	/**
-	 * Fills the combo box with the current usernames of the tenant, so the user
-	 * can choose from the usernames and add them as actors to a role.
-	 * 
-	 */
-	private void fillContainer() {
-		HttpSession session = Main.getCurrent().getSession();
-		Long userId = (Long) session.getAttribute("userId");
-		TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
-		try {
-			Long tenantId = (Long) session.getAttribute("tenantId");
-			for (Item item : tenantFacade.getUsersOfTenant(tenantId, null)) {
-				comboBox.addItem(item.getItemProperty("username").getValue());
-			}
-		} catch (TransactionException exception) {
-			Main.getCurrent().addWindow(
-					new TransactionErrorDialogComponent(exception));
-		}
+    /**
+     * Fills the combo box with the current usernames of the tenant, so the user
+     * can choose from the usernames and add them as actors to a role.
+     * 
+     */
+    private void fillContainer() {
+        HttpSession session = Main.getCurrent().getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+        try {
+            Long tenantId = (Long) session.getAttribute("tenantId");
+            for (Item item : tenantFacade.getUsersOfTenant(tenantId, null)) {
+                comboBox.addItem(item.getItemProperty("username").getValue());
+            }
+        } catch (TransactionException exception) {
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(exception));
+        }
 
-	}
+    }
 
-	public Form getAssignmentForm() {
-		return assignmentForm;
-	}
+    public Form getAssignmentForm() {
+        return assignmentForm;
+    }
 
-	/**
-	 * Returns the check box
-	 * 
-	 * @return checkBox
-	 */
-	public CheckBox getCheckBox() {
-		return checkBox;
-	}
+    /**
+     * Returns the check box
+     * 
+     * @return checkBox
+     */
+    public CheckBox getCheckBox() {
+        return checkBox;
+    }
 
-	/**
-	 * Returns the upload field
-	 * 
-	 * @return uploadField
-	 */
-	public Upload getUpload() {
-		return upload;
-	}
+    /**
+     * Returns the upload field
+     * 
+     * @return uploadField
+     */
+    public Upload getUpload() {
+        return upload;
+    }
 
 }

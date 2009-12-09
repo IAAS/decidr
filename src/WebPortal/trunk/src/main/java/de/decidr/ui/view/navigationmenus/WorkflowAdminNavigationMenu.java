@@ -27,14 +27,14 @@ import de.decidr.ui.controller.show.ShowMyWorkitemsAction;
 import de.decidr.ui.controller.show.ShowProfileSettingsAction;
 import de.decidr.ui.controller.show.ShowWorkflowInstancesAction;
 
+/**
+ * The navigation menu for the workflow administrator. He has less functionality
+ * than the tenant and the super administrator.
+ * 
+ * @author AT
+ */
 public class WorkflowAdminNavigationMenu extends CustomComponent {
 
-    /**
-     * The navigation menu for the workflow administrator. He has less
-     * functionality than the tenant and the super administrator.
-     * 
-     * @author AT
-     */
     private static final long serialVersionUID = 3301289362151635416L;
 
     private VerticalLayout verticalLayout;
@@ -87,7 +87,8 @@ public class WorkflowAdminNavigationMenu extends CustomComponent {
                 new ShowProfileSettingsAction());
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
 
-        workflowParticipationLabel = new Label("<h5>Workflow participation</h5>");
+        workflowParticipationLabel = new Label(
+                "<h5>Workflow participation</h5>");
         workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
         workflowInstancesLabel = new Label("<h5>Workflow Instances</h5>");
         workflowInstancesLabel.setContentMode(Label.CONTENT_XHTML);

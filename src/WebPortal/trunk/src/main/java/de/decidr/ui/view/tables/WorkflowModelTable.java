@@ -27,48 +27,45 @@ import com.vaadin.ui.Table;
  */
 public class WorkflowModelTable extends Table {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Container container = null;
+    private Container container = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
-			"creationDate", "published", "executable" };
+    public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
+            "creationDate", "published", "executable" };
 
-	public static final String[] COL_HEADERS = new String[] { "ID", "Name",
-			"Creation Date", "Published", "Locked" };
+    public static final String[] COL_HEADERS = new String[] { "ID", "Name",
+            "Creation Date", "Published", "Locked" };
 
-	/**
-	 * Default constructor.
-	 * 
-	 */
-	public WorkflowModelTable(Container container) {
-		this.container = container;
-		init();
-	}
+    /**
+     * Default constructor.
+     * 
+     */
+    public WorkflowModelTable(Container container) {
+        this.container = container;
+        init();
+    }
 
-	/**
-	 * This method initializes the components for the workflow instance table.
-	 * 
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(container);
+    /**
+     * This method initializes the components for the workflow instance table.
+     * 
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(container);
 
-		addContainerProperty("id", Long.class, null);
-		addContainerProperty("name", String.class, null);
-		addContainerProperty("creationDate", String.class, null);
-		addContainerProperty("published", Boolean.class, null);
-		addContainerProperty("executable", Boolean.class, null);
+        addContainerProperty("id", Long.class, null);
+        addContainerProperty("name", String.class, null);
+        addContainerProperty("creationDate", String.class, null);
+        addContainerProperty("published", Boolean.class, null);
+        addContainerProperty("executable", Boolean.class, null);
 
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(true);
-		setPageLength(8);
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(true);
+        setPageLength(8);
 
-	}
+    }
 
 }

@@ -35,7 +35,7 @@ import de.decidr.ui.controller.workflowmodel.CreateWorkflowModelAction;
  * 
  * @author AT
  */
-@Reviewed(reviewers={"RR"}, lastRevision="2357", currentReviewState=State.PassedWithComments)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2357", currentReviewState = State.PassedWithComments)
 public class WorkflowDescriptionWindow extends Window {
 
     private static final long serialVersionUID = 1L;

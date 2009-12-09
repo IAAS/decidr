@@ -18,6 +18,7 @@ package de.decidr.ui.view.tables;
 
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
+
 /**
  * This class represents the user list's ui component. It will be connected with
  * data from the database.
@@ -26,47 +27,45 @@ import com.vaadin.ui.Table;
  */
 public class UserListTable extends Table {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = -4772118786130924736L;
+    private static final long serialVersionUID = -4772118786130924736L;
 
-	private Container userListContainer = null;
+    private Container userListContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "username",
-			"firstName", "lastName", "email"};
+    public static final Object[] NAT_COL_ORDER = new Object[] { "username",
+            "firstName", "lastName", "email" };
 
-	public static final String[] COL_HEADERS = new String[] { "Username", "Read name", "Last name",
-			"Email"};
+    public static final String[] COL_HEADERS = new String[] { "Username",
+            "Read name", "Last name", "Email" };
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public UserListTable(Container container) {
-		userListContainer = container;
-		init();
-	}
+    /**
+     * Default constructor
+     * 
+     */
+    public UserListTable(Container container) {
+        userListContainer = container;
+        init();
+    }
 
-	/**
-	 * This method initializes the components for the user list table
-	 * 
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(userListContainer);
+    /**
+     * This method initializes the components for the user list table
+     * 
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(userListContainer);
 
-		addContainerProperty("username", String.class, null);
-		addContainerProperty("firstName", String.class, null);
-		addContainerProperty("lastName", String.class, null);
-		addContainerProperty("email", String.class, null);
-		//addContainerProperty("Edit", Button.class, null); //Add button to component
-		
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(true);
+        addContainerProperty("username", String.class, null);
+        addContainerProperty("firstName", String.class, null);
+        addContainerProperty("lastName", String.class, null);
+        addContainerProperty("email", String.class, null);
+        // addContainerProperty("Edit", Button.class, null); //Add button to
+        // component
 
-	}
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(true);
+
+    }
 
 }

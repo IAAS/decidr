@@ -33,129 +33,129 @@ import de.decidr.ui.controller.show.ShowTenantSettingsAction;
 import de.decidr.ui.controller.show.ShowUserListAction;
 import de.decidr.ui.controller.show.ShowWorkflowInstancesAction;
 
+/**
+ * The super admins navigation menu which contains all possible links. The super
+ * administrator can do everything in the application.
+ * 
+ * @author AT
+ */
 public class SuperAdminNavigationMenu extends CustomComponent {
 
-	/**
-	 * The super admins navigation menu which contains all possible links. The
-	 * super administrator can do everything in the application.
-	 * 
-	 * @author AT
-	 */
-	private static final long serialVersionUID = 6470214674053630344L;
+    private static final long serialVersionUID = 6470214674053630344L;
 
-	private VerticalLayout verticalLayout;
+    private VerticalLayout verticalLayout;
 
-	private Button myWorkItemLink = null;
-	private Button changeTenantLink = null;
-	private Button createWorkflowModelLink = null;
-	private Button createWorkflowInstanceLink = null;
-	private Button showWorkflowInstancesLink = null;
-	private Button showUserListLink = null;
-	private Button createTenantLink = null;
-	private Button editTenantLink = null;
-	private Button approveTenantLink = null;
-	private Button profileSettingsLink = null;
-	private Button tenantSettingsLink = null;
-	private Button systemSettingsLink = null;
+    private Button myWorkItemLink = null;
+    private Button changeTenantLink = null;
+    private Button createWorkflowModelLink = null;
+    private Button createWorkflowInstanceLink = null;
+    private Button showWorkflowInstancesLink = null;
+    private Button showUserListLink = null;
+    private Button createTenantLink = null;
+    private Button editTenantLink = null;
+    private Button approveTenantLink = null;
+    private Button profileSettingsLink = null;
+    private Button tenantSettingsLink = null;
+    private Button systemSettingsLink = null;
 
-	private Label workflowParticipationLabel = null;
-	private Label workflowModelLabel = null;
-	private Label workflowInstancesLabel = null;
-	private Label usersLabel = null;
-	private Label tenantsLabel = null;
-	private Label settingsLabel = null;
+    private Label workflowParticipationLabel = null;
+    private Label workflowModelLabel = null;
+    private Label workflowInstancesLabel = null;
+    private Label usersLabel = null;
+    private Label tenantsLabel = null;
+    private Label settingsLabel = null;
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public SuperAdminNavigationMenu() {
-		init();
-	}
+    /**
+     * Default constructor
+     * 
+     */
+    public SuperAdminNavigationMenu() {
+        init();
+    }
 
-	/**
-	 * This method initializes the components of the super admin navigation menu
-	 * component
-	 * 
-	 */
-	private void init() {
-		verticalLayout = new VerticalLayout();
-		this.setCompositionRoot(verticalLayout);
+    /**
+     * This method initializes the components of the super admin navigation menu
+     * component
+     * 
+     */
+    private void init() {
+        verticalLayout = new VerticalLayout();
+        this.setCompositionRoot(verticalLayout);
 
-		myWorkItemLink = new Button("My Workitems", new ShowMyWorkitemsAction());
-		myWorkItemLink.setStyleName(Button.STYLE_LINK);
-		changeTenantLink = new Button("Change Tenant",
-				new ShowChangeTenantAction());
-		changeTenantLink.setStyleName(Button.STYLE_LINK);
-		createWorkflowModelLink = new Button("Create/Edit Workflow Model",
-				new ShowCreateWorkflowModelAction());
-		createWorkflowModelLink.setStyleName(Button.STYLE_LINK);
-		createWorkflowInstanceLink = new Button("Create Workflow Instance",
-				new ShowCreateWorkflowInstanceAction());
-		createWorkflowInstanceLink.setStyleName(Button.STYLE_LINK);
-		showWorkflowInstancesLink = new Button("Show Workflow Instances",
-				new ShowWorkflowInstancesAction());
-		showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
-		showUserListLink = new Button("Show/Edit User List",
-				new ShowUserListAction());
-		showUserListLink.setStyleName(Button.STYLE_LINK);
-		createTenantLink = new Button("Create Tenant",
-				new ShowCreateTenantAction());
-		createTenantLink.setStyleName(Button.STYLE_LINK);
-		editTenantLink = new Button("Edit Tenant", new ShowEditTenantAction());
-		editTenantLink.setStyleName(Button.STYLE_LINK);
-		approveTenantLink = new Button("Approve tenants",
-				new ShowApproveTenantAction());
-		approveTenantLink.setStyleName(Button.STYLE_LINK);
-		profileSettingsLink = new Button("Profile Settings",
-				new ShowProfileSettingsAction());
-		profileSettingsLink.setStyleName(Button.STYLE_LINK);
-		tenantSettingsLink = new Button("Tenant Settings",
-				new ShowTenantSettingsAction());
-		tenantSettingsLink.setStyleName(Button.STYLE_LINK);
-		systemSettingsLink = new Button("System Settings",
-				new ShowSystemSettingsAction());
-		systemSettingsLink.setStyleName(Button.STYLE_LINK);
+        myWorkItemLink = new Button("My Workitems", new ShowMyWorkitemsAction());
+        myWorkItemLink.setStyleName(Button.STYLE_LINK);
+        changeTenantLink = new Button("Change Tenant",
+                new ShowChangeTenantAction());
+        changeTenantLink.setStyleName(Button.STYLE_LINK);
+        createWorkflowModelLink = new Button("Create/Edit Workflow Model",
+                new ShowCreateWorkflowModelAction());
+        createWorkflowModelLink.setStyleName(Button.STYLE_LINK);
+        createWorkflowInstanceLink = new Button("Create Workflow Instance",
+                new ShowCreateWorkflowInstanceAction());
+        createWorkflowInstanceLink.setStyleName(Button.STYLE_LINK);
+        showWorkflowInstancesLink = new Button("Show Workflow Instances",
+                new ShowWorkflowInstancesAction());
+        showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
+        showUserListLink = new Button("Show/Edit User List",
+                new ShowUserListAction());
+        showUserListLink.setStyleName(Button.STYLE_LINK);
+        createTenantLink = new Button("Create Tenant",
+                new ShowCreateTenantAction());
+        createTenantLink.setStyleName(Button.STYLE_LINK);
+        editTenantLink = new Button("Edit Tenant", new ShowEditTenantAction());
+        editTenantLink.setStyleName(Button.STYLE_LINK);
+        approveTenantLink = new Button("Approve tenants",
+                new ShowApproveTenantAction());
+        approveTenantLink.setStyleName(Button.STYLE_LINK);
+        profileSettingsLink = new Button("Profile Settings",
+                new ShowProfileSettingsAction());
+        profileSettingsLink.setStyleName(Button.STYLE_LINK);
+        tenantSettingsLink = new Button("Tenant Settings",
+                new ShowTenantSettingsAction());
+        tenantSettingsLink.setStyleName(Button.STYLE_LINK);
+        systemSettingsLink = new Button("System Settings",
+                new ShowSystemSettingsAction());
+        systemSettingsLink.setStyleName(Button.STYLE_LINK);
 
-		workflowParticipationLabel = new Label(
-				"<h5>Workflow participation</h5>");
-		workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
-		workflowModelLabel = new Label("<h5>Workflow model</h5>");
-		workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
-		workflowInstancesLabel = new Label("<h5>Workflow Instances</h5>");
-		workflowInstancesLabel.setContentMode(Label.CONTENT_XHTML);
-		usersLabel = new Label("<h5>Users</h5>");
-		usersLabel.setContentMode(Label.CONTENT_XHTML);
-		tenantsLabel = new Label("<h5>Tenants</h5>");
-		tenantsLabel.setContentMode(Label.CONTENT_XHTML);
-		settingsLabel = new Label("<h5>Settings</h5>");
-		settingsLabel.setContentMode(Label.CONTENT_XHTML);
+        workflowParticipationLabel = new Label(
+                "<h5>Workflow participation</h5>");
+        workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
+        workflowModelLabel = new Label("<h5>Workflow model</h5>");
+        workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
+        workflowInstancesLabel = new Label("<h5>Workflow Instances</h5>");
+        workflowInstancesLabel.setContentMode(Label.CONTENT_XHTML);
+        usersLabel = new Label("<h5>Users</h5>");
+        usersLabel.setContentMode(Label.CONTENT_XHTML);
+        tenantsLabel = new Label("<h5>Tenants</h5>");
+        tenantsLabel.setContentMode(Label.CONTENT_XHTML);
+        settingsLabel = new Label("<h5>Settings</h5>");
+        settingsLabel.setContentMode(Label.CONTENT_XHTML);
 
-		verticalLayout.setSpacing(true);
+        verticalLayout.setSpacing(true);
 
-		verticalLayout.addComponent(workflowParticipationLabel);
-		verticalLayout.addComponent(myWorkItemLink);
-		verticalLayout.addComponent(changeTenantLink);
+        verticalLayout.addComponent(workflowParticipationLabel);
+        verticalLayout.addComponent(myWorkItemLink);
+        verticalLayout.addComponent(changeTenantLink);
 
-		verticalLayout.addComponent(workflowModelLabel);
-		verticalLayout.addComponent(createWorkflowModelLink);
+        verticalLayout.addComponent(workflowModelLabel);
+        verticalLayout.addComponent(createWorkflowModelLink);
 
-		verticalLayout.addComponent(workflowInstancesLabel);
-		verticalLayout.addComponent(createWorkflowInstanceLink);
-		verticalLayout.addComponent(showWorkflowInstancesLink);
+        verticalLayout.addComponent(workflowInstancesLabel);
+        verticalLayout.addComponent(createWorkflowInstanceLink);
+        verticalLayout.addComponent(showWorkflowInstancesLink);
 
-		verticalLayout.addComponent(usersLabel);
-		verticalLayout.addComponent(showUserListLink);
+        verticalLayout.addComponent(usersLabel);
+        verticalLayout.addComponent(showUserListLink);
 
-		verticalLayout.addComponent(tenantsLabel);
-		verticalLayout.addComponent(createTenantLink);
-		verticalLayout.addComponent(editTenantLink);
-		verticalLayout.addComponent(approveTenantLink);
+        verticalLayout.addComponent(tenantsLabel);
+        verticalLayout.addComponent(createTenantLink);
+        verticalLayout.addComponent(editTenantLink);
+        verticalLayout.addComponent(approveTenantLink);
 
-		verticalLayout.addComponent(settingsLabel);
-		verticalLayout.addComponent(profileSettingsLink);
-		verticalLayout.addComponent(tenantSettingsLink);
-		verticalLayout.addComponent(systemSettingsLink);
-	}
+        verticalLayout.addComponent(settingsLabel);
+        verticalLayout.addComponent(profileSettingsLink);
+        verticalLayout.addComponent(tenantSettingsLink);
+        verticalLayout.addComponent(systemSettingsLink);
+    }
 
 }

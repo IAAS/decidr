@@ -23,12 +23,9 @@ package de.decidr.ui.view.windows;
  */
 public class TransactionErrorDialogComponent extends InformationDialogComponent {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
+    /**
      * Calls the super constructor with the given text and shows a notification
      * to the user.
      */

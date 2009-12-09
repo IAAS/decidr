@@ -32,8 +32,6 @@ import de.decidr.ui.controller.show.ShowWelcomePageAction;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-
-@SuppressWarnings("serial")
 public class HorizontalNavigationMenu extends CustomComponent {
 
     private HorizontalLayout horizontalLayout = null;

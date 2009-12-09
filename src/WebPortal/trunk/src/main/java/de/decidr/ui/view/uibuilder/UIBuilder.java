@@ -28,9 +28,7 @@ import de.decidr.ui.view.SiteFrame;
  */
 public abstract class UIBuilder {
 
-    protected SiteFrame siteFrame = null;//Main.getCurrent().getUIDirector().getTemplateView();
-    
-    
+    protected SiteFrame siteFrame = null;// Main.getCurrent().getUIDirector().getTemplateView();
 
     /**
      * This method builds the content of the DecidR site.
@@ -49,7 +47,5 @@ public abstract class UIBuilder {
      * 
      */
     public abstract void buildNavigation();
-
-    
 
 }

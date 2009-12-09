@@ -16,41 +16,41 @@
 
 package de.decidr.ui.view;
 
-/**
- * The terms of service are represented in this component.
- *
- * @author Geoffrey-Alexeij Heinze
- */
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * The terms of service are represented in this component.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
 public class TermsOfServiceWindow extends CustomComponent {
 
-	private VerticalLayout verticalLayout = null;
-	private Label labelTerms = null;
+    private VerticalLayout verticalLayout = null;
+    private Label labelTerms = null;
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public TermsOfServiceWindow() {
-		init();
-	}
+    /**
+     * Default constructor
+     * 
+     */
+    public TermsOfServiceWindow() {
+        init();
+    }
 
-	/**
-	 * This method initializes the components of the terms of service component
-	 * 
-	 */
-	private void init() {
-		verticalLayout = new VerticalLayout();
-		this.setCompositionRoot(verticalLayout);
+    /**
+     * This method initializes the components of the terms of service component
+     * 
+     */
+    private void init() {
+        verticalLayout = new VerticalLayout();
+        this.setCompositionRoot(verticalLayout);
 
-		labelTerms = new Label(
-				"<h2>Terms of Service</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-				Label.CONTENT_XHTML);
+        labelTerms = new Label(
+                "<h2>Terms of Service</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                Label.CONTENT_XHTML);
 
-		verticalLayout.addComponent(labelTerms);
-	}
+        verticalLayout.addComponent(labelTerms);
+    }
 
 }

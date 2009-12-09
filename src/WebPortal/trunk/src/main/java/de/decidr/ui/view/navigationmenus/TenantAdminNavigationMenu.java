@@ -29,14 +29,14 @@ import de.decidr.ui.controller.show.ShowProfileSettingsAction;
 import de.decidr.ui.controller.show.ShowTenantSettingsAction;
 import de.decidr.ui.controller.show.ShowWorkflowInstancesAction;
 
+/**
+ * The navigation menu for the tenant. He has less links than the super
+ * administrator.
+ * 
+ * @author AT
+ */
 public class TenantAdminNavigationMenu extends CustomComponent {
 
-    /**
-     * The navigation menu for the tenant. He has less links than the super
-     * administrator.
-     * 
-     * @author AT
-     */
     private static final long serialVersionUID = -5463146748220047931L;
 
     private VerticalLayout verticalLayout;
@@ -98,7 +98,8 @@ public class TenantAdminNavigationMenu extends CustomComponent {
                 new ShowTenantSettingsAction());
         tenantSettingsLink.setStyleName(Button.STYLE_LINK);
 
-        workflowParticipationLabel = new Label("<h5>Workflow participation</h5>");
+        workflowParticipationLabel = new Label(
+                "<h5>Workflow participation</h5>");
         workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
         workflowModelLabel = new Label("<h5>Workflow model</h5>");
         workflowModelLabel.setContentMode(Label.CONTENT_XHTML);

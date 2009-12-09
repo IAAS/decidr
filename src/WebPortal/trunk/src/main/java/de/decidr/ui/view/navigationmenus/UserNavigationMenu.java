@@ -33,9 +33,6 @@ import de.decidr.ui.controller.show.ShowProfileSettingsAction;
  */
 public class UserNavigationMenu extends CustomComponent {
 
-    /**
-     * Serial Version UID
-     */
     private static final long serialVersionUID = -3304973028559451364L;
 
     private VerticalLayout verticalLayout;
@@ -78,7 +75,8 @@ public class UserNavigationMenu extends CustomComponent {
         createTenantLink.setStyleName(Button.STYLE_LINK);
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
 
-        workflowParticipationLabel = new Label("<h5>Workflow participation</h5>");
+        workflowParticipationLabel = new Label(
+                "<h5>Workflow participation</h5>");
         workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
         tenantsLabel = new Label("<h5>Tenants</h5>");
         tenantsLabel.setContentMode(Label.CONTENT_XHTML);
@@ -90,7 +88,7 @@ public class UserNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(workflowParticipationLabel);
         verticalLayout.addComponent(myWorkItemLink);
         verticalLayout.addComponent(changeTenantLink);
-        
+
         verticalLayout.addComponent(tenantsLabel);
         verticalLayout.addComponent(createTenantLink);
 

@@ -21,46 +21,49 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * This component is a part of the integrated manual
- * and contains information related to system status
+ * This component is a part of the integrated manual and contains information
+ * related to system status
  * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class SystemStatusHelpComponent extends VerticalLayout {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Button allWorkflowModelsButton = null;
+    private static final long serialVersionUID = 1L;
+    private Button allWorkflowModelsButton = null;
     private Label allWorkflowModelsLabel = null;
 
     private Button runningInstancesButton = null;
     private Label runningInstancesLabel = null;
-    
-    public SystemStatusHelpComponent(){
+
+    public SystemStatusHelpComponent() {
         setMargin(false, true, true, true);
 
-        allWorkflowModelsLabel = new Label("1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Models' navigation link.<br/>"
-                +"2) The system displays a list of all workflow models coming from all tenants in the system, including the default tenant.<br/><br/>",
+        allWorkflowModelsLabel = new Label(
+                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Models' navigation link.<br/>"
+                        + "2) The system displays a list of all workflow models coming from all tenants in the system, including the default tenant.<br/><br/>",
                 Label.CONTENT_XHTML);
         allWorkflowModelsLabel.setVisible(false);
-        allWorkflowModelsButton = new Button("How to view a list of allw workflow models?", new ToggleLabelAction(allWorkflowModelsLabel));
+        allWorkflowModelsButton = new Button(
+                "How to view a list of allw workflow models?",
+                new ToggleLabelAction(allWorkflowModelsLabel));
         allWorkflowModelsButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(allWorkflowModelsButton);
         this.addComponent(allWorkflowModelsLabel);
 
-        runningInstancesLabel = new Label("1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Instances' navigation link.<br/>"
-                +"2) The system displays a list of all running workflow instances coming from all tenants in the system, including the default tenant.<br/><br/>",
+        runningInstancesLabel = new Label(
+                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Instances' navigation link.<br/>"
+                        + "2) The system displays a list of all running workflow instances coming from all tenants in the system, including the default tenant.<br/><br/>",
                 Label.CONTENT_XHTML);
         runningInstancesLabel.setVisible(false);
-        runningInstancesButton = new Button("How to view a list of all running instances?", new ToggleLabelAction(runningInstancesLabel));
+        runningInstancesButton = new Button(
+                "How to view a list of all running instances?",
+                new ToggleLabelAction(runningInstancesLabel));
         runningInstancesButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(runningInstancesButton);
         this.addComponent(runningInstancesLabel);
 
     }
-    
+
 }

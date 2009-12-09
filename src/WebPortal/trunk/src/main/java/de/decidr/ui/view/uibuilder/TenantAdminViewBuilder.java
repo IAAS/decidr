@@ -29,14 +29,13 @@ import de.decidr.ui.view.navigationmenus.TenantAdminNavigationMenu;
  * @author AT
  */
 public class TenantAdminViewBuilder extends UIBuilder {
-	
-	/**
-	 * Default constructor. Initializes the site frame
-	 *
-	 */
-	public TenantAdminViewBuilder() {
-		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
-	}
+
+    /**
+     * Default constructor. Initializes the site frame
+     */
+    public TenantAdminViewBuilder() {
+        siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+    }
 
     /*
      * (non-Javadoc)

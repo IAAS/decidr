@@ -20,17 +20,18 @@ import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
+
 /**
- * This class represents the client side from the modeling tool
- * integrated in the web portal
+ * This class represents the client side from the modeling tool integrated in
+ * the web portal
  * 
  * @author AT
  * @author JS
  */
-public class VModelingTool extends
-        de.decidr.modelingtool.client.ModelingToolWidget implements Paintable {
+public class VModelingTool extends ModelingToolWidget implements Paintable {
 
-    /** Set the tagname used to statically resolve widget from UIDL. */
+    /** Set the tagname used to statically resolve the widget from UIDL. */
     public static final String TAGNAME = "modelingtool";
 
     /** Set the CSS class name to allow styling. */

@@ -29,14 +29,13 @@ import de.decidr.ui.view.navigationmenus.SuperAdminNavigationMenu;
  * @author AT
  */
 public class SuperAdminViewBuilder extends UIBuilder {
-	
-	/**
-	 * Default constructor. Initializes the site frame
-	 *
-	 */
-	public SuperAdminViewBuilder() {
-		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
-	}
+
+    /**
+     * Default constructor. Initializes the site frame
+     */
+    public SuperAdminViewBuilder() {
+        siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+    }
 
     /*
      * (non-Javadoc)

@@ -39,7 +39,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-@Reviewed(reviewers={"RR"}, lastRevision="2348", currentReviewState=State.PassedWithComments)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.PassedWithComments)
 public class SaveWorkItemAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;

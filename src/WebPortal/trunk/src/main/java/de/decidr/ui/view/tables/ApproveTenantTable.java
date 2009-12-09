@@ -19,54 +19,52 @@ package de.decidr.ui.view.tables;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This table holds the tenants which are to be approved as items.
+ * This table holds the tenants which are to be approved.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2332", currentReviewState = State.Passed)
 public class ApproveTenantTable extends Table {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	Container container = null;
+    Container container = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "name",
-			"adminFirstName", "adminLastName", "adminId" };
+    public static final Object[] NAT_COL_ORDER = new Object[] { "name",
+            "adminFirstName", "adminLastName", "adminId" };
 
-	public static final String[] COL_HEADERS = new String[] { "Name", "First name",
-			"Last name", "Admin Id" };
+    public static final String[] COL_HEADERS = new String[] { "Name",
+            "First name", "Surname", "Admin ID" };
 
-	/**
-	 * Default constructor with container which is set as data source
-	 * 
-	 */
-	public ApproveTenantTable(Container container) {
-		this.container = container;
-		init();
-	}
+    /**
+     * Constructor with a container which is set as data source.
+     */
+    public ApproveTenantTable(Container container) {
+        this.container = container;
+        init();
+    }
 
-	/**
-	 * Initializes the table and sets the container data source.
-	 * 
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(container);
-		
-		addContainerProperty("name", String.class, null);
-		addContainerProperty("adminFirstName", String.class, null);
-		addContainerProperty("adminLastName", String.class, null);
-		addContainerProperty("adminId", Long.class, null);
-		
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(true);
-		setPageLength(10);
+    /**
+     * Initializes the table and sets the
+     * {@link Table#setContainerDataSource(Container) container data source}.
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(container);
 
-	}
+        addContainerProperty("name", String.class, null);
+        addContainerProperty("adminFirstName", String.class, null);
+        addContainerProperty("adminLastName", String.class, null);
+        addContainerProperty("adminId", Long.class, null);
 
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(true);
+        setPageLength(10);
+    }
 }

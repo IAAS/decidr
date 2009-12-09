@@ -16,13 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-/**
- * If a user is invited to a workflow process the user will see an invitation
- * dialog which welcomes the user to the invited workflow.
- *
- * @author Geoffrey-Alexeij Heinze
- */
-
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -33,13 +26,16 @@ import com.vaadin.ui.Window;
 import de.decidr.ui.controller.ConfirmInvitationAction;
 import de.decidr.ui.controller.user.RefuseInvitationAction;
 
+/**
+ * If a user is invited to a workflow process the user will see an invitation
+ * dialog which welcomes the user to the invited workflow.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
 public class InvitationDialogComponent extends Window {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Long invitationId = null;
+    private static final long serialVersionUID = 1L;
+    private Long invitationId = null;
     private Long userId = null;
 
     private VerticalLayout verticalLayout = null;

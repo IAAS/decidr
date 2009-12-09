@@ -18,6 +18,7 @@ package de.decidr.ui.view.tables;
 
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
+
 /**
  * This class represents the workflow instance ui component. It will be
  * connected with data from the database.
@@ -26,42 +27,41 @@ import com.vaadin.ui.Table;
  */
 public class WorkflowInstanceTable extends Table {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = -4395559171091884350L;
+    private static final long serialVersionUID = -4395559171091884350L;
 
-	private Container workflowInstanceContainer = null;
+    private Container workflowInstanceContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name", "description"};
+    public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
+            "description" };
 
-	public static final String[] COL_HEADERS = new String[] { "ID", "Name", "Description" };
+    public static final String[] COL_HEADERS = new String[] { "ID", "Name",
+            "Description" };
 
-	/**
-	 * Default constructor.
-	 * 
-	 */
-	public WorkflowInstanceTable(Container container) {
-		workflowInstanceContainer = container;
-		init();
-	}
+    /**
+     * Default constructor.
+     * 
+     */
+    public WorkflowInstanceTable(Container container) {
+        workflowInstanceContainer = container;
+        init();
+    }
 
-	/**
-	 * This method initializes the components for the workflow instance table.
-	 * 
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(workflowInstanceContainer);
+    /**
+     * This method initializes the components for the workflow instance table.
+     * 
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(workflowInstanceContainer);
 
-		addContainerProperty("id", Long.class, null);
-		addContainerProperty("name", String.class, null);
-		addContainerProperty("description", String.class, null);
-		
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(false);
-	}
+        addContainerProperty("id", Long.class, null);
+        addContainerProperty("name", String.class, null);
+        addContainerProperty("description", String.class, null);
+
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(false);
+    }
 
 }

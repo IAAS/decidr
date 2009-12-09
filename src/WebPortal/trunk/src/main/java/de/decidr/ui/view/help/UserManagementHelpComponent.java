@@ -21,47 +21,48 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * This component is a part of the integrated manual
- * and contains information related to user management
+ * This component is a part of the integrated manual and contains information
+ * related to user management
  * 
  * @author Geoffrey-Alexeij Heinze
  */
 public class UserManagementHelpComponent extends VerticalLayout {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Button userListButton = null;
+    private static final long serialVersionUID = 1L;
+    private Button userListButton = null;
     private Label userListLabel = null;
 
     private Button disableAccountButton = null;
     private Label disableAccountLabel = null;
-    
-    public UserManagementHelpComponent(){
+
+    public UserManagementHelpComponent() {
         setMargin(false, true, true, true);
 
-        userListLabel = new Label("1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Users' navigation link.<br/>"
-                +"2) The system displays a list of all users in the web browser.<br/><br/>",
+        userListLabel = new Label(
+                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Users' navigation link.<br/>"
+                        + "2) The system displays a list of all users in the web browser.<br/><br/>",
                 Label.CONTENT_XHTML);
         userListLabel.setVisible(false);
-        userListButton = new Button("How to view the list of users?", new ToggleLabelAction(userListLabel));
+        userListButton = new Button("How to view the list of users?",
+                new ToggleLabelAction(userListLabel));
         userListButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(userListButton);
         this.addComponent(userListLabel);
 
-        disableAccountLabel = new Label("1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Users' navigation link.<br/>"
-                +"2) Select a number of user accounts to disable.<br/>"
-                +"3) The system flags each selected user as disabled unless the user is the super user admin himself.<br/><br/>",
+        disableAccountLabel = new Label(
+                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Users' navigation link.<br/>"
+                        + "2) Select a number of user accounts to disable.<br/>"
+                        + "3) The system flags each selected user as disabled unless the user is the super user admin himself.<br/><br/>",
                 Label.CONTENT_XHTML);
         disableAccountLabel.setVisible(false);
-        disableAccountButton = new Button("How to disable user accounts?", new ToggleLabelAction(disableAccountLabel));
+        disableAccountButton = new Button("How to disable user accounts?",
+                new ToggleLabelAction(disableAccountLabel));
         disableAccountButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(disableAccountButton);
         this.addComponent(disableAccountLabel);
 
     }
-    
+
 }

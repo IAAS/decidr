@@ -33,7 +33,7 @@ import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
  * 
  * @author AT
  */
-@Reviewed(reviewers={"RR"}, lastRevision="2345", currentReviewState=State.PassedWithComments)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2345", currentReviewState = State.PassedWithComments)
 public class LogoutAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;

@@ -22,35 +22,35 @@ import com.vaadin.ui.Button.ClickListener;
 
 /**
  * This action toggles the visibility of a given label
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-public class ToggleLabelAction implements ClickListener  {
+public class ToggleLabelAction implements ClickListener {
+
+    private static final long serialVersionUID = 1L;
+    private Label myLabel = null;
 
     /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private Label myLabel = null;
-    
-    /**
      * Constructor
-     *
+     * 
      * @param l
-     *          Label to be hidden/shown
+     *            Label to be hidden/shown
      */
-    public ToggleLabelAction(Label l){
+    public ToggleLabelAction(Label l) {
         myLabel = l;
     }
-    
-    /* (non-Javadoc)
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        if (myLabel.isVisible()){
+        if (myLabel.isVisible()) {
             myLabel.setVisible(false);
-        }else{
+        } else {
             myLabel.setVisible(true);
         }
     }

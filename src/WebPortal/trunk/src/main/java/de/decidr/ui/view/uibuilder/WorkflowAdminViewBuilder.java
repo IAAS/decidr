@@ -30,14 +30,13 @@ import de.decidr.ui.view.navigationmenus.WorkflowAdminNavigationMenu;
  * @author AT
  */
 public class WorkflowAdminViewBuilder extends UIBuilder {
-	
-	/**
-	 * Default constructor. Initializes the site frame
-	 *
-	 */
-	public WorkflowAdminViewBuilder() {
-		siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
-	}
+
+    /**
+     * Default constructor. Initializes the site frame
+     */
+    public WorkflowAdminViewBuilder() {
+        siteFrame = Main.getCurrent().getUIDirector().getTemplateView();
+    }
 
     /*
      * (non-Javadoc)
