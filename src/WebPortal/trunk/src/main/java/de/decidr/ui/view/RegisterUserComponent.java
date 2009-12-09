@@ -26,185 +26,184 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.user.RegisterUserAction;
 import de.decidr.ui.controller.user.RegisterUserWithInvitationAction;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
  * A new user can be registered by entering some information. This information
- * contains the username, the password, the email address, the first name, the
- * last name, the street, the postal code and the city.
+ * consists of the username, the password, the email address, the first name,
+ * the last name, the street, the postal code and the city.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2355", currentReviewState = State.PassedWithComments)
 public class RegisterUserComponent extends CustomComponent {
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private VerticalLayout verticalLayout = null;
+    private VerticalLayout verticalLayout = null;
 
-	private Label descriptionLabel = null;
+    private Label descriptionLabel = null;
 
-	private Button completeRegistration = null;
+    private Button completeRegistration = null;
 
-	private TextField userName = null;
-	private TextField password = null;
-	private TextField passwordConfirm = null;
-	private TextField email = null;
-	private TextField firstName = null;
-	private TextField lastName = null;
-	private TextField street = null;
-	private TextField postalCode = null;
-	private TextField city = null;
+    private TextField userName = null;
+    private TextField password = null;
+    private TextField passwordConfirm = null;
+    private TextField email = null;
+    private TextField firstName = null;
+    private TextField lastName = null;
+    private TextField street = null;
+    private TextField postalCode = null;
+    private TextField city = null;
 
-	private Form registrationForm = null;
+    private Form registrationForm = null;
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public RegisterUserComponent() {
-		init();
-		setCompleteListener();
-	}
+    /**
+     * TODO document
+     */
+    public RegisterUserComponent() {
+        init();
+        setCompleteListener();
+    }
 
-	/**
-	 * This constructor should be used for invitations from unregistered users,
-	 * who should automatically accept the invitation after registration
-	 * 
-	 * @param invId
-	 *            : invitation id
-	 */
-	public RegisterUserComponent(Long invId) {
-		init();
-		setCompleteListener(invId);
-	}
+    /**
+     * This constructor should be used for invitation of unregistered users, who
+     * should automatically accept the invitation after registration.
+     * 
+     * @param invId
+     *            invitation ID
+     */
+    public RegisterUserComponent(Long invId) {
+        init();
+        setCompleteListener(invId);
+    }
 
-	/**
-	 * Returns the registration form.
-	 * 
-	 * @return registrationForm
-	 */
-	public Form getRegistrationForm() {
-		return registrationForm;
-	}
+    /**
+     * Returns the registration form.
+     * 
+     * @return registrationForm
+     */
+    public Form getRegistrationForm() {
+        return registrationForm;
+    }
 
-	/**
-	 * This method initializes the components of the register user component
-	 * 
-	 */
-	private void init() {
-		registrationForm = new Form();
-		registrationForm.setWriteThrough(true);
-		registrationForm.setImmediate(true);
+    /**
+     * This method initializes the components of the
+     * {@link RegisterUserComponent}.
+     */
+    private void init() {
+        registrationForm = new Form();
+        registrationForm.setWriteThrough(true);
+        registrationForm.setImmediate(true);
 
-		descriptionLabel = new Label(
-				"Please fill out all fields to register as a new user:",
-				Label.CONTENT_XHTML);
+        descriptionLabel = new Label(
+                "Please fill out all fields to register as a new user:",
+                Label.CONTENT_XHTML);
 
-		userName = new TextField();
-		userName.setCaption("User Name:");
-		userName
-				.addValidator(new RegexpValidator(
-						"\\w{3,20}",
-						"The username must have a length from 3 - 20 characters and mustn't contain additional characters"));
-		password = new TextField();
-		password.setCaption("Password:");
-		password.setSecret(true);
-		passwordConfirm = new TextField();
-		passwordConfirm.setCaption("Confirm Password:");
-		passwordConfirm.setSecret(true);
-		email = new TextField();
-		email.setCaption("E-Mail:");
-		email.addValidator(new EmailValidator(
-				"Please enter a valid email address"));
-		firstName = new TextField();
-		firstName.setCaption("First Name:");
-		firstName.addValidator(new StringLengthValidator(
-				"Please enter your forname. It can be up to 50 characters", 0,
-				50, false));
-		lastName = new TextField();
-		lastName.setCaption("Last Name:");
-		lastName.addValidator(new StringLengthValidator(
-				"Please enter your surename. It can be up to 50 characters", 0,
-				50, false));
-		street = new TextField();
-		street.setCaption("Street:");
-		postalCode = new TextField();
-		postalCode.setCaption("PostalCode:");
-		postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
-				"Please enter a valid postal code"));
-		city = new TextField();
-		city.setCaption("City");
+        userName = new TextField();
+        userName.setCaption("User Name:");
+        userName.addValidator(new RegexpValidator("\\w{3,20}",
+                "The username must consist of 3 to 20 characters."));
+        password = new TextField();
+        password.setCaption("Password:");
+        password.setSecret(true);
+        passwordConfirm = new TextField();
+        passwordConfirm.setCaption("Confirm Password:");
+        passwordConfirm.setSecret(true);
+        email = new TextField();
+        email.setCaption("E-Mail:");
+        email.addValidator(new EmailValidator(
+                "Please enter a valid email address!"));
+        firstName = new TextField();
+        firstName.setCaption("First Name:");
+        firstName.addValidator(new StringLengthValidator(
+                "Please enter your first name. "
+                        + "It may consist of up to 50 characters.", 0, 50,
+                false));
+        lastName = new TextField();
+        lastName.setCaption("Last Name:");
+        lastName.addValidator(new StringLengthValidator(
+                "Please enter your surname. "
+                        + "It may consist of up to 50 characters.", 0, 50,
+                false));
+        street = new TextField();
+        street.setCaption("Street:");
+        postalCode = new TextField();
+        postalCode.setCaption("PostalCode:");
+        // Aleks, GH: see previous comments about postal code ~rr
+        postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
+                "Please enter a valid postal code."));
+        city = new TextField();
+        city.setCaption("City");
 
-		completeRegistration = new Button("Complete Registration");
+        completeRegistration = new Button("Finish Registration");
 
-		registrationForm.addField("userName", userName);
-		registrationForm.getField("userName").setRequired(true);
-		registrationForm.addField("password", password);
-		registrationForm.getField("password").setRequired(true);
-		registrationForm.addField("passwordConfirm", passwordConfirm);
-		registrationForm.getField("passwordConfirm").setRequired(true);
-		registrationForm.addField("email", email);
-		registrationForm.getField("email").setRequired(true);
-		registrationForm.addField("firstName", firstName);
-		registrationForm.addField("lastName", lastName);
-		registrationForm.addField("street", street);
-		registrationForm.addField("postalCode", postalCode);
-		registrationForm.addField("city", city);
-		registrationForm.setSizeFull();
+        registrationForm.addField("userName", userName);
+        registrationForm.getField("userName").setRequired(true);
+        registrationForm.addField("password", password);
+        registrationForm.getField("password").setRequired(true);
+        registrationForm.addField("passwordConfirm", passwordConfirm);
+        registrationForm.getField("passwordConfirm").setRequired(true);
+        registrationForm.addField("email", email);
+        registrationForm.getField("email").setRequired(true);
+        registrationForm.addField("firstName", firstName);
+        registrationForm.addField("lastName", lastName);
+        registrationForm.addField("street", street);
+        registrationForm.addField("postalCode", postalCode);
+        registrationForm.addField("city", city);
+        registrationForm.setSizeFull();
 
-		verticalLayout = new VerticalLayout();
-		verticalLayout.setSpacing(true);
+        verticalLayout = new VerticalLayout();
+        verticalLayout.setSpacing(true);
 
-		verticalLayout.addComponent(descriptionLabel);
-		verticalLayout.addComponent(registrationForm);
-		verticalLayout.addComponent(completeRegistration);
-		verticalLayout.setComponentAlignment(completeRegistration,
-				"right bottom");
+        verticalLayout.addComponent(descriptionLabel);
+        verticalLayout.addComponent(registrationForm);
+        verticalLayout.addComponent(completeRegistration);
+        verticalLayout.setComponentAlignment(completeRegistration,
+                "right bottom");
 
-		this.setCompositionRoot(verticalLayout);
-	}
+        this.setCompositionRoot(verticalLayout);
+    }
 
-	/**
-	 * Saves the entered data from the form.
-	 * 
-	 */
-	public void saveRegistrationForm() {
-		boolean notEmpty = true;
-		for (Object propertyId : registrationForm.getItemPropertyIds()) {
-			if (registrationForm.getField(propertyId).getValue().equals(null)) {
-				notEmpty = false;
-			}
-		}
-		if (notEmpty) {
-			registrationForm.commit();
-		} else {
-			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent(
-							"Please enter the required information",
-							"Empty fields"));
-		}
+    /**
+     * Saves the entered data from the form.
+     */
+    public void saveRegistrationForm() {
+        boolean notEmpty = true;
+        for (Object propertyId : registrationForm.getItemPropertyIds()) {
+            if (registrationForm.getField(propertyId).getValue().equals(null)) {
+                notEmpty = false;
+            }
+        }
+        if (notEmpty) {
+            registrationForm.commit();
+        } else {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please enter the required information!",
+                            "Missing Information"));
+        }
+    }
 
-	}
+    /**
+     * Sets a listener to the &quot;complete&quot; button.
+     */
+    private void setCompleteListener() {
+        completeRegistration.addListener(new RegisterUserAction());
+    }
 
-	/**
-	 * Sets a listener to the complete button.
-	 * 
-	 */
-	private void setCompleteListener() {
-		completeRegistration.addListener(new RegisterUserAction());
-	}
-
-	/**
-	 * Sets a listener to the complete button with the given invitation id.
-	 * 
-	 * @param invId
-	 */
-	private void setCompleteListener(Long invId) {
-		completeRegistration.addListener(new RegisterUserWithInvitationAction(
-				registrationForm, invId));
-	}
+    /**
+     * Sets a listener to the &quot;complete&quot; button with the given
+     * invitation ID.
+     * 
+     * @param invId
+     *            TODO document
+     */
+    private void setCompleteListener(Long invId) {
+        completeRegistration.addListener(new RegisterUserWithInvitationAction(
+                registrationForm, invId));
+    }
 }

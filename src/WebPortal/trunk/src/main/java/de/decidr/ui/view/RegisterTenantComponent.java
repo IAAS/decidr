@@ -26,150 +26,147 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.tenant.RegisterTenantAction;
 
 /**
- * A tenant can be registered by inserting information about the tenant. These
- * information contain the tenant name, the username, the password, the email
- * address, the first name, the last name, the street, the postal code and the
- * city.
+ * A tenant can be registered by inserting information about the tenant. This
+ * information consists of the tenant name, the username, the password, the
+ * email address, the first name, the last name, the street, the postal code and
+ * the city.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2355", currentReviewState = State.PassedWithComments)
 public class RegisterTenantComponent extends CustomComponent {
 
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private VerticalLayout verticalLayout = null;
+    private VerticalLayout verticalLayout = null;
 
-	private Label descriptionLabel = null;
+    private Label descriptionLabel = null;
 
-	private Button completeRegistration = null;
+    private Button completeRegistration = null;
 
-	private TextField tenantName = null;
-	private TextField userName = null;
-	private TextField password = null;
-	private TextField passwordConfirm = null;
-	private TextField email = null;
-	private TextField firstName = null;
-	private TextField lastName = null;
-	private TextField street = null;
-	private TextField postalCode = null;
-	private TextField city = null;
+    private TextField tenantName = null;
+    private TextField userName = null;
+    private TextField password = null;
+    private TextField passwordConfirm = null;
+    private TextField email = null;
+    private TextField firstName = null;
+    private TextField lastName = null;
+    private TextField street = null;
+    private TextField postalCode = null;
+    private TextField city = null;
 
-	private Form registrationForm = null;
+    private Form registrationForm = null;
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public RegisterTenantComponent() {
-		init();
-	}
+    /**
+     * TODO document
+     */
+    public RegisterTenantComponent() {
+        init();
+    }
 
-	/**
-	 * Returns the registration form.
-	 * 
-	 * @return registrationForm
-	 */
-	public Form getRegistrationForm() {
-		return registrationForm;
-	}
+    /**
+     * Returns the registration form.
+     * 
+     * @return registrationForm TODO document
+     */
+    public Form getRegistrationForm() {
+        return registrationForm;
+    }
 
-	/**
-	 * This method initializes the components of the register tenant component
-	 * 
-	 */
-	private void init() {
-		registrationForm = new Form();
-		registrationForm.setWriteThrough(true);
-		registrationForm.setImmediate(true);
+    /**
+     * This method initializes the components of the
+     * {@link RegisterTenantComponent}.
+     */
+    private void init() {
+        registrationForm = new Form();
+        registrationForm.setWriteThrough(true);
+        registrationForm.setImmediate(true);
 
-		descriptionLabel = new Label(
-				"Please fill out all fields to register as a new tenant:",
-				Label.CONTENT_XHTML);
+        descriptionLabel = new Label(
+                "Please fill out all fields to register as a new tenant:",
+                Label.CONTENT_XHTML);
 
-		tenantName = new TextField();
-		tenantName.setCaption("Tenant Name:");
-		tenantName
-				.addValidator(new RegexpValidator(
-						"\\w{2,50}",
-						"The tenant name must have 2-50 characters and mustn't contain additional characters"));
-		userName = new TextField();
-		userName.setCaption("User Name:");
-		userName
-				.addValidator(new RegexpValidator(
-						"\\w{3,20}",
-						"The username must have a length from 3 - 20 characters and mustn't contain additional characters!"));
-		password = new TextField();
-		password.setCaption("Password:");
-		password.setSecret(true);
-		passwordConfirm = new TextField();
-		passwordConfirm.setCaption("Confirm Password:");
-		passwordConfirm.setSecret(true);
-		email = new TextField();
-		email.setCaption("E-Mail:");
-		email.addValidator(new EmailValidator(
-				"Please enter a valid email address"));
-		firstName = new TextField();
-		firstName.setCaption("First Name:");
-		firstName.addValidator(new StringLengthValidator(
-				"Please enter your forname. It can be up to 50 characters", 0,
-				50, false));
-		lastName = new TextField();
-		lastName.setCaption("Last Name:");
-		lastName.addValidator(new StringLengthValidator(
-				"Please enter your surename. It can be up to 50 characters", 0,
-				50, false));
-		street = new TextField();
-		street.setCaption("Street:");
-		postalCode = new TextField();
-		postalCode.setCaption("PostalCode:");
-		postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
-				"Please enter a valid postal code"));
-		city = new TextField();
-		city.setCaption("City");
+        tenantName = new TextField();
+        tenantName.setCaption("Tenant Name:");
+        tenantName.addValidator(new RegexpValidator("\\w{2,50}",
+                "The tenant name must consist of 2 to 50 characters!"));
+        userName = new TextField();
+        userName.setCaption("User Name:");
+        userName.addValidator(new RegexpValidator("\\w{3,20}",
+                "The username must consist of 3 to 20 characters!"));
+        password = new TextField();
+        password.setCaption("Password:");
+        password.setSecret(true);
+        passwordConfirm = new TextField();
+        passwordConfirm.setCaption("Confirm Password:");
+        passwordConfirm.setSecret(true);
+        email = new TextField();
+        email.setCaption("Email:");
+        email.addValidator(new EmailValidator(
+                "Please enter a valid email address."));
+        firstName = new TextField();
+        firstName.setCaption("First Name:");
+        firstName.addValidator(new StringLengthValidator(
+                "Please enter your first name. "
+                        + "It can consist of up to 50 characters.", 0, 50,
+                false));
+        lastName = new TextField();
+        lastName.setCaption("Last Name:");
+        lastName.addValidator(new StringLengthValidator(
+                "Please enter your surname. "
+                        + "It can consist of up to 50 characters.", 0, 50,
+                false));
+        street = new TextField();
+        street.setCaption("Street:");
+        postalCode = new TextField();
+        postalCode.setCaption("PostalCode:");
+        // Aleks, GH: see previous comment about postal codes ~rr
+        postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
+                "Please enter a valid postal code"));
+        city = new TextField();
+        city.setCaption("City");
 
-		completeRegistration = new Button("Complete Registration",
-				new RegisterTenantAction());
+        completeRegistration = new Button("Finish Registration",
+                new RegisterTenantAction());
 
-		registrationForm.addField("tenantName", tenantName);
-		registrationForm.getField("tenantName").setRequired(true);
-		registrationForm.addField("userName", userName);
-		registrationForm.getField("userName").setRequired(true);
-		registrationForm.addField("password", password);
-		registrationForm.getField("password").setRequired(true);
-		registrationForm.addField("passwordConfirm", passwordConfirm);
-		registrationForm.getField("passwordConfirm").setRequired(true);
-		registrationForm.addField("email", email);
-		registrationForm.getField("email").setRequired(true);
-		registrationForm.addField("firstName", firstName);
-		registrationForm.addField("lastName", lastName);
-		registrationForm.addField("street", street);
-		registrationForm.addField("postalCode", postalCode);
-		registrationForm.addField("city", city);
-		registrationForm.setSizeFull();
+        registrationForm.addField("tenantName", tenantName);
+        registrationForm.getField("tenantName").setRequired(true);
+        registrationForm.addField("userName", userName);
+        registrationForm.getField("userName").setRequired(true);
+        registrationForm.addField("password", password);
+        registrationForm.getField("password").setRequired(true);
+        registrationForm.addField("passwordConfirm", passwordConfirm);
+        registrationForm.getField("passwordConfirm").setRequired(true);
+        registrationForm.addField("email", email);
+        registrationForm.getField("email").setRequired(true);
+        registrationForm.addField("firstName", firstName);
+        registrationForm.addField("lastName", lastName);
+        registrationForm.addField("street", street);
+        registrationForm.addField("postalCode", postalCode);
+        registrationForm.addField("city", city);
+        registrationForm.setSizeFull();
 
-		verticalLayout = new VerticalLayout();
-		verticalLayout.setSpacing(true);
+        verticalLayout = new VerticalLayout();
+        verticalLayout.setSpacing(true);
 
-		verticalLayout.addComponent(descriptionLabel);
-		verticalLayout.addComponent(registrationForm);
-		verticalLayout.addComponent(completeRegistration);
-		verticalLayout.setComponentAlignment(completeRegistration,
-				"right bottom");
+        verticalLayout.addComponent(descriptionLabel);
+        verticalLayout.addComponent(registrationForm);
+        verticalLayout.addComponent(completeRegistration);
+        verticalLayout.setComponentAlignment(completeRegistration,
+                "right bottom");
 
-		this.setCompositionRoot(verticalLayout);
-	}
+        this.setCompositionRoot(verticalLayout);
+    }
 
-	/**
-	 * Saves the information which are entered into the form.
-	 * 
-	 */
-	public void saveRegistrationForm() {
-		registrationForm.commit();
-	}
+    /**
+     * Saves the information which is entered into the form.
+     */
+    public void saveRegistrationForm() {
+        registrationForm.commit();
+    }
 }

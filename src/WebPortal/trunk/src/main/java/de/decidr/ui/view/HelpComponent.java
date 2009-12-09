@@ -16,16 +16,12 @@
 
 package de.decidr.ui.view;
 
-/**
- * The user can call the help site, to get information about the 
- * DecidR application.
- *
- * @author Geoffrey-Alexeij Heinze
- */
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.help.AccountManagementHelpComponent;
 import de.decidr.ui.view.help.GlossaryHelpComponent;
 import de.decidr.ui.view.help.SystemSettingsHelpComponent;
@@ -40,23 +36,27 @@ import de.decidr.ui.view.help.WorkflowModelEditorHelpComponent;
 import de.decidr.ui.view.help.WorkflowModelingHelpComponent;
 import de.decidr.ui.view.help.WorkflowParticipationHelpComponent;
 
-@SuppressWarnings("serial")
+/**
+ * The user can call the help site to get information about the DecidR
+ * application.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2355", currentReviewState = State.PassedWithComments)
 public class HelpComponent extends CustomComponent {
 
     private VerticalLayout verticalLayout = null;
     private Accordion acc = null;
 
     /**
-     * Default constructor
-     * 
+     * TODO document
      */
     public HelpComponent() {
         init();
     }
 
     /**
-     * This method initializes the components of the help component
-     * 
+     * This method initializes the components of the help component.
      */
     private void init() {
         verticalLayout = new VerticalLayout();
@@ -64,7 +64,7 @@ public class HelpComponent extends CustomComponent {
 
         acc = new Accordion();
         acc.setSizeFull();
-        
+
         AccountManagementHelpComponent accMngHelp = new AccountManagementHelpComponent();
         WorkflowParticipationHelpComponent wfpHelp = new WorkflowParticipationHelpComponent();
         WorkflowInstanceManagementHelpComponent wfiMngHelp = new WorkflowInstanceManagementHelpComponent();
@@ -78,7 +78,7 @@ public class HelpComponent extends CustomComponent {
         UserManagementHelpComponent userMngHelp = new UserManagementHelpComponent();
         TenantManagementHelpComponent tMngHelp = new TenantManagementHelpComponent();
         GlossaryHelpComponent glHelp = new GlossaryHelpComponent();
-        
+
         acc.addTab(accMngHelp, "Account Management", null);
         acc.addTab(wfpHelp, "Workflow Participation", null);
         acc.addTab(wfiMngHelp, "Workflow Instance Management", null);
@@ -94,8 +94,7 @@ public class HelpComponent extends CustomComponent {
         acc.addTab(glHelp, "Glossary", null);
 
         acc.setSelectedTab(glHelp);
-        
+
         verticalLayout.addComponent(acc);
     }
-
 }

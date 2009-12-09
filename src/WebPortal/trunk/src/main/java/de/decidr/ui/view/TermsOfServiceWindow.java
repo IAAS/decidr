@@ -25,7 +25,6 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-@SuppressWarnings("serial")
 public class TermsOfServiceWindow extends CustomComponent {
 
 	private VerticalLayout verticalLayout = null;

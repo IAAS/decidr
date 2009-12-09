@@ -19,49 +19,48 @@ package de.decidr.ui.view.tables;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * The table holds the current tenant items. It is integrated in a component.
+ * This table holds the current tenant items. It is integrated into a component.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2048", currentReviewState = State.PassedWithComments)
 public class CurrentTenantModelTable extends Table {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = -3378507042364075268L;
-	private Container currentTenantContainer = null;
+    private static final long serialVersionUID = -3378507042364075268L;
+    private Container currentTenantContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name"};
+    public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name" };
 
-	public static final String[] COL_HEADERS = new String[] { "ID", "Name" };
+    public static final String[] COL_HEADERS = new String[] { "ID", "Name" };
 
-	/**
-	 * Default Constructor. Adds this table as an observer to the depending
-	 * container.
-	 * 
-	 */
-	public CurrentTenantModelTable(Container container) {
-		currentTenantContainer = container;
-		init();
-	}
+    /**
+     * Adds this table as an observer to the depending container.<br>
+     * Aleks, GH: obviously incorrect usage of the expression "depending" -
+     * don't know what you're trying to say ~rr
+     */
+    public CurrentTenantModelTable(Container container) {
+        currentTenantContainer = container;
+        init();
+    }
 
-	/**
-	 * Initializes the table and sets the container.
-	 * 
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(currentTenantContainer);
+    /**
+     * Initializes the table and sets the container.
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(currentTenantContainer);
 
-		addContainerProperty("id", Long.class, null);
-		addContainerProperty("name", String.class, null);
+        addContainerProperty("id", Long.class, null);
+        addContainerProperty("name", String.class, null);
 
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(true);
-		setPageLength(8);
-	}
-
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(true);
+        setPageLength(8);
+    }
 }

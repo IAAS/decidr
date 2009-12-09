@@ -22,21 +22,23 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.tenant.DeleteTenantAction;
 import de.decidr.ui.data.TenantContainer;
 import de.decidr.ui.view.tables.TenantTable;
 
 /**
  * The tenants can be edited. By selecting a tenant from the table, a tenant can
- * be deleted, approved or declined.
+ * be deleted, approved or declined.<br>
+ * Aleks, GH: according to the code, they can only be deleted ~rr
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2332", currentReviewState = State.PassedWithComments)
 public class EditTenantComponent extends CustomComponent {
 
-    /**
-     * Serial Version UID
-     */
     private static final long serialVersionUID = 5979343483852012500L;
 
     private TenantContainer tenantContainer = null;
@@ -52,19 +54,17 @@ public class EditTenantComponent extends CustomComponent {
     private TenantTable tenantTable = null;
 
     private Button deleteButton = null;
-    
 
     /**
-     * Default constructor.
-     * 
+     * TODO document
      */
     public EditTenantComponent() {
         init();
     }
 
     /**
-     * This method initializes the components for the edit tenant component.
-     * 
+     * This method initializes the components of the {@link EditTenantComponent}
+     * .
      */
     private void init() {
         tenantContainer = new TenantContainer();
@@ -72,7 +72,7 @@ public class EditTenantComponent extends CustomComponent {
         verticalLayout = new VerticalLayout();
         buttonHorizontalLayout = new HorizontalLayout();
 
-        editTenantLabel = new Label("<h2> Edit tenant </h2>");
+        editTenantLabel = new Label("<h2>Edit tenant</h2>");
         editTenantLabel.setContentMode(Label.CONTENT_XHTML);
 
         buttonPanel = new Panel();
@@ -82,7 +82,6 @@ public class EditTenantComponent extends CustomComponent {
         searchPanel = new SearchPanel(tenantTable);
 
         deleteButton = new Button("Delete", new DeleteTenantAction(tenantTable));
-        
 
         setCompositionRoot(verticalLayout);
 
@@ -95,9 +94,7 @@ public class EditTenantComponent extends CustomComponent {
         buttonPanel.setCaption("Selected tenants:");
         buttonPanel.addComponent(buttonHorizontalLayout);
         buttonHorizontalLayout.setSpacing(true);
-       
+
         buttonHorizontalLayout.addComponent(deleteButton);
-
     }
-
 }

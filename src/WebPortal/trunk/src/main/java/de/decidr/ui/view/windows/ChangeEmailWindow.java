@@ -16,12 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-/**
- * In this window the user can change his email address by inserting 
- * his new email address.
- *
- * @author Geoffrey-Alexeij Heinze
- */
 
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.EmailValidator;
@@ -37,6 +31,12 @@ import com.vaadin.ui.Window;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.user.ChangeEmailAction;
 
+/**
+ * In this window the user can change his email address by inserting 
+ * his new email address.
+ *
+ * @author Geoffrey-Alexeij Heinze
+ */
 public class ChangeEmailWindow extends Window {
 
     /**

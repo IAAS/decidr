@@ -17,59 +17,57 @@
 package de.decidr.ui.view.tables;
 
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This table holds the tenants as items.
+ * This table holds the tenants as {@link Item items}.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2332", currentReviewState = State.PassedWithComments)
 public class TenantTable extends Table {
 
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = -4777680020350752428L;
+    private static final long serialVersionUID = -4777680020350752428L;
 
-	private Container tenantContainer = null;
+    private Container tenantContainer = null;
 
-	public static final Object[] NAT_COL_ORDER = new Object[] {
-			"adminFirstName", "adminLastName", "numDeployedWorkflowModels",
-			"numMembers", "numWorkflowInstances" };
+    public static final Object[] NAT_COL_ORDER = new Object[] {
+            "adminFirstName", "adminLastName", "numDeployedWorkflowModels",
+            "numMembers", "numWorkflowInstances" };
 
-	public static final String[] COL_HEADERS = new String[] { "First name",
-			"Last name", "#Deployed Models", "#Members", "#Instances"  };
+    public static final String[] COL_HEADERS = new String[] { "First name",
+            "Last name", "#Deployed Models", "#Members", "#Instances" };
 
-	/**
-	 * Default constructor with container which is set as data source
-	 * 
-	 */
-	public TenantTable(Container container) {
-		tenantContainer = container;
-		init();
+    /**
+     * Default constructor with container which is set as data source.<br>
+     * Aleks, GH: *not* a default constructor ~rr
+     */
+    public TenantTable(Container container) {
+        tenantContainer = container;
+        init();
+    }
 
-	}
+    /**
+     * Initializes the table and sets the container data source.
+     */
+    private void init() {
+        setSizeFull();
+        setContainerDataSource(tenantContainer);
 
-	/**
-	 * Initializes the table and sets the container data source.
-	 * 
-	 * 
-	 */
-	private void init() {
-		setSizeFull();
-		setContainerDataSource(tenantContainer);
+        addContainerProperty("adminFirstName", String.class, null);
+        addContainerProperty("adminLastName", String.class, null);
+        addContainerProperty("numDeployedWorkflowModels", Long.class, null);
+        addContainerProperty("numWorkflowInstances", Long.class, null);
+        addContainerProperty("numMembers", Long.class, null);
 
-		addContainerProperty("adminFirstName", String.class, null);
-		addContainerProperty("adminLastName", String.class, null);
-		addContainerProperty("numDeployedWorkflowModels", Long.class, null);
-		addContainerProperty("numWorkflowInstances", Long.class, null);
-		addContainerProperty("numMembers", Long.class, null);
-
-		setVisibleColumns(NAT_COL_ORDER);
-		setColumnHeaders(COL_HEADERS);
-		setSelectable(true);
-		setMultiSelect(true);
-		setPageLength(10);
-	}
-
+        setVisibleColumns(NAT_COL_ORDER);
+        setColumnHeaders(COL_HEADERS);
+        setSelectable(true);
+        setMultiSelect(true);
+        setPageLength(10);
+    }
 }

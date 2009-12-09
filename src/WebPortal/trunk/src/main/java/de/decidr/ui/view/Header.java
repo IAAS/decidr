@@ -16,35 +16,35 @@
 
 package de.decidr.ui.view;
 
-/**
- * The header contains the logo of the tenant which uses the decidr
- * application.
- *
- * @author Geoffrey-Alexeij Heinze
- */
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
 
-@SuppressWarnings("serial")
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
+/**
+ * The header contains the logo of the tenant which uses the DecidR application.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2272", currentReviewState = State.PassedWithComments)
 public class Header extends CustomComponent {
 
     private HorizontalLayout horizontalLayout = null;
     private Embedded decidrLogo = null;
 
     /**
-     * Default constructor
-     * 
+     * TODO document
      */
     public Header() {
         init();
     }
 
     /**
-     * This method initializes the components of the header component
-     * 
+     * This method initializes the components of the {@link Header} component.
      */
     private void init() {
         horizontalLayout = new HorizontalLayout();
@@ -57,5 +57,4 @@ public class Header extends CustomComponent {
 
         horizontalLayout.addComponent(decidrLogo);
     }
-
 }

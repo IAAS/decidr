@@ -16,11 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-/**
- * The user can change his password by inserting his old and new password.
- *
- * @author Geoffrey-Alexeij Heinze
- */
 
 import com.vaadin.data.Item;
 import com.vaadin.terminal.Sizeable;
@@ -34,6 +29,11 @@ import com.vaadin.ui.Window;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.user.ChangePasswordAction;
 
+/**
+ * The user can change his password by inserting his old and new password.
+ *
+ * @author Geoffrey-Alexeij Heinze
+ */
 public class ChangePasswordWindow extends Window {
 
     /**

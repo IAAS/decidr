@@ -26,6 +26,8 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.authentication.LoginAction;
 import de.decidr.ui.controller.authentication.LoginWithInvitationAction;
 import de.decidr.ui.controller.show.ShowRegistrationAction;
@@ -33,16 +35,14 @@ import de.decidr.ui.controller.show.ShowResetPasswordAction;
 import de.decidr.ui.view.windows.InvitationDialogComponent;
 
 /**
- * With the login component the user is able to authenticate himself to the
- * application. He has to insert his username and his password.
+ * With the login component, the user is able to authenticate himself to the
+ * application. He has to insert his username and password.
  * 
  * @author AT
  */
-public class LoginComponent extends CustomComponent  implements Handler {
+@Reviewed(reviewers = { "RR" }, lastRevision = "2242", currentReviewState = State.PassedWithComments)
+public class LoginComponent extends CustomComponent implements Handler {
 
-    /**
-     * Serial Version UID
-     */
     private static final long serialVersionUID = 6622328174696591882L;
 
     private VerticalLayout verticalLayout = null;
@@ -57,27 +57,28 @@ public class LoginComponent extends CustomComponent  implements Handler {
     private Button forgotPasswordButton = null;
     private Button registerButton = null;
     private Button.ClickListener loginListener = null;
-    
-    private ShortcutAction loginAction = new ShortcutAction("Login", ShortcutAction.KeyCode.ENTER, null);
+
+    private ShortcutAction loginAction = new ShortcutAction("Login",
+            ShortcutAction.KeyCode.ENTER, null);
 
     /**
-     * Default constructor.
+     * TODO document
      */
     public LoginComponent() {
         init(null);
     }
 
     /**
-     * Default constructor.
+     * TODO document
      */
     public LoginComponent(InvitationDialogComponent invD) {
         init(invD);
     }
 
     /**
-     * Returns the password text field.
+     * Returns the password {@link TextField}.
      * 
-     * @return passwordTextField
+     * @return passwordTextField TODO document
      */
     public TextField getPasswordTextField() {
         return passwordTextField;
@@ -86,21 +87,21 @@ public class LoginComponent extends CustomComponent  implements Handler {
     /**
      * Returns the username text field.
      * 
-     * @return usernameTextField
+     * @return usernameTextField TODO document
      */
     public TextField getUsernameTextField() {
         return usernameTextField;
     }
 
     /**
-     * This method initializes the components for the login component.
+     * This method initializes the components of the {@link LoginComponent}.
      */
     private void init(InvitationDialogComponent invD) {
         verticalLayout = new VerticalLayout();
 
         invisiblePanel = new Panel();
         invisiblePanel.addActionHandler(this);
-        
+
         loginLabel = new Label("<h3>Login:</h3>");
         loginLabel.setContentMode(Label.CONTENT_XHTML);
 
@@ -133,7 +134,7 @@ public class LoginComponent extends CustomComponent  implements Handler {
         ((VerticalLayout) invisiblePanel.getContent()).setMargin(false);
         invisiblePanel.addComponent(usernameTextField);
         invisiblePanel.addComponent(passwordTextField);
-        
+
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         verticalLayout.addComponent(loginLabel);
@@ -141,26 +142,30 @@ public class LoginComponent extends CustomComponent  implements Handler {
         verticalLayout.addComponent(loginButton);
         verticalLayout.addComponent(forgotPasswordButton);
         verticalLayout.addComponent(registerButton);
-        
-
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.event.Action.Handler#getActions(java.lang.Object, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.event.Action.Handler#getActions(java.lang.Object,
+     * java.lang.Object)
      */
     @Override
     public Action[] getActions(Object target, Object sender) {
-        return new Action[]{ loginAction};
+        return new Action[] { loginAction };
     }
 
-    /* (non-Javadoc)
-     * @see com.vaadin.event.Action.Handler#handleAction(com.vaadin.event.Action, java.lang.Object, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.event.Action.Handler#handleAction(com.vaadin.event.Action,
+     * java.lang.Object, java.lang.Object)
      */
     @Override
     public void handleAction(Action action, Object sender, Object target) {
-        if (action == loginAction ){
-            loginListener.buttonClick(loginButton.new ClickEvent( loginButton ));
+        if (action == loginAction) {
+            loginListener.buttonClick(loginButton.new ClickEvent(loginButton));
         }
-        
     }
 }

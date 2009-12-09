@@ -16,22 +16,26 @@
 
 package de.decidr.ui.view;
 
-/**
- * Represents the resources which are used in the web portal to have
- * a central point where all resources are handled.
- *
- * @author Geoffrey-Alexeij Heinze
- */
 import com.vaadin.terminal.ThemeResource;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
+/**
+ * Represents the resources which are used in the web portal to have a central
+ * point where all resources are handled.
+ * 
+ * @author Geoffrey-Alexeij Heinze
+ */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2355", currentReviewState = State.PassedWithComments)
 public class Resources {
 
     private static Resources resources = null;
 
     /**
-     * Returns an instance of this class
+     * Returns a singleton instance of this class.
      * 
-     * @return resources
+     * @return resources TODO document
      */
     public static Resources getInstance() {
         if (resources == null) {
@@ -43,9 +47,9 @@ public class Resources {
     private ThemeResource imgDecidrLogo = null;
 
     /**
-     * Returns the decidr logo as a theme resource
+     * Returns the DecidR logo as a theme resource.
      * 
-     * @return imgDecidrLogo
+     * @return imgDecidrLogo TODO document
      */
     public ThemeResource getDecidrLogo() {
         if (imgDecidrLogo == null) {

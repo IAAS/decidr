@@ -23,6 +23,8 @@ import com.vaadin.service.ApplicationContext.TransactionListener;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Window;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.controller.parameterhandler.ConfirmationParameterHandler;
 import de.decidr.ui.controller.parameterhandler.InvitationParameterHandler;
@@ -33,10 +35,11 @@ import de.decidr.ui.view.uibuilder.UnregisteredUserViewBuilder;
 
 /**
  * This is the main class. When calling the DecidR web site this class is called
- * first and initialized.
+ * and initialized.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2291", currentReviewState = State.PassedWithComments)
 public class Main extends Application implements TransactionListener {
 
     private static final long serialVersionUID = 2668887930201158755L;
@@ -58,36 +61,35 @@ public class Main extends Application implements TransactionListener {
      */
     @Override
     public void init() {
-    	setCurrent(this);
-    	if (getContext() != null) {
+        setCurrent(this);
+        if (getContext() != null) {
             getContext().addTransactionListener(this);
-        }        
-    	initView();
+        }
+        initView();
     }
-    
-    private void initView(){
-    	
-    	setMainWindow(main);
+
+    private void initView() {
+        setMainWindow(main);
 
         main.addParameterHandler(new InvitationParameterHandler());
         main.addParameterHandler(new ConfirmationParameterHandler());
         main.addParameterHandler(new TenantParameterHandler());
         main.addParameterHandler(new LoginParameterHandler());
-        
-    	director = new UIDirector();
-    	
-    	director.createNewView();
+
+        director = new UIDirector();
+
+        director.createNewView();
         ui = new UnregisteredUserViewBuilder();
         director.setUiBuilder(ui);
         director.constructView();
-        
+
         setTheme("decidr");
-        
+
         main.addComponent(director.getTemplateView());
     }
-    
-    public UIDirector getUIDirector(){
-    	return director;
+
+    public UIDirector getUIDirector() {
+        return director;
     }
 
     /**
@@ -100,14 +102,14 @@ public class Main extends Application implements TransactionListener {
     }
 
     /**
-     * Remove the current application instance
+     * Remove the current application instance.
      */
     public static void removeCurrent() {
         currentApplication.remove();
     }
 
     /**
-     * Set the current application instance
+     * Set the current application instance.
      */
     public static void setCurrent(Main application) {
         if (getCurrent() == null) {
@@ -116,9 +118,9 @@ public class Main extends Application implements TransactionListener {
     }
 
     /**
-     * Returns the session from the depending DecidR instance.
+     * Returns the session of this DecidR instance.
      * 
-     * @return session
+     * @return session TODO document
      */
     public HttpSession getSession() {
         // Aleks, GH: added lazy loading to get the "clicking on home" error
@@ -134,9 +136,10 @@ public class Main extends Application implements TransactionListener {
     }
 
     /**
-     * Sets the session from the depending DecidR instance.
+     * Sets the session of this DecidR instance.
      * 
      * @param session
+     *            TODO document
      */
     public void setSession(HttpSession session) {
         this.session = session;
@@ -163,7 +166,7 @@ public class Main extends Application implements TransactionListener {
      */
     @Override
     public void transactionStart(Application application, Object transactionData) {
-        //This code everytime a request is made
-    	Main.setCurrent(this);
+        // This code everytime a request is made
+        Main.setCurrent(this);
     }
 }

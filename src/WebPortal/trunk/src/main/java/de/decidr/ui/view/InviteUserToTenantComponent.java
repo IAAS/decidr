@@ -24,22 +24,22 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.user.InviteUserToTenantAction;
 
 /**
- * In this component a user can be invited to a tenant. The tenant has to insert
- * his email address or his username to be invited.
+ * In this component a user can be invited to a tenant. The tenant administrator
+ * has to insert an email address or a username to be invited.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2358", currentReviewState = State.PassedWithComments)
 public class InviteUserToTenantComponent extends CustomComponent {
 
-    /**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Integer userCounter = 0;
+    private Integer userCounter = 0;
 
     private VerticalLayout verticalLayout = null;
     private HorizontalLayout horizontalLayout = null;
@@ -50,28 +50,25 @@ public class InviteUserToTenantComponent extends CustomComponent {
     private Button appointUsers = null;
 
     /**
-     * Default constructor.
-     * 
+     * TODO document
      */
     public InviteUserToTenantComponent() {
         init();
     }
 
     /**
-     * Adds a new field to the form of the component where the tenant can insert
-     * his username or his email address.
-     * 
+     * Adds a new field to the form of the component where the tenant admin can
+     * insert the user's username or email address.
      */
     private void addUser() {
         userCounter += 1;
         inviteForm.addField("user" + userCounter.toString(), new TextField(
-                "Username/E-Mail address:"));
+                "Username/email address:"));
         inviteForm.getField("user" + userCounter.toString()).setRequired(true);
     }
 
     /**
-     * Initializes the components for the invite user to tenant component.
-     * 
+     * Initializes the components for the {@link InviteUserToTenantComponent}.
      */
     private void init() {
         userCounter = 1;
@@ -87,22 +84,20 @@ public class InviteUserToTenantComponent extends CustomComponent {
         inviteForm.setWriteThrough(true);
 
         descriptionLabel = new Label(
-                "Invite new users by pressing Add User and entering either their username or email address.",
+                "Invite new users by pressing &quot>Add User&quot;"
+                        + " and entering either their username or email address.",
                 Label.CONTENT_XHTML);
 
         inviteUser = new TextField();
-        inviteUser.setCaption("Username/E-Mail address:");
+        inviteUser.setCaption("Username/email address:");
 
         inviteForm.addField("user" + userCounter.toString(), inviteUser);
         inviteForm.getField("user" + userCounter.toString()).setRequired(true);
 
         addField = new Button("Add User", new Button.ClickListener() {
-            /**
-			 * Serial version uid
-			 */
-			private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-			public void buttonClick(Button.ClickEvent event) {
+            public void buttonClick(Button.ClickEvent event) {
                 addUser();
             }
         });

@@ -22,64 +22,65 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.show.ShowRegisterTenantAction;
 import de.decidr.ui.controller.show.ShowRegisterUserAction;
 
 /**
- * Here the user can choose if he wants to register a new tenant or a new user.
+ * Here the user can choose if he wants to register a new user or a new tenant
+ * and user.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2355", currentReviewState = State.PassedWithComments)
 public class RegistrationComponent extends CustomComponent {
-	/**
-	 * Serial version uid
-	 */
-	private static final long serialVersionUID = 1L;
-	private VerticalLayout verticalLayout = null;
-	private HorizontalLayout horizontalLayout = null;
+    private static final long serialVersionUID = 1L;
+    private VerticalLayout verticalLayout = null;
+    private HorizontalLayout horizontalLayout = null;
 
-	private Label descriptionLabel = null;
+    private Label descriptionLabel = null;
 
-	private Button registerUser = null;
-	private Button registerTenant = null;
+    private Button registerUser = null;
+    private Button registerTenant = null;
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public RegistrationComponent() {
-		init();
-	}
+    /**
+     * TODO document
+     */
+    public RegistrationComponent() {
+        init();
+    }
 
-	/**
-	 * This method initializes the components of the registration component
-	 * 
-	 */
-	private void init() {
-		verticalLayout = new VerticalLayout();
-		verticalLayout.setSizeFull();
-		verticalLayout.setSpacing(true);
-		this.setCompositionRoot(verticalLayout);
+    /**
+     * This method initializes the components of the
+     * {@link RegistrationComponent}.
+     */
+    private void init() {
+        verticalLayout = new VerticalLayout();
+        verticalLayout.setSizeFull();
+        verticalLayout.setSpacing(true);
+        this.setCompositionRoot(verticalLayout);
 
-		descriptionLabel = new Label("Please select what you want to do:",
-				Label.CONTENT_XHTML);
+        descriptionLabel = new Label("Please select what you want to do:",
+                Label.CONTENT_XHTML);
 
-		registerTenant = new Button("create new tenant",
-				new ShowRegisterTenantAction());
-		registerTenant.setStyleName(Button.STYLE_LINK);
+        registerTenant = new Button("Create both a new tenant and user",
+                new ShowRegisterTenantAction());
+        registerTenant.setStyleName(Button.STYLE_LINK);
 
-		registerUser = new Button("create new user",
-				new ShowRegisterUserAction());
-		registerUser.setStyleName(Button.STYLE_LINK);
+        registerUser = new Button("Create a new user",
+                new ShowRegisterUserAction());
+        registerUser.setStyleName(Button.STYLE_LINK);
 
-		horizontalLayout = new HorizontalLayout();
-		horizontalLayout.setSpacing(true);
-		horizontalLayout.addComponent(registerUser);
-		horizontalLayout.addComponent(registerTenant);
-		horizontalLayout.setComponentAlignment(registerUser, "center bottom");
-		horizontalLayout.setComponentAlignment(registerTenant, "center bottom");
+        horizontalLayout = new HorizontalLayout();
+        horizontalLayout.setSpacing(true);
+        horizontalLayout.addComponent(registerUser);
+        horizontalLayout.addComponent(registerTenant);
+        // Aleks, GH: these buttons should be one above the other ~rr
+        horizontalLayout.setComponentAlignment(registerUser, "center bottom");
+        horizontalLayout.setComponentAlignment(registerTenant, "center bottom");
 
-		verticalLayout.addComponent(descriptionLabel);
-		verticalLayout.addComponent(horizontalLayout);
-	}
+        verticalLayout.addComponent(descriptionLabel);
+        verticalLayout.addComponent(horizontalLayout);
+    }
 }
