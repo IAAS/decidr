@@ -694,8 +694,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`password_reset_request` (
   CONSTRAINT `fk_password_reset_request_user`
     FOREIGN KEY (`id` )
     REFERENCES `decidrdb`.`user` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -732,8 +732,8 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`activity` (
   CONSTRAINT `fk_activity_known_web_service`
     FOREIGN KEY (`known_web_service_id` )
     REFERENCES `decidrdb`.`known_web_service` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
