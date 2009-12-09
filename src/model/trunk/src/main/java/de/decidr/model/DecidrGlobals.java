@@ -64,7 +64,8 @@ public class DecidrGlobals {
      */
     public static final String URL_PARAM_CONFIRM_REGISTRATION_ID = "registration";
     /**
-     * URL parameter name that contains the id of the user who is allowed to login with this link.
+     * URL parameter name that contains the id of the user who is allowed to
+     * login with this link.
      */
     public static final String URL_PARAM_LOGIN_ID = "login";
     /**
@@ -296,8 +297,15 @@ public class DecidrGlobals {
         }
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
-        return "http://" + getEsb().getLocation() + "/soap/"
-                + webServiceName;
+        /*
+         * RR DH workaround until the ESB is re-integrated: use Axis2 server
+         * location as the ESB location (by changing the corresponding database
+         * entry) and append "/axis2/" instead of "/soap/".
+         * 
+         * Should be changed back to "/soap/" once the WS client interface is
+         * decoupled from Axis2.
+         */
+        return "http://" + getEsb().getLocation() + "/axis2/" + webServiceName;
     }
 
     /**
