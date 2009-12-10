@@ -18,7 +18,7 @@ package de.decidr.model;
 
 import java.io.Serializable;
 
-import com.sun.mail.imap.protocol.Item;
+import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.MethodProperty;

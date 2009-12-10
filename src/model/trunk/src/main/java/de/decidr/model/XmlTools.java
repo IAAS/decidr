@@ -63,7 +63,14 @@ public class XmlTools {
             if (o instanceof TTaskItem) {
                 TTaskItem taskItem = (TTaskItem) o;
                 if (DWDLSimpleVariableType.ANY_URI.equals(taskItem.getType())) {
-                    result.add(Long.parseLong(taskItem.getValue().toString()));
+                    try {
+                        result.add(Long.parseLong(taskItem.getValue()
+                                .toString()));
+                    } catch (NumberFormatException e) {
+                        // the value is not a file, which is not a critical
+                        // error and perfectly valid if the user has entered
+                        // nothing.
+                    }
                 }
             }
         }
@@ -91,7 +98,12 @@ public class XmlTools {
         for (TAssignment assignment : startConfiguration.getAssignment()) {
             if (DWDLSimpleVariableType.ANY_URI.toString().equals(
                     assignment.getValueType())) {
-                result.add(Long.parseLong(assignment.getValue().get(0)));
+                try {
+                    result.add(Long.parseLong(assignment.getValue().get(0)));
+                } catch (NumberFormatException e) {
+                    // the value is not a file, which is not a critical error
+                    // and perfectly valid if the user has entered nothing.
+                }
             }
         }
         return result;
