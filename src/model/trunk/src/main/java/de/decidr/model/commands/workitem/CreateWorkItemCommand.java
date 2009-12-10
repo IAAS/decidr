@@ -32,6 +32,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.WorkItemStatus;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
@@ -116,8 +117,15 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
         q.setLong("deployedWorkflowModelId", deployedWorkflowModelId);
 
         WorkflowInstance owningInstance = (WorkflowInstance) q.uniqueResult();
-        User owningUser = new User();
-        owningUser.setId(userId);
+        if (owningInstance == null) {
+            throw new EntityNotFoundException(WorkflowInstance.class, "PID: "
+                    + odePid + ", DWFMID: " + deployedWorkflowModelId);
+        }
+
+        User owningUser = (User) evt.getSession().get(User.class, userId);
+        if (owningUser == null) {
+            throw new EntityNotFoundException(User.class, userId);
+        }
 
         WorkItem newWorkItem = new WorkItem();
         newWorkItem.setCreationDate(DecidrGlobals.getTime().getTime());
@@ -134,8 +142,10 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
 
         evt.getSession().save(newWorkItem);
 
-        // Now that we have saved the work item, we must persist and associate
-        // any files that the HumanTaskData references.
+        /*
+         * Now that we have saved the work item, we must persist and associate
+         * any files that the HumanTaskData references.
+         */
         persistAndAssociateFiles(newWorkItem);
 
         workItemId = newWorkItem.getId();
