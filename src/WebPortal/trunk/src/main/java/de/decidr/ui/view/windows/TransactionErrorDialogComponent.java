@@ -16,11 +16,15 @@
 
 package de.decidr.ui.view.windows;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
  * This component displays an error message. Should be used if an Action failed.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class TransactionErrorDialogComponent extends InformationDialogComponent {
 
     private static final long serialVersionUID = 1L;

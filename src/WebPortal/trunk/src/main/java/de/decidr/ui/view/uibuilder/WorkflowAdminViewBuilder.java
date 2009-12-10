@@ -16,6 +16,8 @@
 
 package de.decidr.ui.view.uibuilder;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Header;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.WorkItemComponent;
@@ -29,10 +31,11 @@ import de.decidr.ui.view.navigationmenus.WorkflowAdminNavigationMenu;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class WorkflowAdminViewBuilder extends UIBuilder {
 
     /**
-     * Default constructor. Initializes the site frame
+     * Default constructor. Initializes the site frame.
      */
     public WorkflowAdminViewBuilder() {
         siteFrame = Main.getCurrent().getUIDirector().getTemplateView();

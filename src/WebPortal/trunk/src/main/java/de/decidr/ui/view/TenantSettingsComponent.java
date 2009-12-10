@@ -41,6 +41,8 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
@@ -51,11 +53,12 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * The tenant can change his settings. He change his theme by choosing a given
+ * The tenant can change his settings. He can change his theme by choosing a given
  * background or font or he can enter his own CSS and upload it.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class TenantSettingsComponent extends CustomComponent {
 
     private static final long serialVersionUID = -7841061147447361631L;
@@ -127,6 +130,7 @@ public class TenantSettingsComponent extends CustomComponent {
                     new TransactionErrorDialogComponent(e));
         }
 
+        // GH, Aleks: Please explain or get rid of commented out code
         // get logo
         // InputStream in = tenantFacade.getLogo(tenantId);
         // File file = new File("themes/"+tenantName+"/img/decidrlogo.png");
@@ -243,6 +247,7 @@ public class TenantSettingsComponent extends CustomComponent {
                 tmpF = new File(Main.getCurrent().getContext()
                         .getBaseDirectory().getPath()
                         + "/VAADIN/themes/decidr/styles.css");
+                // GH, Aleks: Rewrite text ~tk, js
                 if (tmpF.exists()) {
                     Main.getCurrent().getMainWindow()
                             .addWindow(
@@ -256,7 +261,7 @@ public class TenantSettingsComponent extends CustomComponent {
         });
 
         saveButton = new Button("Save", new SaveTenantSettingsAction());
-        restoreDefaultSettingsButton = new Button("Restore default settings",
+        restoreDefaultSettingsButton = new Button("Restore Default Settings",
                 new RestoreDefaultTenantSettingsAction());
 
         logoEmbedded = new Embedded("",
@@ -339,7 +344,7 @@ public class TenantSettingsComponent extends CustomComponent {
         backgroundSelect = new NativeSelect("Background");
         foregroundSelect = new NativeSelect("Foreground");
         fontSelect = new NativeSelect("Font");
-        fontSizeSelect = new NativeSelect("Font size");
+        fontSizeSelect = new NativeSelect("Font Size");
 
         fillSelects();
 

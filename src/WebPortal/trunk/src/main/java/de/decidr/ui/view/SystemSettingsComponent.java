@@ -22,6 +22,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.SaveSystemSettingsAction;
 
 /**
@@ -29,6 +31,7 @@ import de.decidr.ui.controller.SaveSystemSettingsAction;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class SystemSettingsComponent extends CustomComponent {
 
     private static final long serialVersionUID = 3389525551936631625L;
@@ -42,7 +45,7 @@ public class SystemSettingsComponent extends CustomComponent {
     private Button saveButton = null;
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public SystemSettingsComponent(Item settingsItem) {
         this.settingsItem = settingsItem;
@@ -56,7 +59,7 @@ public class SystemSettingsComponent extends CustomComponent {
     /**
      * Returns the settings item.
      * 
-     * @return settingsItem
+     * @return settingsItem the settings item to be returned
      */
     public Item getSettingsItem() {
         return settingsItem;

@@ -24,14 +24,16 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.HideDialogWindowAction;
 
 /**
- * The user can confirm his invitation to the decidr application via this
- * dialog.
+ * The user can confirm his invitation to DecidR via this dialog.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class ConfirmDialogWindow extends Window {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +47,7 @@ public class ConfirmDialogWindow extends Window {
 
     /**
      * Default constructor.
+     * GH, Aleks: Please comment the parameters, too ~tk, js
      * 
      * @param text
      * @param listener

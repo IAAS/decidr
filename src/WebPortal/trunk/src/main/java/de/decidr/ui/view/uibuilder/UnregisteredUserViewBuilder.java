@@ -16,6 +16,8 @@
 
 package de.decidr.ui.view.uibuilder;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Header;
 import de.decidr.ui.view.LoginComponent;
 import de.decidr.ui.view.Main;
@@ -29,10 +31,11 @@ import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class UnregisteredUserViewBuilder extends UIBuilder {
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public UnregisteredUserViewBuilder() {
         siteFrame = Main.getCurrent().getUIDirector().getTemplateView();

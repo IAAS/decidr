@@ -26,6 +26,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.user.ResetPasswordAction;
 
@@ -34,6 +36,7 @@ import de.decidr.ui.controller.user.ResetPasswordAction;
  *
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class ResetPasswordWindow extends Window {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +51,7 @@ public class ResetPasswordWindow extends Window {
     private Button cancelButton = null;
 
     /**
-     * Default constructor
+     * Default constructor.
      * 
      */
     public ResetPasswordWindow() {
@@ -60,7 +63,7 @@ public class ResetPasswordWindow extends Window {
     }
 
     /**
-     * This method initializes the components of the reset password component
+     * This method initializes the components of the reset password component.
      * 
      */
     private void init() {

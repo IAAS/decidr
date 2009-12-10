@@ -16,6 +16,8 @@
 
 package de.decidr.ui.view.uibuilder;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.SiteFrame;
 
 /**
@@ -26,10 +28,11 @@ import de.decidr.ui.view.SiteFrame;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public abstract class UIBuilder {
 
-    protected SiteFrame siteFrame = null;// Main.getCurrent().getUIDirector().getTemplateView();
-
+    protected SiteFrame siteFrame = null;
+    
     /**
      * This method builds the content of the DecidR site.
      * 

@@ -26,6 +26,8 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.show.ShowAppointWorkflowAdminAction;
 import de.decidr.ui.controller.show.ShowModelDescription;
 import de.decidr.ui.controller.show.ShowModelingToolAction;
@@ -48,6 +50,7 @@ import de.decidr.ui.view.tables.WorkflowModelTable;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class WorkflowModelsComponent extends CustomComponent {
 
     private static final long serialVersionUID = -8284535233079548635L;
@@ -80,11 +83,10 @@ public class WorkflowModelsComponent extends CustomComponent {
     private Button appointWorkflowAdminButton = null;
     private Button importModelButton = null;
 
-    private String[] models = new String[] { "Current tenant", "Public models" };
+    private String[] models = new String[] { "Current Tenant", "Public models" };
 
     /**
-     * Default constructor
-     * 
+     * Default constructor.
      */
     public WorkflowModelsComponent() {
         init();
@@ -92,7 +94,6 @@ public class WorkflowModelsComponent extends CustomComponent {
 
     /**
      * This method initializes the components for the workflow model component.
-     * 
      */
     private void init() {
 
@@ -103,7 +104,7 @@ public class WorkflowModelsComponent extends CustomComponent {
 
         workflowModelLabel = new Label("<h2> Workflow models </h2>");
         workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
-        showModelsFromLabel = new Label("Show models from: ");
+        showModelsFromLabel = new Label("Show Models from: ");
 
         buttonPanel = new Panel();
 
@@ -116,7 +117,7 @@ public class WorkflowModelsComponent extends CustomComponent {
             nativeSelect.addItem(models[i]);
         }
         nativeSelect.setNullSelectionAllowed(false);
-        nativeSelect.setValue("Current tenant");
+        nativeSelect.setValue("Current Tenant");
         nativeSelect.setImmediate(true);
         nativeSelect.addListener(new Property.ValueChangeListener() {
 
@@ -133,9 +134,9 @@ public class WorkflowModelsComponent extends CustomComponent {
 
         });
 
-        createNewModelButton = new Button("Create new model",
+        createNewModelButton = new Button("Create New Model",
                 new ShowModelDescription(workflowModelTable));
-        editWorkflowModelButton = new Button("Edit model",
+        editWorkflowModelButton = new Button("Edit Model",
                 new ShowModelingToolAction(workflowModelTable));
         removeModelButton = new Button("Remove",
                 new RemoveWorkflowModelsAction(workflowModelTable));
@@ -195,6 +196,8 @@ public class WorkflowModelsComponent extends CustomComponent {
             getButtonPanel().addComponent(importModelButton);
         }
     }
+
+    // GH, Aleks: Please comment parameters and return values
 
     /**
      * Sets the button panel for the component.

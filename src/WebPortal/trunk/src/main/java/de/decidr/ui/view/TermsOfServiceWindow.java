@@ -20,13 +20,22 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
  * The terms of service are represented in this component.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class TermsOfServiceWindow extends CustomComponent {
 
+    /**
+     * Serial Uid
+     */
+    private static final long serialVersionUID = 1067396863067502885L;
+    
     private VerticalLayout verticalLayout = null;
     private Label labelTerms = null;
 
@@ -47,7 +56,7 @@ public class TermsOfServiceWindow extends CustomComponent {
         this.setCompositionRoot(verticalLayout);
 
         labelTerms = new Label(
-                "<h2>Terms of Service</h2><br/>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                "<h2>Terms of Service</h2><br/>This service is licensed under the Apache License, Version 2.0, January 2004.<br>The license can be found under http://www.apache.org/licenses/",
                 Label.CONTENT_XHTML);
 
         verticalLayout.addComponent(labelTerms);

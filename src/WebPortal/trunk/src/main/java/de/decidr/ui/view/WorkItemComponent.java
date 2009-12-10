@@ -29,6 +29,8 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.filters.EqualsFilter;
 import de.decidr.ui.controller.MarkWorkItemAsDoneAction;
 import de.decidr.ui.controller.show.ShowWorkItemWindowAction;
@@ -42,6 +44,7 @@ import de.decidr.ui.view.tables.WorkItemTable;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class WorkItemComponent extends CustomComponent {
 
     private static final long serialVersionUID = -2110748321898265548L;
@@ -76,7 +79,7 @@ public class WorkItemComponent extends CustomComponent {
     private List<Button> buttonList = new LinkedList<Button>();
 
     /**
-     * Default constructor
+     * Default constructor.
      * 
      */
     public WorkItemComponent() {
@@ -84,7 +87,7 @@ public class WorkItemComponent extends CustomComponent {
     }
 
     /**
-     * Returns the work item table
+     * Returns the work item table.
      * 
      * @return workItemTable
      */
@@ -93,7 +96,7 @@ public class WorkItemComponent extends CustomComponent {
     }
 
     /**
-     * This method initializes the components of the work item component
+     * This method initializes the components of the work item component.
      * 
      */
     private void init() {
@@ -105,9 +108,9 @@ public class WorkItemComponent extends CustomComponent {
 
         tablePanel = new Panel();
 
-        headerLabel = new Label("<h2>My work items </h2>");
+        headerLabel = new Label("<h2>My Work Items</h2>");
         headerLabel.setContentMode(Label.CONTENT_XHTML);
-        showWorkItemLabel = new Label("Show work items from: ");
+        showWorkItemLabel = new Label("Show Work Items from: ");
 
         tenantNativeSelect = new NativeSelect();
         tenantNativeSelect.setImmediate(true);
@@ -124,7 +127,7 @@ public class WorkItemComponent extends CustomComponent {
             @Override
             public void valueChange(ValueChangeEvent event) {
 
-                if (tenantNativeSelect.isSelected("Current tenant")) {
+                if (tenantNativeSelect.isSelected("Current Tenant")) {
 
                     tenantId = (Long) session.getAttribute("tenantId");
                     EqualsFilter filter = new EqualsFilter(true,
@@ -170,14 +173,14 @@ public class WorkItemComponent extends CustomComponent {
         markAsDoneButton = new Button("Mark as done",
                 new MarkWorkItemAsDoneAction(workItemTable));
 
-        editWorkItemButton = new Button("Edit work item",
+        editWorkItemButton = new Button("Edit Work Item",
                 new ShowWorkItemWindowAction(workItemTable));
 
         buttonList.add(markAsDoneButton);
         buttonList.add(editWorkItemButton);
 
         buttonPanel = new ButtonPanel(buttonList);
-        buttonPanel.setCaption("Edit work item");
+        buttonPanel.setCaption("Edit Work Item");
     }
 
 }

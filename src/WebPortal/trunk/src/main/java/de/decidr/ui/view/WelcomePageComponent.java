@@ -24,6 +24,8 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -34,6 +36,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class WelcomePageComponent extends CustomComponent {
 
     private static final long serialVersionUID = 1L;

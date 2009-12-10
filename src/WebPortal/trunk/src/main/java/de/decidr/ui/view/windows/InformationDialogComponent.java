@@ -22,14 +22,17 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.HideDialogWindowAction;
 
 /**
- * Some information are shown in a subwindow to inform the user about certain
+ * Some information is shown in a subwindow to inform the user about certain
  * processes.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class InformationDialogComponent extends Window {
 
     private static final long serialVersionUID = 1L;

@@ -24,6 +24,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.TerminateWorkflowInstanceAction;
 import de.decidr.ui.data.CompletedInstancesContainer;
 import de.decidr.ui.data.RunningInstanceContainer;
@@ -31,12 +33,13 @@ import de.decidr.ui.view.tables.CompletedInstanceTable;
 import de.decidr.ui.view.tables.RunningInstanceTable;
 
 /**
- * In this component all workflow instances are represent. These instances are
- * the running workflow instances and the completed workflow instance. They
+ * In this component all workflow instances are represented. These instances are
+ * the running workflow instances and the completed workflow instance. They are
  * represented in tables.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class WorkflowInstanceComponent extends CustomComponent {
 
     private static final long serialVersionUID = -8769293137331802152L;
@@ -67,17 +70,14 @@ public class WorkflowInstanceComponent extends CustomComponent {
     private List<Button> buttonList = new LinkedList<Button>();
 
     /**
-     * Default constructor
-     * 
+     * Default constructor.
      */
     public WorkflowInstanceComponent() {
         init();
     }
 
     /**
-     * 
-     * This method initializes the components of the workflow instance component
-     * 
+     * This method initializes the components of the workflow instance component.
      */
     private void init() {
         runningInstanceContainer = new RunningInstanceContainer();

@@ -23,6 +23,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.ConfirmInvitationAction;
 import de.decidr.ui.controller.user.RefuseInvitationAction;
 
@@ -32,6 +34,7 @@ import de.decidr.ui.controller.user.RefuseInvitationAction;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class InvitationDialogComponent extends Window {
 
     private static final long serialVersionUID = 1L;
@@ -52,7 +55,9 @@ public class InvitationDialogComponent extends Window {
      * 
      * @param description
      * @param invId
+     * @param uId
      */
+    //GH, Aleks: What if the user is an unknown user, e.g. no user id?
     public InvitationDialogComponent(String description, Long invId, Long uId) {
         invitationId = invId;
         userId = uId;
