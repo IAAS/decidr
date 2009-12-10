@@ -72,7 +72,7 @@ public class TaskItemFieldSet extends HorizontalPanel {
         this.variableField = variableField;
         this
                 .add(new Label(ModelingToolWidget.getMessages()
-                        .taskItemOutputVar()));
+                        .taskItemInputVar()));
         this.add(variableField);
 
         TaskItemClickHandler handler = new TaskItemClickHandler(table, this,

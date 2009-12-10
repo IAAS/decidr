@@ -95,7 +95,7 @@ public interface Messages extends Constants {
 
     String taskItemHint();
 
-    String taskItemOutputVar();
+    String taskItemInputVar();
 
     String addTaskItem();
 

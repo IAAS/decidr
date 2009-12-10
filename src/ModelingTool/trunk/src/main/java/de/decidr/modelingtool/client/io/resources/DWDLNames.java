@@ -100,7 +100,7 @@ public class DWDLNames {
     public static String taskResult = "taskResult";
     public static String getProperty = "getProperty";
     public static String propertyValue = "propertyValue";
-    public static String parameters = "parameters";
+    public static String parameters = "parameter";
     public static String hint = "hint";
     public static String value = "value";
 
