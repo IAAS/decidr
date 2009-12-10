@@ -17,6 +17,7 @@ package de.decidr.model.webservices;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -88,6 +89,7 @@ public interface HumanTaskInterface {
     @WebMethod(operationName = "createTask", action = "urn:createTask")
     @RequestWrapper(localName = "createTask", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.CreateTask")
     @ResponseWrapper(localName = "createTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.CreateTaskResponse")
+    @WebResult(name="taskID")
     public Long createTask(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID,
             @WebParam(name = "userID") long userID,
