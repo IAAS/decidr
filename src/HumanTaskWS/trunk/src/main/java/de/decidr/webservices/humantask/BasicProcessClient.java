@@ -24,8 +24,6 @@ import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
-import de.decidr.model.DecidrGlobals;
-
 /**
  * A web service client for the callback method provided by the BPEL process.
  * 
@@ -35,8 +33,12 @@ import de.decidr.model.DecidrGlobals;
 public class BasicProcessClient extends Service {
 
     public BasicProcessClient() throws MalformedURLException {
-        this(new URL(DecidrGlobals
-                .getWebServiceWsdlUrl(BasicProcessInterface.SERVICE_NAME)),
+        // RR, DH, XXX: revert when ESB works
+        // this(new URL(DecidrGlobals
+        // .getWebServiceWsdlUrl(BasicProcessInterface.SERVICE_NAME)),
+        // BasicProcessInterface.SERVICE);
+        this(new URL("http://127.0.0.1:8080/ode/processes/"
+                + BasicProcessInterface.SERVICE_NAME + "?wsdl"),
                 BasicProcessInterface.SERVICE);
     }
 
