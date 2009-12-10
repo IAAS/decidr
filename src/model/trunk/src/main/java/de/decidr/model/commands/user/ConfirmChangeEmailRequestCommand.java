@@ -25,8 +25,10 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * 
- * The function in this class changes the email address of the given user iff
- * the given auth key is correct. If not an exception will be thrown.
+ * Changes the email address of the given user iff the given auth key matches
+ * the auth key in a previously created {@link ChangeEmailRequest}. Otherwise an
+ * {@link AuthKeyException} is thrown. Once the email has been successfully
+ * changed, the {@link ChangeEmailRequest} is deleted.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -40,13 +42,18 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
 
     /**
      * 
-     * Creates a new ConfirmChangeEmailRequestCommand. This command changes the
-     * email address of the given user iff the given auth key is correct. If not
-     * an exception will be thrown. The request object will be deleted as all.
+     * Creates a new ConfirmChangeEmailRequestCommand that changes the email
+     * address of the given user iff the given auth key matches the auth key in
+     * a previously created {@link ChangeEmailRequest}. Otherwise an
+     * {@link AuthKeyException} is thrown.
      * 
      * @param actor
+     *            user / system executing the command
      * @param userId
+     *            user whose email address is being changed
      * @param requestAuthKey
+     *            authentication key associated with the
+     *            {@link ChangeEmailRequest}
      * @throws IllegalArgumentException
      *             if userId is <code>null</code> or if requestAuthKey is
      *             <code>null</code> or empty.
@@ -60,17 +67,13 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
                     "Authentication key must not be null or empty.");
         }
         this.requestAuthKey = requestAuthKey;
-
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        User user = (User) evt.getSession().get(User.class, userId);
-        if (user == null) {
-            throw new EntityNotFoundException(User.class, userId);
-        }
+        User user = fetchUser(evt.getSession());
 
         ChangeEmailRequest request = user.getChangeEmailRequest();
         if (request == null) {
@@ -78,10 +81,11 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
         }
 
         if (requestAuthKey.equals(request.getAuthKey())) {
-            // change email address
             user.setEmail(request.getNewEmail());
-            evt.getSession().update(user);
+            // due to a consistency trigger we must delete the request BEFORE
+            // updating the user.
             evt.getSession().delete(request);
+            evt.getSession().update(user);
         } else {
             throw new AuthKeyException();
         }
