@@ -16,11 +16,9 @@
 
 package de.decidr.test.database.factories;
 
-import javax.xml.bind.JAXBException;
-
 import org.hibernate.Session;
 
-import de.decidr.model.workflowmodel.factories.MappingFactory;
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
  * Creates useful XML test data (or stubs) using existing database contents.
@@ -60,17 +58,9 @@ public class XmlFactory extends EntityFactory {
      * @return raw xml data of the activity mapping
      */
     public byte[] getActivityMapping(String activityName) {
-        try {
-            if ("humanTask".equals(activityName)) {
-                return MappingFactory.getHumanTaskMappingBytes();
-            } else if ("email".equals(activityName)) {
-                return MappingFactory.getEmailMappingBytes();
-            } else {
-                throw new RuntimeException("Unknown activity " + activityName);
-            }
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
+        // convention: all activity mapping files have to be named
+        // <activityname>.xml
+        return getFileBytes("mappings/" + activityName + ".xml");
     }
 
     /**

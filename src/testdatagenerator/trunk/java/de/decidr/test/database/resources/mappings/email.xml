@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping xmlns="http://decidr.de/schema/wsmapping" xmlns:ns2="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+    <activity>Decidr-Email</activity>
+    <portType>EmailPT</portType>
+    <operation>sendEmail</operation>
+    <binding>EmailSOAP11Binding</binding>
+    <partnerLinkType>
+        <name>EmailPLT</name>
+        <partnerRole>EmailProvider</partnerRole>
+    </partnerLinkType>
+    <service>Email</service>
+    <servicePort>EmailSOAP11</servicePort>
+    <properties>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tAbstractUserList" name="to"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tAbstractUserList" name="cc"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tAbstractUserList" name="bcc"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="fromName"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="fromAddress"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="subject"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tStringMap" name="headers"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="message"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="bodyHTML"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tIDList" name="attachments"/>
+    </properties>
+    <propertyAliases>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tAbstractUserList" messageType="ns4:sendEmailRequest" propertyName="to">
+            <ns2:query>/tns:sendEmail/tns:to /tns:sendEmail/tns:cc /tns:sendEmail/tns:bcc /tns:sendEmail/tns:fromName /tns:sendEmail/tns:fromAddress /tns:sendEmail/tns:subject /tns:sendEmail/tns:headers /tns:sendEmail/tns:bodyTXT /tns:sendEmail/tns:bodyHTML /tns:sendEmail/tns:attachments</ns2:query>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tAbstractUserList" messageType="ns4:sendEmailRequest" propertyName="cc">
+            <ns2:query/>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tAbstractUserList" messageType="ns4:sendEmailRequest" propertyName="bcc">
+            <ns2:query/>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="ns4:sendEmailRequest" propertyName="fromName">
+            <ns2:query/>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="ns4:sendEmailRequest" propertyName="fromAddress">
+            <ns2:query/>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="ns4:sendEmailRequest" propertyName="subject">
+            <ns2:query/>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tStringMap" messageType="ns4:sendEmailRequest" propertyName="headers">
+            <ns2:query/>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="ns4:sendEmailRequest" propertyName="message">
+            <ns2:query/>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="ns4:sendEmailRequest" propertyName="bodyHTML">
+            <ns2:query/>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/webservices/Email" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tIDList" messageType="ns4:sendEmailRequest" propertyName="attachments">
+            <ns2:query/>
+        </ns2:propertyAlias>
+    </propertyAliases>
+</mapping>

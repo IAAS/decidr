@@ -78,7 +78,7 @@ public class ActivityFactory extends EntityFactory {
         Activity humanTaskActivity = new Activity();
         humanTaskActivity.setKnownWebService(humanTaskWS);
         humanTaskActivity.setMapping(xml.getActivityMapping("humanTask"));
-        humanTaskActivity.setName("DecidR-Human Task");
+        humanTaskActivity.setName("DecidR-HumanTask");
         session.save(humanTaskActivity);
 
         fireProgressEvent(2, 2);

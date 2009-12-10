@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping xmlns="http://decidr.de/schema/wsmapping" xmlns:ns2="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+    <activity>Decidr-HumanTask</activity>
+    <portType>HumanTaskPT</portType>
+    <operation>createTask</operation>
+    <binding>HumanTaskSOAP11</binding>
+    <partnerLinkType>
+        <name>HumanTaskPLT</name>
+        <myRole>HumanTaskClient</myRole>
+        <partnerRole>HumanTaskProvider</partnerRole>
+    </partnerLinkType>
+    <service>HumanTask</service>
+    <servicePort>HumanTaskSOAP11</servicePort>
+    <properties>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tID" name="wfmID"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tID" name="processID"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/DecidrTypes" type="ns3:tID" name="userID"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="taskName"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:boolean" name="userNotification"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" name="description"/>
+        <ns2:property xmlns:ns3="http://decidr.de/schema/humanTask" type="ns3:tHumanTaskData" name="taskData"/>
+        <ns2:property xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:long" name="taskID"/>
+    </properties>
+    <propertyAliases>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/webservices/HumanTask" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tID" messageType="ns4:createTaskRequest" propertyName="wfmID">
+            <ns2:query>/tns:createTask/tns:wfmID</ns2:query>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/webservices/HumanTask" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tID" messageType="ns4:createTaskRequest" propertyName="processID">
+            <ns2:query>/tns:createTask/tns:processID</ns2:query>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/DecidrTypes" xmlns:ns4="http://decidr.de/webservices/HumanTask" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tID" messageType="ns4:createTaskRequest" propertyName="userID">
+            <ns2:query>/tns:createTask/tns:userID</ns2:query>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/HumanTask" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="ns4:createTaskRequest" propertyName="taskName">
+            <ns2:query>/tns:createTask/tns:taskName</ns2:query>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/HumanTask" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:boolean" messageType="ns4:createTaskRequest" propertyName="userNotification">
+            <ns2:query>/tns:createTask/tns:userNotification</ns2:query>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/HumanTask" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:string" messageType="ns4:createTaskRequest" propertyName="description">
+            <ns2:query>/tns:createTask/tns:description</ns2:query>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:ns3="http://decidr.de/schema/humanTask" xmlns:ns4="http://decidr.de/webservices/HumanTask" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="ns3:tHumanTaskData" messageType="ns4:createTaskRequest" propertyName="taskData">
+            <ns2:query>/tns:createTask/tns:taskData</ns2:query>
+        </ns2:propertyAlias>
+        <ns2:propertyAlias xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://decidr.de/webservices/HumanTask" xmlns:ns5="http://decidr.de/schema/wsmapping" xmlns="" type="xs:long" messageType="ns4:createTaskResponse" propertyName="taskID">
+            <ns2:query>/tns:createTask/tns:taskID</ns2:query>
+        </ns2:propertyAlias>
+    </propertyAliases>
+</mapping>
