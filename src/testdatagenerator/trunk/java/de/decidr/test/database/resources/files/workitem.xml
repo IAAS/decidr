@@ -45,7 +45,7 @@
 		<hint>展久 クセス にによる と会意味 シビリティ, の徴 丸山亮仕 プロセスド セシビリテ 内准剛,
 			健二仕 ウェブア クリック」 功久 ルビ 内准剛 ンツアクセシ テストスイト,
 			ラベラ リア式会 ウェブア マルチメ エム</hint>
-		<value>0</value>
+		<value>yes</value>
 	</taskItem>
 	<taskItem name="item_2" type="date" variable="var_2"></taskItem>
 	<label>Empty date</label>

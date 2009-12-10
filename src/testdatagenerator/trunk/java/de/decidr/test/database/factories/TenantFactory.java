@@ -62,6 +62,7 @@ public class TenantFactory extends EntityFactory {
         result.setDescription("This is the default tenant description");
         result.setAdvancedColorScheme(createDefaultColorScheme());
         result.setSimpleColorScheme(createDefaultColorScheme());
+        result.setCurrentColorScheme(result.getAdvancedColorScheme());
         result.setApprovedSince(DecidrGlobals.getTime().getTime());
         result.setLogo(createDefaultLogo());
 
@@ -207,9 +208,9 @@ public class TenantFactory extends EntityFactory {
      */
     public User getRandomAdmin() {
         // please note rand() is specific to MySQL!
-        String hql = "from User u " + "where (u.disabledSince is null) and "
+        String hql = "from User u where (u.disabledSince is null) and "
                 + "(u.unavailableSince is null) and "
-                + "(u.userProfile is not null) order by rand()";
+                + "exists(from UserProfile p where p.id = u.id) order by rand()";
 
         User user = (User) session.createQuery(hql).setMaxResults(1)
                 .uniqueResult();

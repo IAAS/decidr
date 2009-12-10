@@ -74,7 +74,7 @@ public class UserFactory extends EntityFactory {
 
         for (int i = 0; i < numUsers; i++) {
             User user = new User();
-            
+
             Date now = DecidrGlobals.getTime().getTime();
 
             user.setEmail(getUniqueEmailAddress(i));
@@ -104,15 +104,13 @@ public class UserFactory extends EntityFactory {
                 // the user is a registered user
 
                 UserProfile profile = new UserProfile();
+                profile.setLastName(lastNames[rnd.nextInt(lastNames.length)]);
                 profile
-                        .setLastName(lastNames[rnd
-                                .nextInt(lastNames.length)]);
-                profile.setFirstName(firstNames[rnd
-                        .nextInt(firstNames.length)]);
+                        .setFirstName(firstNames[rnd.nextInt(firstNames.length)]);
                 profile.setCity(cities[rnd.nextInt(cities.length)]);
                 profile.setPostalCode(Integer.toString(rnd.nextInt(99999)));
-                profile.setStreet(streets[rnd.nextInt(streets.length)]
-                        + " " + Integer.toString(rnd.nextInt(999)));
+                profile.setStreet(streets[rnd.nextInt(streets.length)] + " "
+                        + Integer.toString(rnd.nextInt(999)));
                 String username = "user" + Integer.toString(i);
                 profile.setUsername(username);
                 profile.setPasswordSalt(Password.getRandomSalt());
@@ -122,7 +120,7 @@ public class UserFactory extends EntityFactory {
                 user.setRegisteredSince(now);
 
                 user.setAuthKey(null);
-                
+
                 session.save(profile);
                 user.setUserProfile(profile);
 
@@ -154,8 +152,8 @@ public class UserFactory extends EntityFactory {
 
             session.update(user);
             result.add(user);
-            
-            fireProgressEvent(numUsers, i+1);
+
+            fireProgressEvent(numUsers, i + 1);
         }
         return result;
     }
@@ -167,7 +165,7 @@ public class UserFactory extends EntityFactory {
     private String getUniqueEmailAddress(int localPartNumber) {
         String localpart;
         localpart = "user_" + Integer.toString(localPartNumber) + "_"
-                + Password.getRandomSalt();
+                + Password.getRandomSalt().substring(0, 8);
 
         String domain = "test.decidr.de";
 
