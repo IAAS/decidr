@@ -26,8 +26,8 @@ import de.decidr.ui.controller.show.ShowMyWorkitemsAction;
 import de.decidr.ui.controller.show.ShowProfileSettingsAction;
 
 /**
- * The navigation menu for the user. He has less functionality than the super
- * administrator, the workflow adminstrator and the tenant.
+ * The navigation menu for the user. He has less links than the super
+ * administrator, the workflow administrator and the tenant.
  * 
  * @author AT
  */
@@ -47,8 +47,7 @@ public class UserNavigationMenu extends CustomComponent {
     private Label settingsLabel = null;
 
     /**
-     * Default constructor
-     * 
+     * Default constructor.
      */
     public UserNavigationMenu() {
         init();
@@ -56,8 +55,7 @@ public class UserNavigationMenu extends CustomComponent {
 
     /**
      * This method initializes the components of the user navigation menu
-     * component
-     * 
+     * component.
      */
     private void init() {
         verticalLayout = new VerticalLayout();
@@ -76,7 +74,7 @@ public class UserNavigationMenu extends CustomComponent {
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
 
         workflowParticipationLabel = new Label(
-                "<h5>Workflow participation</h5>");
+                "<h5>Workflow Participation</h5>");
         workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
         tenantsLabel = new Label("<h5>Tenants</h5>");
         tenantsLabel.setContentMode(Label.CONTENT_XHTML);

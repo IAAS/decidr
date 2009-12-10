@@ -20,6 +20,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.show.ShowChangeTenantAction;
 import de.decidr.ui.controller.show.ShowCreateTenantAction;
 import de.decidr.ui.controller.show.ShowCreateWorkflowInstanceAction;
@@ -28,11 +30,12 @@ import de.decidr.ui.controller.show.ShowProfileSettingsAction;
 import de.decidr.ui.controller.show.ShowWorkflowInstancesAction;
 
 /**
- * The navigation menu for the workflow administrator. He has less functionality
- * than the tenant and the super administrator.
+ * The navigation menu for the workflow administrator. He has less links than
+ * the tenant and the super administrator.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class WorkflowAdminNavigationMenu extends CustomComponent {
 
     private static final long serialVersionUID = 3301289362151635416L;
@@ -53,8 +56,7 @@ public class WorkflowAdminNavigationMenu extends CustomComponent {
     private Label settingsLabel = null;
 
     /**
-     * Default constructor
-     * 
+     * Default constructor.
      */
     public WorkflowAdminNavigationMenu() {
         init();
@@ -62,8 +64,7 @@ public class WorkflowAdminNavigationMenu extends CustomComponent {
 
     /**
      * This method initializes the components of the workflow admin navigation
-     * menu component
-     * 
+     * menu component.
      */
     private void init() {
         verticalLayout = new VerticalLayout();
@@ -88,7 +89,7 @@ public class WorkflowAdminNavigationMenu extends CustomComponent {
         profileSettingsLink.setStyleName(Button.STYLE_LINK);
 
         workflowParticipationLabel = new Label(
-                "<h5>Workflow participation</h5>");
+                "<h5>Workflow Participation</h5>");
         workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
         workflowInstancesLabel = new Label("<h5>Workflow Instances</h5>");
         workflowInstancesLabel.setContentMode(Label.CONTENT_XHTML);

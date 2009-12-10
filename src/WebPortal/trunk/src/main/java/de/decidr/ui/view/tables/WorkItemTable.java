@@ -18,11 +18,15 @@ package de.decidr.ui.view.tables;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
  * The table represents the work items as items.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class WorkItemTable extends Table {
 
     private static final long serialVersionUID = 24861377458898625L;
@@ -33,19 +37,16 @@ public class WorkItemTable extends Table {
             "workflowInstanceId", "creationDate", "workItemStatus" };
 
     public static final String[] COL_HEADERS = new String[] { "Name", "WfI#",
-            "Creation date", "Status" };
+            "Creation Date", "Status" };
 
     /**
      * Default constructor.
      * 
      * @param container
+     *            Container which holds the work items
      */
     public WorkItemTable(Container container) {
         this.workItemContainer = container;
-        init();
-    }
-
-    public WorkItemTable() {
         init();
     }
 

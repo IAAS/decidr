@@ -73,7 +73,7 @@ public class LoginWithInvitationAction implements ClickListener {
             Main.getCurrent().getMainWindow().addWindow(invitationDialog);
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().showNotification(
-                    "Login unsuccessful!");
+                    "Login failed!");
         }
         System.out.println(Main.getCurrent().getUser());
     }

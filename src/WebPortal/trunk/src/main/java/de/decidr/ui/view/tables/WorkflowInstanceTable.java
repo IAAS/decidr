@@ -19,12 +19,16 @@ package de.decidr.ui.view.tables;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This class represents the workflow instance ui component. It will be
- * connected with data from the database.
+ * This class represents the workflow instance ui component. It will be filled
+ * with data from the database.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class WorkflowInstanceTable extends Table {
 
     private static final long serialVersionUID = -4395559171091884350L;
@@ -40,6 +44,8 @@ public class WorkflowInstanceTable extends Table {
     /**
      * Default constructor.
      * 
+     * @param container
+     *            Container which holds the workflow instances
      */
     public WorkflowInstanceTable(Container container) {
         workflowInstanceContainer = container;
@@ -48,7 +54,6 @@ public class WorkflowInstanceTable extends Table {
 
     /**
      * This method initializes the components for the workflow instance table.
-     * 
      */
     private void init() {
         setSizeFull();
@@ -62,6 +67,7 @@ public class WorkflowInstanceTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(false);
+
     }
 
 }

@@ -40,6 +40,8 @@ public class WorkflowModelTable extends Table {
     /**
      * Default constructor.
      * 
+     * @param container
+     *            Container which holds the workflow models
      */
     public WorkflowModelTable(Container container) {
         this.container = container;
@@ -48,7 +50,6 @@ public class WorkflowModelTable extends Table {
 
     /**
      * This method initializes the components for the workflow instance table.
-     * 
      */
     private void init() {
         setSizeFull();

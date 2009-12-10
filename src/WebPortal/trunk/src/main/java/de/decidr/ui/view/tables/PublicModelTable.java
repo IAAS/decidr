@@ -21,11 +21,15 @@ import java.util.Date;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * The tabel contains the public workflow models as items.
+ * This table contains the public workflow models as items.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class PublicModelTable extends Table {
 
     private static final long serialVersionUID = -8901605163680575150L;
@@ -36,12 +40,14 @@ public class PublicModelTable extends Table {
             "modifiedDate", "tenantName" };
 
     public static final String[] COL_HEADERS = new String[] { "Name",
-            "Modified date", "Tenant name" };
+            "Modified Date", "Tenant Name" };
 
     /**
      * Default constructor. Adds this table as an observer to the container
      * which notifies the table if there are any changes in the data.
      * 
+     * @param container
+     *            Container which holds the workflow models
      */
     public PublicModelTable(Container container) {
         publicModelContainer = container;
@@ -50,9 +56,6 @@ public class PublicModelTable extends Table {
 
     /**
      * Initializes the table and sets the container and the properties.
-     * 
-     * @param observable
-     * @param container
      */
     private void init() {
         setSizeFull();
@@ -66,6 +69,8 @@ public class PublicModelTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
+        // GH, Aleks: "magical" number belong into a constant, all other tables
+        // have it, too
         setPageLength(7);
     }
 

@@ -20,6 +20,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.show.ShowApproveTenantAction;
 import de.decidr.ui.controller.show.ShowChangeTenantAction;
 import de.decidr.ui.controller.show.ShowCreateTenantAction;
@@ -34,11 +36,12 @@ import de.decidr.ui.controller.show.ShowUserListAction;
 import de.decidr.ui.controller.show.ShowWorkflowInstancesAction;
 
 /**
- * The super admins navigation menu which contains all possible links. The super
- * administrator can do everything in the application.
+ * The super admin's navigation menu which contains all possible links. The
+ * super administrator can do everything in the application.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class SuperAdminNavigationMenu extends CustomComponent {
 
     private static final long serialVersionUID = 6470214674053630344L;
@@ -66,8 +69,7 @@ public class SuperAdminNavigationMenu extends CustomComponent {
     private Label settingsLabel = null;
 
     /**
-     * Default constructor
-     * 
+     * Default constructor.
      */
     public SuperAdminNavigationMenu() {
         init();
@@ -75,8 +77,7 @@ public class SuperAdminNavigationMenu extends CustomComponent {
 
     /**
      * This method initializes the components of the super admin navigation menu
-     * component
-     * 
+     * component.
      */
     private void init() {
         verticalLayout = new VerticalLayout();
@@ -104,7 +105,7 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         createTenantLink.setStyleName(Button.STYLE_LINK);
         editTenantLink = new Button("Edit Tenant", new ShowEditTenantAction());
         editTenantLink.setStyleName(Button.STYLE_LINK);
-        approveTenantLink = new Button("Approve tenants",
+        approveTenantLink = new Button("Approve Tenants",
                 new ShowApproveTenantAction());
         approveTenantLink.setStyleName(Button.STYLE_LINK);
         profileSettingsLink = new Button("Profile Settings",
@@ -118,9 +119,9 @@ public class SuperAdminNavigationMenu extends CustomComponent {
         systemSettingsLink.setStyleName(Button.STYLE_LINK);
 
         workflowParticipationLabel = new Label(
-                "<h5>Workflow participation</h5>");
+                "<h5>Workflow Participation</h5>");
         workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
-        workflowModelLabel = new Label("<h5>Workflow model</h5>");
+        workflowModelLabel = new Label("<h5>Workflow Model</h5>");
         workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
         workflowInstancesLabel = new Label("<h5>Workflow Instances</h5>");
         workflowInstancesLabel.setContentMode(Label.CONTENT_XHTML);

@@ -19,12 +19,16 @@ package de.decidr.ui.view.tables;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This class represents the user list's ui component. It will be connected with
+ * This class represents the user list's ui component. It will be filled with
  * data from the database.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class UserListTable extends Table {
 
     private static final long serialVersionUID = -4772118786130924736L;
@@ -35,11 +39,13 @@ public class UserListTable extends Table {
             "firstName", "lastName", "email" };
 
     public static final String[] COL_HEADERS = new String[] { "Username",
-            "Read name", "Last name", "Email" };
+            "First Name", "Last Name", "Email" };
 
     /**
-     * Default constructor
+     * Default constructor.
      * 
+     * @param container
+     *            Container which holds the users.
      */
     public UserListTable(Container container) {
         userListContainer = container;
@@ -47,8 +53,7 @@ public class UserListTable extends Table {
     }
 
     /**
-     * This method initializes the components for the user list table
-     * 
+     * This method initializes the components for the user list table.
      */
     private void init() {
         setSizeFull();
@@ -58,6 +63,7 @@ public class UserListTable extends Table {
         addContainerProperty("firstName", String.class, null);
         addContainerProperty("lastName", String.class, null);
         addContainerProperty("email", String.class, null);
+        // GH, Aleks: Explain or get rid of commented out lines
         // addContainerProperty("Edit", Button.class, null); //Add button to
         // component
 

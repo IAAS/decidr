@@ -20,6 +20,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.authentication.LogoutAction;
 import de.decidr.ui.controller.show.ShowHelpDialogAction;
 import de.decidr.ui.controller.show.ShowImpressumAction;
@@ -32,7 +34,10 @@ import de.decidr.ui.controller.show.ShowWelcomePageAction;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class HorizontalNavigationMenu extends CustomComponent {
+
+    private static final long serialVersionUID = -85255929127752304L;
 
     private HorizontalLayout horizontalLayout = null;
 
@@ -68,6 +73,7 @@ public class HorizontalNavigationMenu extends CustomComponent {
         horizontalLayout = new HorizontalLayout();
         this.setCompositionRoot(horizontalLayout);
 
+        // GH: Explain or get rid of commented out lines
         btnHomeLink = new Button("Home", new ShowWelcomePageAction());
         // btnHomeLink.setStyleName(Button.STYLE_LINK);
         btnHelpLink = new Button("Help", new ShowHelpDialogAction());
@@ -77,7 +83,7 @@ public class HorizontalNavigationMenu extends CustomComponent {
         btnTermsOfServiceLink = new Button("Terms of Service",
                 new ShowTermsOfServiceAction());
         // btnTermsOfServiceLink.setStyleName(Button.STYLE_LINK);
-        btnLogoutLink = new Button("logout", new LogoutAction());
+        btnLogoutLink = new Button("Logout", new LogoutAction());
         // btnLogoutLink.setStyleName(Button.STYLE_LINK);
         btnLogoutLink.setVisible(false);
 

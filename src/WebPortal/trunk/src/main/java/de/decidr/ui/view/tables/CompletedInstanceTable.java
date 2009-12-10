@@ -20,6 +20,8 @@ import java.util.Date;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.data.CompletedInstancesContainer;
 
 /**
@@ -29,6 +31,7 @@ import de.decidr.ui.data.CompletedInstancesContainer;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class CompletedInstanceTable extends Table {
 
     private static final long serialVersionUID = -4341477724807479177L;
@@ -39,13 +42,13 @@ public class CompletedInstanceTable extends Table {
             "startedDate", "completedDate" };
 
     public static final String[] COL_HEADERS = new String[] { "Model",
-            "Started date", "Completed date" };
+            "Started Date", "Completed Date" };
 
     /**
      * The table is added as an observer to the container.
      * 
-     * @param observable
      * @param container
+     *            the container which holds the workflow instances
      */
     public CompletedInstanceTable(Container container) {
         workflowInstanceContainer = container;
@@ -53,11 +56,8 @@ public class CompletedInstanceTable extends Table {
     }
 
     /**
-     * Initializes the properties for the table like the data source and the
+     * Initializes the properties for the table, e.g. the data source and the
      * container property.
-     * 
-     * @param observable
-     * @param container
      */
     private void init() {
         setSizeFull();
@@ -70,6 +70,7 @@ public class CompletedInstanceTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
+        // GH, Aleks: "magical" number belong into a constant
         setPageLength(7);
     }
 

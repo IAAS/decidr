@@ -20,6 +20,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.show.ShowChangeTenantAction;
 import de.decidr.ui.controller.show.ShowCreateTenantAction;
 import de.decidr.ui.controller.show.ShowCreateWorkflowInstanceAction;
@@ -35,6 +37,7 @@ import de.decidr.ui.controller.show.ShowWorkflowInstancesAction;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class TenantAdminNavigationMenu extends CustomComponent {
 
     private static final long serialVersionUID = -5463146748220047931L;
@@ -58,8 +61,7 @@ public class TenantAdminNavigationMenu extends CustomComponent {
     private Label settingsLabel = null;
 
     /**
-     * Default constructor
-     * 
+     * Default constructor.
      */
     public TenantAdminNavigationMenu() {
         init();
@@ -67,8 +69,7 @@ public class TenantAdminNavigationMenu extends CustomComponent {
 
     /**
      * This method initializes the components of the tenant admin navigation
-     * component
-     * 
+     * component.
      */
     private void init() {
         verticalLayout = new VerticalLayout();
@@ -99,9 +100,9 @@ public class TenantAdminNavigationMenu extends CustomComponent {
         tenantSettingsLink.setStyleName(Button.STYLE_LINK);
 
         workflowParticipationLabel = new Label(
-                "<h5>Workflow participation</h5>");
+                "<h5>Workflow Participation</h5>");
         workflowParticipationLabel.setContentMode(Label.CONTENT_XHTML);
-        workflowModelLabel = new Label("<h5>Workflow model</h5>");
+        workflowModelLabel = new Label("<h5>Workflow Model</h5>");
         workflowModelLabel.setContentMode(Label.CONTENT_XHTML);
         workflowInstancesLabel = new Label("<h5>Workflow Instances</h5>");
         workflowInstancesLabel.setContentMode(Label.CONTENT_XHTML);

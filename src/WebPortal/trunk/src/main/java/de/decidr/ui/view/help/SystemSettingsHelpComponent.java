@@ -22,7 +22,7 @@ import com.vaadin.ui.VerticalLayout;
 
 /**
  * This component is a part of the integrated manual and contains information
- * related to system settings
+ * related to system settings.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
@@ -36,8 +36,8 @@ public class SystemSettingsHelpComponent extends VerticalLayout {
         setMargin(false, true, true, true);
 
         editSettingsLabel = new Label(
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'System Settings' navigation link.<br/>"
-                        + "2) The system displays following information:<br/>"
+                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'System Settings' navigation link.<br/>"
+                        + "2) The system displays the following information:<br/>"
                         + "    - Whether the super admin must confirm all new tenants or they are accepted automatically<br/>"
                         + "    - Amount of logic to perform<br/><br/>",
                 Label.CONTENT_XHTML);

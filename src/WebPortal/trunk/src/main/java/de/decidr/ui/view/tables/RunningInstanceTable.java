@@ -20,11 +20,15 @@ import java.util.Date;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
  * This table holds the running workflow instances as items.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class RunningInstanceTable extends Table {
 
     private static final long serialVersionUID = 49258596599726066L;
@@ -35,12 +39,13 @@ public class RunningInstanceTable extends Table {
             "startedDate" };
 
     public static final String[] COL_HEADERS = new String[] { "Model",
-            "Started date" };
+            "Started Date" };
 
     /**
-     * Default construtctor.
+     * Default constructor.
      * 
      * @param container
+     *            Container which holds the running workflow instances
      */
     public RunningInstanceTable(Container container) {
         runningInstanceContainer = container;
