@@ -36,6 +36,7 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.RowData;
 import com.extjs.gxt.ui.client.widget.layout.RowLayout;
+import com.google.gwt.core.client.GWT;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
@@ -60,9 +61,9 @@ public class RoleEditor extends ModelingToolDialog {
     private ListView<RoleEditorUser> roleUsersView;
 
     private HashMap<Long, String> tenantUsers;
+    private HashMap<Long, String> tenantUsersNotInRole;
     private List<Long> roleUserIds;
 
-    private HashMap<Long, String> users;
     private Variable variable;
 
     /**
@@ -151,14 +152,15 @@ public class RoleEditor extends ModelingToolDialog {
     }
 
     /**
-     * Sets the store of the two list views. The first list serves as "source"
-     * for user names from which the user names are selected for the second
-     * list, the "target". The second list contains all the users selected for
-     * the role. The "tenantUsers" list serves as reference for the "roleUsers"
-     * list, that means every user id in "roleUsers" has to be in "tenantUsers",
-     * or else it will be deleted (to prevent obsolete user names from appearing
-     * in the list view). User ids from "roleUsers" that are in "allUsers" are
-     * deleted from "allUsers" to keep the lists consistent.
+     * Sets the store of the two list views. The first list
+     * (tenantUsersNotInRole) serves as "source" for users from which the users
+     * are selected for the second list (roleUsers) , the "target". The second
+     * list contains all the users selected for the role. The "tenantUsers" list
+     * serves as reference, that means every user id in "roleUsers" has to be in
+     * "tenantUsers", or else it will be deleted (to prevent obsolete user names
+     * from appearing in the list view). User ids from "roleUsers" that are in
+     * "tenantUsersNotInRole" are deleted from "tenantUsersNotInRole" to keep
+     * the lists consistent.
      * 
      * @param tenantUsersView
      *            the first list - source
@@ -167,11 +169,26 @@ public class RoleEditor extends ModelingToolDialog {
      */
     private void setStores(ListView<RoleEditorUser> tenantUsersView,
             ListView<RoleEditorUser> roleUsersView) {
+        tenantUsersNotInRole = new HashMap<Long, String>();
+
+        /* Copy tenant user list */
+        for (Long userid : tenantUsers.keySet()) {
+            tenantUsersNotInRole.put(userid, tenantUsers.get(userid));
+        }
+
         /* Check lists for consistency */
         for (Long userId : roleUserIds) {
-            if (tenantUsers.containsKey(userId)) {
-                tenantUsers.remove(userId);
+            if (tenantUsersNotInRole.containsKey(userId)) {
+                /*
+                 * The user is in the role and therefore has to be removed from
+                 * the "source" list
+                 */
+                tenantUsersNotInRole.remove(userId);
             } else {
+                /*
+                 * The user id cannot be found in the tenant user list, e.g. the
+                 * user was deleted and no longer is in the role.
+                 */
                 roleUserIds.remove(userId);
             }
         }
@@ -180,7 +197,7 @@ public class RoleEditor extends ModelingToolDialog {
         ListStore<RoleEditorUser> tenantUsersStore = new ListStore<RoleEditorUser>();
         tenantUsersStore.setStoreSorter(new StoreSorter<RoleEditorUser>(
                 new RoleEditorUserComparator()));
-        for (Long userId : tenantUsers.keySet()) {
+        for (Long userId : tenantUsersNotInRole.keySet()) {
             tenantUsersStore.add(new RoleEditorUser(userId, tenantUsers
                     .get(userId)));
         }
@@ -191,9 +208,11 @@ public class RoleEditor extends ModelingToolDialog {
         roleUsersStore.setStoreSorter(new StoreSorter<RoleEditorUser>(
                 new RoleEditorUserComparator()));
         for (Long userId : roleUserIds) {
-            roleUsersStore.add(new RoleEditorUser(userId, users.get(userId)));
+            roleUsersStore.add(new RoleEditorUser(userId, tenantUsers
+                    .get(userId)));
         }
         roleUsersView.setStore(roleUsersStore);
+        GWT.log("Finished setting stores of user lists.", null);
     }
 
     private void changeWorkflowModel(List<String> newValues) {
@@ -220,6 +239,7 @@ public class RoleEditor extends ModelingToolDialog {
     private void clearAllEntries() {
         tenantUsers.clear();
         tenantUsersView.getStore().removeAll();
+        tenantUsersNotInRole.clear();
         roleUserIds.clear();
         roleUsersView.getStore().removeAll();
     }
