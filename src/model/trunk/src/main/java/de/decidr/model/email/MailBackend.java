@@ -421,8 +421,8 @@ public class MailBackend {
         log.debug("Adding stream to message's body");
         MimeBodyPart result = new MimeBodyPart();
         ByteArrayDataSource dataSource = new ByteArrayDataSource(file, type);
-        dataSource.setName(fileName);
         result.setDataHandler(new DataHandler(dataSource));
+        result.setFileName(fileName);
         addMimePart(result);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addFile(InputStream)");
@@ -1069,6 +1069,7 @@ public class MailBackend {
             log.debug("setting body text");
             textPart = new MimeBodyPart();
             textPart.setContent(message, "text/plain; charset=UTF-8");
+            textPart.setFileName("Plaintext Body");
         }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setBodyText(String)");
@@ -1093,6 +1094,7 @@ public class MailBackend {
             htmlPart = new MimeBodyPart();
             htmlPart.setContent(message, "text/html");
             htmlPart.setHeader("Content-Type", "text/html; charset=UTF-8");
+            htmlPart.setFileName("HTML Body");
         }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setBodyHTML(String)");
