@@ -25,6 +25,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
@@ -79,10 +80,12 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     /**
      * Initializes the components for the {@link AppointWorkflowAdminComponent}.
      */
-    // Aleks, GH: set initial focus? ~rr
+    
     private void init() {
         TextField appointSelf = null;
         Long userId = (Long) Main.getCurrent().getSession().getAttribute("userId");
+        
+        Main.getCurrent().getMainWindow().showNotification("user id" + userId.toString(), Window.Notification.TYPE_ERROR_MESSAGE);
 
         userCounter = 1;
         verticalLayout = new VerticalLayout();
@@ -106,11 +109,14 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         try {
             appointSelf.setValue(userFacade.getUserProfile(userId).getItemProperty("username").getValue().toString());
         } catch (ReadOnlyException e) {
-            appointSelf.setValue("");
+            Main.getCurrent().getMainWindow().showNotification(e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
+            appointSelf.setValue("ReadOnlyException");
         } catch (ConversionException e) {
-            appointSelf.setValue("");
+            Main.getCurrent().getMainWindow().showNotification(e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
+            appointSelf.setValue("ConversionException");
         } catch (TransactionException e) {
-            appointSelf.setValue("");
+            Main.getCurrent().getMainWindow().showNotification(e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
+            appointSelf.setValue("TransactionException");
         }
         appointSelf.setEnabled(false);
 
