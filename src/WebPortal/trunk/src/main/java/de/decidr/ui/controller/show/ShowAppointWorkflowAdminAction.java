@@ -29,6 +29,7 @@ import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.AppointWorkflowAdminComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
  * Opens the {@link AppointWorkflowAdminComponent}, so that the user is able to
@@ -70,18 +71,6 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
             if(row != null){
                 Long wfmId = null;
                 
-                if (table.getContainerProperty(row, "ID").getValue() == null){
-                    Main.getCurrent().getMainWindow().showNotification("ID -> null",Window.Notification.TYPE_ERROR_MESSAGE);
-                }
-
-                if (table.getContainerProperty(row, "id").getValue() == null){
-                    Main.getCurrent().getMainWindow().showNotification("id -> null",Window.Notification.TYPE_ERROR_MESSAGE);
-                }
-
-                if (table.getContainerProperty(row, "name").getValue() == null){
-                    Main.getCurrent().getMainWindow().showNotification("name -> null",Window.Notification.TYPE_ERROR_MESSAGE);
-                }
-                
                 wfmId = Long.parseLong((String) table.getContainerProperty(row, "ID").getValue());
                 
                 if (wfmId != null){
@@ -90,9 +79,9 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
             }
             
         } else {
-            // Aleks, GH: change to dialog component
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Please select only one workflow model.");
+            Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent(
+                    "Please select only one workflow model.",
+                    "Action Failed"));
         }
     }
 }
