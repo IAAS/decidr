@@ -27,7 +27,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
@@ -63,7 +63,6 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
      *            TODO document
      */
     public AppointWorkflowAdminComponent(Long workflowModelId) {
-        userFacade = new UserFacade (new UserRole());
         wfmId = workflowModelId;
         init();
     }
@@ -84,8 +83,7 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     private void init() {
         TextField appointSelf = null;
         Long userId = (Long) Main.getCurrent().getSession().getAttribute("userId");
-        
-        Main.getCurrent().getMainWindow().showNotification("user id" + userId.toString(), Window.Notification.TYPE_ERROR_MESSAGE);
+        userFacade = new UserFacade (new TenantAdminRole(userId));
 
         userCounter = 1;
         verticalLayout = new VerticalLayout();
@@ -109,14 +107,11 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         try {
             appointSelf.setValue(userFacade.getUserProfile(userId).getItemProperty("username").getValue().toString());
         } catch (ReadOnlyException e) {
-            Main.getCurrent().getMainWindow().showNotification(e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
-            appointSelf.setValue("ReadOnlyException");
+            appointSelf.setValue("");
         } catch (ConversionException e) {
-            Main.getCurrent().getMainWindow().showNotification(e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
-            appointSelf.setValue("ConversionException");
+            appointSelf.setValue("");
         } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().showNotification(e.getMessage(), Window.Notification.TYPE_ERROR_MESSAGE);
-            appointSelf.setValue("TransactionException");
+            appointSelf.setValue("");
         }
         appointSelf.setEnabled(false);
 
