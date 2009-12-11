@@ -218,7 +218,8 @@ public class ModelingTool extends AbstractComponent {
         target.addVariable(this, "dwdl", getDWDL());
         target.addVariable(this, "users", getUsers());
         // JS height and width has to be set properly
-        logger.debug("Height: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeight());
+        
+        logger.debug("Width: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getWidth());
         logger.debug("HeightUnits: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeightUnits());
 
         // Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeightUnits();
