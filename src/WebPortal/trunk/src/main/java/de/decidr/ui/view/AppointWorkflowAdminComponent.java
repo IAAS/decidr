@@ -16,6 +16,8 @@
 
 package de.decidr.ui.view;
 
+import com.vaadin.data.Property.ConversionException;
+import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Form;
@@ -24,8 +26,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.AppointWorkflowAdminAction;
 
 /**
@@ -47,6 +52,8 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     private Label descriptionLabel = null;
     private Button addField = null;
     private Button appointUsers = null;
+    
+    private UserFacade userFacade = null;
 
     /**
      * The given workflow model ID is stored in a variable.
@@ -55,6 +62,7 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
      *            TODO document
      */
     public AppointWorkflowAdminComponent(Long workflowModelId) {
+        userFacade = new UserFacade (new UserRole());
         wfmId = workflowModelId;
         init();
     }
@@ -74,6 +82,7 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     // Aleks, GH: set initial focus? ~rr
     private void init() {
         TextField appointSelf = null;
+        Long userId = (Long) Main.getCurrent().getSession().getAttribute("userId");
 
         userCounter = 1;
         verticalLayout = new VerticalLayout();
@@ -94,7 +103,15 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
 
         appointSelf = new TextField();
         appointSelf.setCaption("Username:");
-        appointSelf.setValue(Main.getCurrent().getUser());
+        try {
+            appointSelf.setValue(userFacade.getUserProfile(userId).getItemProperty("username").getValue().toString());
+        } catch (ReadOnlyException e) {
+            appointSelf.setValue("");
+        } catch (ConversionException e) {
+            appointSelf.setValue("");
+        } catch (TransactionException e) {
+            appointSelf.setValue("");
+        }
         appointSelf.setEnabled(false);
 
         appointForm.addField("user" + userCounter.toString(), appointSelf);
