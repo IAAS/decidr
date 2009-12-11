@@ -37,6 +37,7 @@ import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.CreateWorkflowInstanceComponent;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.StartConfigurationWindow;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -91,6 +92,8 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
 			if (wsc == null) {
 				byte[] dwdl = (byte[]) workflowModelFacade.getWorkflowModel(
 						workflowModelId).getItemProperty("dwdl").getValue();
+				Main.getCurrent().getMainWindow().addWindow(
+				        new InformationDialogComponent(dwdl.toString(), "da dwdl"));
 				Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
 				DWDL2WSC dwdl2wsc = new DWDL2WSC();
 				tConfiguration = dwdl2wsc.getStartConfiguration(workflow);
