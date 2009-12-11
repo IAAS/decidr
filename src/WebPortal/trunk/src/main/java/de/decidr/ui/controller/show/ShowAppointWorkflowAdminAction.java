@@ -16,6 +16,7 @@
 
 package de.decidr.ui.controller.show;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import com.vaadin.data.Item;
@@ -66,17 +67,21 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        if (!table.getValue().getClass().equals(Set.class)) {
-            Long wfmId = null;
-            Item item = table.getItem(table.getValue());
-            wfmId = (Long) item.getItemProperty("id").getValue();
+        Long wfmId = null;
+        Set<?> items = (Set<?>)table.getValue();
+        
+        if(items.size() == 1){
+            for (Iterator<?> iter = items.iterator(); iter.hasNext();) {
+                Item item = (Item) iter.next();
+                wfmId = (Long) item.getItemProperty("id").getValue();
+            }
             if (wfmId != null){
                 siteFrame.setContent(new AppointWorkflowAdminComponent(wfmId));
             }   
             
         } else {
             Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent(
-                    "Please select only one workflow model.",
+                    "Please select exactly one workflow model.",
                     "Action Failed"));
         }
     }
