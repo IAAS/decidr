@@ -132,6 +132,8 @@ public class EmailService implements EmailInterface {
         log.debug("attaching files");
         for (Long id : normalisedIDs) {
             decidrFile = fileAccess.getFileInfo(id);
+            log.debug("attaching file with type=" + decidrFile.getMimeType()
+                    + " and fileName=" + decidrFile.getFileName());
             email.addFile(store.getFile(id), decidrFile.getMimeType(),
                     decidrFile.getFileName());
         }
