@@ -220,7 +220,7 @@ public class ModelingTool extends AbstractComponent {
         // JS height and width has to be set properly
         
         logger.debug("Width: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getWidth());
-        logger.debug("HeightUnits: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeightUnits());
+        logger.debug("Height: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeight());
 
         // Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeightUnits();
         target.addVariable(this, "height", 800);
