@@ -423,7 +423,9 @@ public class MailBackend {
         ByteArrayDataSource dataSource = new ByteArrayDataSource(file, type);
         result.setDataHandler(new DataHandler(dataSource));
         result.setFileName(fileName);
+        result.setHeader("Content-Type", type);
         addMimePart(result);
+
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addFile(InputStream)");
         return result;
