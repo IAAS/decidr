@@ -76,14 +76,20 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
                 "emailOrUsername", emailOrUsername).uniqueResult();
 
         if (user != null) {
-            PasswordResetRequest request = new PasswordResetRequest();
+            // is there an existing password reset request that we must delete
+            // first?
+            PasswordResetRequest request = user.getPasswordResetRequest();
+            if (request != null) {
+                evt.getSession().delete(request);
+            }
+
+            request = new PasswordResetRequest();
             request.setId(user.getId());
             request.setUser(user);
             request.setAuthKey(Password.getRandomAuthKey());
             request.setCreationDate(DecidrGlobals.getTime().getTime());
 
-            // Overwrite an existing password reset request
-            evt.getSession().saveOrUpdate(request);
+            evt.getSession().save(request);
 
             NotificationEvents.createdPasswordResetRequest(request);
             requestWasCreated = true;
@@ -91,7 +97,7 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
     }
 
     /**
-     * @return <code>true</code> if the password request has been created an a
+     * @return <code>true</code> if the password request has been created and a
      *         notification email has been sent. <code>false</code> if the user
      *         with the given email address or username or doesn't exist.
      */
