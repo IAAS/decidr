@@ -31,6 +31,7 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -68,6 +69,8 @@ public class AppointWorkflowAdminAction implements ClickListener {
         List<String> userNames = new ArrayList<String>();
 
         for (Integer c = 1; c <= appointForm.getItemPropertyIds().size(); c++) {
+            Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent(
+                    appointForm.getItemPropertyIds().toString(), "Items"));
             if (appointForm.getItemProperty("user" + c.toString()) != null) {
                 if (appointForm.getItemProperty("user" + c.toString())
                         .getValue().toString().contains("@")) {
