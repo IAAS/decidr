@@ -83,9 +83,9 @@
 						<propertyValue>no</propertyValue>
 					</setProperty>
 					<getProperty name="taskResult" variable="Lnull">
-						<parameters>
+						<parameter>
 							<humanTaskData />
-						</parameters>
+						</parameter>
 					</getProperty>
 				</invokeNode>
 				<invokeNode
@@ -107,9 +107,9 @@
 						<propertyValue>no</propertyValue>
 					</setProperty>
 					<getProperty name="taskResult" variable="Lnull">
-						<parameters>
+						<parameter>
 							<humanTaskData />
-						</parameters>
+						</parameter>
 					</getProperty>
 				</invokeNode>
 				<invokeNode
@@ -184,9 +184,9 @@
 							<propertyValue>no</propertyValue>
 						</setProperty>
 						<getProperty name="taskResult" variable="Lnull">
-							<parameters>
+							<parameter>
 								<humanTaskData />
-							</parameters>
+							</parameter>
 						</getProperty>
 					</invokeNode>
 				</nodes>
@@ -243,9 +243,9 @@
 							<propertyValue>no</propertyValue>
 						</setProperty>
 						<getProperty name="taskResult" variable="Lnull">
-							<parameters>
+							<parameter>
 								<humanTaskData />
-							</parameters>
+							</parameter>
 						</getProperty>
 					</invokeNode>
 				</nodes>
@@ -280,9 +280,9 @@
 							<propertyValue>no</propertyValue>
 						</setProperty>
 						<getProperty name="taskResult" variable="Lnull">
-							<parameters>
+							<parameter>
 								<humanTaskData />
-							</parameters>
+							</parameter>
 						</getProperty>
 					</invokeNode>
 				</nodes>

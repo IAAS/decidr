@@ -110,7 +110,7 @@
 				<propertyValue>yes</propertyValue>
 			</setProperty>
 			<getProperty name="taskResult" variable="L1255088324562">
-				<parameters>
+				<parameter>
 					<humanTaskData>
 						<taskItem name="taskItem" variable="L1255088176468" type="string">
 							<label>Label 1</label>
@@ -123,7 +123,7 @@
 							<value>New Value</value>
 						</taskItem>
 					</humanTaskData>
-				</parameters>
+				</parameter>
 			</getProperty>
 		</invokeNode>
 		<flowNode name="FlowContainer" id="1255088341296">
@@ -172,9 +172,9 @@
 						<propertyValue>no</propertyValue>
 					</setProperty>
 					<getProperty name="taskResult" variable="Lnull">
-						<parameters>
+						<parameter>
 							<humanTaskData />
-						</parameters>
+						</parameter>
 					</getProperty>
 				</invokeNode>
 			</nodes>

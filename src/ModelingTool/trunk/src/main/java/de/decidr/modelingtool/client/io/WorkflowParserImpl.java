@@ -425,7 +425,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         }
 
         /* Append human task data to parameter element */
-        Element parameters = doc.createElement(DWDLNames.parameters);
+        Element parameters = doc.createElement(DWDLNames.parameter);
         parameters.appendChild(humanTaskData);
         getProperty.appendChild(parameters);
 

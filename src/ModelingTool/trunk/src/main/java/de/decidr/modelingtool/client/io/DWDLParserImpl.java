@@ -483,7 +483,7 @@ public class DWDLParserImpl implements DWDLParser {
          * there the child node human task data
          */
         Element parametersElement = getChildNodesByTagName(taskResultElement,
-                DWDLNames.parameters).get(0);
+                DWDLNames.parameter).get(0);
         Element humanTaskDataElement = getChildNodesByTagName(
                 parametersElement, DWDLNames.humanTaskData).get(0);
 
