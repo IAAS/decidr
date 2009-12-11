@@ -16,6 +16,8 @@
 
 package de.decidr.ui.controller.show;
 
+import java.nio.charset.Charset;
+
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 
@@ -29,6 +31,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
@@ -92,11 +95,11 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
 			if (wsc == null) {
 				byte[] dwdl = (byte[]) workflowModelFacade.getWorkflowModel(
 						workflowModelId).getItemProperty("dwdl").getValue();
-				Main.getCurrent().getMainWindow().addWindow(
-				        new InformationDialogComponent(dwdl.toString(), "da dwdl"));
+				DefaultLogger.getLogger(ShowStartConfigurationWindowAction.class).info(new String(dwdl,Charset.forName("UTF-8")));
 				Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
 				DWDL2WSC dwdl2wsc = new DWDL2WSC();
 				tConfiguration = dwdl2wsc.getStartConfiguration(workflow);
+				
 			}else{
 				tConfiguration = TransformUtil.bytesToConfiguration(wsc);
 			}
