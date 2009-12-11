@@ -39,10 +39,14 @@ public class Menu extends MenuBar {
         MenuImageBundle imgBundle = GWT.create(MenuImageBundle.class);
 
         addItem(imgBundle.clear().getHTML(), true, new ClearWorkflowMenuItem());
-        addItem(imgBundle.save().getHTML(), true, new SaveMenuItem(modelingToolWidget));
+        addItem(imgBundle.save().getHTML(), true, new SaveMenuItem(
+                modelingToolWidget));
         addItem(imgBundle.undo().getHTML(), true, new UndoMenuItem());
         addItem(imgBundle.redo().getHTML(), true, new RedoMenuItem());
         addItem(imgBundle.delete().getHTML(), true, new DeleteMenuItem());
+        // JS externalize
+        addItem(imgBundle.canvas().getHTML(), true,
+                new EditCanvasSizeMenuItem());
 
         addSeparator();
 
@@ -64,11 +68,12 @@ public class Menu extends MenuBar {
 
         /*
          * Message class needs to be created here, accessing the
-         * ModelingToolWidget creates null pointer exceptions
+         * ModelingToolWidget directly causes null pointer exceptions
          */
         Messages msg = GWT.create(Messages.class);
         addItem(msg.variablesMenuItem(), new VariablesMenuItem());
         addItem(msg.propertiesMenuItem(), new PropertiesMenuItem());
+
     }
 
 }

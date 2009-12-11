@@ -19,6 +19,7 @@ package de.decidr.modelingtool.client.ui.dialogs;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.decidr.modelingtool.client.ui.dialogs.canvas.CanvasSizeWindow;
 import de.decidr.modelingtool.client.ui.dialogs.email.EmailActivityWindow;
 import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;
 import de.decidr.modelingtool.client.ui.dialogs.humantask.HumanTaskActivityWindow;
@@ -61,6 +62,7 @@ public class DialogRegistry {
      */
     private DialogRegistry() {
         register(new WorkflowPropertyWindow());
+        register(new CanvasSizeWindow());
         register(new VariableEditorWindow());
         register(new NewVariableWindow());
         register(new ValueEditorWindow());

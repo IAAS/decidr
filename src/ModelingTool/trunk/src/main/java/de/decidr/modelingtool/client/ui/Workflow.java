@@ -80,6 +80,7 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
         // set workflow properties
         this.addStyleName("workflow");
+        // JS set size of workflow
         this.setSize("800px", "600px");
 
         // register workflow to selection handler

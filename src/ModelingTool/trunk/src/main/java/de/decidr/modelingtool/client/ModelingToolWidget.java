@@ -36,6 +36,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
@@ -59,6 +61,12 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
 public class ModelingToolWidget extends Composite implements
         HasAllMouseHandlers {
 
+    ScrollPanel scrollPanel;
+    
+    // Size of the scroll panel which contains the workflow canvas
+    private final static String CANVAS_HEIGHT = "800px";
+    private final static String CANVAS_WIDTH = "600px";
+
     private static Messages messages;
 
     private HashMap<Long, String> users;
@@ -66,17 +74,20 @@ public class ModelingToolWidget extends Composite implements
     public ModelingToolWidget() {
         super();
 
-        VerticalPanel panel = new VerticalPanel();
+        VerticalPanel rootPanel = new VerticalPanel();
+        rootPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
         // create menu
         Menu menu = new Menu(this);
-        panel.add(menu);
+        rootPanel.add(menu);
 
-        // create workflow and add to the root panel.
+        // create workflow and add to a scroll panel.
         Workflow workflow = Workflow.getInstance();
-        panel.add(workflow);
+        scrollPanel = new ScrollPanel(workflow);
+        scrollPanel.setSize(CANVAS_HEIGHT, CANVAS_WIDTH);
+        rootPanel.add(scrollPanel);
 
-        initWidget(panel);
+        initWidget(rootPanel);
 
         /* Internationalization: "Instantiate" the Message interface class. */
         messages = GWT.create(Messages.class);
@@ -171,6 +182,17 @@ public class ModelingToolWidget extends Composite implements
         GWT.log(dwdl, null);
         // JS remove this
         Window.alert(dwdl + "\n");
+    }
+
+    /**
+     * TODO: add comment
+     *
+     * @param width
+     * @param height
+     */
+    public void setScrollPanelSize(int width, int height) {
+        // JS check if this works
+         scrollPanel.setSize(height+"px", width+"px"); 
     }
 
 }

@@ -62,11 +62,11 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
         this.setLayout(new FitLayout());
         this.setSize(400, 200);
         this.setResizable(true);
-        createcontentPanel();
+        createContentPanel();
         createButtons();
     }
 
-    private void createcontentPanel() {
+    private void createContentPanel() {
         contentPanel = new ContentPanel();
 
         contentPanel.setHeading(ModelingToolWidget.getMessages()
