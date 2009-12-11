@@ -56,7 +56,6 @@ public class VModelingTool extends ModelingToolWidget implements Paintable {
 
     @Override
     public void sendDWDLtoServer(String dwdl) {
-        this.debug = 1;
 
         // Updating the state to the server can not be done
         // before the server connection is known, i.e., before
