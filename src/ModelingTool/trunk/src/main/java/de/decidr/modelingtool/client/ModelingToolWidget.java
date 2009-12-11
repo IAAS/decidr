@@ -59,8 +59,6 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
 public class ModelingToolWidget extends Composite implements
         HasAllMouseHandlers {
 
-    protected int debug = 0;
-
     private static Messages messages;
 
     private HashMap<Long, String> users;
@@ -172,7 +170,7 @@ public class ModelingToolWidget extends Composite implements
         GWT.log("DWDL output", null);
         GWT.log(dwdl, null);
         // JS remove this
-        Window.alert(dwdl + "\n" + debug);
+        Window.alert(dwdl + "\n");
     }
 
 }

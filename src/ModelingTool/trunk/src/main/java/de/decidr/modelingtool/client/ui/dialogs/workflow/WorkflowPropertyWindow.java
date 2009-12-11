@@ -110,14 +110,21 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
     }
 
     private void changeWorkflowModel() {
-        //JS: check for null values (values here are either mandatory or not)
         WorkflowProperties newProperties = new WorkflowProperties();
+
         /* copy namespace and schema from old properties */
         newProperties.setNamespace(model.getProperties().getNamespace());
         newProperties.setSchema(model.getProperties().getSchema());
-        newProperties.setRecipientVariableId(recipientField.getValue().getId());
-        newProperties.setFaultMessageVariableId(faultMessageField.getValue()
-                .getId());
+
+        /* get user inputs, they are allowed to be null */
+        if (recipientField.getValue() != null) {
+            newProperties.setRecipientVariableId(recipientField.getValue()
+                    .getId());
+        }
+        if (faultMessageField.getValue() != null) {
+            newProperties.setFaultMessageVariableId(faultMessageField
+                    .getValue().getId());
+        }
         if (successMessageField.getValue() != null) {
             newProperties.setSuccessMessageVariableId(successMessageField
                     .getValue().getId());

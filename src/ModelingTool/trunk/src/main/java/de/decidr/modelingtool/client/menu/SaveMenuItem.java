@@ -34,9 +34,11 @@ public class SaveMenuItem implements Command {
     private ModelingToolWidget modelingToolWidget;
 
     /**
-     * TODO: add comment
+     * Default constructor for the save menu item.
      * 
      * @param modelingToolWidget
+     *            {@link ModelingToolWidget} which provides a
+     *            "sent dwdl to server" method.
      */
     public SaveMenuItem(ModelingToolWidget modelingToolWidget) {
         super();
@@ -53,8 +55,6 @@ public class SaveMenuItem implements Command {
         /* Invoke parser and send resulting dwdl document to server */
         WorkflowParser parser = new WorkflowParserImpl();
         String dwdl = parser.parse(Workflow.getInstance().getModel());
-        // JS decide whether to remove or uncomment this line
-        // modelingToolWidget.setDWDL(dwdl);
         modelingToolWidget.sendDWDLtoServer(dwdl);
     }
 
