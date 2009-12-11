@@ -217,13 +217,16 @@ public class ModelingTool extends AbstractComponent {
         super.paintContent(target);
         target.addVariable(this, "dwdl", getDWDL());
         target.addVariable(this, "users", getUsers());
-        // JS height and width has to be set properly
-        
-        logger.debug("Width: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getWidth());
-        logger.debug("Height: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeight());
 
-        // Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeightUnits();
-        target.addVariable(this, "height", 800);
-        target.addVariable(this, "width", 600);
+        /*
+         * Set width of the modeling too scroll panel. Height is a constant
+         * because the getHeight() values are wrong
+         */
+        int width = new Float(Main.getCurrent().getUIDirector()
+                .getTemplateView().getContent().getWidth()).intValue();
+        target.addVariable(this, "width", width);
+        // Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeight();
+        target.addVariable(this, "height", 500);
+
     }
 }
