@@ -18,6 +18,7 @@ package de.decidr.ui.controller.show;
 
 import java.util.Set;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
@@ -66,17 +67,12 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         if (!table.getValue().getClass().equals(Set.class)) {
-            Object row = table.getValue();
-            
-            if(row != null){
-                Long wfmId = null;
-                
-                wfmId = Long.parseLong((String) table.getContainerProperty(row, "ID").getValue());
-                
-                if (wfmId != null){
-                    siteFrame.setContent(new AppointWorkflowAdminComponent(wfmId));
-                }   
-            }
+            Long wfmId = null;
+            Item item = table.getItem(table.getValue());
+            wfmId = (Long) item.getItemProperty("id").getValue();
+            if (wfmId != null){
+                siteFrame.setContent(new AppointWorkflowAdminComponent(wfmId));
+            }   
             
         } else {
             Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent(
