@@ -485,6 +485,8 @@ public class UserFacade extends AbstractFacade {
      * Creates the user profile for the given user and removes the auth key.
      * After that the user will be registered. If the user is already
      * registered, this method fails with an EntityNotFoundException.
+     * Successfully confirmed requests as well as expired requests are removed
+     * from the database.
      * 
      * @param userId
      *            ID of the user whose registration should be treated
@@ -496,6 +498,10 @@ public class UserFacade extends AbstractFacade {
      * @throws EntityNotFoundException
      *             if the user does not exist or if the user has no pending
      *             registration request.
+     * @throws AuthKeyException
+     *             if the authentication key doesn't match
+     * @throws RequestExpiredException
+     *             if the request has expuired.
      * @throws IllegalArgumentException
      *             if authKey is <code>null</code> or empty or if userId is
      *             <code>null</code>
@@ -508,6 +514,10 @@ public class UserFacade extends AbstractFacade {
                 actor, userId, authKey);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        if (command.isRequestExpired()) {
+            throw new RequestExpiredException();
+        }
     }
 
     /**

@@ -16,6 +16,7 @@
 package de.decidr.model.commands.user;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.LifetimeValidator;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.RegistrationRequest;
 import de.decidr.model.entities.User;
@@ -27,16 +28,18 @@ import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * 
- * The command in this class creates the user profile for the given user and
- * removes the auth key. The request will be deleted at all.
+ * Creates the user profile for the given user and removes the auth key.
+ * Successfully confirmed requests as well as expired requests are removed from
+ * the database.
  * 
  * @author Markus Fischer
- * 
+ * @author Daniel Huss
  * @version 0.1
  */
 public class ConfirmRegistrationCommand extends UserCommand {
 
-    private String authKey;
+    private String authKey = null;
+    private boolean requestExpired = false;
 
     /**
      * Creates a new ConfirmRegistrationCommand. This command creates the user
@@ -69,15 +72,21 @@ public class ConfirmRegistrationCommand extends UserCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        requestExpired = false;
 
         User user = fetchUser(evt.getSession());
 
         RegistrationRequest request = user.getRegistrationRequest();
         if (request == null) {
-            throw new EntityNotFoundException(RegistrationRequest.class);
+            throw new EntityNotFoundException(RegistrationRequest.class,
+                    getUserId());
         }
 
-        if (authKey.equals(request.getAuthKey())) {
+        if (!authKey.equals(request.getAuthKey())) {
+            throw new AuthKeyException();
+        }
+
+        if (LifetimeValidator.isRegistrationRequestValid(request)) {
             // make sure the user has a profile
             if (user.getUserProfile() == null) {
                 throw new EntityNotFoundException(UserProfile.class);
@@ -88,14 +97,22 @@ public class ConfirmRegistrationCommand extends UserCommand {
             user.setRegisteredSince(DecidrGlobals.getTime().getTime());
             user.setAuthKey(null);
 
-            // update user
-            evt.getSession().update(user);
-
             // delete registration request
             evt.getSession().delete(request);
 
+            // update user
+            evt.getSession().update(user);
         } else {
-            throw new AuthKeyException("Authentication key does not match");
+            // request has expired
+            evt.getSession().delete(request);
+            requestExpired = true;
         }
+    }
+
+    /**
+     * @return whether the request has expired.
+     */
+    public boolean isRequestExpired() {
+        return requestExpired;
     }
 }
