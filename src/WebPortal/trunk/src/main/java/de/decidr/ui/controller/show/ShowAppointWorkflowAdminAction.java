@@ -69,7 +69,19 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
             
             if(row != null){
                 Long wfmId = null;
-                Main.getCurrent().getMainWindow().showNotification(row.toString(),Window.Notification.TYPE_ERROR_MESSAGE);
+                
+                if (table.getContainerProperty(row, "ID").getValue() == null){
+                    Main.getCurrent().getMainWindow().showNotification("ID -> null",Window.Notification.TYPE_ERROR_MESSAGE);
+                }
+
+                if (table.getContainerProperty(row, "id").getValue() == null){
+                    Main.getCurrent().getMainWindow().showNotification("id -> null",Window.Notification.TYPE_ERROR_MESSAGE);
+                }
+
+                if (table.getContainerProperty(row, "name").getValue() == null){
+                    Main.getCurrent().getMainWindow().showNotification("name -> null",Window.Notification.TYPE_ERROR_MESSAGE);
+                }
+                
                 wfmId = Long.parseLong((String) table.getContainerProperty(row, "ID").getValue());
                 
                 if (wfmId != null){
@@ -78,10 +90,9 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
             }
             
         } else {
-            // Aleks, GH: why? there can be several according to model &
-            // AppointWorkflowAdminAction ~rr
+            // Aleks, GH: change to dialog component
             Main.getCurrent().getMainWindow().showNotification(
-                    "Please select only one admin");
+                    "Please select only one workflow model.");
         }
     }
 }
