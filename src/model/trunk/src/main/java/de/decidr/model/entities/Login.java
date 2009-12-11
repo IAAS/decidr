@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class Login implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private User user;
     private Date loginDate;

@@ -11,6 +11,10 @@ import java.util.Set;
  */
 public class DeployedWorkflowModel implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private long version;
     private WorkflowModel originalWorkflowModel;

@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class ServerLoadView implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long id;
     private String location;
     private byte load;

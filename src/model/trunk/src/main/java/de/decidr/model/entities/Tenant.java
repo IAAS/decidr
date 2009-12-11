@@ -11,6 +11,10 @@ import java.util.Set;
  */
 public class Tenant implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private File logo;
     private File simpleColorScheme;

@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class Session implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private String sessionId;
     private String app;
     private byte[] data;

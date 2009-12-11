@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class InvitationView implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long id;
     private long senderId;
     private long receiverId;

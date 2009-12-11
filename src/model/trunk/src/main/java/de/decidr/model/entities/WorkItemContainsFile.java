@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class WorkItemContainsFile implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private WorkItemContainsFileId id;
     private WorkItem workItem;
     private File file;

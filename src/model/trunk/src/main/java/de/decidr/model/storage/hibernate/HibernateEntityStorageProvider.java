@@ -144,11 +144,13 @@ public class HibernateEntityStorageProvider implements StorageProvider {
      * 
      * @param fileId
      *            file id to check
+     * @return the given file ID
      */
-    private void checkFileId(Long fileId) {
+    private long checkFileId(Long fileId) {
         if (fileId == null) {
             throw new IllegalArgumentException("Invalid file ID.");
         }
+        return fileId;
     }
 
     /**
@@ -209,12 +211,11 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         // No content other than class definition intended
     }
 
-    @SuppressWarnings("null")
     @Override
     public InputStream getFile(Long fileId) throws StorageException {
         logger.debug("Retrieving file with ID "
                 + (fileId == null ? "null" : fileId.toString()));
-        checkFileId(fileId);
+        fileId =  checkFileId(fileId);
         Session session = getCurrentSession();
 
         String hql = "select f." + dataPropertyName + " from " + entityTypeName
@@ -291,13 +292,12 @@ public class HibernateEntityStorageProvider implements StorageProvider {
      * @throws IllegalArgumentException
      *             if any of the parameters are <code>null</code>
      */
-    @SuppressWarnings("null")
     @Override
     public void putFile(InputStream data, Long fileId, Long fileSize)
             throws StorageException {
         logger.debug("Putting file with ID "
                 + (fileId == null ? "null" : fileId.toString()));
-        checkFileId(fileId);
+        fileId = checkFileId(fileId);
         checkFileSize(fileSize);
         if (data == null) {
             throw new IllegalArgumentException("Data must not be null.");
@@ -362,12 +362,11 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         }
     }
 
-    @SuppressWarnings("null")
     @Override
     public void removeFile(Long fileId) throws StorageException {
         logger.debug("Removing file with ID "
                 + (fileId == null ? "null" : fileId.toString()));
-        checkFileId(fileId);
+        fileId = checkFileId(fileId);
 
         String hql;
         if (deleteEntity) {

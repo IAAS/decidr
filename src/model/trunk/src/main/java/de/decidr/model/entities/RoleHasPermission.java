@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class RoleHasPermission implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private RoleHasPermissionId id;
     private Role role;
     private Permission permission;

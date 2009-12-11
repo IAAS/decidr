@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class PasswordResetRequest implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long id;
     private User user;
     private Date creationDate;

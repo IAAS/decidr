@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class RegistrationRequest implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long id;
     private User user;
     private Date creationDate;

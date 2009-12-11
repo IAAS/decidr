@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class ChangeEmailRequest implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private long id;
     private User user;
     private String newEmail;

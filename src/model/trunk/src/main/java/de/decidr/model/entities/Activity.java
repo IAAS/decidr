@@ -7,6 +7,10 @@ package de.decidr.model.entities;
  */
 public class Activity implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private Long id;
     private KnownWebService knownWebService;
     private byte[] mapping;
