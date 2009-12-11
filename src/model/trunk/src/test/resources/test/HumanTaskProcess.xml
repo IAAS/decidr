@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<workflow name="HumanTaskTest" id="302"
+	targetNamespace="http://decidr.de/Default Tenant/processes/302" xmlns="">
+	<description>This is a test process for human task testing</description>
+	<variables>
+		<variable name="L1260445451575" label="my_faultMesssage"
+			type="string" configurationVariable="no">
+			<initialValue>This fault message is created by the fault handler of
+				the corresponding BPEL process</initialValue>
+		</variable>
+		<variable name="L1260445559543" label="my_successMessage"
+			type="string" configurationVariable="no">
+			<initialValue>BPEL process successfully completed.</initialValue>
+		</variable>
+		<variable name="L1260455349758" label="my_taskname" type="string"
+			configurationVariable="no">
+			<initialValue>doIT</initialValue>
+		</variable>
+		<variable name="L1260455377884" label="my_form" type="form"
+			configurationVariable="no" />
+		<variable name="L1260455400647" label="my_taskdescription"
+			type="string" configurationVariable="no">
+			<initialValue>This is a simple human task</initialValue>
+		</variable>
+		<variable name="L1260455508986" label="favorite_food" type="string"
+			configurationVariable="no">
+			<initialValue>a</initialValue>
+		</variable>
+	</variables>
+	<roles>
+		<role configurationVariable="no" label="my_recipient" name="L1260445287013">
+			<actor userId="1" />
+		</role>
+		<role configurationVariable="yes" label="my_user" name="L1260445515504" />
+	</roles>
+	<faultHandler>
+		<setProperty name="message" variable="L1260445451575" />
+		<recipient>
+			<setProperty name="name" variable="L1260445287013" />
+		</recipient>
+	</faultHandler>
+	<nodes>
+		<startNode name="de.decidr.modelingtool.client.model.StartNodeModel"
+			id="4815162342">
+			<description></description>
+			<graphics x="45" y="45" width="52" height="32" />
+			<sources>
+				<source arcId="1260445316022" />
+			</sources>
+		</startNode>
+		<endNode name="de.decidr.modelingtool.client.model.EndNodeModel"
+			id="108">
+			<description></description>
+			<graphics x="246" y="376" width="52" height="32" />
+			<targets>
+				<target arcId="1260445316024" />
+			</targets>
+			<notificationOfSuccess>
+				<setProperty name="successMessage" variable="L1260445559543" />
+				<setProperty name="recipient" variable="L1260445287013" />
+			</notificationOfSuccess>
+		</endNode>
+		<invokeNode
+			name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+			id="1260445316025" activity="Decidr-HumanTask">
+			<description></description>
+			<graphics x="170" y="128" width="102" height="62" />
+			<sources>
+				<source arcId="1260445316024" />
+			</sources>
+			<targets>
+				<target arcId="1260445316022" />
+			</targets>
+			<setProperty name="wfmID" variable="L302" />
+			<setProperty name="user" variable="L1260445515504" />
+			<setProperty name="name" variable="L1260455349758" />
+			<setProperty name="description" variable="L1260455349758" />
+			<setProperty name="userNotification">
+				<propertyValue>no</propertyValue>
+			</setProperty>
+			<getProperty name="taskResult" variable="L1260455377884">
+				<parameters>
+					<humanTaskData>
+						<taskItem name="taskItem" variable="L1260455508986" type="string">
+							<label>Food</label>
+							<hint>What is your favorite food?</hint>
+							<value>a</value>
+						</taskItem>
+					</humanTaskData>
+				</parameters>
+			</getProperty>
+		</invokeNode>
+	</nodes>
+	<arcs>
+		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+			id="1260445316022" source="4815162342" target="1260445316025" />
+		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+			id="1260445316024" source="1260445316025" target="108" />
+	</arcs>
+</workflow>
+1

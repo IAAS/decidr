@@ -106,6 +106,11 @@ public class PropertyConstants {
          * and names.
          */
         public static final String TASKRESULT = "taskResult";
+        
+        /**
+         * This property contains the actual human task definition
+         */
+        public static final String TASKDATA = "taskData";
     }
 
     static class FaultHandler {

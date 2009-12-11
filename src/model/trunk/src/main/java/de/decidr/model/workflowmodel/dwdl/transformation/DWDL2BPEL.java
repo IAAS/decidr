@@ -797,7 +797,6 @@ public class DWDL2BPEL {
         Variable faultMessageResponse = factory.createVariable();
         Variable successMessage = factory.createVariable();
         Variable successMessageResponse = factory.createVariable();
-        Variable taskDataMessage = factory.createVariable();
 
         // create web service invocation standard variables
         for (DecidrWebserviceAdapter adapter : adapters.values()) {
@@ -822,7 +821,7 @@ public class DWDL2BPEL {
                 WSDLConstants.PROCESS_MESSAGE_OUT));
 
         // create process id variable
-        wfmid.setName("wfmid");
+        wfmid.setName(BPELConstants.Variables.WFMID);
         wfmid.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long"));
 
         // setting fault handler variables
@@ -841,12 +840,6 @@ public class DWDL2BPEL {
         successMessageResponse.setMessageType(adapters.get(
                 BPELConstants.Email.NAME).getOutputMessageType());
 
-        // setting process human task data receiving variable
-        taskDataMessage.setName(BPELConstants.Variables.SUCCESS_IN);
-        taskDataMessage.setType(new QName(
-                WSDLConstants.HUMANTASK_CALLBACK_NAMESPACE,
-                WSDLConstants.HUMANTASK_CALLBACK_MESSAGETYPE_IN));
-
         // add variables to process
         variables.getVariable().add(processIn);
         variables.getVariable().add(processOut);
@@ -854,7 +847,6 @@ public class DWDL2BPEL {
         variables.getVariable().add(faultMessageResponse);
         variables.getVariable().add(successMessage);
         variables.getVariable().add(successMessageResponse);
-        variables.getVariable().add(taskDataMessage);
         process.setVariables(variables);
     }
 

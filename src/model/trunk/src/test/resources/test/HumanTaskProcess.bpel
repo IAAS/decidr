@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="HumanTaskTest"
+    targetNamespace="http://decidr.de/Default_Tenant/processes/302"
+    tns:xmlns="http://decidr.de/Default_Tenant/processes/302" 
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    ws1:xmlns="http://decidr.de/webservices/Email"
+    ws2:xmlns="http://decidr.de/webservices/HumanTask"
+    basic:xmlns="http://decidr.de/wsdl/basicProcess"
+    ode:xmlns="http://www.apache.org/ode/type/extension"
+    decidr:xmlns="http://decidr.de/schema/DecidrTypes"
+    decidrP:xmlns="http://decidr.de/schema/DecidrProcessTypes"
+    xsd:xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:hut="http://decidr.de/schema/humanTask">
+    
+  <documentation>
+    This is a test process for human task testing
+  </documentation>
+
+  <import location="HumanTaskTest.wsdl"
+     namespace="http://decidr.de/Default_Tenant/processes/302"
+     importType="http://schemas.xmlsoap.org/wsdl/" />
+     
+  <import location="Email.wsdl"
+     namespace="http://decidr.de/webservices/Email"
+     importType="http://schemas.xmlsoap.org/wsdl/" />
+  
+  <import location="DecidrTypes.xsd"
+     namespace="http://decidr.de/schema/DecidrTypes"
+     importType="http://www.w3.org/2001/XMLSchema" />
+  
+  <import location="DecidrProcessTypes.xsd"
+     namespace="http://decidr.de/schema/DecidrProcessTypes"
+     importType="http://www.w3.org/2001/XMLSchema" />
+     
+  <import location="HumanTask.wsdl"
+     namespace="http://decidr.de/webservices/HumanTask"
+     importType="http://schemas.xmlsoap.org/wsdl/" />
+     
+  <import namespace="http://www.apache.org/ode/type/extension"
+     importType="http://www.w3.org/2001/XMLSchema" />
+     
+  <import namespace="http://decidr.de/wsdl/basicProcess"
+     importType="http://schemas.xmlsoap.org/wsdl/" />
+     
+   <partnerLinks>
+      <partnerLink name="ProcessPL" 
+         partnerLinkType="ws1:EmailPLT" 
+         partnerRole="EmailProvider" />
+      <partnerLink name="EmailPL" 
+         partnerLinkType="ws1:EmailPLT" 
+         partnerRole="EmailProvider" />
+      <partnerLink name="HumanTaskPL" 
+         partnerLinkType="ws2:HumanTaskPLT"
+         myRole="HumanTaskClient" 
+         partnerRole="HumanTaskProvider" />
+   </partnerLinks>
+    
+   <variables>
+     <!-- BPEL process variables -->
+     <variable name="processIn" messageType="tns:startMessageRequest"/>
+     <variable name="processOut" messageType="tns:startMessageResponse"/>
+     <variable name="wfmid" type="xsd:long"/>
+     <variable name="faultMessageIn" type="ws1:sendEmailRequest"/>
+     <variable name="faultMessageOut" type="ws1:sendEmailResponse"/>
+     <variable name="successIn" type="ws1:sendEmailRequest"/>
+     <variable name="successOut" type="ws1:sendEmailResponse"/>
+     <!-- web service variables -->
+     <variable name="sendEmailIn" messageType="ws1:sendEmailRequest" />
+     <variable name="sendEmailOut" messageType="ws1:sendEmailResponse" />
+     <variable name="createTaskIn" messageType="ws2:createTaskRequest" />
+     <variable name="createTaskOut" messageType="ws2:createTaskResponse" />
+     <!-- DWDL process variables -->
+     <variable name="L1260445451575" type="xsd:string" />
+	 <variable name="L1260445559543" type="xsd:string" />
+     <variable name="L1260455349758" type="xsd:string" />
+	 <variable name="L1260455377884" type="basic:taskCompletedRequest" />
+	 <variable name="L1260455400647" type="xsd:string" />
+     <variable name="L1260455508986" type="xsd:string" />
+     <!-- roles -->
+     <variable name="L1260445287013" element="decidr:role" />
+	 <variable name="L1260445515504" element="decidr:role" />
+   </variables>
+   
+   <correlationSets>
+     <correlationSet name="standard-correlation"
+         properties="tns:taskID"/>
+   </correlationSets>
+   
+   <faultHandlers>
+        <catchAll>
+            <sequence>
+                <assign>
+                    <copy>
+                        <from variable="tns:L1260445451575" />
+                        <to property="ws1:message" variable="faultMessageIn"/>
+                    </copy>
+                    <copy>
+                        <from variable="tns:L1260445287013" />
+                        <to property="ws1:toRole" variable="faultMessageIn"/>
+                    </copy>
+                </assign>
+                <invoke outputVariable="faultMessageOut" 
+                        inputVariable="faultMessageIn" 
+                        operation="sendEmail" 
+                        partnerLink="EmailPL"/>
+            </sequence>
+        </catchAll>
+    </faultHandlers>
+
+   <sequence>
+     <flow>
+       <links>
+         <link name="L1260445316022"/>
+         <link name="L1260445316024"/>
+       </links>
+       <flow name="mainFlow">
+           <sequence>
+                <sources>
+                    <source linkName="L1260445316022"/>
+                </sources>
+                <receive variable="processIn" operation="startProcess" partnerLink="ProcessPL" createInstance="yes"/>
+                <assign name="initVariables">
+                  <copy>
+                    <from>
+                      <literal>This fault message is created by the fault handler of the corresponding BPEL process</literal>
+                    </from>
+                    <to variable="L1260445451575" />
+                  </copy>
+                  <copy>
+                    <from>
+                      <literal>BPEL process successfully completed.</literal>
+                    </from>
+                    <to variable="L1260445559543" />
+                  </copy>
+                  <copy>
+                    <from>
+                      <literal>doIT</literal>
+                    </from>
+                    <to variable="L1260455349758" />
+                  </copy>
+                  <copy>
+                    <from>
+                      <literal>This is a simple human task</literal>
+                    </from>
+                    <to variable="L1260455400647" />
+                  </copy>
+                  <!-- assign configuration variables -->
+                  <copy>
+                    <from variable="processIn" property="tns:L1260445515504" />
+                    <to variable="L1260445515504" />
+                  </copy>
+                  <copy>
+                    <from>$ode:pid</from>
+                    <to variable="processOut"/>
+                  </copy>
+                </assign>
+                <assign name="initRoles">
+                  <copy>
+                    <from>
+                      <literal>
+                        <basic:role name="L1260445287013">
+			              <basic:actor userId="1" />
+		                </basic:role>       
+		              </literal>
+                    </from>
+                    <to variable="L1260445287013"/>
+                  </copy>
+                </assign>
+                <reply variable="processOut" operation="startProcess" partnerLink="ProcessPL"/>
+            </sequence>
+            <sequence>
+              <sources>
+				  <source linkName="L1260445316024"/>
+			    </sources>
+			    <targets>
+				  <target linkName="L1260445316022"/>
+			    </targets>
+              <assign>
+                <copy>
+                  <from variable="processOut"/>
+                  <to variable="createTaskIn" property="wfmID" />
+                </copy>
+                <copy>
+                  <from variable="L1260445515504"/>
+                  <to variable="createTaskIn" property="user" />
+                </copy>
+                <copy>
+                  <from variable="L1260455349758"/>
+                  <to variable="createTaskIn" property="name" />
+                </copy>
+                <copy>
+                  <from variable="L1260455349758"/>
+                  <to variable="createTaskIn" property="description" />
+                </copy>
+                <copy>
+                  <from><literal>no</literal></from>
+                  <to variable="createTaskIn" property="userNotification" />
+                </copy>
+                <copy>
+                  <from>
+                    <literal>
+                      <hut:humanTaskData>
+						<hut:taskItem name="taskItem" type="string">
+							<hut:label>Food</hut:label>
+							<hut:hint>What is your favorite food?</hut:hint>
+							<hut:value></hut:value>
+						</hut:taskItem>
+					  </hut:humanTaskData> 
+					</literal>
+                  </from>
+                  <to variable="createTaskIn" property="taskData" />
+                </copy>
+              </assign>
+              <invoke partnerLink="HumanTaskPL" 
+                      operation="createTask" 
+                      inputVariable="createTaskIn">
+                <correlations>
+                  <correlation 
+                    set="standard-correlation" 
+                    initiate="yes"
+                    pattern="response" />
+                </correlations>
+              </invoke>
+		      <receive variable="L1260455377884" 
+		         operation="taskCompleted" 
+		         partnerLink="HumanTaskPL">
+		         <correlation 
+                    set="standard-correlation" 
+                    initiate="no" />
+                 </correlations>
+		      </receive>
+            </sequence>
+            <sequence>
+			    <targets>
+				  <target linkName="L1260445316024"/>
+			    </targets>
+              <assign>
+                <copy>
+                        <from variable="tns:L1260445559543" />
+                        <to property="ws1:message" variable="successIn"/>
+                    </copy>
+                    <copy>
+                        <from variable="tns:L1260445287013" />
+                        <to property="ws1:toRole" variable="successIn"/>
+                    </copy>
+              </assign>
+              <invoke outputVariable="successOut" 
+                        inputVariable="successIn" 
+                        operation="sendEmail" 
+                        partnerLink="EmailPL"/>
+            </sequence>
+       </flow>
+     </sequence>
+</process>

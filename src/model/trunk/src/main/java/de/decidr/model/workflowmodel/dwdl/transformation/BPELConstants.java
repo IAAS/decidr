@@ -57,6 +57,7 @@ public final class BPELConstants {
         public static final String HUMANTASK_CALLBACK_IN = "humanTaskCallbackIn";
         public static final String PROCESS_IN = "processIn";
         public static final String PROCESS_OUT = "processOut";
+        public static final String WFMID = "wfmid";
     }
     
     
