@@ -21,8 +21,8 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Deletes the representative object of the given WowrkFlowInstance in the
- * database
+ * Deletes a workflow instance including all work items from the database. No
+ * communication with the ODE takes place within this command.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -30,17 +30,24 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class DeleteWorkflowInstanceCommand extends WorkflowInstanceCommand {
 
-    public DeleteWorkflowInstanceCommand(Role role, Long WorkflowInstanceId) {
-        super(role, null, WorkflowInstanceId);
+    /**
+     * Creates a new {@link DeleteWorkflowInstanceCommand} that deletes a
+     * workflow instance including all work items from the database. No
+     * communication with the ODE takes place within this command.
+     * 
+     * @param role
+     *            user / system executing the command
+     * @param workflowInstanceId
+     *            ID of workflow instance to delete
+     */
+    public DeleteWorkflowInstanceCommand(Role role, Long workflowInstanceId) {
+        super(role, null, workflowInstanceId);
     }
 
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws EntityNotFoundException {
-
         WorkflowInstance instance = fetchWorkflowInstance(evt.getSession());
-
         evt.getSession().delete(instance);
     }
-
 }
