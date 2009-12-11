@@ -66,8 +66,8 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
                 .getSession()
                 .createQuery(
                         "delete from WorkItem item "
-                                + "where item.workflowinstance.odePid = :pid "
-                                + "and item.workflowinstance.deployedWorkflowModel.id = :wid")
+                                + "where item.workflowInstance.odePid = :pid "
+                                + "and item.workflowInstance.deployedWorkflowModel.id = :wid")
                 .setString("pid", odePid).setLong("wid",
                         deployedWorkflowModelId).executeUpdate();
     }
