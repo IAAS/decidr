@@ -18,10 +18,8 @@ package de.decidr.test.database.factories;
 
 import org.hibernate.Session;
 
-import de.decidr.model.workflowmodel.humantask.THumanTaskData;
-
 /**
- * Creates useful XML test data (or stubs) using existing database contents.
+ * Creates useful XML test data.
  * 
  * @author Daniel Huss
  * @version 0.1
