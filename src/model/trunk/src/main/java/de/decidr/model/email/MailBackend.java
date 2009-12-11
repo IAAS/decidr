@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.activation.DataHandler;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -37,6 +38,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -298,17 +300,15 @@ public class MailBackend {
      * @param file
      *            A <code>{@link File}</code> pointing to the file to attach.
      * @throws IOException
-     *             see <code>{@link #addFile(URI)}</code>
+     *             see <code>{@link MimeBodyPart#attachFile(File)}</code>
      * @throws MessagingException
-     *             see <code>{@link #addFile(URI)}</code>
-     * @throws MalformedURLException
-     *             see <code>{@link #addFile(URI)}</code>
+     *             see <code>{@link MimeBodyPart#attachFile(File)}</code>
      * @throws IllegalArgumentException
      *             if <code>file</code> is null or doesn't exist.
-     * @return see <code>{@link #addFile(URI)}</code>
+     * @return The <code>{@link MimeBodyPart}</code> containing the file
      */
-    public MimeBodyPart addFile(File file) throws MalformedURLException,
-            MessagingException, IOException {
+    public MimeBodyPart addFile(File file) throws MessagingException,
+            IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(File)");
         if (file == null) {
@@ -320,8 +320,10 @@ public class MailBackend {
             throw new IllegalArgumentException("file doesn't exist");
         }
 
-        log.debug("calling addFile(URI) with URI of passed file");
-        MimeBodyPart result = addFile(file.toURI());
+        log.debug("Constructing MimeBodyPart");
+        MimeBodyPart result = new MimeBodyPart();
+        result.attachFile(file);
+        addMimePart(result);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addFile(File)");
         return result;
@@ -336,14 +338,12 @@ public class MailBackend {
      *             see <code>{@link URI#toURL()}</code>
      * @throws MessagingException
      *             see <code>{@link #addFile(URL)}</code>
-     * @throws IOException
-     *             see <code>{@link #addFile(URL)}</code>
      * @throws IllegalArgumentException
      *             if <code>file</code> is null.
      * @return see <code>{@link #addFile(URL)}</code>
      */
     public MimeBodyPart addFile(URI file) throws MalformedURLException,
-            MessagingException, IOException {
+            MessagingException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(URI)");
         if (file == null) {
@@ -365,16 +365,13 @@ public class MailBackend {
      * @param file
      *            A <code>{@link URL}</code> pointing to the file to attach.
      * @throws MessagingException
-     *             see <code>{@link #addFile(InputStream)}</code>
-     * @throws IOException
      *             see
-     *             <code>{@link MimeBodyPart#MimeBodyPart(java.io.InputStream)}</code>
+     *             <code>{@link MimeBodyPart#setDataHandler(DataHandler)}</code>
      * @throws IllegalArgumentException
      *             if <code>file</code> is null.
-     * @return The <code>{@link MimeBodyPart}</code> containing the file
+     * @return The <code>{@link MimeBodyPart}</code> containing the file.
      */
-    public MimeBodyPart addFile(URL file) throws MessagingException,
-            IOException {
+    public MimeBodyPart addFile(URL file) throws MessagingException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(URL)");
         if (file == null) {
@@ -382,9 +379,10 @@ public class MailBackend {
             throw new IllegalArgumentException("file must not be null");
         }
 
-        log.debug("Opening stream to passed URL "
-                + "and calling addFile(InputStream)");
-        MimeBodyPart result = addFile(file.openStream());
+        log.debug("creating MimeBodyPart from URL");
+        MimeBodyPart result = new MimeBodyPart();
+        result.setDataHandler(new DataHandler(file));
+        addMimePart(result);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addFile(URL)");
         return result;
@@ -397,14 +395,22 @@ public class MailBackend {
      * @param file
      *            A <code>{@link InputStream}</code> containing the file to
      *            attach.
+     * @param type
+     *            The {@link String content type} of the {@link InputStream}.
+     * @param fileName
+     *            The name of the attachment.
      * @return The <code>{@link MimeBodyPart}</code> containing the file
      * @throws MessagingException
      *             see
      *             <code>{@link MimeBodyPart#MimeBodyPart(InputStream)}</code>
+     * @throws IOException
+     *             see
+     *             <code>{@link ByteArrayDataSource#ByteArrayDataSource(InputStream, String)}</code>
      * @throws IllegalArgumentException
      *             if <code>file</code> is null.
      */
-    public MimeBodyPart addFile(InputStream file) throws MessagingException {
+    public MimeBodyPart addFile(InputStream file, String type, String fileName)
+            throws MessagingException, IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addFile(InputStream)");
         if (file == null) {
@@ -413,7 +419,10 @@ public class MailBackend {
         }
 
         log.debug("Adding stream to message's body");
-        MimeBodyPart result = new MimeBodyPart(file);
+        MimeBodyPart result = new MimeBodyPart();
+        ByteArrayDataSource dataSource = new ByteArrayDataSource(file, type);
+        dataSource.setName(fileName);
+        result.setDataHandler(new DataHandler(dataSource));
         addMimePart(result);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addFile(InputStream)");

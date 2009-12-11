@@ -114,26 +114,25 @@ public class MailBackendTest extends DecidrOthersTest {
     }
 
     /**
-     * 
      * Test method for:
      * <ul>
      * <li>{@link MailBackend#addFile(java.io.InputStream)</li>
      * </ul>
      */
     @Test
-    public void testAddFileInputStream() throws MessagingException {
+    public void testAddFileInputStream() throws MessagingException, IOException {
 
         InputStream testStream = MailBackendTest.class
                 .getResourceAsStream("/decidr.jpg");
 
         try {
-            testMail.addFile((InputStream) null);
+            testMail.addFile((InputStream) null, null, null);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // supposed to be thrown
         }
 
-        testMail.addFile(testStream);
+        testMail.addFile(testStream, "image/jpeg", "decidr.jpg");
 
         Set<MimeBodyPart> parts = testMail.getMessageParts();
         assertFalse(parts.isEmpty());
@@ -145,10 +144,9 @@ public class MailBackendTest extends DecidrOthersTest {
      * <ul>
      * <li>{@link MailBackend#addFile(java.net.URI)</li>
      * </ul>
-
      * @throws IOException 
      * @throws MessagingException 
-     * @throws MalformedURLException      * *
+     * @throws MalformedURLException
      */
     @Test
     public void testAddFileURI() throws MalformedURLException,

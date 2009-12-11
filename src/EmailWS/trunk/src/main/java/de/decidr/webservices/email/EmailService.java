@@ -33,11 +33,13 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.EmailRole;
 import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.email.MailBackend;
+import de.decidr.model.entities.File;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.FileFacade;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.soap.exceptions.IllegalArgumentExceptionWrapper;
 import de.decidr.model.soap.exceptions.IoExceptionWrapper;
@@ -112,6 +114,7 @@ public class EmailService implements EmailInterface {
         StorageProvider store = StorageProviderFactory.getDefaultFactory()
                 .getStorageProvider();
         SystemSettings config = DecidrGlobals.getSettings();
+        FileFacade fileAccess = new FileFacade(EmailRole.getInstance());
         Set<Long> normalisedIDs = new HashSet<Long>(attachments.getId().size());
 
         log.debug("getting settings");
@@ -125,9 +128,12 @@ public class EmailService implements EmailInterface {
             throw new IllegalArgumentExceptionWrapper("too many attachments");
         }
 
+        File decidrFile;
         log.debug("attaching files");
         for (Long id : normalisedIDs) {
-            email.addFile(store.getFile(id));
+            decidrFile = fileAccess.getFileInfo(id);
+            email.addFile(store.getFile(id), decidrFile.getMimeType(),
+                    decidrFile.getFileName());
         }
         log.trace("Leaving " + EmailService.class.getSimpleName()
                 + ".addAttachments(MailBackend, IDList)");
