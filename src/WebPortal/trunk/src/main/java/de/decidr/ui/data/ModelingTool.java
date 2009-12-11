@@ -84,6 +84,9 @@ public class ModelingTool extends AbstractComponent {
         this.setSizeFull();
         this.setImmediate(true);
         this.setDebugId("modelingTool");
+
+        Main.getCurrent().getUIDirector().getTemplateView().getContent()
+                .getWidth();
     }
 
     @Override
@@ -214,5 +217,12 @@ public class ModelingTool extends AbstractComponent {
         super.paintContent(target);
         target.addVariable(this, "dwdl", getDWDL());
         target.addVariable(this, "users", getUsers());
+        // JS height and width has to be set properly
+        logger.debug("Height: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeight());
+        logger.debug("HeightUnits: "+ Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeightUnits());
+
+        // Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeightUnits();
+        target.addVariable(this, "height", 800);
+        target.addVariable(this, "width", 600);
     }
 }
