@@ -91,5 +91,9 @@ public class VModelingTool extends ModelingToolWidget implements Paintable {
 
         // Set the user list received from server
         setUsers(uidl.getStringVariable("users"));
+
+        // Set the scroll panel to the size given by the server
+        setScrollPanelSize(uidl.getIntVariable("width"), uidl
+                .getIntVariable("height"));
     }
 }
