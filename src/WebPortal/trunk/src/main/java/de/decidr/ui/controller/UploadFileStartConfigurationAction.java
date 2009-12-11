@@ -107,7 +107,10 @@ public class UploadFileStartConfigurationAction implements FailedListener,
             Main.getCurrent().getMainWindow().setData(fileId);
         } catch (FileNotFoundException exception) {
             Main.getCurrent().getMainWindow()
-            // GH, Aleks: which file? Please be a little more verbose... ~rr
+            // gh, aleks: which file? Please be a little more verbose... ~rr
+            // RR showNotifaication is used for testing and will be removed later,
+            // if a information should be displayed to the user, a dialog will
+            // be used
                     .showNotification("File not found.");
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(

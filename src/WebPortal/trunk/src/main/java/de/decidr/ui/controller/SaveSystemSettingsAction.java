@@ -63,9 +63,14 @@ public class SaveSystemSettingsAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         SystemSettings settings = DecidrGlobals.getSettings();
 
-        // Aleks, GH: expect a ClassCastException here ~rr
-        content = (SystemSettingsComponent) Main.getCurrent().getUIDirector()
-                .getTemplateView().getContent();
+        try{
+            content = (SystemSettingsComponent) Main.getCurrent().getUIDirector()
+            .getTemplateView().getContent();
+            
+        }catch (ClassCastException e){
+            // wrong content
+            return;
+        }
         content.saveSettingsItem();
         item = content.getSettingsItem();
 

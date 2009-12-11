@@ -19,6 +19,7 @@ package de.decidr.ui.controller.show;
 import java.util.Set;
 
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -63,6 +64,10 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
+        if (table == null){
+            Main.getCurrent().getMainWindow().showNotification("table is null!", Window.Notification.TYPE_ERROR_MESSAGE);    
+        }
+        
         if (!table.getValue().getClass().equals(Set.class)) {
             siteFrame.setContent(new AppointWorkflowAdminComponent((Long) table
                     .getContainerProperty(table.getValue(), "id").getValue()));

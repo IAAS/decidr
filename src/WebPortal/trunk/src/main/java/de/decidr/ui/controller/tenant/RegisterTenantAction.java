@@ -68,12 +68,8 @@ public class RegisterTenantAction implements ClickListener {
         Form form = content.getRegistrationForm();
         boolean notEmpty = true;
 
-        // Aleks, GH: here ye go again with yer bloody german comments!!11! ~rr
-        // Geht die einzelnen Felder durch und prüft ob die Felder nicht leer
-        // (notEmpty) sind.
-        // Sobald ein Feld leer ist, wird notEmpty auf false gesetzt. Dabei
-        // werden nur die Felder durchgegangen, die
-        // required sind und deren Wert leer ist.
+        // Check the fields that are marked as required in the form
+        // whether they are empty or not
         for (Object propertyId : content.getRegistrationForm()
                 .getItemPropertyIds()) {
             if (notEmpty) {
@@ -85,12 +81,9 @@ public class RegisterTenantAction implements ClickListener {
             }
         }
 
-        // Aleks, GH: here ye go again with yer bloody german comments!!11! ~rr
-        // Hier wird nun geschaut ob die Felder leer sind. Wenn sie nicht leer
-        // sind, dann
-        // speichere die Einträge und registriere den User. Wenn die Felder leer
-        // sind,
-        // dann wird der User aufgefordert die nötigen Felder auszufüllen.
+        // if no required field is empty, register the user and tenant.
+        // if at least one of the required fields is empty, ask the user
+        // to completely fill out the required fields
         if (notEmpty) {
             content.saveRegistrationForm();
 

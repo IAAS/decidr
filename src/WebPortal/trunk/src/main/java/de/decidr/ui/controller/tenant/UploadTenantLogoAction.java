@@ -56,8 +56,7 @@ public class UploadTenantLogoAction implements Upload.Receiver {
             fos = new FileOutputStream(file);
         } catch (IOException e) {
             Main.getCurrent().getMainWindow().addWindow(
-            // Aleks, GH: a little more verbose, if you please! ~rr
-                    new InformationDialogComponent("IOException", "Failure"));
+                    new InformationDialogComponent("An error occured while uploading the file:<br/>" + e.getMessage(), "Failure"));
         }
 
         return fos;

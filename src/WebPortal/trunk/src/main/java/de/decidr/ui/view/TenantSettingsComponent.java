@@ -130,34 +130,7 @@ public class TenantSettingsComponent extends CustomComponent {
                     new TransactionErrorDialogComponent(e));
         }
 
-        // GH, Aleks: Please explain or get rid of commented out code
-        // get logo
-        // InputStream in = tenantFacade.getLogo(tenantId);
-        // File file = new File("themes/"+tenantName+"/img/decidrlogo.png");
-        // file.createNewFile();
-        //                
-        // if (in == null){
-        // in = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
-        // }
-        //
-        //                
-        // if (in == null){
-        // Main.getCurrent().getMainWindow().showNotification("no input stream");
-        // }else{
-        // OutputStream out = new FileOutputStream(file);
-        // byte[] buf = new byte[1024];
-        // int i = in.read(buf);
-        // while(i != -1){
-        // out.write(buf, 0, i);
-        // i = in.read(buf);
-        // }
-        // out.close();
-        // }
-        //                      
-        //              
-        // in.close();
-
-        // get css
+        // GH: get logo and CSS
 
         init();
     }

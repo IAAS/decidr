@@ -42,13 +42,13 @@ public class ConfirmInvitationAction implements ClickListener {
     private Long invitationId = null;
 
     /**
-     * Requires the ID of the invitation.<br>
-     * Aleks, GH: Description incomplete ~rr
+     * Requires the ID of the invitation as well
+     * as the id of the invited user
      * 
      * @param invId
      *            ID of the invitation
      * @param uId
-     *            TODO document
+     *            ID of the invited user
      */
     public ConfirmInvitationAction(Long invId, Long uId) {
         invitationId = invId;

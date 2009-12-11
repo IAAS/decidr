@@ -97,12 +97,11 @@ public class CssHandler {
             Long colorSchemeId;
             File f;
             InputStream in = null;
-            // Aleks, GH: keep yer comments to yer Enklish ~rr
-            // Checkt ob advanced color scheme oder simple color scheme
-            // ausgewählt ist und erzeugt dementsprechend
-            // einen input stream. Entweder, dass was der User eingibt im
-            // Advanced Modus oder das was er auswählt beim
-            // simple.
+            // check whether the advanced or the simple color scheme
+            // is selected and create either a input stream with the
+            // content the user entered into the field for advanced
+            // css settings or with the selected settings from simple 
+            // scheme
             try {
                 if (advanced) {
                     in = getInputStream(component.getCssTextField().getValue()
@@ -113,15 +112,10 @@ public class CssHandler {
 
                 }
 
-                // Aleks, GH: keep yer comments to yer Enklish ~rr
-                // Checkt ob die advancedColorSchemeId gesetzt ist und ob der
-                // User
-                // eine Advanced CSS speichern möchte. Wenn ja,
-                // dann holt er sich die Id, das dazugehörige File aus der
-                // FileFacade, um die file Id zu bekommen. Als letztes wird
-                // das vorhanden CSS file ersetzt mit der gleichen file id und
-                // dem
-                // neuen input. Das gleiche auch für simple CSS.
+                // if a advancedColorSchemeId is set and the user wants to
+                // save a advanced color scheme then get the advancedColorSchemeId
+                // and replace the current css file with the new one.
+                // For the simple scheme it's basically the same
                 if ((settings.getItemProperty("advancedColorSchemeId")
                         .getValue() != null)
                         && advanced) {
@@ -184,8 +178,7 @@ public class CssHandler {
                     new TransactionErrorDialogComponent(exception));
         } catch (IOException e) {
             Main.getCurrent().getMainWindow().addWindow(
-            // Aleks, GH: What file? (Hint: CSS) ~rr
-                    new InformationDialogComponent("Failed to load the file!",
+                    new InformationDialogComponent("Failed to load the CSS file!",
                             "Failure"));
         }
     }
@@ -224,14 +217,12 @@ public class CssHandler {
                 int index;
                 if (cssRule.getCssText()
                         .contains("*.v-generated-body, *.v-app")) {
-                    // Aleks, GH: keep yer comments to yer Enklish ~rr
-                    // Foreground setzen
+                    // set foreground color
                     rule = rule.replace("}", "; color: "
                             + component.getForegroundSelect().getValue()
                                     .toString() + " }");
 
-                    // Aleks, GH: keep yer comments to yer Enklish ~rr
-                    // Font-family setzen
+                    // set font family
                     index = rule.indexOf("font-family:");
                     substring = rule.substring(index);
                     index = substring.indexOf(";");
@@ -239,8 +230,7 @@ public class CssHandler {
                     rule = rule.replace(substring, component.getFontSelect()
                             .getValue().toString());
 
-                    // Aleks, GH: keep yer comments to yer Enklish ~rr
-                    // Font-size setzen
+                    // set font size
                     index = rule.indexOf("font-size:");
                     substring = rule.substring(index);
                     index = substring.indexOf(";");
@@ -249,8 +239,7 @@ public class CssHandler {
                             .getFontSizeSelect().getValue().toString()
                             + "px");
                 } else if (cssRule.getCssText().contains("*.v-generated-body")) {
-                    // Aleks, GH: keep yer comments to yer Enklish ~rr
-                    // Background setzen
+                    // set background color
                     index = rule.indexOf("background:");
                     substring = rule.substring(index);
                     index = substring.indexOf("}");
@@ -263,7 +252,6 @@ public class CssHandler {
             stream.close();
             return css;
         } catch (FileNotFoundException e) {
-            // Aleks, GH: please revamp the next two error messages ~rr
             Main.getCurrent().getMainWindow().showNotification(
                     "saveSimpleCSS: File not found",
                     Window.Notification.TYPE_ERROR_MESSAGE);
@@ -299,7 +287,8 @@ public class CssHandler {
     /**
      * Returns a file object from the input stream of the entered CSS string.
      * 
-     * @return File TODO document
+     * @return File 
+     *          File representation of the given input stream
      */
     private File getFileFromInputStream(InputStream in) {
         File f = new File(Main.getCurrent().getContext().getBaseDirectory()
@@ -344,15 +333,9 @@ public class CssHandler {
             return f;
 
         } catch (FileNotFoundException e) {
-            // Aleks, GH: please revamp the next two error messages ~rr
-            Main.getCurrent().getMainWindow().showNotification(
-                    "FileNotFound: " + e.getMessage(),
-                    Window.Notification.TYPE_ERROR_MESSAGE);
+
             return null;
         } catch (IOException e) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "IO Exception: " + e.getMessage(),
-                    Window.Notification.TYPE_ERROR_MESSAGE);
             return null;
         }
     }
