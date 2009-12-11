@@ -61,7 +61,6 @@ import de.decidr.model.commands.user.SetDisabledCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
-import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
@@ -450,7 +449,8 @@ public class UserFacade extends AbstractFacade {
      * Sets the password of the user to a new (generated) password and deletes
      * the request from the database if authKey matches the authentication key
      * in the user's current password reset request. The user is notified via
-     * email about the new password.
+     * email about the new password. Successfully confirmed requests as well as
+     * expired requests are removed from the database.
      * 
      * @param userId
      *            the id of the user whose request should be confirmed
@@ -460,8 +460,11 @@ public class UserFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             iff the user doesn't exist or has no user profile or has no
-     *             password reset request or the authentication key doesn't
-     *             match or the request has expired.
+     *             password reset request.
+     * @throws AuthKeyException
+     *             if the authentication key doesn't match
+     * @throws RequestExpiredException
+     *             if the request has expired
      * @throws IllegalArgumentException
      *             if userId is <code>null</code> or if authKey is
      *             <code>null</code> or empty.
@@ -474,7 +477,7 @@ public class UserFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         if (cmd.getRequestExpired()) {
-            throw new EntityNotFoundException(PasswordResetRequest.class);
+            throw new RequestExpiredException();
         }
     }
 
@@ -521,7 +524,9 @@ public class UserFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws AuthKeyException
-     *             iff the given authentication key is incorrect.
+     *             iff the given authentication key is incorrect
+     * @throws RequestExpiredException
+     *             iff the request has expired
      * @throws EntityNotFoundException
      *             iff the user does not exist or has no pending change email
      *             request.
@@ -537,6 +542,10 @@ public class UserFacade extends AbstractFacade {
                 actor, userId, requestAuthKey);
 
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
+
+        if (command.isRequestExpired()) {
+            throw new RequestExpiredException();
+        }
     }
 
     /**

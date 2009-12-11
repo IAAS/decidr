@@ -15,6 +15,7 @@
  */
 package de.decidr.model.commands.user;
 
+import de.decidr.model.LifetimeValidator;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.User;
@@ -27,8 +28,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * Changes the email address of the given user iff the given auth key matches
  * the auth key in a previously created {@link ChangeEmailRequest}. Otherwise an
- * {@link AuthKeyException} is thrown. Once the email has been successfully
- * changed, the {@link ChangeEmailRequest} is deleted.
+ * {@link AuthKeyException} is thrown. Successfully confirmed requests as well
+ * as expired requests are removed from the database.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -37,15 +38,17 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public class ConfirmChangeEmailRequestCommand extends UserCommand {
 
-    private String requestAuthKey;
-    private Long userId;
+    private String requestAuthKey = null;
+    private Long userId = null;
+    private boolean requestExpired = false;
 
     /**
      * 
      * Creates a new ConfirmChangeEmailRequestCommand that changes the email
      * address of the given user iff the given auth key matches the auth key in
      * a previously created {@link ChangeEmailRequest}. Otherwise an
-     * {@link AuthKeyException} is thrown.
+     * {@link AuthKeyException} is thrown. Successfully confirmed requests as
+     * well as expired requests are removed from the database.
      * 
      * @param actor
      *            user / system executing the command
@@ -73,6 +76,7 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
+        requestExpired = false;
         User user = fetchUser(evt.getSession());
 
         ChangeEmailRequest request = user.getChangeEmailRequest();
@@ -80,14 +84,28 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
             throw new EntityNotFoundException(ChangeEmailRequest.class, userId);
         }
 
-        if (requestAuthKey.equals(request.getAuthKey())) {
+        if (!requestAuthKey.equals(request.getAuthKey())) {
+            throw new AuthKeyException();
+        }
+
+        if (LifetimeValidator.isChangeEmailRequestValid(request)) {
+
             user.setEmail(request.getNewEmail());
             // due to a consistency trigger we must delete the request BEFORE
             // updating the user.
             evt.getSession().delete(request);
             evt.getSession().update(user);
         } else {
-            throw new AuthKeyException();
+            // the request has expired
+            requestExpired = true;
+            evt.getSession().delete(request);
         }
+    }
+
+    /**
+     * @return whether the change email request has expired
+     */
+    public boolean isRequestExpired() {
+        return requestExpired;
     }
 }

@@ -67,9 +67,7 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
 
     private static Logger logger = DefaultLogger
             .getLogger(ConfirmInvitationCommand.class);
-
     private Long invitationId;
-
     private Invitation invitation = null;
 
     /**

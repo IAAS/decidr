@@ -21,6 +21,7 @@ import de.decidr.model.acl.Password;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.UserProfile;
+import de.decidr.model.exceptions.AuthKeyException;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
@@ -29,6 +30,8 @@ import de.decidr.model.transactions.TransactionEvent;
 /**
  * Generates a new password for a user if the given authentication key matches.
  * A notification mail containing the new password is sent to the user.
+ * Successfully confirmed requests as well as expired requests are removed from
+ * the database.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -36,16 +39,17 @@ import de.decidr.model.transactions.TransactionEvent;
 public class ConfirmPasswordResetCommand extends UserCommand {
 
     private String authKey = null;
-
-    private Boolean requestExpired = false;
-
+    private boolean requestExpired = false;
     private String newPassword = null;
 
     /**
-     * Creates a new ConfirmPasswordResetCommand.
+     * Creates a new ConfirmPasswordResetCommand that generates a new password
+     * for a user if the given authentication key matches. A notification mail
+     * containing the new password is sent to the user. Successfully confirmed
+     * requests as well as expired requests are removed from the database.
      * 
      * @param role
-     *            the user which executes the command
+     *            the user /system executing the command
      * @param userId
      *            the id of the user whose password reset request should be
      *            confirmed
@@ -57,7 +61,7 @@ public class ConfirmPasswordResetCommand extends UserCommand {
         super(role, userId);
         requireUserId();
         if (authKey == null || authKey.isEmpty()) {
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "Authentication key must not be null or empty.");
         }
         this.authKey = authKey;
@@ -74,9 +78,13 @@ public class ConfirmPasswordResetCommand extends UserCommand {
         PasswordResetRequest request = (PasswordResetRequest) evt.getSession()
                 .get(PasswordResetRequest.class, getUserId());
 
-        if ((request == null) || (!authKey.equals(request.getAuthKey()))) {
+        if (request == null) {
             throw new EntityNotFoundException(PasswordResetRequest.class,
                     getUserId());
+        }
+
+        if (!authKey.equals(request.getAuthKey())) {
+            throw new AuthKeyException();
         }
 
         // is the request still valid?
@@ -84,7 +92,7 @@ public class ConfirmPasswordResetCommand extends UserCommand {
                 .isPasswordResetRequestValid(request);
 
         if (isAlive) {
-            // generate a new password
+            // generate a new password, notify user and delete the request
             UserProfile profile = (UserProfile) evt.getSession().get(
                     UserProfile.class, getUserId());
 
@@ -97,16 +105,17 @@ public class ConfirmPasswordResetCommand extends UserCommand {
             profile.setPasswordHash(Password.getHash(newPassword, profile
                     .getPasswordSalt()));
 
-            // save new password
             evt.getSession().save(profile);
 
-            // notify the user
+            // it is important that we delete the request before sending the
+            // email because we cannot roll back the latter
+            evt.getSession().delete(request);
+
             NotificationEvents.generatedNewPassword(profile.getUser(),
                     newPassword);
         } else {
             // the request has expired
             requestExpired = true;
-            // we cannot throw an exception because that would undo the delete.
             evt.getSession().delete(request);
         }
     }
@@ -114,7 +123,7 @@ public class ConfirmPasswordResetCommand extends UserCommand {
     /**
      * @return whether the request has expired.
      */
-    public Boolean getRequestExpired() {
+    public boolean getRequestExpired() {
         return requestExpired;
     }
 }
