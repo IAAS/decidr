@@ -182,7 +182,7 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
             return new ArrayList<User>(0);
         }
 
-        String hql = "from User u "
+        String hql = "select u from User u "
                 + "inner join u.userAdministratesWorkflowModels rel "
                 + "where (rel.workflowModel = :model) and "
                 + "( (rel.user = u) or (rel.workflowModel.tenant.admin = u) and "
@@ -329,7 +329,6 @@ public class GetWorkflowAdministrationStateCommand extends WorkflowModelCommand 
                 unknownUser.setUserProfile(profile);
                 unknownUsers.add(unknownUser);
             }
-
         }
 
         return unknownUsers;
