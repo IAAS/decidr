@@ -58,7 +58,7 @@ public class TenantFactory extends EntityFactory {
     public void createDefaultTenant() {
         Tenant result = new Tenant();
         result.setAdmin(DecidrGlobals.getSettings().getSuperAdmin());
-        result.setName("Default Tenant");
+        result.setName("DefaultTenant");
         result.setDescription("This is the default tenant description");
         result.setAdvancedColorScheme(createDefaultColorScheme());
         result.setSimpleColorScheme(createDefaultColorScheme());

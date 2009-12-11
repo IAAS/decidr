@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<workflow id="jf54sdfasdfsdfeopei4" name="Party Organization" 
+	<workflow id="0" name="Party Organization" 
 	 targetNamespace="http://decidr.de/decidr/party"
 	 xmlns="http://decidr.de/schema/dwdl">
 		<description lang="de" source="www.iaas.uni-stuttgart.de">

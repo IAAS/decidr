@@ -6,10 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.bind.JAXBException;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.XmlTools;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.Tenant;
@@ -20,6 +23,7 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServerId;
 import de.decidr.model.enums.ServerTypeEnum;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.test.database.main.ProgressListener;
 
 /**
@@ -79,7 +83,7 @@ public class WorkflowModelFactory extends EntityFactory {
         if (modelsPerTenant < 1) {
             return result;
         }
-        
+
         Date now = DecidrGlobals.getTime().getTime();
 
         // find suitable owning tenants
@@ -88,49 +92,61 @@ public class WorkflowModelFactory extends EntityFactory {
 
         XmlFactory xml = new XmlFactory(session);
         byte[] sampleDwdl = xml.getDwdl();
+        Workflow workflow;
+        try {
+            workflow = XmlTools.getElement(Workflow.class, sampleDwdl);
 
-        for (int i = 0; i < numModels; i++) {
-            WorkflowModel model = new WorkflowModel();
-            model.setDescription("test workflow model #" + Integer.toString(i));
-            model.setName("workflow " + Integer.toString(i));
-            model.setDwdl(sampleDwdl);
-            model.setVersion(rnd.nextInt(1000000));
-            model.setExecutable(rnd.nextBoolean());
+            for (int i = 0; i < numModels; i++) {
+                WorkflowModel model = new WorkflowModel();
+                model.setDescription("test workflow model #"
+                        + Integer.toString(i));
+                model.setName("workflow " + Integer.toString(i));
+                model.setDwdl(new byte[0]);
+                model.setVersion(rnd.nextInt(1000000));
+                model.setExecutable(rnd.nextBoolean());
 
-            Tenant owningTenant = owners.get(i % owners.size());
-            model.setTenant(owningTenant);
-            model.setModifiedByUser(owningTenant.getAdmin());
-            model.setCreationDate(now);
-            model.setModifiedDate(now);
-            // every 10th model is available to the public for import
-            model.setPublished(i % 10 == 0);
-            session.save(model);
+                Tenant owningTenant = owners.get(i % owners.size());
+                model.setTenant(owningTenant);
+                model.setModifiedByUser(owningTenant.getAdmin());
+                model.setCreationDate(now);
+                model.setModifiedDate(now);
+                // every 10th model is available to the public for import
+                model.setPublished(i % 10 == 0);
+                session.save(model);
 
-            // find suitable workflow administrators -requires persisted
-            // workflow model!
-            model
-                    .setUserAdministratesWorkflowModels(getSuitableWorkflowAdministrators(model));
+                // we need the workflow model id to set it within the DWDL file
+                workflow.setId(model.getId());
+                model.setDwdl(XmlTools.getBytes(workflow));
 
-            result.add(model);
+                // find suitable workflow administrators -requires persisted
+                // workflow model!
+                model
+                        .setUserAdministratesWorkflowModels(getSuitableWorkflowAdministrators(model));
 
-            if (rnd.nextBoolean()) {
-                // create some deployed versions of the model
-                int numDeployedVersions = rnd.nextInt(MAX_DEPLOYED_VERSIONS) + 1;
-                for (int j = 1; j <= numDeployedVersions; j++) {
-                    addDeployedWorkflowModels(model);
-                    // cannot create two deployed workflow models of the same
-                    // version
-                    if (j < numDeployedVersions) {
-                        model.setVersion(model.getVersion() + 1L);
+                result.add(model);
+
+                if (rnd.nextBoolean()) {
+                    // create some deployed versions of the model
+                    int numDeployedVersions = rnd
+                            .nextInt(MAX_DEPLOYED_VERSIONS) + 1;
+                    for (int j = 1; j <= numDeployedVersions; j++) {
+                        addDeployedWorkflowModels(model);
+                        // cannot create two deployed workflow models of the
+                        // same
+                        // version
+                        if (j < numDeployedVersions) {
+                            model.setVersion(model.getVersion() + 1L);
+                        }
                     }
                 }
+
+                session.update(model);
+
+                fireProgressEvent(numModels, i + 1);
             }
-
-            session.update(model);
-
-            fireProgressEvent(numModels, i + 1);
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
         }
-
         return result;
     }
 
