@@ -59,11 +59,13 @@ public class ChangePasswordWindow extends Window {
     }
 
     /**
-     * Return the password form item which contains the new and the old
-     * password.<br>
+     * Return the password form item, which contains the new and the old
+     * password if the user filled the related input fields.<br>
      * Aleks, GH: that's *not* what's happening ~rr
+     * RR Well, better this way?
      * 
-     * @return passwordForm TODO document
+     * @return passwordForm
+     *          The item of the form, containing the value of its input fields
      */
     public Item getPasswords() {
         return passwordForm;

@@ -48,6 +48,9 @@ public class HelpDialogComponent extends Window {
         // Aleks, GH: why would you want the help to always force the decidr
         // theme? Shouldn't it have the current tenant's, just like everything
         // else? ~rr
+        // RR Does your help file changes its' style if you change your desktop wall paper?
+        // This way we can assure the help is always readable, no matter how the rest
+        // of the web site looks
         setTheme("decidr");
 
         VerticalLayout layout = (VerticalLayout) getContent();

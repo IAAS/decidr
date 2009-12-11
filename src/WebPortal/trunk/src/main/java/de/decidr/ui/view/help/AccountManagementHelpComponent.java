@@ -173,7 +173,8 @@ public class AccountManagementHelpComponent extends VerticalLayout {
                 + "&quot;Create Tenant&quot; using the navigation bar.</li>\n"
                 + "\t<li>Enter the tenant information.</li>\n"
                 + "\t<li>Click on the &quot;Save&quot; button.</li>\n"
-                // Aleks, GH: No error message or anything? Nothing happens? ~rr
+                // aleks, gh: No error message or anything? Nothing happens? ~rr
+                // RR please ask TK, he wrote all these texts
                 + "\t<li>If the tenant isn't already registered you are not "
                 + "the tenant admin of the newly created tenant</li>\n"
                 + "</ol>\n<br/>", Label.CONTENT_XHTML);

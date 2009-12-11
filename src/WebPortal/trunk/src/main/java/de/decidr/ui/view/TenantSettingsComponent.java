@@ -205,7 +205,7 @@ public class TenantSettingsComponent extends CustomComponent {
                 if (file == null) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent(
-                                    "Illegal Argument: File must not be null",
+                                    "Illegal Argument: File must not be empty",
                                     "Failure"));
                 } else {
                     FileInputStream fis;
@@ -238,25 +238,7 @@ public class TenantSettingsComponent extends CustomComponent {
                     }
 
                 }
-
-                Main.getCurrent().getMainWindow().addWindow(
-                        new InformationDialogComponent(Main.getCurrent()
-                                .getContext().getBaseDirectory().getPath(),
-                                "Path"));
-                File tmpF = null;
-                tmpF = new File(Main.getCurrent().getContext()
-                        .getBaseDirectory().getPath()
-                        + "/VAADIN/themes/decidr/styles.css");
-                // GH, Aleks: Rewrite text ~tk, js
-                if (tmpF.exists()) {
-                    Main.getCurrent().getMainWindow()
-                            .addWindow(
-                                    new InformationDialogComponent(Main
-                                            .getCurrent().getContext()
-                                            .getBaseDirectory().getPath(),
-                                            "we got em! <br/>"
-                                                    + tmpF.getAbsolutePath()));
-                }
+               
             }
         });
 

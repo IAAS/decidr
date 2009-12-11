@@ -32,8 +32,10 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action cancels the membership of a user.<br>
+ * This action cancels the decidr membership of a user.<br>
  * Aleks, GH: what membership? The one with the royal society? ~rr
+ * RR damn, where can i sign up? Of course his decidr membership, 
+ * since he is on his decidr profile settings page?
  * 
  * @author Geoffrey-Alexeij Heinze
  */
@@ -48,11 +50,7 @@ public class CancelMembershipAction implements ClickListener {
     private Long userId = (Long) session.getAttribute("userId");
     private UserFacade userFacade = new UserFacade(role);
 
-    /**
-     * Overrides the default buttonClick(ClickEvent event) of ClickListener to
-     * implement desired functionality.<br>
-     * Aleks, GH: no, it doesn't
-     */
+
     public void buttonClick(ClickEvent event) {
         // Aleks, GH: how to cancel membership?
 

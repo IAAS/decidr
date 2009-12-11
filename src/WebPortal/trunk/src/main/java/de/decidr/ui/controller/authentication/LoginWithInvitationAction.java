@@ -30,7 +30,7 @@ import de.decidr.ui.view.windows.InvitationDialogComponent;
 
 /**
  * This action implements the login procedure. It calls the authenticate method
- * and logs the user into the application and shows TODO finish sentence ~rr
+ * and logs the user into the application and shows a invitation dialog.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
@@ -61,6 +61,8 @@ public class LoginWithInvitationAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         try {
             // GH, Aleks: Please!!! try to avoid these! ~rr
+            // RR Run!!! Those are coming! (please be more specific with your
+            // description of the problem) ~gh
             login
                     .authenticate(((LoginComponent) uiDirector
                             .getTemplateView().getContent())
@@ -75,6 +77,5 @@ public class LoginWithInvitationAction implements ClickListener {
             Main.getCurrent().getMainWindow().showNotification(
                     "Login failed!");
         }
-        System.out.println(Main.getCurrent().getUser());
     }
 }

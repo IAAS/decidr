@@ -74,14 +74,11 @@ public class SaveTenantSettingsAction implements ClickListener {
 
             fileId = (Long) Main.getCurrent().getMainWindow().getData();
             if (fileId != null) {
-                Main.getCurrent().getMainWindow().showNotification(
-                        fileId.toString(),
-                        Window.Notification.TYPE_ERROR_MESSAGE);
+
                 tenantFacade.setLogo(tenantId, fileId);
             } else {
-                Main.getCurrent().getMainWindow().showNotification(
-                        "file id is null",
-                        Window.Notification.TYPE_ERROR_MESSAGE);
+                // no logo uploaded
+                
             }
 
             CssHandler cssHandler = new CssHandler(content);

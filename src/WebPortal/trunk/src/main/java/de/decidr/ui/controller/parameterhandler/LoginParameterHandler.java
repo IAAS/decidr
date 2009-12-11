@@ -69,8 +69,7 @@ public class LoginParameterHandler implements ParameterHandler {
                         .equals(DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY)) {
                     authKey = value;
                 } else {
-                    // GH, Aleks: show some error about the unrecognised
-                    // parameter! ~rr
+                    
                 }
             } catch (NumberFormatException e) {
                 Main.getCurrent().getMainWindow().addWindow(

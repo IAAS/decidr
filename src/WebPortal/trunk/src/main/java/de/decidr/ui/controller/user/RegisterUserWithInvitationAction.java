@@ -67,9 +67,6 @@ public class RegisterUserWithInvitationAction implements ClickListener {
         } catch (NullPointerException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
-            // Aleks, GH: the least you could have done is search for these bad
-            // boyz... ~rr
-            e.printStackTrace();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
@@ -118,6 +115,13 @@ public class RegisterUserWithInvitationAction implements ClickListener {
                     // Aleks, GH: *please* try to use your imagination - the
                     // user's actually supposed to glean some information from
                     // this, you now!? ~rr
+                    // RR Would 
+                    // "You received an invitation.
+                    // Sender: Karl Heinz.
+                    // You have been invited to: No reason specified
+                    // Do you want to confirm this invitation?"
+                    // be so bad if we have no information about the invitation reason? ~gh
+                    
                     concern = "No reason specified.";
                 }
 

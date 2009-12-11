@@ -86,6 +86,8 @@ public class InvitationParameterHandler implements ParameterHandler {
                 } else {
                     // GH, Aleks: show some error about the unrecognised
                     // parameter! ~rr
+                    // RR this would produce false positives since we use several
+                    // parameter handlers which look for different parameters. ~gh
                 }
 
             } catch (NumberFormatException e) {
@@ -128,6 +130,9 @@ public class InvitationParameterHandler implements ParameterHandler {
                         "workflowInstanceId").getValue().toString())) {
                     if (concern == null) {
                         // Aleks, GH: which one ~rr
+                        // RR This information is not available from the invitation
+                        // item we get from the facade. Tell me where it can be retrieved
+                        // and i'll add it. ~gh
                         concern = "Participate in a workflow";
                     } else {
                         // Aleks, GH: which one ~rr

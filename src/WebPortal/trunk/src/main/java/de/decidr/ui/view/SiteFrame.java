@@ -124,6 +124,7 @@ public class SiteFrame extends CustomComponent {
         splitPanel.setSecondComponent(content);
         this.content = content;
         // Aleks, GH: might this be a spelling error? ~rr
+        // RR no, the vowels are broken on my keyboard ~gh
         this.content.addStyleName("dcdr_content");
         this.content.setWidth("775px");
     }

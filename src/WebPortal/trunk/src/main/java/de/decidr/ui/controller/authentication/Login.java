@@ -129,6 +129,17 @@ public class Login {
         loadProtectedResources();
     }
 
+    /**
+     * Provides the same functionality as authenticate(..) but requires a user id
+     * and an authentification key.
+     * Should be used if login is executed by clicking i.e. an email link.
+     *
+     * @param userId
+     *          ID of the user to be logged in
+     * @param authentificationKey
+     *          auth key of the user to be logged in. If is not accepted by the facade,
+     *          login fails
+     */
     public void loginById(Long userId, String authentificationKey)
             throws EntityNotFoundException, TransactionException {
         userFacade = new UserFacade(new UserRole(userId));

@@ -70,9 +70,8 @@ public class CssHandler {
     private String tenant = "";
 
     /**
-     * The default constructor stores the given parameter.<br>
-     * Aleks, GH: great, this isn't the default constructor and none exists...
-     * ~rr
+     * The constructor of the CSSHandler requires a TenantSettingsComponent.
+     * The component is stored and later used to access the required input fields.
      */
     public CssHandler(TenantSettingsComponent component) {
 

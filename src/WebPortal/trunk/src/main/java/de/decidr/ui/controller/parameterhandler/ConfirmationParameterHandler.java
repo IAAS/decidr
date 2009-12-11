@@ -83,8 +83,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                 confirmationId = value;
                 action = "pass";
             } else {
-                // GH, Aleks: show some error about the unrecognised parameter!
-                // ~rr
+
             }
         }
 
@@ -126,8 +125,6 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
-                    // GH, Aleks: WTF? not even a logger?!? ~rr
-                    e.printStackTrace();
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
@@ -147,8 +144,6 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
-                    // GH, Aleks: WTF? not even a logger?!? ~rr
-                    e.printStackTrace();
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));

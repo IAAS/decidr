@@ -16,13 +16,6 @@
 
 package de.decidr.ui.controller.show;
 
-/**
- * This actions displays the ConfirmDialogComponent<br>
- * Aleks, GH: this comment is wrong on so many levels... ;-)
- * (pun intended - class comments go over the class, not the imports) ~rr
- *
- * @author Geoffrey-Alexeij Heinze
- */
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -31,6 +24,14 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.user.CancelMembershipAction;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ConfirmDialogWindow;
+
+
+/**
+ * This actions displays the ConfirmDialogComponent<br>
+ * that allows the user to cancel his membership.
+ *
+ * @author Geoffrey-Alexeij Heinze
+ */
 
 @Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.PassedWithComments)
 public class ShowCancelMembershipAction implements ClickListener {
