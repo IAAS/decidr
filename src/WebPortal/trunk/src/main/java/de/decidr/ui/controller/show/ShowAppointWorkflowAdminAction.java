@@ -69,14 +69,12 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
             
             if(row != null){
                 Long wfmId = null;
-                
+                Main.getCurrent().getMainWindow().showNotification(row.toString(),Window.Notification.TYPE_ERROR_MESSAGE);
                 wfmId = Long.parseLong((String) table.getContainerProperty(row, "ID").getValue());
                 
                 if (wfmId != null){
                     siteFrame.setContent(new AppointWorkflowAdminComponent(wfmId));
-                }
-            }else{
-                Main.getCurrent().getMainWindow().showNotification("no row selected",Window.Notification.TYPE_ERROR_MESSAGE);
+                }   
             }
             
         } else {
