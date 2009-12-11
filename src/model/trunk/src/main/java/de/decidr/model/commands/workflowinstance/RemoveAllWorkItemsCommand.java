@@ -25,7 +25,6 @@ import de.decidr.model.transactions.TransactionEvent;
  * 
  * @author Markus Fischer
  * @author Daniel Huss
- * 
  * @version 0.1
  */
 public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
@@ -62,14 +61,14 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        evt
-                .getSession()
-                .createQuery(
-                        "delete from WorkItem item "
-                                + "where item.workflowInstance.odePid = :pid "
-                                + "and item.workflowInstance.deployedWorkflowModel.id = :wid")
-                .setString("pid", odePid).setLong("wid",
-                        deployedWorkflowModelId).executeUpdate();
+        evt.getSession().createQuery(
+                "delete from WorkItem item "
+                        + "where exists(from WorkflowInstance wi"
+                        + " where item.workflowInstance.id = wi.id"
+                        + " and wi.odePid = :pid "
+                        + "and wi.deployedWorkflowModel.id = :wid)").setString(
+                "pid", odePid).setLong("wid", deployedWorkflowModelId)
+                .executeUpdate();
     }
 
     @Override
