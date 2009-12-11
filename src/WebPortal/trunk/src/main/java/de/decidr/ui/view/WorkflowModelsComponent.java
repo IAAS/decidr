@@ -148,7 +148,7 @@ public class WorkflowModelsComponent extends CustomComponent {
                 new PublishWorkflowModelAction(workflowModelTable));
         unpublishModelButton = new Button("Un-publish",
                 new UnpublishWorkflowModelsAction(workflowModelTable));
-        appointWorkflowAdminButton = new Button("Appoint workflow admin 001",
+        appointWorkflowAdminButton = new Button("Appoint workflow admin",
                 new ShowAppointWorkflowAdminAction(workflowModelTable));
 
         setCompositionRoot(verticalLayout);
