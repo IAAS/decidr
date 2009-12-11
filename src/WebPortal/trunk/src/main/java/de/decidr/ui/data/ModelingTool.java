@@ -54,6 +54,8 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 @Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.Passed)
 public class ModelingTool extends AbstractComponent {
 
+    private static final long serialVersionUID = -2284244108529453836L;
+
     private Logger logger = DefaultLogger.getLogger(ModelingTool.class);
 
     private HttpSession session = null;
@@ -150,10 +152,6 @@ public class ModelingTool extends AbstractComponent {
                     .getValue().toString();
             logger.debug("[Modeling Tool] Retrieving dwdl document was"
                     + " successfull");
-            // JS remove this line
-            logger.debug("[Modeling Tool] DWDL: "
-                    + new String((byte[]) workflowModel.getItemProperty("dwdl")
-                            .getValue()));
             return new String((byte[]) workflowModel.getItemProperty("dwdl")
                     .getValue());
         } catch (TransactionException e) {
