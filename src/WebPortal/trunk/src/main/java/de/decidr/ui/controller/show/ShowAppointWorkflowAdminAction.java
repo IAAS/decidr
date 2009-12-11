@@ -64,8 +64,8 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        if (table == null){
-            Main.getCurrent().getMainWindow().showNotification("table is null!", Window.Notification.TYPE_ERROR_MESSAGE);    
+        if (siteFrame == null){
+            Main.getCurrent().getMainWindow().showNotification("siteFrame is null!", Window.Notification.TYPE_ERROR_MESSAGE);    
         }
         
         if (!table.getValue().getClass().equals(Set.class)) {
