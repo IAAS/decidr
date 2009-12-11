@@ -64,13 +64,16 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        if (siteFrame == null){
-            Main.getCurrent().getMainWindow().showNotification("siteFrame is null!", Window.Notification.TYPE_ERROR_MESSAGE);    
-        }
-        
         if (!table.getValue().getClass().equals(Set.class)) {
-            siteFrame.setContent(new AppointWorkflowAdminComponent((Long) table
-                    .getContainerProperty(table.getValue(), "id").getValue()));
+            Object row = table.getValue();
+            
+            if(row != null){
+                siteFrame.setContent(new AppointWorkflowAdminComponent((Long) table
+                        .getContainerProperty(row, "id").getValue()));
+            }else{
+                Main.getCurrent().getMainWindow().showNotification("no row selected",Window.Notification.TYPE_ERROR_MESSAGE);
+            }
+            
         } else {
             // Aleks, GH: why? there can be several according to model &
             // AppointWorkflowAdminAction ~rr
