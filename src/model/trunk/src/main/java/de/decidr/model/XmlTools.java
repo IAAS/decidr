@@ -27,6 +27,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
+import org.w3c.dom.Element;
+
 import de.decidr.model.workflowmodel.humantask.DWDLSimpleVariableType;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
@@ -64,8 +66,15 @@ public class XmlTools {
                 TTaskItem taskItem = (TTaskItem) o;
                 if (DWDLSimpleVariableType.ANY_URI.equals(taskItem.getType())) {
                     try {
-                        result.add(Long.parseLong(taskItem.getValue()
-                                .toString()));
+                        Object value = taskItem.getValue();
+                        String toParse;
+                        if (value instanceof Element) {
+                            toParse = ((Element) value).getTextContent();
+                        } else {
+                            toParse = value.toString();
+                        }
+
+                        result.add(Long.parseLong(toParse));
                     } catch (NumberFormatException e) {
                         // the value is not a file, which is not a critical
                         // error and perfectly valid if the user has entered
