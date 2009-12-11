@@ -69,8 +69,7 @@ public class AppointWorkflowAdminAction implements ClickListener {
         List<String> userNames = new ArrayList<String>();
 
         for (Integer c = 1; c <= appointForm.getItemPropertyIds().size(); c++) {
-            Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent(
-                    appointForm.getItemProperty("user"+c.toString()).getValue().toString(), "Items"));
+
             if (appointForm.getItemProperty("user" + c.toString()) != null) {
                 if (appointForm.getItemProperty("user" + c.toString())
                         .getValue().toString().contains("@")) {
