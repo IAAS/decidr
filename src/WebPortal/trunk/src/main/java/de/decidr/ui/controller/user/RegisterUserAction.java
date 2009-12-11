@@ -63,12 +63,8 @@ public class RegisterUserAction implements ClickListener {
         Form form = content.getRegistrationForm();
         boolean notEmpty = true;
 
-        // GH, Aleks: *English* comments!!!
-        // Geht die einzelnen Felder durch und prüft ob die Felder nicht leer
-        // (notEmpty) sind.
-        // Sobald ein Feld leer ist, wird notEmpty auf false gesetzt. Dabei
-        // werden nur die Felder durchgegangen, die
-        // required sind und deren Wert leer ist.
+        // loop through the fields that are marked as required in the form
+        // and check whether they are empty or not
         for (Object propertyId : content.getRegistrationForm()
                 .getItemPropertyIds()) {
             if (notEmpty) {
@@ -80,12 +76,10 @@ public class RegisterUserAction implements ClickListener {
             }
         }
 
-        // GH, Aleks: *English* comments!!!
-        // Hier wird nun geschaut ob die Felder leer sind. Wenn sie nicht leer
-        // sind, dann
-        // speichere die Einträge und registriere den User. Wenn die Felder leer
-        // sind,
-        // dann wird der User aufgefordert die nötigen Felder auszufüllen.
+        // If the required fields are not empty, save the content and 
+        // register the user
+        // If one ore more of the required fields is empty, ask the user 
+        // to complete his input fields
         if (notEmpty) {
             content.saveRegistrationForm();
 
@@ -101,13 +95,7 @@ public class RegisterUserAction implements ClickListener {
                                 "Registration successful"));
                 siteFrame.setContent(new WelcomePageComponent());
             } catch (NullPointerException e) {
-                Main
-                        .getCurrent()
-                        .getMainWindow()
-                        .addWindow(new InformationDialogComponent(
-                        // Aleks, GH: what about providing a useful error
-                                // message? Sounds fun, no? ~rr
-                                "Null selection not allowed", "Null selection"));
+
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
