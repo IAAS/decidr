@@ -32,8 +32,10 @@ import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.stubs.DeployerImplStub;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.deployment.Deployer;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 import de.decidr.model.workflowmodel.deployment.DeploymentResult;
 import de.decidr.model.workflowmodel.deployment.StandardDeploymentStrategy;
@@ -91,8 +93,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
              * There is no current deployed version of our workflow model, so we
              * have to deploy it now.
              */
-
-            DeployerImpl dManager = new DeployerImpl();
+            Deployer deployer = new DeployerImplStub();
 
             // Fill deployedWorkflowModel with data
             DeployedWorkflowModel dwfm = new DeployedWorkflowModel();
@@ -121,7 +122,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
 
             // deploy it
             try {
-                result = dManager.deploy(workflowModel.getDwdl(), webservices,
+                result = deployer.deploy(workflowModel.getDwdl(), webservices,
                         workflowModel.getTenant().getName(), serverStatistics,
                         new StandardDeploymentStrategy());
 
@@ -136,7 +137,7 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
                             sid));
                 }
 
-                dwfm.setDeployDate(result.getDoplementDate());
+                dwfm.setDeployDate(result.getDeploymentDate());
                 dwfm.setSoapTemplate(result.getSOAPTemplate());
                 dwfm.setWorkflowModelIsDeployedOnServers(dbEntry);
 
@@ -152,12 +153,12 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
 
-        DeployerImpl dManager = new DeployerImpl();
+        Deployer deployer = new DeployerImplStub();
 
         for (Long serverId : result.getServers()) {
 
             try {
-                dManager.undeploy(newDeployedWorkflowModel, (Server) evt
+                deployer.undeploy(newDeployedWorkflowModel, (Server) evt
                         .getSession().get(Server.class, serverId));
             } catch (Exception e) {
                 throw new TransactionException(e);

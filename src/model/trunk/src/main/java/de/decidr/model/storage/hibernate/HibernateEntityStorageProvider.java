@@ -17,6 +17,7 @@
 package de.decidr.model.storage.hibernate;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
@@ -24,14 +25,15 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.hibernate.EntityMode;
 import org.hibernate.Session;
-import org.hibernate.SessionException;
 
-import de.decidr.model.commands.TransactionalCommand;
+import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.exceptions.IncompleteConfigurationException;
 import de.decidr.model.exceptions.StorageException;
+import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * {@link StorageProvider} that uses a Hibernate entity to store files in a
@@ -51,10 +53,9 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * </ul>
  * <ul>
  * <p>
- * This storage provider uses the {@link HibernateTransactionCoordinator} to
- * retrieve the current Hibernate session.<br>
- * This means that you must invoke the storage methods from within a
- * {@link TransactionalCommand}, otherwise the methods will fail.
+ * If this storage provider is invoked from within a transaction, changes made
+ * to the storage backend can be rolled back. Each storage operation implemented
+ * as a (nested / nestable) transaction.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -120,25 +121,6 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     private Boolean createEntity = false;
 
     /**
-     * @return the current opened HibernateSession .
-     * @throws SessionException
-     *             if the current session is not open or if there is no current
-     *             session.
-     */
-    private Session getCurrentSession() throws SessionException {
-        Session result = HibernateTransactionCoordinator.getInstance()
-                .getCurrentSession();
-        if (result == null) {
-            throw new SessionException("There is no current session.");
-        }
-        if (!result.isOpen()) {
-            throw new SessionException("The current session is not open.");
-        }
-
-        return result;
-    }
-
-    /**
      * Throws an {@link IllegalArgumentException} if the given file ID is
      * <code>null</code>.
      * 
@@ -159,11 +141,13 @@ public class HibernateEntityStorageProvider implements StorageProvider {
      * 
      * @param fileSize
      *            file size to check
+     * @return checked file size
      */
-    private void checkFileSize(Long fileSize) {
+    private long checkFileSize(Long fileSize) {
         if (fileSize == null || fileSize < 0) {
             throw new IllegalArgumentException("Invalid file size.");
         }
+        return fileSize;
     }
 
     @Override
@@ -207,55 +191,21 @@ public class HibernateEntityStorageProvider implements StorageProvider {
     /**
      * Internal class that represents the <code>null</code> value.
      */
-    private class NullObject {
+    static class NullObject {
         // No content other than class definition intended
     }
 
     @Override
     public InputStream getFile(Long fileId) throws StorageException {
-        logger.debug("Retrieving file with ID "
+        logger.debug("Getting contents of file with ID "
                 + (fileId == null ? "null" : fileId.toString()));
-        fileId =  checkFileId(fileId);
-        Session session = getCurrentSession();
-
-        String hql = "select f." + dataPropertyName + " from " + entityTypeName
-                + " f where f." + idPropertyName + "=" + fileId.toString();
-        logger.debug("HQL query: " + hql);
-
-        List<?> data = session.createQuery(hql).setMaxResults(1).list();
-        if (data.isEmpty()) {
-            throw new StorageException("File not found");
+        GetFileCommand cmd = new GetFileCommand(this, checkFileId(fileId));
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        } catch (TransactionException e) {
+            throw new StorageException(e);
         }
-
-        // we can only deal with BLOBS that are mapped to byte arrays and
-        // strings.
-        Object dataObject = data.get(0);
-        InputStream stream;
-        if (dataObject instanceof String) {
-            stream = new ByteArrayInputStream(dataObject.toString().getBytes());
-        } else if (dataObject instanceof byte[]) {
-            stream = new ByteArrayInputStream((byte[]) dataObject);
-        } else {
-            // we cannot deal with this kind of content
-            if (dataObject == null) {
-                dataObject = new NullObject();
-            }
-            String className;
-            Class<? extends Object> clazz = dataObject.getClass();
-            if (clazz == null) {
-                className = "!unknown class!";
-            } else {
-                className = clazz.getName();
-            }
-
-            String message = String
-                    .format(
-                            "The property %1$s has type %2$s, which cannot be mapped to a byte array.",
-                            dataPropertyName, className);
-            throw new StorageException(message);
-        }
-
-        return stream;
+        return cmd.stream;
     }
 
     @Override
@@ -297,37 +247,284 @@ public class HibernateEntityStorageProvider implements StorageProvider {
             throws StorageException {
         logger.debug("Putting file with ID "
                 + (fileId == null ? "null" : fileId.toString()));
-        fileId = checkFileId(fileId);
-        checkFileSize(fileSize);
-        if (data == null) {
-            throw new IllegalArgumentException("Data must not be null.");
+        PutFileCommand cmd = new PutFileCommand(this, checkFileId(fileId),
+                checkFileSize(fileSize), data);
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        } catch (TransactionException e) {
+            throw new StorageException(e);
+        }
+    }
+
+    @Override
+    public void removeFile(Long fileId) throws StorageException {
+        logger.debug("Removing file with ID "
+                + (fileId == null ? "null" : fileId.toString()));
+
+        RemoveFileCommand cmd = new RemoveFileCommand(this, checkFileId(fileId));
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        } catch (TransactionException e) {
+            throw new StorageException(e);
+        }
+    }
+
+    /**
+     * @return the entityTypeName
+     */
+    public String getEntityTypeName() {
+        return entityTypeName;
+    }
+
+    /**
+     * @param entityTypeName
+     *            the entityTypeName to set
+     */
+    public void setEntityTypeName(String entityTypeName) {
+        this.entityTypeName = entityTypeName;
+    }
+
+    /**
+     * @return the dataPropertyName
+     */
+    public String getDataPropertyName() {
+        return dataPropertyName;
+    }
+
+    /**
+     * @param dataPropertyName
+     *            the dataPropertyName to set
+     */
+    public void setDataPropertyName(String dataPropertyName) {
+        this.dataPropertyName = dataPropertyName;
+    }
+
+    /**
+     * @return the idPropertyName
+     */
+    public String getIdPropertyName() {
+        return idPropertyName;
+    }
+
+    /**
+     * @param idPropertyName
+     *            the idPropertyName to set
+     */
+    public void setIdPropertyName(String idPropertyName) {
+        this.idPropertyName = idPropertyName;
+    }
+
+    /**
+     * @return the entityInitializerClass
+     */
+    public String getEntityInitializerClass() {
+        return entityInitializerClass;
+    }
+
+    /**
+     * @param entityInitializerClass
+     *            the entityInitializerClass to set
+     */
+    public void setEntityInitializerClass(String entityInitializerClass) {
+        this.entityInitializerClass = entityInitializerClass;
+    }
+
+    /**
+     * @return the deleteEntity
+     */
+    public Boolean getDeleteEntity() {
+        return deleteEntity;
+    }
+
+    /**
+     * @param deleteEntity
+     *            the deleteEntity to set
+     */
+    public void setDeleteEntity(Boolean deleteEntity) {
+        this.deleteEntity = deleteEntity;
+    }
+
+    /**
+     * @return the createEntity
+     */
+    public Boolean getCreateEntity() {
+        return createEntity;
+    }
+
+    /**
+     * @param createEntity
+     *            the createEntity to set
+     */
+    public void setCreateEntity(Boolean createEntity) {
+        this.createEntity = createEntity;
+    }
+
+    /**
+     * Abstract base class for commands that require the
+     * {@link HibernateEntityStorageProvider} configuration.
+     */
+    static abstract class HibernateStorageProviderCommand extends
+            AbstractTransactionalCommand {
+
+        /**
+         * Storage provider that holds the config values.
+         */
+        protected HibernateEntityStorageProvider owner = null;
+
+        /**
+         * ID of file that is read / modified
+         */
+        protected long fileId;
+
+        /**
+         * Creates a new HibernateStorageProviderCommand
+         * 
+         * @param owner
+         *            storage provider that holds config values.
+         * @param fileId
+         *            ID of file that is read / modified
+         */
+        public HibernateStorageProviderCommand(
+                HibernateEntityStorageProvider owner, long fileId) {
+            if (owner == null) {
+                throw new IllegalArgumentException("Owner must not be null.");
+            }
+            this.owner = owner;
+            this.fileId = fileId;
+        }
+    }
+
+    /**
+     * Retrieves file contents within a (nested) transaction.
+     */
+    static class GetFileCommand extends HibernateStorageProviderCommand {
+
+        public InputStream stream = null;
+
+        /**
+         * Creates a new GetFileCommand
+         * 
+         * @param owner
+         *            storage provider that holds config values.
+         * @param fileId
+         *            ID of file that is read
+         */
+        public GetFileCommand(HibernateEntityStorageProvider owner, long fileId) {
+            super(owner, fileId);
         }
 
-        try {
-            // reading the entire file into a byte array may not be the most
-            // elegant solution, but for small files
-            // this should work well.
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            stream = null;
+
+            Session session = evt.getSession();
+
+            String hql = "select f." + owner.dataPropertyName + " from "
+                    + owner.entityTypeName + " f where f."
+                    + owner.idPropertyName + "=" + fileId;
+            logger.debug("HQL query: " + hql);
+
+            List<?> data = session.createQuery(hql).setMaxResults(1).list();
+            if (data.isEmpty()) {
+                throw new TransactionException("File not found");
+            }
+
+            // we can only deal with BLOBS that are mapped to byte arrays and
+            // strings.
+            Object dataObject = data.get(0);
+            if (dataObject instanceof String) {
+                stream = new ByteArrayInputStream(dataObject.toString()
+                        .getBytes());
+            } else if (dataObject instanceof byte[]) {
+                stream = new ByteArrayInputStream((byte[]) dataObject);
+            } else {
+                // we cannot deal with this kind of content
+                if (dataObject == null) {
+                    dataObject = new NullObject();
+                }
+                String className;
+                Class<? extends Object> clazz = dataObject.getClass();
+                if (clazz == null) {
+                    className = "!unknown class!";
+                } else {
+                    className = clazz.getName();
+                }
+
+                String message = String
+                        .format(
+                                "The property %1$s has type %2$s, which cannot be mapped to a byte array.",
+                                owner.dataPropertyName, className);
+                throw new TransactionException(message);
+            }
+        }
+    }
+
+    /**
+     * Creates or replaces file contents within a (nested) transaction.
+     */
+    static class PutFileCommand extends HibernateStorageProviderCommand {
+
+        private long fileSize;
+        private InputStream data;
+
+        /**
+         * Creates a new PutFileCommand
+         * 
+         * @param owner
+         *            storage provider that holds config values.
+         * @param fileId
+         *            ID of file that is created / modified
+         * @param fileSize
+         *            number of bytes to read from data
+         * @param data
+         *            file contents to put
+         * @throws IllegalArgumentException
+         *             if data is <code>null</code>
+         * @throws StorageException
+         *             if the file is larger than Integer.MAX_VALUE
+         */
+        public PutFileCommand(HibernateEntityStorageProvider owner,
+                long fileId, long fileSize, InputStream data)
+                throws StorageException {
+            super(owner, fileId);
             if (fileSize > Integer.MAX_VALUE) {
                 throw new StorageException("File is too large.");
             }
+            if (data == null) {
+                throw new IllegalArgumentException("Data must not be null.");
+            }
+            this.fileSize = fileSize;
+            this.data = data;
+        }
 
-            byte[] bytes = new byte[fileSize.intValue()];
-            data.read(bytes, 0, fileSize.intValue());
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            // reading the entire file into a byte array may not be the most
+            // elegant solution, but for small files
+            // this should work well.
+            byte[] bytes = new byte[(int) fileSize];
+            try {
+                data.read(bytes, 0, (int) fileSize);
+            } catch (IOException e) {
+                throw new TransactionException(e);
+            }
 
-            Session session = getCurrentSession();
+            Session session = evt.getSession();
 
-            if (createEntity) {
+            if (owner.createEntity) {
                 // Does a file entity already exist?
                 Number existing = (Number) session.createQuery(
-                        "select count(*) from " + entityTypeName
-                                + " f where f." + idPropertyName + " = "
-                                + fileId.toString()).uniqueResult();
+                        "select count(*) from " + owner.entityTypeName
+                                + " f where f." + owner.idPropertyName + " = "
+                                + fileId).uniqueResult();
                 if (existing.intValue() < 1) {
                     Object newEntity = session.getSessionFactory()
-                            .getClassMetadata(entityTypeName).instantiate(
-                                    fileId, EntityMode.POJO);
+                            .getClassMetadata(owner.entityTypeName)
+                            .instantiate(fileId, EntityMode.POJO);
                     logger.debug("Creating new file entity of type "
-                            + entityTypeName);
+                            + owner.entityTypeName);
                     initNewFileEntity(newEntity);
                     session.save(newEntity);
                 }
@@ -335,9 +532,9 @@ public class HibernateEntityStorageProvider implements StorageProvider {
 
             // at this point we may assume that the entity identified by fileId
             // exists.
-            String hql = "update " + entityTypeName + " f set f."
-                    + dataPropertyName + " = :bytes where f." + idPropertyName
-                    + " = " + fileId.toString();
+            String hql = "update " + owner.entityTypeName + " f set f."
+                    + owner.dataPropertyName + " = :bytes where f."
+                    + owner.idPropertyName + " = " + fileId;
             logger.debug("HQL query: " + hql);
             int updatedRows = session.createQuery(hql)
                     .setBinary("bytes", bytes).executeUpdate();
@@ -350,69 +547,87 @@ public class HibernateEntityStorageProvider implements StorageProvider {
                                 "Cannot put file since there is "
                                         + "no existing entity for ID %1$s.\n"
                                         + "Please create a corresponding %2$s entity first.",
-                                fileId, entityTypeName);
-                throw new StorageException(message);
-            }
-        } catch (Exception e) {
-            if (e instanceof StorageException) {
-                throw (StorageException) e;
-            } else {
-                throw new StorageException(e);
+                                fileId, owner.entityTypeName);
+                throw new TransactionException(message);
             }
         }
-    }
 
-    @Override
-    public void removeFile(Long fileId) throws StorageException {
-        logger.debug("Removing file with ID "
-                + (fileId == null ? "null" : fileId.toString()));
-        fileId = checkFileId(fileId);
+        /**
+         * Initializes the given file entity with default values for all
+         * properties that are not nullable.
+         * 
+         * @param entity
+         *            entity to initialize
+         * @throws TransactionException
+         *             <ul>
+         *             <li>if the entity initializer class cannot be found.</li>
+         *             <li>if the entity initalizer cannot be instantiated
+         *             because its parameterless constructor is not visible.</li>
+         *             <li>if the entity initializer cannot be instantiated.</li>
+         *             <li>if the provided file entity initializer class does
+         *             not actually implement {@link FileEntityInitializer}</li>
+         *             </ul>
+         */
+        private void initNewFileEntity(Object entity)
+                throws TransactionException {
+            logger.debug("Initializing new file entity.");
+            try {
+                Class<?> clazz = Class.forName(owner.entityInitializerClass);
+                if (!FileEntityInitializer.class.isAssignableFrom(clazz)) {
+                    throw new ClassCastException(
+                            "Given file entity initializer '"
+                                    + owner.entityInitializerClass
+                                    + "' does not implement FileEntityInitializer interface.");
+                }
 
-        String hql;
-        if (deleteEntity) {
-            hql = "delete from " + entityTypeName + " f where f."
-                    + idPropertyName + "=" + fileId.toString();
-        } else {
-            hql = "update " + entityTypeName + " f set f." + dataPropertyName
-                    + "=null where f." + idPropertyName + "="
-                    + fileId.toString();
+                FileEntityInitializer instance = (FileEntityInitializer) clazz
+                        .newInstance();
+                instance.initEntity(entity);
+            } catch (ClassCastException e) {
+                throw new TransactionException(e);
+            } catch (InstantiationException e) {
+                throw new TransactionException(e);
+            } catch (IllegalAccessException e) {
+                throw new TransactionException(e);
+            } catch (ClassNotFoundException e) {
+                throw new TransactionException(e);
+            }
         }
-
-        logger.debug("HQL query: " + hql);
-
-        getCurrentSession().createQuery(hql).executeUpdate();
     }
 
     /**
-     * Initializes the given file entity with default values for all properties
-     * that are not nullable.
-     * 
-     * @param entity
-     *            entity to initialize
-     * @throws ClassNotFoundException
-     *             if the entity initializer class cannot be found.
-     * @throws IllegalAccessException
-     *             if the entity initalizer cannot be instantiated because its
-     *             parameterless constructor is not visible.
-     * @throws InstantiationException
-     *             if the entity initializer cannot be instantiated.
-     * @throws ClassCastException
-     *             if the provided file entity initializer class does not
-     *             actually implement {@link FileEntityInitializer}
+     * Removes file contents within a (nested) transaction.
      */
-    private void initNewFileEntity(Object entity)
-            throws ClassNotFoundException, InstantiationException,
-            IllegalAccessException {
-        logger.debug("Initializing new file entity.");
-        Class<?> clazz = Class.forName(entityInitializerClass);
-        if (!FileEntityInitializer.class.isAssignableFrom(clazz)) {
-            throw new ClassCastException("Given file entity initializer '"
-                    + entityInitializerClass
-                    + "' does not implement FileEntityInitializer interface.");
+    static class RemoveFileCommand extends HibernateStorageProviderCommand {
+
+        /**
+         * Creates a new RemoveFileCommand
+         * 
+         * @param owner
+         *            storage provider that holds config values.
+         * @param fileId
+         *            ID of file that is read
+         */
+        public RemoveFileCommand(HibernateEntityStorageProvider owner,
+                long fileId) {
+            super(owner, fileId);
         }
 
-        FileEntityInitializer instance = (FileEntityInitializer) clazz
-                .newInstance();
-        instance.initEntity(entity);
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            String hql;
+            if (owner.deleteEntity) {
+                hql = "delete from " + owner.entityTypeName + " f where f."
+                        + owner.idPropertyName + "=" + fileId;
+            } else {
+                hql = "update " + owner.entityTypeName + " f set f."
+                        + owner.dataPropertyName + " = null where f."
+                        + owner.idPropertyName + "=" + fileId;
+            }
+
+            logger.debug("HQL query: " + hql);
+            evt.getSession().createQuery(hql).executeUpdate();
+        }
     }
 }

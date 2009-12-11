@@ -29,9 +29,9 @@ public interface DeploymentResult {
 
     public List<Long> getServers();
     
-    public Date getDoplementDate();
+    public Date getDeploymentDate();
     
-    public void setDoplementDate(Date deploymentDate);
+    public void setDeploymentDate(Date deploymentDate);
     
     public void setServers(List<Long> servers);
     

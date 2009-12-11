@@ -121,7 +121,7 @@ public class DeployerImpl implements Deployer {
 
         // create a deployment result
         result = new DeploymentResultImpl();
-        result.setDoplementDate(DecidrGlobals.getTime().getTime());
+        result.setDeploymentDate(DecidrGlobals.getTime().getTime());
         try {
             SOAPMessage soap = translator.getSOAPTemplate();
             result.setSOAPTemplate(TransformUtil.SOAPMessagetoBytes(soap));

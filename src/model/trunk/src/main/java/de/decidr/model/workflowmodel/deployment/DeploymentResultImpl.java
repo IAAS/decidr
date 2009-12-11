@@ -32,7 +32,7 @@ public class DeploymentResultImpl implements DeploymentResult {
     private byte[] soapMessage;
     private Date deployDate;
     @Override
-    public Date getDoplementDate() {
+    public Date getDeploymentDate() {
         return deployDate;
     }
     @Override
@@ -40,7 +40,7 @@ public class DeploymentResultImpl implements DeploymentResult {
         return servers;
     }
     @Override
-    public void setDoplementDate(Date deploymentDate) {
+    public void setDeploymentDate(Date deploymentDate) {
         deployDate = deploymentDate;
     }
     @Override
