@@ -18,6 +18,8 @@ package de.decidr.model.exceptions;
 
 import java.io.Serializable;
 
+import javax.xml.ws.WebFault;
+
 /**
  * Thrown when an entity is not found in the database, but is required to
  * perform the operation.
@@ -25,9 +27,11 @@ import java.io.Serializable;
  * @author Daniel Huss
  * @version 0.1
  */
+@WebFault(targetNamespace = "http://decidr.de/model/exceptions", name = "entityNotFoundException")
 public class EntityNotFoundException extends TransactionException {
 
     private static final long serialVersionUID = 1L;
+    private String serviceDetail = "";
 
     /**
      * Creates a new EntityNotFoundException that indicates that an entity was
@@ -72,5 +76,14 @@ public class EntityNotFoundException extends TransactionException {
         super(String.format("The %1$s \"%2$s\" was not found in the database",
                 entityClass == null ? "null" : entityClass.getSimpleName(),
                 entityDescription));
+    }
+
+    /**
+     * Method returning {@link TransactionException#getFaultInfo} needed for
+     * {@link WebFault} annotation.
+     */
+    @Override
+    public String getFaultInfo() {
+        return serviceDetail;
     }
 }

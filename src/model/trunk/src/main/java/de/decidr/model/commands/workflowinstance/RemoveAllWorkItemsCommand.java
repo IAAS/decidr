@@ -39,7 +39,7 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
      * items of the given workflow instance.
      * 
      * @param role
-     *            user / system executing the command
+     *            user/system executing the command
      * @param odePid
      *            workflow instance process ID.
      * @param deployedWorkflowModelId

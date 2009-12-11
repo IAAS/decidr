@@ -26,7 +26,6 @@ package de.decidr.model.exceptions;
 public class DeploymentException {
 
     public DeploymentException() {
-        // for further development of Decidr
+        // for further development of DecidR
     }
-
 }

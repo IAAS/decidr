@@ -39,6 +39,12 @@ public class ObjectFactory {
     private final static QName _TransactionException_QNAME = new QName(
             EXCEPTION_NAMESPACE, "transactionException");
 
+    private final static QName _EntityNotFoundException_QNAME = new QName(
+            EXCEPTION_NAMESPACE, "entityNotFoundException");
+
+    private final static QName _UserDisabledException_QNAME = new QName(
+            EXCEPTION_NAMESPACE, "userDisabledException");
+
     private final static QName _StorageException_QNAME = new QName(
             EXCEPTION_NAMESPACE, "storageException");
 
@@ -59,6 +65,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "transactionException")
     public JAXBElement<String> createTransactionException(String value) {
         return new JAXBElement<String>(_TransactionException_QNAME,
+                String.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "entityNotFoundException")
+    public JAXBElement<String> createEntityNotFoundException(String value) {
+        return new JAXBElement<String>(_EntityNotFoundException_QNAME,
+                String.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "userDisabledException")
+    public JAXBElement<String> createUserDisabledException(String value) {
+        return new JAXBElement<String>(_UserDisabledException_QNAME,
                 String.class, null, value);
     }
 

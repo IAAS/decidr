@@ -28,5 +28,4 @@ public class ValidateException extends DeploymentException {
     public ValidateException() {
         super();
     }
-
 }

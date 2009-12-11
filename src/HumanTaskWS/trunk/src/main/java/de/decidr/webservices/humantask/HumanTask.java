@@ -93,7 +93,8 @@ public class HumanTask implements HumanTaskInterface {
     public void taskCompleted(long taskID) throws TransactionException,
             ReportingException {
         log.trace("Entering method: taskCompleted");
-        log.debug("getting data associated with task");
+
+        log.debug("getting data associated with the task");
         GetWorkItemCommand cmd = new GetWorkItemCommand(HUMANTASK_ROLE, taskID);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         WorkItem workItem = cmd.getResult();

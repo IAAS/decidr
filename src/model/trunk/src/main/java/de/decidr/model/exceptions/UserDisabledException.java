@@ -16,6 +16,8 @@
 
 package de.decidr.model.exceptions;
 
+import javax.xml.ws.WebFault;
+
 import de.decidr.model.entities.User;
 
 /**
@@ -25,9 +27,11 @@ import de.decidr.model.entities.User;
  * @author Daniel Huss
  * @version 0.1
  */
+@WebFault(targetNamespace = "http://decidr.de/model/exceptions", name = "userDisabledException")
 public class UserDisabledException extends TransactionException {
 
     private static final long serialVersionUID = 1L;
+    private String serviceDetail = "";
 
     private User user;
 
@@ -36,7 +40,7 @@ public class UserDisabledException extends TransactionException {
      *            the disabled user
      */
     public UserDisabledException(User user) {
-        super("The user has been disabled by the super admin");
+        super("The user has been disabled by the super admin.");
         this.user = user;
     }
 
@@ -45,5 +49,14 @@ public class UserDisabledException extends TransactionException {
      */
     public User getUser() {
         return user;
+    }
+
+    /**
+     * Method returning {@link TransactionException#getFaultInfo} needed for
+     * {@link WebFault} annotation.
+     */
+    @Override
+    public String getFaultInfo() {
+        return serviceDetail;
     }
 }
