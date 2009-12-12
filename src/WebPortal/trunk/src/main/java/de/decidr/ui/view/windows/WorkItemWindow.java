@@ -16,8 +16,16 @@
 
 package de.decidr.ui.view.windows;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import org.jdom.JDOMException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
+
 import com.vaadin.data.validator.IntegerValidator;
-import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.DateField;
@@ -27,15 +35,19 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.DWDLSimpleVariableType;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TInformation;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
-import de.decidr.ui.controller.HideDialogWindowAction;
+import de.decidr.ui.controller.HideWindowAndDeleteFileAction;
 import de.decidr.ui.controller.SaveWorkItemAction;
+import de.decidr.ui.controller.UploadAction;
+import de.decidr.ui.data.FloatValidator;
+import de.decidr.ui.view.Main;
+import de.decidr.ui.view.UploadComponent;
 
 /**
  * This window represents a form where the work items of the user are displayed.
@@ -78,66 +90,123 @@ public class WorkItemWindow extends Window {
      * fields. If a value already exists, this value is shown.
      * 
      * @param tHumanTaskData
-     *            TODO document
+     *            - An object representing the work item xml file as a java
+     *            object
      */
     private void fillForm(THumanTaskData tHumanTaskData) {
         for (int i = 0; i < tHumanTaskData.getTaskItemOrInformation().size(); i++) {
             if (tHumanTaskData.getTaskItemOrInformation().get(i) instanceof TTaskItem) {
                 TTaskItem taskItem = (TTaskItem) tHumanTaskData
                         .getTaskItemOrInformation().get(i);
+
+                Element element = null;
+                if (taskItem.getValue() instanceof Element) {
+                    element = (Element) taskItem.getValue();
+                } else {
+                    try {
+                        element = TransformUtil.jdomToW3c(new org.jdom.Element(
+                                "value"));
+                    } catch (JDOMException e) {
+                        throw new RuntimeException(
+                                "Couldn't transform the element. Please check the WorkItem and notifiy your admin");
+                    }
+                }
                 if (taskItem.getType().compareTo(DWDLSimpleVariableType.STRING) == 0) {
                     getItemForm().addField(taskItem.getName(),
                             new TextField(taskItem.getLabel()));
-                    getItemForm().getField(taskItem.getLabel()).addValidator(
-                            new RegexpValidator("[a-zA-Z]",
-                                    "Please enter a String!"));
+                    ((TextField) getItemForm().getField(taskItem.getName()))
+                            .setImmediate(true);
+                    getItemForm().getField(taskItem.getName()).setValue(
+                            element.getTextContent() == null ? "" : element
+                                    .getTextContent());
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.BOOLEAN) == 0) {
                     getItemForm().addField(taskItem.getName(),
                             new CheckBox(taskItem.getLabel()));
+                    boolean value = false;
+
+                    if (element.getTextContent().equals("yes")) {
+                        value = true;
+                    }
+
+                    getItemForm().getField(taskItem.getName()).setValue(value);
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.DATE) == 0) {
                     getItemForm().addField(taskItem.getName(),
                             new DateField(taskItem.getLabel()));
+                    Date date = new Date();
+                    SimpleDateFormat dfs = new SimpleDateFormat("yyyy-MM-dd");
+                    dfs.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    if (!element.getTextContent().isEmpty()) {
+                        try {
+                            date = dfs.parse(element.getTextContent());
+                        } catch (DOMException e) {
+                            Main.getCurrent().getMainWindow().addWindow(
+                                    new TransactionErrorDialogComponent(e));
+                        } catch (ParseException e) {
+                            Main.getCurrent().getMainWindow().addWindow(
+                                    new TransactionErrorDialogComponent(e));
+                        }
+                    }
+
+                    getItemForm().getField(taskItem.getName()).setValue(date);
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.FLOAT) == 0) {
                     getItemForm().addField(taskItem.getName(),
                             new TextField(taskItem.getLabel()));
-                    getItemForm()
-                            .getField(taskItem.getName())
-                            .addValidator(
-                                    new RegexpValidator(
-                                            "[+]?[0-9]*\\p{.}?[0-9]*",
-                                            "Please enter a valid floating point number!"));
+                    getItemForm().getField(taskItem.getName()).addValidator(
+                            new FloatValidator("Please enter a valid float"));
+                    ((TextField) getItemForm().getField(taskItem.getName()))
+                            .setImmediate(true);
+
+                    getItemForm().getField(taskItem.getName()).setValue(
+                            element.getTextContent() == null ? 0.0F : element
+                                    .getTextContent());
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.INTEGER) == 0) {
                     getItemForm().addField(taskItem.getName(),
                             new TextField(taskItem.getLabel()));
                     getItemForm().getField(taskItem.getName()).addValidator(
                             new IntegerValidator("Please enter an Integer!"));
+                    ((TextField) getItemForm().getField(taskItem.getName()))
+                            .setImmediate(true);
+
+                    getItemForm().getField(taskItem.getName()).setValue(
+                            element.getTextContent() == null ? 0 : element
+                                    .getTextContent());
                 } else if (taskItem.getType().compareTo(
                         DWDLSimpleVariableType.ANY_URI) == 0) {
+                    String fileId = element.getTextContent();
+                    Long id;
+                    if (fileId.equals("")) {
+                        id = null;
+                    } else {
+                        id = Long.valueOf(fileId);
+                    }
+                    UploadComponent upload = new UploadComponent(id,
+                            new UploadAction());
+                    getItemForm().getLayout().addComponent(upload);
+                } else if (taskItem.getType().compareTo(
+                        DWDLSimpleVariableType.TIME) == 0) {
                     getItemForm().addField(taskItem.getName(),
-                            new TextField(taskItem.getLabel()));
-                    getItemForm()
-                            .getField(taskItem.getName())
-                            .addValidator(
-                                    new RegexpValidator(
-                                            "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?",
-                                            "Please enter a valid URI!"));
+                            new TextField("Das ist für Decidr+"));
+                    getItemForm().getField(taskItem.getName())
+                            .setReadOnly(true);
                 }
-                getItemForm().getField(taskItem.getName()).setDescription(
-                        taskItem.getHint());
-                if (taskItem.getValue() != null) {
-                    getItemForm().getField(taskItem.getName()).setValue(
-                            taskItem.getValue());
+                if (taskItem.getType()
+                        .compareTo(DWDLSimpleVariableType.ANY_URI) != 0) {
+                    getItemForm().getField(taskItem.getName()).setDescription(
+                            taskItem.getHint());
                 }
+
             } else {
                 TInformation tInformation = (TInformation) tHumanTaskData
                         .getTaskItemOrInformation().get(i);
                 getItemForm().addField(tInformation.getName(), new TextField());
                 getItemForm().getField(tInformation.getName()).setValue(
                         tInformation.getContent().getAny());
+                getItemForm().getField(tInformation.getName())
+                        .setReadOnly(true);
             }
         }
     }
@@ -145,7 +214,7 @@ public class WorkItemWindow extends Window {
     /**
      * Returns the item {@link Form}.
      * 
-     * @return itemForm TODO document
+     * @return itemForm - The form where the date from the work item are showed
      */
     public Form getItemForm() {
         return itemForm;
@@ -156,7 +225,8 @@ public class WorkItemWindow extends Window {
      * information from the {@link THumanTaskData}.
      * 
      * @param tHumanTaskData
-     *            TODO document
+     *            - An object representing the work item xml file as a java
+     *            object
      */
     private void init(THumanTaskData tHumanTaskData, Long workItemId) {
         verticalLayout = new VerticalLayout();
@@ -172,10 +242,18 @@ public class WorkItemWindow extends Window {
         okButton = new Button("OK", new SaveWorkItemAction(itemForm,
                 tHumanTaskData, workItemId));
         okButton.focus();
-        cancelButton = new Button("Cancel", new HideDialogWindowAction());
+        cancelButton = new Button("Cancel", new HideWindowAndDeleteFileAction());
 
         markAsDoneButton = new Button("Mark as done", new SaveWorkItemAction(
                 itemForm, tHumanTaskData, workItemId));
+
+        this.setContent(verticalLayout);
+        this.setModal(true);
+        this.setHeight("650px");
+        this.setWidth("370px");
+        this.center();
+        this.setResizable(false);
+        this.setCaption("Work item");
 
         verticalLayout.addComponent(label);
 

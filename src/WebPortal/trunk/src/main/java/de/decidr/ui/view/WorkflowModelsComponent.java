@@ -146,8 +146,6 @@ public class WorkflowModelsComponent extends CustomComponent {
                 new UnlockWorkflowModelsAction(workflowModelTable));
         publishModelButton = new Button("Publish",
                 new PublishWorkflowModelAction(workflowModelTable));
-        unpublishModelButton = new Button("Un-publish",
-                new UnpublishWorkflowModelsAction(workflowModelTable));
         appointWorkflowAdminButton = new Button("Appoint workflow admin",
                 new ShowAppointWorkflowAdminAction(workflowModelTable));
 
@@ -173,9 +171,9 @@ public class WorkflowModelsComponent extends CustomComponent {
         buttonHorizontalLayout.addComponent(lockModelButton);
         buttonHorizontalLayout.addComponent(unlockModelButton);
         buttonHorizontalLayout.addComponent(publishModelButton);
-        buttonHorizontalLayout.addComponent(unpublishModelButton);
         buttonHorizontalLayout.addComponent(appointWorkflowAdminButton);
     }
+
 
     /**
      * Changes the view if public models are selected.
@@ -184,16 +182,19 @@ public class WorkflowModelsComponent extends CustomComponent {
     private void changeToPublic() {
         publicModelContainer = new PublicModelContainer();
         publicModelTable = new PublicModelTable(publicModelContainer);
+        editWorkflowModelButton.addListener(new ShowModelingToolAction(
+                publicModelTable));
         importModelButton = new Button("Import");
+        unpublishModelButton = new Button("Un-publish",
+                new UnpublishWorkflowModelsAction(publicModelTable));
         if (!getNativeSelect().isSelected("Public models")) {
             init();
         } else {
-            // getVerticalLayout().removeComponent(getCreateNewModelButton());
-            // getVerticalLayout().removeComponent(getEditWorkflowModelButton());
             getVerticalLayout().replaceComponent(getWorkflowModelTable(),
                     publicModelTable);
-            getButtonPanel().removeAllComponents();
-            getButtonPanel().addComponent(importModelButton);
+            getButtonHorizontalLayout().removeAllComponents();
+            getButtonHorizontalLayout().addComponent(importModelButton);
+            getButtonHorizontalLayout().addComponent(unpublishModelButton);
         }
     }
 
@@ -245,12 +246,12 @@ public class WorkflowModelsComponent extends CustomComponent {
     }
 
     /**
-     * Gets the button panel from the component.
-     * 
-     * @return buttonPanel
+     * Returns the button butto
+     *
+     * @return the buttonHorizontalLayout
      */
-    public Panel getButtonPanel() {
-        return buttonPanel;
+    public HorizontalLayout getButtonHorizontalLayout() {
+        return buttonHorizontalLayout;
     }
 
     /**

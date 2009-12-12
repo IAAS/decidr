@@ -75,12 +75,16 @@ public class LockWorkflowModelAction implements ClickListener {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 Item item = (Item) iter.next();
                 try {
-                    wfmFacade.setExecutable((Long) item.getItemProperty("id")
-                            .getValue(), false);
+                    Long id = (Long) item.getItemProperty("id").getValue();
+                    wfmFacade.setExecutable(id, false);
+                    item.getItemProperty("executable").setValue(
+                            wfmFacade.getWorkflowModel(id).getItemProperty(
+                                    "executable"));
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent("Workflow model \""
                                     + item.getItemProperty("name").getValue()
                                     + "\" successfully locked!", "Success"));
+                    table.requestRepaint();
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));

@@ -34,6 +34,8 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.filters.EqualsFilter;
+import de.decidr.model.filters.Filter;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -61,15 +63,19 @@ public class WorkflowModelContainer implements Container, Container.Ordered,
     private Map<Object, Object> items = new LinkedHashMap<Object, Object>();
 
     private List<Object> itemIdList = null;
+    
+    private List<Filter> filterList = new ArrayList<Filter>();
 
     /**
      * The workflow model items are added to the container
      */
     public WorkflowModelContainer() {
+        Filter publishFilter = new EqualsFilter(true, "published", false);
+        filterList.add(publishFilter);
         try {
             Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
                     "tenantId");
-            workflowModelList = tenantFacade.getWorkflowModels(tenantId, null,
+            workflowModelList = tenantFacade.getWorkflowModels(tenantId, filterList,
                     null);
             for (Item item : workflowModelList) {
                 addItem(item);
@@ -329,7 +335,7 @@ public class WorkflowModelContainer implements Container, Container.Ordered,
         itemIdList = new ArrayList<Object>(items.keySet());
         int index = itemIdList.indexOf(itemId);
         if (index == itemIdList.size() - 1) {
-            return itemIdList.get(index);
+            return lastItemId();
         } else {
             return itemIdList.get(index + 1);
         }

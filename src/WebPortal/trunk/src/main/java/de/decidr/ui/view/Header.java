@@ -37,7 +37,8 @@ public class Header extends CustomComponent {
     private Embedded decidrLogo = null;
 
     /**
-     * TODO document
+     * Default constructor which calls the init method to initalize the
+     * components
      */
     public Header() {
         init();
@@ -56,5 +57,14 @@ public class Header extends CustomComponent {
         decidrLogo = new Embedded("", new ThemeResource("img/logo.png"));
 
         horizontalLayout.addComponent(decidrLogo);
+    }
+
+    /**
+     * Returns the embedded component where the logo is stored
+     * 
+     * @return the decidrLogo
+     */
+    public Embedded getDecidrLogo() {
+        return decidrLogo;
     }
 }

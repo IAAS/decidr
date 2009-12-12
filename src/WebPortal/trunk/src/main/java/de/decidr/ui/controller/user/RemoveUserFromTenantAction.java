@@ -16,9 +16,6 @@
 
 package de.decidr.ui.controller.user;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
@@ -32,6 +29,7 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -72,21 +70,21 @@ public class RemoveUserFromTenantAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-
-        Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                try {
-                    Object itemId = iter.next();
-                    userFacade.removeFromTenant((Long) item.getItemProperty(
-                            "id").getValue(), tenantId);
-                    table.removeItem(itemId);
-                } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(e));
-                }
-            }
+        Item item = table.getItem(table.getValue());
+        try {
+            userFacade.removeFromTenant((Long) item.getItemProperty("id")
+                    .getValue(), tenantId);
+            table.removeItem(item);
+            Main.getCurrent().getMainWindow()
+                    .addWindow(
+                            new InformationDialogComponent(
+                                    "Successfully removed user from tenant",
+                                    "Success"));
+            table.requestRepaint();
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
         }
     }
+
 }

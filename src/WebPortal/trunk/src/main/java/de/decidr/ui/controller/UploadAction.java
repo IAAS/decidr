@@ -17,30 +17,14 @@
 package de.decidr.ui.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashSet;
-
-import com.vaadin.ui.Upload.FailedEvent;
-import com.vaadin.ui.Upload.FailedListener;
 import com.vaadin.ui.Upload.Receiver;
-import com.vaadin.ui.Upload.SucceededEvent;
-import com.vaadin.ui.Upload.SucceededListener;
-
-import de.decidr.model.acl.permissions.FilePermission;
-import de.decidr.model.acl.permissions.FileReadPermission;
-import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
-import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.FileFacade;
-import de.decidr.ui.view.DeleteUploadComponent;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.windows.StartConfigurationWindow;
-import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
-
+import de.decidr.ui.view.windows.InformationDialogComponent;
 /**
  * This class handles the actions when the upload for a human task is started,
  * finished and received.
@@ -48,32 +32,20 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author AT
  */
 @Reviewed(reviewers = "RR", lastRevision = "2343", currentReviewState = State.PassedWithComments)
-public class UploadFileStartConfigurationAction implements FailedListener,
-        Receiver, SucceededListener {
+public class UploadAction implements Receiver {
 
     private static final long serialVersionUID = 1L;
 
-    private StartConfigurationWindow startConfigurationWindow = new StartConfigurationWindow();
-
-    private DeleteUploadComponent deleteUploadComponent = new DeleteUploadComponent();
 
     private File file = null;
 
-    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
-            "role");
-
-    private FileFacade fileFacade = new FileFacade(role);
-
-    private Long fileId = null;
-
     /**
-     * Returns the filed Id
+     * Returns the filed
      * 
-     * @return fileId
+     * @return file
      */
-    public Long getFileId() {
-        // GH, Aleks: what if fileId is null? ~rr
-        return fileId;
+    public File getFile() {
+        return file;
     }
 
     /*
@@ -84,7 +56,21 @@ public class UploadFileStartConfigurationAction implements FailedListener,
      */
     @Override
     public OutputStream receiveUpload(String filename, String MIMEType) {
-        FileOutputStream fos = null;
+    	 FileOutputStream fos = null;
+
+         try {
+             file = File.createTempFile("decidr", "tmp");
+
+             fos = new FileOutputStream(file);
+         } catch (IOException e) {
+             Main.getCurrent().getMainWindow().addWindow(
+             // Aleks, GH: a little more verbose, if you please! ~rr
+                     new InformationDialogComponent("IOException", "Failure"));
+         }
+
+         return fos;
+    	
+        /*FileOutputStream fos = null;
         FileInputStream fis = null;
 
         file = new java.io.File(filename);
@@ -119,31 +105,6 @@ public class UploadFileStartConfigurationAction implements FailedListener,
 
         // GH, Aleks: this will return null if an Exception is thrown - is that
         // on purpose? ~rr
-        return fos;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.ui.Upload.FailedListener#uploadFailed(com.vaadin.ui.Upload
-     * .FailedEvent)
-     */
-    @Override
-    public void uploadFailed(FailedEvent event) {
-        Main.getCurrent().getMainWindow().showNotification(
-                "File " + event.getFilename() + " upload not successful!");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.ui.Upload.SucceededListener#uploadSucceeded(com.vaadin.ui.
-     * Upload.SucceededEvent)
-     */
-    @Override
-    public void uploadSucceeded(SucceededEvent event) {
-        Main.getCurrent().getMainWindow().showNotification("Upload succeeded!");
+        return fos;*/
     }
 }

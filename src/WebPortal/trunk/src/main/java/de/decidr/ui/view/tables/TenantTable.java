@@ -67,7 +67,7 @@ public class TenantTable extends Table {
         setVisibleColumns(NAT_COL_ORDER);
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
-        setMultiSelect(true);
+        setMultiSelect(false);
         setPageLength(10);
     }
 }

@@ -52,7 +52,9 @@ public class UnpublishWorkflowModelsAction implements ClickListener {
     private Role role = (Role) session.getAttribute("role");
     private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
 
-    private Table currentTenantTable = null;
+    private Table publishWorkflowmodelTable = null;
+    
+    private List<Item> items = new ArrayList<Item>();
 
     /**
      * Requires a table which contains the data.
@@ -61,7 +63,7 @@ public class UnpublishWorkflowModelsAction implements ClickListener {
      *            requires {@link Table} with data
      */
     public UnpublishWorkflowModelsAction(Table table) {
-        this.currentTenantTable = table;
+        this.publishWorkflowmodelTable = table;
     }
 
     /*
@@ -73,18 +75,23 @@ public class UnpublishWorkflowModelsAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new ArrayList<Long>();
-        Set<?> value = (Set<?>) currentTenantTable.getValue();
+        Set<?> value = (Set<?>) publishWorkflowmodelTable.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 Item item = (Item) iter.next();
                 wfms.add((Long) item.getItemProperty("id").getValue());
+                items.add(item);
             }
             try {
                 wfmFacade.unpublishWorkflowModels(wfms);
+                for(Item item : items){
+                    publishWorkflowmodelTable.removeItem(item);
+                }
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Workflow model(s) successfully unpublished!",
                                 "Success"));
+                publishWorkflowmodelTable.requestRepaint();
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

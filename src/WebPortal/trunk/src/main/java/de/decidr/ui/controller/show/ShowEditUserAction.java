@@ -73,7 +73,7 @@ public class ShowEditUserAction implements ClickListener {
             ProfileSettingsComponent profile = new ProfileSettingsComponent(
                     profileItem);
             siteFrame.setContent(profile);
-            if (role.equals(TenantAdminRole.class)) {
+            if (role instanceof TenantAdminRole) {
                 profile.getCancelMembershipLink().setVisible(true);
             }
         } catch (TransactionException e) {

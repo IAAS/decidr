@@ -75,8 +75,11 @@ public class UnlockWorkflowModelsAction implements ClickListener {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 Item item = (Item) iter.next();
                 try {
-                    wfmFacade.setExecutable((Long) item.getItemProperty("id")
-                            .getValue(), true);
+                    Long id = (Long) item.getItemProperty("id").getValue();
+                    wfmFacade.setExecutable(id, true);
+                    item.getItemProperty("executable").setValue(
+                            wfmFacade.getWorkflowModel(id).getItemProperty(
+                                    "executable"));
                 } catch (TransactionException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
@@ -87,6 +90,7 @@ public class UnlockWorkflowModelsAction implements ClickListener {
                             new InformationDialogComponent(
                                     "Workflow models successfully unlocked!",
                                     "Success"));
+            table.requestRepaint();
         } else {
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(

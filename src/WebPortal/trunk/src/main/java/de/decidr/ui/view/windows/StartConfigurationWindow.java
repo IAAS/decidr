@@ -50,7 +50,7 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.SaveStartConfigurationAction;
-import de.decidr.ui.controller.UploadFileStartConfigurationAction;
+import de.decidr.ui.controller.UploadAction;
 import de.decidr.ui.view.Main;
 
 /**
@@ -145,7 +145,7 @@ public class StartConfigurationWindow extends Window {
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
         checkBox = new CheckBox();
         comboBox = new ComboBox("Wählen sie einen User aus!");
-        upload = new Upload("Upload", new UploadFileStartConfigurationAction());
+        upload = new Upload("Upload", new UploadAction());
 
         rolesTree.setItemCaptionPropertyId("caption");
         rolesTree.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_PROPERTY);

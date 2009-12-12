@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.Container.Filterable;
+import com.vaadin.data.Container.Ordered;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
@@ -47,7 +47,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author AT
  */
 @Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.Passed)
-public class PublicModelContainer implements Container, Filterable {
+public class PublicModelContainer implements Container, Ordered {
 
     private static final long serialVersionUID = 1L;
 
@@ -63,6 +63,8 @@ public class PublicModelContainer implements Container, Filterable {
     private LinkedHashMap<Object, Object> items = new LinkedHashMap<Object, Object>();
 
     private KeywordFilter filter = new KeywordFilter();
+
+    private List<Object> itemIdList = null;
 
     private List<Filter> filterList = new LinkedList<Filter>();
 
@@ -81,20 +83,6 @@ public class PublicModelContainer implements Container, Filterable {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(exception));
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.data.Container.Filterable#addContainerFilter(java.lang.Object,
-     * java.lang.String, boolean, boolean)
-     */
-    @Override
-    public void addContainerFilter(Object propertyId, String filterString,
-            boolean ignoreCase, boolean onlyMatchPrefix) {
-        filter.setKeyword(filterString);
-        filter.getProperties().add((String) propertyId);
     }
 
     /*
@@ -209,36 +197,12 @@ public class PublicModelContainer implements Container, Filterable {
     /*
      * (non-Javadoc)
      * 
-     * @see com.vaadin.data.Container.Filterable#removeAllContainerFilters()
-     */
-    @Override
-    public void removeAllContainerFilters() {
-        filter.setKeyword("");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.vaadin.data.Container#removeAllItems()
      */
     @Override
     public boolean removeAllItems() throws UnsupportedOperationException {
         items.clear();
         return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.data.Container.Filterable#removeContainerFilters(java.lang
-     * .Object)
-     */
-    @Override
-    public void removeContainerFilters(Object propertyId) {
-        if (filter.getProperties().contains(propertyIds)) {
-            filter.setKeyword("");
-        }
     }
 
     /*
@@ -261,8 +225,12 @@ public class PublicModelContainer implements Container, Filterable {
     @Override
     public boolean removeItem(Object itemId)
             throws UnsupportedOperationException {
-        items.remove(itemId);
-        return true;
+        if (items.containsKey(itemId)) {
+            items.remove(itemId);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /*
@@ -273,5 +241,109 @@ public class PublicModelContainer implements Container, Filterable {
     @Override
     public int size() {
         return items.size();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object)
+     */
+    @Override
+    public Object addItemAfter(Object previousItemId)
+            throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#addItemAfter(java.lang.Object,
+     * java.lang.Object)
+     */
+    @Override
+    public Item addItemAfter(Object previousItemId, Object newItemId)
+            throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#firstItemId()
+     */
+    @Override
+    public Object firstItemId() {
+        itemIdList = new ArrayList<Object>(items.keySet());
+        return itemIdList.get(0);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#isFirstId(java.lang.Object)
+     */
+    @Override
+    public boolean isFirstId(Object itemId) {
+        itemIdList = new ArrayList<Object>(items.keySet());
+        Object object = firstItemId();
+        if (itemId.equals(object)) {
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#isLastId(java.lang.Object)
+     */
+    @Override
+    public boolean isLastId(Object itemId) {
+        itemIdList = new ArrayList<Object>(items.keySet());
+        Object object = lastItemId();
+        if (itemId.equals(object)) {
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#lastItemId()
+     */
+    @Override
+    public Object lastItemId() {
+        itemIdList = new ArrayList<Object>(items.keySet());
+        return itemIdList.get(itemIdList.size() - 1);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#nextItemId(java.lang.Object)
+     */
+    @Override
+    public Object nextItemId(Object itemId) {
+        itemIdList = new ArrayList<Object>(items.keySet());
+        int index = itemIdList.indexOf(itemId);
+        if (index == itemIdList.size() - 1) {
+            return lastItemId();
+        } else {
+            return itemIdList.get(index + 1);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.data.Container.Ordered#prevItemId(java.lang.Object)
+     */
+    @Override
+    public Object prevItemId(Object itemId) {
+        itemIdList = new ArrayList<Object>(items.keySet());
+        int index = itemIdList.indexOf(itemId);
+        return itemIdList.get(index - 1);
+
     }
 }

@@ -16,13 +16,12 @@
 
 package de.decidr.ui.view;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
-import java.util.HashSet;
-
-import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -33,28 +32,22 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Upload.SucceededEvent;
-
-import de.decidr.model.acl.permissions.FilePermission;
-import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.ui.controller.UploadAction;
 import de.decidr.ui.controller.tenant.RestoreDefaultTenantSettingsAction;
 import de.decidr.ui.controller.tenant.SaveTenantSettingsAction;
-import de.decidr.ui.controller.tenant.UploadTenantLogoAction;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * The tenant can change his settings. He can change his theme by choosing a given
- * background or font or he can enter his own CSS and upload it.
+ * The tenant can change his settings. He can change his theme by choosing a
+ * given background or font or he can enter his own CSS and upload it.
  * 
  * @author AT
  */
@@ -74,7 +67,7 @@ public class TenantSettingsComponent extends CustomComponent {
 
     private Label tenantSettingsLabel = null;
 
-    private Upload logoUpload = null;
+    private UploadComponent logoUpload = null;
 
     private TextField textArea = null;
     private TextField cssTextArea = null;
@@ -102,20 +95,23 @@ public class TenantSettingsComponent extends CustomComponent {
 
     private String tenantDescription;
     private String tenantName;
-    private String logoFileName;
+    private String logoFileName = "logo.png";
+    private String css;
+
+    private Long logoId;
+    private Long tenantId;
 
     private Role role;
     private TenantFacade tenantFacade = null;
-    private FileFacade fileFacade = null;
 
     /**
      * Default constructor.
      * 
      */
     public TenantSettingsComponent(Long tenantId) {
+        this.tenantId = tenantId;
         role = (Role) Main.getCurrent().getSession().getAttribute("role");
         tenantFacade = new TenantFacade(role);
-        fileFacade = new FileFacade(role);
 
         tenantDescription = "";
         try {
@@ -125,13 +121,11 @@ public class TenantSettingsComponent extends CustomComponent {
                 tenantDescription = tenantFacade.getTenantSettings(tenantId)
                         .getItemProperty("description").getValue().toString();
             }
+            logoId = tenantFacade.getTenant(tenantId).getLogo().getId();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));
         }
-
-        // GH: get logo and CSS
-
         init();
     }
 
@@ -160,60 +154,7 @@ public class TenantSettingsComponent extends CustomComponent {
         textArea.setCaption("Description");
         textArea.setValue(tenantDescription);
 
-        logoUpload = new Upload("Upload Logo", new UploadTenantLogoAction());
-        logoUpload.setButtonCaption("Upload Logo");
-
-        logoUpload.addListener(new Upload.SucceededListener() {
-
-            /**
-             * Serial version uid
-             */
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void uploadSucceeded(SucceededEvent event) {
-                UploadTenantLogoAction action = (UploadTenantLogoAction) TenantSettingsComponent.this
-                        .getUpload().getReceiver();
-                File file = action.getFile();
-                if (file == null) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent(
-                                    "Illegal Argument: File must not be empty",
-                                    "Failure"));
-                } else {
-                    FileInputStream fis;
-                    try {
-                        fis = new FileInputStream(file);
-                        HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
-                        filePermission.add(FileReadPermission.class);
-
-                        Long fileId = fileFacade.createFile(fis, file.length(),
-                                event.getFilename(), event.getMIMEType(), true,
-                                filePermission);
-
-                        Main.getCurrent().getMainWindow().setData(fileId);
-                        Main.getCurrent().getMainWindow()
-                                .addWindow(
-                                        new InformationDialogComponent("File "
-                                                + event.getFilename()
-                                                + " successfully uploaded!",
-                                                "Success"));
-                        logoEmbedded.setSource(new FileResource(file, Main
-                                .getCurrent()));
-                    } catch (FileNotFoundException e) {
-                        Main.getCurrent().getMainWindow().addWindow(
-                                new InformationDialogComponent(
-                                        "File couldn't be found",
-                                        "File not found"));
-                    } catch (TransactionException e) {
-                        Main.getCurrent().getMainWindow().addWindow(
-                                new TransactionErrorDialogComponent(e));
-                    }
-
-                }
-               
-            }
-        });
+        logoUpload = new UploadComponent(logoId, new UploadAction());
 
         saveButton = new Button("Save", new SaveTenantSettingsAction());
         restoreDefaultSettingsButton = new Button("Restore Default Settings",
@@ -267,26 +208,54 @@ public class TenantSettingsComponent extends CustomComponent {
      * 
      */
     public void changeToAdvanced() {
-        showBasicOptionsButton = new Button("Show basic options");
-        showBasicOptionsButton.addListener(new Button.ClickListener() {
+        try {
+            InputStream in = tenantFacade.getCurrentColorScheme(tenantId);
+            StringBuilder sb = new StringBuilder();
+            if (in != null) {
 
-            /**
-             * Serial version uid
-             */
-            private static final long serialVersionUID = 1L;
+                String line;
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                changeToBasic();
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(in, "UTF-8"));
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
             }
+            css = sb.toString();
+            showBasicOptionsButton = new Button("Show basic options");
+            showBasicOptionsButton.addListener(new Button.ClickListener() {
 
-        });
-        cssTextArea = new TextField();
-        cssTextArea.setRows(20);
-        cssTextArea.setColumns(30);
-        getSchemeHorizontalLayout().removeAllComponents();
-        getSchemeHorizontalLayout().addComponent(cssTextArea);
-        getSchemeHorizontalLayout().addComponent(showBasicOptionsButton);
+                /**
+                 * Serial version uid
+                 */
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    changeToBasic();
+                }
+
+            });
+            cssTextArea = new TextField();
+            cssTextArea.setRows(20);
+            cssTextArea.setColumns(30);
+            cssTextArea.setValue(css);
+            getSchemeHorizontalLayout().removeAllComponents();
+            getSchemeHorizontalLayout().addComponent(cssTextArea);
+            getSchemeHorizontalLayout().addComponent(showBasicOptionsButton);
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new TransactionErrorDialogComponent(e));
+        } catch (UnsupportedEncodingException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Failed to encode the css file", "Failure"));
+        } catch (IOException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Failed to load the css file", "Failure"));
+        }
+
     }
 
     /**
@@ -406,15 +375,6 @@ public class TenantSettingsComponent extends CustomComponent {
      */
     public NativeSelect getFontSelect() {
         return fontSelect;
-    }
-
-    /**
-     * Returns the upload
-     * 
-     * @return logoUpload
-     */
-    public Upload getUpload() {
-        return logoUpload;
     }
 
     /**

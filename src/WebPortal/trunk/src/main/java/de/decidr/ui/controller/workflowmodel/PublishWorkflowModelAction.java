@@ -73,18 +73,24 @@ public class PublishWorkflowModelAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new ArrayList<Long>();
+        List<Item> items = new ArrayList<Item>();
         Set<?> value = (Set<?>) currentTenantTable.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
                 Item item = (Item) iter.next();
                 wfms.add((Long) item.getItemProperty("id").getValue());
+                items.add(item);
             }
             try {
                 wfmFacade.publishWorkflowModels(wfms);
+                for(Item item : items){
+                    currentTenantTable.removeItem(item);
+                }
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Workflow model(s) successfully published!",
                                 "Success"));
+                currentTenantTable.requestRepaint();
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

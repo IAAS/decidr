@@ -69,6 +69,7 @@ public class ShowModelingToolAction implements ClickListener {
                 siteFrame.setContent(new ModelingTool((Long) table
                         .getItem(item).getItemProperty("id").getValue()));
             }
+            Main.getCurrent().getMainWindow().showNotification(String.valueOf(siteFrame.getContent().getWidth()));
         } else {
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(
