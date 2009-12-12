@@ -130,7 +130,7 @@ public class WorkflowModelFacade extends AbstractFacade {
             throws TransactionException {
 
         String[] properties = { "id", "dwdl", "modifiedDate", "version",
-                "name", "description", "creationDate", "published" };
+                "name", "description", "creationDate", "published", "executable" };
 
         GetWorkflowModelCommand cmd = new GetWorkflowModelCommand(actor,
                 workflowModelId);
