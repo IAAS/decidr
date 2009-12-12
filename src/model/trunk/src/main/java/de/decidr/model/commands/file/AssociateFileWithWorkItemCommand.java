@@ -66,7 +66,7 @@ public class AssociateFileWithWorkItemCommand extends FileCommand {
             throws TransactionException {
 
         // persist file
-        String hql = "update file set temporary = false where id = :fileId";
+        String hql = "update File set temporary = false where id = :fileId";
         if (evt.getSession().createQuery(hql).setLong("fileId", getFileId())
                 .executeUpdate() == 0) {
             throw new EntityNotFoundException(File.class, getFileId());
