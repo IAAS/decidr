@@ -18,22 +18,13 @@ package de.decidr.ui.view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+
 import java.util.HashSet;
 
-import org.apache.commons.io.IOUtils;
-
-import com.vaadin.terminal.ClassResource;
 import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.Resource;
-import com.vaadin.terminal.StreamResource;
-import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Upload;

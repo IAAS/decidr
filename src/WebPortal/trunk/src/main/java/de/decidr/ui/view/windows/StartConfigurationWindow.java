@@ -17,22 +17,28 @@
 package de.decidr.ui.view.windows;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerValidator;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.event.Action;
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
@@ -42,6 +48,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.AbstractSelect.Filtering;
 import com.vaadin.ui.Button.ClickEvent;
 
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
@@ -51,6 +58,9 @@ import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.SaveStartConfigurationAction;
 import de.decidr.ui.controller.UploadAction;
+import de.decidr.ui.data.FloatValidator;
+import de.decidr.ui.data.RoleBean;
+import de.decidr.ui.data.TreeRoleContainer;
 import de.decidr.ui.view.Main;
 
 /**
@@ -97,19 +107,15 @@ public class StartConfigurationWindow extends Window {
 
     private Long workflowModelId = null;
 
-    private static final Action ACTION_ADD = new Action("Add child item");
+    private TreeRoleContainer treeRoleContainer = null;
+
+    private static final Action ACTION_ADD = new Action("Add actor");
     private static final Action ACTION_DELETE = new Action("Delete");
 
     private static final Action[] ACTIONS = new Action[] { ACTION_ADD,
             ACTION_DELETE };
 
-    /**
-     * Default constructor
-     * 
-     */
-    public StartConfigurationWindow() {
-        init(this.tConfiguration, this.workflowModelId);
-    }
+    private static int count = 0;
 
     /**
      * Default constructor with TConfiguration as parameter.
@@ -119,7 +125,7 @@ public class StartConfigurationWindow extends Window {
             Long workflowModelId) {
         this.tConfiguration = tConfiguration;
         this.workflowModelId = workflowModelId;
-        init(tConfiguration, workflowModelId);
+        init();
     }
 
     /**
@@ -129,64 +135,119 @@ public class StartConfigurationWindow extends Window {
      * 
      * @param tconfiguration
      */
-    private void init(TConfiguration tconfiguration, Long workflowModelId) {
+    private void init() {
         splitPanel = new SplitPanel();
         horizontalLayout = new HorizontalLayout();
         verticalLayout = new VerticalLayout();
         mainVerticalLayout = new VerticalLayout();
         buttonHorizontalLayout = new HorizontalLayout();
-        rolesTree = new Tree("Rollen");
+        rolesTree = new Tree("Roles");
+        treeRoleContainer = new TreeRoleContainer(tConfiguration, rolesTree);
         assignmentForm = new Form();
         emailTextField = new TextField("E-Mail: ");
+        emailTextField
+                .setDescription("Enter a valid email address if you don't know the username");
+        emailTextField.addValidator(new EmailValidator(
+                "Please enter a valid email address"));
+        emailTextField.setImmediate(true);
         applyButton = new Button("Apply");
+        checkBox = new CheckBox();
         okButton = new Button("OK", new SaveStartConfigurationAction(rolesTree,
-                assignmentForm, tconfiguration, workflowModelId, checkBox
+                assignmentForm, tConfiguration, workflowModelId, checkBox
                         .booleanValue()));
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
-        checkBox = new CheckBox();
-        comboBox = new ComboBox("Wählen sie einen User aus!");
+
+        comboBox = new ComboBox("Please choose a user");
         upload = new Upload("Upload", new UploadAction());
 
-        rolesTree.setItemCaptionPropertyId("caption");
+        rolesTree.setItemCaptionPropertyId("actor");
         rolesTree.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_PROPERTY);
-        rolesTree.addListener(new Property.ValueChangeListener() {
+        rolesTree.setContainerDataSource(treeRoleContainer);
+        rolesTree.setImmediate(true);
 
+        comboBox.setWidth(175, UNITS_PIXELS);
+        comboBox.setFilteringMode(Filtering.FILTERINGMODE_STARTSWITH);
+        comboBox.setImmediate(true);
+        comboBox.setMultiSelect(false);
+        comboBox.setNullSelectionAllowed(true);
+        comboBox.setNewItemsAllowed(false);
+        comboBox.setImmediate(true);
+        fillContainer();
+
+        this.setContent(mainVerticalLayout);
+
+        this.setCaption("Start configuration window");
+        this.setModal(true);
+        this.setWidth("700px");
+        this.setHeight("400px");
+        this.setResizable(false);
+
+        mainVerticalLayout.setSpacing(true);
+        mainVerticalLayout.addComponent(splitPanel);
+
+        splitPanel.setOrientation(SplitPanel.ORIENTATION_HORIZONTAL);
+        splitPanel.setSplitPosition(350, Sizeable.UNITS_PIXELS);
+        splitPanel.setLocked(true);
+        splitPanel.setFirstComponent(horizontalLayout);
+
+        horizontalLayout.setHeight("300px");
+        horizontalLayout.setSpacing(true);
+        horizontalLayout.addComponent(rolesTree);
+        horizontalLayout.addComponent(verticalLayout);
+
+        verticalLayout.setSpacing(true);
+        verticalLayout.addComponent(comboBox);
+        verticalLayout.addComponent(emailTextField);
+        verticalLayout.addComponent(applyButton);
+
+        splitPanel.setSecondComponent(assignmentForm);
+
+        assignmentForm.setHeight("300px");
+        assignmentForm.setCaption("Configuration variables");
+        assignmentForm.setWriteThrough(false);
+        assignmentForm.setInvalidCommitted(false);
+        addAssignmentToForm(tConfiguration);
+
+        mainVerticalLayout.addComponent(buttonHorizontalLayout);
+
+        buttonHorizontalLayout.setSpacing(true);
+        buttonHorizontalLayout.addComponent(checkBox);
+        checkBox.setCaption("Start Immediately");
+        buttonHorizontalLayout.setComponentAlignment(checkBox,
+                Alignment.MIDDLE_RIGHT);
+        buttonHorizontalLayout.addComponent(okButton);
+        buttonHorizontalLayout.addComponent(cancelButton);
+
+        initializeHandler();
+    }
+
+    private void initializeHandler() {
+        rolesTree.addListener(new Property.ValueChangeListener() {
             /**
              * Serial version uid
              */
+
             private static final long serialVersionUID = 1L;
 
             @Override
             public void valueChange(ValueChangeEvent event) {
-                // gets the selected item from the tree
-                Item item = rolesTree.getItem(rolesTree.getValue());
-                // gets the property ids from the item
-                Collection<?> collect = item.getItemPropertyIds();
-                // Goes through the propertyIds and looks if username, email is
-                // set.
-                // If username or email is set, then the field is returned. //
-                // ein
-                // The value from the field is displayed to the user.
-                for (int i = 0; i < collect.size(); i++) {
-                    if (collect.contains(item.getItemProperty("combobox"))) {
-                        ComboBox cb = (ComboBox) item.getItemProperty(
-                                "combobox").getValue();
-                        comboBox.setValue(cb.getValue());
-                    }
-                    if (collect.contains(item.getItemProperty("email"))) {
-                        TextField tf = (TextField) item
-                                .getItemProperty("email").getValue();
-                        emailTextField.setValue(tf.getValue().toString());
-                    }
-                    if (!collect.contains(item.getItemProperty("combobox"))
-                            && !collect.contains(item.getItemProperty("email"))) {
-                        showNotification("Please enter a value so they can be shown");
+                emailTextField.setValue("");
+                comboBox.setValue(null);
+                if (event.getProperty().getValue() != null) {
+                    String name = rolesTree.getItem(
+                            event.getProperty().getValue()).getItemProperty(
+                            "actor").toString();
+                    if (name.indexOf("@") != -1) {
+                        emailTextField.setValue(name);
+                        emailTextField.requestRepaint();
+                    } else if (comboBox.containsId(name)) {
+                        comboBox.setValue(name);
                     }
                 }
-
             }
 
         });
+
         rolesTree.addActionHandler(new Action.Handler() {
 
             /**
@@ -202,31 +263,66 @@ public class StartConfigurationWindow extends Window {
 
             @Override
             public void handleAction(Action action, Object sender, Object target) {
-                if (action == ACTION_ADD) {
-                    Object itemId = rolesTree.addItem();
-                    // Sets the parent node. The children can't have children.
+
+                if (action == ACTION_ADD && rolesTree.isRoot(target)) {
+                    RoleBean roleBean = new RoleBean("New Actor " + count);
+                    Item newChildItem = new BeanItem(roleBean);
+                    Object itemId = rolesTree.addItem(newChildItem);
+                    // Sets the parent node. The children can't have
+                    // children.
                     // Also, the caption is set.
                     rolesTree.setParent(itemId, target);
                     rolesTree.setChildrenAllowed(itemId, false);
-
-                    Item item = rolesTree.getItem(itemId);
-                    Property caption = item.getItemProperty("caption");
-                    caption.setValue("New Actor");
-                } else if (action == ACTION_DELETE) {
+                    rolesTree.expandItem(target);
+                    count++;
+                } else if (action == ACTION_DELETE && !rolesTree.isRoot(target)) {
                     rolesTree.removeItem(target);
+                } else {
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "You can't delete a role or add an actor to an actor",
+                                            "Not allowed operation"));
+                }
+            }
+
+        });
+
+        comboBox.addListener(new Property.ValueChangeListener() {
+
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                if (event.getProperty().getValue() != null
+                        && !rolesTree.isRoot(rolesTree.getValue())) {
+                    Item item = rolesTree.getItem(rolesTree.getValue());
+                    Property actor = item.getItemProperty("actor");
+                    actor.setValue(comboBox.getValue());
+                    emailTextField.setValue("");
+                } else if (event.getProperty().getValue() != null
+                        && rolesTree.isRoot(event.getProperty().getValue())) {
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "You can't modify the role. Add an actor first",
+                                            "Information"));
+                } else if (event.getProperty().getValue() == null
+                        && rolesTree.getValue() == null && comboBox.getValue() != null) {
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Please select an actor to assign the user",
+                                            "Information"));
                 }
 
             }
 
         });
-
-        comboBox.setWidth(175, UNITS_PIXELS);
-        comboBox.setFilteringMode(Filtering.FILTERINGMODE_STARTSWITH);
-        comboBox.setImmediate(true);
-        comboBox.setMultiSelect(false);
-        comboBox.setNullSelectionAllowed(true);
-        comboBox.setNewItemsAllowed(false);
-        fillContainer();
 
         // The edited value should be taken and set as caption in the roles tree
         applyButton.addListener(new Button.ClickListener() {
@@ -238,57 +334,34 @@ public class StartConfigurationWindow extends Window {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                Item item = rolesTree.getItem(rolesTree.getValue());
-                Property caption = item.getItemProperty("caption");
-                if (!comboBox.getValue().equals("")) {
-                    caption.setValue(comboBox.getValue());
-                    item.addItemProperty("comboBox", comboBox);
-                } else if (!emailTextField.getValue().equals("")) {
-                    caption.setValue(emailTextField.getValue());
-                    item.addItemProperty("email", emailTextField);
+                if (rolesTree.getValue() != null
+                        && !rolesTree.isRoot(rolesTree.getValue())
+                        && emailTextField.isValid()) {
+                    Item item = rolesTree.getItem(rolesTree.getValue());
+                    Property actor = item.getItemProperty("actor");
+                    actor.setValue(emailTextField.getValue());
+                    comboBox.setValue(null);
+                } else if (rolesTree.isRoot(rolesTree.getValue())) {
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "You can't modify the role. Add an actor first",
+                                            "Information"));
                 } else {
-                    showNotification("Please fill in a value in one of the three fields!");
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Please select an actor to assign the email addresss or enter a valid email address",
+                                            "Information"));
                 }
 
             }
 
         });
-
-        this.setContent(mainVerticalLayout);
-
-        this.setModal(true);
-
-        horizontalLayout.setSpacing(true);
-        horizontalLayout.addComponent(rolesTree);
-        addRolesToTree(tconfiguration);
-
-        verticalLayout.setSpacing(true);
-        verticalLayout.addComponent(emailTextField);
-        verticalLayout.setMargin(false, true, false, false);
-
-        horizontalLayout.addComponent(verticalLayout);
-        horizontalLayout.addComponent(applyButton);
-
-        splitPanel.setFirstComponent(horizontalLayout);
-
-        assignmentForm.setCaption("Liste der Konfigurationsvariablen");
-        assignmentForm.setWriteThrough(false);
-        assignmentForm.setInvalidCommitted(false);
-        addAssignmentToForm(tconfiguration);
-
-        splitPanel.setSecondComponent(assignmentForm);
-
-        mainVerticalLayout.addComponent(splitPanel);
-
-        buttonHorizontalLayout.setSpacing(true);
-        buttonHorizontalLayout.addComponent(checkBox);
-        checkBox.setCaption("Start Immediately");
-        buttonHorizontalLayout.setComponentAlignment(checkBox,
-                Alignment.MIDDLE_RIGHT);
-        buttonHorizontalLayout.addComponent(okButton);
-        buttonHorizontalLayout.addComponent(cancelButton);
-
-        mainVerticalLayout.addComponent(buttonHorizontalLayout);
     }
 
     /**
@@ -299,41 +372,67 @@ public class StartConfigurationWindow extends Window {
      */
     private void addAssignmentToForm(TConfiguration tConfiguration) {
         for (TAssignment assignment : tConfiguration.getAssignment()) {
+            if (assignment.getValue().size() > 0) {
+                for (String string : assignment.getValue()) {
+                    if (assignment.getValueType().equals("string")) {
+                        assignmentForm.addField(assignment.getKey(),
+                                new TextField(assignment.getKey()));
+                    } else if (assignment.getValueType().equals("integer")) {
+                        assignmentForm.addField(assignment.getKey(),
+                                new TextField(assignment.getKey()));
+                        assignmentForm
+                                .getField(assignment.getKey())
+                                .addValidator(
+                                        new IntegerValidator(
+                                                "Please enter a value of the type integer"));
+                    } else if (assignment.getValueType().equals("file")) {
+                        assignmentForm.getLayout().addComponent(upload);
 
-            if (assignment.getValueType().equals("String")) {
-                assignmentForm.addField(assignment.getKey(), new TextField(
-                        assignment.getKey()));
-                assignmentForm.getField(assignment.getKey()).addValidator(
-                        new RegexpValidator("[a-zA-Z]",
-                                "Please enter a value of the type string"));
-            } else if (assignment.getValueType().equals("Integer")) {
-                assignmentForm.addField(assignment.getKey(), new TextField(
-                        assignment.getKey()));
-                assignmentForm.getField(assignment.getKey()).addValidator(
-                        new IntegerValidator(
-                                "Please enter a value of the type integer"));
-            } else if (assignment.getValueType().equals("File")) {
-                assignmentForm.getLayout().addComponent(upload);
+                    } else if (assignment.getValueType().equals("date")) {
+                        assignmentForm.addField(assignment.getKey(),
+                                new DateField(assignment.getKey()));
+                    } else if (assignment.getValueType().equals("float")) {
+                        assignmentForm.addField(assignment.getKey(),
+                                new TextField(assignment.getKey()));
+                        assignmentForm
+                                .getField(assignment.getKey())
+                                .addValidator(
+                                        new FloatValidator(
+                                                "Please enter a value of the type float"));
+                    }
+                    if (!string.isEmpty()) {
+                        assignmentForm.getField(assignment.getKey()).setValue(
+                                string);
+                    }
+                }
+            } else {
+                if (assignment.getValueType().equals("string")) {
+                    assignmentForm.addField(assignment.getKey(), new TextField(
+                            assignment.getKey()));
+                } else if (assignment.getValueType().equals("integer")) {
+                    assignmentForm.addField(assignment.getKey(), new TextField(
+                            assignment.getKey()));
+                    assignmentForm
+                            .getField(assignment.getKey())
+                            .addValidator(
+                                    new IntegerValidator(
+                                            "Please enter a value of the type integer"));
+                } else if (assignment.getValueType().equals("file")) {
+                    assignmentForm.getLayout().addComponent(upload);
 
+                } else if (assignment.getValueType().equals("date")) {
+                    assignmentForm.addField(assignment.getKey(), new DateField(
+                            assignment.getKey()));
+                } else if (assignment.getValueType().equals("float")) {
+                    assignmentForm.addField(assignment.getKey(), new TextField(
+                            assignment.getKey()));
+                    assignmentForm.getField(assignment.getKey()).addValidator(
+                            new FloatValidator(
+                                    "Please enter a value of the type float"));
+                }
             }
-        }
-    }
-
-    /**
-     * Adds a child to the tree which will be a parent node and which represents
-     * the roles which are stored in the start configuration xml file. Also the
-     * nodes can contain children and they will be expanded.
-     * 
-     * @param tConfiguration
-     */
-    private void addRolesToTree(TConfiguration tConfiguration) {
-        for (TRole role : tConfiguration.getRoles().getRole()) {
-            rolesTree.addItem(role.getName());
-            rolesTree.setChildrenAllowed(role.getName(), true);
-            rolesTree.expandItem(role.getName());
 
         }
-
     }
 
     /**
@@ -343,11 +442,12 @@ public class StartConfigurationWindow extends Window {
      */
     private void fillContainer() {
         HttpSession session = Main.getCurrent().getSession();
-        Long userId = (Long) session.getAttribute("userId");
-        TenantFacade tenantFacade = new TenantFacade(new UserRole(userId));
+        TenantFacade tenantFacade = new TenantFacade((Role) Main.getCurrent()
+                .getSession().getAttribute("role"));
         try {
             Long tenantId = (Long) session.getAttribute("tenantId");
-            for (Item item : tenantFacade.getUsersOfTenant(tenantId, null)) {
+            List<Item> items = tenantFacade.getUsersOfTenant(tenantId, null);
+            for (Item item : items) {
                 comboBox.addItem(item.getItemProperty("username").getValue());
             }
         } catch (TransactionException exception) {
