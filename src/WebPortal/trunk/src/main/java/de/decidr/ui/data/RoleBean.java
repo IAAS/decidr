@@ -17,33 +17,38 @@
 package de.decidr.ui.data;
 
 /**
- * TODO: add comment
- *
+ * This bean represents a role from the tConfiguration and stores only the
+ * actor. This bean is used for the tree to add items to the tree container
+ * 
  * @author AT
  */
 public class RoleBean {
-    
-    private String actor;
-    
-    
 
-    public RoleBean(String actor){
+    private String actor;
+
+    /**
+     * Constructor of the bean, with given parameter actor and email
+     * 
+     * @param actor
+     */
+    public RoleBean(String actor) {
         this.actor = actor;
     }
-    
+
     /**
-     * TODO: add comment
-     *
-     * @return the roleName
+     * Gets the actor
+     * 
+     * @return the actor
      */
     public String getActor() {
         return actor;
     }
 
     /**
-     * TODO: add comment
-     *
-     * @param roleName the roleName to set
+     * Sets the actor
+     * 
+     * @param actor
+     *            the actor to set
      */
     public void setActor(String actor) {
         this.actor = actor;

@@ -16,7 +16,7 @@
 
 package de.decidr.ui.view.windows;
 
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -27,7 +27,6 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerValidator;
-import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.event.Action;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.AbstractSelect;
@@ -38,23 +37,19 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
-import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.AbstractSelect.Filtering;
 import com.vaadin.ui.Button.ClickEvent;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.SaveStartConfigurationAction;
 import de.decidr.ui.controller.UploadAction;
@@ -101,8 +96,6 @@ public class StartConfigurationWindow extends Window {
 
     private ComboBox comboBox = null;
 
-    private Upload upload = null;
-
     private TConfiguration tConfiguration = null;
 
     private Long workflowModelId = null;
@@ -145,11 +138,6 @@ public class StartConfigurationWindow extends Window {
         treeRoleContainer = new TreeRoleContainer(tConfiguration, rolesTree);
         assignmentForm = new Form();
         emailTextField = new TextField("E-Mail: ");
-        emailTextField
-                .setDescription("Enter a valid email address if you don't know the username");
-        emailTextField.addValidator(new EmailValidator(
-                "Please enter a valid email address"));
-        emailTextField.setImmediate(true);
         applyButton = new Button("Apply");
         checkBox = new CheckBox();
         okButton = new Button("OK", new SaveStartConfigurationAction(rolesTree,
@@ -157,15 +145,21 @@ public class StartConfigurationWindow extends Window {
                         .booleanValue()));
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
-        comboBox = new ComboBox("Please choose a user");
-        upload = new Upload("Upload", new UploadAction());
+        comboBox = new ComboBox();
 
         rolesTree.setItemCaptionPropertyId("actor");
         rolesTree.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_PROPERTY);
         rolesTree.setContainerDataSource(treeRoleContainer);
         rolesTree.setImmediate(true);
 
+        emailTextField
+                .setDescription("Enter a valid email address if you don't know the username");
+        emailTextField.addValidator(new EmailValidator(
+                "Please enter a valid email address"));
+        emailTextField.setImmediate(true);
+
         comboBox.setWidth(175, UNITS_PIXELS);
+        comboBox.setInputPrompt("Please choose a user");
         comboBox.setFilteringMode(Filtering.FILTERINGMODE_STARTSWITH);
         comboBox.setImmediate(true);
         comboBox.setMultiSelect(false);
@@ -245,7 +239,6 @@ public class StartConfigurationWindow extends Window {
                     }
                 }
             }
-
         });
 
         rolesTree.addActionHandler(new Action.Handler() {
@@ -310,7 +303,8 @@ public class StartConfigurationWindow extends Window {
                                             "You can't modify the role. Add an actor first",
                                             "Information"));
                 } else if (event.getProperty().getValue() == null
-                        && rolesTree.getValue() == null && comboBox.getValue() != null) {
+                        && rolesTree.getValue() == null
+                        && comboBox.getValue() != null) {
                     Main
                             .getCurrent()
                             .getMainWindow()
@@ -385,12 +379,10 @@ public class StartConfigurationWindow extends Window {
                                 .addValidator(
                                         new IntegerValidator(
                                                 "Please enter a value of the type integer"));
-                    } else if (assignment.getValueType().equals("file")) {
-                        assignmentForm.getLayout().addComponent(upload);
-
                     } else if (assignment.getValueType().equals("date")) {
                         assignmentForm.addField(assignment.getKey(),
                                 new DateField(assignment.getKey()));
+                        assignmentForm.getField(assignment.getKey()).setValue(new Date());
                     } else if (assignment.getValueType().equals("float")) {
                         assignmentForm.addField(assignment.getKey(),
                                 new TextField(assignment.getKey()));
@@ -404,6 +396,8 @@ public class StartConfigurationWindow extends Window {
                         assignmentForm.getField(assignment.getKey()).setValue(
                                 string);
                     }
+                    assignmentForm.getField(assignment.getKey()).setRequired(true);
+                    assignmentForm.setImmediate(true);
                 }
             } else {
                 if (assignment.getValueType().equals("string")) {
@@ -417,12 +411,10 @@ public class StartConfigurationWindow extends Window {
                             .addValidator(
                                     new IntegerValidator(
                                             "Please enter a value of the type integer"));
-                } else if (assignment.getValueType().equals("file")) {
-                    assignmentForm.getLayout().addComponent(upload);
-
                 } else if (assignment.getValueType().equals("date")) {
                     assignmentForm.addField(assignment.getKey(), new DateField(
                             assignment.getKey()));
+                    assignmentForm.getField(assignment.getKey()).setValue(new Date());
                 } else if (assignment.getValueType().equals("float")) {
                     assignmentForm.addField(assignment.getKey(), new TextField(
                             assignment.getKey()));
@@ -430,6 +422,8 @@ public class StartConfigurationWindow extends Window {
                             new FloatValidator(
                                     "Please enter a value of the type float"));
                 }
+                assignmentForm.getField(assignment.getKey()).setRequired(true);
+                assignmentForm.setImmediate(true);
             }
 
         }
@@ -469,14 +463,4 @@ public class StartConfigurationWindow extends Window {
     public CheckBox getCheckBox() {
         return checkBox;
     }
-
-    /**
-     * Returns the upload field
-     * 
-     * @return uploadField
-     */
-    public Upload getUpload() {
-        return upload;
-    }
-
 }

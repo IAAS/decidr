@@ -31,7 +31,9 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
 
 /**
- * TODO: add comment
+ * This container stores role beans. They represent a role from the ui which is
+ * converted from the tConfiguration role into a java bean. The bean only stores
+ * the role name
  * 
  * @author AT
  */
@@ -58,8 +60,8 @@ public class TreeRoleContainer implements Container {
             RoleBean roleBean = new RoleBean(role.getName());
             Item item = new BeanItem(roleBean);
             addItem(item);
-            tree.setChildrenAllowed(role.getName(), true);
-            tree.expandItem(role.getName());
+            tree.setChildrenAllowed(item, true);
+            tree.expandItem(item);
         }
     }
 
@@ -163,7 +165,7 @@ public class TreeRoleContainer implements Container {
         if (getContainerPropertyIds().contains(propertyId)) {
             if (propertyId.equals("actor")) {
                 return String.class;
-            }  else {
+            } else {
                 return null;
             }
         } else {

@@ -16,27 +16,40 @@
 
 package de.decidr.ui.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
+
+import javax.xml.bind.JAXBException;
+
+import org.w3c.dom.DOMException;
 
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.commands.AbstractTransactionalCommand;
+import de.decidr.model.commands.workflowmodel.SaveStartConfigurationCommand;
+import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
 import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.wsc.TActor;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -104,48 +117,112 @@ public class SaveStartConfigurationAction implements ClickListener {
     @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
-        for (TRole role : tConfiguration.getRoles().getRole()) {
-            Collection<TActor> collect = tree.getChildren(role.getName());
-            if (collect.size() > 0) {
-                for (TActor tActor : collect) {
-                    role.getActor().add(tActor);
+        if (form.isValid()) {
+            Collection<Object> itemIds = tree.getItemIds();
+            for (Object id : itemIds) {
+                if (tree.isRoot(id)) {
+                    for (TRole role : tConfiguration.getRoles().getRole()) {
+                        Collection<Object> collect = tree.getChildren(id);
+                        if (collect != null) {
+                            for (Object childId : collect) {
+                                TActor tActor = new TActor();
+                                String actorOrEmail = tree.getItem(childId)
+                                        .getItemProperty("actor").getValue()
+                                        .toString();
+                                if (actorOrEmail.contains("@")) {
+                                    tActor.setEmail(actorOrEmail);
+                                } else {
+                                    tActor.setName(actorOrEmail);
+                                }
+                                role.getActor().add(tActor);
+                            }
+                        }
+                    }
                 }
             }
-        }
 
-        // AT bitte checken, ob es überhaupt den ValueType "File" gibt ~tk,dh
-        for (TAssignment assignment : tConfiguration.getAssignment()) {
-            if (assignment.getValueType().equals("File")) {
-                assignment.getValue().add(
-                        String.valueOf(Main.getCurrent().getMainWindow()
-                                .getData()));
-            } else {
-                assignment.getValue().add(
-                        form.getField(assignment.getKey()).getValue()
-                                .toString());
+            for (TAssignment assignment : tConfiguration.getAssignment()) {
+                Object value = form.getField(assignment.getKey()).getValue();
+                if (assignment.getValueType().equals("date")) {
+                    SimpleDateFormat dfs = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date date = (Date) value;
+                        value = dfs.format(date);
+                    } catch (DOMException e) {
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new TransactionErrorDialogComponent(e));
+                    }
+                }
+                assignment.getValue().add(value.toString());
             }
+
+            try {
+                //AT :Commented code is just for testing as long as no ODE is running
+                /*
+                 * AbstractTransactionalCommand cmd = new
+                 * AbstractTransactionalCommand() {
+                 * 
+                 * 
+                 * (non-Javadoc)
+                 * 
+                 * 
+                 * 
+                 * 
+                 * @seede.decidr.model.commands.AbstractTransactionalCommand#
+                 * transactionStarted
+                 * (de.decidr.model.transactions.TransactionEvent)
+                 * 
+                 * @Override public void transactionStarted(TransactionEvent
+                 * evt) throws TransactionException { File file = new File("",
+                 * "", true, true, true, 10L, new Date(), true); try {
+                 * file.setData(XmlTools.getBytes(tConfiguration)); } catch
+                 * (JAXBException e) { throw new TransactionException(e); }
+                 * evt.getSession().save(file); } };
+                 */
+
+                /*
+                 * SaveStartConfigurationCommand saveCmd = new
+                 * SaveStartConfigurationCommand( role, workflowModelId,
+                 * tConfiguration);
+                 */
+                // HibernateTransactionCoordinator.getInstance().runTransaction(
+                // cmd);
+                workflowModelFacade.startWorkflowInstance(workflowModelId,
+                        tConfiguration, checked);
+                Main
+                        .getCurrent()
+                        .getMainWindow()
+                        .addWindow(
+                                new InformationDialogComponent(
+                                        "Start configuration successfully saved and workflow instance started",
+                                        "Success"));
+            } catch (UsernameNotFoundException e) {
+                Main.getCurrent().getMainWindow().showNotification(
+                        "Username not found!");
+            } catch (UserDisabledException e) {
+                Main.getCurrent().getMainWindow().showNotification(
+                        "User disabled!");
+            } catch (UserUnavailableException e) {
+                Main.getCurrent().getMainWindow().showNotification(
+                        "User unavailable!");
+            } catch (WorkflowModelNotStartableException e) {
+                Main.getCurrent().getMainWindow().showNotification(
+                        "Workflow model is not startable!");
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        } else {
+            Main
+                    .getCurrent()
+                    .getMainWindow()
+                    .addWindow(
+                            new InformationDialogComponent(
+                                    "If you haven't added actors to the role(s) please add some actors and fill out the form",
+                                    "Information"));
         }
 
-        try {
-            workflowModelFacade.startWorkflowInstance(workflowModelId,
-                    tConfiguration, checked);
-        } catch (UsernameNotFoundException e) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Username not found!");
-        } catch (UserDisabledException e) {
-            Main.getCurrent().getMainWindow()
-                    .showNotification("User disabled!");
-        } catch (UserUnavailableException e) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "User unavailable!");
-        } catch (WorkflowModelNotStartableException e) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Workflow model is not startable!");
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
-
-        new HideDialogWindowAction();
+        Main.getCurrent().getMainWindow().removeWindow(
+                event.getButton().getWindow());
     }
 }

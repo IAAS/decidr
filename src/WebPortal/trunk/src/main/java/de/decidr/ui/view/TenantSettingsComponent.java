@@ -96,7 +96,7 @@ public class TenantSettingsComponent extends CustomComponent {
     private String tenantDescription;
     private String tenantName;
     private String logoFileName = "logo.png";
-    private String css;
+    private String css = "";
 
     private Long logoId;
     private Long tenantId;
@@ -220,8 +220,8 @@ public class TenantSettingsComponent extends CustomComponent {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
+                css = sb.toString();
             }
-            css = sb.toString();
             showBasicOptionsButton = new Button("Show basic options");
             showBasicOptionsButton.addListener(new Button.ClickListener() {
 
