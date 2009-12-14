@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 07.12.2009 17:47:57 by Hibernate Tools 3.2.4.GA
+// Generated 14.12.2009 17:42:31 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,7 +16,6 @@ public class DeployedWorkflowModel implements java.io.Serializable {
      */
     private static final long serialVersionUID = 1L;
     private Long id;
-    private long version;
     private WorkflowModel originalWorkflowModel;
     private Tenant tenant;
     private String name;
@@ -25,6 +24,7 @@ public class DeployedWorkflowModel implements java.io.Serializable {
     private byte[] wsdl;
     private byte[] soapTemplate;
     private Date deployDate;
+    private long version;
     private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
             0);
     private Set<StartConfiguration> startConfigurations = new HashSet<StartConfiguration>(
@@ -38,7 +38,7 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 
     public DeployedWorkflowModel(Tenant tenant, String name,
             String description, byte[] dwdl, byte[] wsdl, byte[] soapTemplate,
-            Date deployDate) {
+            Date deployDate, long version) {
         //generated minimal constructor
         this.tenant = tenant;
         this.name = name;
@@ -47,6 +47,7 @@ public class DeployedWorkflowModel implements java.io.Serializable {
         this.wsdl = wsdl;
         this.soapTemplate = soapTemplate;
         this.deployDate = deployDate;
+        this.version = version;
     }
 
     public DeployedWorkflowModel(
@@ -58,6 +59,7 @@ public class DeployedWorkflowModel implements java.io.Serializable {
             byte[] wsdl,
             byte[] soapTemplate,
             Date deployDate,
+            long version,
             Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers,
             Set<StartConfiguration> startConfigurations,
             Set<WorkflowInstance> workflowInstances) {
@@ -70,6 +72,7 @@ public class DeployedWorkflowModel implements java.io.Serializable {
         this.wsdl = wsdl;
         this.soapTemplate = soapTemplate;
         this.deployDate = deployDate;
+        this.version = version;
         this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
         this.startConfigurations = startConfigurations;
         this.workflowInstances = workflowInstances;
@@ -81,14 +84,6 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public long getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public WorkflowModel getOriginalWorkflowModel() {
@@ -153,6 +148,14 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 
     public void setDeployDate(Date deployDate) {
         this.deployDate = deployDate;
+    }
+
+    public long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     public Set<WorkflowModelIsDeployedOnServer> getWorkflowModelIsDeployedOnServers() {

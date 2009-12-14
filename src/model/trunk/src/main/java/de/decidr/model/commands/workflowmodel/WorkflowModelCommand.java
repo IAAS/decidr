@@ -122,16 +122,13 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
      */
     public DeployedWorkflowModel fetchCurrentDeployedWorkflowModel(
             Session session) {
-        WorkflowModel model = new WorkflowModel();
-        model.setId(getWorkflowModelId());
-
         Criteria crit = session.createCriteria(DeployedWorkflowModel.class,
                 "dwm");
 
         crit.createCriteria("originalWorkflowModel", "owm").add(
                 Restrictions.eqProperty("owm.version", "dwm.version"));
 
-        crit.add(Restrictions.eq("originalWorkflowModel", model));
+        crit.add(Restrictions.eq("originalWorkflowModel.id", getWorkflowModelId()));
 
         return (DeployedWorkflowModel) crit.setResultTransformer(
                 CriteriaSpecification.ROOT_ENTITY).uniqueResult();

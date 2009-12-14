@@ -220,10 +220,20 @@ public class DecidrReverseEngineeringStrategy extends
         if (identifier.getName().endsWith("view")) {
             columns.add("id");
         } else {
+            // note that the super call is completely useless because it always
+            // returns null.
             return super.getPrimaryKeyColumnNames(identifier);
         }
 
         return columns;
+    }
+
+    @Override
+    public boolean useColumnForOptimisticLock(TableIdentifier identifier,
+            String column) {
+        // prevent columns named "version" from becoming managed by Hibernate -
+        // our application does that!
+        return false;
     }
 
     @Override

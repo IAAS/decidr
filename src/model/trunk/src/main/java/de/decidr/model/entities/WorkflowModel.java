@@ -1,6 +1,6 @@
 package de.decidr.model.entities;
 
-// Generated 07.12.2009 17:47:57 by Hibernate Tools 3.2.4.GA
+// Generated 14.12.2009 17:42:31 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,7 +16,6 @@ public class WorkflowModel implements java.io.Serializable {
      */
     private static final long serialVersionUID = 1L;
     private Long id;
-    private long version;
     private Tenant tenant;
     private User modifiedByUser;
     private String name;
@@ -26,6 +25,7 @@ public class WorkflowModel implements java.io.Serializable {
     private Date creationDate;
     private Date modifiedDate;
     private byte[] dwdl;
+    private long version;
     private Set<Invitation> invitations = new HashSet<Invitation>(0);
     private Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels = new HashSet<UserAdministratesWorkflowModel>(
             0);
@@ -38,7 +38,7 @@ public class WorkflowModel implements java.io.Serializable {
 
     public WorkflowModel(Tenant tenant, String name, String description,
             boolean published, boolean executable, Date creationDate,
-            Date modifiedDate, byte[] dwdl) {
+            Date modifiedDate, byte[] dwdl, long version) {
         //generated minimal constructor
         this.tenant = tenant;
         this.name = name;
@@ -48,6 +48,7 @@ public class WorkflowModel implements java.io.Serializable {
         this.creationDate = creationDate;
         this.modifiedDate = modifiedDate;
         this.dwdl = dwdl;
+        this.version = version;
     }
 
     public WorkflowModel(
@@ -60,6 +61,7 @@ public class WorkflowModel implements java.io.Serializable {
             Date creationDate,
             Date modifiedDate,
             byte[] dwdl,
+            long version,
             Set<Invitation> invitations,
             Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels,
             Set<DeployedWorkflowModel> deployedWorkflowModels) {
@@ -73,6 +75,7 @@ public class WorkflowModel implements java.io.Serializable {
         this.creationDate = creationDate;
         this.modifiedDate = modifiedDate;
         this.dwdl = dwdl;
+        this.version = version;
         this.invitations = invitations;
         this.userAdministratesWorkflowModels = userAdministratesWorkflowModels;
         this.deployedWorkflowModels = deployedWorkflowModels;
@@ -84,14 +87,6 @@ public class WorkflowModel implements java.io.Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public long getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public Tenant getTenant() {
@@ -164,6 +159,14 @@ public class WorkflowModel implements java.io.Serializable {
 
     public void setDwdl(byte[] dwdl) {
         this.dwdl = dwdl;
+    }
+
+    public long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     public Set<Invitation> getInvitations() {

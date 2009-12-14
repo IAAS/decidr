@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 07.12.2009 17:48:00 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 14.12.2009 17:42:32 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.DeployedWorkflowModel" table="deployed_workflow_model" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <version name="version" type="long">
-            <column name="`version`" not-null="true" />
-        </version>
         <many-to-one name="originalWorkflowModel" class="de.decidr.model.entities.WorkflowModel" fetch="select">
             <column name="`originalWorkflowModelId`">
                 <comment>If this field is null, the original workflow model has been deleted or is no longer available.</comment>
@@ -36,6 +33,9 @@
         </property>
         <property name="deployDate" type="timestamp">
             <column name="`deployDate`" length="19" not-null="true" />
+        </property>
+        <property name="version" type="long">
+            <column name="`version`" not-null="true" />
         </property>
         <set name="workflowModelIsDeployedOnServers" inverse="true" lazy="true" table="workflow_model_is_deployed_on_server" fetch="select">
             <key>

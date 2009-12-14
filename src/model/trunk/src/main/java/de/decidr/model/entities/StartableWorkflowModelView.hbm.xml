@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 07.12.2009 17:48:00 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 14.12.2009 17:42:32 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.StartableWorkflowModelView" table="startable_workflow_model_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="long">
             <column name="id" />
             <generator class="assigned" />
         </id>
-        <version name="version" type="long">
-            <column name="`version`" not-null="true" />
-        </version>
         <property name="tenantId" type="long">
             <column name="`tenantId`" not-null="true" />
         </property>
@@ -34,6 +31,9 @@
         </property>
         <property name="dwdl" type="binary">
             <column name="`dwdl`" not-null="true" />
+        </property>
+        <property name="version" type="long">
+            <column name="`version`" not-null="true" />
         </property>
         <property name="modifiedByUserId" type="java.lang.Long">
             <column name="`modifiedByUserId`" />
