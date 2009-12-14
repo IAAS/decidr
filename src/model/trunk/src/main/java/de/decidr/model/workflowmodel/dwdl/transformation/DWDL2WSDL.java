@@ -208,17 +208,7 @@ public class DWDL2WSDL {
         startMessageRequest.addPart(messagePart1);
         startMessageRequest.setUndefined(false);
 
-        startMessageResponse = new MessageImpl();
-        startMessageResponse.setQName(new QName(wsdl.getTargetNamespace(),
-                WSDLConstants.PROCESS_MESSAGE_OUT));
-        Part messagePart2 = new PartImpl();
-        messagePart2.setName("payload");
-        messagePart2.setElementName(new QName(wsdl.getTargetNamespace(),
-                WSDLConstants.PROCESS_MESSAGE_OUT_ELEMENT, "tns"));
-        startMessageResponse.addPart(messagePart2);
-        startMessageResponse.setUndefined(false);
-
-        wsdl.addMessage(startMessageRequest);
+        
         wsdl.addMessage(startMessageResponse);
     }
 
@@ -315,7 +305,7 @@ public class DWDL2WSDL {
                 .getName()));
         Port servicePort = new PortImpl();
         servicePort.setBinding(processBinding);
-        servicePort.setName(processBinding.getQName().getLocalPart());
+        servicePort.setName(dwdl.getName()+"Port");
         SOAPAddress soapLocation = new SOAPAddressImpl();
         soapLocation.setLocationURI(serverLocation);
         servicePort.addExtensibilityElement(soapLocation);
