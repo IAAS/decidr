@@ -64,7 +64,7 @@ public class BPELStaticValidationTest {
 
             @Override
             public void onCompilationMessage(CompilationMessage arg0) {
-                this.onCompilationMessage(arg0);
+                onMessage(arg0);
             }
         });
 
@@ -77,6 +77,7 @@ public class BPELStaticValidationTest {
     @Test
     public void runTest() throws Exception {
         try {
+            compiler.setDryRun(true);
             compiler.compile(bpelFile);
         } catch (CompilationException ce) {
             errors.add(ce.getCompilationMessage());
@@ -86,7 +87,7 @@ public class BPELStaticValidationTest {
         log.debug(errors.size()+" errors found by compiler");
     }
 
-    public static void onCompilationMessage(
+    public static void onMessage(
             CompilationMessage compilationMessage) {
         errors.add(compilationMessage);
         log.debug(compilationMessage.messageText);
