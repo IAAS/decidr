@@ -2,15 +2,15 @@
 
 <process name="HumanTaskTest"
     targetNamespace="http://decidr.de/Default_Tenant/processes/302"
-    tns:xmlns="http://decidr.de/Default_Tenant/processes/302" 
+    xmlns:tns="http://decidr.de/Default_Tenant/processes/302" 
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-    ws1:xmlns="http://decidr.de/webservices/Email"
-    ws2:xmlns="http://decidr.de/webservices/HumanTask"
-    basic:xmlns="http://decidr.de/wsdl/basicProcess"
-    ode:xmlns="http://www.apache.org/ode/type/extension"
-    decidr:xmlns="http://decidr.de/schema/DecidrTypes"
-    decidrP:xmlns="http://decidr.de/schema/DecidrProcessTypes"
-    xsd:xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:ws1="http://decidr.de/webservices/Email"
+    xmlns:ws2="http://decidr.de/webservices/HumanTask"
+    xmlns:basic="http://decidr.de/wsdl/basicProcess"
+    xmlns:ode="http://www.apache.org/ode/type/extension"
+    xmlns:decidr="http://decidr.de/schema/DecidrTypes"
+    xmlns:pdecidr="http://decidr.de/schema/DecidrProcessTypes"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:hut="http://decidr.de/schema/humanTask">
     
   <documentation>
@@ -108,13 +108,11 @@
         </catchAll>
     </faultHandlers>
 
-   <sequence>
-     <flow>
-       <links>
-         <link name="L1260445316022"/>
-         <link name="L1260445316024"/>
-       </links>
        <flow name="mainFlow">
+           <links>
+            <link name="L1260445316022"/>
+            <link name="L1260445316024"/>
+           </links>
            <sequence>
                 <sources>
                     <source linkName="L1260445316022"/>
@@ -225,9 +223,10 @@
 		      <receive variable="L1260455377884" 
 		         operation="taskCompleted" 
 		         partnerLink="HumanTaskPL">
-		         <correlation 
-                    set="standard-correlation" 
-                    initiate="no" />
+		         <correlations>
+		           <correlation 
+                     set="standard-correlation" 
+                     initiate="no" />
                  </correlations>
 		      </receive>
             </sequence>
@@ -251,5 +250,4 @@
                         partnerLink="EmailPL"/>
             </sequence>
        </flow>
-     </sequence>
 </process>

@@ -19,14 +19,12 @@ package de.decidr.model.workflowmodel.validation;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import java.util.List;
-import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.ode.bpel.compiler.BpelC;
 import org.apache.ode.bpel.compiler.api.CompilationException;
 import org.apache.ode.bpel.compiler.api.CompilationMessage;
@@ -35,13 +33,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
-import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
-import de.decidr.model.workflowmodel.factories.DWDLFactory;
-import de.decidr.model.workflowmodel.factories.DecidrWebserviceAdapterFactory;
-import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
+import de.decidr.model.logging.DefaultLogger;
 
 /**
  * Testcase for BPEL validation according to <code>StaticCheckSuite.java</code>
@@ -49,20 +41,14 @@ import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
  * @author Modood Alvi
  */
 public class BPELStaticValidationTest {
+    
+    private static Logger log = DefaultLogger.getLogger(BPELStaticValidationTest.class);
 
-    static DWDL2BPEL bpelConverter = null;
-    static DWDL2WSDL wsdlConverter = null;
-    static Workflow dwdl = null;
-    static String tenant = null;
-    static DecidrWebserviceAdapter humanTask = null;
-    static DecidrWebserviceAdapter email = null;
-    static Map<String, DecidrWebserviceAdapter> adapters;
-    static String location = null;
-
-    static BpelC compiler;
-    static List<CompilationMessage> errors = new ArrayList<CompilationMessage>();
-    static File bpelFile;
-    static File wsdlFile;
+    static BpelC compiler = null;
+    static List<CompilationMessage> errors = null;
+    static String bpelFileName = "/test/HumanTaskProcess.bpel";
+    static String wsdlFileName = "/test/HumanTaskProcess.wsdl";
+    static File bpelFile = null;
 
     /**
      * Initialize all relevant input objects
@@ -71,18 +57,8 @@ public class BPELStaticValidationTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        adapters = new HashMap<String, DecidrWebserviceAdapter>();
-        bpelConverter = new DWDL2BPEL();
-        wsdlConverter = new DWDL2WSDL();
-        dwdl = DWDLFactory.getDWDLWorkflow();
-        tenant = "Hugo";
-        location = "http://ec2-174-129-24-232.compute-1.amazonaws.com:8080";
-        humanTask = DecidrWebserviceAdapterFactory
-                .getHumanTaskWebserviceAdapter();
-        email = DecidrWebserviceAdapterFactory.getEmailWebserviceAdapter();
-        adapters.put("Decidr-HumanTask", humanTask);
-        adapters.put("Decidr-Email", email);
 
+        errors = new ArrayList<CompilationMessage>();
         compiler = BpelC.newBpelCompiler();
         compiler.setCompileListener(new CompileListener() {
 
@@ -92,22 +68,10 @@ public class BPELStaticValidationTest {
             }
         });
 
-        byte[] bpeldata = TransformUtil.bpelToBytes(bpelConverter.getBPEL(dwdl,
-                adapters));
-        byte[] wsdldata = TransformUtil.definitionToBytes(wsdlConverter
-                .getWSDL(dwdl, location, tenant));
-
-        bpelFile = new File(tenant + ".bpel");
-        FileOutputStream fos = new FileOutputStream(bpelFile);
-        fos.write(bpeldata);
-        fos.flush();
-        fos.close();
-        fos = null;
-        wsdlFile = new File(tenant + ".wsdl");
-        fos = new FileOutputStream(wsdlFile);
-        fos.write(wsdldata);
+        bpelFile = new File(BPELStaticValidationTest.class.getResource(
+                bpelFileName).getFile());
         compiler.setProcessWSDL(BPELStaticValidationTest.class.getResource(
-                wsdlFile.getAbsolutePath()).toURI());
+                wsdlFileName).toURI());
     }
 
     @Test
@@ -119,17 +83,18 @@ public class BPELStaticValidationTest {
         }
 
         assertTrue(errors.size() == 0);
+        log.debug(errors.size()+" errors found by compiler");
     }
 
     public static void onCompilationMessage(
             CompilationMessage compilationMessage) {
         errors.add(compilationMessage);
+        log.debug(compilationMessage.messageText);
     }
 
     @AfterClass
-    public void afterTest() throws Exception {
-        boolean deleted = bpelFile.delete();
-        assertTrue(deleted);
+    public static void afterTest() throws Exception {
+        
     }
 
 }
