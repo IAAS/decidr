@@ -102,7 +102,7 @@ public class WorkflowModelFactory extends EntityFactory {
                         + Integer.toString(i));
                 model.setName("workflow " + Integer.toString(i));
                 model.setDwdl(new byte[0]);
-                model.setVersion(rnd.nextInt(1000000));
+                model.setVersion(rnd.nextInt(100));
                 model.setExecutable(rnd.nextBoolean());
 
                 Tenant owningTenant = owners.get(i % owners.size());
@@ -203,6 +203,7 @@ public class WorkflowModelFactory extends EntityFactory {
         deployed.setName(model.getName());
         deployed.setSoapTemplate(new byte[0]);
         deployed.setWsdl(new byte[0]);
+        deployed.setVersion(model.getVersion());
         deployed.setTenant(model.getTenant());
 
         // make it seem as if the model had been deployed on an ODE server, but
