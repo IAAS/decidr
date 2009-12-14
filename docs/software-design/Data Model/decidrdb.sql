@@ -1054,28 +1054,6 @@ END;
 DELIMITER ;
 
 DELIMITER //
-CREATE TRIGGER `check_deployed_workflow_model_insert`
-BEFORE INSERT ON `deployed_workflow_model`
-FOR EACH ROW BEGIN
-    #Check 1: mimic a unique index over (originalWorkflowModelId, version), ignoring orphaned deployed workflow models.
-    IF ((NEW.originalWorkflowModelId <> NULL) AND 
-        (EXISTS(SELECT * FROM `deployed_workflow_model` AS dwfm
-                WHERE (dwfm.originalWorkflowModelId = NEW.originalWorkflowModelId) 
-                AND (dwfm.version = NEW.version)))) THEN
-        CALL ERROR_DWFM_VERSION_DUPLICATE();
-    END IF;
-    
-    #Check 2: a deployed workflow model may not have a higher version than its corresponding workflow model
-    IF ((NEW.originalWorkflowModelId <> NULL) AND 
-        (EXISTS (SELECT * FROM `workflow_model` AS wfm
-                 WHERE (wfm.version < NEW.version)
-                 AND (wfm.id = NEW.originalWorkflowModelId)))) THEN
-        CALL ERROR_DWFM_VERSION_HIGHER_THAN_ORIGINAL();
-    END IF;
-END;
-
-//
-
 
 
 
@@ -1084,21 +1062,45 @@ CREATE TRIGGER `check_deployed_workflow_model_update`
 BEFORE UPDATE ON `deployed_workflow_model`
 FOR EACH ROW BEGIN
     #Check 1: mimic a unique index over (originalWorkflowModelId, version), ignoring orphaned deployed workflow models.
-    IF ((NEW.originalWorkflowModelId <> NULL) AND 
+    IF ((NEW.originalWorkflowModelId IS NOT NULL) AND 
         (EXISTS(SELECT * FROM `deployed_workflow_model` AS dwfm
                 WHERE (dwfm.originalWorkflowModelId = NEW.originalWorkflowModelId) 
-                AND (dwfm.version = NEW.version)))) THEN
+                AND (dwfm.version = NEW.version)
+                AND (dwfm.id <> NEW.id)))) THEN
         CALL ERROR_DWFM_VERSION_DUPLICATE();
     END IF;
     
     #Check 2: a deployed workflow model may not have a higher version than its corresponding workflow model
-    IF ((NEW.originalWorkflowModelId <> NULL) AND 
+    IF ((NEW.originalWorkflowModelId IS NOT NULL) AND 
         (EXISTS (SELECT * FROM `workflow_model` AS wfm
                  WHERE (wfm.version < NEW.version)
                  AND (wfm.id = NEW.originalWorkflowModelId)))) THEN
         CALL ERROR_DWFM_VERSION_HIGHER_THAN_ORIGINAL();
     END IF;
 END;//
+
+CREATE TRIGGER `check_deployed_workflow_model_insert`
+BEFORE INSERT ON `deployed_workflow_model`
+FOR EACH ROW BEGIN
+    #Check 1: mimic a unique index over (originalWorkflowModelId, version), ignoring orphaned deployed workflow models.
+    IF ((NEW.originalWorkflowModelId IS NOT NULL) AND 
+        (EXISTS(SELECT * FROM `deployed_workflow_model` AS dwfm
+                WHERE (dwfm.originalWorkflowModelId = NEW.originalWorkflowModelId) 
+                AND (dwfm.version = NEW.version)
+                AND (dwfm.id <> NEW.id)))) THEN
+        CALL ERROR_DWFM_VERSION_DUPLICATE();
+    END IF;
+    
+    #Check 2: a deployed workflow model may not have a higher version than its corresponding workflow model
+    IF ((NEW.originalWorkflowModelId IS NOT NULL) AND 
+        (EXISTS (SELECT * FROM `workflow_model` AS wfm
+                 WHERE (wfm.version < NEW.version)
+                 AND (wfm.id = NEW.originalWorkflowModelId)))) THEN
+        CALL ERROR_DWFM_VERSION_HIGHER_THAN_ORIGINAL();
+    END IF;
+END;
+
+//
 
 
 DELIMITER ;
