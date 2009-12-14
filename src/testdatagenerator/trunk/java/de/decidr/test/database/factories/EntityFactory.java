@@ -26,9 +26,11 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.test.database.main.ProgressListener;
 
 /**
@@ -48,6 +50,9 @@ public class EntityFactory {
      * The number of seconds in a week for use with getRandomDate.
      */
     public static final int SPAN_WEEK = 7 * 24 * 60 * 60;
+
+    protected static final Logger logger = DefaultLogger
+            .getLogger(EntityFactory.class);
 
     /**
      * Random number generator

@@ -130,13 +130,7 @@ public class WorkflowModelFactory extends EntityFactory {
                     int numDeployedVersions = rnd
                             .nextInt(MAX_DEPLOYED_VERSIONS) + 1;
                     for (int j = 1; j <= numDeployedVersions; j++) {
-                        addDeployedWorkflowModels(model);
-                        // cannot create two deployed workflow models of the
-                        // same
-                        // version
-                        if (j < numDeployedVersions) {
-                            model.setVersion(model.getVersion() + 1L);
-                        }
+                        addDeployedWorkflowModels(model, j);
                     }
                 }
 
@@ -193,8 +187,29 @@ public class WorkflowModelFactory extends EntityFactory {
      * workflow model.
      * 
      * @param model
+     *            model for which a deployed version is added
+     * @param n
+     *            The Nth deployed version of a workflow model receives version
+     *            model.getVersion() - (n-1). If that version would be less than
+     *            zero, no deployed version is added.
      */
-    public void addDeployedWorkflowModels(WorkflowModel model) {
+    public void addDeployedWorkflowModels(WorkflowModel model, int n) {
+        if (n < 1) {
+            throw new IllegalArgumentException("n must be > 0");
+        }
+
+        long deployedVersion = model.getVersion() - (n - 1);
+        if (deployedVersion < 0) {
+            logger
+                    .debug("Not adding a deployed workflow model due to version < 0");
+            return;
+        }
+
+        logger.debug(String.format(
+                "Adding deployed workflow model for workflow model "
+                        + "(ID%1$s, v%2$s) with version %3$s", model.getId(),
+                model.getVersion(), deployedVersion));
+
         DeployedWorkflowModel deployed = new DeployedWorkflowModel();
         deployed.setOriginalWorkflowModel(model);
         deployed.setDeployDate(DecidrGlobals.getTime().getTime());
@@ -203,7 +218,7 @@ public class WorkflowModelFactory extends EntityFactory {
         deployed.setName(model.getName());
         deployed.setSoapTemplate(new byte[0]);
         deployed.setWsdl(new byte[0]);
-        deployed.setVersion(model.getVersion());
+        deployed.setVersion(deployedVersion);
         deployed.setTenant(model.getTenant());
 
         // make it seem as if the model had been deployed on an ODE server, but
