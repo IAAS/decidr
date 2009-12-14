@@ -1085,7 +1085,7 @@ BEFORE UPDATE ON `deployed_workflow_model`
 FOR EACH ROW BEGIN
     #Check 1: mimic a unique index over (originalWorkflowModelId, version), ignoring orphaned deployed workflow models.
     IF ((NEW.originalWorkflowModelId <> NULL) AND 
-        (EXISTS(SELECT * FROM `deployed_workfow_model` AS dwfm
+        (EXISTS(SELECT * FROM `deployed_workflow_model` AS dwfm
                 WHERE (dwfm.originalWorkflowModelId = NEW.originalWorkflowModelId) 
                 AND (dwfm.version = NEW.version)))) THEN
         CALL ERROR_DWFM_VERSION_DUPLICATE();
