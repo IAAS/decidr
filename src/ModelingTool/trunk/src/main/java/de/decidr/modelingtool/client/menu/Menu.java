@@ -44,7 +44,6 @@ public class Menu extends MenuBar {
         addItem(imgBundle.undo().getHTML(), true, new UndoMenuItem());
         addItem(imgBundle.redo().getHTML(), true, new RedoMenuItem());
         addItem(imgBundle.delete().getHTML(), true, new DeleteMenuItem());
-        // JS externalize
         addItem(imgBundle.canvas().getHTML(), true,
                 new EditCanvasSizeMenuItem());
 

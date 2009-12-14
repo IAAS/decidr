@@ -32,7 +32,7 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 
 /**
- * TODO: add comment
+ * A dialog for changing the size of the workflow canvas.
  * 
  * @author Jonas Schlaak
  */
@@ -48,13 +48,12 @@ public class CanvasSizeWindow extends ModelingToolDialog {
     private Spinner widthSpinner;
 
     /**
-     * TODO: add comment
-     * 
+     * Default constructor.
      */
     public CanvasSizeWindow() {
         super();
         this.setLayout(new FitLayout());
-        this.setSize(400, 200);
+        this.setSize(300, 200);
         this.setResizable(true);
         createContentPanel();
         createButtons();
@@ -100,17 +99,11 @@ public class CanvasSizeWindow extends ModelingToolDialog {
     }
 
     private void changeSize() {
-        String width = widthSpinner.getValue() + "px";
-        String height = heigthSpinner.getValue()+"px";
+        int width = widthSpinner.getValue();
+        int height = heigthSpinner.getValue();
         workflow.setSize(width, height);
     }
 
-    /**
-     * 
-     * TODO: add comment
-     * 
-     * @param workflow
-     */
     public void setModel(Workflow workflow) {
         this.workflow = workflow;
     }
@@ -123,16 +116,17 @@ public class CanvasSizeWindow extends ModelingToolDialog {
      */
     @Override
     public Boolean initialize() {
-        //JS externalize strings and init spinners with correct values
-        heigthSpinner = new Spinner(1, 1000, 10, 200);
+        widthSpinner = new Spinner(1, Workflow.MAX_SIZE, workflow.getWidth());
         table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, new Label("height"));
-        table.setWidget(table.getRowCount() - 1, 1, heigthSpinner);
-
-        widthSpinner = new Spinner(1, 1000, 10, 200);
-        table.insertRow(table.getRowCount());
-        table.setWidget(table.getRowCount() - 1, 0, new Label("width"));
+        table.setWidget(table.getRowCount() - 1, 0, new Label(
+                ModelingToolWidget.getMessages().width()));
         table.setWidget(table.getRowCount() - 1, 1, widthSpinner);
+
+        heigthSpinner = new Spinner(1, Workflow.MAX_SIZE, workflow.getHeight());
+        table.insertRow(table.getRowCount());
+        table.setWidget(table.getRowCount() - 1, 0, new Label(
+                ModelingToolWidget.getMessages().height()));
+        table.setWidget(table.getRowCount() - 1, 1, heigthSpinner);
 
         return true;
     }

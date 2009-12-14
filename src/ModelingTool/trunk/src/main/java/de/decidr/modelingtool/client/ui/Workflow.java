@@ -44,7 +44,7 @@ import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 /**
  * This is the basic workflow drawing canvas.
  * 
- * @author Johannes Engelhardt
+ * @authors Johannes Engelhardt, Jonas Schlak
  */
 public class Workflow extends AbsolutePanel implements ModelChangeListener,
         HasMouseDownHandlers, HasKeyDownHandlers, HasChildren {
@@ -59,8 +59,6 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         return instance;
     }
 
-    /** The drag controller which makes the nodes in the workflow draggable. */
-    // private WorkflowDragController dragController;
     /** The workflow model */
     private WorkflowModel model = null;
 
@@ -72,6 +70,16 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     /** All connections in the workflow except for the nodes in a container. */
     private Collection<Connection> childConnections = new HashSet<Connection>();
 
+    /*
+     * These two variables are needed to store the size values, because there
+     * are no methods to get width and height form the UIObject. Setting these
+     * variables has no effect.
+     */
+    private int width = 800;
+    private int height = 600;
+
+    public final static int MAX_SIZE = 10000;
+
     /**
      * Private constructor.
      */
@@ -80,8 +88,8 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
 
         // set workflow properties
         this.addStyleName("workflow");
-        // JS set size of workflow
-        this.setSize("800px", "600px");
+        // set size of workflow
+        this.setSize(width, height);
 
         // register workflow to selection handler
         this.addMouseDownHandler(SelectionHandler.getInstance());
@@ -259,5 +267,35 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
      */
     public HashMap<Long, String> getUsers() {
         return users;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    /**
+     * Sets the size of the workflow canvas
+     * 
+     * @param width
+     *            the width in pixels
+     * @param height
+     *            the height in pixels
+     */
+    public void setSize(int width, int height) {
+        super.setSize(width + "px", height + "px");
+        this.width = width;
+        this.height = height;
+    }
+
+    /**
+     * DO NOT USE THIS METHOD. USE setSize(int, int) INSTEAD.
+     */
+    @Override
+    public void setSize(String width, String height) {
+        super.setSize(width, height);
     }
 }

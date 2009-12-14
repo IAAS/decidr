@@ -24,196 +24,193 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.decidr.modelingtool.client.ModelingToolWidget;
+import de.decidr.modelingtool.client.ui.Workflow;
+
 /**
- * TODO: add comment
+ * A simple spinner input field for integers.
  * 
  * @author Jonas Schlaak
  */
 public class Spinner extends HorizontalPanel {
 
+    private TextBox textBox = new TextBox();
+
+    private VerticalPanel images = new VerticalPanel();
     private Image upImage;
     private Image downImage;
-    private VerticalPanel images = new VerticalPanel();
-    private TextBox box = new TextBox();
-    private int step = 20;
+
+    private static final int STEPSIZE = 100;
+
     private int max = 0;
     private int min = 0;
-    private int curVal = 0;
+    private int value = 0;
     // delay to wait before increasing/decreasing further, in milliseconds
-    private int delay = 120;
+    private int delay = 150;
 
-    Timer t_raise = new Timer() {
-        public void run() {
-            raise();
-        }
-    };
-    Timer t_lower = new Timer() {
-        public void run() {
-            lower();
-        }
-    };
+    private Timer raiser;
+    private Timer lowerer;
 
-    public Spinner(int minVal, int maxVal, int stepVal, int startVal) {
+    /**
+     * Default constructor.
+     * 
+     * @param min
+     *            the lower bound
+     * @param max
+     *            the upper bound
+     * @param startValue
+     *            the initial value
+     */
+    public Spinner(int min, int max, int startValue) {
+        createTimers();
+
         SpinnerImageBundle imgBundle = GWT.create(SpinnerImageBundle.class);
-        upImage = new Image(imgBundle.up().getHTML());
-        downImage = new Image(imgBundle.down().getHTML());
+        upImage = imgBundle.up().createImage();
+        downImage = imgBundle.down().createImage();
 
         upImage.setPixelSize(10, 10);
         downImage.setPixelSize(10, 10);
 
-        // Take over parameters
-        step = stepVal;
-        max = maxVal;
-        min = minVal;
+        this.max = max;
+        this.min = min;
 
         // set curVal inside min or max bounds
-        if (startVal < min) {
-            curVal = min;
-        } else if (startVal > max) {
-            curVal = max;
+        if (startValue < this.min) {
+            value = this.min;
+        } else if (startValue > this.max) {
+            value = this.max;
         } else {
-            curVal = startVal;
+            value = startValue;
         }
 
-        // Build our UI
-        images.add(upImage);
-        upImage.addMouseDownHandler(new MouseDownHandler() {
-            @Override
-            public void onMouseDown(MouseDownEvent event) {
-                t_raise.run();
-                t_raise.scheduleRepeating(delay);
-
-            }
-        });
-        upImage.addMouseUpHandler(new MouseUpHandler() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see
-             * com.google.gwt.event.dom.client.MouseUpHandler#onMouseUp(com.
-             * google.gwt.event.dom.client.MouseUpEvent)
-             */
-            @Override
-            public void onMouseUp(MouseUpEvent event) {
-                t_raise.cancel();
-            }
-        });
-
-        images.add(downImage);
-        downImage.addMouseDownHandler(new MouseDownHandler() {
-            @Override
-            public void onMouseDown(MouseDownEvent event) {
-                t_lower.run();
-                t_lower.scheduleRepeating(delay);
-
-            }
-        });
-        downImage.addMouseUpHandler(new MouseUpHandler() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see
-             * com.google.gwt.event.dom.client.MouseUpHandler#onMouseUp(com.
-             * google.gwt.event.dom.client.MouseUpEvent)
-             */
-            @Override
-            public void onMouseUp(MouseUpEvent event) {
-                t_lower.cancel();
-            }
-        });
-
+        // Build UI
+        createTextField();
+        createButtons();
         updateTextBox();
-        box.addKeyPressHandler(new KeyPressHandler() {
 
-            @Override
-            public void onKeyPress(KeyPressEvent event) {
-                TextBox tb = (TextBox) event.getSource();
-                int index = tb.getCursorPos();
-                String str = tb.getText();
-
-                // If no number has been entered, ignore it
-                if (!Character.isDigit(event.getCharCode())) {
-                    tb.cancelKey();
-                    return;
-                }
-
-                // If we have 0123 as input and 123 is selected, we need to
-                // calculate with "09" if "9" was entered
-                String newstr;
-                if (tb.getSelectionLength() > 0) {
-                    // str = str.replaceFirst(str.substring(tb.getCursorPos(),
-                    // tb.getSelectionLength()+1), "");
-                    newstr = str.substring(0, tb.getCursorPos());
-                    newstr += event.getCharCode();
-                    newstr += str.substring(tb.getCursorPos()
-                            + tb.getSelectionLength(), str.length());
-
-                } else {
-
-                    newstr = str.substring(0, index) + event.getCharCode()
-                            + str.substring(index, str.length());
-                }
-
-                int newint = Integer.parseInt(newstr);
-
-                // If we are not inside the bounds, leave this method
-                // TODO: Choose, whether to display the maxvalue or leave
-                if (newint > max || newint < min) {
-                    tb.cancelKey();
-                    return;
-                }
-
-                curVal = newint;
-
-            }
-
-        });
-
-        // set width analog to max length of the maximum value
-        box.setWidth((((max + "").length() + 1) / 2) + 1 + "em");
-        box.setTextAlignment(TextBoxBase.ALIGN_RIGHT);
-        add(box);
         add(images);
     }
 
+    private void createTextField() {
+        textBox = new TextBox();
+
+        textBox.setTextAlignment(TextBoxBase.ALIGN_RIGHT);
+        textBox.setWidth(((Integer) max).toString().length() + "em");
+
+        textBox.addKeyPressHandler(new KeyPressHandler() {
+
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+                int cursorPos = textBox.getCursorPos();
+                String text = textBox.getText();
+
+                // Check if input is a digit
+                if (!Character.isDigit(event.getCharCode())) {
+                    textBox.cancelKey();
+                    return;
+                }
+
+                // Insert new digit in currect position
+                String valueString = text.substring(0, cursorPos)
+                        + event.getCharCode()
+                        + text.substring(cursorPos, text.length());
+                int newValue = Integer.parseInt(valueString);
+
+                // Check if input is within bounds
+                if (newValue > max || newValue < min) {
+                    textBox.cancelKey();
+                    Window.alert(ModelingToolWidget.getMessages().sizeMax()
+                            + " " + Workflow.MAX_SIZE + "!");
+                    return;
+                }
+
+                value = newValue;
+            }
+
+        });
+
+        add(textBox);
+
+    }
+
+    private void createButtons() {
+        upImage.addMouseDownHandler(new MouseDownHandler() {
+            @Override
+            public void onMouseDown(MouseDownEvent event) {
+                raiser.run();
+                raiser.scheduleRepeating(delay);
+            }
+        });
+        upImage.addMouseUpHandler(new MouseUpHandler() {
+            @Override
+            public void onMouseUp(MouseUpEvent event) {
+                raiser.cancel();
+            }
+        });
+        images.add(upImage);
+
+        downImage.addMouseDownHandler(new MouseDownHandler() {
+            @Override
+            public void onMouseDown(MouseDownEvent event) {
+                lowerer.run();
+                lowerer.scheduleRepeating(delay);
+            }
+        });
+        downImage.addMouseUpHandler(new MouseUpHandler() {
+            @Override
+            public void onMouseUp(MouseUpEvent event) {
+                lowerer.cancel();
+            }
+        });
+        images.add(downImage);
+    }
+
+    private void createTimers() {
+        raiser = new Timer() {
+            public void run() {
+                if (value + STEPSIZE < max) {
+                    value = value + STEPSIZE;
+                } else {
+                    value = max;
+                }
+                updateTextBox();
+            }
+        };
+
+        lowerer = new Timer() {
+            public void run() {
+                if (value - STEPSIZE > min) {
+                    value = value - STEPSIZE;
+                } else {
+                    value = min;
+                }
+                updateTextBox();
+            }
+        };
+    }
+
     private void updateTextBox() {
-        box.setText(curVal + "");
-        if (curVal == max) {
-            t_raise.cancel();
-        } else if (curVal == min) {
-            t_lower.cancel();
+        textBox.setText(value + "");
+        if (value == max) {
+            raiser.cancel();
+        } else if (value == min) {
+            lowerer.cancel();
         }
     }
 
-    private void raise() {
-        if (curVal + step < max) {
-            curVal += step;
-        } else {
-            curVal = max;
-        }
-        updateTextBox();
-    }
-
-    private void lower() {
-        if (curVal - step > min) {
-            curVal -= step;
-        } else {
-            curVal = min;
-        }
-        updateTextBox();
-    }
-
-    public void setDelay(int delayMilliSeconds) {
-        delay = delayMilliSeconds;
-    }
-
+    /**
+     * Gets the current value of the spinner.
+     * 
+     * @return the integer value
+     */
     public int getValue() {
-        return curVal;
+        return value;
     }
 }

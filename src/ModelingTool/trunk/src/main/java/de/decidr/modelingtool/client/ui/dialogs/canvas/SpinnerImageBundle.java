@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ImageBundle;
 
 /**
- * TODO: add comment
+ * {@link ImageBundle} for the {@link Spinner} icons (Up and Down arrows).
  * 
  * @author Jonas Schlaak
  */

@@ -19,10 +19,11 @@ package de.decidr.modelingtool.client.menu;
 import com.google.gwt.user.client.Command;
 
 import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.dialogs.canvas.CanvasSizeWindow;
 import de.decidr.modelingtool.client.ui.dialogs.canvas.CanvasSizeWindowInvoker;
 
 /**
- * TODO: add comment
+ * Menu item to call the {@link CanvasSizeWindow}.
  * 
  * @author Jonas Schlaak
  */

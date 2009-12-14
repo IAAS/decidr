@@ -51,6 +51,7 @@ import de.decidr.modelingtool.client.io.DWDLParserImpl;
 import de.decidr.modelingtool.client.menu.Menu;
 import de.decidr.modelingtool.client.model.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
+import de.decidr.modelingtool.client.ui.dialogs.canvas.CanvasSizeWindow;
 import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**
@@ -62,7 +63,7 @@ public class ModelingToolWidget extends Composite implements
         HasAllMouseHandlers {
 
     ScrollPanel scrollPanel;
-    
+
     // Size of the scroll panel which contains the workflow canvas
     private final static String CANVAS_HEIGHT = "800px";
     private final static String CANVAS_WIDTH = "600px";
@@ -180,19 +181,24 @@ public class ModelingToolWidget extends Composite implements
          */
         GWT.log("DWDL output", null);
         GWT.log(dwdl, null);
-        // JS remove this
-        Window.alert(dwdl + "\n");
     }
 
     /**
-     * TODO: add comment
-     *
+     * Sets the size of the scroll panel which holds the workflow canvas. The
+     * size of the scroll panel is fixed, that means any size changes made via
+     * the {@link CanvasSizeWindow} will only apply to the workflow canvas.
+     * 
      * @param width
+     *            the width in pixels
      * @param height
+     *            the height in pixels
      */
     public void setScrollPanelSize(int width, int height) {
         // JS check if this works
-         scrollPanel.setSize(height+"px", width+"px"); 
+        scrollPanel.setSize(height + "px", width + "px");
+        // Set workflow canvas initially to the same size so that it fits the
+        // scrollpanel
+        Workflow.getInstance().setSize(width, height);
     }
 
 }

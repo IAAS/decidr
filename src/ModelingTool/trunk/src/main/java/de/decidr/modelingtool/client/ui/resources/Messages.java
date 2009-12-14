@@ -180,6 +180,14 @@ public interface Messages extends Constants {
 
     String invalidUserIds();
 
+    /* Canvas Size Editor */
+    String width();
+
+    String height();
+    
+    
+    String sizeMax();
+
     /* windows common */
     String warningTitle();
 
@@ -205,5 +213,7 @@ public interface Messages extends Constants {
     String typeForm();
 
     String dateFormat();
+
+
 
 }
