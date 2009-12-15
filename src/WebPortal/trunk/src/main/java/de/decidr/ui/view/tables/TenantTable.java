@@ -35,6 +35,8 @@ public class TenantTable extends Table {
 
     private Container tenantContainer = null;
 
+    private final int TABLE_PAGE_LENGTH = 10;
+    
     public static final Object[] NAT_COL_ORDER = new Object[] {
             "adminFirstName", "adminLastName", "numDeployedWorkflowModels",
             "numMembers", "numWorkflowInstances" };
@@ -68,6 +70,6 @@ public class TenantTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(false);
-        setPageLength(10);
+        setPageLength(TABLE_PAGE_LENGTH);
     }
 }

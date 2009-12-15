@@ -76,8 +76,6 @@ public class RegistrationComponent extends CustomComponent {
         horizontalLayout.setSpacing(true);
         horizontalLayout.addComponent(registerUser);
         horizontalLayout.addComponent(registerTenant);
-        // Aleks, GH: these buttons should be one above the other ~rr
-        // RR nope, see spec and ui doc (aren't there bigger problems than the layout? oO)
         horizontalLayout.setComponentAlignment(registerUser, "center bottom");
         horizontalLayout.setComponentAlignment(registerTenant, "center bottom");
 

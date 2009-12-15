@@ -33,6 +33,8 @@ public class CurrentTenantModelTable extends Table {
     private static final long serialVersionUID = -3378507042364075268L;
     private Container currentTenantContainer = null;
 
+    private final int TABLE_PAGE_LENGTH = 8;
+    
     public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name" };
 
     public static final String[] COL_HEADERS = new String[] { "ID", "Name" };
@@ -61,6 +63,6 @@ public class CurrentTenantModelTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
-        setPageLength(8);
+        setPageLength(TABLE_PAGE_LENGTH);
     }
 }

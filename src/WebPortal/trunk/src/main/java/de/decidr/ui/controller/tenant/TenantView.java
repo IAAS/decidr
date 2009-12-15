@@ -117,8 +117,7 @@ public class TenantView {
             }
             if (!cssFile.getParentFile().exists()) {
                 if (!cssFile.getParentFile().mkdirs()) {
-                    // Aleks, GH: which ones? ~rr
-                    throw new IOException("Cannot create directories.");
+                    throw new IOException("Cannot create your tenants' layout directories.");
                 }
             }
             if (logoFile.exists()) {
@@ -126,8 +125,7 @@ public class TenantView {
             }
             if (!logoFile.getParentFile().exists()) {
                 if (!logoFile.getParentFile().mkdirs()) {
-                    // Aleks, GH: which ones? ~rr
-                    throw new IOException("Cannot create directories.");
+                    throw new IOException("Cannot create your tenants' layout directories.");
                 }
             }
 

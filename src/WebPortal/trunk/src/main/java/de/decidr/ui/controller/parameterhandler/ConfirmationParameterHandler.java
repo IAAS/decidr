@@ -63,23 +63,49 @@ public class ConfirmationParameterHandler implements ParameterHandler {
     public void handleParameters(Map parameters) {
         confirmationId = null;
         userId = null;
-        // Aleks, GH: you should display some error message if a parameter is
-        // specified twice or two conflicting parameters are passed ~rr
         for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
             key = it.next();
             value = ((String[]) parameters.get(key))[0];
             if (key.equals(DecidrGlobals.URL_PARAM_USER_ID)) {
+                if (userId != null) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "Your confirmation link contained more "+
+                                    "parameters than expected and might be "+
+                                    "invalid.", "Error"));
+                }
                 userId = value;
             } else if (key
                     .equals(DecidrGlobals.URL_PARAM_CHANGE_EMAIL_REQUEST_ID)) {
+                if (confirmationId != null) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "Your confirmation link contained more "+
+                                    "parameters than expected and might be "+
+                                    "invalid.", "Error"));
+                }
                 confirmationId = value;
                 action = "email";
             } else if (key
                     .equals(DecidrGlobals.URL_PARAM_CONFIRM_REGISTRATION_ID)) {
+                if (confirmationId != null) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "Your confirmation link contained more "+
+                                    "parameters than expected and might be "+
+                                    "invalid.", "Error"));
+                }
                 confirmationId = value;
                 action = "reg";
             } else if (key
                     .equals(DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID)) {
+                if (confirmationId != null) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "Your confirmation link contained more "+
+                                    "parameters than expected and might be "+
+                                    "invalid.", "Error"));
+                }
                 confirmationId = value;
                 action = "pass";
             }

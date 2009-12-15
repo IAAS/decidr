@@ -77,24 +77,38 @@ public class InvitationParameterHandler implements ParameterHandler {
             value = ((String[]) parameters.get(key))[0];
             try {
                 if (key.equals(DecidrGlobals.URL_PARAM_INVITATION_ID)) {
+                    if (invitationId != null) {
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new InformationDialogComponent(
+                                        "Your invitation link contained more "+
+                                        "parameters than expected and might be "+
+                                        "invalid.", "Error"));
+                    }
                     invitationId = Long.parseLong(value);
                 } else if (key.equals(DecidrGlobals.URL_PARAM_USER_ID)) {
+                    if (userId != null) {
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new InformationDialogComponent(
+                                        "Your invitation link contained more "+
+                                        "parameters than expected and might be "+
+                                        "invalid.", "Error"));
+                    }
                     userId = Long.parseLong(value);
                 } else if (key
                         .equals(DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY)) {
+                    if (! authKey.equals("")) {
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new InformationDialogComponent(
+                                        "Your invitation link contained more "+
+                                        "parameters than expected and might be "+
+                                        "invalid.", "Error"));
+                    }
                     authKey = value;
                 } else if (key
                         .equals(DecidrGlobals.URL_PARAM_REGISTRATION_REQUIRED)) {
                     registrationRequired = true;
                 } else {
-                    // GH, Aleks: show some error about the unrecognised
-                    // parameter! ~rr
-                    // RR this would produce false positives since we use
-                    // several
-                    // parameter handlers which look for different parameters.
-                    // ~gh
-                    // GH, Aleks: then at least catch parameters passed twice
-                    // (warning or error) ~rr
+                    //Other parameters are handled by other handlers
                 }
             } catch (NumberFormatException e) {
                 Main.getCurrent().getMainWindow().addWindow(

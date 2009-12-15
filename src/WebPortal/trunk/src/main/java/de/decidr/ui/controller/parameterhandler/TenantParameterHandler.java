@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 
 import com.vaadin.terminal.ParameterHandler;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -66,7 +67,14 @@ public class TenantParameterHandler implements ParameterHandler {
             key = it.next();
             value = ((String[]) parameters.get(key))[0];
             try {
-                if (key.equals("tenant")) {
+                if (key.equals(DecidrGlobals.URL_PARAM_TENANT_NAME )) {
+                    if (! tenantName.equals("")) {
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new InformationDialogComponent(
+                                        "Your tenant link contained more "+
+                                        "parameters than expected and might be "+
+                                        "invalid.", "Error"));
+                    }
                     tenantName = value;
                 }
             } catch (NumberFormatException e) {

@@ -33,6 +33,8 @@ public class ApproveTenantTable extends Table {
     private static final long serialVersionUID = 1L;
 
     Container container = null;
+    
+    private final int TABLE_PAGE_LENGTH = 10;
 
     public static final Object[] NAT_COL_ORDER = new Object[] { "name",
             "adminFirstName", "adminLastName", "adminId" };
@@ -65,6 +67,6 @@ public class ApproveTenantTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
-        setPageLength(10);
+        setPageLength(TABLE_PAGE_LENGTH);
     }
 }

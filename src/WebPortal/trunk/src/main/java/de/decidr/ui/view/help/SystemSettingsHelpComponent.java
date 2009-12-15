@@ -42,6 +42,7 @@ public class SystemSettingsHelpComponent extends VerticalLayout {
         editSettingsLabel = new Label(
                 // Aleks, GH: check whether this can be done with proper HTML
                 // ~rr
+                // This is proper HTML, please specify what to change
                 "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'System Settings' navigation link.<br/>"
                         + "2) The system displays the following information:<br/>"
                         + "    - Whether the super admin must confirm all new tenants or they are accepted automatically.<br/>"

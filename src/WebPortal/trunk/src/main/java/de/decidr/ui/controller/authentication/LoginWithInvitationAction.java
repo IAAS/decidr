@@ -60,9 +60,6 @@ public class LoginWithInvitationAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         try {
-            // GH, Aleks: Please!!! try to avoid these! ~rr
-            // RR Run!!! Those are coming! (please be more specific with your
-            // description of the problem) ~gh
             login
                     .authenticate(((LoginComponent) uiDirector
                             .getTemplateView().getContent())

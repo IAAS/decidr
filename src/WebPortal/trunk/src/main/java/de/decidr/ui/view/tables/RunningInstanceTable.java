@@ -33,6 +33,8 @@ public class RunningInstanceTable extends Table {
 
     private static final long serialVersionUID = 49258596599726066L;
 
+    private final int TABLE_PAGE_LENGTH = 7;
+    
     private Container runningInstanceContainer = null;
 
     public static final Object[] NAT_COL_ORDER = new Object[] { "model",
@@ -69,7 +71,7 @@ public class RunningInstanceTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(false);
-        setPageLength(7);
+        setPageLength(TABLE_PAGE_LENGTH);
     }
 
 }

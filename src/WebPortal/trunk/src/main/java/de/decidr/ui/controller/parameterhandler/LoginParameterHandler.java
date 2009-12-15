@@ -64,9 +64,23 @@ public class LoginParameterHandler implements ParameterHandler {
             value = ((String[]) parameters.get(key))[0];
             try {
                 if (key.equals(DecidrGlobals.URL_PARAM_LOGIN_ID)) {
+                    if (userId != null) {
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new InformationDialogComponent(
+                                        "Your login link contained more "+
+                                        "parameters than expected and might be "+
+                                        "invalid.", "Error"));
+                    }
                     userId = Long.getLong(value);
                 } else if (key
                         .equals(DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY)) {
+                    if (authKey != null) {
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new InformationDialogComponent(
+                                        "Your login link contained more "+
+                                        "parameters than expected and might be "+
+                                        "invalid.", "Error"));
+                    }
                     authKey = value;
                 }
             } catch (NumberFormatException e) {

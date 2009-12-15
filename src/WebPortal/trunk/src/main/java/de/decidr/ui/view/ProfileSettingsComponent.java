@@ -53,8 +53,7 @@ import de.decidr.ui.controller.user.ChangeStatusAction;
 public class ProfileSettingsComponent extends CustomComponent {
 
     /**
-     * This FieldFactory creates the input fields of the Form used above.<br>
-     * Aleks, GH: where? ~rr
+     * This FieldFactory creates the input fields of the form in this component.<br>
      * 
      * @author Geoffrey-Alexeij Heinze
      */
@@ -207,7 +206,6 @@ public class ProfileSettingsComponent extends CustomComponent {
         leaveTenantLink = new Button("Leave tenant",
                 new ShowLeaveTenantDialogAction());
         leaveTenantLink.setStyleName(Button.STYLE_LINK);
-        // Aleks, GH: what membership? ~rr
         cancelMembershipLink = new Button("Cancel membership",
                 new ShowCancelMembershipAction());
         cancelMembershipLink.setVisible(false);

@@ -62,9 +62,14 @@ public class CreateWorkflowModelAction implements ClickListener {
     UIDirector uiDirector = Main.getCurrent().getUIDirector();
     SiteFrame siteFrame = uiDirector.getTemplateView();
 
+    
     /**
-     * Constructor with a given workflow model name.<br>
-     * Aleks, GH: Wow, this description is actually worse than none ~rr
+     * Constructor
+     *
+     * @param textField
+     *          contains name of the new wfm
+     * @param table
+     *          the table with wfms, where the new one will be added
      */
     public CreateWorkflowModelAction(TextField textField, Table table) {
         this.table = table;

@@ -198,12 +198,13 @@ public class WorkflowModelsComponent extends CustomComponent {
         }
     }
 
-    // GH, Aleks: Please comment parameters and return values
 
     /**
      * Sets the button panel for the component.
      * 
      * @param buttonPanel
+     *          Vaadin panel, contains the buttons for
+     *          remove, lock, unlock, publish, unpublish, appoint wfm admin
      */
     public void setButtonPanel(Panel buttonPanel) {
         this.buttonPanel = buttonPanel;
@@ -213,6 +214,7 @@ public class WorkflowModelsComponent extends CustomComponent {
      * Sets the create new model button for the component.
      * 
      * @param createNewModelButton
+     *          Vaadin button
      */
     public void setCreateNewModelButton(Button createNewModelButton) {
         this.createNewModelButton = createNewModelButton;
@@ -222,6 +224,7 @@ public class WorkflowModelsComponent extends CustomComponent {
      * Sets the current tenant table for the component.
      * 
      * @param currentTenantTable
+     *          The table with the list of workflow models
      */
     public void setWorkflowModelTable(WorkflowModelTable workflowModelTable) {
         this.workflowModelTable = workflowModelTable;
@@ -231,6 +234,7 @@ public class WorkflowModelsComponent extends CustomComponent {
      * Sets the native select component.
      * 
      * @param nativeSelect
+     *          The drop down box to select which models are displayed
      */
     public void setNativeSelect(NativeSelect nativeSelect) {
         this.nativeSelect = nativeSelect;
@@ -240,15 +244,18 @@ public class WorkflowModelsComponent extends CustomComponent {
      * Sets the vertical layout for the component.
      * 
      * @param verticalLayout
+     *          Vaadin VerticalLayout
      */
     public void setVerticalLayout(VerticalLayout verticalLayout) {
         this.verticalLayout = verticalLayout;
     }
 
     /**
-     * Returns the button butto
+     * Returns the button button
      *
-     * @return the buttonHorizontalLayout
+     * @return buttonHorizontalLayout
+     *          HorizontalLayout that contains the buttons for
+     *          remove, publish, unpublish, lock, unlock, appoint wfm admin
      */
     public HorizontalLayout getButtonHorizontalLayout() {
         return buttonHorizontalLayout;
@@ -258,6 +265,7 @@ public class WorkflowModelsComponent extends CustomComponent {
      * Gets the create new model button from the component.
      * 
      * @return createNewModelButton
+     *          The button to create a new workflow model
      */
     public Button getCreateNewModelButton() {
         return createNewModelButton;
@@ -266,12 +274,19 @@ public class WorkflowModelsComponent extends CustomComponent {
     /**
      * Gets the current tenant table from the component.
      * 
-     * @return currentTenantTable
+     * @return workflowModelTable
+     *          The table with the current workflow models
      */
     public WorkflowModelTable getWorkflowModelTable() {
         return workflowModelTable;
     }
 
+    /**
+     * Gets the button for editing a workflow model
+     *
+     * @return
+     *          Vaadin Button
+     */
     public Button getEditWorkflowModelButton() {
         return editWorkflowModelButton;
     }
@@ -280,6 +295,7 @@ public class WorkflowModelsComponent extends CustomComponent {
      * Gets the native select component.
      * 
      * @return nativeSelect
+     *          The dropdown list to select which models are displayed
      */
     public NativeSelect getNativeSelect() {
         return nativeSelect;
@@ -289,6 +305,7 @@ public class WorkflowModelsComponent extends CustomComponent {
      * Gets the vertical layout from the component.
      * 
      * @return verticalLayout
+     *          VerticalLayout of the component
      */
     public VerticalLayout getVerticalLayout() {
         return verticalLayout;

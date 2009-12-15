@@ -35,6 +35,8 @@ import de.decidr.ui.data.CompletedInstancesContainer;
 public class CompletedInstanceTable extends Table {
 
     private static final long serialVersionUID = -4341477724807479177L;
+    
+    private final int TABLE_PAGE_LENGTH = 7;
 
     private Container workflowInstanceContainer = null;
 
@@ -70,8 +72,7 @@ public class CompletedInstanceTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
-        // GH, Aleks: "magical" number belong into a constant
-        setPageLength(7);
+        setPageLength(TABLE_PAGE_LENGTH);
     }
 
 }

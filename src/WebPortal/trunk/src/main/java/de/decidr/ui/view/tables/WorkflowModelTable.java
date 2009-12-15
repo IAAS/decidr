@@ -29,6 +29,9 @@ public class WorkflowModelTable extends Table {
 
     private static final long serialVersionUID = 1L;
 
+
+    private final int TABLE_PAGE_LENGTH = 8;
+    
     private Container container = null;
 
     public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
@@ -65,7 +68,7 @@ public class WorkflowModelTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
-        setPageLength(8);
+        setPageLength(TABLE_PAGE_LENGTH);
 
     }
 

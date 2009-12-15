@@ -116,6 +116,7 @@ public class SiteFrame extends CustomComponent {
     /**
      * Puts the content into the site frame and stores the current content in a
      * variable.
+     * Also sets the components style name which is used in the styles.css
      * 
      * @param content
      *            TODO document
@@ -123,8 +124,6 @@ public class SiteFrame extends CustomComponent {
     public void setContent(Component content) {
         splitPanel.setSecondComponent(content);
         this.content = content;
-        // Aleks, GH: might this be a spelling error? ~rr
-        // RR no, the vowels are broken on my keyboard ~gh
         this.content.addStyleName("dcdr_content");
         this.content.setWidth("775px");
     }
@@ -132,6 +131,7 @@ public class SiteFrame extends CustomComponent {
     /**
      * Puts the header into the site frame and stores the current header in a
      * variable.
+     * Also sets the components style name which is used in the styles.css
      * 
      * @param header
      *            TODO document
@@ -140,12 +140,12 @@ public class SiteFrame extends CustomComponent {
         init();
         gridFrame.addComponent(header, 1, 1);
         this.header = header;
-        // Aleks, GH: might this be a spelling error? ~rr
         this.header.addStyleName("dcdr_header");
     }
 
     /**
      * Puts the horizontal navigation menu into the site frame.
+     * Also sets the components style name which is used in the styles.css
      * 
      * @param navigation
      *            TODO document
@@ -153,13 +153,13 @@ public class SiteFrame extends CustomComponent {
     public void setHorizontalNavigation(Component navigation) {
         gridFrame.addComponent(navigation, 1, 2);
         this.hNavigation = navigation;
-        // Aleks, GH: might this be a spelling error? ~rr
         this.hNavigation.addStyleName("dcdr_hnav");
     }
 
     /**
      * Puts the vertical navigation menu into the site frame and stores the
      * current vertical navigation menu in a variable.
+     * Also sets the components style name which is used in the styles.css
      * 
      * @param navigation
      *            TODO document
@@ -167,7 +167,6 @@ public class SiteFrame extends CustomComponent {
     public void setVerticalNavigation(Component navigation) {
         splitPanel.setFirstComponent(navigation);
         this.navigation = navigation;
-        // Aleks, GH: might this be a spelling error? ~rr
         this.navigation.addStyleName("dcdr_vnav");
     }
 }

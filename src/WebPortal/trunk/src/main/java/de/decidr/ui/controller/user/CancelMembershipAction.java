@@ -33,9 +33,6 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This action cancels the decidr membership of a user.<br>
- * Aleks, GH: what membership? The one with the royal society? ~rr
- * RR damn, where can i sign up? Of course his decidr membership, 
- * since he is on his decidr profile settings page?
  * 
  * @author Geoffrey-Alexeij Heinze
  */

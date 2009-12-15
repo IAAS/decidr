@@ -36,6 +36,8 @@ public class PublicModelTable extends Table {
 
     private Container publicModelContainer = null;
 
+    private final int TABLE_PAGE_LENGTH = 7;
+    
     public static final Object[] NAT_COL_ORDER = new Object[] { "name",
             "modifiedDate", "tenantName" };
 
@@ -69,9 +71,7 @@ public class PublicModelTable extends Table {
         setColumnHeaders(COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
-        // GH, Aleks: "magical" number belong into a constant, all other tables
-        // have it, too
-        setPageLength(7);
+        setPageLength(TABLE_PAGE_LENGTH);
     }
 
 }
