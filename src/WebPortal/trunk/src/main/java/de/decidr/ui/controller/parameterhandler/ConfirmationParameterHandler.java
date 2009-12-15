@@ -82,8 +82,6 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                     .equals(DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID)) {
                 confirmationId = value;
                 action = "pass";
-            } else {
-
             }
         }
 

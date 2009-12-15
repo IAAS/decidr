@@ -19,6 +19,8 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
@@ -30,33 +32,33 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2453", currentReviewState = State.PassedWithComments)
 public class HideWindowAndDeleteFileAction extends HideDialogWindowAction {
 
-	FileFacade fileFacade = new FileFacade((Role) Main.getCurrent()
-			.getSession().getAttribute("role"));
+    FileFacade fileFacade = new FileFacade((Role) Main.getCurrent()
+            .getSession().getAttribute("role"));
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.decidr.ui.controller.HideDialogWindowAction#buttonClick(com.vaadin
-	 * .ui.Button.ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		
-		super.buttonClick(event);
-		Long fileId = (Long) Main.getCurrent().getMainWindow().getData();
-		try {
-			File file = fileFacade.getFileInfo(fileId);
-			if (file.isTemporary()) {
-				fileFacade.deleteFile(fileId);
-			}
-		} catch (TransactionException e) {
-			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent("File couldn't be deleted",
-							"File not found to delete"));
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.ui.controller.HideDialogWindowAction#buttonClick(com.vaadin
+     * .ui.Button.ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
 
+        super.buttonClick(event);
+        Long fileId = (Long) Main.getCurrent().getMainWindow().getData();
+        try {
+            File file = fileFacade.getFileInfo(fileId);
+            if (file.isTemporary()) {
+                fileFacade.deleteFile(fileId);
+            }
+        } catch (TransactionException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent("File couldn't be deleted!",
+                            "File not found"));
+        }
+    }
 }

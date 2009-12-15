@@ -46,26 +46,28 @@ import com.vaadin.ui.AbstractSelect.Filtering;
 import com.vaadin.ui.Button.ClickEvent;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.SaveStartConfigurationAction;
-import de.decidr.ui.controller.UploadAction;
 import de.decidr.ui.data.FloatValidator;
 import de.decidr.ui.data.RoleBean;
 import de.decidr.ui.data.TreeRoleContainer;
 import de.decidr.ui.view.Main;
 
 /**
- * This window represents the start configuration xml file. In this window the
- * user can add actors for roles and can enter his value for assignment
- * variables. These values and actors will be stored in the xml file, so the
- * user can start a workflow instance with the given configuration file.
+ * This window represents the start configuration XML file. In this window the
+ * user can add actors to roles and can enter values for assignment variables.
+ * These values and actors will be stored in the XML file, so that the user can
+ * start a workflow instance with the given configuration file.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2465", currentReviewState = State.PassedWithComments)
 public class StartConfigurationWindow extends Window {
 
     private static final long serialVersionUID = 1L;
@@ -111,8 +113,9 @@ public class StartConfigurationWindow extends Window {
     private static int count = 0;
 
     /**
-     * Default constructor with TConfiguration as parameter.
-     * 
+     * Default constructor with TConfiguration as parameter.<br>
+     * Aleks: If you want me to tell you what a default constructor is, don't
+     * hesitate to ask ~rr
      */
     public StartConfigurationWindow(TConfiguration tConfiguration,
             Long workflowModelId) {
@@ -122,11 +125,12 @@ public class StartConfigurationWindow extends Window {
     }
 
     /**
-     * Initializes the components for the start configuration window. The
-     * Tconfiguration which represents the start configuration xml file is given
-     * as parametrer.
+     * Initializes the components for the {@link StartConfigurationWindow}. The
+     * {@link TConfiguration} which represents the start configuration XML file
+     * is passed as a parameter.
      * 
      * @param tconfiguration
+     *            TODO document
      */
     private void init() {
         splitPanel = new SplitPanel();
@@ -137,7 +141,7 @@ public class StartConfigurationWindow extends Window {
         rolesTree = new Tree("Roles");
         treeRoleContainer = new TreeRoleContainer(tConfiguration, rolesTree);
         assignmentForm = new Form();
-        emailTextField = new TextField("E-Mail: ");
+        emailTextField = new TextField("Email: ");
         applyButton = new Button("Apply");
         checkBox = new CheckBox();
         okButton = new Button("OK", new SaveStartConfigurationAction(rolesTree,
@@ -217,9 +221,6 @@ public class StartConfigurationWindow extends Window {
 
     private void initializeHandler() {
         rolesTree.addListener(new Property.ValueChangeListener() {
-            /**
-             * Serial version uid
-             */
 
             private static final long serialVersionUID = 1L;
 
@@ -243,14 +244,10 @@ public class StartConfigurationWindow extends Window {
 
         rolesTree.addActionHandler(new Action.Handler() {
 
-            /**
-             * Serial version uid
-             */
             private static final long serialVersionUID = 1L;
 
             @Override
             public Action[] getActions(Object target, Object sender) {
-
                 return ACTIONS;
             }
 
@@ -271,16 +268,13 @@ public class StartConfigurationWindow extends Window {
                 } else if (action == ACTION_DELETE && !rolesTree.isRoot(target)) {
                     rolesTree.removeItem(target);
                 } else {
-                    Main
-                            .getCurrent()
-                            .getMainWindow()
-                            .addWindow(
-                                    new InformationDialogComponent(
-                                            "You can't delete a role or add an actor to an actor",
-                                            "Not allowed operation"));
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "You can't delete a role or "
+                                            + "add an actor to an actor",
+                                    "Operation not allowed"));
                 }
             }
-
         });
 
         comboBox.addListener(new Property.ValueChangeListener() {
@@ -295,35 +289,26 @@ public class StartConfigurationWindow extends Window {
                     emailTextField.setValue("");
                 } else if (event.getProperty().getValue() != null
                         && rolesTree.isRoot(event.getProperty().getValue())) {
-                    Main
-                            .getCurrent()
-                            .getMainWindow()
-                            .addWindow(
-                                    new InformationDialogComponent(
-                                            "You can't modify the role. Add an actor first",
-                                            "Information"));
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "You can't modify the role."
+                                            + " Add an actor first.",
+                                    "Information"));
                 } else if (event.getProperty().getValue() == null
                         && rolesTree.getValue() == null
                         && comboBox.getValue() != null) {
-                    Main
-                            .getCurrent()
-                            .getMainWindow()
-                            .addWindow(
-                                    new InformationDialogComponent(
-                                            "Please select an actor to assign the user",
-                                            "Information"));
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "Please select an actor "
+                                            + "to assign the user to!",
+                                    "Information"));
                 }
-
             }
-
         });
 
         // The edited value should be taken and set as caption in the roles tree
         applyButton.addListener(new Button.ClickListener() {
 
-            /**
-             * Serial version uid
-             */
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -336,33 +321,29 @@ public class StartConfigurationWindow extends Window {
                     actor.setValue(emailTextField.getValue());
                     comboBox.setValue(null);
                 } else if (rolesTree.isRoot(rolesTree.getValue())) {
-                    Main
-                            .getCurrent()
-                            .getMainWindow()
-                            .addWindow(
-                                    new InformationDialogComponent(
-                                            "You can't modify the role. Add an actor first",
-                                            "Information"));
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "You can't modify the role."
+                                            + " Add an actor first.",
+                                    "Information"));
                 } else {
-                    Main
-                            .getCurrent()
-                            .getMainWindow()
-                            .addWindow(
-                                    new InformationDialogComponent(
-                                            "Please select an actor to assign the email addresss or enter a valid email address",
-                                            "Information"));
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "Please select an actor "
+                                            + "to assign the email addresss "
+                                            + "to or enter a valid "
+                                            + "email address!", "Information"));
                 }
-
             }
-
         });
     }
 
     /**
-     * Adds a field for every assignment which is in the start configuration xml
-     * file. So for every assignment the user can enter his desired value.
+     * Adds a field for every assignment which is in the start configuration XML
+     * file. This allows the user to enter a value for every field.
      * 
      * @param tConfiguration
+     *            TODO document
      */
     private void addAssignmentToForm(TConfiguration tConfiguration) {
         for (TAssignment assignment : tConfiguration.getAssignment()) {
@@ -378,11 +359,12 @@ public class StartConfigurationWindow extends Window {
                                 .getField(assignment.getKey())
                                 .addValidator(
                                         new IntegerValidator(
-                                                "Please enter a value of the type integer"));
+                                                "Please enter an integer value!"));
                     } else if (assignment.getValueType().equals("date")) {
                         assignmentForm.addField(assignment.getKey(),
                                 new DateField(assignment.getKey()));
-                        assignmentForm.getField(assignment.getKey()).setValue(new Date());
+                        assignmentForm.getField(assignment.getKey()).setValue(
+                                new Date());
                     } else if (assignment.getValueType().equals("float")) {
                         assignmentForm.addField(assignment.getKey(),
                                 new TextField(assignment.getKey()));
@@ -390,13 +372,14 @@ public class StartConfigurationWindow extends Window {
                                 .getField(assignment.getKey())
                                 .addValidator(
                                         new FloatValidator(
-                                                "Please enter a value of the type float"));
+                                                "Please enter a floating point value!"));
                     }
                     if (!string.isEmpty()) {
                         assignmentForm.getField(assignment.getKey()).setValue(
                                 string);
                     }
-                    assignmentForm.getField(assignment.getKey()).setRequired(true);
+                    assignmentForm.getField(assignment.getKey()).setRequired(
+                            true);
                     assignmentForm.setImmediate(true);
                 }
             } else {
@@ -406,33 +389,31 @@ public class StartConfigurationWindow extends Window {
                 } else if (assignment.getValueType().equals("integer")) {
                     assignmentForm.addField(assignment.getKey(), new TextField(
                             assignment.getKey()));
-                    assignmentForm
-                            .getField(assignment.getKey())
-                            .addValidator(
-                                    new IntegerValidator(
-                                            "Please enter a value of the type integer"));
+                    assignmentForm.getField(assignment.getKey()).addValidator(
+                            new IntegerValidator(
+                                    "Please enter an integer value!"));
                 } else if (assignment.getValueType().equals("date")) {
                     assignmentForm.addField(assignment.getKey(), new DateField(
                             assignment.getKey()));
-                    assignmentForm.getField(assignment.getKey()).setValue(new Date());
+                    assignmentForm.getField(assignment.getKey()).setValue(
+                            new Date());
                 } else if (assignment.getValueType().equals("float")) {
                     assignmentForm.addField(assignment.getKey(), new TextField(
                             assignment.getKey()));
                     assignmentForm.getField(assignment.getKey()).addValidator(
                             new FloatValidator(
-                                    "Please enter a value of the type float"));
+                                    "Please enter a floating point value!"));
                 }
                 assignmentForm.getField(assignment.getKey()).setRequired(true);
                 assignmentForm.setImmediate(true);
             }
-
         }
     }
 
     /**
-     * Fills the combo box with the current usernames of the tenant, so the user
-     * can choose from the usernames and add them as actors to a role.
-     * 
+     * Fills the combo box with the usernames currently contained in the tenant,
+     * so that the user can choose from the usernames and add them as actors to
+     * a role.
      */
     private void fillContainer() {
         HttpSession session = Main.getCurrent().getSession();
@@ -448,7 +429,6 @@ public class StartConfigurationWindow extends Window {
             Main.getCurrent().addWindow(
                     new TransactionErrorDialogComponent(exception));
         }
-
     }
 
     public Form getAssignmentForm() {
@@ -456,9 +436,10 @@ public class StartConfigurationWindow extends Window {
     }
 
     /**
-     * Returns the check box
+     * Returns the check box.<br>
+     * Aleks: Why? What is it good for? Why would anyone need this method? ~rr
      * 
-     * @return checkBox
+     * @return checkBox TODO document
      */
     public CheckBox getCheckBox() {
         return checkBox;

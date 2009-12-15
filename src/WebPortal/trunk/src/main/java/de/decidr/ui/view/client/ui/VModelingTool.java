@@ -20,15 +20,18 @@ import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
- * This class represents the client side from the modeling tool integrated in
- * the web portal
+ * This class represents the client side of the modeling tool integrated in the
+ * web portal.
  * 
  * @author AT
  * @author JS
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2431", currentReviewState = State.Passed)
 public class VModelingTool extends ModelingToolWidget implements Paintable {
 
     /** Set the tagname used to statically resolve the widget from UIDL. */
@@ -56,7 +59,6 @@ public class VModelingTool extends ModelingToolWidget implements Paintable {
 
     @Override
     public void sendDWDLtoServer(String dwdl) {
-
         // Updating the state to the server can not be done
         // before the server connection is known, i.e., before
         // updateFromUIDL() has been called.
@@ -69,7 +71,6 @@ public class VModelingTool extends ModelingToolWidget implements Paintable {
         // Communicate the user interaction parameters to server.
         // This call will initiate an AJAX request to the server.
         client.updateVariable(uidlId, "dwdl", dwdl, true);
-
     }
 
     public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
@@ -93,7 +94,6 @@ public class VModelingTool extends ModelingToolWidget implements Paintable {
         setUsers(uidl.getStringVariable("users"));
 
         // Set the scroll panel to the size given by the server
-        
         setScrollPanelSize(uidl.getIntVariable("width"), uidl
                 .getIntVariable("height"));
     }

@@ -22,6 +22,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
@@ -32,6 +34,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2365", currentReviewState = State.Passed)
 public class LeaveTenantAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;

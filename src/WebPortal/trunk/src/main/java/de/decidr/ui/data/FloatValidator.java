@@ -18,33 +18,38 @@ package de.decidr.ui.data;
 
 import com.vaadin.data.validator.AbstractStringValidator;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2453", currentReviewState = State.PassedWithComments)
 public class FloatValidator extends AbstractStringValidator {
-	
-	/**
-	 * TODO: add comment
-	 *
-	 */
-	public FloatValidator(String errorMessage) {
-		super(errorMessage);
-	}
 
-	/* (non-Javadoc)
-	 * @see com.vaadin.data.validator.AbstractStringValidator#isValidString(java.lang.String)
-	 */
-	@Override
-	protected boolean isValidString(String value) {
-		try{
-			Float.parseFloat(value);
-			return true;
-		}catch(NumberFormatException exception){
-			return false;
-		}
-		
-	}
+    /**
+     * TODO: add comment
+     */
+    public FloatValidator(String errorMessage) {
+        super(errorMessage);
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.data.validator.AbstractStringValidator#isValidString(java.
+     * lang.String)
+     */
+    @Override
+    protected boolean isValidString(String value) {
+        try {
+            Float.parseFloat(value);
+            return true;
+        } catch (NumberFormatException exception) {
+            return false;
+        }
+    }
 }

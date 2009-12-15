@@ -19,13 +19,16 @@ package de.decidr.ui.controller;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
 
 /**
- * This action hides a sub-window (e.g. ChangeEmailComponent).
+ * This action hides a sub-window (e.g. {@link ChangeEmailWindow}).
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2362", currentReviewState = State.Passed)
 public class HideDialogWindowAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;

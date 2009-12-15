@@ -20,8 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.xml.bind.JAXBException;
-
 import org.w3c.dom.DOMException;
 
 import com.vaadin.ui.Form;
@@ -29,21 +27,15 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
-import de.decidr.model.commands.AbstractTransactionalCommand;
-import de.decidr.model.commands.workflowmodel.SaveStartConfigurationCommand;
-import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
 import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.wsc.TActor;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;

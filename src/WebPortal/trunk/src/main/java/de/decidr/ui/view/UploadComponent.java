@@ -35,6 +35,8 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
@@ -44,12 +46,13 @@ import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This component provides and upload field to upload data for the work item the
- * user works on. If a file is uploaded the component is changed into a text
- * field and a button, so the user can deleted his last uploaded file.
+ * This component provides an upload field to upload data for the work item the
+ * user works on. If a file is uploaded, the component is changed into a text
+ * field and a button, so the user can delete the last file he uploaded.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2454", currentReviewState = State.Passed)
 public class UploadComponent extends CustomComponent {
 
     private Long fileId = null;
@@ -65,18 +68,18 @@ public class UploadComponent extends CustomComponent {
 
     private FileFacade fileFacade = new FileFacade((Role) Main.getCurrent()
             .getSession().getAttribute("role"));
-    
+
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     boolean deleted = false;
 
     /**
-     * Constructor with a file id. The file id is stored and the init method is
-     * called to initialize the components
+     * Constructor with a file ID. The file ID is stored and the init method is
+     * called to initialize the components.
      * 
      * @param fileId
-     *            - The file id which is stored in the work item
+     *            - The file ID which is stored in the work item.
      */
     public UploadComponent(Long fileId, Receiver receiver) {
         this.fileId = fileId;
@@ -85,14 +88,12 @@ public class UploadComponent extends CustomComponent {
     }
 
     /**
-     * Initializes the components from the upload component
-     * 
+     * Initializes the components from the upload component.
      */
     private void init() {
-        // Checks if the file id is null. This can only happen by the first
-        // time, if
-        // there isn't a file id stored in the work item. If it is null the
-        // deleted flag is set to true
+        // Checks if the file ID is null. This can only happen by the first
+        // time, if there isn't a file ID stored in the work item. If it is
+        // null, the deleted flag is set to true
         if (fileId == null) {
             deleted = true;
         }
@@ -101,15 +102,12 @@ public class UploadComponent extends CustomComponent {
         horizontalLayout.removeAllComponents();
         // If the file is "deleted", that means if there isn't a file id in the
         // work item or the user has deleted his last upload then the component
-        // is
-        // built with an upload component from vaadin, so that the user is able
-        // to upload
-        // a new file. If the file is not deleted or a file id is stored in the
-        // work item then the filename is shown to the user and he can delete
-        // this
-        // file and upload a new one
+        // is built with an upload component from vaadin, so that the user is
+        // able to upload a new file. If the file is not deleted or a file id is
+        // stored in the work item then the filename is shown to the user and he
+        // can delete this file and upload a new one
         if (deleted) {
-            upload = new com.vaadin.ui.Upload("File uri", receiver);
+            upload = new com.vaadin.ui.Upload("File URI", receiver);
             horizontalLayout.addComponent(upload);
 
             upload.addListener(new Upload.SucceededListener() {
@@ -124,7 +122,7 @@ public class UploadComponent extends CustomComponent {
                                 .getMainWindow()
                                 .addWindow(
                                         new InformationDialogComponent(
-                                                "Illegal Argument: File must not be null",
+                                                "Illegal Argument: File must not be null!",
                                                 "Failure"));
                     } else {
                         FileInputStream fis;
@@ -150,28 +148,31 @@ public class UploadComponent extends CustomComponent {
                                             + event.getFilename()
                                             + " successfully uploaded!",
                                             "Success"));
-                            
-                            if(siteFrame.getContent() instanceof TenantSettingsComponent && siteFrame.getHeader() instanceof Header){
-                                TenantSettingsComponent tsc = (TenantSettingsComponent)siteFrame.getContent();
+
+                            if (siteFrame.getContent() instanceof TenantSettingsComponent
+                                    && siteFrame.getHeader() instanceof Header) {
+                                TenantSettingsComponent tsc = (TenantSettingsComponent) siteFrame
+                                        .getContent();
                                 Header header = (Header) siteFrame.getHeader();
-                                Resource resource = new FileResource(file,getApplication());
+                                Resource resource = new FileResource(file,
+                                        getApplication());
                                 tsc.getLogoEmbedded().setSource(resource);
                                 header.getDecidrLogo().setSource(resource);
                                 tsc.requestRepaint();
                                 header.requestRepaint();
                             }
-                            
+
                             UploadComponent.this.deleted = false;
                             UploadComponent.this.init();
                         } catch (FileNotFoundException e) {
                             Main.getCurrent().getMainWindow().addWindow(
                                     new InformationDialogComponent(
-                                            "File couldn't be found",
+                                            "File couldn't be found!",
                                             "File not found"));
                         } catch (TransactionException e) {
                             Main.getCurrent().getMainWindow().addWindow(
                                     new TransactionErrorDialogComponent(e));
-                        } 
+                        }
                     }
                 }
             });
@@ -199,10 +200,8 @@ public class UploadComponent extends CustomComponent {
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
-                                "File couldn't be found", "File not found"));
+                                "File couldn't be found!", "File not found"));
             }
         }
-
     }
-
 }

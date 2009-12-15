@@ -20,12 +20,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This component is a part of the integrated manual and contains information
- * related to system status
+ * This component is part of the integrated manual and contains information
+ * related to system status.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class SystemStatusHelpComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
@@ -39,12 +43,14 @@ public class SystemStatusHelpComponent extends VerticalLayout {
         setMargin(false, true, true, true);
 
         allWorkflowModelsLabel = new Label(
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
                 "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Models' navigation link.<br/>"
                         + "2) The system displays a list of all workflow models coming from all tenants in the system, including the default tenant.<br/><br/>",
                 Label.CONTENT_XHTML);
         allWorkflowModelsLabel.setVisible(false);
         allWorkflowModelsButton = new Button(
-                "How to view a list of allw workflow models?",
+                "How do I display a list of all workflow models?",
                 new ToggleLabelAction(allWorkflowModelsLabel));
         allWorkflowModelsButton.setStyleName(Button.STYLE_LINK);
 
@@ -52,18 +58,18 @@ public class SystemStatusHelpComponent extends VerticalLayout {
         this.addComponent(allWorkflowModelsLabel);
 
         runningInstancesLabel = new Label(
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
                 "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Instances' navigation link.<br/>"
                         + "2) The system displays a list of all running workflow instances coming from all tenants in the system, including the default tenant.<br/><br/>",
                 Label.CONTENT_XHTML);
         runningInstancesLabel.setVisible(false);
         runningInstancesButton = new Button(
-                "How to view a list of all running instances?",
+                "How do I display a list of all running instances?",
                 new ToggleLabelAction(runningInstancesLabel));
         runningInstancesButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(runningInstancesButton);
         this.addComponent(runningInstancesLabel);
-
     }
-
 }

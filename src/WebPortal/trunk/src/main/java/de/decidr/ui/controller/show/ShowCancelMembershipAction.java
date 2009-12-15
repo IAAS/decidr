@@ -25,14 +25,12 @@ import de.decidr.ui.controller.user.CancelMembershipAction;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ConfirmDialogWindow;
 
-
 /**
- * This actions displays the ConfirmDialogComponent<br>
- * that allows the user to cancel his membership.
- *
+ * This actions displays the {@link ConfirmDialogWindow} that allows the user to
+ * cancel his membership.
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
-
 @Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.PassedWithComments)
 public class ShowCancelMembershipAction implements ClickListener {
 

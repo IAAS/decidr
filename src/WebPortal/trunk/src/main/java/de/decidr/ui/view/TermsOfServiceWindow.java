@@ -31,17 +31,13 @@ import de.decidr.model.annotations.Reviewed.State;
 @Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class TermsOfServiceWindow extends CustomComponent {
 
-    /**
-     * Serial Uid
-     */
     private static final long serialVersionUID = 1067396863067502885L;
-    
+
     private VerticalLayout verticalLayout = null;
     private Label labelTerms = null;
 
     /**
      * Default constructor
-     * 
      */
     public TermsOfServiceWindow() {
         init();

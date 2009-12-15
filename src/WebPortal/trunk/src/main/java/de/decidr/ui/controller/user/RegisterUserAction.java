@@ -76,9 +76,9 @@ public class RegisterUserAction implements ClickListener {
             }
         }
 
-        // If the required fields are not empty, save the content and 
+        // If the required fields are not empty, save the content and
         // register the user
-        // If one ore more of the required fields is empty, ask the user 
+        // If one ore more of the required fields is empty, ask the user
         // to complete his input fields
         if (notEmpty) {
             content.saveRegistrationForm();
@@ -95,7 +95,7 @@ public class RegisterUserAction implements ClickListener {
                                 "Registration successful"));
                 siteFrame.setContent(new WelcomePageComponent());
             } catch (NullPointerException e) {
-
+                // Aleks, GH: Well, do something? ~rr
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

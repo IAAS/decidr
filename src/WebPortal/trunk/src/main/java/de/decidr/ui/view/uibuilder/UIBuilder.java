@@ -32,23 +32,19 @@ import de.decidr.ui.view.SiteFrame;
 public abstract class UIBuilder {
 
     protected SiteFrame siteFrame = null;
-    
+
     /**
      * This method builds the content of the DecidR site.
-     * 
      */
     public abstract void buildContent();
 
     /**
      * This method builds the header of the DecidR site.
-     * 
      */
     public abstract void buildHeader();
 
     /**
      * This method builds the navigation of the DecidR site.
-     * 
      */
     public abstract void buildNavigation();
-
 }

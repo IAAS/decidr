@@ -18,7 +18,6 @@ package de.decidr.ui.controller.tenant;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 

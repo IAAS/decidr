@@ -16,36 +16,43 @@
 
 package de.decidr.ui.data;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
+
 /**
- * This bean represents a role from the tConfiguration and stores only the
- * actor. This bean is used for the tree to add items to the tree container
+ * This bean represents a role from the {@link TConfiguration} and stores only
+ * the actor. This bean is used for the tree to add items to the tree container.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2465", currentReviewState = State.PassedWithComments)
 public class RoleBean {
 
     private String actor;
 
     /**
-     * Constructor of the bean, with given parameter actor and email
+     * Constructor of the bean, with given parameter actor and email.<br>
+     * Aleks: wrong ;-) ~rr
      * 
      * @param actor
+     *            TODO document
      */
     public RoleBean(String actor) {
         this.actor = actor;
     }
 
     /**
-     * Gets the actor
+     * Gets the actor.
      * 
-     * @return the actor
+     * @return the actor TODO document
      */
     public String getActor() {
         return actor;
     }
 
     /**
-     * Sets the actor
+     * Sets the actor.
      * 
      * @param actor
      *            the actor to set
@@ -53,5 +60,4 @@ public class RoleBean {
     public void setActor(String actor) {
         this.actor = actor;
     }
-
 }

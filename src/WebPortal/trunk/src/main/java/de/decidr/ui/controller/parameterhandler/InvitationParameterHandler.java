@@ -26,6 +26,8 @@ import com.vaadin.terminal.ParameterHandler;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.LoginComponent;
@@ -40,6 +42,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2404", currentReviewState = State.PassedWithComments)
 public class InvitationParameterHandler implements ParameterHandler {
 
     private static final String ERROR_AUTHENTICATING = "An error occured handling your invitation.<br/>"
@@ -86,10 +89,13 @@ public class InvitationParameterHandler implements ParameterHandler {
                 } else {
                     // GH, Aleks: show some error about the unrecognised
                     // parameter! ~rr
-                    // RR this would produce false positives since we use several
-                    // parameter handlers which look for different parameters. ~gh
+                    // RR this would produce false positives since we use
+                    // several
+                    // parameter handlers which look for different parameters.
+                    // ~gh
+                    // GH, Aleks: then at least catch parameters passed twice
+                    // (warning or error) ~rr
                 }
-
             } catch (NumberFormatException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(ERROR_AUTHENTICATING,
@@ -130,9 +136,13 @@ public class InvitationParameterHandler implements ParameterHandler {
                         "workflowInstanceId").getValue().toString())) {
                     if (concern == null) {
                         // Aleks, GH: which one ~rr
-                        // RR This information is not available from the invitation
-                        // item we get from the facade. Tell me where it can be retrieved
+                        // RR This information is not available from the
+                        // invitation
+                        // item we get from the facade. Tell me where it can be
+                        // retrieved
                         // and i'll add it. ~gh
+                        // GH, Aleks: you have a workflow instance ID - there
+                        // has to be some method in a facade (ask DH) ~rr
                         concern = "Participate in a workflow";
                     } else {
                         // Aleks, GH: which one ~rr
@@ -181,7 +191,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                                     .getMainWindow()
                                     .addWindow(
                                             new InformationDialogComponent(
-                                                    "Please login to accept this invitation",
+                                                    "Please log in to accept this invitation",
                                                     "Login required"));
                         }
 
@@ -222,9 +232,8 @@ public class InvitationParameterHandler implements ParameterHandler {
                                         .getMainWindow()
                                         .addWindow(
                                                 new InformationDialogComponent(
-                                                        "Please login to accept this invitation",
+                                                        "Please log in to accept this invitation",
                                                         "Login required"));
-
                             } else {
                                 // not registered
                                 Main
@@ -235,7 +244,6 @@ public class InvitationParameterHandler implements ParameterHandler {
                                                         "Authentication failed: Unknown User.",
                                                         "Authentication failed"));
                             }
-
                         }
                     } else {
                         if (userFacade.authKeyMatches(userId, authKey)) {
@@ -249,27 +257,26 @@ public class InvitationParameterHandler implements ParameterHandler {
                                     .getMainWindow()
                                     .addWindow(
                                             new InformationDialogComponent(
-                                                    "Your authentication key does not match!",
+                                                    "Your authentication key can not be verified!",
                                                     "Authentication failed!"));
                         }
                     }
                 }
-
             } catch (TransactionException exception) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(exception));
             }
-
         }
-
     }
 
     /**
-     * Returns true if the given String is null or empty
+     * Returns <code>true</code> if the given String is <code>null</code> or
+     * empty.
      * 
      * @param t
      *            The string to be checked
-     * @return True if the given string is null or empty, False if not.
+     * @return <code>true</code> if the passed string is <code>null</code> or
+     *         empty, <code>false</code> if not.
      */
     private boolean isNullOrEmpty(String t) {
         if ((t == null) || t.isEmpty()) {
@@ -278,5 +285,4 @@ public class InvitationParameterHandler implements ParameterHandler {
             return false;
         }
     }
-
 }

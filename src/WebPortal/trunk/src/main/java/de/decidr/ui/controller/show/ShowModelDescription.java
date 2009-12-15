@@ -31,14 +31,15 @@ import de.decidr.ui.view.windows.WorkflowDescriptionWindow;
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.Passed)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2348", currentReviewState = State.PassedWithComments)
 public class ShowModelDescription implements ClickListener {
 
     private static final long serialVersionUID = 1L;
     private Table table = null;
 
     /**
-     * Default constructor which gets the container
+     * Default constructor which gets the container<br>
+     * Aleks, GH: not a default constructor ~rr
      */
     public ShowModelDescription(Table table) {
         this.table = table;

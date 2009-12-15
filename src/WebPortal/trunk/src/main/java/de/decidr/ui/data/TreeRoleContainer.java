@@ -27,29 +27,32 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Tree;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
 
 /**
- * This container stores role beans. They represent a role from the ui which is
- * converted from the tConfiguration role into a java bean. The bean only stores
- * the role name
+ * This container stores role beans. They represent a role from the UI which is
+ * converted from the {@link TConfiguration} role into a java bean. The bean
+ * only stores the role name.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2465", currentReviewState = State.Passed)
 public class TreeRoleContainer implements Container {
 
     private ArrayList<Object> propertyIds = new ArrayList<Object>();
     private Map<Object, Object> items = new LinkedHashMap<Object, Object>();
 
     /**
-     * Constructor with the given tConfiguration. Adds a child to the tree which
-     * will be a parent node and which represents the roles which are stored in
-     * the start configuration xml file. Also the nodes can contain children and
-     * they will be expanded.
+     * Constructor with the given {@link TConfiguration}. Adds a child to the
+     * tree which will be a parent node and which represents the roles which are
+     * stored in the start configuration XML file. Also the nodes can contain
+     * children and they will be expanded.
      * 
      * @param tConfiguration
-     *            - the tConfiguration the user selects from the table
+     *            - the {@link TConfiguration} the user selects from the table
      * 
      * @param tree
      *            - the tree from the start configuration window
@@ -221,5 +224,4 @@ public class TreeRoleContainer implements Container {
     public int size() {
         return items.size();
     }
-
 }

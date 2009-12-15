@@ -36,7 +36,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.KeywordFilter;
-import de.decidr.model.filters.Paginator;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 

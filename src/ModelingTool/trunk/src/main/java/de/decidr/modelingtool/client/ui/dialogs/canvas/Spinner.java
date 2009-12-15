@@ -174,6 +174,7 @@ public class Spinner extends HorizontalPanel {
 
     private void createTimers() {
         raiser = new Timer() {
+            @Override
             public void run() {
                 if (value + STEPSIZE < max) {
                     value = value + STEPSIZE;
@@ -185,6 +186,7 @@ public class Spinner extends HorizontalPanel {
         };
 
         lowerer = new Timer() {
+            @Override
             public void run() {
                 if (value - STEPSIZE > min) {
                     value = value - STEPSIZE;

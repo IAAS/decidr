@@ -20,12 +20,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This component is a part of the integrated manual and contains information
- * related to system settings.
+ * This component is part of the integrated manual and contains information
+ * related to the system settings.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2384", currentReviewState = State.PassedWithComments)
 public class SystemSettingsHelpComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
@@ -36,10 +40,12 @@ public class SystemSettingsHelpComponent extends VerticalLayout {
         setMargin(false, true, true, true);
 
         editSettingsLabel = new Label(
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
                 "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'System Settings' navigation link.<br/>"
                         + "2) The system displays the following information:<br/>"
-                        + "    - Whether the super admin must confirm all new tenants or they are accepted automatically<br/>"
-                        + "    - Amount of logic to perform<br/><br/>",
+                        + "    - Whether the super admin must confirm all new tenants or they are accepted automatically.<br/>"
+                        + "    - Amount of logic to perform.<br/><br/>",
                 Label.CONTENT_XHTML);
         editSettingsLabel.setVisible(false);
         editSettingsButton = new Button("How to edit system settings?",
@@ -48,7 +54,5 @@ public class SystemSettingsHelpComponent extends VerticalLayout {
 
         this.addComponent(editSettingsButton);
         this.addComponent(editSettingsLabel);
-
     }
-
 }
