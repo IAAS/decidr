@@ -109,25 +109,31 @@ public class SaveStartConfigurationAction implements ClickListener {
     @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
-        if (form.isValid()) {
-            Collection<Object> itemIds = tree.getItemIds();
+        boolean notEmptyRoles = true;
+        Collection<Object> itemIds = tree.getItemIds();
+        for (Object id : itemIds) {
+            if (tree.isRoot(id)) {
+                if (!tree.hasChildren(id)) {
+                    notEmptyRoles = false;
+                }
+            }
+        }
+        if (form.isValid() && notEmptyRoles) {
             for (Object id : itemIds) {
-                if (tree.isRoot(id)) {
-                    for (TRole role : tConfiguration.getRoles().getRole()) {
-                        Collection<Object> collect = tree.getChildren(id);
-                        if (collect != null) {
-                            for (Object childId : collect) {
-                                TActor tActor = new TActor();
-                                String actorOrEmail = tree.getItem(childId)
-                                        .getItemProperty("actor").getValue()
-                                        .toString();
-                                if (actorOrEmail.contains("@")) {
-                                    tActor.setEmail(actorOrEmail);
-                                } else {
-                                    tActor.setName(actorOrEmail);
-                                }
-                                role.getActor().add(tActor);
+                for (TRole role : tConfiguration.getRoles().getRole()) {
+                    Collection<Object> collect = tree.getChildren(id);
+                    if (collect != null) {
+                        for (Object childId : collect) {
+                            TActor tActor = new TActor();
+                            String actorOrEmail = tree.getItem(childId)
+                                    .getItemProperty("actor").getValue()
+                                    .toString();
+                            if (actorOrEmail.contains("@")) {
+                                tActor.setEmail(actorOrEmail);
+                            } else {
+                                tActor.setName(actorOrEmail);
                             }
+                            role.getActor().add(tActor);
                         }
                     }
                 }
@@ -149,7 +155,8 @@ public class SaveStartConfigurationAction implements ClickListener {
             }
 
             try {
-                //AT :Commented code is just for testing as long as no ODE is running
+                // AT :Commented code is just for testing as long as no ODE is
+                // running
                 /*
                  * AbstractTransactionalCommand cmd = new
                  * AbstractTransactionalCommand() {
@@ -188,6 +195,8 @@ public class SaveStartConfigurationAction implements ClickListener {
                                 new InformationDialogComponent(
                                         "Start configuration successfully saved and workflow instance started",
                                         "Success"));
+                Main.getCurrent().getMainWindow().removeWindow(
+                        event.getButton().getWindow());
             } catch (UsernameNotFoundException e) {
                 Main.getCurrent().getMainWindow().showNotification(
                         "Username not found!");
@@ -214,7 +223,6 @@ public class SaveStartConfigurationAction implements ClickListener {
                                     "Information"));
         }
 
-        Main.getCurrent().getMainWindow().removeWindow(
-                event.getButton().getWindow());
+        
     }
 }
