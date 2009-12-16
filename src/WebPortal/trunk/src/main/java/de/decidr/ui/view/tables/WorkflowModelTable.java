@@ -19,19 +19,22 @@ package de.decidr.ui.view.tables;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This class represents the workflow model ui component. It will be connected
- * with data from the database.
+ * This class represents the workflow model UI component. It will be connected
+ * to data from the database.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2474", currentReviewState = State.Passed)
 public class WorkflowModelTable extends Table {
 
     private static final long serialVersionUID = 1L;
 
-
     private final int TABLE_PAGE_LENGTH = 8;
-    
+
     private Container container = null;
 
     public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
@@ -41,8 +44,6 @@ public class WorkflowModelTable extends Table {
             "Creation Date", "Published", "Locked" };
 
     /**
-     * Default constructor.
-     * 
      * @param container
      *            Container which holds the workflow models
      */
@@ -69,7 +70,5 @@ public class WorkflowModelTable extends Table {
         setSelectable(true);
         setMultiSelect(true);
         setPageLength(TABLE_PAGE_LENGTH);
-
     }
-
 }

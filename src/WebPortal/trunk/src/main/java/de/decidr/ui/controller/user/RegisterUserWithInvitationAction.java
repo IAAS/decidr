@@ -112,16 +112,28 @@ public class RegisterUserWithInvitationAction implements ClickListener {
                 }
 
                 if (concern == null) {
-                    // Aleks, GH: *please* try to use your imagination - the
+                    // aleks, gh: *please* try to use your imagination - the
                     // user's actually supposed to glean some information from
                     // this, you now!? ~rr
-                    // RR Would 
+                    // rr Would
                     // "You received an invitation.
                     // Sender: Karl Heinz.
                     // You have been invited to: No reason specified
                     // Do you want to confirm this invitation?"
-                    // be so bad if we have no information about the invitation reason? ~gh
-                    
+                    // be so bad if we have no information about the invitation
+                    // reason? ~gh
+                    // GH: how about:
+                    // "You received an invitation.
+                    // Sender: Karl Heinz.
+                    // Do you want to confirm this invitation?"
+                    // The main problem here is (apart from that
+                    // "You have been invited to: No reason specified" looks
+                    // terrible) you are pretending to supply information,
+                    // without actually doing so. This way the user is left
+                    // wondering, whether the information was lost or whether
+                    // this is a bug. If there is no information, don't say so -
+                    // it'll only confuse ~rr
+
                     concern = "No reason specified.";
                 }
 

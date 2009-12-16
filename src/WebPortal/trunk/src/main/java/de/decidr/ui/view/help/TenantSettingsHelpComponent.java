@@ -20,12 +20,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This component is a part of the integrated manual and contains information
- * related to tenant settings
+ * This component is part of the integrated manual and contains information
+ * related to tenant settings.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class TenantSettingsHelpComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
@@ -42,25 +46,30 @@ public class TenantSettingsHelpComponent extends VerticalLayout {
         setMargin(false, true, true, true);
 
         changeSettingsLabel = new Label(
-                "1) Login into DecidR and navigate to 'Tenant Settings' in the navigation bar.<br/>"
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.<br/>"
                         + "2) Enter new description text and change the tenant settings.<br/>"
-                        + "3) Click on the save button.<br/><br/>",
+                        + "3) Click on the &quot;Save&quot; button.<br/><br/>",
                 Label.CONTENT_XHTML);
         changeSettingsLabel.setVisible(false);
-        changeSettingsButton = new Button("How to change tenant settings?",
-                new ToggleLabelAction(changeSettingsLabel));
+        changeSettingsButton = new Button(
+                "How do I change the tenant settings?", new ToggleLabelAction(
+                        changeSettingsLabel));
         changeSettingsButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(changeSettingsButton);
         this.addComponent(changeSettingsLabel);
 
         changeLogoLabel = new Label(
-                "1) Login into DecidR and navigate to 'Tenant Settings' in the navigation bar.<br/>"
-                        + "2) Select a file on you system to use as the new tenant logo.<br/>"
-                        + "3) After the upload click on the 'save' button.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.<br/>"
+                        + "2) Select a file on your system to use as the new tenant logo.<br/>"
+                        + "3) After the upload click on the &quot;Save&quot; button.<br/><br/>",
                 Label.CONTENT_XHTML);
         changeLogoLabel.setVisible(false);
-        changeLogoButton = new Button("How to change tenant logo?",
+        changeLogoButton = new Button("How do I change the tenant logo?",
                 new ToggleLabelAction(changeLogoLabel));
         changeLogoButton.setStyleName(Button.STYLE_LINK);
 
@@ -68,19 +77,19 @@ public class TenantSettingsHelpComponent extends VerticalLayout {
         this.addComponent(changeLogoLabel);
 
         restoreDefaultLabel = new Label(
-                "1) Login into DecidR and navigate to 'Tenant Settings' in the navigation bar.<br/>"
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.<br/>"
                         + "2) The system displays the current tenant settings.<br/>"
-                        + "3) Click on the 'Restore default settings' button.<br/><br/>",
+                        + "3) Click on the &quot;Restore default settings&quot; button.<br/><br/>",
                 Label.CONTENT_XHTML);
         restoreDefaultLabel.setVisible(false);
         restoreDefaultButton = new Button(
-                "How to restore default tenant settings?",
+                "How do I restore the default tenant settings?",
                 new ToggleLabelAction(restoreDefaultLabel));
         restoreDefaultButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(restoreDefaultButton);
         this.addComponent(restoreDefaultLabel);
-
     }
-
 }

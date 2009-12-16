@@ -173,10 +173,6 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                             new TransactionErrorDialogComponent(e));
                 }
             }
-        } else {
-            // gh, aleks: show some error message ~rr
-            // RR no, this only means the parameter handler has 
-            // not found a relevant parameter
         }
     }
 }

@@ -57,20 +57,22 @@ import de.decidr.model.transactions.HibernateTransactionCoordinatorTest;
 @RunWith(Suite.class)
 // The order of these tests should not be changed without good reason
 @SuiteClasses( { HibernateEntityStorageProviderTest.class,
-        HibernateTransactionCoordinatorTest.class, DecidrGlobalsTest.class,
+        HibernateTransactionCoordinatorTest.class,
+        DecidrGlobalsTest.class,
         LifetimeValidatorTest.class,
-        SystemFacadeTest.class,
         FileFacadeTest.class,
         TenantFacadeTest.class,
         // UserFacadeTest.class,
-        WorkflowModelFacadeTest.class, SystemCommandsTest.class,
+        WorkflowModelFacadeTest.class,
         DefaultAccessControlListTest.class,
         IsRoleEqualToAccessedUserAsserterTest.class,
         // UserAdministratesWorkflowModelAsserterTest.class,
-        UserIsAvailableAsserterTest.class, UserIsEnabledAsserterTest.class,
+        UserIsAvailableAsserterTest.class,
+        UserIsEnabledAsserterTest.class,
         // UserIsInvitationReceiverAsserterTest.class,
         UserIsLoggedInAsserterTest.class, UserIsSuperAdminAsserterTest.class,
-        FileAccessAsserterTest.class })
+        FileAccessAsserterTest.class, SystemFacadeTest.class,
+        SystemCommandsTest.class })
 // UserIsTenantAdminAsserterTest.class,
 // UserIsTenantMemberAsserterTest.class,
 // UserIsWorkflowParticipantAsserterTest.class,

@@ -20,12 +20,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This component is a part of the integrated manual and contains information
- * related to tenant monitoring
+ * This component is part of the integrated manual and contains information
+ * related to tenant monitoring.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class TenantMonitoringHelpComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
@@ -36,21 +40,22 @@ public class TenantMonitoringHelpComponent extends VerticalLayout {
         setMargin(false, true, true, true);
 
         tenantStatusLabel = new Label(
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Tenant Status' navigation link.<br/>"
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the"
+                        + " &quot;Tenant Status&quot; navigation link.<br/>"
                         + "2) The system displays the tenant status page containing:<br/>"
-                        + "    - Number of registered and unregistered users<br/>"
-                        + "    - Total number of workflow models<br/>"
-                        + "    - Total number of completed workflow instances<br/>"
-                        + "    - Total number of aborted / terminated workflow instances<br/><br/>",
+                        + "    - The number of registered and unregistered users.<br/>"
+                        + "    - The total number of workflow models.<br/>"
+                        + "    - The total number of completed workflow instances.<br/>"
+                        + "    - The total number of aborted/terminated workflow instances.<br/><br/>",
                 Label.CONTENT_XHTML);
         tenantStatusLabel.setVisible(false);
-        tenantStatusButton = new Button("How to view tenant status?",
+        tenantStatusButton = new Button("How do I view the tenant status?",
                 new ToggleLabelAction(tenantStatusLabel));
         tenantStatusButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(tenantStatusButton);
         this.addComponent(tenantStatusLabel);
-
     }
-
 }

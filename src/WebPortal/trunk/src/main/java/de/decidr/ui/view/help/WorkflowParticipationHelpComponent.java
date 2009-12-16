@@ -20,12 +20,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This component is a part of the integrated manual and contains information
- * related to workflow participation
+ * This component is part of the integrated manual and contains information
+ * related to workflow participation.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class WorkflowParticipationHelpComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
@@ -45,12 +49,16 @@ public class WorkflowParticipationHelpComponent extends VerticalLayout {
         setMargin(false, true, true, true);
 
         currentTenantWorkItemsLabel = new Label(
-                "1) Login into DecidR and navigate to the 'My Work items' in the navigation bar.<br/>"
-                        + "2) The page shows you a list of your work items for the current tenant.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to the &quot;My Workitems&quot;"
+                        + " in the navigation bar.<br/>"
+                        + "2) The page shows you a list of your workitems"
+                        + " for the current tenant.<br/><br/>",
                 Label.CONTENT_XHTML);
         currentTenantWorkItemsLabel.setVisible(false);
         currentTenantWorkItemsButton = new Button(
-                "How to display work items for the current tenant?",
+                "How do I display workitems for the current tenant?",
                 new ToggleLabelAction(currentTenantWorkItemsLabel));
         currentTenantWorkItemsButton.setStyleName(Button.STYLE_LINK);
 
@@ -58,13 +66,18 @@ public class WorkflowParticipationHelpComponent extends VerticalLayout {
         this.addComponent(currentTenantWorkItemsLabel);
 
         allTenantWorkItemsLabel = new Label(
-                "1) Login into DecidR and navigate to the 'My Work items' in the navigation bar.<br/>"
-                        + "2)  Select in the combo box on the work item page 'all tenants'<br/>"
-                        + "3)  The page shows you a list of your work items for all tenants.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to the &quot;My"
+                        + " Workitems&quot; in the navigation bar.<br/>"
+                        + "2) Select &quot;All tenants&quot; from the"
+                        + " combo box on the workitem page.<br/>"
+                        + "3) The page shows you a list of your"
+                        + " workitems for all tenants.<br/><br/>",
                 Label.CONTENT_XHTML);
         allTenantWorkItemsLabel.setVisible(false);
         allTenantWorkItemsButton = new Button(
-                "How to display work items for all tenants?",
+                "How do I display workitems for all tenants?",
                 new ToggleLabelAction(allTenantWorkItemsLabel));
         allTenantWorkItemsButton.setStyleName(Button.STYLE_LINK);
 
@@ -72,14 +85,18 @@ public class WorkflowParticipationHelpComponent extends VerticalLayout {
         this.addComponent(allTenantWorkItemsLabel);
 
         startWorkOnItemLabel = new Label(
-                "1) Login into DecidR and navigate to  'My Work items' in the navigation bar.<br/>"
-                        + "2) Select the item you want to work on and click on the  'work on item' link<br/>"
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to &quot;My Workitems&quot; in the navigation bar.<br/>"
+                        + "2) Select the item you want to work on and click on the &quot;Work on Item&quot; link.<br/>"
                         + "3) DecidR opens a new window that contains one or more input fields.<br/>"
-                        + "4) Fill out the field as are opposed to do and click on the save button.<br/><br/>",
+                        // Aleks, GH, TK: This doesn't make any sense; what are
+                        // you trying to say? ~rr
+                        + "4) Fill out the field as are opposed to do and click on the &quot;Save&quot; button.<br/><br/>",
                 Label.CONTENT_XHTML);
         startWorkOnItemLabel.setVisible(false);
         startWorkOnItemButton = new Button(
-                "How to start working on a work item?", new ToggleLabelAction(
+                "How do I start working on a workitem?", new ToggleLabelAction(
                         startWorkOnItemLabel));
         startWorkOnItemButton.setStyleName(Button.STYLE_LINK);
 
@@ -87,16 +104,19 @@ public class WorkflowParticipationHelpComponent extends VerticalLayout {
         this.addComponent(startWorkOnItemLabel);
 
         resumeWorkOnItemLabel = new Label(
-                "1) Login into DecidR and navigate 'My Work items' in the navigation bar.<br/>"
-                        + "2) All items you already started have the status 'in progress'. Select the item you want to work on and click on the  'work on item' link.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to &quot;My Workitems&quot; in the navigation bar.<br/>"
+                        + "2) All items you already started have the status &quot;In progress&quot;."
+                        + " Select the item you want to work on and click on the &quot;Work on Item&quot; link.<br/><br/>",
                 Label.CONTENT_XHTML);
         resumeWorkOnItemLabel.setVisible(false);
-        resumeWorkOnItemButton = new Button("How to register as tenant admin?",
-                new ToggleLabelAction(resumeWorkOnItemLabel));
+        resumeWorkOnItemButton = new Button(
+                "How do I register as tenant admin?", new ToggleLabelAction(
+                        resumeWorkOnItemLabel));
         resumeWorkOnItemButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(resumeWorkOnItemButton);
         this.addComponent(resumeWorkOnItemLabel);
     }
-
 }

@@ -45,12 +45,20 @@ public class HelpDialogComponent extends Window {
 
     public HelpDialogComponent() {
         super("DecidR Help");
-        // Aleks, GH: why would you want the help to always force the decidr
+        // aleks, gh: why would you want the help to always force the decidr
         // theme? Shouldn't it have the current tenant's, just like everything
         // else? ~rr
-        // RR Does your help file changes its' style if you change your desktop wall paper?
-        // This way we can assure the help is always readable, no matter how the rest
+        // rr Does your help file changes its' style if you change your desktop
+        // wall paper?
+        // This way we can assure the help is always readable, no matter how the
+        // rest
         // of the web site looks
+        // GH: good point. However, the application displaying the help changes
+        // styles when I change the global style. This goes a little beyond
+        // wallpapers and is about integration into the tenant-specific
+        // look&feel - if the tenant fucks up, there is nothing we can or should
+        // do. This way is (potentially) ugly and certainly not a good
+        // workaround. ~rr
         setTheme("decidr");
 
         VerticalLayout layout = (VerticalLayout) getContent();

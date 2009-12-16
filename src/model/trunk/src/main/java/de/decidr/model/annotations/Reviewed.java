@@ -48,6 +48,12 @@ public @interface Reviewed {
      */
     State currentReviewState();
 
+    
+    /**
+     * This enum represents the current state of a Review.
+     *
+     * @author Reinhold
+     */
     public enum State {
         /**
          * Means that the subject passed the review.

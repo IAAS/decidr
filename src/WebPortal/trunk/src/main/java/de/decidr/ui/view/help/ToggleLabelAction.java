@@ -20,19 +20,21 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This action toggles the visibility of a given label
+ * This action toggles the visibility of a given label.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2377", currentReviewState = State.Passed)
 public class ToggleLabelAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
     private Label myLabel = null;
 
     /**
-     * Constructor
-     * 
      * @param l
      *            Label to be hidden/shown
      */
@@ -54,5 +56,4 @@ public class ToggleLabelAction implements ClickListener {
             myLabel.setVisible(true);
         }
     }
-
 }

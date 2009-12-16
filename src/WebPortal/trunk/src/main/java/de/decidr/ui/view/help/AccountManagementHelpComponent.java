@@ -174,7 +174,11 @@ public class AccountManagementHelpComponent extends VerticalLayout {
                 + "\t<li>Enter the tenant information.</li>\n"
                 + "\t<li>Click on the &quot;Save&quot; button.</li>\n"
                 // aleks, gh: No error message or anything? Nothing happens? ~rr
-                // RR please ask TK, he wrote all these texts
+                // rr please ask tk, he wrote all these texts
+                // GH Please tell me you didn't just copy tk's help without
+                // adapting it to the changes you made. Anything in here should
+                // be adapted to reality, and since it'S you changing this
+                // reality, you should be the one to fix the help files ~rr
                 + "\t<li>If the tenant isn't already registered you are not "
                 + "the tenant admin of the newly created tenant</li>\n"
                 + "</ol>\n<br/>", Label.CONTENT_XHTML);

@@ -149,8 +149,8 @@ public class InvitationParameterHandler implements ParameterHandler {
                 if (!isNullOrEmpty(invitationItem.getItemProperty(
                         "workflowInstanceId").getValue().toString())) {
                     if (concern == null) {
-                        // Aleks, GH: which one ~rr
-                        // RR This information is not available from the
+                        // aleks, gh: which one ~rr
+                        // rr This information is not available from the
                         // invitation
                         // item we get from the facade. Tell me where it can be
                         // retrieved

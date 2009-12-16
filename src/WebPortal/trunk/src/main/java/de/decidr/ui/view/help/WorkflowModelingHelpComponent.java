@@ -20,12 +20,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
+
 /**
- * This component is a part of the integrated manual and contains information
- * related to workflow modeling
+ * This component is part of the integrated manual and contains information
+ * related to workflow modeling.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
 public class WorkflowModelingHelpComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
@@ -57,14 +61,17 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         setMargin(false, true, true, true);
 
         createNewWorkflowModelLabel = new Label(
-                "1) Login into DecidR and navigate to the workflow modeling section by clicking on the 'create/ edit workflow models' navigation link.<br/>"
-                        + "2) Click on the 'Create new model' Button<br/>"
-                        + "3) Fill out the input box named 'Create new model' and confirm it.<br/>"
-                        + "4) Now you can see the new workflow model in the workflow model editor for further editing.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.<br/>"
+                        + "2) Click on the &quot;Create new model&quot; button.<br/>"
+                        + "3) Fill out the input box named &quot;Create new model&quot; and confirm.<br/>"
+                        + "4) Now the new workflow model will be displayed in the workflow model editor for further editing.<br/><br/>",
                 Label.CONTENT_XHTML);
         createNewWorkflowModelLabel.setVisible(false);
         createNewWorkflowModelButton = new Button(
-                "How to create a new workflow model?", new ToggleLabelAction(
+                "How do I create a new workflow model?", new ToggleLabelAction(
                         createNewWorkflowModelLabel));
         createNewWorkflowModelButton.setStyleName(Button.STYLE_LINK);
 
@@ -72,13 +79,16 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(createNewWorkflowModelLabel);
 
         deleteWorkflowModelLabel = new Label(
-                "1) Login into DecidR and navigate to the workflow modeling section by clicking on the 'create/edit workflow models' navigation link.<br/>"
-                        + "2) Select one or more models you want to delete and click on the remove button.<br/>"
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.<br/>"
+                        + "2) Select one or more models you want to delete and click on the &quot;Remove&quot; button.<br/>"
                         + "3) Confirm the deletion.<br/><br/>",
                 Label.CONTENT_XHTML);
         deleteWorkflowModelLabel.setVisible(false);
         deleteWorkflowModelButton = new Button(
-                "How to delete workflow models?", new ToggleLabelAction(
+                "How do I delete workflow models?", new ToggleLabelAction(
                         deleteWorkflowModelLabel));
         deleteWorkflowModelButton.setStyleName(Button.STYLE_LINK);
 
@@ -86,13 +96,16 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(deleteWorkflowModelLabel);
 
         lockWorkflowModelLabel = new Label(
-                "1) Login into DecidR and navigate to the workflow modeling section by clicking on the 'create/edit workflow models' navigation link.<br/>"
-                        + "2) Select one or more models you want to lock/unlock and press the lock/unlock button.<br/>"
-                        + "3) The system locks/unlock each selected workflow model<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.<br/>"
+                        + "2) Select one or more models you want to lock/unlock and press the &quot;Lock/unlock&quot; button.<br/>"
+                        + "3) The system locks/unlock every selected workflow model.<br/><br/>",
                 Label.CONTENT_XHTML);
         lockWorkflowModelLabel.setVisible(false);
         lockWorkflowModelButton = new Button(
-                "How to lock/unlock workflow models?", new ToggleLabelAction(
+                "How do I lock/unlock workflow models?", new ToggleLabelAction(
                         lockWorkflowModelLabel));
         lockWorkflowModelButton.setStyleName(Button.STYLE_LINK);
 
@@ -100,40 +113,50 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(lockWorkflowModelLabel);
 
         importWorkflowModelLabel = new Label(
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'create/edit workflow models' navigation link.<br/>"
-                        + "2) Click on the 'Import from file' link.<br/>"
-                        + "3) Choose the file from you local computer you want to upload.<br/>"
-                        + "4) If the uploaded file is a valid workflow model the system adds the uploaded workflow model to the tenant.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.<br/>"
+                        + "2) Click on the &quot;Import from file&quot; link.<br/>"
+                        + "3) Choose the file you want to upload.<br/>"
+                        + "4) If the uploaded file is a valid workflow model, the system adds the uploaded"
+                        + " workflow model to the tenant.<br/><br/>",
                 Label.CONTENT_XHTML);
         importWorkflowModelLabel.setVisible(false);
         importWorkflowModelButton = new Button(
-                "How to import workflow model file?", new ToggleLabelAction(
-                        importWorkflowModelLabel));
+                "How do I import a workflow model from a file?",
+                new ToggleLabelAction(importWorkflowModelLabel));
         importWorkflowModelButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(importWorkflowModelButton);
         this.addComponent(importWorkflowModelLabel);
 
         exportWorkflowModelLabel = new Label(
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'create/edit workflow models' navigation link.<br/>"
-                        + "2) Select and the workflow model you want to download and click on the 'download' link.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.<br/>"
+                        + "2) Select the workflow model you want to download and click on the &quot;Download&quot; link.<br/><br/>",
                 Label.CONTENT_XHTML);
         exportWorkflowModelLabel.setVisible(false);
         exportWorkflowModelButton = new Button(
-                "How to export workflow model file?", new ToggleLabelAction(
-                        exportWorkflowModelLabel));
+                "How do I export a workflow model to a file?",
+                new ToggleLabelAction(exportWorkflowModelLabel));
         exportWorkflowModelButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(exportWorkflowModelButton);
         this.addComponent(exportWorkflowModelLabel);
 
         publishWorkflowModelLabel = new Label(
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'create/edit workflow models' navigation link.<br/>"
-                        + "2) Select the workflow model you want to publish and click on the publish button.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.<br/>"
+                        + "2) Select the workflow model you want to publish and click on the &quot;Publish&quot; button.<br/><br/>",
                 Label.CONTENT_XHTML);
         publishWorkflowModelLabel.setVisible(false);
         publishWorkflowModelButton = new Button(
-                "How to publish workflow models?", new ToggleLabelAction(
+                "How do I publish workflow models?", new ToggleLabelAction(
                         publishWorkflowModelLabel));
         publishWorkflowModelButton.setStyleName(Button.STYLE_LINK);
 
@@ -141,12 +164,15 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(publishWorkflowModelLabel);
 
         unpublishWorkflowModelLabel = new Label(
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'create/edit workflow models' navigation link.<br/>"
-                        + "2) Remove the published flags from  workflow model s you want to unpublish.<br/><br/>",
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.<br/>"
+                        + "2) Remove the &quot;published&quot; flags from workflow models you want to unpublish.<br/><br/>",
                 Label.CONTENT_XHTML);
         unpublishWorkflowModelLabel.setVisible(false);
         unpublishWorkflowModelButton = new Button(
-                "How to unpublish workflow models?", new ToggleLabelAction(
+                "How do I unpublish workflow models?", new ToggleLabelAction(
                         unpublishWorkflowModelLabel));
         unpublishWorkflowModelButton.setStyleName(Button.STYLE_LINK);
 
@@ -154,22 +180,24 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(unpublishWorkflowModelLabel);
 
         appointWorkflowAdminLabel = new Label(
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Models' navigation link.<br/>"
-                        + "2) Select a workflow model and then choose 'appoint workflow admins'.<br/>"
-                        + "3) Choose in the input box one of the following options:<br/>"
-                        + "3.a) Appoint yourself as the workflow admin<br/>"
+                // Aleks, GH: check whether this can be done with proper HTML
+                // ~rr
+                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Models&quot; navigation link.<br/>"
+                        + "2) Select a workflow model and then choose &quot;Appoint workflow admins&quot;.<br/>"
+                        + "3) Choose one of the following options from the selection field:<br/>"
+                        + "3.a) Appoint yourself as the workflow admin.<br/>"
                         + "3.b) Enter the usernames of registered DecidR users.<br/>"
-                        + "3.c) Enter the email addresses of the desired workflow admins<br/>"
-                        + "4) Confirm it be pressing the OK button.<br/><br/>",
+                        + "3.c) Enter the email addresses of the desired workflow admins.<br/>"
+                        + "4) Confirm it be pressing the &quot;OK&quot; button.<br/><br/>",
                 Label.CONTENT_XHTML);
         appointWorkflowAdminLabel.setVisible(false);
         appointWorkflowAdminButton = new Button(
-                "How to appoint workflow admins?", new ToggleLabelAction(
+                "How do I appoint workflow admins?", new ToggleLabelAction(
                         appointWorkflowAdminLabel));
         appointWorkflowAdminButton.setStyleName(Button.STYLE_LINK);
 
         this.addComponent(appointWorkflowAdminButton);
         this.addComponent(appointWorkflowAdminLabel);
-
     }
 }

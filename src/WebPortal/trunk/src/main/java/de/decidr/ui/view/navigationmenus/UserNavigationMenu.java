@@ -20,6 +20,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.show.ShowChangeTenantAction;
 import de.decidr.ui.controller.show.ShowCreateTenantAction;
 import de.decidr.ui.controller.show.ShowMyWorkitemsAction;
@@ -27,10 +29,11 @@ import de.decidr.ui.controller.show.ShowProfileSettingsAction;
 
 /**
  * The navigation menu for the user. He has less links than the super
- * administrator, the workflow administrator and the tenant.
+ * administrator, the workflow administrator and the tenant administrator.
  * 
  * @author AT
  */
+@Reviewed(reviewers = { "RR" }, lastRevision = "2384", currentReviewState = State.PassedWithComments)
 public class UserNavigationMenu extends CustomComponent {
 
     private static final long serialVersionUID = -3304973028559451364L;
@@ -47,14 +50,14 @@ public class UserNavigationMenu extends CustomComponent {
     private Label settingsLabel = null;
 
     /**
-     * Default constructor.
+     * TODO useful documentation
      */
     public UserNavigationMenu() {
         init();
     }
 
     /**
-     * This method initializes the components of the user navigation menu
+     * This method initializes the components of this {@link UserNavigationMenu}
      * component.
      */
     private void init() {
@@ -93,5 +96,4 @@ public class UserNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(settingsLabel);
         verticalLayout.addComponent(profileSettingsLink);
     }
-
 }
