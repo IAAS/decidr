@@ -71,7 +71,7 @@ public class UndeployWorkflowModelCommand extends WorkflowModelCommand {
 
             for (DeployedWorkflowModel m : models) {
                 boolean hasInstances = evt.getSession().createQuery(
-                        "select wfi.id from WorfklowInstance wfi "
+                        "select wfi.id from WorkflowInstance wfi "
                                 + "where wfi.deployedWorkflowModel = :model")
                         .setEntity("model", m).setMaxResults(1).uniqueResult() != null;
 
