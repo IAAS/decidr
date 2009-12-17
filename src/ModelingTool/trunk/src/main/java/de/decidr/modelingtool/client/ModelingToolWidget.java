@@ -62,7 +62,7 @@ import de.decidr.modelingtool.client.ui.resources.Messages;
 public class ModelingToolWidget extends Composite implements
         HasAllMouseHandlers {
 
-    ScrollPanel scrollPanel;
+    private ScrollPanel scrollPanel;
 
     // Size of the scroll panel which contains the workflow canvas
     private final static String CANVAS_HEIGHT = "800px";

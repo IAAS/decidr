@@ -196,12 +196,12 @@ public class CreateConnectionCommand implements UndoableCommand {
         // link connection
         connection.setStartDragBox(startDragBox);
         connection.setEndDragBox(endDragBox);
-        
-        //set label, if model is condition
-        if (model instanceof Condition){
+
+        // set label, if model is condition
+        if (model instanceof Condition) {
             connection.setLabel(model.getName());
         }
-        
+
     }
 
     @Override

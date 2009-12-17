@@ -40,7 +40,7 @@ public interface MenuImageBundle extends MenuBar.MenuBarImages {
 
     @Resource("de/decidr/modelingtool/public/images/menu/delete.png")
     public AbstractImagePrototype delete();
-    
+
     @Resource("de/decidr/modelingtool/public/images/menu/canvas.png")
     public AbstractImagePrototype canvas();
 

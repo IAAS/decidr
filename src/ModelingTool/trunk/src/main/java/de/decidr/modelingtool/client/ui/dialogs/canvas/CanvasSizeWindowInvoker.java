@@ -20,10 +20,9 @@ import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
- * Invoker for the {@link CanvasSizeWindow}. The invoker first calls the
- * window to set the node and then calls the {@link DialogRegistry} to show the
- * window.
- *
+ * Invoker for the {@link CanvasSizeWindow}. The invoker first calls the window
+ * to set the node and then calls the {@link DialogRegistry} to show the window.
+ * 
  * @author Jonas Schlaak
  */
 public class CanvasSizeWindowInvoker {
@@ -38,5 +37,5 @@ public class CanvasSizeWindowInvoker {
                     CanvasSizeWindow.class.getName());
         }
     }
-    
+
 }

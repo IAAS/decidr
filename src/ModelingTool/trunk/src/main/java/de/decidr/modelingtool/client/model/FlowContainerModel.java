@@ -17,8 +17,8 @@
 package de.decidr.modelingtool.client.model;
 
 /**
- * Model class for the {@link FlowContainerModel}. Currently, this class holds no
- * properties that can or need to be modeled.
+ * Model class for the {@link FlowContainerModel}. Currently, this class holds
+ * no properties that can or need to be modeled.
  * 
  * @author Johannes Engelhardt
  */
