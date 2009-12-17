@@ -30,8 +30,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.vaadin.data.Item;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.asserters.UserIsEnabledAsserter;
 import de.decidr.model.acl.roles.BasicRole;
@@ -650,7 +648,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#setProfile(Long, Item)},
+     * Test method for {@link UserFacade#setProfile(Long, UserProfile)},
      * {@link UserFacade#getUserProfile(Long, Boolean)} and
      * {@link UserFacade#getUserProfile(Long)}.
      */
