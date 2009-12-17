@@ -27,12 +27,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.vaadin.data.Item;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.permissions.FileDeletePermission;
@@ -45,6 +44,10 @@ import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.entities.Tenant;
+import de.decidr.model.entities.TenantSummaryView;
+import de.decidr.model.entities.TenantWithAdminView;
+import de.decidr.model.entities.User;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testing.LowLevelDatabaseTest;
@@ -225,19 +228,20 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testApproveTenants() throws TransactionException {
-        List<Item> tenants = adminFacade.getTenantsToApprove(null, null);
+        List<TenantWithAdminView> tenants = adminFacade.getTenantsToApprove(
+                null, null);
         assertNotNull(tenants);
         assertFalse(tenants.isEmpty());
         List<Long> tenantIDs = new ArrayList<Long>(tenants.size());
 
-        for (Item tenant : tenants) {
-            assertNotNull(tenant.getItemProperty("id").getValue());
-            assertNotNull(tenant.getItemProperty("name").getValue());
-            tenant.getItemProperty("adminFirstName").getValue();
-            tenant.getItemProperty("adminLastName").getValue();
-            assertNotNull(tenant.getItemProperty("adminId").getValue());
+        for (TenantWithAdminView tenant : tenants) {
+            assertNotNull(tenant.getId());
+            assertNotNull(tenant.getName());
+            tenant.getAdminFirstName();
+            tenant.getAdminLastName();
+            assertNotNull(tenant.getAdminId());
 
-            tenantIDs.add((Long) tenant.getItemProperty("id").getValue());
+            tenantIDs.add((Long) tenant.getId());
         }
 
         try {
@@ -385,22 +389,26 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             // supposed to happen
         }
 
-        List<Item> tenants = adminFacade.getAllTenants(null, null);
-        List<Item> compare = adminFacade.getAllTenants(null, null);
+        List<TenantSummaryView> tenants = adminFacade.getAllTenants(null, null);
+        List<TenantSummaryView> compare = adminFacade.getAllTenants(null, null);
         assertNotNull(tenants);
         assertFalse(tenants.isEmpty());
         assertNotNull(compare);
         assertFalse(compare.isEmpty());
         assertEquals(tenants.size(), compare.size());
-
-        for (int i = 0; i < tenants.size(); i++) {
-            for (String property : new String[] { "adminFirstName", "id",
-                    "adminLastName", "numDeployedWorkflowModels", "numMembers",
-                    "numWorkflowInstances", "tenantName", "numWorkflowModels" }) {
-                assertEquals(tenants.get(i).getItemProperty(property)
-                        .getValue(), compare.get(i).getItemProperty(property)
-                        .getValue());
+        try {
+            for (int i = 0; i < tenants.size(); i++) {
+                for (String property : new String[] { "adminFirstName", "id",
+                        "adminLastName", "numDeployedWorkflowModels",
+                        "numMembers", "numWorkflowInstances", "tenantName",
+                        "numWorkflowModels" }) {
+                    assertEquals(BeanUtils
+                            .getProperty(tenants.get(i), property), BeanUtils
+                            .getProperty(compare.get(i), property));
+                }
             }
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
     }
 
@@ -498,9 +506,9 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         assertEquals(1, adminFacade.getUsersOfTenant(testTenantID, null).size());
         assertEquals(1, userFacade.getUsersOfTenant(testTenantID, null).size());
 
-        Item user = adminFacade.getUsersOfTenant(testTenantID, null).get(0);
-        assertNotNull(user.getItemProperty("id").getValue());
-        assertNotNull(user.getItemProperty("email").getValue());
+        User user = adminFacade.getUsersOfTenant(testTenantID, null).get(0);
+        assertNotNull(user.getId());
+        assertNotNull(user.getEmail());
     }
 
     /**
@@ -814,14 +822,13 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         Long wfmID = adminFacade.createWorkflowModel(testTenantID, "testWFM");
         assertEquals(1, adminFacade.getWorkflowModels(testTenantID, null, null)
                 .size());
-        Item WFM = adminFacade.getWorkflowModels(testTenantID, null, null).get(
-                0);
-        assertEquals("testWFM", WFM.getItemProperty("name").getValue());
-        assertEquals(false, WFM.getItemProperty("published").getValue());
+        WorkflowModel WFM = adminFacade.getWorkflowModels(testTenantID, null,
+                null).get(0);
+        assertEquals("testWFM", WFM.getName());
+        assertEquals(false, WFM.isPublished());
         // The dates must be less than 60s apart to count as equal
         assertTrue(Math.abs(DecidrGlobals.getTime().getTimeInMillis()
-                - ((Date) WFM.getItemProperty("creationDate").getValue())
-                        .getTime()) < 60000);
+                - ((Date) WFM.getCreationDate()).getTime()) < 60000);
 
         ArrayList<Long> myWFM = new ArrayList<Long>(2);
         myWFM.add(wfmID);

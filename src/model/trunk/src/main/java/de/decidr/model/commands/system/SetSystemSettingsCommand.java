@@ -64,7 +64,6 @@ public class SetSystemSettingsCommand extends SystemCommand {
      *             if the settings are invalid.
      */
     protected void validateNewSettings() throws TransactionException {
-
         // Data consistency *should* be checked by the database, not the
         // application, but this approach required less effort.
         if (Level.toLevel(newSettings.getLogLevel(), null) == null) {

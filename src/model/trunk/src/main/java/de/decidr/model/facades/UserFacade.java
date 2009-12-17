@@ -738,7 +738,11 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Returns all workflow instances which the given user administers.
+     * Returns all workflow instances which the given user administers.<br>
+     * Preloaded foreign key properties:
+     * <ul>
+     * <li>deployedWorkflowModel</li>
+     * </ul>
      * 
      * @param userId
      *            the id of the user whose administrated workflow models should
@@ -785,6 +789,12 @@ public class UserFacade extends AbstractFacade {
 
     /**
      * Returns the workflow models which the given user administers.
+     * 
+     * <br>
+     * Preloaded foreign key properties:
+     * <ul>
+     * <li>deployedWorkflowModel</li>
+     * </ul>
      * 
      * @param userId
      *            the ID of the user whose administrated workflow models should

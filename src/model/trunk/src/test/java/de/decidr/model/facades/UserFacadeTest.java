@@ -30,8 +30,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.vaadin.data.Item;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.asserters.UserIsEnabledAsserter;
 import de.decidr.model.acl.roles.BasicRole;
@@ -44,6 +42,9 @@ import de.decidr.model.entities.UserAdministratesWorkflowInstance;
 import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkItem;
+import de.decidr.model.entities.WorkItemSummaryView;
+import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
@@ -133,38 +134,33 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         return invalidID;
     }
 
-    private static Map.Entry<User, UserProfile> getProfile(Item profileItem,
+    private static Map.Entry<User, UserProfile> getProfile(User profileItem,
             boolean parseProfile) {
         User user = new User();
         UserProfile profile = new UserProfile();
         SimpleImmutableEntry<User, UserProfile> returnEntry;
 
-        user.setId((Long) profileItem.getItemProperty("id").getValue());
-        user.setAuthKey((String) profileItem.getItemProperty("authKey")
-                .getValue());
-        user.setEmail((String) profileItem.getItemProperty("email").getValue());
-        user.setDisabledSince((Date) profileItem.getItemProperty(
-                "disabledSince").getValue());
-        user.setUnavailableSince((Date) profileItem.getItemProperty(
-                "unavailableSince").getValue());
-        user.setRegisteredSince((Date) profileItem.getItemProperty(
-                "registeredSince").getValue());
-        user.setCreationDate((Date) profileItem.getItemProperty("creationDate")
-                .getValue());
+        user.setId((Long) profileItem.getId());
+        user.setAuthKey((String) profileItem.getAuthKey());
+        user.setEmail((String) profileItem.getEmail());
+        user.setDisabledSince((Date) profileItem.getDisabledSince());
+        user.setUnavailableSince((Date) profileItem.getUnavailableSince());
+        user.setRegisteredSince((Date) profileItem.getRegisteredSince());
+        user.setCreationDate((Date) profileItem.getCreationDate());
 
         if (parseProfile) {
-            profile.setCity((String) profileItem.getItemProperty("city")
-                    .getValue());
-            profile.setFirstName((String) profileItem.getItemProperty(
-                    "firstName").getValue());
-            profile.setLastName((String) profileItem
-                    .getItemProperty("lastName").getValue());
-            profile.setPostalCode((String) profileItem.getItemProperty(
-                    "postalCode").getValue());
-            profile.setStreet((String) profileItem.getItemProperty("street")
-                    .getValue());
-            profile.setUsername((String) profileItem
-                    .getItemProperty("username").getValue());
+            profile.setCity((String) profileItem.getUserProfile().getCity());
+            profile.setFirstName((String) profileItem.getUserProfile()
+                    .getFirstName());
+            profile.setLastName((String) profileItem.getUserProfile()
+                    .getLastName());
+            profile.setPostalCode((String) profileItem.getUserProfile()
+                    .getPostalCode());
+            profile
+                    .setStreet((String) profileItem.getUserProfile()
+                            .getStreet());
+            profile.setUsername((String) profileItem.getUserProfile()
+                    .getUsername());
         }
 
         returnEntry = new SimpleImmutableEntry<User, UserProfile>(user, profile);
@@ -444,7 +440,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
-        List<Item> WFIs = adminFacade
+        List<WorkflowInstance> WFIs = adminFacade
                 .getAdministratedWorkflowInstances(testUserID);
         assertNotNull(WFIs);
         assertTrue(WFIs.isEmpty());
@@ -484,7 +480,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             // supposed to be thrown
         }
 
-        List<Item> WFIs = adminFacade.getAdministratedWorkflowModels(
+        List<WorkflowModel> WFIs = adminFacade.getAdministratedWorkflowModels(
                 testUserID, null, null);
         assertNotNull(WFIs);
         assertTrue(WFIs.isEmpty());
@@ -502,8 +498,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetAllUsers() throws TransactionException {
-        List<Item> userList;
-        Item testUserItem = null;
+        List<User> userList;
+        User testUserItem = null;
 
         userList = adminFacade.getAllUsers(null, null);
         adminFacade.getAllUsers(new ArrayList<Filter>(), null);
@@ -518,9 +514,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             return;
         }
 
-        for (Item item : userList) {
-            if (item.getItemProperty("id").getValue().equals(testUserID)) {
-                testUserItem = item;
+        for (User user : userList) {
+            if (user.getId().equals(testUserID)) {
+                testUserItem = user;
                 break;
             }
         }
@@ -533,14 +529,12 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             return;
         }
 
-        assertEquals(TEST_EMAIL, testUserItem.getItemProperty("email")
-                .getValue());
-        assertEquals(classProfile.getFirstName(), testUserItem.getItemProperty(
-                "firstName").getValue());
-        assertEquals(classProfile.getLastName(), testUserItem.getItemProperty(
-                "lastName").getValue());
-        assertEquals(TEST_USERNAME, testUserItem.getItemProperty("username")
-                .getValue());
+        assertEquals(TEST_EMAIL, testUserItem.getEmail());
+        assertEquals(classProfile.getFirstName(), testUserItem.getUserProfile()
+                .getFirstName());
+        assertEquals(classProfile.getLastName(), testUserItem.getUserProfile()
+                .getLastName());
+        assertEquals(TEST_USERNAME, testUserItem.getUserProfile().getUsername());
 
         getAllUsersExceptionHelper(
                 "getting all users with normal user facade succeeded",
@@ -625,7 +619,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetWorkItems() throws TransactionException {
-        List<Item> workItems;
+        List<WorkItemSummaryView> workItems;
         Long workingUserID;
 
         try {
@@ -647,16 +641,14 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
             assertFalse(facade.getWorkItems(workingUserID, null, null)
                     .isEmpty());
             workItems = facade.getWorkItems(workingUserID, null, null);
-            for (Item item : workItems) {
-                assertNotNull(item.getItemProperty("id").getValue());
-                assertEquals(workingUserID, item.getItemProperty("userId")
-                        .getValue());
-                assertNotNull(item.getItemProperty("creationDate").getValue());
-                assertNotNull(item.getItemProperty("tenantName").getValue());
-                assertNotNull(item.getItemProperty("workItemStatus").getValue());
-                assertNotNull(item.getItemProperty("workflowInstanceId")
-                        .getValue());
-                assertNotNull(item.getItemProperty("workItemName").getValue());
+            for (WorkItemSummaryView item : workItems) {
+                assertNotNull(item.getId());
+                assertEquals((long) workingUserID, item.getUserId());
+                assertNotNull(item.getCreationDate());
+                assertNotNull(item.getTenantName());
+                assertNotNull(item.getWorkItemStatus());
+                assertNotNull(item.getWorkflowInstanceId());
+                assertNotNull(item.getWorkItemName());
             }
         }
     }
@@ -848,26 +840,25 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         Date testDate = DecidrGlobals.getTime(true).getTime();
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("disabledSince").getValue());
+                .getDisabledSince());
 
         testDate = DecidrGlobals.getTime(true).getTime();
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("disabledSince").getValue());
+                .getDisabledSince());
 
         testDate = new Date((new Date().getTime() - 1000000) / 1000 * 1000);
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("disabledSince").getValue());
+                .getDisabledSince());
 
         testDate = new Date((new Date().getTime() + 1000000) / 1000 * 1000);
         adminFacade.setDisabledSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("disabledSince").getValue());
+                .getDisabledSince());
 
         adminFacade.setDisabledSince(testUserID, null);
-        assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
-                "disabledSince").getValue());
+        assertNull(adminFacade.getUserProfile(testUserID).getDisabledSince());
     }
 
     /**
@@ -888,7 +879,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL + ".vu");
         assertEquals(TEST_EMAIL + ".vu", adminFacade.getUserProfile(testUserID,
-                true).getItemProperty("email").getValue());
+                true).getEmail());
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
         adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
 
@@ -996,27 +987,26 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         testDate.setTime((testDate.getTime() / 1000) * 1000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("unavailableSince").getValue());
+                .getUnavailableSince());
 
         testDate = DecidrGlobals.getTime().getTime();
         testDate.setTime(testDate.getTime() / 1000 * 1000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("unavailableSince").getValue());
+                .getUnavailableSince());
 
         testDate = new Date(testDate.getTime() - 1000000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("unavailableSince").getValue());
+                .getUnavailableSince());
 
         testDate = new Date(testDate.getTime() + 2000000);
         adminFacade.setUnavailableSince(testUserID, testDate);
         assertEquals(testDate, adminFacade.getUserProfile(testUserID)
-                .getItemProperty("unavailableSince").getValue());
+                .getUnavailableSince());
 
         adminFacade.setDisabledSince(testUserID, null);
-        assertNull(adminFacade.getUserProfile(testUserID).getItemProperty(
-                "disabledSince").getValue());
+        assertNull(adminFacade.getUserProfile(testUserID).getDisabledSince());
     }
 
     /**
@@ -1032,7 +1022,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         Long invalidUserID = getInvalidUserID();
         Long tenantUserID = null;
         Long tenantID = null;
-        List<Item> joinedTenants;
+        List<Tenant> joinedTenants;
 
         // find first tenant with a user and get that user's ID
         for (Tenant t : (List<Tenant>) session.createQuery(
@@ -1123,21 +1113,21 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         joinedTenants = userFacade.getJoinedTenants(tenantUserID);
         assertFalse(joinedTenants.isEmpty());
-        for (Item item : joinedTenants) {
-            assertNotNull(item.getItemProperty("id").getValue());
-            assertNotNull(item.getItemProperty("name").getValue());
+        for (Tenant item : joinedTenants) {
+            assertNotNull(item.getId());
+            assertNotNull(item.getName());
             assertNotNull(userFacade.getUserRoleForTenant(tenantUserID,
-                    (Long) item.getItemProperty("id").getValue()));
+                    (Long) item.getId()));
         }
 
         userFacade = new UserFacade(new UserRole(testUserID));
         joinedTenants = adminFacade.getJoinedTenants(tenantUserID);
         assertFalse(joinedTenants.isEmpty());
-        for (Item item : joinedTenants) {
-            assertNotNull(item.getItemProperty("id").getValue());
-            assertNotNull(item.getItemProperty("name").getValue());
+        for (Tenant item : joinedTenants) {
+            assertNotNull(item.getId());
+            assertNotNull(item.getName());
             assertNotNull(adminFacade.getUserRoleForTenant(tenantUserID,
-                    (Long) item.getItemProperty("id").getValue()));
+                    (Long) item.getId()));
         }
 
         assertTrue(userFacade.getJoinedTenants(testUserID).isEmpty());

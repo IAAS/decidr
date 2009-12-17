@@ -200,7 +200,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      * 
      * @param workflowModelId
      *            workflow model of which the administrators should be retrieved
-     * @return List of administrators as Vaadin items.
+     * @return List of administrators
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -337,7 +337,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            an optional list of filters to apply to the query.
      * @param paginator
      *            an optional paginator to split the query into several pages
-     * @return Vaadin items representing the published workflow models.
+     * @return published workflow models.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */

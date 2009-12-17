@@ -28,8 +28,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.vaadin.data.Item;
-
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -93,13 +91,12 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
     @Test
     public void testSettings() throws TransactionException {
         SystemSettings setterSettings = new SystemSettings();
-        Item getterSettings;
+        SystemSettings getterSettings;
         Calendar modDate;
 
-        getterSettings = adminFacade.getSettings();
+        getterSettings = DecidrGlobals.getSettings();
         assertNotNull(getterSettings);
-        User admin = (User) getterSettings.getItemProperty("superAdmin")
-                .getValue();
+        User admin = (User) getterSettings.getSuperAdmin();
 
         setterSettings.setSuperAdmin(admin);
         setterSettings.setAutoAcceptNewTenants(true);
@@ -133,61 +130,38 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
         setterSettings.setSystemName("De Cidr");
         adminFacade.setSettings(setterSettings);
 
-        getterSettings = adminFacade.getSettings();
-        assertEquals(true, getterSettings.getItemProperty(
-                "autoAcceptNewTenants").getValue());
-        assertEquals(true, getterSettings.getItemProperty("mtaUseTls")
-                .getValue());
-        assertEquals(20, getterSettings.getItemProperty(
-                "changeEmailRequestLifetimeSeconds").getValue());
-        assertEquals("decidr.de", getterSettings.getItemProperty("domain")
-                .getValue());
-        assertEquals(10, getterSettings.getItemProperty(
-                "invitationLifetimeSeconds").getValue());
-        assertEquals("DEBUG", getterSettings.getItemProperty("logLevel")
-                .getValue());
-        assertEquals(10, getterSettings.getItemProperty(
-                "maxAttachmentsPerEmail").getValue());
-        assertEquals((byte) 100, getterSettings.getItemProperty(
-                "maxServerLoadForShutdown").getValue());
-        assertEquals((byte) 100, getterSettings.getItemProperty(
-                "maxServerLoadForUnlock").getValue());
-        assertEquals(1L, getterSettings.getItemProperty(
-                "maxUploadFileSizeBytes").getValue());
-        assertEquals(1, getterSettings.getItemProperty(
-                "maxWorkflowInstancesForShutdown").getValue());
-        assertEquals(1, getterSettings.getItemProperty(
-                "maxWorkflowInstancesForUnlock").getValue());
-        assertEquals((byte) 100, getterSettings.getItemProperty(
-                "minServerLoadForLock").getValue());
-        assertEquals(1, getterSettings.getItemProperty("minUnlockedServers")
-                .getValue());
-        assertEquals(1, getterSettings.getItemProperty(
-                "minWorkflowInstancesForLock").getValue());
-        assertEquals(60, getterSettings.getItemProperty(
-                "monitorAveragingPeriodSeconds").getValue());
-        assertEquals(10, getterSettings.getItemProperty(
-                "monitorUpdateIntervalSeconds").getValue());
-        assertEquals("localhost", getterSettings.getItemProperty("mtaHostname")
-                .getValue());
-        assertEquals("asdfg", getterSettings.getItemProperty("mtaPassword")
-                .getValue());
-        assertEquals(0, getterSettings.getItemProperty("mtaPort").getValue());
-        assertEquals("asd", getterSettings.getItemProperty("mtaUsername")
-                .getValue());
-        assertEquals(200, getterSettings.getItemProperty(
-                "passwordResetRequestLifetimeSeconds").getValue());
-        assertEquals(2000, getterSettings.getItemProperty(
-                "registrationRequestLifetimeSeconds").getValue());
-        assertEquals(3, getterSettings.getItemProperty("serverPoolInstances")
-                .getValue());
-        assertEquals("decidr@decidr.biz", getterSettings.getItemProperty(
-                "systemEmailAddress").getValue());
-        assertEquals("De Cidr", getterSettings.getItemProperty("systemName")
-                .getValue());
+        getterSettings = DecidrGlobals.getSettings();
+        assertEquals(true, getterSettings.isAutoAcceptNewTenants());
+        assertEquals(true, getterSettings.isMtaUseTls());
+        assertEquals(20, getterSettings.getChangeEmailRequestLifetimeSeconds());
+        assertEquals("decidr.de", getterSettings.getDomain());
+        assertEquals(10, getterSettings.getInvitationLifetimeSeconds());
+        assertEquals("DEBUG", getterSettings.getLogLevel());
+        assertEquals(10, getterSettings.getMaxAttachmentsPerEmail());
+        assertEquals((byte) 100, getterSettings.getMaxServerLoadForShutdown());
+        assertEquals((byte) 100, getterSettings.getMaxServerLoadForUnlock());
+        assertEquals(1L, getterSettings.getMaxUploadFileSizeBytes());
+        assertEquals(1, getterSettings.getMaxWorkflowInstancesForShutdown());
+        assertEquals(1, getterSettings.getMaxWorkflowInstancesForUnlock());
+        assertEquals((byte) 100, getterSettings.getMinServerLoadForLock());
+        assertEquals(1, getterSettings.getMinUnlockedServers());
+        assertEquals(1, getterSettings.getMinWorkflowInstancesForLock());
+        assertEquals(60, getterSettings.getMonitorAveragingPeriodSeconds());
+        assertEquals(10, getterSettings.getMonitorUpdateIntervalSeconds());
+        assertEquals("localhost", getterSettings.getMtaHostname());
+        assertEquals("asdfg", getterSettings.getMtaPassword());
+        assertEquals(0, getterSettings.getMtaPort());
+        assertEquals("asd", getterSettings.getMtaUsername());
+        assertEquals(200, getterSettings
+                .getPasswordResetRequestLifetimeSeconds());
+        assertEquals(2000, getterSettings
+                .getRegistrationRequestLifetimeSeconds());
+        assertEquals(3, getterSettings.getServerPoolInstances());
+        assertEquals("decidr@decidr.biz", getterSettings
+                .getSystemEmailAddress());
+        assertEquals("De Cidr", getterSettings.getSystemName());
         assertFalse(modDate.getTime().after(
-                (Date) getterSettings.getItemProperty("modifiedDate")
-                        .getValue()));
+                (Date) getterSettings.getModifiedDate()));
 
         setterSettings.setAutoAcceptNewTenants(false);
         setterSettings.setChangeEmailRequestLifetimeSeconds(150);
@@ -216,57 +190,38 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
         setterSettings.setSystemName("Darth Vader");
         adminFacade.setSettings(setterSettings);
 
-        Item oldSettings = getterSettings;
-        getterSettings = adminFacade.getSettings();
+        SystemSettings oldSettings = getterSettings;
+        // Notice: due to the way Hibernate works, DecidrGlobals.getSettings
+        // might return the same SystemSettings object every time you call it
+        // from within your current thread.
+        getterSettings = DecidrGlobals.getSettings();
         assertNotSame(oldSettings, getterSettings);
-        assertEquals(false, getterSettings.getItemProperty(
-                "autoAcceptNewTenants").getValue());
-        assertEquals(false, getterSettings.getItemProperty("mtaUseTls")
-                .getValue());
-        assertEquals(150, getterSettings.getItemProperty(
-                "changeEmailRequestLifetimeSeconds").getValue());
-        assertEquals("decidr.eu", getterSettings.getItemProperty("domain")
-                .getValue());
-        assertEquals(1450, getterSettings.getItemProperty(
-                "invitationLifetimeSeconds").getValue());
-        assertEquals("ERROR", getterSettings.getItemProperty("logLevel")
-                .getValue());
-        assertEquals(0, getterSettings
-                .getItemProperty("maxAttachmentsPerEmail").getValue());
-        assertEquals((byte) 10, getterSettings.getItemProperty(
-                "maxServerLoadForShutdown").getValue());
-        assertEquals((byte) 10, getterSettings.getItemProperty(
-                "maxServerLoadForUnlock").getValue());
-        assertEquals(100L, getterSettings.getItemProperty(
-                "maxUploadFileSizeBytes").getValue());
-        assertEquals(100, getterSettings.getItemProperty(
-                "maxWorkflowInstancesForShutdown").getValue());
-        assertEquals(10, getterSettings.getItemProperty(
-                "maxWorkflowInstancesForUnlock").getValue());
-        assertEquals((byte) 10, getterSettings.getItemProperty(
-                "minServerLoadForLock").getValue());
-        assertEquals(10, getterSettings.getItemProperty("minUnlockedServers")
-                .getValue());
-        assertEquals(10, getterSettings.getItemProperty(
-                "minWorkflowInstancesForLock").getValue());
-        assertEquals(600, getterSettings.getItemProperty(
-                "monitorAveragingPeriodSeconds").getValue());
-        assertEquals(1, getterSettings.getItemProperty(
-                "monitorUpdateIntervalSeconds").getValue());
-        assertEquals(22, getterSettings.getItemProperty("mtaPort").getValue());
-        assertEquals(20, getterSettings.getItemProperty(
-                "passwordResetRequestLifetimeSeconds").getValue());
-        assertEquals(2, getterSettings.getItemProperty(
-                "registrationRequestLifetimeSeconds").getValue());
-        assertEquals(1, getterSettings.getItemProperty("serverPoolInstances")
-                .getValue());
-        assertEquals("dumbo@decidr.eu", getterSettings.getItemProperty(
-                "systemEmailAddress").getValue());
-        assertEquals("Darth Vader", getterSettings
-                .getItemProperty("systemName").getValue());
+        assertEquals(false, getterSettings.isAutoAcceptNewTenants());
+        assertEquals(false, getterSettings.isMtaUseTls());
+        assertEquals(150, getterSettings.getChangeEmailRequestLifetimeSeconds());
+        assertEquals("decidr.eu", getterSettings.getDomain());
+        assertEquals(1450, getterSettings.getInvitationLifetimeSeconds());
+        assertEquals("ERROR", getterSettings.getLogLevel());
+        assertEquals(0, getterSettings.getMaxAttachmentsPerEmail());
+        assertEquals((byte) 10, getterSettings.getMaxServerLoadForShutdown());
+        assertEquals((byte) 10, getterSettings.getMaxServerLoadForUnlock());
+        assertEquals(100L, getterSettings.getMaxUploadFileSizeBytes());
+        assertEquals(100, getterSettings.getMaxWorkflowInstancesForShutdown());
+        assertEquals(10, getterSettings.getMaxWorkflowInstancesForUnlock());
+        assertEquals((byte) 10, getterSettings.getMinServerLoadForLock());
+        assertEquals(10, getterSettings.getMinUnlockedServers());
+        assertEquals(10, getterSettings.getMinWorkflowInstancesForLock());
+        assertEquals(600, getterSettings.getMonitorAveragingPeriodSeconds());
+        assertEquals(1, getterSettings.getMonitorUpdateIntervalSeconds());
+        assertEquals(22, getterSettings.getMtaPort());
+        assertEquals(20, getterSettings
+                .getPasswordResetRequestLifetimeSeconds());
+        assertEquals(2, getterSettings.getRegistrationRequestLifetimeSeconds());
+        assertEquals(1, getterSettings.getServerPoolInstances());
+        assertEquals("dumbo@decidr.eu", getterSettings.getSystemEmailAddress());
+        assertEquals("Darth Vader", getterSettings.getSystemName());
         assertFalse(modDate.getTime().after(
-                (Date) getterSettings.getItemProperty("modifiedDate")
-                        .getValue()));
+                (Date) getterSettings.getModifiedDate()));
 
         setterSettings.setMtaHostname("");
         setterSettings.setMtaUsername("");
@@ -274,15 +229,11 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
         setterSettings.setSystemName("");
         adminFacade.setSettings(setterSettings);
 
-        getterSettings = adminFacade.getSettings();
-        assertEquals("", getterSettings.getItemProperty("mtaHostname")
-                .getValue());
-        assertEquals("", getterSettings.getItemProperty("mtaPassword")
-                .getValue());
-        assertEquals("", getterSettings.getItemProperty("mtaUsername")
-                .getValue());
-        assertEquals("", getterSettings.getItemProperty("systemName")
-                .getValue());
+        getterSettings = DecidrGlobals.getSettings();
+        assertEquals("", getterSettings.getMtaHostname());
+        assertEquals("", getterSettings.getMtaPassword());
+        assertEquals("", getterSettings.getMtaUsername());
+        assertEquals("", getterSettings.getSystemName());
 
         try {
             adminFacade.setSettings(null);

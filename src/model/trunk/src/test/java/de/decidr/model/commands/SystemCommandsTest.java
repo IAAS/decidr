@@ -38,7 +38,6 @@ import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetLogCommand;
 import de.decidr.model.commands.system.GetServerStatisticsCommand;
 import de.decidr.model.commands.system.GetServersCommand;
-import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
 import de.decidr.model.commands.system.UpdateServerLoadCommand;
@@ -367,15 +366,10 @@ public class SystemCommandsTest extends CommandsTest {
         SuperAdminRole superRole = new SuperAdminRole(SUPER_ADMIN_ID);
         SetSystemSettingsCommand setter = new SetSystemSettingsCommand(
                 superRole, setterSettings);
-        GetSystemSettingsCommand getter = new GetSystemSettingsCommand(
-                superRole);
         SetSystemSettingsCommand userSetter = new SetSystemSettingsCommand(
                 new BasicRole(0L), setterSettings);
-        GetSystemSettingsCommand userGetter = new GetSystemSettingsCommand(
-                new BasicRole(0L));
         SetSystemSettingsCommand nullSetter = new SetSystemSettingsCommand(
                 null, setterSettings);
-        GetSystemSettingsCommand nullGetter = new GetSystemSettingsCommand(null);
 
         assertTransactionException("User shouldn't be able to set settings",
                 userSetter);
@@ -430,8 +424,7 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setSystemName("De Cidr");
         HibernateTransactionCoordinator.getInstance().runTransaction(setter);
 
-        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
-        getterSettings = getter.getResult();
+        getterSettings = DecidrGlobals.getSettings();
         assertEquals(true, getterSettings.isAutoAcceptNewTenants());
         assertEquals(true, getterSettings.isMtaUseTls());
         assertEquals(20, getterSettings.getChangeEmailRequestLifetimeSeconds());
@@ -491,8 +484,7 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setSystemName("Darth Vader");
         HibernateTransactionCoordinator.getInstance().runTransaction(setter);
 
-        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
-        getterSettings = getter.getResult();
+        getterSettings = DecidrGlobals.getSettings();
         assertEquals(false, getterSettings.isAutoAcceptNewTenants());
         assertEquals(false, getterSettings.isMtaUseTls());
         assertEquals(150, getterSettings.getChangeEmailRequestLifetimeSeconds());
@@ -525,8 +517,7 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setSystemName("");
         HibernateTransactionCoordinator.getInstance().runTransaction(setter);
 
-        HibernateTransactionCoordinator.getInstance().runTransaction(getter);
-        getterSettings = getter.getResult();
+        getterSettings = DecidrGlobals.getSettings();
         assertEquals("", getterSettings.getMtaHostname());
         assertEquals("", getterSettings.getMtaPassword());
         assertEquals("", getterSettings.getMtaUsername());
@@ -640,10 +631,5 @@ public class SystemCommandsTest extends CommandsTest {
         setterSettings.setSystemName(null);
         assertTransactionException("null system name succeeded", setter);
         setterSettings.setSystemName("DecidR");
-
-        assertTransactionException("User shouldn't be able to get settings",
-                userGetter);
-        assertTransactionException(
-                "Null user shouldn't be able to get settings", nullGetter);
     }
 }

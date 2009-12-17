@@ -18,19 +18,24 @@ package de.decidr.model.facades;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.vaadin.data.Item;
-
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.exceptions.UserDisabledException;
@@ -38,6 +43,7 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testing.LowLevelDatabaseTest;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * Test case for <code>{@link WorkflowModelFacade}</code>. Some of the methods
@@ -121,21 +127,30 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
     public void testSaveWorkflowModel() throws TransactionException {
         final String NAME = "WorkflowModelFacadeTestWorkflowModel";
         final String DESCRIPTION = "UnitTest Model for WorkflowModelFacade UnitTest";
-        final byte[] DWDL = "<dwdl>DWDLBLA</dwdl>".getBytes();
+        Workflow DWDL = null;
+        try {
+            DWDL = XmlTools.getElement(Workflow.class,
+                    "<workflow>DWDLBLA</workflow>".getBytes());
+        } catch (JAXBException e) {
+            fail("Invalid DWDL?");
+        }
 
         adminFacade.saveWorkflowModel(wfmId, NAME, DESCRIPTION, DWDL);
-        Item wfm = adminFacade.getWorkflowModel(wfmId);
+        WorkflowModel wfm = adminFacade.getWorkflowModel(wfmId);
 
-        long id = (Long) wfm.getItemProperty("id").getValue();
-        String name = (String) wfm.getItemProperty("name").getValue();
-        String description = (String) wfm.getItemProperty("description")
-                .getValue();
-        byte[] dwdl = (byte[]) wfm.getItemProperty("dwdl").getValue();
+        long id = (Long) wfm.getId();
+        String name = (String) wfm.getName();
+        String description = (String) wfm.getDescription();
+        byte[] dwdl = (byte[]) wfm.getDwdl();
 
         assertEquals(id, wfmId);
         assertEquals(name, NAME);
         assertEquals(description, DESCRIPTION);
-        assertArrayEquals(dwdl, DWDL);
+        try {
+            assertArrayEquals(dwdl, XmlTools.getBytes(DWDL));
+        } catch (JAXBException e) {
+            fail("Marshal failure");
+        }
     }
 
     /**
@@ -149,27 +164,36 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         wfmIds.add(wfmId);
 
         adminFacade.publishWorkflowModels(wfmIds);
-        Object po = adminFacade.getWorkflowModel(wfmId).getItemProperty(
-                "published").getValue();
+        Object po = adminFacade.getWorkflowModel(wfmId).isPublished();
         assertTrue((Boolean) po);
 
-        List<Item> pwfms = adminFacade
-                .getAllPublishedWorkflowModels(null, null);
+        List<WorkflowModel> pwfms = adminFacade.getAllPublishedWorkflowModels(
+                null, null);
         assertTrue(itemListContainsWfmId(pwfms, wfmId));
 
         adminFacade.unpublishWorkflowModels(wfmIds);
-        po = adminFacade.getWorkflowModel(wfmId).getItemProperty("published")
-                .getValue();
+        po = adminFacade.getWorkflowModel(wfmId).isPublished();
         assertFalse((Boolean) po);
 
         pwfms = adminFacade.getAllPublishedWorkflowModels(null, null);
         assertFalse(itemListContainsWfmId(pwfms, wfmId));
     }
 
-    private boolean itemListContainsWfmId(List<Item> items, long wfmId) {
-        for (Item item : items) {
-            if (wfmId == (Long) item.getItemProperty("id").getValue()) {
-                return true;
+    private boolean itemListContainsWfmId(List<? extends Object> items,
+            long wfmId) {
+        for (Object item : items) {
+            try {
+                if (Long.parseLong(BeanUtils.getProperty(item, "id")) == wfmId) {
+                    return true;
+                }
+            } catch (NoSuchMethodException e) {
+                // ignore
+            } catch (IllegalAccessException e) {
+                // ignore
+            } catch (NumberFormatException e) {
+                // ignore
+            } catch (InvocationTargetException e) {
+                // ignore
             }
         }
 
@@ -222,7 +246,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         // adminFacade.setWorkflowAdministrators(wfmId, emails, unames);
 
         // Object un = adminFacade.getWorkflowAdministrators(wfmId).get(0)
-        // .getItemProperty("username");
+        // ."username");
         // assertEquals(un, username);
     }
 
@@ -232,7 +256,8 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
      */
     @Test
     public void testGetWorkflowInstances() throws TransactionException {
-        List<Item> items = adminFacade.getWorkflowInstances(wfmId, null);
+        List<WorkflowInstance> items = adminFacade.getWorkflowInstances(wfmId,
+                null);
         assertTrue(items.isEmpty());
     }
 
