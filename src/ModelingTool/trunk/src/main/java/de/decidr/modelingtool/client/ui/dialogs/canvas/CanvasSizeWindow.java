@@ -63,7 +63,7 @@ public class CanvasSizeWindow extends ModelingToolDialog {
         contentPanel = new ContentPanel();
 
         contentPanel.setHeading(ModelingToolWidget.getMessages()
-                .workflowProperty());
+                .editCanvasSize());
         contentPanel.setLayout(new FitLayout());
 
         table = new FlexTable();
@@ -116,13 +116,14 @@ public class CanvasSizeWindow extends ModelingToolDialog {
      */
     @Override
     public Boolean initialize() {
-        widthSpinner = new Spinner(1, Workflow.MAX_SIZE, workflow.getWidth());
+        widthSpinner = new Spinner(100, Workflow.MAX_SIZE, workflow.getWidth());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.getMessages().width()));
         table.setWidget(table.getRowCount() - 1, 1, widthSpinner);
 
-        heigthSpinner = new Spinner(1, Workflow.MAX_SIZE, workflow.getHeight());
+        heigthSpinner = new Spinner(100, Workflow.MAX_SIZE, workflow
+                .getHeight());
         table.insertRow(table.getRowCount());
         table.setWidget(table.getRowCount() - 1, 0, new Label(
                 ModelingToolWidget.getMessages().height()));

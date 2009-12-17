@@ -27,6 +27,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -43,7 +44,9 @@ public class Spinner extends HorizontalPanel {
 
     private TextBox textBox = new TextBox();
 
-    private VerticalPanel images = new VerticalPanel();
+    private VerticalPanel buttons = new VerticalPanel();
+    private PushButton upButton;
+    private PushButton downButton;
     private Image upImage;
     private Image downImage;
 
@@ -52,7 +55,6 @@ public class Spinner extends HorizontalPanel {
     private int max = 0;
     private int min = 0;
     private int value = 0;
-    // delay to wait before increasing/decreasing further, in milliseconds
     private int delay = 150;
 
     private Timer raiser;
@@ -75,13 +77,14 @@ public class Spinner extends HorizontalPanel {
         upImage = imgBundle.up().createImage();
         downImage = imgBundle.down().createImage();
 
-        upImage.setPixelSize(10, 10);
-        downImage.setPixelSize(10, 10);
+        upButton = new PushButton(upImage);
+
+        downButton = new PushButton(downImage);
 
         this.max = max;
         this.min = min;
 
-        // set curVal inside min or max bounds
+        // set current value within bounds
         if (startValue < this.min) {
             value = this.min;
         } else if (startValue > this.max) {
@@ -90,12 +93,11 @@ public class Spinner extends HorizontalPanel {
             value = startValue;
         }
 
-        // Build UI
+        // create ui
         createTextField();
         createButtons();
         updateTextBox();
 
-        add(images);
     }
 
     private void createTextField() {
@@ -117,7 +119,7 @@ public class Spinner extends HorizontalPanel {
                     return;
                 }
 
-                // Insert new digit in currect position
+                // Insert new digit in correct position
                 String valueString = text.substring(0, cursorPos)
                         + event.getCharCode()
                         + text.substring(cursorPos, text.length());
@@ -141,35 +143,37 @@ public class Spinner extends HorizontalPanel {
     }
 
     private void createButtons() {
-        upImage.addMouseDownHandler(new MouseDownHandler() {
+        upButton.addMouseDownHandler(new MouseDownHandler() {
             @Override
             public void onMouseDown(MouseDownEvent event) {
                 raiser.run();
                 raiser.scheduleRepeating(delay);
             }
         });
-        upImage.addMouseUpHandler(new MouseUpHandler() {
+        upButton.addMouseUpHandler(new MouseUpHandler() {
             @Override
             public void onMouseUp(MouseUpEvent event) {
                 raiser.cancel();
             }
         });
-        images.add(upImage);
+        buttons.add(upButton);
 
-        downImage.addMouseDownHandler(new MouseDownHandler() {
+        downButton.addMouseDownHandler(new MouseDownHandler() {
             @Override
             public void onMouseDown(MouseDownEvent event) {
                 lowerer.run();
                 lowerer.scheduleRepeating(delay);
             }
         });
-        downImage.addMouseUpHandler(new MouseUpHandler() {
+        downButton.addMouseUpHandler(new MouseUpHandler() {
             @Override
             public void onMouseUp(MouseUpEvent event) {
                 lowerer.cancel();
             }
         });
-        images.add(downImage);
+        buttons.add(downButton);
+
+        add(buttons);
     }
 
     private void createTimers() {
@@ -198,6 +202,9 @@ public class Spinner extends HorizontalPanel {
         };
     }
 
+    /**
+     * Updates the textbox to show the current value.
+     */
     private void updateTextBox() {
         textBox.setText(value + "");
         if (value == max) {

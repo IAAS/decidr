@@ -19,8 +19,8 @@ package de.decidr.modelingtool.client.ui.resources;
 import com.google.gwt.i18n.client.Constants;
 
 /**
- * This class hold all method for accessing localized strings. The string itself
- * can be found in the properties file
+ * This class holds all methods for accessing localized strings. The string
+ * itself can be found in the properties file.
  * 
  * @author Jonas Schlaak
  */
@@ -181,11 +181,12 @@ public interface Messages extends Constants {
     String invalidUserIds();
 
     /* Canvas Size Editor */
+    String editCanvasSize();
+
     String width();
 
     String height();
-    
-    
+
     String sizeMax();
 
     /* windows common */
@@ -213,7 +214,5 @@ public interface Messages extends Constants {
     String typeForm();
 
     String dateFormat();
-
-
 
 }
