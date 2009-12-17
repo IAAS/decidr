@@ -89,7 +89,7 @@ public class DWDLNames {
     public static String bcc = "bcc";
     public static String subject = "subject";
     public static String message = "message";
-    public static String attachment = "attachement";
+    public static String attachment = "attachment";
 
     /* human task invoke node */
     public static String decidrHumanTask = "Decidr-HumanTask";

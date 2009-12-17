@@ -81,7 +81,7 @@
 					<setProperty name="bcc" />
 					<setProperty name="subject" />
 					<setProperty name="message" />
-					<setProperty name="attachement" />
+					<setProperty name="attachment" />
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
@@ -151,7 +151,7 @@
 					<setProperty name="bcc" />
 					<setProperty name="subject" />
 					<setProperty name="message" />
-					<setProperty name="attachement" />
+					<setProperty name="attachment" />
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1256287630689"
@@ -169,7 +169,7 @@
 					<setProperty name="bcc" />
 					<setProperty name="subject" />
 					<setProperty name="message" />
-					<setProperty name="attachement" />
+					<setProperty name="attachment" />
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
@@ -259,7 +259,7 @@
 					<setProperty name="bcc" />
 					<setProperty name="subject" />
 					<setProperty name="message" />
-					<setProperty name="attachement" />
+					<setProperty name="attachment" />
 				</invokeNode>
 				<forEachNode
 					name="de.decidr.modelingtool.client.model.foreach.ForEachContainerModel"

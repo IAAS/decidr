@@ -89,7 +89,7 @@
 			<setProperty name="bcc" variable="L1255088207843" />
 			<setProperty name="subject" variable="L768768" />
 			<setProperty name="message" variable="L768768" />
-			<setProperty name="attachement" />
+			<setProperty name="attachment" />
 		</invokeNode>
 		<invokeNode
 			name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
@@ -153,7 +153,7 @@
 					<setProperty name="bcc" />
 					<setProperty name="subject" />
 					<setProperty name="message" />
-					<setProperty name="attachement" />
+					<setProperty name="attachment" />
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"

@@ -62,7 +62,7 @@
 					<setProperty name="bcc" />
 					<setProperty name="subject" />
 					<setProperty name="message" />
-					<setProperty name="attachement" />
+					<setProperty name="attachment" />
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
@@ -127,7 +127,7 @@
 					<setProperty name="bcc" />
 					<setProperty name="subject" />
 					<setProperty name="message" />
-					<setProperty name="attachement" />
+					<setProperty name="attachment" />
 				</invokeNode>
 			</nodes>
 			<arcs>
@@ -160,7 +160,7 @@
 						<setProperty name="bcc" />
 						<setProperty name="subject" />
 						<setProperty name="message" />
-						<setProperty name="attachement" />
+						<setProperty name="attachment" />
 					</invokeNode>
 				</nodes>
 				<arcs>
@@ -227,7 +227,7 @@
 						<setProperty name="bcc" />
 						<setProperty name="subject" />
 						<setProperty name="message" />
-						<setProperty name="attachement" />
+						<setProperty name="attachment" />
 					</invokeNode>
 					<invokeNode
 						name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
@@ -310,7 +310,7 @@
 					<setProperty name="bcc" />
 					<setProperty name="subject" />
 					<setProperty name="message" />
-					<setProperty name="attachement" />
+					<setProperty name="attachment" />
 				</invokeNode>
 			</nodes>
 		</ifNode>
