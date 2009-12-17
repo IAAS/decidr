@@ -63,11 +63,20 @@ public class EqualsFilter implements Filter {
 
     @Override
     public void apply(Criteria criteria) {
-        if (include) {
-            criteria.add(Restrictions.eq(propertyName, propertyValue));
+        if (propertyValue == null) {
+            // checking against null is a special case
+            if (include) {
+                criteria.add(Restrictions.isNull(propertyName));
+            } else {
+                criteria.add(Restrictions.isNotNull(propertyName));
+            }
         } else {
-            criteria.add((Restrictions.not(Restrictions.eq(propertyName,
-                    propertyValue))));
+            if (include) {
+                criteria.add(Restrictions.eq(propertyName, propertyValue));
+            } else {
+                criteria.add((Restrictions.not(Restrictions.eq(propertyName,
+                        propertyValue))));
+            }
         }
     }
 
