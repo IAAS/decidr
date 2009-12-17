@@ -16,13 +16,17 @@
 
 package de.decidr.model.commands.workflowmodel;
 
+import javax.xml.bind.JAXBException;
+
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
  * Saves a workflow model, incrementing its version by one.
@@ -34,7 +38,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
 
     private String name;
     private String description;
-    private byte[] dwdl;
+    private Workflow dwdl;
 
     /**
      * Creates a new SaveWorkflowModelCommand that saves a workflow model and
@@ -48,7 +52,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
      *             <code>null</code> or empty.
      */
     public SaveWorkflowModelCommand(Role role, Long workflowModelId,
-            String name, String description, byte[] dwdl) {
+            String name, String description, Workflow dwdl) {
         super(role, workflowModelId);
         requireWorkflowModelId();
         if (name == null || name.isEmpty()) {
@@ -83,7 +87,11 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
             user.setId(role.getActorId());
 
             model.setDescription(description);
-            model.setDwdl(dwdl);
+            try {
+                model.setDwdl(XmlTools.getBytes(dwdl));
+            } catch (JAXBException e) {
+                throw new TransactionException(e);
+            }
             model.setModifiedByUser(user);
             model.setModifiedDate(DecidrGlobals.getTime().getTime());
             model.setName(name);

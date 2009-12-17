@@ -160,7 +160,7 @@ public class FileFacade extends AbstractFacade {
      *             if fileId is <code>null</code>
      */
     @AllowedRole(BasicRole.class)
-    public Boolean deleteFile(Long fileId) throws TransactionException {
+    public boolean deleteFile(Long fileId) throws TransactionException {
         DeleteFileCommand cmd = new DeleteFileCommand(actor, fileId);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         return cmd.getDeletedEntities() > 0;

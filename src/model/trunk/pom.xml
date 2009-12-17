@@ -134,20 +134,10 @@
 			<version>5.1.6</version>
 		</dependency>
 		<dependency>
-			<groupId>de.decidr.WebPortal</groupId>
-			<artifactId>vaadin</artifactId>
-			<version>6.0.0</version>
-		</dependency>
-		<dependency>
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
 			<version>1.6.2</version>
 		</dependency>
-		<!--
-			dependency> <groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j-qname</artifactId> <version>1.6.1</version>
-			</dependency
-		-->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -158,13 +148,6 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.3</version>
 		</dependency>
-		<!--
-			dependency> <groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId> <version>1.2</version>
-			</dependency> <dependency> <groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId> <version>3.1</version>
-			</dependency
-		-->
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-transport-http</artifactId>
@@ -216,5 +199,17 @@
             <artifactId>commons-collections</artifactId>
             <version>3.2.1</version>
         </dependency>
+		<!--
+			dependency> <groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j-qname</artifactId> <version>1.6.1</version>
+			</dependency
+		-->
+		<!--
+			dependency> <groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId> <version>1.2</version>
+			</dependency> <dependency> <groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId> <version>3.1</version>
+			</dependency
+		-->
 	</dependencies>
 </project>

@@ -16,11 +16,10 @@
 package de.decidr.model.commands.system;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Level;
-
-import com.vaadin.data.validator.EmailValidator;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
@@ -73,9 +72,11 @@ public class SetSystemSettingsCommand extends SystemCommand {
             throw new TransactionException("Invalid log level.");
         }
 
+        String simpleEmailPattern = "[\\p{L}_-]+@[a-z0-9\\.\\-_]\\.[a-z]{2,4}";
+
         if (newSettings.getSystemEmailAddress() == null
-                || !new EmailValidator("").isValid(newSettings
-                        .getSystemEmailAddress())) {
+                || !newSettings.getSystemEmailAddress().matches(
+                        simpleEmailPattern)) {
             throw new TransactionException(
                     "System email address must not be null or empty.");
         }

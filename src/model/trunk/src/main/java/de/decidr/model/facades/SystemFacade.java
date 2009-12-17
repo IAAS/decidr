@@ -15,11 +15,7 @@
  */
 package de.decidr.model.facades;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.ServerLoadUpdaterRole;
@@ -29,7 +25,6 @@ import de.decidr.model.commands.system.AddServerCommand;
 import de.decidr.model.commands.system.GetLogCommand;
 import de.decidr.model.commands.system.GetServerStatisticsCommand;
 import de.decidr.model.commands.system.GetServersCommand;
-import de.decidr.model.commands.system.GetSystemSettingsCommand;
 import de.decidr.model.commands.system.LockServerCommand;
 import de.decidr.model.commands.system.RemoveServerCommand;
 import de.decidr.model.commands.system.SetSystemSettingsCommand;
@@ -38,13 +33,12 @@ import de.decidr.model.entities.Log;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.SystemSettings;
-import de.decidr.model.entities.User;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionCoordinator;
 
 /**
  * The system facade contains all functions which are available to modify system
@@ -66,81 +60,6 @@ public class SystemFacade extends AbstractFacade {
      */
     public SystemFacade(Role actor) {
         super(actor);
-    }
-
-    /**
-     * If you need a SystemSettings object instead, please use
-     * <code>DecidrGlobals.getSettings()</code> instead!
-     * 
-     * Returns the current system settings as a Vaadin item with the following
-     * properties:
-     * <ul>
-     * <li>autoAcceptNewTenants: <code>{@link Boolean}</code> - whether new
-     * tenants don't have to be approved by the super admin</li>
-     * <li>systemName: <code>{@link String}</code> - name of the system (usually
-     * "DecidR")</li>
-     * <li>domain: <code>{@link String}</code> - domain where the system can be
-     * reached ("decidr.de"). Used for URL generation.</li>
-     * <li>systemEmailAddress: <code>{@link String}</code> - from-Address to use
-     * when sending notifications to users</li>
-     * <li>logLevel: <code>{@link String}</code> - current global log level</li>
-     * <li>superAdmin: <code>{@link User}</code> - the super admin</li>
-     * <li>passwordResetRequestLifetimeSeconds: <code>{@link Integer}</code> -
-     * the user has this many seconds to confirm his password reset.</li>
-     * <li>registrationRequestLifetimeSeconds: <code>{@link Integer}</code> -
-     * the user has this many seconds to confirm his registration.</li>
-     * <li>changeEmailRequestLifetimeSeconds: <code>{@link Integer}</code> - the
-     * user has this many seconds to confirm his new email address</li>
-     * <li>invitationLifetimeSeconds: <code>{@link Integer}</code> - the user
-     * has this many seconds to confirm or reject an invitation.</li>
-     * <li>mtaHostname: <code>{@link String}</code> - mail transfer agent
-     * hostname.</li>
-     * <li>mtaPort: <code>{@link Integer}</code> - mail transfer agent port.</li>
-     * <li>mtaUseTls: <code>{@link Boolean}</code> - whether transport layer
-     * security should be used when sending emails.</li>
-     * <li>mtaUsername: <code>{@link String}</code> - username to use when
-     * sending email.</li>
-     * <li>mtaPassword: <code>{@link String}</code> - password to use when
-     * seding email</li>
-     * <li>maxUploadFileSizeBytes: <code>{@link Long}</code> - maximum filesize
-     * for any file uploads</li>
-     * <li>maxAttachmentsPerEmail: <code>{@link Integer}</code> - maximum number
-     * of attachments an email sent by the system can have.</li>
-     * <li>monitorUpdateIntervalSeconds: {@link Integer} - time between to ODE
-     * monitor status updates in seconds</li>
-     * <li>monitorAveragingPeriodSeconds: {@link Integer} - time span over which
-     * collected data is averaged in seconds.</li>
-     * <li>serverPoolInstances: {@link Integer} - number of server instances
-     * that should never be shut down automatically by the monitor service</li>
-     * <li>minServerLoadForLock: {@link Byte} - if server load goes above this
-     * value, the server will be locked.</li>
-     * <li>maxServerLoadForUnlock: {@link Byte} - if server load goes below this
-     * value, the server will be unlocked</li>
-     * <li>maxServerLoadForShutdown: {@link Byte} - if server load goes below
-     * this value, the load monitor will consider shutting down the affected
-     * server.</li>
-     * <li>minUnlockedServers: {@link Integer} - number of servers that should
-     * remain unlocked even if their load is above minServerLoadForLock</li>
-     * <li>minWorkflowInstancesForLock: {@link Integer} - if a server has more
-     * than minWorkflowInstancesForLock workflow instances it will be locked by
-     * the load monitor</li>
-     * <li>maxWorkflowInstanceForUnlock: {@link Integer} - if a server has less
-     * than maxWorkflowInstancesForLock workflow instances it will be unlocked
-     * by the load monitor</li>
-     * <li>maxWorkflowInstancesForShutdown: {@link Integer} - if a server has
-     * less than maxWorkflowInstancesForShutdown workflow instances, the load
-     * monitor will consider shutting it down.</li>
-     * </ul>
-     * 
-     * @return system settings as <code>{@link Item}</code>
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     */
-    @AllowedRole(SuperAdminRole.class)
-    public Item getSettings() throws TransactionException {
-        GetSystemSettingsCommand command = new GetSystemSettingsCommand(actor);
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        return new BeanItem(command.getResult());
     }
 
     /**
@@ -260,73 +179,39 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the system logs as a list of vaadin items. The list can be
-     * filtered by using filters and an optional paginator.
+     * Returns a list of system log entries (only relevant when logging to the
+     * database using {@link DefaultLogger}.
      * 
      * @param filters
      *            filters the result by the given criteria
      * @param paginator
      *            splits the result in several pages
-     * @return <code>{@link List<Item>}</code> Logs as items
+     * @return system log entries
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
-    public List<Item> getLog(List<Filter> filters, Paginator paginator)
+    public List<Log> getLog(List<Filter> filters, Paginator paginator)
             throws TransactionException {
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
         GetLogCommand command = new GetLogCommand(actor, filters, paginator);
-
-        List<Item> outList = new ArrayList<Item>();
-        List<Log> inList = new ArrayList<Log>();
-
-        tac.runTransaction(command);
-        inList = command.getResult();
-
-        for (Log log : inList) {
-            outList.add(new BeanItem(log));
-        }
-
-        return outList;
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        return command.getResult();
     }
 
     /**
-     * Returns a list of the existing servers as a list of Vaadin items. Each
-     * item has the following properties:
-     * <ul>
-     * <li>id: <code>{@link Long}</code> - the server id</li>
-     * <li>location: <code>{@link String}</code> - server location (url or
-     * hostname)</li>
-     * <li>load: <code>{@link Byte}</code> - the server load in percent</li>
-     * <li>numInstances: <code>{@link Long}</code> - the number of workflow
-     * instances on that server</li>
-     * <li>dynamicallyAdded: <code>{@link Boolean}</code> - whether the server
-     * was dynamically added</li>
-     * <li>serverType: <code>{@link String}</code> - type of server</li>
-     * </ul>
+     * Returns a list of servers that are known to the system.
      * 
-     * @return ServerStatistics as a list of Vaadin
-     *         <code>{@link Item items}</code>
+     * @return list of servers including load information.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(SuperAdminRole.class)
-    public List<Item> getServerStatistics() throws TransactionException {
+    public List<ServerLoadView> getServerStatistics()
+            throws TransactionException {
         GetServerStatisticsCommand command = new GetServerStatisticsCommand(
                 actor);
-
-        String[] properties = { "id", "location", "load", "numInstances",
-                "dynamicallyAdded", "serverType" };
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
-        List<Item> result = new ArrayList<Item>();
-        for (ServerLoadView server : command.getResult()) {
-            result.add(new BeanItem(server, properties));
-        }
-        return result;
+        return command.getResult();
     }
 
     /**

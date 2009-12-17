@@ -16,12 +16,7 @@
 
 package de.decidr.model.facades;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.ObjectProperty;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.TenantAdminRole;
@@ -42,7 +37,6 @@ import de.decidr.model.commands.workflowmodel.StartWorkflowInstanceCommand;
 import de.decidr.model.commands.workflowmodel.UndeployWorkflowModelCommand;
 import de.decidr.model.entities.StartConfiguration;
 import de.decidr.model.entities.User;
-import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
@@ -54,6 +48,7 @@ import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
@@ -77,7 +72,8 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Saves the given properties as workflow model.
+     * Sets the properties of an existing workflow model, incrementing its
+     * version by one.
      * 
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
@@ -89,7 +85,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      */
     @AllowedRole(TenantAdminRole.class)
     public void saveWorkflowModel(Long workflowModelId, String name,
-            String description, byte[] dwdl) throws TransactionException {
+            String description, Workflow dwdl) throws TransactionException {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new SaveWorkflowModelCommand(actor, workflowModelId, name,
@@ -97,27 +93,16 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the properties of the given workflow model as a Vaadin
-     * {@link Item} with the following properties:
+     * Fetches a worfklow model from the database.<br>
+     * Preloaded foreign key properties:
      * <ul>
-     * <li>id: Long - workflow model id</li>
-     * <li>dwdl: byte[] - dwdl raw xml data</li>
-     * <li>modifiedDate: Date - date of last modification</li>
-     * <li>version: Long - version/revision number of the workflow model</li>
-     * <li>name: String - workflow model name</li>
-     * <li>description: String - workflow model description</li>
-     * <li>creationDate: Date - date when the workflow model was created</li>
-     * <li>published: Boolean - whether the workflow model</li>
-     * <li>modifyingUserFirstName: String - modifying user first name</li>
-     * <li>modifyingUserLastName: String - modifying user last name</li>
-     * <li>modifyingUserId: Long - modifying user id</li>
-     * <li>modifyingUserEmail: String - modifying user email</li>
-     * <li>modifyingUserUsername: String - modifying user username</li>
+     * <li>modifiedByUser</li>
+     * <li>modifiedByUser.userProfile</li>
      * </ul>
      * 
      * @param workflowModelId
      *            the id of the workflow model which should be returned
-     * @return Vaadin item
+     * @return workflow model
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -126,47 +111,12 @@ public class WorkflowModelFacade extends AbstractFacade {
      *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
-    public Item getWorkflowModel(Long workflowModelId)
+    public WorkflowModel getWorkflowModel(Long workflowModelId)
             throws TransactionException {
-
-        String[] properties = { "id", "dwdl", "modifiedDate", "version",
-                "name", "description", "creationDate", "published", "executable" };
-
         GetWorkflowModelCommand cmd = new GetWorkflowModelCommand(actor,
                 workflowModelId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
-        // build Vaadin item
-        WorkflowModel model = cmd.getResult();
-        User modifyingUser = model.getModifiedByUser();
-
-        BeanItem result = new BeanItem(model, properties);
-
-        if (modifyingUser != null) {
-            result.addItemProperty("modifyingUserId", new ObjectProperty(
-                    modifyingUser.getId(), Long.class));
-            result.addItemProperty("modifyingUserEmail", new ObjectProperty(
-                    modifyingUser.getEmail(), String.class));
-
-            UserProfile profile = modifyingUser.getUserProfile();
-            if (profile != null) {
-                result
-                        .addItemProperty("modifyingUserFirstName",
-                                new ObjectProperty(profile.getFirstName(),
-                                        String.class));
-                result
-                        .addItemProperty("modifyingUserLastName",
-                                new ObjectProperty(profile.getLastName(),
-                                        String.class));
-                result
-                        .addItemProperty("modifyingUserUsername",
-                                new ObjectProperty(profile.getUsername(),
-                                        String.class));
-            }
-        }
-
-        return result;
+        return cmd.getResult();
     }
 
     /**
@@ -184,7 +134,6 @@ public class WorkflowModelFacade extends AbstractFacade {
     @AllowedRole(TenantAdminRole.class)
     public void publishWorkflowModels(List<Long> workflowModelIds)
             throws TransactionException {
-
         HibernateTransactionCoordinator.getInstance()
                 .runTransaction(
                         new PublishWorkflowModelsCommand(actor,
@@ -206,7 +155,6 @@ public class WorkflowModelFacade extends AbstractFacade {
     @AllowedRole(TenantAdminRole.class)
     public void unpublishWorkflowModels(List<Long> workflowModelIds)
             throws TransactionException {
-
         HibernateTransactionCoordinator.getInstance()
                 .runTransaction(
                         new PublishWorkflowModelsCommand(actor,
@@ -236,16 +184,19 @@ public class WorkflowModelFacade extends AbstractFacade {
     @AllowedRole(TenantAdminRole.class)
     public void setExecutable(Long workflowModelId, boolean executable)
             throws TransactionException {
-
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new MakeWorkflowModelExecutableCommand(actor, workflowModelId,
                         executable));
     }
 
     /**
-     * Returns a list of all tenant members that administrate the given worfklow
+     * Returns a list of all tenant members that administer the given worfklow
      * model, excluding the tenant admin (who implicitly administrates all
-     * workflow models and instances).
+     * workflow models and instances). <br>
+     * Preloaded foreign key properties:
+     * <ul>
+     * <li>userProfile</li>
+     * </ul>
      * 
      * @param workflowModelId
      *            workflow model of which the administrators should be retrieved
@@ -258,33 +209,12 @@ public class WorkflowModelFacade extends AbstractFacade {
      *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
-    public List<Item> getWorkflowAdministrators(Long workflowModelId)
+    public List<User> getWorkflowAdministrators(Long workflowModelId)
             throws TransactionException {
-        ArrayList<Item> result = new ArrayList<Item>();
-
         GetWorkflowAdministratorsCommand cmd = new GetWorkflowAdministratorsCommand(
                 actor, workflowModelId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
-        String[] properties = { "id", "email" };
-
-        for (User admin : cmd.getWorkflowAdmins()) {
-            BeanItem adminItem = new BeanItem(admin, properties);
-
-            UserProfile profile = admin.getUserProfile();
-
-            if (profile != null) {
-                adminItem.addItemProperty("username", new ObjectProperty(
-                        profile.getUsername()));
-                adminItem.addItemProperty("firstName", new ObjectProperty(
-                        profile.getFirstName()));
-                adminItem.addItemProperty("lastName", new ObjectProperty(
-                        profile.getLastName()));
-            }
-        }
-
-        return result;
+        return cmd.getWorkflowAdmins();
     }
 
     /**
@@ -368,18 +298,10 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Returns all workflow instances of the given workflow model as a list of
-     * Vaadin items. The item properties are:
+     * Returns a list of all workflow instances of the given workflow model. <br>
+     * Preloaded foreign key properties:
      * <ul>
-     * <li>id - the id of the workflow instance.
-     * <li>workflowModelName - name of the associated <b>deployed</b> workflow
-     * model.
-     * <li>workflowModelDescription - description of the associated
-     * <b>deployed</b> workflow model.
-     * <li>deployDate - date when the workflow model was deployed on the Apache
-     * ODE.
-     * <li>startedDate - date when the workflow instance was create.
-     * <li>completedDate - date when the workflow instance ended (can be null).
+     * <li>deployedWorkflowModel</li>
      * </ul>
      * 
      * @param workflowModelId
@@ -387,8 +309,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      *            retrieved.
      * @param paginator
      *            optional pagination component
-     * @return Vaadin items representing the workflow instances that are
-     *         associated swith this model.
+     * @return workflow instances that are associated swith this model.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -397,46 +318,19 @@ public class WorkflowModelFacade extends AbstractFacade {
      *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(WorkflowAdminRole.class)
-    public List<Item> getWorkflowInstances(Long workflowModelId,
+    public List<WorkflowInstance> getWorkflowInstances(Long workflowModelId,
             Paginator paginator) throws TransactionException {
         GetWorkflowInstancesCommand cmd = new GetWorkflowInstancesCommand(
                 actor, workflowModelId, paginator);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
-        // build the vaadin items
-        List<WorkflowInstance> instances = cmd.getResult();
-        ArrayList<Item> result = new ArrayList<Item>();
-        String[] properties = { "id", "startedDate", "completedDate" };
-
-        for (WorkflowInstance instance : instances) {
-            Item item = new BeanItem(instance, properties);
-
-            item.addItemProperty("workflowModelName", new ObjectProperty(
-                    instance.getDeployedWorkflowModel().getName()));
-            item.addItemProperty("workflowModelDescription",
-                    new ObjectProperty(instance.getDeployedWorkflowModel()
-                            .getDescription()));
-            item.addItemProperty("deployDate", new ObjectProperty(instance
-                    .getDeployedWorkflowModel().getDeployDate()));
-
-            result.add(item);
-        }
-
-        return result;
+        return cmd.getResult();
     }
 
     /**
-     * Returns a list of all workflow model that have been published. The item
-     * properties are:
-     * 
+     * Returns a list of all workflow model that have been published. <br>
+     * Preloaded foreign key properties:
      * <ul>
-     * <li>id: Long</li>
-     * <li>name: String</li>
-     * <li>description: String</li>
-     * <li>modifiedDate: Date</li>
-     * <li>tenantName: String</li>
-     * <li>tenantId: Long</li>
+     * <li>tenant</li>
      * </ul>
      * 
      * @param filters
@@ -448,31 +342,13 @@ public class WorkflowModelFacade extends AbstractFacade {
      *             iff the transaction is aborted for any reason.
      */
     @AllowedRole(TenantAdminRole.class)
-    public List<Item> getAllPublishedWorkflowModels(List<Filter> filters,
-            Paginator paginator) throws TransactionException {
-
+    public List<WorkflowModel> getAllPublishedWorkflowModels(
+            List<Filter> filters, Paginator paginator)
+            throws TransactionException {
         GetPublishedWorkflowModelsCommand cmd = new GetPublishedWorkflowModelsCommand(
                 actor, filters, paginator);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
-        List<WorkflowModel> models = cmd.getResult();
-
-        List<Item> result = new ArrayList<Item>();
-
-        String[] properties = { "id", "name", "description", "modifiedDate" };
-
-        // build the Vaadin item
-        for (WorkflowModel model : models) {
-            BeanItem item = new BeanItem(model, properties);
-            item.addItemProperty("tenantId", new ObjectProperty(model
-                    .getTenant().getId()));
-            item.addItemProperty("tenantName", new ObjectProperty(model
-                    .getTenant().getName()));
-            result.add(item);
-        }
-
-        return result;
+        return cmd.getResult();
     }
 
     /**
@@ -555,10 +431,8 @@ public class WorkflowModelFacade extends AbstractFacade {
     @AllowedRole(WorkflowAdminRole.class)
     public byte[] getLastStartConfiguration(Long workflowModelId)
             throws TransactionException {
-
         GetLastStartConfigurationCommand cmd = new GetLastStartConfigurationCommand(
                 actor, workflowModelId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         StartConfiguration config = cmd.getStartConfiguration();

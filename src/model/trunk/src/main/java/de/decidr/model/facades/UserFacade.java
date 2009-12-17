@@ -15,17 +15,11 @@
  */
 package de.decidr.model.facades;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.ObjectProperty;
-
-import de.decidr.model.VaadinTools;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -61,6 +55,7 @@ import de.decidr.model.commands.user.SetDisabledCommand;
 import de.decidr.model.commands.user.SetPasswordCommand;
 import de.decidr.model.commands.user.SetUserProfileCommand;
 import de.decidr.model.commands.user.SetUserPropertyCommand;
+import de.decidr.model.entities.InvitationView;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
@@ -74,7 +69,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionCoordinator;
 
 /**
  * Provide a simplified interface to the business logic that deals with users.
@@ -116,12 +110,9 @@ public class UserFacade extends AbstractFacade {
     @AllowedRole(UserRole.class)
     public Long registerUser(String email, String passwordPlaintext,
             UserProfile userProfile) throws TransactionException {
-
         RegisterUserCommand cmd = new RegisterUserCommand(actor, email,
                 passwordPlaintext, userProfile);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
         return cmd.getRegisteredUser().getId();
     }
 
@@ -148,10 +139,8 @@ public class UserFacade extends AbstractFacade {
     public Long getUserIdByLogin(String emailOrUsername,
             String passwordPlaintext) throws TransactionException,
             EntityNotFoundException {
-
         GetUserByLoginCommand cmd = new GetUserByLoginCommand(actor,
                 emailOrUsername, passwordPlaintext);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         if (cmd.getPasswordCorrect()) {
@@ -184,7 +173,6 @@ public class UserFacade extends AbstractFacade {
         CheckAuthKeyCommand cmd = new CheckAuthKeyCommand(actor, userId,
                 authKey);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
         return cmd.getAuthKeyMatches();
     }
 
@@ -293,9 +281,7 @@ public class UserFacade extends AbstractFacade {
             String newPassword) throws TransactionException {
         SetPasswordCommand cmd = new SetPasswordCommand(actor, userId,
                 oldPassword, newPassword);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
         return cmd.getPasswordWasChanged();
     }
 
@@ -317,9 +303,7 @@ public class UserFacade extends AbstractFacade {
             throws TransactionException {
         RequestPasswordResetCommand cmd = new RequestPasswordResetCommand(
                 actor, emailOrUsername);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
         return cmd.getRequestWasCreated();
     }
 
@@ -353,7 +337,6 @@ public class UserFacade extends AbstractFacade {
             throws TransactionException {
         RequestChangeEmailCommand cmd = new RequestChangeEmailCommand(actor,
                 userId, newEmail);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 
@@ -475,7 +458,6 @@ public class UserFacade extends AbstractFacade {
         ConfirmPasswordResetCommand cmd = new ConfirmPasswordResetCommand(
                 actor, userId, authKey);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
         if (cmd.getRequestExpired()) {
             throw new RequestExpiredException();
         }
@@ -509,12 +491,9 @@ public class UserFacade extends AbstractFacade {
     @AllowedRole(UserRole.class)
     public void confirmRegistration(Long userId, String authKey)
             throws TransactionException {
-
         ConfirmRegistrationCommand command = new ConfirmRegistrationCommand(
                 actor, userId, authKey);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
         if (command.isRequestExpired()) {
             throw new RequestExpiredException();
         }
@@ -547,12 +526,9 @@ public class UserFacade extends AbstractFacade {
     @AllowedRole(UserRole.class)
     public void confirmChangeEmailRequest(Long userId, String requestAuthKey)
             throws TransactionException {
-
         ConfirmChangeEmailRequestCommand command = new ConfirmChangeEmailRequestCommand(
                 actor, userId, requestAuthKey);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
         if (command.isRequestExpired()) {
             throw new RequestExpiredException();
         }
@@ -575,7 +551,6 @@ public class UserFacade extends AbstractFacade {
     @AllowedRole(UserRole.class)
     public void confirmInvitation(Long invitationId)
             throws TransactionException {
-
         ConfirmInvitationCommand command = new ConfirmInvitationCommand(actor,
                 invitationId);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
@@ -594,7 +569,6 @@ public class UserFacade extends AbstractFacade {
      */
     @AllowedRole(UserRole.class)
     public void refuseInviation(Long invitationId) throws TransactionException {
-
         RefuseInvitationCommand command = new RefuseInvitationCommand(actor,
                 invitationId);
 
@@ -602,33 +576,18 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the user profile of the given user that contains the following
-     * properties:
+     * Fetches a user including his profile. <br>
+     * Preloaded foreign key properties:
      * <ul>
-     * <li><b>Begin user profile properties - only present if the user is
-     * registered</b></li>
-     * <li>city: String - city part of user address</li>
-     * <li>firstName: String</li>
-     * <li>lastName: String</li>
-     * <li>postalCode: String - postal code part of user address</li>
-     * <li>street: String - street part of user address</li>
-     * <li>username: String</li>
-     * <li><b>End of user profile properties</b></li>
-     * <li>id: Long - user id</li>
-     * <li>authKey: String - authentication key (temporary password if the user
-     * has not registered)</li>
-     * <li>email: String - full email address</li>
-     * <li>disabledSince: Date - null if the user is enabled</li>
-     * <li>unavailableSince: Date - null if the user is available</li>
-     * <li>registeredSince: Date - null if the user has never registered</li>
-     * <li>creationDate: Date - date when the user was created in the database</li>
+     * <li>userProfile</li>
+     * </ul>
      * 
      * @param userId
      *            the id of the user whose profile should be returned
      * @param requireProfile
      *            whether an exception should be thrown if the user has no
      *            profile.
-     * @return Vaadin item which is described above
+     * @return user including profile
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -638,60 +597,32 @@ public class UserFacade extends AbstractFacade {
      *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
-    public Item getUserProfile(Long userId, boolean requireProfile)
+    public User getUserProfile(Long userId, boolean requireProfile)
             throws TransactionException {
-
-        String[] userProperties = { "id", "authKey", "email", "disabledSince",
-                "unavailableSince", "registeredSince", "creationDate" };
-        String[] profileProperties = { "city", "firstName", "lastName",
-                "postalCode", "street", "username" };
 
         GetUserWithProfileCommand command = new GetUserWithProfileCommand(
                 actor, userId);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
 
         User result = command.getResult();
-
         if (result == null) {
             throw new EntityNotFoundException(User.class, userId);
         }
 
-        // build the vaadin item
-        BeanItem item = new BeanItem(result, userProperties);
         UserProfile profile = result.getUserProfile();
-
         if (profile == null && requireProfile) {
             throw new EntityNotFoundException(UserProfile.class, userId);
-        } else if (profile != null) {
-            VaadinTools.addBeanPropertiesToItem(profile, item,
-                    profileProperties);
         }
 
-        return item;
+        return result;
     }
 
     /**
-     * Returns the user profile of the given user that contains the following
-     * properties:
-     * <ul>
-     * <li>city: String - city part of user address</li>
-     * <li>firstName: String</li>
-     * <li>lastName: String</li>
-     * <li>postalCode: String - postal code part of user address</li>
-     * <li>street: String - street part of user address</li>
-     * <li>username: String</li>
-     * <li>id: Long - user id</li>
-     * <li>authKey: String - authentication key (temporary password if the user
-     * has not registered)</li>
-     * <li>email: String - full email address</li>
-     * <li>disabledSince: Date - null if the user is enabled</li>
-     * <li>unavailableSince: Date - null if the user is available</li>
-     * <li>registeredSince: Date - null if the user has never registered</li>
-     * <li>creationDate: Date - date when the user was created in the database</li>
+     * Fetches a user including his profile.
      * 
      * @param userId
      *            the id of the user whose profile should be returned
-     * @return Vaadin item which is described above
+     * @return user including profile
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -699,71 +630,34 @@ public class UserFacade extends AbstractFacade {
      * @throws IllegalArgumentException
      *             if userId is <code>null</code>
      */
-    public Item getUserProfile(Long userId) throws TransactionException {
+    public User getUserProfile(Long userId) throws TransactionException {
         return getUserProfile(userId, true);
     }
 
     /**
-     * Returns a list of all users as vaadin items with the following
-     * properties:
+     * Returns a list of all users that match the given filter criteria.<br>
+     * Preloaded foreign key properties:
      * <ul>
-     * <li>id: Long</li>
-     * <li>email: String</li>
-     * <li>firstName: String</li>
-     * <li>lastName: String</li>
-     * <li>username: String</li>
+     * <li>userProfile</li>
      * </ul>
      * 
      * @param filters
      *            a {@link Filter}
      * @param paginator
      *            a {@link Paginator}
-     * @return list of vaadin items which are described above
+     * @return list of all users
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @see Filter
      * @see Paginator
      */
     @AllowedRole(SuperAdminRole.class)
-    public List<Item> getAllUsers(List<Filter> filters, Paginator paginator)
+    public List<User> getAllUsers(List<Filter> filters, Paginator paginator)
             throws TransactionException {
-
         GetAllUsersCommand command = new GetAllUsersCommand(actor, filters,
                 paginator);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
-        List<User> inList = command.getResult();
-        Item item;
-
-        // build the Vaadin item
-        String[] properties = { "id", "email" };
-
-        List<Item> result = new ArrayList<Item>();
-        for (User user : inList) {
-
-            item = new BeanItem(user, properties);
-
-            if (user.getUserProfile() != null) {
-                item.addItemProperty("firstName", new ObjectProperty(user
-                        .getUserProfile().getFirstName(), String.class));
-                item.addItemProperty("lastName", new ObjectProperty(user
-                        .getUserProfile().getLastName(), String.class));
-                item.addItemProperty("username", new ObjectProperty(user
-                        .getUserProfile().getUsername(), String.class));
-            } else {
-                item.addItemProperty("firstName", new ObjectProperty(null,
-                        String.class));
-                item.addItemProperty("lastName", new ObjectProperty(null,
-                        String.class));
-                item.addItemProperty("username", new ObjectProperty(null,
-                        String.class));
-            }
-
-            result.add(item);
-        }
-
-        return result;
+        return command.getResult();
     }
 
     /**
@@ -795,19 +689,25 @@ public class UserFacade extends AbstractFacade {
     @AllowedRole(UserRole.class)
     public Class<? extends UserRole> getHighestUserRole(Long userId)
             throws TransactionException {
-
         GetHighestUserRoleCommand command = new GetHighestUserRoleCommand(
                 actor, userId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
         return command.getResult();
     }
 
     /**
-     * Returns the highest role of the user in the given tenant. If the user is
-     * not even a tenant member the result will be <code>null</code>.
+     * Returns the highest role of the user in the given tenant.
      * <p>
+     * The roles are checked in the following order (from top to bottom, returns
+     * the first role that matches):
+     * <ul>
+     * <li>Is the user a superadmin? -> {@link SuperAdminRole}</li>
+     * <li>Is the user the tenant admin? -> {@link TenantAdminRole}</li>
+     * <li>Does the user administrate <strong>any</strong> workflow model within
+     * the given tenant? -> {@link WorkflowAdminRole}</li>
+     * <li>Is the user a member of the given tenant? -> {@link UserRole}</li>
+     * <li>If none of the above match, <code>null</code> is returned</li>
+     * </ul>
      * <b>Special case:</b>
      * <p>
      * If tenantId references the default tenant, this method returns
@@ -818,7 +718,7 @@ public class UserFacade extends AbstractFacade {
      *            the ID of the user whose role should be requested for the
      *            given tenant
      * @param tenantId
-     *            the ID of the tenant where the role should be appointed
+     *            the ID of the tenant
      * @return highest user role of the user for the given tenant or null if the
      *         user is not a tenant member.
      * @throws TransactionException
@@ -831,32 +731,19 @@ public class UserFacade extends AbstractFacade {
     @AllowedRole(UserRole.class)
     public Class<? extends UserRole> getUserRoleForTenant(Long userId,
             Long tenantId) throws TransactionException {
-
         GetUserRoleForTenantCommand command = new GetUserRoleForTenantCommand(
                 actor, userId, tenantId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
         return command.getResult();
     }
 
     /**
-     * Returns all administrated workflow instances of the given user as Item.
-     * Each item has the following properties:<br>
-     * <ul>
-     * <li>id: Long - workflow instance ID</li>
-     * <li>startedDate: Date - date when the workflow instance was started (null
-     * if it hasn't been started yet)</li>
-     * <li>completedDate: Date - date when the workflow instance terminated
-     * (null if is hasn't terminted yet)</li>
-     * <li>model:</li>
-     * </ul>
+     * Returns all workflow instances which the given user administers.
      * 
      * @param userId
      *            the id of the user whose administrated workflow models should
      *            be requested
-     * @return List of workflow models which are administrated by the given
-     *         user.
+     * @return list of workflow models which are administered by the given user.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
@@ -865,43 +752,21 @@ public class UserFacade extends AbstractFacade {
      *             if the given user does not exist.
      */
     @AllowedRole(WorkflowAdminRole.class)
-    public List<Item> getAdministratedWorkflowInstances(Long userId)
+    public List<WorkflowInstance> getAdministratedWorkflowInstances(Long userId)
             throws TransactionException {
-
         GetAdministratedWorkflowInstancesCommand command = new GetAdministratedWorkflowInstancesCommand(
                 actor, userId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
-        List<WorkflowInstance> inList = command.getResult();
-
-        // build the Vaadin item
-        String[] properties = { "id", "startedDate", "completedDate" };
-
-        List<Item> result = new ArrayList<Item>();
-        for (WorkflowInstance instance : inList) {
-
-            Item item = new BeanItem(instance, properties);
-            item.addItemProperty("model", new ObjectProperty(instance
-                    .getDeployedWorkflowModel().getName()));
-
-            result.add(item);
-        }
-
-        return result;
+        return command.getResult();
     }
 
     /**
      * Returns all tenants the given user is member of (excluding the default
-     * tenant) as a Vaadin item with the following properties:
-     * <ul>
-     * <li>id - tenant id</li>
-     * <li>name - tenant name</li>
-     * </ul>
+     * tenant).
      * 
      * @param userId
      *            the ID of the user whose joined tenants should be requested
-     * @return Vaadin items representing the joined tenants.
+     * @return list of joined tenants.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -910,34 +775,16 @@ public class UserFacade extends AbstractFacade {
      *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
-    public List<Item> getJoinedTenants(Long userId) throws TransactionException {
-
+    public List<Tenant> getJoinedTenants(Long userId)
+            throws TransactionException {
         GetJoinedTenantsCommand command = new GetJoinedTenantsCommand(actor,
                 userId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
-        List<Tenant> tenants = command.getResult();
-
-        // build the Vaadin item
-        String[] properties = { "id", "name" };
-
-        List<Item> result = new ArrayList<Item>();
-        for (Tenant tenant : tenants) {
-            result.add(new BeanItem(tenant, properties));
-        }
-
-        return result;
+        return command.getResult();
     }
 
     /**
-     * Returns the workflow models which the given user administrates. The item
-     * properties are:
-     * <ul>
-     * <li>id - workflow model id</li>
-     * <li>name - workflow model name</li>
-     * <li>description - workflow model description</li>
-     * </ul>
+     * Returns the workflow models which the given user administers.
      * 
      * @param userId
      *            the ID of the user whose administrated workflow models should
@@ -946,7 +793,7 @@ public class UserFacade extends AbstractFacade {
      *            optional (nullable) list of filters to apply
      * @param paginator
      *            optional (nullable) paginator
-     * @return list of workflow models which are administrated by the given user
+     * @return list of workflow models which are administered by the given user
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
@@ -955,116 +802,68 @@ public class UserFacade extends AbstractFacade {
      *             if the user does not exist.
      */
     @AllowedRole(WorkflowAdminRole.class)
-    public List<Item> getAdministratedWorkflowModels(Long userId,
+    public List<WorkflowModel> getAdministratedWorkflowModels(Long userId,
             List<Filter> filters, Paginator paginator)
             throws TransactionException {
-
         GetAdministratedWorkflowModelsCommand command = new GetAdministratedWorkflowModelsCommand(
                 actor, userId, filters, paginator);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
-        List<WorkflowModel> models = command.getResult();
-        List<Item> result = new ArrayList<Item>();
-
-        String[] properties = { "id", "name", "description" };
-
-        for (WorkflowModel model : models) {
-            result.add(new BeanItem(model, properties));
-        }
-
-        return result;
+        return command.getResult();
     }
 
     /**
-     * Returns the workitems of the given user as List<Item> with the following
-     * properties:<br>
-     * <ul>
-     * <li>creationDate: Date - date when the work item was created</li>
-     * <li>userId: Long - user ID</li>
-     * <li>id: Long - work item ID</li>
-     * <li>tenantName: String - tenant name</li>
-     * <li>workItemName: String - work item name</li>
-     * <li>workItemStatus: String - one of the enum names</li>
-     * <li>workflowInstanceId: Long - ID of the
-     * </ul>
+     * Returns a list of the workitems of the given user.
      * 
      * @param userId
-     *            the ID of the user whose workitems should be requested
+     *            the ID of the user whose workitems should be returned
      * @param filters
      *            {@link Filter}
      * @param paginator
      *            {@link Paginator}
-     * @return list ob vaadin item described above
+     * @return list of workitems
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
      *             if userId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
-    public List<Item> getWorkItems(Long userId, List<Filter> filters,
-            Paginator paginator) throws TransactionException {
-
-        List<WorkItemSummaryView> inList;
-        List<Item> outList = new ArrayList<Item>();
-
-        TransactionCoordinator tac = HibernateTransactionCoordinator
-                .getInstance();
+    public List<WorkItemSummaryView> getWorkItems(Long userId,
+            List<Filter> filters, Paginator paginator)
+            throws TransactionException {
         GetWorkItemsCommand command = new GetWorkItemsCommand(actor, userId,
                 filters, paginator);
-
-        tac.runTransaction(command);
-        inList = command.getResult();
-
-        for (WorkItemSummaryView model : inList) {
-            outList.add(new BeanItem(model));
-        }
-
-        return outList;
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        return command.getResult();
     }
 
     /**
-     * Returns information about the given invitaion. The Vaadin item contains
-     * the following properties:
-     * <ul>
-     * <li>senderFirstName: String - first name of the sender</li>
-     * <li>senderLastName: String - last name of the sender</li>
-     * <li>receiverFirstName: String - first name of the receiver</li>
-     * <li>receiverLastName: String - last name of the receiver</li>
-     * <li>administratedWorkflowModelName: String - name of the administrated
-     * workflow model</li>
-     * <li>joinTenantName: String - name of the tenant which should be joined</li>
-     * <li>workflowInstanceId: Long - id of the participation instance</li>
-     * <li>creationDate: Date - Date on which the invitation was created</li>
-     * </ul>
+     * Returns information about the given invitation.
      * 
      * @param invitationId
      *            the ID of the invitation which should be returned
-     * @return Vaadin item described above
+     * @return invitation info
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
      *             if invitationId is <code>null</code>
      */
     @AllowedRole(UserRole.class)
-    public Item getInvitation(Long invitationId) throws TransactionException {
+    public InvitationView getInvitation(Long invitationId)
+            throws TransactionException {
         GetInvitationCommand command = new GetInvitationCommand(actor,
                 invitationId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
-        return new BeanItem(command.getResult());
+        return command.getResult();
     }
 
     /**
-     * Returns <code>true</code> if the given user is registered else
-     * <code>false</code>.
+     * Checks if the given user has registered / created a user profile.
      * 
      * @param userId
      *            the ID of the user which should be checked if he's registered
      *            or not
-     * @return <code>true</code> if the given user is registered else
-     *         <code>false</code>.
+     * @return <code>true</code> if the given user is registered,
+     *         <code>false</code> otherwise.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -1076,9 +875,7 @@ public class UserFacade extends AbstractFacade {
     public Boolean isRegistered(Long userId) throws TransactionException {
         IsUserRegisteredCommand command = new IsUserRegisteredCommand(actor,
                 userId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-
         return command.getResult();
     }
 
@@ -1136,7 +933,6 @@ public class UserFacade extends AbstractFacade {
             throws TransactionException {
         SetCurrentTenantCommand cmd = new SetCurrentTenantCommand(actor,
                 userId, currentTenantId);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 }
