@@ -31,6 +31,7 @@
 		port, the email is connected with container exit port
 	-->
 
+
 <workflow name="Simple Workflow" id="1256287630390"
 	targetNamespace="namespace" xmlns="schema">
 	<description></description>
@@ -94,18 +95,19 @@
 					<targets>
 						<target arcId="1256287630531" />
 					</targets>
-					<setProperty name="wfmID" variable="L1256287630390" />
+					<setProperty name="wfmID">
+						<propertyValue>1256287630390</propertyValue>
+					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
 					<setProperty name="description" />
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull">
-						<parameter>
-							<humanTaskData />
-						</parameter>
-					</getProperty>
+					<getProperty name="taskResult" variable="Lnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
 				</invokeNode>
 			</nodes>
 			<arcs>
@@ -181,18 +183,19 @@
 					<targets>
 						<target arcId="1256287630718" />
 					</targets>
-					<setProperty name="wfmID" variable="L1256287630390" />
+					<setProperty name="wfmID">
+						<propertyValue>1256287630390</propertyValue>
+					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
 					<setProperty name="description" />
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull">
-						<parameter>
-							<humanTaskData />
-						</parameter>
-					</getProperty>
+					<getProperty name="taskResult" variable="Lnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
@@ -205,18 +208,19 @@
 					<targets>
 						<target arcId="1256287630812" />
 					</targets>
-					<setProperty name="wfmID" variable="L1256287630390" />
+					<setProperty name="wfmID">
+						<propertyValue>L1256287630390</propertyValue>
+					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
 					<setProperty name="description" />
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull">
-						<parameter>
-							<humanTaskData />
-						</parameter>
-					</getProperty>
+					<getProperty name="taskResult" variable="Lnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
 				</invokeNode>
 			</nodes>
 			<arcs>
@@ -272,7 +276,9 @@
 					<targets>
 						<target arcId="1256287630953" />
 					</targets>
-					<setProperty name="wfmID" variable="L1256287630390" />
+					<setProperty name="wfmID">
+						<propertyValue>1256287630390</propertyValue>
+					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
 					<setProperty name="description" />
@@ -315,12 +321,3 @@
 			id="1256287630656" source="1256287630626" target="1256287630968" />
 	</arcs>
 </workflow>
-
-
-
-
-
-
-
-
-

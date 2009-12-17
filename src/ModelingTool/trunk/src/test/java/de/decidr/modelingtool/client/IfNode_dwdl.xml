@@ -75,18 +75,19 @@
 					<targets>
 						<target arcId="1256211850219" />
 					</targets>
-					<setProperty name="wfmID" variable="L1256211693359" />
+					<setProperty name="wfmID">
+						<propertyValue>1256211693359</propertyValue>
+					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
 					<setProperty name="description" />
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull">
-						<parameter>
-							<humanTaskData />
-						</parameter>
-					</getProperty>
+					<getProperty name="taskResult" variable="Lnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
@@ -99,18 +100,19 @@
 					<targets>
 						<target arcId="1256211850218" />
 					</targets>
-					<setProperty name="wfmID" variable="L1256211693359" />
+					<setProperty name="wfmID">
+						<propertyValue>1256211693359</propertyValue>
+					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
 					<setProperty name="description" />
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull">
-						<parameter>
-							<humanTaskData />
-						</parameter>
-					</getProperty>
+					<getProperty name="taskResult" variable="Lnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1256211850281"
@@ -176,7 +178,9 @@
 						<targets>
 							<target arcId="1257415091718" />
 						</targets>
-						<setProperty name="wfmID" variable="L1256211693359" />
+						<setProperty name="wfmID">
+							<propertyValue>1256211693359"</propertyValue>
+						</setProperty>
 						<setProperty name="user" />
 						<setProperty name="name" />
 						<setProperty name="description" />
@@ -184,10 +188,11 @@
 							<propertyValue>no</propertyValue>
 						</setProperty>
 						<getProperty name="taskResult" variable="Lnull">
-							<parameter>
-								<humanTaskData />
-							</parameter>
+
 						</getProperty>
+						<parameter>
+							<humanTaskData />
+						</parameter>
 					</invokeNode>
 				</nodes>
 				<arcs>
@@ -235,18 +240,20 @@
 						<targets>
 							<target arcId="1256211850375" />
 						</targets>
-						<setProperty name="wfmID" variable="L1256211693359" />
+						<setProperty name="wfmID">
+							<propertyValue>1256211693359</propertyValue>
+						</setProperty>
+
 						<setProperty name="user" />
 						<setProperty name="name" />
 						<setProperty name="description" />
 						<setProperty name="userNotification">
 							<propertyValue>no</propertyValue>
 						</setProperty>
-						<getProperty name="taskResult" variable="Lnull">
-							<parameter>
-								<humanTaskData />
-							</parameter>
-						</getProperty>
+						<getProperty name="taskResult" variable="Lnull" />
+						<parameter>
+							<humanTaskData />
+						</parameter>
 					</invokeNode>
 				</nodes>
 				<arcs>
@@ -272,18 +279,19 @@
 						<targets>
 							<target arcId="1256211684048" />
 						</targets>
-						<setProperty name="wfmID" variable="L1256211693359" />
+						<setProperty name="wfmID">
+							<propertyValue>1256211693359</propertyValue>
+						</setProperty>
 						<setProperty name="user" />
 						<setProperty name="name" />
 						<setProperty name="description" />
 						<setProperty name="userNotification">
 							<propertyValue>no</propertyValue>
 						</setProperty>
-						<getProperty name="taskResult" variable="Lnull">
-							<parameter>
-								<humanTaskData />
-							</parameter>
-						</getProperty>
+						<getProperty name="taskResult" variable="Lnull" />
+						<parameter>
+							<humanTaskData />
+						</parameter>
 					</invokeNode>
 				</nodes>
 				<arcs>

@@ -71,18 +71,20 @@
 					<targets>
 						<target arcId="1255353235876" />
 					</targets>
-					<setProperty name="wfmID" variable="L1255353235687" />
+					<setProperty name="wfmID">
+						<propertyValue>1255353235687</propertyValue>
+					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
 					<setProperty name="description" />
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull">
-						<parameter>
-							<humanTaskData />
-						</parameter>
-					</getProperty>
+					<getProperty name="taskResult" variable="Lnull" />
+
+					<parameter>
+						<humanTaskData />
+					</parameter>
 				</invokeNode>
 				<invokeNode
 					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1255353235890"

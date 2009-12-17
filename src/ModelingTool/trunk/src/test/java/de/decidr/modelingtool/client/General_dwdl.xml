@@ -102,29 +102,31 @@
 			<sources>
 				<source arcId="1255088341281" />
 			</sources>
-			<setProperty name="wfmID" variable="L1255087539250" />
+			<setProperty name="wfmID">
+				<propertyValue>1255087539250</propertyValue>
+			</setProperty>
 			<setProperty name="user" variable="L1255088207843" />
 			<setProperty name="name" variable="L1255088196312" />
 			<setProperty name="description" variable="L1255088188640" />
 			<setProperty name="userNotification">
 				<propertyValue>yes</propertyValue>
 			</setProperty>
-			<getProperty name="taskResult" variable="L1255088324562">
-				<parameter>
-					<humanTaskData>
-						<taskItem name="taskItem" variable="L1255088176468" type="string">
-							<label>Label 1</label>
-							<hint>First</hint>
-							<value>New Value</value>
-						</taskItem>
-						<taskItem name="taskItem" variable="L1255088176468" type="string">
-							<label>Label 2</label>
-							<hint>Second</hint>
-							<value>New Value</value>
-						</taskItem>
-					</humanTaskData>
-				</parameter>
-			</getProperty>
+			<getProperty name="taskResult" variable="L1255088324562" />
+
+			<parameter>
+				<humanTaskData>
+					<taskItem name="taskItem" variable="L1255088176468" type="string">
+						<label>Label 1</label>
+						<hint>First</hint>
+						<value>New Value</value>
+					</taskItem>
+					<taskItem name="taskItem" variable="L1255088176468" type="string">
+						<label>Label 2</label>
+						<hint>Second</hint>
+						<value>New Value</value>
+					</taskItem>
+				</humanTaskData>
+			</parameter>
 		</invokeNode>
 		<flowNode name="FlowContainer" id="1255088341296">
 			<description></description>
@@ -164,18 +166,19 @@
 					<sources>
 						<source arcId="1255088341406" />
 					</sources>
-					<setProperty name="wfmID" variable="L1255087539250" />
+					<setProperty name="wfmID">
+						<propertyValue>1255087539250</propertyValue>
+					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
 					<setProperty name="description" />
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull">
-						<parameter>
-							<humanTaskData />
-						</parameter>
-					</getProperty>
+					<getProperty name="taskResult" variable="Lnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
 				</invokeNode>
 			</nodes>
 			<arcs>
