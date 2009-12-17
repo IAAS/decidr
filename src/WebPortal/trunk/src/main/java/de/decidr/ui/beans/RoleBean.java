@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.ui.data;
+package de.decidr.ui.beans;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
