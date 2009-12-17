@@ -26,7 +26,6 @@ import de.decidr.model.storage.StorageProviderFactory;
 import de.decidr.model.stubs.DeployerImplStub;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
-import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 
 /**
  * Deletes a single tenant including all corresponding workflow instances and

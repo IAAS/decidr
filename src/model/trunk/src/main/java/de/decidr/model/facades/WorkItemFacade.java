@@ -15,8 +15,6 @@
  */
 package de.decidr.model.facades;
 
-import java.util.Date;
-
 import de.decidr.model.acl.roles.HumanTaskRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;

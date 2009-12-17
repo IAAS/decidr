@@ -36,7 +36,6 @@ import de.decidr.model.stubs.DeployerImplStub;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
-import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 import de.decidr.model.workflowmodel.deployment.DeploymentResult;
 import de.decidr.model.workflowmodel.deployment.StandardDeploymentStrategy;
 

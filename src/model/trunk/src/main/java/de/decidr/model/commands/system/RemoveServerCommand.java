@@ -29,7 +29,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.stubs.DeployerImplStub;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
-import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 

@@ -16,7 +16,6 @@
 package de.decidr.model.commands.system;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Level;
