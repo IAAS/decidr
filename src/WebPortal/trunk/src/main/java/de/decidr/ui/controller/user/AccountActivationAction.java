@@ -14,14 +14,12 @@
  * under the License.
  */
 
-package de.decidr.ui.controller.workflowmodel;
+package de.decidr.ui.controller.user;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -30,25 +28,26 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.model.facades.UserFacade;
+import de.decidr.ui.beans.UserBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action unlocks a list of workflow models.
+ * This action disables a user account.
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2352", currentReviewState = State.PassedWithComments)
-public class UnlockWorkflowModelsAction implements ClickListener {
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.NeedsReview)
+public class AccountActivationAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
 
     private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
-    private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
+    private UserFacade userFacade = new UserFacade(role);
 
     private Table table = null;
 
@@ -58,44 +57,46 @@ public class UnlockWorkflowModelsAction implements ClickListener {
      * @param table
      *            requires {@link Table} with data
      */
-    public UnlockWorkflowModelsAction(Table table) {
+    public AccountActivationAction(Table table) {
         this.table = table;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                try {
-                    Long id = (Long) item.getItemProperty("id").getValue();
-                    wfmFacade.setExecutable(id, true);
-                    if(wfmFacade.getWorkflowModel(id).isExecutable()){
-                        item.getItemProperty("executable").setValue(true);
-                    }
-                    
-                } catch (TransactionException e) {
+        UserBean user = (UserBean)table.getValue();
+        if (user != null) {
+            try {
+                if(event.getButton().getCaption().equals("Deactivate Account")){
+                    userFacade.setDisabledSince(user.getId(), new Date());
+                    user.setDisabledSince(new Date());
+                    table.requestRepaint();
                     Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(e));
+                            new InformationDialogComponent("Account deactivated",
+                                    "Information"));
+                }else{
+                    userFacade.setDisabledSince(user.getId(), null);
+                    user.setDisabledSince(null);
+                    table.requestRepaint();
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent("Account activated",
+                                    "Information"));
                 }
+                
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
             }
-            Main.getCurrent().getMainWindow()
-                    .addWindow(
-                            new InformationDialogComponent(
-                                    "Workflow models successfully unlocked!",
-                                    "Success"));
-            table.requestRepaint();
         } else {
             Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                            "Please select a workflow model.", "Information"));
+                    new InformationDialogComponent("Please select a user",
+                            "Information"));
         }
+
     }
 }

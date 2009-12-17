@@ -32,6 +32,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.ui.beans.TenantWithAdminViewBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -74,8 +75,9 @@ public class DeclineTenantsAction implements ClickListener {
         Set<?> value = (Set<?>) table.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                tenants.add((Long) table
-                        .getContainerProperty(iter.next(), "id").getValue());
+                TenantWithAdminViewBean tenantWithAdminViewBean = (TenantWithAdminViewBean) iter
+                        .next();
+                tenants.add(tenantWithAdminViewBean.getId());
             }
         }
 

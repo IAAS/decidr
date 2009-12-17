@@ -21,13 +21,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 
-import com.vaadin.data.Item;
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
@@ -35,11 +35,16 @@ import com.vaadin.ui.AbstractComponent;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.User;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -109,13 +114,19 @@ public class ModelingTool extends AbstractComponent {
             String dwdl = variables.get("dwdl").toString();
             byte[] dwdlByte = dwdl.getBytes();
             try {
+                Workflow workflow = TransformUtil.bytesToWorkflow(dwdlByte);
                 workflowModelFacade.saveWorkflowModel(workflowModelId, name,
-                        description, dwdlByte);
+                        description, workflow);
                 logger.debug("[Modeling Tool] DWDL stored successfully.");
             } catch (TransactionException e) {
                 Main.getCurrent().addWindow(
                         new TransactionErrorDialogComponent(e));
                 logger.debug("[Modeling Tool] DWDL storing failed.");
+            } catch (JAXBException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent("Transformation failed",
+                                "Failure"));
+                throw new RuntimeException(e);
             }
         } else {
             logger.debug("[Modeling Tool] Client variables did not"
@@ -148,15 +159,13 @@ public class ModelingTool extends AbstractComponent {
 
     private String getDWDL() {
         try {
-            Item workflowModel = workflowModelFacade
+            WorkflowModel workflowModel = workflowModelFacade
                     .getWorkflowModel(workflowModelId);
-            name = workflowModel.getItemProperty("name").getValue().toString();
-            description = workflowModel.getItemProperty("description")
-                    .getValue().toString();
+            name = workflowModel.getName();
+            description = workflowModel.getDescription();
             logger.debug("[Modeling Tool] Retrieving dwdl document was"
                     + " successfull");
-            return new String((byte[]) workflowModel.getItemProperty("dwdl")
-                    .getValue());
+            return new String(workflowModel.getDwdl());
         } catch (TransactionException e) {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent(e));
             logger.debug("[Modeling Tool] Retrieving dwdl document failed");
@@ -169,27 +178,23 @@ public class ModelingTool extends AbstractComponent {
         try {
             logger.debug("[Modeling Tool] Trying to get "
                     + "the tenant user list...");
-            List<Item> users = tenantFacade.getUsersOfTenant(tenantId, null);
-            for (Item item : users) {
+            List<User> users = tenantFacade.getUsersOfTenant(tenantId, null);
+            for (User user : users) {
 
-                if (item.getItemProperty("username") == null
-                        || item.getItemProperty("username").getValue() == null
-                        || item.getItemProperty("username").getValue().equals(
-                                "")) {
+                if (user.getUserProfile() == null
+                        || user.getUserProfile().getUsername().equals("")) {
                     /*
                      * If the username is empty, we want to display the email
                      * address as username.
                      */
-                    userMap.put((Long) item.getItemProperty("id").getValue(),
-                            (String) item.getItemProperty("email").getValue());
+                    userMap.put(user.getId(), user.getEmail());
                 } else {
                     /*
                      * username is not empty, but we want to set the username to
                      * a more "fancy" string, for example: John Doe (jdoe42)
                      */
-                    Long id = (Long) item.getItemProperty("id").getValue();
-                    String username = (String) item.getItemProperty("username")
-                            .getValue();
+                    Long id = user.getId();
+                    String username = user.getUserProfile().getUsername();
                     userMap.put(id, username);
                 }
             }

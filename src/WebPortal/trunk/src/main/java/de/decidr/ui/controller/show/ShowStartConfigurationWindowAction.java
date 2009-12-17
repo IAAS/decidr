@@ -54,64 +54,66 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 @Reviewed(reviewers = { "RR" }, lastRevision = "2360", currentReviewState = State.Passed)
 public class ShowStartConfigurationWindowAction implements ClickListener {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Role role = (Role) session.getAttribute("role");
+    private Role role = (Role) session.getAttribute("role");
 
-	private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
-			role);
+    private WorkflowModelFacade workflowModelFacade = new WorkflowModelFacade(
+            role);
 
-	private UIDirector uiDirector = Main.getCurrent().getUIDirector();
+    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
 
-	private SiteFrame siteFrame = uiDirector.getTemplateView();
+    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-	private Table table = null;
+    private Table table = null;
 
-	private byte[] wsc = null;
+    private byte[] wsc = null;
 
-	private TConfiguration tConfiguration = null;
+    private TConfiguration tConfiguration = null;
 
-	private Long workflowModelId = null;
+    private Long workflowModelId = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		table = ((CreateWorkflowInstanceComponent) siteFrame.getContent())
-				.getInstanceTable();
-		Item item = table.getItem(table.getValue());
-		workflowModelId = (Long) item.getItemProperty("id").getValue();
-		try {
-			wsc = workflowModelFacade
-					.getLastStartConfiguration(workflowModelId);
-			
-			if (wsc == null) {
-				byte[] dwdl = (byte[]) workflowModelFacade.getWorkflowModel(
-						workflowModelId).getItemProperty("dwdl").getValue();
-				DefaultLogger.getLogger(ShowStartConfigurationWindowAction.class).debug((new String(dwdl,Charset.forName("UTF-8"))));
-				Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
-				DWDL2WSC dwdl2wsc = new DWDL2WSC();
-				tConfiguration = dwdl2wsc.getStartConfiguration(workflow);
-				
-			}else{
-				tConfiguration = TransformUtil.bytesToConfiguration(wsc);
-			}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        table = ((CreateWorkflowInstanceComponent) siteFrame.getContent())
+                .getInstanceTable();
+        Item item = table.getItem(table.getValue());
+        workflowModelId = (Long) item.getItemProperty("id").getValue();
+        try {
+            wsc = workflowModelFacade
+                    .getLastStartConfiguration(workflowModelId);
 
-			Main.getCurrent().getMainWindow().addWindow(
-					new StartConfigurationWindow(tConfiguration,
-							workflowModelId));
-		} catch (JAXBException exception) {
-			Main.getCurrent().addWindow(
-					new TransactionErrorDialogComponent(exception));
-		} catch (TransactionException exception) {
-			Main.getCurrent().addWindow(
-					new TransactionErrorDialogComponent(exception));
-		}
-	}
+            if (wsc == null) {
+                byte[] dwdl = workflowModelFacade.getWorkflowModel(
+                        workflowModelId).getDwdl();
+                DefaultLogger.getLogger(
+                        ShowStartConfigurationWindowAction.class).debug(
+                        (new String(dwdl, Charset.forName("UTF-8"))));
+                Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
+                DWDL2WSC dwdl2wsc = new DWDL2WSC();
+                tConfiguration = dwdl2wsc.getStartConfiguration(workflow);
+
+            } else {
+                tConfiguration = TransformUtil.bytesToConfiguration(wsc);
+            }
+
+            Main.getCurrent().getMainWindow().addWindow(
+                    new StartConfigurationWindow(tConfiguration,
+                            workflowModelId));
+        } catch (JAXBException exception) {
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(exception));
+        } catch (TransactionException exception) {
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(exception));
+        }
+    }
 }

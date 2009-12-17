@@ -16,20 +16,19 @@
 
 package de.decidr.ui.controller.show;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
-import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.facades.SystemFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.SystemSettingsComponent;
-import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This component displays the {@link SystemSettingsComponent} in the content
@@ -50,7 +49,7 @@ public class ShowSystemSettingsAction implements ClickListener {
 
     SystemFacade systemFacade = new SystemFacade(role);
 
-    private Item systemSettingsItem = null;
+    private SystemSettings systemSettingsItem = null;
 
     /*
      * (non-Javadoc)
@@ -60,13 +59,8 @@ public class ShowSystemSettingsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        try {
-            systemSettingsItem = systemFacade.getSettings();
-            siteFrame
-                    .setContent(new SystemSettingsComponent(systemSettingsItem));
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        }
+        systemSettingsItem = DecidrGlobals.getSettings();
+        siteFrame.setContent(new SystemSettingsComponent(systemSettingsItem));
+
     }
 }

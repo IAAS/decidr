@@ -48,14 +48,15 @@ import com.vaadin.ui.Button.ClickEvent;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
+import de.decidr.ui.beans.RoleBean;
 import de.decidr.ui.controller.HideDialogWindowAction;
 import de.decidr.ui.controller.SaveStartConfigurationAction;
 import de.decidr.ui.data.FloatValidator;
-import de.decidr.ui.data.RoleBean;
 import de.decidr.ui.data.TreeRoleContainer;
 import de.decidr.ui.view.Main;
 
@@ -418,9 +419,12 @@ public class StartConfigurationWindow extends Window {
                 .getSession().getAttribute("role"));
         try {
             Long tenantId = (Long) session.getAttribute("tenantId");
-            List<Item> items = tenantFacade.getUsersOfTenant(tenantId, null);
-            for (Item item : items) {
-                comboBox.addItem(item.getItemProperty("username").getValue());
+            List<User> users = tenantFacade.getUsersOfTenant(tenantId, null);
+            for (User user : users) {
+                if(user.getUserProfile() != null){
+                    comboBox.addItem(user.getUserProfile().getUsername());
+                }
+                
             }
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(

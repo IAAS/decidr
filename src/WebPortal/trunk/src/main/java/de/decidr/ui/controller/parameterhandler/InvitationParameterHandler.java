@@ -21,13 +21,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.terminal.ParameterHandler;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.InvitationView;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.LoginComponent;
@@ -78,37 +78,46 @@ public class InvitationParameterHandler implements ParameterHandler {
             try {
                 if (key.equals(DecidrGlobals.URL_PARAM_INVITATION_ID)) {
                     if (invitationId != null) {
-                        Main.getCurrent().getMainWindow().addWindow(
-                                new InformationDialogComponent(
-                                        "Your invitation link contained more "+
-                                        "parameters than expected and might be "+
-                                        "invalid.", "Error"));
+                        Main
+                                .getCurrent()
+                                .getMainWindow()
+                                .addWindow(
+                                        new InformationDialogComponent(
+                                                "Your invitation link contained more "
+                                                        + "parameters than expected and might be "
+                                                        + "invalid.", "Error"));
                     }
                     invitationId = Long.parseLong(value);
                 } else if (key.equals(DecidrGlobals.URL_PARAM_USER_ID)) {
                     if (userId != null) {
-                        Main.getCurrent().getMainWindow().addWindow(
-                                new InformationDialogComponent(
-                                        "Your invitation link contained more "+
-                                        "parameters than expected and might be "+
-                                        "invalid.", "Error"));
+                        Main
+                                .getCurrent()
+                                .getMainWindow()
+                                .addWindow(
+                                        new InformationDialogComponent(
+                                                "Your invitation link contained more "
+                                                        + "parameters than expected and might be "
+                                                        + "invalid.", "Error"));
                     }
                     userId = Long.parseLong(value);
                 } else if (key
                         .equals(DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY)) {
-                    if (! authKey.equals("")) {
-                        Main.getCurrent().getMainWindow().addWindow(
-                                new InformationDialogComponent(
-                                        "Your invitation link contained more "+
-                                        "parameters than expected and might be "+
-                                        "invalid.", "Error"));
+                    if (!authKey.equals("")) {
+                        Main
+                                .getCurrent()
+                                .getMainWindow()
+                                .addWindow(
+                                        new InformationDialogComponent(
+                                                "Your invitation link contained more "
+                                                        + "parameters than expected and might be "
+                                                        + "invalid.", "Error"));
                     }
                     authKey = value;
                 } else if (key
                         .equals(DecidrGlobals.URL_PARAM_REGISTRATION_REQUIRED)) {
                     registrationRequired = true;
                 } else {
-                    //Other parameters are handled by other handlers
+                    // Other parameters are handled by other handlers
                 }
             } catch (NumberFormatException e) {
                 Main.getCurrent().getMainWindow().addWindow(
@@ -122,32 +131,28 @@ public class InvitationParameterHandler implements ParameterHandler {
             userFacade = new UserFacade(new UserRole());
 
             try {
-                Item invitationItem = userFacade.getInvitation(invitationId);
+                InvitationView invitationItem = userFacade
+                        .getInvitation(invitationId);
                 String concern = null;
-                if (!isNullOrEmpty(invitationItem.getItemProperty(
-                        "joinTenantName").getValue().toString())) {
+                if (!isNullOrEmpty(invitationItem.getJoinTenantName())) {
                     concern = "Join this tenant: "
-                            + invitationItem.getItemProperty("joinTenantName")
-                                    .getValue().toString();
+                            + invitationItem.getJoinTenantName();
                 }
 
-                if (!isNullOrEmpty(invitationItem.getItemProperty(
-                        "administratedWorkflowModelName").getValue().toString())) {
+                if (!isNullOrEmpty(invitationItem
+                        .getAdministratedWorkflowModelName())) {
                     if (concern == null) {
                         concern = "Admininstrate a workflow: "
-                                + invitationItem.getItemProperty(
-                                        "administratedWorkflowModelName")
-                                        .getValue().toString();
+                                + invitationItem
+                                        .getAdministratedWorkflowModelName();
                     } else {
                         concern = " and admininstrate a workflow: "
-                                + invitationItem.getItemProperty(
-                                        "administratedWorkflowModelName")
-                                        .getValue().toString();
+                                + invitationItem
+                                        .getAdministratedWorkflowModelName();
                     }
                 }
 
-                if (!isNullOrEmpty(invitationItem.getItemProperty(
-                        "workflowInstanceId").getValue().toString())) {
+                if (invitationItem.getParticipateInWorkflowInstanceId() != null) {
                     if (concern == null) {
                         // aleks, gh: which one ~rr
                         // rr This information is not available from the
@@ -169,14 +174,10 @@ public class InvitationParameterHandler implements ParameterHandler {
                 }
 
                 String invDescription = "You have received an invitation.<br/>"
-                        + "Sender: "
-                        + invitationItem.getItemProperty("senderFirstName")
-                                .getValue().toString()
-                        + " "
-                        + invitationItem.getItemProperty("senderLastName")
-                                .getValue().toString() + "<br/><br/>"
-                        + "You have been invited to: " + concern + "<br/><br/>"
-                        + "Confirm this invitation?";
+                        + "Sender: " + invitationItem.getSenderFirstName()
+                        + " " + invitationItem.getSenderLastName()
+                        + "<br/><br/>" + "You have been invited to: " + concern
+                        + "<br/><br/>" + "Confirm this invitation?";
 
                 if (registrationRequired) {
                     if (userFacade.isRegistered(userId)) {

@@ -22,9 +22,9 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
@@ -68,14 +68,11 @@ public class ShowEditUserAction implements ClickListener {
         userFacade = new UserFacade(role);
 
         try {
-            Item profileItem = userFacade.getUserProfile((Long) item
+            User user = userFacade.getUserProfile((Long) item
                     .getItemProperty("id").getValue());
             ProfileSettingsComponent profile = new ProfileSettingsComponent(
-                    profileItem);
+                    user);
             siteFrame.setContent(profile);
-            if (role instanceof TenantAdminRole) {
-                profile.getCancelMembershipLink().setVisible(true);
-            }
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

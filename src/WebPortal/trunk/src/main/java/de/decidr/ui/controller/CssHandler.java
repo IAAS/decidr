@@ -36,7 +36,6 @@ import org.w3c.dom.css.CSSRuleList;
 import org.w3c.dom.css.CSSStyleSheet;
 
 import com.steadystate.css.parser.CSSOMParser;
-import com.vaadin.data.Item;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
 
@@ -44,6 +43,7 @@ import de.decidr.model.acl.permissions.FilePermission;
 import de.decidr.model.acl.permissions.FileReadPermission;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.FileFacade;
 import de.decidr.model.facades.TenantFacade;
@@ -67,11 +67,11 @@ public class CssHandler {
     private Long tenantId = null;
     // Aleks: tenantName muss auch rein. ~tk, ~dh
 
-    private String tenant = "";
+    private String tenantName = "";
 
     /**
-     * The constructor of the CSSHandler requires a TenantSettingsComponent.
-     * The component is stored and later used to access the required input fields.
+     * The constructor of the CSSHandler requires a TenantSettingsComponent. The
+     * component is stored and later used to access the required input fields.
      */
     public CssHandler(TenantSettingsComponent component) {
 
@@ -90,15 +90,15 @@ public class CssHandler {
     public void saveCss(TenantFacade tenantFacade, boolean advanced,
             FileFacade fileFacade) throws TransactionException {
         try {
-            Item settings = tenantFacade.getTenantSettings(tenantId);
-            tenant = settings.getItemProperty("name").getValue().toString();
+            Tenant tenant = tenantFacade.getTenant(tenantId);
+            tenantName = tenant.getName();
             Long colorSchemeId;
             File f;
             InputStream in = null;
             // check whether the advanced or the simple color scheme
             // is selected and create either a input stream with the
             // content the user entered into the field for advanced
-            // css settings or with the selected settings from simple 
+            // css settings or with the selected settings from simple
             // scheme
             try {
                 if (advanced) {
@@ -111,14 +111,12 @@ public class CssHandler {
                 }
 
                 // if a advancedColorSchemeId is set and the user wants to
-                // save a advanced color scheme then get the advancedColorSchemeId
+                // save a advanced color scheme then get the
+                // advancedColorSchemeId
                 // and replace the current css file with the new one.
                 // For the simple scheme it's basically the same
-                if ((settings.getItemProperty("advancedColorSchemeId")
-                        .getValue() != null)
-                        && advanced) {
-                    colorSchemeId = (Long) settings.getItemProperty(
-                            "advancedColorSchemeId").getValue();
+                if (tenant.getAdvancedColorScheme() != null && advanced) {
+                    colorSchemeId = tenant.getAdvancedColorScheme().getId();
 
                     f = getFileFromInputStream(in);
                     in.reset();
@@ -127,10 +125,8 @@ public class CssHandler {
                     fileFacade.replaceFile(colorSchemeId, in, f.length(), f
                             .getAbsolutePath(), new MimetypesFileTypeMap()
                             .getContentType(f));
-                } else if (settings.getItemProperty("simpleColorSchemeId")
-                        .getValue() != null) {
-                    colorSchemeId = (Long) settings.getItemProperty(
-                            "simpleColorSchemeId").getValue();
+                } else if (tenant.getSimpleColorScheme() != null) {
+                    colorSchemeId = tenant.getSimpleColorScheme().getId();
 
                     f = getFileFromInputStream(in);
                     in.reset();
@@ -176,8 +172,8 @@ public class CssHandler {
                     new TransactionErrorDialogComponent(exception));
         } catch (IOException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent("Failed to load the CSS file!",
-                            "Failure"));
+                    new InformationDialogComponent(
+                            "Failed to load the CSS file!", "Failure"));
         }
     }
 
@@ -285,8 +281,7 @@ public class CssHandler {
     /**
      * Returns a file object from the input stream of the entered CSS string.
      * 
-     * @return File 
-     *          File representation of the given input stream
+     * @return File File representation of the given input stream
      */
     private File getFileFromInputStream(InputStream in) {
         File f = new File(Main.getCurrent().getContext().getBaseDirectory()
@@ -295,7 +290,7 @@ public class CssHandler {
                 + "VAADIN"
                 + File.separator
                 + "themes"
-                + File.separator + tenant + File.separator + "styles.css");
+                + File.separator + tenantName + File.separator + "styles.css");
 
         if (!f.exists()) {
             try {
@@ -305,7 +300,7 @@ public class CssHandler {
                         + "VAADIN"
                         + File.separator
                         + "themes"
-                        + File.separator + tenant);
+                        + File.separator + tenantName);
                 dir.mkdirs();
                 f.createNewFile();
             } catch (IOException e) {

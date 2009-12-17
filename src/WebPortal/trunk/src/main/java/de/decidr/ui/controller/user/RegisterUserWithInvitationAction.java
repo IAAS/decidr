@@ -16,7 +16,6 @@
 
 package de.decidr.ui.controller.user;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -24,6 +23,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.InvitationView;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
@@ -73,37 +73,32 @@ public class RegisterUserWithInvitationAction implements ClickListener {
         }
 
         if (userId != null) {
-            Item invitationItem;
+            InvitationView invitationItem;
             String concern = null;
 
             try {
                 invitationItem = userFacade.getInvitation(invitationId);
 
-                if (!isNullOrEmpty(invitationItem.getItemProperty(
-                        "joinTenantName").getValue().toString())) {
+                if (!isNullOrEmpty(invitationItem.getJoinTenantName())) {
                     concern = "Join this tenant: "
-                            + invitationItem.getItemProperty("joinTenantName")
-                                    .getValue().toString();
+                            + invitationItem.getJoinTenantName();
 
                 }
 
-                if (!isNullOrEmpty(invitationItem.getItemProperty(
-                        "administratedWorkflowModelName").getValue().toString())) {
+                if (!isNullOrEmpty(invitationItem
+                        .getAdministratedWorkflowModelName())) {
                     if (concern == null) {
                         concern = "Admininstrate a workflow: "
-                                + invitationItem.getItemProperty(
-                                        "administratedWorkflowModelName")
-                                        .getValue().toString();
+                                + invitationItem
+                                        .getAdministratedWorkflowModelName();
                     } else {
                         concern = " and admininstrate a workflow: "
-                                + invitationItem.getItemProperty(
-                                        "administratedWorkflowModelName")
-                                        .getValue().toString();
+                                + invitationItem
+                                        .getAdministratedWorkflowModelName();
                     }
                 }
 
-                if (!isNullOrEmpty(invitationItem.getItemProperty(
-                        "workflowInstanceId").getValue().toString())) {
+                if (invitationItem.getParticipateInWorkflowInstanceId() != null) {
                     if (concern == null) {
                         concern = "Participate in a workflow";
                     } else {
@@ -138,13 +133,10 @@ public class RegisterUserWithInvitationAction implements ClickListener {
                 }
 
                 String invDescription = "You received an invitation.<br/>"
-                        + "Sender: "
-                        + invitationItem.getItemProperty("senderFirstName")
-                                .getValue().toString()
-                        + " "
-                        + invitationItem.getItemProperty("senderLastName")
-                                .getValue().toString() + "<br/><br/>"
-                        + "You have been invited to: " + concern + "<br/><br/>"
+                        + "Sender: " + invitationItem.getSenderFirstName()
+                        + " " + invitationItem.getSenderLastName()
+                        + "<br/><br/>" + "You have been invited to: " + concern
+                        + "<br/><br/>"
                         + "Do you want to confirm this invitation?";
 
                 Main.getCurrent().getMainWindow().addWindow(

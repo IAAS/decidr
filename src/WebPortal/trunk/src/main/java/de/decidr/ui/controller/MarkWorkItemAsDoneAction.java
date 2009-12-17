@@ -21,7 +21,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -32,6 +31,7 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
+import de.decidr.ui.beans.WorkItemSummaryViewBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -73,12 +73,12 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
         Set<?> value = (Set<?>) table.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                Long workItemId = (Long) item.getItemProperty("id").getValue();
+                WorkItemSummaryViewBean workItemSummaryViewBean = (WorkItemSummaryViewBean) iter.next();
+                Long workItemId = workItemSummaryViewBean.getId();
                 // Aleks use enumeration instead of magic string ~dh, ~tk
                 // Aleks I've done this for you ~rr
-                if (item.getItemProperty("workItemStatus").equals(
-                        WorkItemStatus.Done)) {
+                if (workItemSummaryViewBean.getWorkItemStatus().equals(
+                        WorkItemStatus.Done.toString())) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent(
                                     "The selected work item is already done",
@@ -86,9 +86,8 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
                 } else {
                     try {
                         workItemFacade.markWorkItemAsDone(workItemId);
-                        item.getItemProperty("workItemStatus").setValue(
-                                workItemFacade.getWorkItem(workItemId)
-                                        .getItemProperty("status").getValue());
+                        workItemSummaryViewBean.setWorkItemStatus(
+                                WorkItemStatus.Done.name());
                         table.requestRepaint();
                         Main.getCurrent().getMainWindow().addWindow(
                                 new InformationDialogComponent(

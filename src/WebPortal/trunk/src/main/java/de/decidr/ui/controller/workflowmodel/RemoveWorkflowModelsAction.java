@@ -16,12 +16,12 @@
 
 package de.decidr.ui.controller.workflowmodel;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -29,6 +29,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.ui.view.Main;
@@ -65,27 +66,26 @@ public class RemoveWorkflowModelsAction implements ClickListener {
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new LinkedList<Long>();
-        List<Item> items = new LinkedList<Item>();
-        Set<?> value = (Set<?>) table.getValue();
+        Set<WorkflowModel> value = (Set<WorkflowModel>) table.getValue();
+        List<WorkflowModel> items = new ArrayList<WorkflowModel>(value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                wfms.add((Long) item.getItemProperty("id").getValue());
-                items.add(item);
+                WorkflowModel workflowModel = (WorkflowModel) iter.next();
+                wfms.add(workflowModel.getId());
             }
             try {
                 workflowModelFacade.deleteWorkflowModels(wfms);
-                for (Item item : items) {
-                    table.removeItem(item);
+                for (WorkflowModel workflowModel : items) {
+                    table.removeItem(workflowModel);
                 }
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Selected model(s) successfully removed!",
                                 "Success"));
-                table.requestRepaint();
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

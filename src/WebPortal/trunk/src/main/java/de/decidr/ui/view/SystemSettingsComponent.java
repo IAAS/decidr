@@ -16,6 +16,7 @@
 package de.decidr.ui.view;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
@@ -24,6 +25,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.ui.controller.SaveSystemSettingsAction;
 
 /**
@@ -36,7 +38,7 @@ public class SystemSettingsComponent extends CustomComponent {
 
     private static final long serialVersionUID = 3389525551936631625L;
 
-    private Item settingsItem = null;
+    private SystemSettings systemSettings = null;
 
     private VerticalLayout verticalLayout = null;
 
@@ -44,14 +46,21 @@ public class SystemSettingsComponent extends CustomComponent {
 
     private Button saveButton = null;
 
+    private Item settingsItem = null;
+
     /**
      * Default constructor.
      */
-    public SystemSettingsComponent(Item settingsItem) {
-        this.settingsItem = settingsItem;
+    public SystemSettingsComponent(SystemSettings systemSettings) {
+        this.systemSettings = systemSettings;
         init();
     }
 
+    /**
+     * Returns the settings form
+     * 
+     * @return settingsForm - the settings form to returned
+     */
     public Form getSettingsForm() {
         return settingsForm;
     }
@@ -74,6 +83,7 @@ public class SystemSettingsComponent extends CustomComponent {
         settingsForm = new Form();
         settingsForm.setWriteThrough(true);
         settingsForm.setImmediate(true);
+        settingsItem = new BeanItem(systemSettings);
         settingsForm.setItemDataSource(settingsItem);
         Object[] visiblePropertyIds = new Object[] { "autoAcceptNewTenants",
                 "logLevel", "changeEmailRequestLifetimeSeconds", "domain",

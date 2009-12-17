@@ -72,7 +72,7 @@ public class DeleteTenantAction implements ClickListener {
         try {
             tenantFacade.deleteTenant((Long) item.getItemProperty("id")
                     .getValue());
-            table.removeItem(item);
+            table.removeItem(table.getValue());
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(
                             "Tenant successfully removed", "Success"));

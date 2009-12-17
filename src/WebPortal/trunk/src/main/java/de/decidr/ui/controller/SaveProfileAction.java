@@ -66,20 +66,28 @@ public class SaveProfileAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         content = (ProfileSettingsComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
-        content.saveSettingsItem();
-        try {
-            UserProfile uP = fillUserProfile();
-            userFacade.setProfile(userId, uP);
+        if (content.getSettingsForm().isValid()) {
+            content.saveSettingsItem();
+            try {
+                UserProfile uP = fillUserProfile();
+                userFacade.setProfile(userId, uP);
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Profile successfully saved", "Success"));
+            } catch (EntityNotFoundException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        } else {
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(
-                            "Profile successfully saved", "Success"));
-        } catch (EntityNotFoundException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
-        } catch (TransactionException e) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
+                            "Please fill out the required fields",
+                            "Information"));
         }
+
     }
 
     // GH length validator for this data needed in the UI

@@ -27,6 +27,7 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -67,6 +68,10 @@ public class LeaveTenantAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         try {
             userFacade.leaveTenant(userId, tenantId);
+            Main.getCurrent().getMainWindow()
+                    .addWindow(
+                            new InformationDialogComponent("Tenant left",
+                                    "Informatio"));
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

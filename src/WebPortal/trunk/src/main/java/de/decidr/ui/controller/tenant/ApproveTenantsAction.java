@@ -23,7 +23,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -33,6 +32,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.ui.beans.TenantWithAdminViewBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -70,16 +70,16 @@ public class ApproveTenantsAction implements ClickListener {
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> tenants = new ArrayList<Long>();
-        List<Item> itemList = new ArrayList<Item>();
-        Set<?> value = (Set<?>) table.getValue();
+        Set<TenantWithAdminViewBean> value = (Set<TenantWithAdminViewBean>) table.getValue();
+        List<TenantWithAdminViewBean> itemList = new ArrayList<TenantWithAdminViewBean>(value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                tenants.add((Long) item.getItemProperty("id").getValue());
-                itemList.add(item);
+                TenantWithAdminViewBean tenantWithAdminViewBean = (TenantWithAdminViewBean) iter.next();
+                tenants.add(tenantWithAdminViewBean.getId());
             }
         }
 
@@ -89,11 +89,9 @@ public class ApproveTenantsAction implements ClickListener {
                     new InformationDialogComponent(
                             "Tenant(s) successfully approved!", "Success"));
 
-            for (Item item : itemList) {
-                table.removeItem(item);
+            for (TenantWithAdminViewBean tenantWithAdminView : itemList) {
+                table.removeItem(tenantWithAdminView);
             }
-
-            table.requestRepaint();
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

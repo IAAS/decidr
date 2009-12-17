@@ -27,6 +27,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
@@ -62,14 +63,13 @@ public class CreateWorkflowModelAction implements ClickListener {
     UIDirector uiDirector = Main.getCurrent().getUIDirector();
     SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    
     /**
      * Constructor
-     *
+     * 
      * @param textField
-     *          contains name of the new wfm
+     *            contains name of the new wfm
      * @param table
-     *          the table with wfms, where the new one will be added
+     *            the table with wfms, where the new one will be added
      */
     public CreateWorkflowModelAction(TextField textField, Table table) {
         this.table = table;
@@ -93,9 +93,9 @@ public class CreateWorkflowModelAction implements ClickListener {
                     name.getValue().toString());
             Main.getCurrent().getMainWindow().removeWindow(
                     event.getButton().getWindow());
-            Item item = workflowModelFacade.getWorkflowModel(workflowModelId);
-            table.addItem(item);
-            table.requestRepaint();
+            WorkflowModel workflowModel = workflowModelFacade
+                    .getWorkflowModel(workflowModelId);
+            table.addItem(workflowModel);
 
             siteFrame.setContent(new ModelingTool(workflowModelId));
         } catch (TransactionException exception) {

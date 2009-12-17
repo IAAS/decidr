@@ -30,6 +30,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.ProfileSettingsComponent;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -44,11 +45,19 @@ public class ChangeStatusAction implements ValueChangeListener {
 
     private HttpSession session = Main.getCurrent().getSession();
 
-    private Long userId = (Long) session.getAttribute("userId");
+    private Long userId = null;
     private Role role = (Role) session.getAttribute("role");
     private UserFacade userFacade = new UserFacade(role);
 
     private ProfileSettingsComponent content = null;
+    
+    /**
+     * TODO: add comment
+     *
+     */
+    public ChangeStatusAction(Long userId) {
+        this.userId = userId;
+    }
 
     /*
      * (non-Javadoc)
@@ -64,6 +73,10 @@ public class ChangeStatusAction implements ValueChangeListener {
         if (content.getStatus().booleanValue()) {
             try {
                 userFacade.setUnavailableSince(userId, new Date());
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Status successfully changed to unavailable",
+                                "Information"));
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
@@ -71,6 +84,10 @@ public class ChangeStatusAction implements ValueChangeListener {
         } else {
             try {
                 userFacade.setUnavailableSince(userId, null);
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Status successfully changed to available",
+                                "Information"));
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

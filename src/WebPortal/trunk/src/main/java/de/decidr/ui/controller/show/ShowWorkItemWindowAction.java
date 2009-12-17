@@ -22,7 +22,6 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -30,10 +29,12 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+import de.decidr.ui.beans.WorkItemSummaryViewBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -82,12 +83,12 @@ public class ShowWorkItemWindowAction implements ClickListener {
 		Set<?> value = (Set<?>) table.getValue();
 		if ((value != null) && (value.size() == 1)) {
 			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-				Item item = (Item) iter.next();
-				workItemId = (Long) item.getItemProperty("id").getValue();
+				WorkItemSummaryViewBean workItemSummaryViewBean = (WorkItemSummaryViewBean) iter.next();
+				workItemId = workItemSummaryViewBean.getId();
 				try {
-					Item workItem = workItemFacade
+					WorkItem workItem = workItemFacade
 							.getWorkItemAndMarkAsInProgress(workItemId);
-					ht = (byte[]) workItem.getItemProperty("data").getValue();
+					ht = workItem.getData();
 					tHumanTaskData = TransformUtil.bytesToHumanTask(ht);
 
 					Main.getCurrent().getMainWindow().addWindow(

@@ -21,7 +21,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -35,6 +34,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.ui.beans.TenantBean;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
@@ -94,7 +94,7 @@ public class SwitchTenantAction implements ClickListener {
         if (table.getValue() != null && set.size() == 1) {
             Iterator<?> iter = set.iterator();
             while (iter.hasNext()) {
-                Item item = (Item) iter.next();
+                TenantBean tenantBean = (TenantBean) iter.next();
                 try {
                     session = Main.getCurrent().getSession();
                     userId = (Long) session.getAttribute("userId");
@@ -102,9 +102,8 @@ public class SwitchTenantAction implements ClickListener {
 
                     userFacade = new UserFacade(new UserRole(userId));
 
-                    tenantName = item.getItemProperty("name").getValue()
-                            .toString();
-                    tenantId = (Long) item.getItemProperty("id").getValue();
+                    tenantName = tenantBean.getName();;
+                    tenantId = tenantBean.getId();
 
                     role = userFacade.getUserRoleForTenant(userId, tenantId);
                     Role roleInstance = role.getConstructor(Long.class)

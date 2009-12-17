@@ -26,8 +26,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.controller.show.ShowEditUserAction;
 import de.decidr.ui.controller.show.ShowInviteUserToTenantAction;
-import de.decidr.ui.controller.user.ActivateAccountsAction;
-import de.decidr.ui.controller.user.DeactivateAccountAction;
+import de.decidr.ui.controller.user.AccountActivationAction;
 import de.decidr.ui.controller.user.RemoveUserFromTenantAction;
 import de.decidr.ui.data.UserListContainer;
 import de.decidr.ui.view.tables.UserListTable;
@@ -56,7 +55,6 @@ public class UserListComponent extends CustomComponent {
     private UserListTable userListTable = null;
 
     private Button inviteUserButton = null;
-    private Button promoteToTenantAdminButton = null;
     private Button removeFromTenantButton = null;
     private Button deactivateAccountButton = null;
     private Button activateAccountButton = null;
@@ -79,17 +77,15 @@ public class UserListComponent extends CustomComponent {
         removeFromTenantButton = new Button("Remove from Tenant",
                 new RemoveUserFromTenantAction(userListTable));
         deactivateAccountButton = new Button("Deactivate Account",
-                new DeactivateAccountAction(userListTable));
+                new AccountActivationAction(userListTable));
         activateAccountButton = new Button("Activate Account",
-                new ActivateAccountsAction(userListTable));
+                new AccountActivationAction(userListTable));
         editUserButton = new Button("Edit user", new ShowEditUserAction());
-        promoteToTenantAdminButton = new Button("Promote to Tenant Admin");
         getInviteUserButton().setVisible(true);
         getButtonHorizontalLayout().addComponent(removeFromTenantButton);
         getButtonHorizontalLayout().addComponent(deactivateAccountButton);
         getButtonHorizontalLayout().addComponent(activateAccountButton);
         getButtonHorizontalLayout().addComponent(editUserButton);
-        getButtonHorizontalLayout().addComponent(promoteToTenantAdminButton);
         getVerticalLayout().addComponent(getButtonPanel());
     }
 
@@ -101,9 +97,7 @@ public class UserListComponent extends CustomComponent {
         init();
         removeFromTenantButton = new Button("Remove from Tenant",
                 new RemoveUserFromTenantAction(userListTable));
-        promoteToTenantAdminButton = new Button("Promote to Tenant Admin");
         getButtonHorizontalLayout().addComponent(removeFromTenantButton);
-        getButtonHorizontalLayout().addComponent(promoteToTenantAdminButton);
         getVerticalLayout().addComponent(getButtonPanel());
     }
 

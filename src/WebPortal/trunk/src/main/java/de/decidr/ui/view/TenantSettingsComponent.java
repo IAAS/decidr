@@ -116,10 +116,9 @@ public class TenantSettingsComponent extends CustomComponent {
         tenantDescription = "";
         try {
             tenantName = tenantFacade.getTenant(tenantId).getName();
-            if (tenantFacade.getTenantSettings(tenantId).getItemProperty(
-                    "description").getValue() != null) {
-                tenantDescription = tenantFacade.getTenantSettings(tenantId)
-                        .getItemProperty("description").getValue().toString();
+            if (tenantFacade.getTenant(tenantId).getDescription() != null) {
+                tenantDescription = tenantFacade.getTenant(tenantId)
+                        .getDescription();
             }
             logoId = tenantFacade.getTenant(tenantId).getLogo().getId();
         } catch (TransactionException e) {

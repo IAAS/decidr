@@ -27,6 +27,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowInstanceFacade;
+import de.decidr.ui.beans.WorkflowInstanceBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -71,16 +72,19 @@ public class TerminateWorkflowInstanceAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         if (table.getValue() == null) {
-            Main.getCurrent().getMainWindow()
-                    .addWindow(
-                            new InformationDialogComponent(
-                                    "Please select a workflow instance",
-                                    "Information"));
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please select a running workflow instance",
+                            "Information"));
         } else {
-            Long instanceId = (Long) table.getItem(table.getValue())
-                    .getItemProperty("id").getValue();
+            WorkflowInstanceBean workflowInstance = (WorkflowInstanceBean) table
+                    .getValue();
+            Long instanceId = workflowInstance.getId();
             try {
                 wfiFacade.stopWorkflowInstance(instanceId);
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Workflow instance terminated", "Termination"));
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

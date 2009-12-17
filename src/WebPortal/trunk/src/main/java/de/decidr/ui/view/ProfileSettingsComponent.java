@@ -15,9 +15,9 @@
  */
 package de.decidr.ui.view;
 
-import java.util.Arrays;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Alignment;
@@ -37,8 +37,8 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.entities.User;
 import de.decidr.ui.controller.SaveProfileAction;
-import de.decidr.ui.controller.show.ShowCancelMembershipAction;
 import de.decidr.ui.controller.show.ShowChangeEmailAction;
 import de.decidr.ui.controller.show.ShowChangePasswordAction;
 import de.decidr.ui.controller.show.ShowLeaveTenantDialogAction;
@@ -107,7 +107,7 @@ public class ProfileSettingsComponent extends CustomComponent {
         }
     }
 
-    private Item settingsItem = null;
+    private User user = null;
 
     private Form settingsForm = new Form();
 
@@ -133,27 +133,28 @@ public class ProfileSettingsComponent extends CustomComponent {
     private Button changePasswordLink = null;
     private Button leaveTenantLink = null;
 
-    private Button cancelMembershipLink = null;
-
     private Button saveButton = null;
 
     private CheckBox statusCheckBox = null;
 
+    private Item settingsItem = null;
+    
+    private String[] properties = {"firstName", "lastName", "street", "postalCode", "city" };
+
     /**
      * TODO document
      */
-    public ProfileSettingsComponent(Item item) {
-        this.settingsItem = item;
+    public ProfileSettingsComponent(User user) {
+        this.user = user;
         init();
     }
 
     /**
      * Returns the settings {@link Item} where the information is stored.
      * 
-     * @return settingsItem TODO document
+     * @return settingsItem - the settings item to be returned
      */
     public Item getSettingsItem() {
-
         return settingsItem;
     }
 
@@ -172,10 +173,12 @@ public class ProfileSettingsComponent extends CustomComponent {
      */
     private void init() {
         settingsForm.setWriteThrough(false);
-        settingsForm.setFormFieldFactory(new SettingsFieldFactory());
+        settingsItem = new BeanItem(user.getUserProfile(), properties);
         settingsForm.setItemDataSource(settingsItem);
-        settingsForm.setVisibleItemProperties(Arrays.asList(new String[] {
-                "firstName", "lastName", "street", "postalCode", "city" }));
+        settingsForm.setFormFieldFactory(new SettingsFieldFactory());
+        
+        
+        settingsForm.setVisibleItemProperties(properties);
 
         addressPanel = new Panel();
         buttonPanel = new Panel();
@@ -192,10 +195,8 @@ public class ProfileSettingsComponent extends CustomComponent {
         myProfileLabel.setContentMode(Label.CONTENT_XHTML);
         usernameLabel = new Label("Username: ");
         emailLabel = new Label("Email address: ");
-        usernameNameLabel = new Label((String) settingsItem.getItemProperty(
-                "username").getValue());
-        emailNameLabel = new Label((String) settingsItem.getItemProperty(
-                "email").getValue());
+        usernameNameLabel = new Label(user.getUserProfile().getUsername());
+        emailNameLabel = new Label(user.getEmail());
 
         changeEmailLink = new Button("Change email",
                 new ShowChangeEmailAction());
@@ -206,15 +207,12 @@ public class ProfileSettingsComponent extends CustomComponent {
         leaveTenantLink = new Button("Leave tenant",
                 new ShowLeaveTenantDialogAction());
         leaveTenantLink.setStyleName(Button.STYLE_LINK);
-        cancelMembershipLink = new Button("Cancel membership",
-                new ShowCancelMembershipAction());
-        cancelMembershipLink.setVisible(false);
-        cancelMembershipLink.setStyleName(Button.STYLE_LINK);
 
         saveButton = new Button("Save", new SaveProfileAction());
 
         statusCheckBox = new CheckBox();
-        statusCheckBox.addListener(new ChangeStatusAction());
+        statusCheckBox.setValue(user.getUnavailableSince() != null ? true : false);
+        statusCheckBox.addListener(new ChangeStatusAction(user.getId()));
         statusCheckBox.setImmediate(true);
 
         this.setCompositionRoot(verticalLayout);
@@ -255,10 +253,8 @@ public class ProfileSettingsComponent extends CustomComponent {
         buttonHorizontalLayout.setSpacing(true);
         buttonHorizontalLayout.addComponent(saveButton);
         buttonHorizontalLayout.addComponent(leaveTenantLink);
-        buttonHorizontalLayout.addComponent(cancelMembershipLink);
     }
 
-    // Aleks, GH: make private when no longer needed for testing
     public void saveSettingsItem() {
         try {
             settingsForm.commit();
@@ -276,7 +272,4 @@ public class ProfileSettingsComponent extends CustomComponent {
         return settingsForm;
     }
 
-    public Button getCancelMembershipLink() {
-        return cancelMembershipLink;
-    }
 }

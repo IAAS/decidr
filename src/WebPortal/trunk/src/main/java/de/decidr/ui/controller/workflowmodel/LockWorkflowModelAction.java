@@ -77,9 +77,9 @@ public class LockWorkflowModelAction implements ClickListener {
                 try {
                     Long id = (Long) item.getItemProperty("id").getValue();
                     wfmFacade.setExecutable(id, false);
-                    item.getItemProperty("executable").setValue(
-                            wfmFacade.getWorkflowModel(id).getItemProperty(
-                                    "executable"));
+                    if (!wfmFacade.getWorkflowModel(id).isExecutable()) {
+                        item.getItemProperty("executable").setValue(false);
+                    }
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent("Workflow model \""
                                     + item.getItemProperty("name").getValue()

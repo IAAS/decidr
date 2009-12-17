@@ -104,7 +104,7 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         appointSelf = new TextField();
         appointSelf.setCaption("Username:");
         try {
-            appointSelf.setValue(userFacade.getUserProfile(userId).getItemProperty("username").getValue().toString());
+            appointSelf.setValue(userFacade.getUserProfile(userId).getUserProfile().getUsername());
         } catch (ReadOnlyException e) {
             appointSelf.setValue("");
         } catch (ConversionException e) {

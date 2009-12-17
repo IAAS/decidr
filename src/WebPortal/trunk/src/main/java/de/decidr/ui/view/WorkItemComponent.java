@@ -18,20 +18,14 @@ package de.decidr.ui.view;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
-import de.decidr.model.filters.EqualsFilter;
 import de.decidr.ui.controller.MarkWorkItemAsDoneAction;
 import de.decidr.ui.controller.show.ShowWorkItemWindowAction;
 import de.decidr.ui.data.WorkItemContainer;
@@ -59,16 +53,7 @@ public class WorkItemComponent extends CustomComponent {
     private Label headerLabel = null;
     private Label showWorkItemLabel = null;
 
-    private NativeSelect tenantNativeSelect = null;
-
-    private static final String[] tenants = new String[] { "All tenants",
-            "Current tenant" };
-
     private WorkItemTable workItemTable = null;
-
-    private HttpSession session = null;
-
-    private Long tenantId = null;
 
     private Button markAsDoneButton = null;
 
@@ -100,7 +85,6 @@ public class WorkItemComponent extends CustomComponent {
      * 
      */
     private void init() {
-        session = Main.getCurrent().getSession();
 
         workItemContainer = new WorkItemContainer();
 
@@ -111,40 +95,6 @@ public class WorkItemComponent extends CustomComponent {
         headerLabel = new Label("<h2>My Work Items</h2>");
         headerLabel.setContentMode(Label.CONTENT_XHTML);
         showWorkItemLabel = new Label("Show Work Items from: ");
-
-        tenantNativeSelect = new NativeSelect();
-        tenantNativeSelect.setImmediate(true);
-        for (int i = 0; i < tenants.length; i++) {
-            tenantNativeSelect.addItem(tenants[i]);
-        }
-        tenantNativeSelect.addListener(new Property.ValueChangeListener() {
-
-            /**
-             * Serial version uid
-             */
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-
-                if (tenantNativeSelect.isSelected("Current Tenant")) {
-
-                    tenantId = (Long) session.getAttribute("tenantId");
-                    EqualsFilter filter = new EqualsFilter(true,
-                            "workflowInstance.deployedWorkflowModel.tenant.id",
-                            tenantId);
-                    ((WorkItemContainer) workItemTable.getContainerDataSource())
-                            .applyFilter(filter);
-
-                } else {
-                    EqualsFilter filter = new EqualsFilter(true, "", "");
-                    ((WorkItemContainer) workItemTable.getContainerDataSource())
-                            .applyFilter(filter);
-                }
-
-            }
-
-        });
 
         workItemTable = new WorkItemTable(workItemContainer);
 
@@ -159,9 +109,7 @@ public class WorkItemComponent extends CustomComponent {
         verticalLayout.setSpacing(true);
 
         searchPanel.getSearchHorizontalLayout().addComponent(showWorkItemLabel);
-        searchPanel.getSearchHorizontalLayout()
-                .addComponent(tenantNativeSelect);
-
+        
         verticalLayout.addComponent(tablePanel);
         tablePanel.addComponent(workItemTable);
 
