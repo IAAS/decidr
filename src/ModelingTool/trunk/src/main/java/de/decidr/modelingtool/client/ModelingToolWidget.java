@@ -195,7 +195,7 @@ public class ModelingToolWidget extends Composite implements
      */
     public void setScrollPanelSize(int width, int height) {
         // JS check if this works
-        scrollPanel.setSize(height + "px", width + "px");
+        scrollPanel.setSize(width + "px", height + "px");
         // Set workflow canvas initially to the same size so that it fits the
         // scrollpanel
         Workflow.getInstance().setSize(width, height);

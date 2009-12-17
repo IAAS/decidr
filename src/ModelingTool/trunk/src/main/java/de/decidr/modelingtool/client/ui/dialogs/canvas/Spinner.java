@@ -107,7 +107,6 @@ public class Spinner extends HorizontalPanel {
         textBox.setWidth(((Integer) max).toString().length() + "em");
 
         textBox.addKeyPressHandler(new KeyPressHandler() {
-
             @Override
             public void onKeyPress(KeyPressEvent event) {
                 int cursorPos = textBox.getCursorPos();
@@ -132,14 +131,11 @@ public class Spinner extends HorizontalPanel {
                             + " " + Workflow.MAX_SIZE + "!");
                     return;
                 }
-
                 value = newValue;
             }
-
         });
 
         add(textBox);
-
     }
 
     private void createButtons() {
