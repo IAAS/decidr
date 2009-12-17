@@ -36,7 +36,7 @@ import de.decidr.model.DecidrGlobals;
 public class HumanTaskClientStatic extends Service {
 
     public HumanTaskClientStatic() throws MalformedURLException {
-        // DH RR XXX revert once the ESB works
+        // XXX revert once the ESB works
         this(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
                         + HumanTaskInterface.PORT_NAME)),

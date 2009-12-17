@@ -33,7 +33,7 @@ import javax.xml.ws.WebServiceFeature;
 public class BasicProcessClient extends Service {
 
     public BasicProcessClient() throws MalformedURLException {
-        // RR, DH, XXX: revert when ESB works
+        // XXX: revert when ESB works
         // this(new URL(DecidrGlobals
         // .getWebServiceWsdlUrl(BasicProcessInterface.SERVICE_NAME)),
         // BasicProcessInterface.SERVICE);

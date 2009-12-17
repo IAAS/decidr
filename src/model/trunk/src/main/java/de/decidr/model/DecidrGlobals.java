@@ -293,10 +293,11 @@ public class DecidrGlobals {
             throw new IllegalArgumentException(
                     "Web service name must not be null or empty");
         }
+
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
         /*
-         * RR DH workaround until the ESB is re-integrated: use Axis2 server
+         * XXX workaround until the ESB is re-integrated: use Axis2 server
          * location as the ESB location (by changing the corresponding database
          * entry) and append "/axis2/services/" instead of "/soap/".
          * 

@@ -35,7 +35,7 @@ import de.decidr.model.DecidrGlobals;
 public class DynamicClients {
 
     public static EmailInterface getEmailClient() throws MalformedURLException {
-        // DH RR XXX revert once the ESB works
+        // XXX revert once the ESB works
         Service service = Service.create(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
                         + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
@@ -44,7 +44,7 @@ public class DynamicClients {
 
     public static EmailInterface getEmailClient(WebServiceFeature... features)
             throws MalformedURLException {
-        // DH RR XXX revert once the ESB works
+        // XXX revert once the ESB works
         Service service = Service.create(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
                         + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
@@ -54,7 +54,7 @@ public class DynamicClients {
 
     public static HumanTaskInterface getHumanTaskClient()
             throws MalformedURLException {
-        // DH RR XXX revert once the ESB works
+        // XXX revert once the ESB works
         Service service = Service.create(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
                         + HumanTaskInterface.PORT_NAME)),
@@ -65,7 +65,7 @@ public class DynamicClients {
 
     public static HumanTaskInterface getHumanTaskClient(
             WebServiceFeature... features) throws MalformedURLException {
-        // DH RR XXX revert once the ESB works
+        // XXX revert once the ESB works
         Service service = Service.create(new URL(DecidrGlobals
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
                         + HumanTaskInterface.PORT_NAME)),

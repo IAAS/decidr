@@ -52,10 +52,10 @@ public interface HumanTaskInterface {
     public static final String PORT_NAME = "HumanTaskSOAP11";
     public static final String ENDPOINT_NAME = "HumanTaskProxyHttpSoap11Endpoint";
     public static final String TARGET_NAMESPACE = "http://decidr.de/webservices/HumanTask";
-    // DH RR XXX revert once the ESB works
+    // XXX revert once the ESB works
     public final static QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME);
-    // DH RR XXX revert once the ESB works
+    // XXX revert once the ESB works
     public final static QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
 
     /**
@@ -89,7 +89,7 @@ public interface HumanTaskInterface {
     @WebMethod(operationName = "createTask", action = "urn:createTask")
     @RequestWrapper(localName = "createTask", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.CreateTask")
     @ResponseWrapper(localName = "createTaskResponse", targetNamespace = TARGET_NAMESPACE, className = "de.decidr.model.webservices.CreateTaskResponse")
-    @WebResult(name="taskID")
+    @WebResult(name = "taskID")
     public Long createTask(@WebParam(name = "wfmID") long wfmID,
             @WebParam(name = "processID") String processID,
             @WebParam(name = "userID") long userID,
