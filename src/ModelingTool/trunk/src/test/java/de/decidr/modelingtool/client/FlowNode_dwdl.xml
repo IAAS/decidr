@@ -31,7 +31,6 @@
 		port, the email is connected with container exit port
 	-->
 
-
 <workflow name="Simple Workflow" id="1256287630390"
 	targetNamespace="namespace" xmlns="schema">
 	<description></description>
@@ -285,11 +284,10 @@
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull">
-						<parameter>
-							<humanTaskData />
-						</parameter>
-					</getProperty>
+					<getProperty name="taskResult" variable="Lnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
 				</invokeNode>
 			</nodes>
 			<arcs>

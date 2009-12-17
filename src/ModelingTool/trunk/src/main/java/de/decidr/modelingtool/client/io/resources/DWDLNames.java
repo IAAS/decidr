@@ -93,7 +93,7 @@ public class DWDLNames {
 
     /* human task invoke node */
     public static String decidrHumanTask = "Decidr-HumanTask";
-    public static String wfId = "wfmID";
+    public static String wfmId = "wfmID";
     public static String user = "user";
     public static String humanTaskData = "humanTaskData";
     public static String taskItem = "taskItem";
