@@ -24,53 +24,77 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
  */
 // MA: You've used that outdated definition of the email an HT WS' again. Please
 // update both them and the contents of this file!
-public class PropertyConstants {
+public final class PropertyConstants {
 
-    static class Email {
+    public static class Email {
+        
         /**
-         * This property accepts an actor, a role or an email address. The email
-         * address can be set with the propertyValue element.
+         * This property accepts a rolet.
          */
         public static final String TO = "to";
+        
+        /**
+         * This property accepts an actor.
+         */
+        public static final String TOACTOR = "toActor";
 
         /**
-         * This property accepts an actor, a role or an email address. The email
-         * address can be set with the propertyValue element.
+         * This property accepts a role
          */
         public static final String CC = "cc";
 
         /**
-         * This property accepts an actor, a role or an email address. The email
-         * address can be set with the propertyValue element.
+         * This property accepts a role
          */
         public static final String BCC = "bcc";
+        
+        /**
+         * This property accepts simple string name
+         */
+        public static final String FROM = "fromName";
+        
+        /**
+         * This property accepts simple string address
+         */
+        public static final String FROMADRESS = "fromAddress";
 
         /**
          * The subject of the email
          */
         public static final String SUBJECT = "subject";
+        
+        /**
+         * The headers of the email
+         */
+        public static final String HEADERS = "headers";
 
         /**
-         * The message of the email<br>
-         * MA: There is no "message" parameter in the EmailWS
+         * The message of the email
          */
         public static final String MESSAGE = "message";
+        
+        /**
+         * The message of the email as HTML
+         */
+        public static final String MESSAGEHTML = "messageHTML";
 
         /**
-         * This property accepts an actor, a role or an email addresses. The
-         * email address can be set with the propertyValue element.<br>
-         * MA: I'm pretty sure it doesn't - only a fileID - and it's
-         * "attachments" as it is a list
+         * This property accepts a file ID
          */
         public static final String ATTACHEMENT = "attachment";
     }
 
-    static class Humantask {
+    public static class Humantask {
         /**
          * The ID of the workflow. Usually this property refers to a variable
          * which by default holds the id of the workflow.
          */
         public static final String WFMID = "wfmID";
+        
+        /**
+         * The current process ID set by Apache ODE
+         */
+        public static final String PROCESSID = "processID";
 
         /**
          * The user who has been assigned to this task. This property usually
@@ -108,12 +132,12 @@ public class PropertyConstants {
         public static final String TASKRESULT = "taskResult";
         
         /**
-         * This property contains the actual human task definition
+         * The actual HumanTask definition as XML
          */
         public static final String TASKDATA = "taskData";
     }
 
-    static class FaultHandler {
+    public static class FaultHandler {
 
         /**
          * This property sets the message, which will be sent to the recipient.
@@ -121,7 +145,7 @@ public class PropertyConstants {
         public static final String MESSAGE = "message";
     }
 
-    static class Recipient {
+    public static class Recipient {
 
         /**
          * The name of the recipient. This property is optional.
@@ -135,7 +159,7 @@ public class PropertyConstants {
         public static final String TO = "to";
     }
 
-    static class Notification {
+    public static class Notification {
 
         /**
          * The message sent when the workflow completes successfully.

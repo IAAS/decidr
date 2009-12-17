@@ -23,6 +23,8 @@ import javax.xml.namespace.QName;
 import de.decidr.model.webservices.EmailInterface;
 import de.decidr.model.webservices.HumanTaskInterface;
 import de.decidr.model.workflowmodel.dwdl.transformation.BPELConstants;
+import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
+import de.decidr.model.workflowmodel.dwdl.transformation.PropertyConstants;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.webservices.ObjectFactory;
 import de.decidr.model.workflowmodel.webservices.PLTInfo;
@@ -45,157 +47,157 @@ public class MappingFactory {
         WebserviceMapping email = new WebserviceMapping();
 
         // setting email mappings
-        email.setActivity("Decidr-Email");
+        email.setActivity(BPELConstants.Email.NAME);
         email.setPortType(EmailInterface.PORT_TYPE_NAME);
         email.setOperation("sendEmail");
         email.setBinding(EmailInterface.BINDING_NAME);
         PLTInfo partnerlinktype = new PLTInfo();
-        partnerlinktype.setName("EmailPLT");
-        partnerlinktype.setPartnerRole("EmailProvider");
+        partnerlinktype.setName(BPELConstants.Email.NAME + "PLT");
+        partnerlinktype.setPartnerRole(BPELConstants.Email.NAME + "Provider");
         email.setPartnerLinkType(partnerlinktype);
         email.setService(EmailInterface.SERVICE_NAME);
         email.setServicePort(EmailInterface.PORT_NAME);
 
+        QName createEmailRequest = new QName(EmailInterface.TARGET_NAMESPACE,
+                "sendEmailRequest");
+
         Property to = new Property();
-        to.setName("to");
-        to.setType(new QName("http://decidr.de/schema/DecidrTypes",
-                "tAbstractUserList"));
+        to.setName(PropertyConstants.Email.TO);
+        to.setType(new QName(Constants.DECIDRTYPES_NAMESPACE, "tRole"));
 
         Property cc = new Property();
-        cc.setName("cc");
-        cc.setType(new QName("http://decidr.de/schema/DecidrTypes",
-                "tAbstractUserList"));
+        cc.setName(PropertyConstants.Email.CC);
+        cc.setType(new QName(Constants.DECIDRTYPES_NAMESPACE, "tRole"));
 
         Property bcc = new Property();
-        bcc.setName("bcc");
-        bcc.setType(new QName("http://decidr.de/schema/DecidrTypes",
-                "tAbstractUserList"));
+        bcc.setName(PropertyConstants.Email.BCC);
+        bcc.setType(new QName(Constants.DECIDRTYPES_NAMESPACE, "tRole"));
 
         Property fromName = new Property();
-        fromName.setName("fromName");
+        fromName.setName(PropertyConstants.Email.FROM);
         fromName
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
         Property fromAddress = new Property();
-        fromAddress.setName("fromAddress");
+        fromAddress.setName(PropertyConstants.Email.FROMADRESS);
         fromAddress.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,
                 "string"));
 
         Property subject = new Property();
-        subject.setName("subject");
+        subject.setName(PropertyConstants.Email.SUBJECT);
         subject
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
         Property headers = new Property();
-        headers.setName("headers");
-        headers.setType(new QName("http://decidr.de/schema/DecidrTypes",
+        headers.setName(PropertyConstants.Email.HEADERS);
+        headers.setType(new QName(Constants.DECIDRWSTYPES_NAMESPACE,
                 "tStringMap"));
 
         Property bodyTXT = new Property();
-        bodyTXT.setName("message");
+        bodyTXT.setName(PropertyConstants.Email.MESSAGE);
         bodyTXT
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
         Property bodyHTML = new Property();
-        bodyHTML.setName("bodyHTML");
+        bodyHTML.setName(PropertyConstants.Email.MESSAGEHTML);
         bodyHTML
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
         Property attachments = new Property();
-        attachments.setName("attachments");
-        attachments.setType(new QName("http://decidr.de/schema/DecidrTypes",
+        attachments.setName(PropertyConstants.Email.ATTACHEMENT);
+        attachments.setType(new QName(Constants.DECIDRTYPES_NAMESPACE,
                 "tIDList"));
 
-        Query to_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:to");
-
-        Query cc_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:cc");
-
-        Query bcc_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:bcc");
-
-        Query fromName_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:fromName");
-
-        Query fromAddress_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:fromAddress");
-
-        Query subject_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:subject");
-
-        Query headers_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:headers");
-
-        Query bodyTXT_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:bodyTXT");
-
-        Query bodyHTML_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:bodyHTML");
-
-        Query attachments_Query = new Query();
-        to_Query.getContent().add("/tns:sendEmail/tns:attachments");
-
-        QName createEmailRequest = new QName(EmailInterface.TARGET_NAMESPACE,
-                "sendEmailRequest");
         PropertyAlias to_Alias = new PropertyAlias();
-        to_Alias.setPropertyName(new QName(to.getName()));
+        to_Alias.setPropertyName(new QName(EmailInterface.TARGET_NAMESPACE, to
+                .getName()));
         to_Alias.setMessageType(createEmailRequest);
+        to_Alias.setPart("parameters");
         to_Alias.setType(to.getType());
+        Query to_Query = new Query();
+        to_Query.getContent().add("/to/role");
         to_Alias.setQuery(to_Query);
 
         PropertyAlias cc_Alias = new PropertyAlias();
-        cc_Alias.setPropertyName(new QName(cc.getName()));
+        cc_Alias.setPropertyName(new QName(EmailInterface.TARGET_NAMESPACE, cc
+                .getName()));
         cc_Alias.setMessageType(createEmailRequest);
+        to_Alias.setPart("parameters");
         cc_Alias.setType(cc.getType());
+        Query cc_Query = new Query();
+        cc_Query.getContent().add("/cc/role");
         cc_Alias.setQuery(cc_Query);
 
         PropertyAlias bcc_Alias = new PropertyAlias();
-        bcc_Alias.setPropertyName(new QName(bcc.getName()));
+        bcc_Alias.setPropertyName(new QName(EmailInterface.TARGET_NAMESPACE,
+                bcc.getName()));
         bcc_Alias.setMessageType(createEmailRequest);
         bcc_Alias.setType(bcc.getType());
+        Query bcc_Query = new Query();
+        bcc_Query.getContent().add("/bcc/role");
         bcc_Alias.setQuery(bcc_Query);
 
         PropertyAlias fromName_Alias = new PropertyAlias();
-        fromName_Alias.setPropertyName(new QName(fromName.getName()));
+        fromName_Alias.setPropertyName(new QName(
+                EmailInterface.TARGET_NAMESPACE, fromName.getName()));
         fromName_Alias.setMessageType(createEmailRequest);
         fromName_Alias.setType(fromName.getType());
+        Query fromName_Query = new Query();
+        fromName_Query.getContent().add("/fromName");
         fromName_Alias.setQuery(fromName_Query);
 
         PropertyAlias fromAddress_Alias = new PropertyAlias();
-        fromAddress_Alias.setPropertyName(new QName(fromAddress.getName()));
+        fromAddress_Alias.setPropertyName(new QName(
+                EmailInterface.TARGET_NAMESPACE, fromAddress.getName()));
         fromAddress_Alias.setMessageType(createEmailRequest);
         fromAddress_Alias.setType(fromAddress.getType());
+        Query fromAddress_Query = new Query();
+        fromAddress_Query.getContent().add("/fromAddress");
         fromAddress_Alias.setQuery(fromAddress_Query);
 
         PropertyAlias subject_Alias = new PropertyAlias();
-        subject_Alias.setPropertyName(new QName(subject.getName()));
+        subject_Alias.setPropertyName(new QName(
+                EmailInterface.TARGET_NAMESPACE, subject.getName()));
         subject_Alias.setMessageType(createEmailRequest);
         subject_Alias.setType(subject.getType());
+        Query subject_Query = new Query();
+        subject_Query.getContent().add("/subject");
         subject_Alias.setQuery(subject_Query);
 
         PropertyAlias headers_Alias = new PropertyAlias();
-        headers_Alias.setPropertyName(new QName(headers.getName()));
+        headers_Alias.setPropertyName(new QName(
+                EmailInterface.TARGET_NAMESPACE, headers.getName()));
         headers_Alias.setMessageType(createEmailRequest);
         headers_Alias.setType(headers.getType());
+        Query headers_Query = new Query();
+        headers_Query.getContent().add("/headers");
         headers_Alias.setQuery(headers_Query);
 
         PropertyAlias bodyTXT_Alias = new PropertyAlias();
-        bodyTXT_Alias.setPropertyName(new QName(bodyTXT.getName()));
+        bodyTXT_Alias.setPropertyName(new QName(
+                EmailInterface.TARGET_NAMESPACE, bodyTXT.getName()));
         bodyTXT_Alias.setMessageType(createEmailRequest);
         bodyTXT_Alias.setType(bodyTXT.getType());
+        Query bodyTXT_Query = new Query();
+        bodyTXT_Query.getContent().add("/bodyTXT");
         bodyTXT_Alias.setQuery(bodyTXT_Query);
 
         PropertyAlias bodyHTML_Alias = new PropertyAlias();
-        bodyHTML_Alias.setPropertyName(new QName(bodyHTML.getName()));
+        bodyHTML_Alias.setPropertyName(new QName(
+                EmailInterface.TARGET_NAMESPACE, bodyHTML.getName()));
         bodyHTML_Alias.setMessageType(createEmailRequest);
         bodyHTML_Alias.setType(bodyHTML.getType());
+        Query bodyHTML_Query = new Query();
+        bodyHTML_Query.getContent().add("/bodyHTML");
         bodyHTML_Alias.setQuery(bodyHTML_Query);
 
         PropertyAlias attachments_Alias = new PropertyAlias();
-        attachments_Alias.setPropertyName(new QName(attachments.getName()));
+        attachments_Alias.setPropertyName(new QName(
+                EmailInterface.TARGET_NAMESPACE, attachments.getName()));
         attachments_Alias.setMessageType(createEmailRequest);
         attachments_Alias.setType(attachments.getType());
+        Query attachments_Query = new Query();
+        attachments_Query.getContent().add("/attachments");
         attachments_Alias.setQuery(attachments_Query);
 
         Properties emailProperties = new Properties();
@@ -238,26 +240,25 @@ public class MappingFactory {
         WebserviceMapping humanTask = factory.createWebserviceMapping();
 
         // setting HumanTask mapping
-        humanTask.setActivity("Decidr-HumanTask");
+        humanTask.setActivity(BPELConstants.Humantask.NAME);
         humanTask.setPortType(HumanTaskInterface.PORT_TYPE_NAME);
         humanTask.setOperation("createTask");
         humanTask.setBinding(HumanTaskInterface.BINDING_NAME);
         PLTInfo partnerlinktype = new PLTInfo();
-        partnerlinktype.setName("HumanTaskPLT");
-        partnerlinktype.setMyRole("HumanTaskClient");
-        partnerlinktype.setPartnerRole("HumanTaskProvider");
+        partnerlinktype.setName(BPELConstants.Humantask.NAME+"PLT");
+        partnerlinktype.setMyRole(BPELConstants.Humantask.NAME+"Client");
+        partnerlinktype.setPartnerRole(BPELConstants.Humantask.NAME+"Provider");
         humanTask.setPartnerLinkType(partnerlinktype);
         humanTask.setService(HumanTaskInterface.SERVICE_NAME);
         humanTask.setServicePort(HumanTaskInterface.PORT_NAME);
 
         Property wfmID = new Property();
-        wfmID.setName("wfmID");
-        wfmID.setType(new QName("http://decidr.de/schema/DecidrTypes", "tID"));
+        wfmID.setName(PropertyConstants.Humantask.WFMID);
+        wfmID.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long"));
 
         Property processID = new Property();
-        processID.setName("processID");
-        processID.setType(new QName("http://decidr.de/schema/DecidrTypes",
-                "tID"));
+        processID.setName(PropertyConstants.Humantask.TASKDATA);
+        processID.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
         Property userID = new Property();
         userID.setName("userID");
@@ -300,7 +301,8 @@ public class MappingFactory {
         taskName_Query.getContent().add("/tns:createTask/tns:taskName");
 
         Query userNotification_Query = new Query();
-        userNotification_Query.getContent().add("/tns:createTask/tns:userNotification");
+        userNotification_Query.getContent().add(
+                "/tns:createTask/tns:userNotification");
 
         Query description_Query = new Query();
         description_Query.getContent().add("/tns:createTask/tns:description");
@@ -393,5 +395,12 @@ public class MappingFactory {
     public static byte[] getHumanTaskMappingBytes() throws JAXBException {
         WebserviceMapping mapping = getHumanTaskMapping();
         return TransformUtil.mappingToBytes(mapping);
+    }
+
+    public static void main(String main[]) throws JAXBException {
+        String emailMappingString = new String(getEmailMappingBytes());
+        System.out.println(emailMappingString);
+        String humantaskMappingString = new String(getHumanTaskMappingBytes());
+        System.out.println(humantaskMappingString);
     }
 }
