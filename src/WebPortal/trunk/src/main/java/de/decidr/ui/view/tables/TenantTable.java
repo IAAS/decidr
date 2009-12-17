@@ -22,6 +22,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.TenantContainer;
 
 /**
  * This table holds the tenants as {@link Item items}.
@@ -37,12 +38,7 @@ public class TenantTable extends Table {
 
     private final int TABLE_PAGE_LENGTH = 10;
     
-    public static final Object[] NAT_COL_ORDER = new Object[] {
-            "adminFirstName", "adminLastName", "numDeployedWorkflowModels",
-            "numMembers", "numWorkflowInstances" };
-
-    public static final String[] COL_HEADERS = new String[] { "First name",
-            "Last name", "#Deployed Models", "#Members", "#Instances" };
+    
 
     /**
      * Default constructor with container which is set as data source.<br>
@@ -60,14 +56,8 @@ public class TenantTable extends Table {
         setSizeFull();
         setContainerDataSource(tenantContainer);
 
-        addContainerProperty("adminFirstName", String.class, null);
-        addContainerProperty("adminLastName", String.class, null);
-        addContainerProperty("numDeployedWorkflowModels", Long.class, null);
-        addContainerProperty("numWorkflowInstances", Long.class, null);
-        addContainerProperty("numMembers", Long.class, null);
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(TenantContainer.NAT_COL_ORDER);
+        setColumnHeaders(TenantContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(false);
         setPageLength(TABLE_PAGE_LENGTH);

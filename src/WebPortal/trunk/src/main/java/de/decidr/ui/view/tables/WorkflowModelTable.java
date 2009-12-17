@@ -21,6 +21,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.WorkflowModelContainer;
 
 /**
  * This class represents the workflow model UI component. It will be connected
@@ -37,11 +38,6 @@ public class WorkflowModelTable extends Table {
 
     private Container container = null;
 
-    public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
-            "creationDate", "published", "executable" };
-
-    public static final String[] COL_HEADERS = new String[] { "ID", "Name",
-            "Creation Date", "Published", "Locked" };
 
     /**
      * @param container
@@ -59,14 +55,8 @@ public class WorkflowModelTable extends Table {
         setSizeFull();
         setContainerDataSource(container);
 
-        addContainerProperty("id", Long.class, null);
-        addContainerProperty("name", String.class, null);
-        addContainerProperty("creationDate", String.class, null);
-        addContainerProperty("published", Boolean.class, null);
-        addContainerProperty("executable", Boolean.class, null);
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(WorkflowModelContainer.NAT_COL_ORDER);
+        setColumnHeaders(WorkflowModelContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
         setPageLength(TABLE_PAGE_LENGTH);

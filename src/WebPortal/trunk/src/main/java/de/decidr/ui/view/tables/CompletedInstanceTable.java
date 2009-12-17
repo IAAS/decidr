@@ -15,8 +15,6 @@
  */
 package de.decidr.ui.view.tables;
 
-import java.util.Date;
-
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
@@ -40,11 +38,7 @@ public class CompletedInstanceTable extends Table {
 
     private Container workflowInstanceContainer = null;
 
-    public static final Object[] NAT_COL_ORDER = new Object[] { "model",
-            "startedDate", "completedDate" };
-
-    public static final String[] COL_HEADERS = new String[] { "Model",
-            "Started Date", "Completed Date" };
+   
 
     /**
      * The table is added as an observer to the container.
@@ -64,12 +58,9 @@ public class CompletedInstanceTable extends Table {
     private void init() {
         setSizeFull();
         setContainerDataSource(workflowInstanceContainer);
-        addContainerProperty("model", String.class, null);
-        addContainerProperty("startedDate", Date.class, null);
-        addContainerProperty("completedDate", Date.class, null);
 
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(CompletedInstancesContainer.NAT_COL_ORDER);
+        setColumnHeaders(CompletedInstancesContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
         setPageLength(TABLE_PAGE_LENGTH);

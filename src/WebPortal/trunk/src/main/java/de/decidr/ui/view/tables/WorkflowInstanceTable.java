@@ -21,6 +21,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.WorkflowInstanceContainer;
 
 /**
  * This class represents the workflow instance ui component. It will be filled
@@ -34,12 +35,6 @@ public class WorkflowInstanceTable extends Table {
     private static final long serialVersionUID = -4395559171091884350L;
 
     private Container workflowInstanceContainer = null;
-
-    public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
-            "description" };
-
-    public static final String[] COL_HEADERS = new String[] { "ID", "Name",
-            "Description" };
 
     /**
      * Default constructor.
@@ -59,12 +54,8 @@ public class WorkflowInstanceTable extends Table {
         setSizeFull();
         setContainerDataSource(workflowInstanceContainer);
 
-        addContainerProperty("id", Long.class, null);
-        addContainerProperty("name", String.class, null);
-        addContainerProperty("description", String.class, null);
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(WorkflowInstanceContainer.NAT_COL_ORDER);
+        setColumnHeaders(WorkflowInstanceContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(false);
 

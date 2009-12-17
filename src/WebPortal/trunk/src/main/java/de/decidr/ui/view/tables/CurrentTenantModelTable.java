@@ -21,6 +21,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.CurrentTenantContainer;
 
 /**
  * This table holds the current tenant items. It is integrated into a component.
@@ -35,10 +36,7 @@ public class CurrentTenantModelTable extends Table {
 
     private final int TABLE_PAGE_LENGTH = 8;
     
-    public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name" };
-
-    public static final String[] COL_HEADERS = new String[] { "ID", "Name" };
-
+    
     /**
      * Adds this table as an observer to the depending container.<br>
      * Aleks, GH: obviously incorrect usage of the expression "depending" -
@@ -56,11 +54,8 @@ public class CurrentTenantModelTable extends Table {
         setSizeFull();
         setContainerDataSource(currentTenantContainer);
 
-        addContainerProperty("id", Long.class, null);
-        addContainerProperty("name", String.class, null);
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(CurrentTenantContainer.NAT_COL_ORDER);
+        setColumnHeaders(CurrentTenantContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
         setPageLength(TABLE_PAGE_LENGTH);

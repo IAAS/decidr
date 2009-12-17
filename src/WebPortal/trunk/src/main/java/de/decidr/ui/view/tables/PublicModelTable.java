@@ -16,13 +16,12 @@
 
 package de.decidr.ui.view.tables;
 
-import java.util.Date;
-
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.PublicModelContainer;
 
 /**
  * This table contains the public workflow models as items.
@@ -38,11 +37,6 @@ public class PublicModelTable extends Table {
 
     private final int TABLE_PAGE_LENGTH = 7;
     
-    public static final Object[] NAT_COL_ORDER = new Object[] { "name",
-            "modifiedDate", "tenantName" };
-
-    public static final String[] COL_HEADERS = new String[] { "Name",
-            "Modified Date", "Tenant Name" };
 
     /**
      * Default constructor. Adds this table as an observer to the container
@@ -63,12 +57,8 @@ public class PublicModelTable extends Table {
         setSizeFull();
         setContainerDataSource(publicModelContainer);
 
-        addContainerProperty("name", String.class, null);
-        addContainerProperty("modifiedDate", Date.class, null);
-        addContainerProperty("tenantName", String.class, null);
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(PublicModelContainer.NAT_COL_ORDER);
+        setColumnHeaders(PublicModelContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
         setPageLength(TABLE_PAGE_LENGTH);

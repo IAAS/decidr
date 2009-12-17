@@ -15,13 +15,12 @@
  */
 package de.decidr.ui.view.tables;
 
-import java.util.Date;
-
 import com.vaadin.data.Container;
 import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.RunningInstanceContainer;
 
 /**
  * This table holds the running workflow instances as items.
@@ -37,11 +36,7 @@ public class RunningInstanceTable extends Table {
     
     private Container runningInstanceContainer = null;
 
-    public static final Object[] NAT_COL_ORDER = new Object[] { "model",
-            "startedDate" };
-
-    public static final String[] COL_HEADERS = new String[] { "Model",
-            "Started Date" };
+    
 
     /**
      * Default constructor.
@@ -61,11 +56,8 @@ public class RunningInstanceTable extends Table {
         setSizeFull();
         setContainerDataSource(runningInstanceContainer);
 
-        addContainerProperty("model", String.class, null);
-        addContainerProperty("startedDate", Date.class, null);
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(RunningInstanceContainer.NAT_COL_ORDER);
+        setColumnHeaders(RunningInstanceContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(false);
         setPageLength(TABLE_PAGE_LENGTH);

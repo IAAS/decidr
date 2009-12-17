@@ -20,6 +20,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.WorkItemContainer;
 
 /**
  * The table represents the work items as items.
@@ -32,12 +33,6 @@ public class WorkItemTable extends Table {
     private static final long serialVersionUID = 24861377458898625L;
 
     private Container workItemContainer = null;
-
-    public static final Object[] NAT_COL_ORDER = new Object[] { "workItemName",
-            "workflowInstanceId", "creationDate", "workItemStatus" };
-
-    public static final String[] COL_HEADERS = new String[] { "Name", "WfI#",
-            "Creation Date", "Status" };
 
     /**
      * Default constructor.
@@ -57,13 +52,8 @@ public class WorkItemTable extends Table {
         setSizeFull();
         setContainerDataSource(workItemContainer);
 
-        addContainerProperty("workItemName", String.class, null);
-        addContainerProperty("workflowInstanceId", Long.class, null);
-        addContainerProperty("creationDate", String.class, null);
-        addContainerProperty("workItemStatus", String.class, null);
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(WorkItemContainer.NAT_COL_ORDER);
+        setColumnHeaders(WorkItemContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
     }

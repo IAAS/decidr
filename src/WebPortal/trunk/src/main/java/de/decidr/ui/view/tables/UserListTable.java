@@ -21,6 +21,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.UserListContainer;
 
 /**
  * This class represents the user list's ui component. It will be filled with
@@ -34,12 +35,6 @@ public class UserListTable extends Table {
     private static final long serialVersionUID = -4772118786130924736L;
 
     private Container userListContainer = null;
-
-    public static final Object[] NAT_COL_ORDER = new Object[] { "username",
-            "firstName", "lastName", "email" };
-
-    public static final String[] COL_HEADERS = new String[] { "Username",
-            "First Name", "Last Name", "Email" };
 
     /**
      * Default constructor.
@@ -59,16 +54,8 @@ public class UserListTable extends Table {
         setSizeFull();
         setContainerDataSource(userListContainer);
 
-        addContainerProperty("username", String.class, null);
-        addContainerProperty("firstName", String.class, null);
-        addContainerProperty("lastName", String.class, null);
-        addContainerProperty("email", String.class, null);
-        // GH, Aleks: Explain or get rid of commented out lines
-        // addContainerProperty("Edit", Button.class, null); //Add button to
-        // component
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(UserListContainer.NAT_COL_ORDER);
+        setColumnHeaders(UserListContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(false);
 

@@ -21,6 +21,7 @@ import com.vaadin.ui.Table;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.data.ApproveTenantContainer;
 
 /**
  * This table holds the tenants which are to be approved.
@@ -35,12 +36,6 @@ public class ApproveTenantTable extends Table {
     Container container = null;
     
     private final int TABLE_PAGE_LENGTH = 10;
-
-    public static final Object[] NAT_COL_ORDER = new Object[] { "name",
-            "adminFirstName", "adminLastName", "adminId" };
-
-    public static final String[] COL_HEADERS = new String[] { "Name",
-            "First name", "Surname", "Admin ID" };
 
     /**
      * Constructor with a container which is set as data source.
@@ -58,13 +53,8 @@ public class ApproveTenantTable extends Table {
         setSizeFull();
         setContainerDataSource(container);
 
-        addContainerProperty("name", String.class, null);
-        addContainerProperty("adminFirstName", String.class, null);
-        addContainerProperty("adminLastName", String.class, null);
-        addContainerProperty("adminId", Long.class, null);
-
-        setVisibleColumns(NAT_COL_ORDER);
-        setColumnHeaders(COL_HEADERS);
+        setVisibleColumns(ApproveTenantContainer.NAT_COL_ORDER);
+        setColumnHeaders(ApproveTenantContainer.COL_HEADERS);
         setSelectable(true);
         setMultiSelect(true);
         setPageLength(TABLE_PAGE_LENGTH);

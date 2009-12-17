@@ -31,6 +31,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRole;
+import de.decidr.ui.beans.RoleBean;
 
 /**
  * This container stores role beans. They represent a role from the UI which is
