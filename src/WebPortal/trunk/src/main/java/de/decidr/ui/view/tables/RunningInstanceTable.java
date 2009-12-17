@@ -56,9 +56,6 @@ public class RunningInstanceTable extends Table {
 
     /**
      * Initializes the table and sets the container.
-     * 
-     * @param observable
-     * @param container
      */
     private void init() {
         setSizeFull();
@@ -73,5 +70,4 @@ public class RunningInstanceTable extends Table {
         setMultiSelect(false);
         setPageLength(TABLE_PAGE_LENGTH);
     }
-
 }

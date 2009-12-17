@@ -32,8 +32,7 @@ import de.decidr.model.filters.Paginator;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Saves the result in the variable result as
- * <code>{@link List<WorkflowModel>}</code>.
+ * Saves the result in the variable result as <code>{@link List}</code>.
  * 
  * @author Markus Fischer
  * @version 0.1

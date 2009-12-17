@@ -128,9 +128,6 @@ public class StartConfigurationWindow extends Window {
      * Initializes the components for the {@link StartConfigurationWindow}. The
      * {@link TConfiguration} which represents the start configuration XML file
      * is passed as a parameter.
-     * 
-     * @param tconfiguration
-     *            TODO document
      */
     private void init() {
         splitPanel = new SplitPanel();

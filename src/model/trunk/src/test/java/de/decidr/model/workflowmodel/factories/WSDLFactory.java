@@ -25,7 +25,7 @@ import javax.wsdl.WSDLException;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
- * Reads the HumanTask WSDL and the Email WSDL and returns {@link Definiton}
+ * Reads the HumanTask WSDL and the Email WSDL and returns {@link Definition}
  * objects
  * 
  * @author Modood Alvi
@@ -47,8 +47,7 @@ public class WSDLFactory {
         return TransformUtil.bytesToDefinition(getEmailDefinitionByteArray());
     }
 
-    public static byte[] getHumanTaskDefinitionByteArray() throws IOException,
-            WSDLException {
+    public static byte[] getHumanTaskDefinitionByteArray() throws IOException {
         InputStream in = WSDLFactory.class
                 .getResourceAsStream(humanTaskWSDLName);
         byte[] data = new byte[in.available()];
@@ -57,13 +56,11 @@ public class WSDLFactory {
         return data;
     }
 
-    public static byte[] getEmailDefinitionByteArray() throws IOException,
-            WSDLException {
+    public static byte[] getEmailDefinitionByteArray() throws IOException {
         InputStream in = WSDLFactory.class.getResourceAsStream(emailWSDLName);
         byte[] data = new byte[in.available()];
         in.read(data, 0, in.available());
 
         return data;
     }
-
 }

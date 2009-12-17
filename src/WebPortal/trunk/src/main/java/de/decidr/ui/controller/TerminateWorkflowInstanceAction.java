@@ -51,7 +51,7 @@ public class TerminateWorkflowInstanceAction implements ClickListener {
     /**
      * Requires ID of the instance to be terminated.
      * 
-     * @param id
+     * @param table
      *            TODO document
      */
     public TerminateWorkflowInstanceAction(Table table) {

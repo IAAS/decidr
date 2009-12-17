@@ -72,7 +72,7 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
     /**
      * Creates a new GetUserPropertiesCommand
      * 
-     * @param actor
+     * @param role
      *            the user or system invoking this command
      * @param userIds
      *            the IDs of the users whose properties are requested
@@ -87,8 +87,8 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
     /**
      * Creates a new GetUserPropertiesCommand
      * 
-     * @param actor
-     *            the IDs of the user whose properties are requested
+     * @param role
+     *            TODO document
      * @param userId
      *            the ID of the user whose properties are requested
      * @param propertiesToGet

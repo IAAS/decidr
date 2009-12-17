@@ -31,8 +31,6 @@ public class HumanTaskStartConfigurationFactory {
 
     /**
      * Aleks: add comment
-     * 
-     * @param args
      */
     public static TConfiguration getHumanTaskStartConfiguration() {
         TConfiguration tConfiguration = new TConfiguration();

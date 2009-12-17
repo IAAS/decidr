@@ -282,8 +282,8 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link TenantFacade#setColorScheme(Long, Long, Boolean)},
-     * {@link TenantFacade#setCurrentColorScheme(Long, Boolean)} and
+     * Test method for {@link TenantFacade#setColorScheme(Long, Long, boolean)},
+     * {@link TenantFacade#setCurrentColorScheme(Long, boolean)} and
      * {@link TenantFacade#getCurrentColorScheme(Long)}.
      */
     @Test

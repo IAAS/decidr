@@ -35,9 +35,6 @@ public class PutFileTestFaultyCommand extends AbstractTransactionalCommand {
 
     /**
      * Creates a new {@link PutFileTestFaultyCommand}
-     * 
-     * @param role
-     * @param fileId
      */
     public PutFileTestFaultyCommand(Long fileId, File file,
             HibernateEntityStorageProvider provider) {

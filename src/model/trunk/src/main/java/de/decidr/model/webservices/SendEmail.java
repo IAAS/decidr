@@ -207,7 +207,7 @@ public class SendEmail {
     /**
      * Gets the value of the headers property.
      * 
-     * @return possible object is {@link JAXBElement }{@code <}{@link TStringMap }
+     * @return possible object is {@link JAXBElement }{@code <}{@link StringMap }
      *         {@code >}
      */
     public JAXBElement<StringMap> getHeaders() {

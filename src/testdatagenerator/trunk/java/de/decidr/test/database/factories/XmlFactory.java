@@ -27,8 +27,6 @@ import org.hibernate.Session;
 public class XmlFactory extends EntityFactory {
 
     /**
-     * Constructor
-     * 
      * @param session
      *            current Hibernate session
      */
@@ -62,7 +60,7 @@ public class XmlFactory extends EntityFactory {
     }
 
     /**
-     * @param string
+     * @param webServiceName
      *            name of web service whose wsdl should be retrieved
      * @return raw xml data of the wsdl file
      */

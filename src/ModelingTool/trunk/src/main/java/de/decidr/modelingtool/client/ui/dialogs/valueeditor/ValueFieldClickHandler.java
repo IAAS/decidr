@@ -24,9 +24,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 
 /**
- * EventHandler for {@link ValueFieldSet}. Handles the mouse click on the remove
- * button (Remove value) by removing the whole widget from the {@link FlexTable}
- * of the value editor.
+ * EventHandler for {@link ValueFieldWidget}. Handles the mouse click on the
+ * remove button (Remove value) by removing the whole widget from the
+ * {@link FlexTable} of the value editor.
  * 
  * @author Jonas Schlaak
  */

@@ -796,8 +796,8 @@ public final class NotificationEvents {
      * has to register at the DecidR web site and join the tenant that owns the
      * workflow model if he wants to accept the workflow admin invitation.
      * 
-     * @param invitedUser
-     *            receiver of the notification
+     * @param invitation
+     *            TODO document
      * @param model
      *            workflow model [and tenant via getTenant()] to administrate
      */
@@ -876,8 +876,8 @@ public final class NotificationEvents {
      * registered user that he has to join the tenant that owns the workflow
      * model if he wants to accept the workflow admin invitation.
      * 
-     * @param invitedUser
-     *            receiver of the notification
+     * @param invitation
+     *            TODO document
      * @param model
      *            workflow model [and tenant via getTenant()] to administrate
      */
@@ -957,8 +957,8 @@ public final class NotificationEvents {
      * Sends a notification email to a registered user that he was invited to
      * participate in a workflow of a tenant that he is not a member of.
      * 
-     * @param invitedUser
-     *            receiver of the notification
+     * @param invitation
+     *            TODO document
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */
@@ -1041,8 +1041,8 @@ public final class NotificationEvents {
      * Sends a notification email to an unregistered user that he was invited to
      * participate in a workflow of a tenant that he is not a member of.
      * 
-     * @param invitedUser
-     *            receiver of the notification
+     * @param invitation
+     *            TODO document
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */

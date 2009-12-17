@@ -44,9 +44,10 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorWindowInvoker;
 
 /**
- * Editor for {@link Variables}. Variables can be added, edited and deleted. The
- * Editor consists of a {@link Grid} with four columns: A {@link NameColumn}, a
- * {@link TypeColumn}, a {@link ValueColumn} and a {@link ConfigVarColumn}.
+ * Editor for {@link Variable Variables}. Variables can be added, edited and
+ * deleted. The Editor consists of a {@link Grid} with four columns: A
+ * {@link NameColumn}, a {@link TypeColumn}, a {@link ValueColumn} and a
+ * {@link ConfigVarColumn}.
  * 
  * @author Jonas Schlaak
  */

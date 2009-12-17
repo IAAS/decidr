@@ -53,9 +53,8 @@ public class WorkflowInstanceFactory extends EntityFactory {
     /**
      * Creates numInstances random persisted workflow instances.
      * 
-     * @param numInstances
-     * @param instancesPerModel
-     * @return
+     * @param numInstances TODO document
+     * @return TODO document
      */
     @SuppressWarnings("unchecked")
     public List<WorkflowInstance> createRandomWorkflowInstances(int numInstances) {

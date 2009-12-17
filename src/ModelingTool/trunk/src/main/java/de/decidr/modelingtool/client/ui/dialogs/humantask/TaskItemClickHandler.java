@@ -42,7 +42,7 @@ public class TaskItemClickHandler implements ClickHandler {
      *            the table which container the value field widget
      * @param widget
      *            the widget itself
-     * @param fields
+     * @param fieldsets
      *            the list which holds references to all value text fields
      */
     public TaskItemClickHandler(FlexTable table, TaskItemFieldSet widget,

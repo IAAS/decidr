@@ -79,9 +79,12 @@ public interface Deployer {
      * This method undeploys a given workflow model. The files in the ODE
      * directory will be deleted.
      * 
-     * @param dwfm The workflow model to undeploy
-     * @param server The server on which the undeployment should be done
-     * @throws Exception Exception thrown after failed undeployment
+     * @param dwfm
+     *            The workflow model to undeploy
+     * @param server
+     *            The server on which the undeployment should be done
+     * @throws AxisFault
+     *             Exception thrown after failed undeployment
      */
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws AxisFault;

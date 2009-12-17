@@ -18,7 +18,6 @@ package de.decidr.model.facades;
 
 import static org.junit.Assert.*;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -103,8 +102,8 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for
-     * {@link FileFacade#createFile(InputStream, String, String, Boolean)} and
-     * {@link FileFacade#replaceFile(Long, FileInputStream, String, String)},
+     * {@link FileFacade#createFile(InputStream, Long, String, String, boolean, Set)} and
+     * {@link FileFacade#replaceFile(Long, InputStream, Long, String, String)},
      * {@link FileFacade#getFileInfo(Long)},
      * {@link FileFacade#getFileData(Long)}, {@link FileFacade#deleteFile(Long)}
      * .

@@ -24,8 +24,7 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
  * This class converts and validates values of type {@link Date} into the date
- * format defined by the dwdl xml schema (see also {@link
- * ModelingToolWidget.messages.dateFormat()}.
+ * format defined by the dwdl xml schema.
  * 
  * @author Jonas Schlaak
  */

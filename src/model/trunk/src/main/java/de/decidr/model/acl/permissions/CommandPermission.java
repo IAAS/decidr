@@ -48,7 +48,8 @@ public class CommandPermission extends
     /**
      * Constructor. Creates CommandPermission for the given command class.
      * 
-     * @param commandClass
+     * @param command
+     *            TODO document
      */
     public CommandPermission(TransactionalCommand command) {
         super(command.getClass().getName());
@@ -58,7 +59,8 @@ public class CommandPermission extends
     /**
      * Constructor. Creates CommandPermission for the given command Class.
      * 
-     * @param commandClass
+     * @param clazz
+     *            TODO document
      */
     public CommandPermission(Class<? extends TransactionalCommand> clazz) {
         super(clazz.getName());
@@ -67,7 +69,6 @@ public class CommandPermission extends
     }
 
     /**
-     * 
      * @return Class of the Command which will be executed
      */
     public Class<? extends TransactionalCommand> getCommandClass() {

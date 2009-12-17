@@ -345,7 +345,8 @@ public class TestDataGenerator {
 
         help.append("\n\nProperties:\n--------------------\n");
         help.append(PROPERTY_CONNECTION_URL);
-        help.append("\t - \tHibernate connection URL override such as 'jdbc:mysql://localhost:3306/decidrdb'\n");
+        help
+                .append("\t - \tHibernate connection URL override such as 'jdbc:mysql://localhost:3306/decidrdb'\n");
         help.append(PROPERTY_USERS);
         help.append("\t - \tTotal number of users to create\n");
         help.append(PROPERTY_TENANTS);
@@ -361,7 +362,8 @@ public class TestDataGenerator {
         help.append(PROPERTY_INVITATIONS);
         help.append("\t - \tTotal number of invitations to create\n");
         help.append(PROPERTY_MAX_USERS_PER_TENANT);
-        help.append("\t - \tMaximum number of users to associate with each tenant\n");
+        help
+                .append("\t - \tMaximum number of users to associate with each tenant\n");
 
         help.append("\nSwitches:\n--------------------\n");
         help.append(SWITCH_HELP);
@@ -457,7 +459,8 @@ public class TestDataGenerator {
      * as "--help" or "-help"
      * 
      * @param args
-     * @return
+     *            TODO document
+     * @return TODO document
      */
     private Set<String> getSwitches(String[] args) {
         HashSet<String> result = new HashSet<String>();

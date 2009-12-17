@@ -43,7 +43,6 @@ public class Paginator {
      * 
      * @param criteria
      *            the Criteria to paginate
-     * @return the modified Criteria
      */
     public void apply(PaginatingCriteria criteria) {
         this.totalNumberOfItems = criteria.rowCount();

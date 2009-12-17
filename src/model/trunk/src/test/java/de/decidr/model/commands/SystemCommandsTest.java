@@ -356,7 +356,7 @@ public class SystemCommandsTest extends CommandsTest {
     /**
      * Test method for
      * {@link SetSystemSettingsCommand#SetSystemSettingsCommand(Role, SystemSettings)}
-     * and {@link GetSystemSettingsCommand#GetSystemSettingsCommand(Role)}.
+     * .
      */
     @Test
     public void testSystemSettingsCommands() throws TransactionException {

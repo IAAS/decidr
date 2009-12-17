@@ -448,7 +448,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link UserFacade#getAdministratedWorkflowModels(Long)}.
+     * Test method for
+     * {@link UserFacade#getAdministratedWorkflowModels(Long, List, Paginator)}.
      */
     @Test
     public void testGetAdministratedWorkflowModels()
@@ -649,7 +650,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for {@link UserFacade#setProfile(Long, UserProfile)},
-     * {@link UserFacade#getUserProfile(Long, Boolean)} and
+     * {@link UserFacade#getUserProfile(Long, boolean)} and
      * {@link UserFacade#getUserProfile(Long)}.
      */
     @Test

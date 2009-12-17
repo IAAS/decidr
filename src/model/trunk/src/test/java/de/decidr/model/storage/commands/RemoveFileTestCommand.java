@@ -32,9 +32,6 @@ public class RemoveFileTestCommand extends AbstractTransactionalCommand {
 
     /**
      * Creates a new {@link RemoveFileTestCommand}
-     * 
-     * @param role
-     * @param fileId
      */
     public RemoveFileTestCommand(Long fileId,
             HibernateEntityStorageProvider provider) {

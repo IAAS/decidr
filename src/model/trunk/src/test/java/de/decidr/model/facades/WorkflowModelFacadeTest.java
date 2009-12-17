@@ -120,7 +120,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for
-     * {@link WorkflowModelFacade#saveWorkflowModel(Long, String, String, byte[])}
+     * {@link WorkflowModelFacade#saveWorkflowModel(Long, String, String, Workflow)}
      * {@link WorkflowModelFacade#getWorkflowModel(Long)}
      */
     @Test
@@ -202,7 +202,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for
-     * {@link WorkflowModelFacade#setWorkflowAdministrators(Long)}.
+     * {@link WorkflowModelFacade#setWorkflowAdministrators(Long, List, List)}.
      * {@link WorkflowModelFacade#getWorkflowAdministrators(Long)}.
      */
     @Test

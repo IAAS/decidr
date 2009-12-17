@@ -16,9 +16,6 @@ public class TransactionException extends Exception {
     private static final long serialVersionUID = 1L;
     private String serviceDetail = "";
 
-    /**
-     * {@inheritDoc}
-     */
     public TransactionException(String message, Throwable cause) {
         super(message, cause);
     }
@@ -32,16 +29,10 @@ public class TransactionException extends Exception {
         serviceDetail = detail;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public TransactionException() {
         super();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public TransactionException(String message) {
         super(message);
     }
@@ -55,9 +46,6 @@ public class TransactionException extends Exception {
         serviceDetail = detail;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public TransactionException(Throwable cause) {
         super(cause);
     }

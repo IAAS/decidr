@@ -33,8 +33,8 @@ public class VariableEditorWindowInvoker {
     /**
      * Invokes the window.
      * 
-     * @param node
-     *            the node which properties are to be displayed by the window
+     * @param variables
+     *            TODO document
      */
     public static void invoke(List<Variable> variables) {
         /* Only invoke dialog if it is not visible */
@@ -47,5 +47,4 @@ public class VariableEditorWindowInvoker {
                     VariableEditorWindow.class.getName());
         }
     }
-
 }

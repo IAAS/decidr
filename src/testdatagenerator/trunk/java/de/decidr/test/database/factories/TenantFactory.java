@@ -51,9 +51,7 @@ public class TenantFactory extends EntityFactory {
     }
 
     /**
-     * Creates the default tenant
-     * 
-     * @return the default tenant
+     * Creates the default tenant.
      */
     public void createDefaultTenant() {
         Tenant result = new Tenant();
@@ -79,7 +77,7 @@ public class TenantFactory extends EntityFactory {
      * Creates numTenants random persisted tenants.
      * 
      * @param numTenants
-     * @return
+     * @return TODO document
      */
     public List<Tenant> createRandomTenants(int numTenants,
             int maxMembersPerTenant) {
@@ -159,9 +157,9 @@ public class TenantFactory extends EntityFactory {
 
     /**
      * Creates a new persisted file reference (to a nonexistent file) that can
-     * be used as a tenant color scheme
+     * be used as a tenant color scheme.
      * 
-     * @return
+     * @return TODO document
      */
     public File createDefaultColorScheme() {
         File result = new File();
@@ -179,9 +177,9 @@ public class TenantFactory extends EntityFactory {
 
     /**
      * Creates a new persisted file reference (to a nonexistent file) that can
-     * be used as a tenant logo
+     * be used as a tenant logo.
      * 
-     * @return
+     * @return TODO document
      */
     public File createDefaultLogo() {
         File result = new File();
@@ -202,7 +200,7 @@ public class TenantFactory extends EntityFactory {
      * Retrieves a random user from the database who can be promoted to tenant
      * admin.
      * 
-     * @return
+     * @return TODO document
      * @throws RuntimeException
      *             if no user can be found.
      */
@@ -227,8 +225,8 @@ public class TenantFactory extends EntityFactory {
      * Creates a random tenant name that meets the DecidR tenant name criteria.
      * 
      * @param id
-     *            tenant "id" appended to the end of the tenant name
-     * @return
+     *            tenant "ID" appended to the end of the tenant name
+     * @return TODO document
      */
     private String getRandomTenantName(int id) {
         StringBuffer randomName = new StringBuffer(MAX_TENANT_NAME_LENTH);

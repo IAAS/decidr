@@ -31,8 +31,9 @@ public class StorageException extends Exception {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Implementation of {@link #TransactionException(String, Throwable)} needed
-     * for {@link WebFault} annotation.
+     * Implementation of
+     * {@link StorageException#StorageException(String, Throwable)} needed for
+     * {@link WebFault} annotation.
      */
     public StorageException(String message, String detail, Throwable cause) {
         this(message, cause);
@@ -40,8 +41,8 @@ public class StorageException extends Exception {
     }
 
     /**
-     * Implementation of {@link #TransactionException(String)} needed for
-     * {@link WebFault} annotation.
+     * Implementation of {@link StorageException#StorageException(String)}
+     * needed for {@link WebFault} annotation.
      */
     public StorageException(String message, String detail) {
         this(message);

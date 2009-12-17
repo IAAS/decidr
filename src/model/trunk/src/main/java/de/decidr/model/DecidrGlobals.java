@@ -327,7 +327,7 @@ public class DecidrGlobals {
 
     /**
      * Retrieves the WSDL for the given known Web service by performing a HTTP
-     * request to the URL returned by {@link #getWebServiceWsdlUrl()}
+     * request to the URL returned by {@link #getWebServiceWsdlUrl(String)}
      * 
      * @param webServiceName
      *            name of the Web service whose WSDL should be retrieved.

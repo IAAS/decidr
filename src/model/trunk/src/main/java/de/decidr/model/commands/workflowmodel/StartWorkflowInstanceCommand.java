@@ -260,8 +260,8 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param invitedUsers
      *            list of users to invite
      * @param session
-     *            current Hibernate sesion
-     * @return
+     *            current Hibernate session
+     * @return TODO document
      */
     private Set<Invitation> createInvitations(List<User> invitedUsers,
             Session session) {

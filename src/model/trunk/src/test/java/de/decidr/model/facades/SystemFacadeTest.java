@@ -84,8 +84,7 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link SystemFacade#getSettings()} and
-     * {@link SystemFacade#setSettings(SystemSettings)}.
+     * Test method for {@link SystemFacade#setSettings(SystemSettings)}.
      */
     @Test
     public void testSettings() throws TransactionException {
@@ -382,11 +381,11 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for
-     * {@link SystemFacade#addServer(ServerTypeEnum, String, Byte, Boolean, Boolean)}
+     * {@link SystemFacade#addServer(ServerTypeEnum, String, byte, boolean, boolean)}
      * , {@link SystemFacade#getServers(ServerTypeEnum[])},
      * {@link SystemFacade#getServerStatistics()},
      * {@link SystemFacade#updateServerLoad(Long, byte)},
-     * {@link SystemFacade#setServerLock(Long, Boolean)}.
+     * {@link SystemFacade#setServerLock(Long, boolean)}.
      */
     @Test
     public void testServer() throws TransactionException {

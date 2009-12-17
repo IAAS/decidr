@@ -40,10 +40,10 @@ public class SetDisabledCommand extends UserCommand {
      * effect.
      * 
      * @param role
-     *            user / system executing the command.
+     *            user/system executing the command.
      * @param userId
-     *            ID of user account to disable / enable.
-     * @param date
+     *            ID of user account to disable/enable.
+     * @param disabledSince
      *            set to any non-null value to disable the user account, null to
      *            enable the user account.
      * @throws IllegalArgumentException

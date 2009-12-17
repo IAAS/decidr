@@ -27,7 +27,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -116,7 +115,7 @@ public class MailBackendTest extends DecidrOthersTest {
     /**
      * Test method for:
      * <ul>
-     * <li>{@link MailBackend#addFile(java.io.InputStream)</li>
+     * <li>{@link MailBackend#addFile(InputStream, String, String)}</li>
      * </ul>
      */
     @Test
@@ -138,15 +137,12 @@ public class MailBackendTest extends DecidrOthersTest {
         assertFalse(parts.isEmpty());
     }
 
-/**
+    /**
      * 
      * Test method for:
      * <ul>
-     * <li>{@link MailBackend#addFile(java.net.URI)</li>
+     * <li>{@link MailBackend#addFile(java.net.URI)}</li>
      * </ul>
-     * @throws IOException 
-     * @throws MessagingException 
-     * @throws MalformedURLException
      */
     @Test
     public void testAddFileURI() throws MalformedURLException,
@@ -169,7 +165,7 @@ public class MailBackendTest extends DecidrOthersTest {
      * 
      * Test method for:
      * <ul>
-     * <li>{@link MailBackend#addFile(java.net.URI)</li>
+     * <li>{@link MailBackend#addFile(java.net.URI)}</li>
      * </ul>
      */
     @Test
@@ -568,7 +564,7 @@ public class MailBackendTest extends DecidrOthersTest {
     }
 
     /**
-     * Test method for {@link MailBackend#addMimeParts(List)}.
+     * Test method for {@link MailBackend#addMimeParts(Set)}.
      */
     @Test
     public void testAddMimeParts() {

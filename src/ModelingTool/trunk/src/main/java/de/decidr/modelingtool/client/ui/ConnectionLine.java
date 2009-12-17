@@ -63,7 +63,7 @@ public class ConnectionLine extends HTML {
     /**
      * Sets the orientation of the line to vertical.
      * 
-     * @param width
+     * @param height
      *            The length of the vertical line
      */
     public void setVerticalOrientation(int height) {

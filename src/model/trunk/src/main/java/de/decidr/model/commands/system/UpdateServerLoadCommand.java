@@ -39,7 +39,7 @@ public class UpdateServerLoadCommand extends SystemCommand {
      * 
      * @param role
      *            the user/system that is executing the command
-     * @param serverid
+     * @param serverId
      *            the ID of the server to update
      * @param load
      *            the new load as a number from 0 to 100 (percent) or -1 to

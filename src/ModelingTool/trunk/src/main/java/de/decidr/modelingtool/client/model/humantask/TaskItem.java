@@ -16,6 +16,8 @@
 
 package de.decidr.modelingtool.client.model.humantask;
 
+import de.decidr.modelingtool.client.model.variable.Variable;
+
 /**
  * This class is container for the form elements of a human task. Every form
  * elements consists of a label (which is a brief description of the input that

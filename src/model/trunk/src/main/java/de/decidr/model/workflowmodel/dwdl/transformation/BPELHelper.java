@@ -116,8 +116,6 @@ public class BPELHelper {
      * @return an org.w3c.Element object representation of the JAXB element
      * @param m
      *            the marshaller to use to convert the element
-     * @param v
-     *            the validator to use in converting the element
      * @param o
      *            the JAXB element to be converted
      */

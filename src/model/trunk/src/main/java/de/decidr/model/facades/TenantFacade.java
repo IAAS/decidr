@@ -335,8 +335,8 @@ public class TenantFacade extends AbstractFacade {
     /**
      * Deletes given tenant. Non-existing tenants will be ignored.
      * 
-     * @param tenantIds
-     *            a list of IDs of tenants which should be deleted
+     * @param tenantId
+     *            an ID of a tenant which should be deleted
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws IllegalArgumentException
@@ -517,7 +517,8 @@ public class TenantFacade extends AbstractFacade {
      * 
      * @param tenantId
      *            the ID of the tenant where the users should be invited to
-     * @param emailOrUsernames
+     * @param emails
+     *            TODO update docu<br>
      *            a list of strings which includes email addresses and usernames
      *            which should be invited
      * @throws TransactionException

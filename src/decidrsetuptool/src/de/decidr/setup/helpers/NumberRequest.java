@@ -48,9 +48,10 @@ public class NumberRequest {
     }
 
     /**
-     * Checks weather String is a number or not.
+     * Checks whether String is a number or not.
      * 
-     * @param mail
+     * @param num
+     *            TODO document
      * @return true if valid, else false
      */
     private static boolean validateNumber(String num) {

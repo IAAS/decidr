@@ -33,9 +33,6 @@ public class RemoveFileFaultyTestCommand extends AbstractTransactionalCommand {
 
     /**
      * Creates a new {@link RemoveFileFaultyTestCommand}
-     * 
-     * @param role
-     * @param fileId
      */
     public RemoveFileFaultyTestCommand(Long fileId,
             HibernateEntityStorageProvider provider) {

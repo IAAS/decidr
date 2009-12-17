@@ -41,7 +41,7 @@ public class SystemSettingsFactory extends EntityFactory {
     /**
      * Creates and persists system settings.
      * 
-     * @return
+     * @return TODO document
      */
     public SystemSettings createSystemSettings() {
 

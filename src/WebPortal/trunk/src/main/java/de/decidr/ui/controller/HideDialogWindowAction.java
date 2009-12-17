@@ -22,6 +22,7 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.ChangeEmailWindow;
 
 /**
  * This action hides a sub-window (e.g. {@link ChangeEmailWindow}).

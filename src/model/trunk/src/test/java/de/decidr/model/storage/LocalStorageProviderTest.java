@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -107,7 +108,7 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
 
     /**
      * Test method for
-     * {@link LocalStorageProvider#putFile(FileInputStream, Long)},
+     * {@link LocalStorageProvider#putFile(InputStream, Long, Long)},
      * {@link LocalStorageProvider#getFile(Long)}.
      * 
      * @throws Exception

@@ -50,9 +50,9 @@ public interface HasChildren {
      * 
      * @param node
      *            The node to add.
-     * @param x
+     * @param left
      *            Desired x coordinate of the node relative to the container
-     * @param y
+     * @param top
      *            Desired y coordinate of the node relative to the container
      */
     public void addNode(Node node, int left, int top);

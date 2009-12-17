@@ -214,7 +214,7 @@ public class MailBackend {
     /**
      * @param to
      *            The recipients of the Email. See
-     *            <code>{@link #setReceiver(Set<String>)}</code>.
+     *            <code>{@link #setReceiver(Set)}</code>.
      * @param fromName
      *            The name of the sender of the Email. See
      *            <code>{@link #setSender(String, String)}</code>.
@@ -437,7 +437,7 @@ public class MailBackend {
      * The header may be ignored or overwritten by the mail transport agent.<br>
      * <br>
      * Headers handled separately (subject, to, ...) are delegated to the
-     * appropriate methods ({@link #setSender(String)},
+     * appropriate methods ({@link #setSender(String, String)},
      * {@link #setReceiver(String)}, ...)
      * 
      * @param headerName
@@ -502,7 +502,7 @@ public class MailBackend {
      * map.<br>
      * <br>
      * Headers handled separately (subject, to, ...) are delegated to the
-     * appropriate methods ({@link #setSender(String)},
+     * appropriate methods ({@link #setSender(String, String)},
      * {@link #setReceiver(String)}, ...)
      * 
      * @param headers

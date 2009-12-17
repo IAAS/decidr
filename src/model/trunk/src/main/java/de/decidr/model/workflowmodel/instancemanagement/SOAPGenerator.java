@@ -56,11 +56,16 @@ public class SOAPGenerator {
      * message is returned.
      * 
      * @param template
-     * @param startConfig
+     *            TODO document
+     * @param startConfiguration
+     *            TODO document
      * @return {@link SOAPMessage} The generated SOAP message
      * @throws SOAPException
+     *             TODO document
      * @throws IOException
+     *             TODO document
      * @throws JAXBException
+     *             TODO document
      */
     public SOAPMessage getSOAP(SOAPMessage template,
             TConfiguration startConfiguration) throws SOAPException,
@@ -121,8 +126,7 @@ public class SOAPGenerator {
                 actor.getUserId() == null ? "" : actor.getUserId());
     }
 
-    private void setAssignment(SOAPElement bodyElement, TAssignment assignment)
-            throws SOAPException {
+    private void setAssignment(SOAPElement bodyElement, TAssignment assignment) {
         SOAPElement element = findElement(bodyElement, assignment.getKey());
         String valuePart = "";
         if (!assignment.getValue().isEmpty()) {
@@ -156,7 +160,8 @@ public class SOAPGenerator {
                 return element;
             }
         }
-        log.warn("Can't find " +elementName+ "elment in "+parent.getNodeName());
+        log.warn("Can't find " + elementName + "elment in "
+                + parent.getNodeName());
         return null;
     }
 }

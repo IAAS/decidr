@@ -20,8 +20,7 @@ import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 
 /**
- * 
- * An Asserter which always returns true.
+ * An {@link Asserter} which always returns true.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -31,10 +30,9 @@ import de.decidr.model.acl.roles.Role;
 public class AlwaysTrueAsserter implements Asserter {
 
     /**
-     * @see Asserter.assertRule
+     * @see Asserter#assertRule(Role, Permission)
      */
     public Boolean assertRule(Role role, Permission permission) {
         return true;
     }
-
 }

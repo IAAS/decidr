@@ -223,7 +223,7 @@ public class WorkflowModelsComponent extends CustomComponent {
     /**
      * Sets the current tenant table for the component.
      * 
-     * @param currentTenantTable
+     * @param workflowModelTable
      *          The table with the list of workflow models
      */
     public void setWorkflowModelTable(WorkflowModelTable workflowModelTable) {

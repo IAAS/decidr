@@ -45,8 +45,7 @@ public class GetWorkItemsCommand extends UserCommand {
 
     /**
      * Creates a new GetWorkitemsCommand. The command saves the workitem of the
-     * given user in the result variable as
-     * <code>{@link List<WorkItemSummaryView>}</code>.
+     * given user in the result variable as <code>{@link List}</code>.
      * 
      * @param role
      *            the user which executes the command

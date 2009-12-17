@@ -85,8 +85,6 @@ public class CssHandler {
      * 
      * @throws TransactionException
      *             TODO document
-     * @throws IOException
-     *             TODO document
      */
     @SuppressWarnings("null")
     public void saveCss(TenantFacade tenantFacade, boolean advanced,
