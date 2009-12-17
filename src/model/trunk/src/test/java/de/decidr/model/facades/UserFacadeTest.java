@@ -30,6 +30,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.vaadin.data.Item;
+
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.asserters.UserIsEnabledAsserter;
 import de.decidr.model.acl.roles.BasicRole;
@@ -140,27 +142,21 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         UserProfile profile = new UserProfile();
         SimpleImmutableEntry<User, UserProfile> returnEntry;
 
-        user.setId((Long) profileItem.getId());
-        user.setAuthKey((String) profileItem.getAuthKey());
-        user.setEmail((String) profileItem.getEmail());
-        user.setDisabledSince((Date) profileItem.getDisabledSince());
-        user.setUnavailableSince((Date) profileItem.getUnavailableSince());
-        user.setRegisteredSince((Date) profileItem.getRegisteredSince());
-        user.setCreationDate((Date) profileItem.getCreationDate());
+        user.setId(profileItem.getId());
+        user.setAuthKey(profileItem.getAuthKey());
+        user.setEmail(profileItem.getEmail());
+        user.setDisabledSince(profileItem.getDisabledSince());
+        user.setUnavailableSince(profileItem.getUnavailableSince());
+        user.setRegisteredSince(profileItem.getRegisteredSince());
+        user.setCreationDate(profileItem.getCreationDate());
 
         if (parseProfile) {
-            profile.setCity((String) profileItem.getUserProfile().getCity());
-            profile.setFirstName((String) profileItem.getUserProfile()
-                    .getFirstName());
-            profile.setLastName((String) profileItem.getUserProfile()
-                    .getLastName());
-            profile.setPostalCode((String) profileItem.getUserProfile()
-                    .getPostalCode());
-            profile
-                    .setStreet((String) profileItem.getUserProfile()
-                            .getStreet());
-            profile.setUsername((String) profileItem.getUserProfile()
-                    .getUsername());
+            profile.setCity(profileItem.getUserProfile().getCity());
+            profile.setFirstName(profileItem.getUserProfile().getFirstName());
+            profile.setLastName(profileItem.getUserProfile().getLastName());
+            profile.setPostalCode(profileItem.getUserProfile().getPostalCode());
+            profile.setStreet(profileItem.getUserProfile().getStreet());
+            profile.setUsername(profileItem.getUserProfile().getUsername());
         }
 
         returnEntry = new SimpleImmutableEntry<User, UserProfile>(user, profile);
@@ -1116,8 +1112,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         for (Tenant item : joinedTenants) {
             assertNotNull(item.getId());
             assertNotNull(item.getName());
-            assertNotNull(userFacade.getUserRoleForTenant(tenantUserID,
-                    (Long) item.getId()));
+            assertNotNull(userFacade.getUserRoleForTenant(tenantUserID, item
+                    .getId()));
         }
 
         userFacade = new UserFacade(new UserRole(testUserID));
@@ -1126,8 +1122,8 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         for (Tenant item : joinedTenants) {
             assertNotNull(item.getId());
             assertNotNull(item.getName());
-            assertNotNull(adminFacade.getUserRoleForTenant(tenantUserID,
-                    (Long) item.getId()));
+            assertNotNull(adminFacade.getUserRoleForTenant(tenantUserID, item
+                    .getId()));
         }
 
         assertTrue(userFacade.getJoinedTenants(testUserID).isEmpty());

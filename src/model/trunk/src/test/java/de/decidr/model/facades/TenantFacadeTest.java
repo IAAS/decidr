@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -241,7 +240,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
             tenant.getAdminLastName();
             assertNotNull(tenant.getAdminId());
 
-            tenantIDs.add((Long) tenant.getId());
+            tenantIDs.add(tenant.getId());
         }
 
         try {
@@ -828,7 +827,7 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
         assertEquals(false, WFM.isPublished());
         // The dates must be less than 60s apart to count as equal
         assertTrue(Math.abs(DecidrGlobals.getTime().getTimeInMillis()
-                - ((Date) WFM.getCreationDate()).getTime()) < 60000);
+                - (WFM.getCreationDate()).getTime()) < 60000);
 
         ArrayList<Long> myWFM = new ArrayList<Long>(2);
         myWFM.add(wfmID);

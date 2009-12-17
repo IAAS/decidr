@@ -138,10 +138,10 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         adminFacade.saveWorkflowModel(wfmId, NAME, DESCRIPTION, DWDL);
         WorkflowModel wfm = adminFacade.getWorkflowModel(wfmId);
 
-        long id = (Long) wfm.getId();
-        String name = (String) wfm.getName();
-        String description = (String) wfm.getDescription();
-        byte[] dwdl = (byte[]) wfm.getDwdl();
+        long id = wfm.getId();
+        String name = wfm.getName();
+        String description = wfm.getDescription();
+        byte[] dwdl = wfm.getDwdl();
 
         assertEquals(id, wfmId);
         assertEquals(name, NAME);

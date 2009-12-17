@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Transaction;
@@ -96,7 +95,7 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
 
         getterSettings = DecidrGlobals.getSettings();
         assertNotNull(getterSettings);
-        User admin = (User) getterSettings.getSuperAdmin();
+        User admin = getterSettings.getSuperAdmin();
 
         setterSettings.setSuperAdmin(admin);
         setterSettings.setAutoAcceptNewTenants(true);
@@ -160,8 +159,7 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
         assertEquals("decidr@decidr.biz", getterSettings
                 .getSystemEmailAddress());
         assertEquals("De Cidr", getterSettings.getSystemName());
-        assertFalse(modDate.getTime().after(
-                (Date) getterSettings.getModifiedDate()));
+        assertFalse(modDate.getTime().after(getterSettings.getModifiedDate()));
 
         setterSettings.setAutoAcceptNewTenants(false);
         setterSettings.setChangeEmailRequestLifetimeSeconds(150);
@@ -220,8 +218,7 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
         assertEquals(1, getterSettings.getServerPoolInstances());
         assertEquals("dumbo@decidr.eu", getterSettings.getSystemEmailAddress());
         assertEquals("Darth Vader", getterSettings.getSystemName());
-        assertFalse(modDate.getTime().after(
-                (Date) getterSettings.getModifiedDate()));
+        assertFalse(modDate.getTime().after(getterSettings.getModifiedDate()));
 
         setterSettings.setMtaHostname("");
         setterSettings.setMtaUsername("");
