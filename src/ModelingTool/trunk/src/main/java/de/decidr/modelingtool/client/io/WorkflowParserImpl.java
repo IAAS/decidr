@@ -17,6 +17,8 @@
 package de.decidr.modelingtool.client.io;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.xml.client.Document;
@@ -112,6 +114,16 @@ public class WorkflowParserImpl implements WorkflowParser {
             }
 
         }
+
+        /*
+         * Create a variable which contains the workflow id. This is needed for
+         * the human task.
+         */
+        Variable workflowModelId = new Variable();
+        List<String> val = new LinkedList<String>();
+        val.add(workflow.getId().toString());
+        workflowModelId.setValues(val);
+
         /* Append variables and roles node to parent element */
         parent.appendChild(variables);
         parent.appendChild(roles);
@@ -153,7 +165,6 @@ public class WorkflowParserImpl implements WorkflowParser {
          * additional node is created which has the values as children
          */
         if (variable.getValues().isEmpty() == false) {
-
             if (variable.isArray()) {
                 Element values = doc.createElement(DWDLNames.initValues);
                 for (String value : variable.getValues()) {
@@ -200,12 +211,13 @@ public class WorkflowParserImpl implements WorkflowParser {
         Element faultHandler = doc.createElement(DWDLNames.faultHandler);
 
         /* Create the property node for the fault message */
-        faultHandler.appendChild(createPropertyElement(doc, DWDLNames.message,
-                workflow.getProperties().getFaultMessageVariableId()));
+        faultHandler.appendChild(createSetPropertyElement(doc,
+                DWDLNames.message, workflow.getProperties()
+                        .getFaultMessageVariableId()));
 
         /* Create the property node for the recipient */
         Element recipient = doc.createElement(DWDLNames.recipient);
-        recipient.appendChild(createPropertyElement(doc, DWDLNames.name,
+        recipient.appendChild(createSetPropertyElement(doc, DWDLNames.name,
                 workflow.getProperties().getRecipientVariableId()));
         faultHandler.appendChild(recipient);
 
@@ -295,10 +307,10 @@ public class WorkflowParserImpl implements WorkflowParser {
             GWT.log("Creating notification of success node", null);
             Element notification = doc
                     .createElement(DWDLNames.notificationOfSuccess);
-            notification.appendChild(createPropertyElement(doc,
+            notification.appendChild(createSetPropertyElement(doc,
                     DWDLNames.successMsg, workflow.getProperties()
                             .getSuccessMessageVariableId()));
-            notification.appendChild(createPropertyElement(doc,
+            notification.appendChild(createSetPropertyElement(doc,
                     DWDLNames.recipient, workflow.getProperties()
                             .getRecipientVariableId()));
             endElement.appendChild(notification);
@@ -327,17 +339,17 @@ public class WorkflowParserImpl implements WorkflowParser {
             emailElement.appendChild(createTargetElement(doc, model));
         }
 
-        emailElement.appendChild(createPropertyElement(doc, DWDLNames.to, model
-                .getToVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, DWDLNames.cc, model
-                .getCcVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, DWDLNames.bcc,
+        emailElement.appendChild(createSetPropertyElement(doc, DWDLNames.to,
+                model.getToVariableId()));
+        emailElement.appendChild(createSetPropertyElement(doc, DWDLNames.cc,
+                model.getCcVariableId()));
+        emailElement.appendChild(createSetPropertyElement(doc, DWDLNames.bcc,
                 model.getBccVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, DWDLNames.subject,
-                model.getSubjectVariableId()));
-        emailElement.appendChild(createPropertyElement(doc, DWDLNames.message,
-                model.getMessageVariableId()));
-        emailElement.appendChild(createPropertyElement(doc,
+        emailElement.appendChild(createSetPropertyElement(doc,
+                DWDLNames.subject, model.getSubjectVariableId()));
+        emailElement.appendChild(createSetPropertyElement(doc,
+                DWDLNames.message, model.getMessageVariableId()));
+        emailElement.appendChild(createSetPropertyElement(doc,
                 DWDLNames.attachment, model.getAttachmentVariableId()));
         return emailElement;
     }
@@ -364,39 +376,36 @@ public class WorkflowParserImpl implements WorkflowParser {
         }
 
         /* Create property elements for user */
-        humanTaskElement.appendChild(createPropertyElement(doc, DWDLNames.wfId,
-                workflow.getId()));
-        humanTaskElement.appendChild(createPropertyElement(doc, DWDLNames.user,
-                model.getUserVariableId()));
-        humanTaskElement.appendChild(createPropertyElement(doc, DWDLNames.name,
-                model.getWorkItemNameVariableId()));
+        humanTaskElement.appendChild(createSetPropertyElementWithValue(doc,
+                DWDLNames.wfmId, workflow.getId().toString()));
+        humanTaskElement.appendChild(createSetPropertyElement(doc,
+                DWDLNames.user, model.getUserVariableId()));
+        humanTaskElement.appendChild(createSetPropertyElement(doc,
+                DWDLNames.name, model.getWorkItemNameVariableId()));
         humanTaskElement
-                .appendChild(createPropertyElement(doc, DWDLNames.description,
-                        model.getWorkItemDescriptionVariableId()));
+                .appendChild(createSetPropertyElement(doc,
+                        DWDLNames.description, model
+                                .getWorkItemDescriptionVariableId()));
 
-        /*
-         * Create set property for user notification variable. Cannot use
-         * createPropertyElement method here because it does not take into
-         * account that boolean values have to be converted to "yes"/"no".
-         */
-        Element userNotification = doc.createElement(DWDLNames.setProperty);
-        userNotification.setAttribute(DWDLNames.name,
-                DWDLNames.userNotification);
+        /* Create set property for user notification variable. */
         String valueText;
         if (model.getNotifyActor() != null && model.getNotifyActor()) {
             valueText = DWDLNames.yes;
         } else {
             valueText = DWDLNames.no;
         }
-        userNotification.appendChild(createTextElement(doc,
-                DWDLNames.propertyValue, valueText));
-        humanTaskElement.appendChild(userNotification);
+        humanTaskElement.appendChild(createSetPropertyElementWithValue(doc,
+                DWDLNames.userNotification, valueText));
 
         /* Create get property of human task */
         Element getProperty = doc.createElement(DWDLNames.getProperty);
         getProperty.setAttribute(DWDLNames.name, DWDLNames.taskResult);
         getProperty.setAttribute(DWDLNames.variable, VariableNameFactory
                 .createNCNameFromId(model.getFormVariableId()));
+        humanTaskElement.appendChild(getProperty);
+
+        /* Create parameter */
+        Element parameter = doc.createElement(DWDLNames.parameter);
         Element humanTaskData = doc.createElement(DWDLNames.humanTaskData);
 
         /* Create task items, if there are any */
@@ -414,9 +423,9 @@ public class WorkflowParserImpl implements WorkflowParser {
                         .getLabel()));
                 taskItem.appendChild(createTextElement(doc, DWDLNames.hint, ti
                         .getHint()));
-                /* Only set predefined valued if there are any */
+                /* Only set predefined values if there are any */
                 if (variable.getValues() != null
-                        && variable.getValues().isEmpty() != false) {
+                        && variable.getValues().isEmpty() == false) {
                     taskItem.appendChild(createTextElement(doc,
                             DWDLNames.value, variable.getValues().get(0)));
                 }
@@ -425,11 +434,11 @@ public class WorkflowParserImpl implements WorkflowParser {
         }
 
         /* Append human task data to parameter element */
-        Element parameters = doc.createElement(DWDLNames.parameter);
-        parameters.appendChild(humanTaskData);
-        getProperty.appendChild(parameters);
+        parameter.appendChild(humanTaskData);
 
-        humanTaskElement.appendChild(getProperty);
+        /* Append parameter element to human task element */
+        humanTaskElement.appendChild(parameter);
+
         return humanTaskElement;
     }
 
@@ -675,7 +684,7 @@ public class WorkflowParserImpl implements WorkflowParser {
      * variable="<NCnamePrefix + variableID>"> <propertyValue> variableID.value
      * </propertyValue> </setProperty>
      */
-    private Element createPropertyElement(Document doc, String name,
+    private Element createSetPropertyElement(Document doc, String name,
             Long variableId) {
         Element property = doc.createElement(DWDLNames.setProperty);
         property.setAttribute(DWDLNames.name, name);
@@ -683,6 +692,15 @@ public class WorkflowParserImpl implements WorkflowParser {
             property.setAttribute(DWDLNames.variable, VariableNameFactory
                     .createNCNameFromId(variableId));
         }
+        return property;
+    }
+
+    private Element createSetPropertyElementWithValue(Document doc,
+            String name, String value) {
+        Element property = doc.createElement(DWDLNames.setProperty);
+        property.setAttribute(DWDLNames.name, name);
+        property.appendChild(createTextElement(doc, DWDLNames.propertyValue,
+                value));
         return property;
     }
 
