@@ -209,7 +209,7 @@
 						<target arcId="1256287630812" />
 					</targets>
 					<setProperty name="wfmID">
-						<propertyValue>L1256287630390</propertyValue>
+						<propertyValue>1256287630390</propertyValue>
 					</setProperty>
 					<setProperty name="user" />
 					<setProperty name="name" />
