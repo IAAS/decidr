@@ -105,9 +105,9 @@ public class ChangePasswordWindow extends Window {
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         passwordForm.setWidth(400, Sizeable.UNITS_PIXELS);
+        passwordForm.addField("oldPassword", oldPasswordText);
         passwordForm.addField("newPassword", newPasswordText);
         passwordForm.addField("newPasswordConfirm", newPasswordConfirmText);
-        passwordForm.addField("oldPassword", oldPasswordText);
 
         verticalLayout.addComponent(passwordForm);
         horizontalLayout.addComponent(submitButton);

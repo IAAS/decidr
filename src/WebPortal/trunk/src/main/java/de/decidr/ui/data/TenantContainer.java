@@ -61,11 +61,12 @@ public class TenantContainer extends BeanItemContainer<TenantSummaryViewBean> {
     private List<Filter> filterList = null;
 
     public static final Object[] NAT_COL_ORDER = new Object[] {
-            "adminFirstName", "adminLastName", "numDeployedWorkflowModels",
-            "numMembers", "numWorkflowInstances" };
+            "adminFirstName", "adminLastName", "tenantName",
+            "numDeployedWorkflowModels", "numMembers", "numWorkflowInstances" };
 
     public static final String[] COL_HEADERS = new String[] { "First name",
-            "Surname", "#Deployed Models", "#Members", "#Instances" };
+            "Surname", "Tenant name", "#Deployed Models", "#Members",
+            "#Instances" };
 
     /**
      * The tenant {@link Item items} are added to the container.<br>

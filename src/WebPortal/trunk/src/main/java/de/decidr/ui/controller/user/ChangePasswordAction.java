@@ -29,6 +29,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.ChangePasswordWindow;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -64,8 +65,8 @@ public class ChangePasswordAction implements ClickListener {
                 .toString();
         if (!passwd.equals(passwords.getItemProperty("newPasswordConfirm")
                 .getValue().toString())) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "The new passwords don't match!");
+            Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent(
+                    "The new passwords don't match!", "Information"));
         } else {
             try {
                 userFacade.setPassword(userId, passwords.getItemProperty(
@@ -74,8 +75,6 @@ public class ChangePasswordAction implements ClickListener {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
             }
-            Main.getCurrent().getMainWindow().showNotification(
-                    "new password: " + passwd);
             Main.getCurrent().getMainWindow().removeWindow(
                     event.getButton().getWindow());
         }
