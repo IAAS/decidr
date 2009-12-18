@@ -23,7 +23,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -33,6 +32,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.ui.beans.WorkflowModelBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -54,7 +54,7 @@ public class UnpublishWorkflowModelsAction implements ClickListener {
 
     private Table publishWorkflowmodelTable = null;
     
-    private List<Item> items = new ArrayList<Item>();
+    
 
     /**
      * Requires a table which contains the data.
@@ -72,26 +72,26 @@ public class UnpublishWorkflowModelsAction implements ClickListener {
      * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new ArrayList<Long>();
-        Set<?> value = (Set<?>) publishWorkflowmodelTable.getValue();
+        Set<WorkflowModelBean> value = (Set<WorkflowModelBean>) publishWorkflowmodelTable.getValue();
+        List<WorkflowModelBean> items = new ArrayList<WorkflowModelBean>(value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                wfms.add((Long) item.getItemProperty("id").getValue());
-                items.add(item);
+                WorkflowModelBean workflowModelBean = (WorkflowModelBean) iter.next();
+                wfms.add(workflowModelBean.getId());
             }
             try {
                 wfmFacade.unpublishWorkflowModels(wfms);
-                for(Item item : items){
-                    publishWorkflowmodelTable.removeItem(item);
+                for(WorkflowModelBean bean : items){
+                    publishWorkflowmodelTable.removeItem(bean);
                 }
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Workflow model(s) successfully unpublished!",
                                 "Success"));
-                publishWorkflowmodelTable.requestRepaint();
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

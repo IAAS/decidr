@@ -19,13 +19,13 @@ package de.decidr.ui.controller.show;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.AppointWorkflowAdminComponent;
 import de.decidr.ui.view.Main;
@@ -71,8 +71,8 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
         
         if(items.size() == 1){
             for (Iterator<?> iter = items.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                wfmId = (Long) item.getItemProperty("id").getValue();
+                WorkflowModelsBean workflowModelsBean = (WorkflowModelsBean) iter.next();
+                wfmId = workflowModelsBean.getId();
             }
             if (wfmId != null){
                 siteFrame.setContent(new AppointWorkflowAdminComponent(wfmId));

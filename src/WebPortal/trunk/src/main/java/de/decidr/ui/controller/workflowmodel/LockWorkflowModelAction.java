@@ -21,7 +21,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -31,6 +30,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -70,31 +70,52 @@ public class LockWorkflowModelAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
+        boolean executable = true;
         Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                try {
-                    Long id = (Long) item.getItemProperty("id").getValue();
-                    wfmFacade.setExecutable(id, false);
-                    if (!wfmFacade.getWorkflowModel(id).isExecutable()) {
-                        item.getItemProperty("executable").setValue(false);
+        try {
+            if ((value != null) && (value.size() != 0)) {
+                for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+                    WorkflowModelsBean workflowModelBean = (WorkflowModelsBean) iter
+                            .next();
+                    if (workflowModelBean.isExecutable()) {
+
+                        Long id = workflowModelBean.getId();
+                        wfmFacade.setExecutable(id, false);
+                        table.getItem(workflowModelBean).getItemProperty("executable").setValue(false);
+                        workflowModelBean.setExecutable(false);
+                        table.requestRepaint();
+
+                    } else {
+                        executable = false;
                     }
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent("Workflow model \""
-                                    + item.getItemProperty("name").getValue()
-                                    + "\" successfully locked!", "Success"));
-                    table.requestRepaint();
-                } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(e));
-                    e.printStackTrace();
                 }
+                if (executable) {
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Workflow model(s) successfully made non-executable!",
+                                            "Success"));
+                } else {
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Some workflow models are already non-executable. They are not made non-executable",
+                                            "Information"));
+                }
+            } else {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Please select a workflow model!",
+                                "Information"));
             }
-        } else {
+        } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                            "Please select a workflow model!", "Information"));
+                    new TransactionErrorDialogComponent(e));
+            e.printStackTrace();
         }
     }
 }

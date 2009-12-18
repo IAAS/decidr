@@ -16,6 +16,8 @@
 
 package de.decidr.ui.controller;
 
+import java.io.Serializable;
+
 import com.vaadin.data.Container.Filterable;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
@@ -32,7 +34,7 @@ import de.decidr.model.annotations.Reviewed.State;
  * @author Geoffrey-Alexeij Heinze
  */
 @Reviewed(reviewers = { "RR" }, lastRevision = "2343", currentReviewState = State.PassedWithComments)
-public class SearchAction implements ClickListener {
+public class SearchAction implements ClickListener, Serializable {
 
     private static final long serialVersionUID = 1L;
     private Table searchTable = null;

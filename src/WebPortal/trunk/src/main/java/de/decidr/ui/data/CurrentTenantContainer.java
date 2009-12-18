@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -68,6 +69,8 @@ public class CurrentTenantContainer extends BeanItemContainer<TenantBean> {
         try {
             currentTenantList = userFacade.getJoinedTenants(userId);
             TenantBean tenantBean;
+            tenantBean = new TenantBean(DecidrGlobals.getDefaultTenant());
+            addBean(tenantBean);
             for (Tenant tenant : currentTenantList) {
                 tenantBean = new TenantBean(tenant);
                 addBean(tenantBean);

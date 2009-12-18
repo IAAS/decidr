@@ -25,11 +25,14 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.beans.WorkflowModelBean;
 import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.data.ModelingTool;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.SiteFrame;
+import de.decidr.ui.view.tables.PublicModelTable;
+import de.decidr.ui.view.tables.WorkflowModelTable;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
@@ -59,21 +62,43 @@ public class ShowModelingToolAction implements ClickListener {
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
-        Set<?> set = (Set<?>) table.getValue();
-        if (table.getValue() != null && set.size() == 1) {
-            Iterator<?> iter = set.iterator();
-            while (iter.hasNext()) {
-                WorkflowModelsBean workflowModel = (WorkflowModelsBean) iter
-                        .next();
-                siteFrame.setContent(new ModelingTool(workflowModel.getId()));
+        if (table instanceof WorkflowModelTable) {
+            Set<WorkflowModelsBean> set = (Set<WorkflowModelsBean>) table
+                    .getValue();
+            if (table.getValue() != null && set.size() == 1) {
+                Iterator<WorkflowModelsBean> iter = set.iterator();
+                while (iter.hasNext()) {
+                    WorkflowModelsBean workflowModel = iter.next();
+                    siteFrame
+                            .setContent(new ModelingTool(workflowModel.getId()));
+                }
+            }else{
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Please select exactly one workflow model",
+                                "Information"));
             }
-        } else {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                            "Please select exactly one workflow model",
-                            "Information"));
+        } else if (table instanceof PublicModelTable) {
+            Set<WorkflowModelBean> set = (Set<WorkflowModelBean>) table
+                    .getValue();
+            if (table.getValue() != null && set.size() == 1) {
+                Iterator<WorkflowModelBean> iter = set.iterator();
+                while (iter.hasNext()) {
+                    WorkflowModelBean workflowModel = iter.next();
+                    siteFrame
+                            .setContent(new ModelingTool(workflowModel.getId()));
+
+                }
+
+            } else {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Please select exactly one workflow model",
+                                "Information"));
+            }
         }
     }
 }

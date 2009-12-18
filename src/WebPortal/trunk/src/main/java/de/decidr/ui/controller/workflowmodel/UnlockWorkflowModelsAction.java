@@ -21,7 +21,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -31,6 +30,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -70,32 +70,51 @@ public class UnlockWorkflowModelsAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
+        boolean executable = true;
         Set<?> value = (Set<?>) table.getValue();
-        if ((value != null) && (value.size() != 0)) {
-            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                try {
-                    Long id = (Long) item.getItemProperty("id").getValue();
-                    wfmFacade.setExecutable(id, true);
-                    if(wfmFacade.getWorkflowModel(id).isExecutable()){
-                        item.getItemProperty("executable").setValue(true);
+        try {
+            if ((value != null) && (value.size() != 0)) {
+                for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+                    WorkflowModelsBean workflowModelsBean = (WorkflowModelsBean) iter
+                            .next();
+                    if (!workflowModelsBean.isExecutable()) {
+
+                        Long id = workflowModelsBean.getId();
+                        wfmFacade.setExecutable(id, true);
+                        table.getItem(table.getValue()).getItemProperty("executable").setValue(true);
+                        workflowModelsBean.setExecutable(true);
+                        table.requestRepaint();
+
+                    } else {
+                        executable = false;
                     }
-                    
-                } catch (TransactionException e) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(e));
                 }
+                if (executable) {
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Workflow models successfully made executable",
+                                            "Success"));
+                } else {
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Some workflow model are alaready executable. They are not made executable",
+                                            "Information"));
+                }
+            } else {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Please select a workflow model.",
+                                "Information"));
             }
-            Main.getCurrent().getMainWindow()
-                    .addWindow(
-                            new InformationDialogComponent(
-                                    "Workflow models successfully unlocked!",
-                                    "Success"));
-            table.requestRepaint();
-        } else {
+        } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                            "Please select a workflow model.", "Information"));
+                    new TransactionErrorDialogComponent(e));
         }
     }
 }

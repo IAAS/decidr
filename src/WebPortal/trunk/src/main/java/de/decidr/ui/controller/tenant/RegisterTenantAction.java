@@ -66,25 +66,8 @@ public class RegisterTenantAction implements ClickListener {
         content = (RegisterTenantComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
         Form form = content.getRegistrationForm();
-        boolean notEmpty = true;
-
-        // Check the fields that are marked as required in the form
-        // whether they are empty or not
-        for (Object propertyId : content.getRegistrationForm()
-                .getItemPropertyIds()) {
-            if (notEmpty) {
-                if (form.getField(propertyId).isRequired()
-                        && form.getField(propertyId).getValue().toString()
-                                .equals("")) {
-                    notEmpty = false;
-                }
-            }
-        }
-
-        // if no required field is empty, register the user and tenant.
-        // if at least one of the required fields is empty, ask the user
-        // to completely fill out the required fields
-        if (notEmpty) {
+        
+        if (form.isValid()) {
             content.saveRegistrationForm();
 
             try {

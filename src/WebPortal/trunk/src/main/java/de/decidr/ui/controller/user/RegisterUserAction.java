@@ -20,7 +20,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.UserProfile;
@@ -46,10 +46,7 @@ public class RegisterUserAction implements ClickListener {
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
     private SiteFrame siteFrame = uiDirector.getTemplateView();
 
-    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
-            "role");
-
-    private UserFacade userFacade = new UserFacade(role);
+    private UserFacade userFacade = null;
 
     private RegisterUserComponent content = null;
 
@@ -57,33 +54,17 @@ public class RegisterUserAction implements ClickListener {
 
     @Override
     public void buttonClick(ClickEvent event) {
+        
         content = (RegisterUserComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
 
         Form form = content.getRegistrationForm();
-        boolean notEmpty = true;
-
-        // loop through the fields that are marked as required in the form
-        // and check whether they are empty or not
-        for (Object propertyId : content.getRegistrationForm()
-                .getItemPropertyIds()) {
-            if (notEmpty) {
-                if (form.getField(propertyId).isRequired()
-                        && form.getField(propertyId).getValue().toString()
-                                .equals("")) {
-                    notEmpty = false;
-                }
-            }
-        }
-
-        // If the required fields are not empty, save the content and
-        // register the user
-        // If one ore more of the required fields is empty, ask the user
-        // to complete his input fields
-        if (notEmpty) {
+        
+        if (form.isValid()) {
             content.saveRegistrationForm();
 
             try {
+                userFacade = new UserFacade(new UserRole());
                 userFacade.registerUser(content.getRegistrationForm()
                         .getItemProperty("email").getValue().toString(),
                         content.getRegistrationForm().getItemProperty(

@@ -23,7 +23,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -33,6 +32,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -70,27 +70,31 @@ public class PublishWorkflowModelAction implements ClickListener {
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new ArrayList<Long>();
-        List<Item> items = new ArrayList<Item>();
-        Set<?> value = (Set<?>) currentTenantTable.getValue();
+        Set<WorkflowModelsBean> value = (Set<WorkflowModelsBean>) currentTenantTable
+                .getValue();
+        List<WorkflowModelsBean> items = new ArrayList<WorkflowModelsBean>(
+                value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                wfms.add((Long) item.getItemProperty("id").getValue());
-                items.add(item);
+                WorkflowModelsBean workflowModelsBean = (WorkflowModelsBean) iter
+                        .next();
+                wfms.add(workflowModelsBean.getId());
+                items.add(workflowModelsBean);
             }
             try {
                 wfmFacade.publishWorkflowModels(wfms);
-                for(Item item : items){
-                    currentTenantTable.removeItem(item);
+                for (WorkflowModelsBean bean : items) {
+                    currentTenantTable.removeItem(bean);
                 }
+                currentTenantTable.requestRepaint();
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Workflow model(s) successfully published!",
                                 "Success"));
-                currentTenantTable.requestRepaint();
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

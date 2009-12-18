@@ -30,6 +30,7 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.data.ModelingTool;
 import de.decidr.ui.view.Main;
@@ -94,7 +95,9 @@ public class CreateWorkflowModelAction implements ClickListener {
                     event.getButton().getWindow());
             WorkflowModel workflowModel = workflowModelFacade
                     .getWorkflowModel(workflowModelId);
-            table.addItem(workflowModel);
+            WorkflowModelsBean workflowModelsBean = new WorkflowModelsBean(
+                    workflowModel);
+            table.addItem(workflowModelsBean);
 
             siteFrame.setContent(new ModelingTool(workflowModelId));
         } catch (TransactionException exception) {

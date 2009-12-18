@@ -23,7 +23,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -33,6 +32,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.ui.beans.WorkflowModelBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -72,17 +72,22 @@ public class ImportWorkflowModelAction implements ClickListener {
      * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
      * ClickEvent)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new ArrayList<Long>();
-        Set<?> value = (Set<?>) table.getValue();
+        Set<WorkflowModelBean> value = (Set<WorkflowModelBean>) table.getValue();
+        List<WorkflowModelBean> list = new ArrayList<WorkflowModelBean>(value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                Item item = (Item) iter.next();
-                wfms.add((Long) item.getItemProperty("id").getValue());
+                WorkflowModelBean workflowModelBean = (WorkflowModelBean) iter.next();
+                wfms.add(workflowModelBean.getId());
             }
             try {
                 tenantFacade.importPublishedWorkflowModels(tenantId, wfms);
+                for(WorkflowModelBean bean : list){
+                    table.removeItem(bean);
+                }
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Published workflow model(s) "

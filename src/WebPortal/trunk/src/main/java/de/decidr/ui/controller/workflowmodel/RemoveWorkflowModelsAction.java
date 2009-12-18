@@ -29,9 +29,9 @@ import com.vaadin.ui.Button.ClickListener;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
-import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkflowModelFacade;
+import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -70,16 +70,16 @@ public class RemoveWorkflowModelsAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new LinkedList<Long>();
-        Set<WorkflowModel> value = (Set<WorkflowModel>) table.getValue();
-        List<WorkflowModel> items = new ArrayList<WorkflowModel>(value);
+        Set<WorkflowModelsBean> value = (Set<WorkflowModelsBean>) table.getValue();
+        List<WorkflowModelsBean> items = new ArrayList<WorkflowModelsBean>(value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                WorkflowModel workflowModel = (WorkflowModel) iter.next();
+                WorkflowModelsBean workflowModel = (WorkflowModelsBean) iter.next();
                 wfms.add(workflowModel.getId());
             }
             try {
                 workflowModelFacade.deleteWorkflowModels(wfms);
-                for (WorkflowModel workflowModel : items) {
+                for (WorkflowModelsBean workflowModel : items) {
                     table.removeItem(workflowModel);
                 }
                 Main.getCurrent().getMainWindow().addWindow(

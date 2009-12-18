@@ -16,7 +16,6 @@
 
 package de.decidr.ui.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -30,8 +29,6 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
-import de.decidr.model.filters.EqualsFilter;
-import de.decidr.model.filters.Filter;
 import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -57,13 +54,11 @@ public class WorkflowModelContainer extends
 
     List<WorkflowModel> workflowModelList = null;
 
-    private List<Filter> filterList = new ArrayList<Filter>();
-
     public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
             "creationDate", "published", "executable" };
 
     public static final String[] COL_HEADERS = new String[] { "ID", "Name",
-            "Creation Date", "Published", "Locked" };
+            "Creation Date", "Published", "Executable" };
 
     /**
      * The workflow model items are added to the container<br>
@@ -71,13 +66,11 @@ public class WorkflowModelContainer extends
      */
     public WorkflowModelContainer() {
         super(WorkflowModelsBean.class);
-        Filter publishFilter = new EqualsFilter(true, "published", false);
-        filterList.add(publishFilter);
         try {
             Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
                     "tenantId");
             workflowModelList = tenantFacade.getWorkflowModels(tenantId,
-                    filterList, null);
+                    null, null);
             WorkflowModelsBean workflowModelsBean;
             for (WorkflowModel workflowModel : workflowModelList) {
                 workflowModelsBean = new WorkflowModelsBean(workflowModel);

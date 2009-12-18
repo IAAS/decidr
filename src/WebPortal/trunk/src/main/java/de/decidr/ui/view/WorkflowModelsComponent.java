@@ -141,9 +141,9 @@ public class WorkflowModelsComponent extends CustomComponent {
                 new ShowModelingToolAction(workflowModelTable));
         removeModelButton = new Button("Remove",
                 new RemoveWorkflowModelsAction(workflowModelTable));
-        lockModelButton = new Button("Lock", new LockWorkflowModelAction(
+        lockModelButton = new Button("Make non-executable", new LockWorkflowModelAction(
                 workflowModelTable));
-        unlockModelButton = new Button("Unlock",
+        unlockModelButton = new Button("Make executable",
                 new UnlockWorkflowModelsAction(workflowModelTable));
         publishModelButton = new Button("Publish",
                 new PublishWorkflowModelAction(workflowModelTable));
@@ -182,8 +182,7 @@ public class WorkflowModelsComponent extends CustomComponent {
     private void changeToPublic() {
         publicModelContainer = new PublicModelContainer();
         publicModelTable = new PublicModelTable(publicModelContainer);
-        editWorkflowModelButton.addListener(new ShowModelingToolAction(
-                publicModelTable));
+        Button editWorkflowButton = new Button("Edit workflow", new ShowModelingToolAction(publicModelTable));
         importModelButton = new Button("Import", new ImportWorkflowModelAction(
                 publicModelTable));
         unpublishModelButton = new Button("Un-publish",
@@ -193,6 +192,7 @@ public class WorkflowModelsComponent extends CustomComponent {
         } else {
             getVerticalLayout().replaceComponent(getWorkflowModelTable(),
                     publicModelTable);
+            getVerticalLayout().replaceComponent(editWorkflowModelButton, editWorkflowButton);
             getButtonHorizontalLayout().removeAllComponents();
             getButtonHorizontalLayout().addComponent(importModelButton);
             getButtonHorizontalLayout().addComponent(unpublishModelButton);

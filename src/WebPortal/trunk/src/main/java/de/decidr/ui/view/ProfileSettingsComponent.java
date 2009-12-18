@@ -67,7 +67,6 @@ public class ProfileSettingsComponent extends CustomComponent {
 
             if ("firstName".equals(propertyId)) {
                 TextField tf = (TextField) field;
-                tf.setRequired(true);
                 tf
                         .addValidator(new StringLengthValidator(
                                 "Please enter your first name."
@@ -77,7 +76,6 @@ public class ProfileSettingsComponent extends CustomComponent {
                 tf.setColumns(30);
             } else if ("lastName".equals(propertyId)) {
                 TextField tf = (TextField) field;
-                tf.setRequired(true);
                 tf
                         .addValidator(new StringLengthValidator(
                                 "Please enter your surname."
@@ -101,7 +99,7 @@ public class ProfileSettingsComponent extends CustomComponent {
                 TextField tf = (TextField) field;
                 tf.setCaption("City");
                 tf.setColumns(30);
-            }
+            }  
 
             return field;
         }
@@ -113,14 +111,12 @@ public class ProfileSettingsComponent extends CustomComponent {
 
     private static final long serialVersionUID = 1L;
     private Panel addressPanel = null;
-    private Panel buttonPanel = null;
     private Panel usernamePanel = null;
 
     private Panel profileButtonPanel = null;
     private VerticalLayout verticalLayout = null;
     private GridLayout usernameGridLayout = null;
     private VerticalLayout addressVerticalLayout = null;
-    private HorizontalLayout buttonHorizontalLayout = null;
 
     private HorizontalLayout profileButtonHorizontalLayout = null;
     private Label myProfileLabel = null;
@@ -178,17 +174,16 @@ public class ProfileSettingsComponent extends CustomComponent {
         settingsForm.setFormFieldFactory(new SettingsFieldFactory());
         
         
+        
         settingsForm.setVisibleItemProperties(properties);
 
         addressPanel = new Panel();
-        buttonPanel = new Panel();
         usernamePanel = new Panel();
         profileButtonPanel = new Panel();
 
         usernameGridLayout = new GridLayout(2, 2);
         verticalLayout = new VerticalLayout();
         addressVerticalLayout = new VerticalLayout();
-        buttonHorizontalLayout = new HorizontalLayout();
         profileButtonHorizontalLayout = new HorizontalLayout();
 
         myProfileLabel = new Label("<h2> My Profile </h2>");
@@ -209,6 +204,7 @@ public class ProfileSettingsComponent extends CustomComponent {
         leaveTenantLink.setStyleName(Button.STYLE_LINK);
 
         saveButton = new Button("Save", new SaveProfileAction());
+        settingsForm.addField("button", saveButton);
 
         statusCheckBox = new CheckBox();
         statusCheckBox.setValue(user.getUnavailableSince() != null ? true : false);
@@ -234,6 +230,10 @@ public class ProfileSettingsComponent extends CustomComponent {
         profileButtonHorizontalLayout.setSpacing(true);
         profileButtonHorizontalLayout.addComponent(changeEmailLink);
         profileButtonHorizontalLayout.addComponent(changePasswordLink);
+        profileButtonHorizontalLayout.addComponent(leaveTenantLink);
+        profileButtonHorizontalLayout.addComponent(statusCheckBox);
+        statusCheckBox.setCaption("Set my status to unavailable");
+        profileButtonHorizontalLayout.setComponentAlignment(statusCheckBox, Alignment.TOP_RIGHT);
 
         verticalLayout.addComponent(addressPanel);
 
@@ -241,18 +241,6 @@ public class ProfileSettingsComponent extends CustomComponent {
 
         addressVerticalLayout.setSpacing(true);
         addressVerticalLayout.addComponent(settingsForm);
-
-        addressVerticalLayout.addComponent(statusCheckBox);
-        statusCheckBox.setCaption("Set my status to unavailable");
-
-        verticalLayout.addComponent(buttonPanel);
-        verticalLayout
-                .setComponentAlignment(buttonPanel, Alignment.BOTTOM_LEFT);
-
-        buttonPanel.addComponent(buttonHorizontalLayout);
-        buttonHorizontalLayout.setSpacing(true);
-        buttonHorizontalLayout.addComponent(saveButton);
-        buttonHorizontalLayout.addComponent(leaveTenantLink);
     }
 
     public void saveSettingsItem() {
