@@ -16,6 +16,7 @@
 
 package de.decidr.modelingtool.client.model.humantask;
 
+import de.decidr.modelingtool.client.model.IdGenerator;
 import de.decidr.modelingtool.client.model.variable.Variable;
 
 /**
@@ -28,6 +29,7 @@ import de.decidr.modelingtool.client.model.variable.Variable;
  */
 public class TaskItem {
 
+    private Long id = null;
     private String label = null;
     private String hint = null;
     private Long variableId = null;
@@ -61,6 +63,13 @@ public class TaskItem {
         return variableId;
     }
 
+    public Long getId(){
+        if (id==null){
+            id = IdGenerator.generateId();
+        }
+        return id;
+    }
+    
     public void setLabel(String label) {
         this.label = label;
     }
@@ -71,6 +80,13 @@ public class TaskItem {
 
     public void setVariableId(Long variableId) {
         this.variableId = variableId;
+    }
+    
+    public void setId(Long id){
+        this.id = id;
+        if (id > IdGenerator.generateId()) {
+            IdGenerator.setHighestId(id);
+        }
     }
 
 }

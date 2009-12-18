@@ -17,10 +17,11 @@
 package de.decidr.modelingtool.client.model.variable;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.extjs.gxt.ui.client.data.BaseModelData;
+
+import de.decidr.modelingtool.client.model.IdGenerator;
 
 /**
  * This is the model of variable for a workflow.
@@ -29,8 +30,6 @@ import com.extjs.gxt.ui.client.data.BaseModelData;
  */
 @SuppressWarnings("serial")
 public class Variable extends BaseModelData {
-
-    private static Long lastAssignedId = 0L;
 
     /* Field names */
     public static final String ID = "id";
@@ -48,19 +47,8 @@ public class Variable extends BaseModelData {
      */
     public Variable() {
         super();
-        /*
-         * If the id is null, use timestamp as id. To ensure that the ids are
-         * unique, timestamp has to be greater that the last assigned id.
-         */
-        Long time = new Date().getTime();
-        if (time > lastAssignedId) {
-            set(ID, time);
-            lastAssignedId = time;
-        } else {
-            lastAssignedId++;
-            set(ID, lastAssignedId);
 
-        }
+        set(ID, IdGenerator.generateId());
 
         ArrayList<String> values = new ArrayList<String>();
         setValues(values);
@@ -114,8 +102,8 @@ public class Variable extends BaseModelData {
      */
     public void setId(Long id) {
         set(ID, id);
-        if (id > lastAssignedId) {
-            lastAssignedId = id;
+        if (id > IdGenerator.generateId()) {
+            IdGenerator.setHighestId(id);
         }
     }
 

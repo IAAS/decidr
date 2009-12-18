@@ -50,7 +50,7 @@ public class DWDLNames {
     /* variables */
     public static String initValue = "initialValue";
     public static String initValues = "initialValues";
-    public static String variableNCnamePrefix = "L";
+    public static String vNCnamePrefix = "ID";
     public static String variables = "variables";
     public static String listprefix = "list-";
     public static String configVar = "configurationVariable";

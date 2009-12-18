@@ -34,7 +34,7 @@ public class VariableEditorWindowInvoker {
      * Invokes the window.
      * 
      * @param variables
-     *            TODO document
+     *            the variable which are to be edited
      */
     public static void invoke(List<Variable> variables) {
         /* Only invoke dialog if it is not visible */

@@ -162,9 +162,8 @@ public class DWDLParserImpl implements DWDLParser {
             Variable variable = new Variable();
 
             /* Set id and label, get rid of the ncname prefix */
-            variable.setId(VariableNameFactory
-                    .createIdFromNCName(variableElement
-                            .getAttribute(DWDLNames.name)));
+            variable.setId(NCNameFactory.createIdFromNCName(variableElement
+                    .getAttribute(DWDLNames.name)));
             variable.setLabel(variableElement.getAttribute(DWDLNames.label));
 
             /* Set configuration */
@@ -229,7 +228,7 @@ public class DWDLParserImpl implements DWDLParser {
             Variable role = new Variable();
 
             /* Set id, name and type, get rid of variable ncname prefix */
-            role.setId(VariableNameFactory.createIdFromNCName(roleElement
+            role.setId(NCNameFactory.createIdFromNCName(roleElement
                     .getAttribute(DWDLNames.name)));
             role.setLabel(roleElement.getAttribute(DWDLNames.label));
             role.setType(VariableType.ROLE);
@@ -265,7 +264,7 @@ public class DWDLParserImpl implements DWDLParser {
                 DWDLNames.setProperty)) {
             if (property.getAttribute(DWDLNames.name).equals(propertyName)
                     && property.getAttribute(DWDLNames.variable) != null) {
-                variableId = VariableNameFactory.createIdFromNCName(property
+                variableId = NCNameFactory.createIdFromNCName(property
                         .getAttribute(DWDLNames.variable));
             }
         }
@@ -472,7 +471,7 @@ public class DWDLParserImpl implements DWDLParser {
             if (getPropertyElement.getAttribute(DWDLNames.name).equals(
                     DWDLNames.taskResult)) {
                 taskResultElement = getPropertyElement;
-                humanTaskModel.setFormVariableId(VariableNameFactory
+                humanTaskModel.setFormVariableId(NCNameFactory
                         .createIdFromNCName(taskResultElement
                                 .getAttribute(DWDLNames.variable)));
             }
@@ -496,15 +495,19 @@ public class DWDLParserImpl implements DWDLParser {
              * Every task item node has to have a variable id as attribute and a
              * text child node with the label of the task item
              */
-            Long variableId = VariableNameFactory
-                    .createIdFromNCName(taskItemElement
-                            .getAttribute(DWDLNames.variable));
+            Long variableId = NCNameFactory.createIdFromNCName(taskItemElement
+                    .getAttribute(DWDLNames.variable));
             String label = new String(getChildNodesByTagName(taskItemElement,
                     DWDLNames.label).get(0).getFirstChild().getNodeValue());
             String hint = new String(getChildNodesByTagName(taskItemElement,
                     DWDLNames.hint).get(0).getFirstChild().getNodeValue());
-            TaskItem taskitem = new TaskItem(label, hint, variableId);
-            taskItems.add(taskitem);
+            TaskItem taskItem = new TaskItem(label, hint, variableId);
+
+            /* Get id of task item */
+            Long taskItemId = NCNameFactory.createIdFromNCName(taskItemElement
+                    .getAttribute(DWDLNames.name));
+            taskItem.setId(taskItemId);
+            taskItems.add(taskItem);
         }
         humanTaskModel.setTaskItems(taskItems);
 
@@ -602,7 +605,7 @@ public class DWDLParserImpl implements DWDLParser {
                 List<Element> leftOperandList = getChildNodesByTagName(
                         conditionElement, DWDLNames.leftOp);
                 if (leftOperandList.isEmpty() == false) {
-                    condition.setLeftOperandId(VariableNameFactory
+                    condition.setLeftOperandId(NCNameFactory
                             .createIdFromNCName(leftOperandList.get(0)
                                     .getFirstChild().getNodeValue()));
                 }
@@ -618,7 +621,7 @@ public class DWDLParserImpl implements DWDLParser {
                 List<Element> rightOperandList = getChildNodesByTagName(
                         conditionElement, DWDLNames.rightOp);
                 if (rightOperandList.isEmpty() == false) {
-                    condition.setRightOperandId(VariableNameFactory
+                    condition.setRightOperandId(NCNameFactory
                             .createIdFromNCName(rightOperandList.get(0)
                                     .getFirstChild().getNodeValue()));
                 }
@@ -673,7 +676,7 @@ public class DWDLParserImpl implements DWDLParser {
         List<Element> finalCounterValueElement = getChildNodesByTagName(
                 forEachElement, DWDLNames.finalCounterValue);
         if (finalCounterValueElement.size() > 0) {
-            forEachModel.setIterationVariableId(VariableNameFactory
+            forEachModel.setIterationVariableId(NCNameFactory
                     .createIdFromNCName(finalCounterValueElement.get(0)
                             .getFirstChild().getNodeValue()));
         }

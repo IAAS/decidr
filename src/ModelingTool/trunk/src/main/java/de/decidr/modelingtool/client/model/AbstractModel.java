@@ -16,8 +16,6 @@
 
 package de.decidr.modelingtool.client.model;
 
-import java.util.Date;
-
 import de.decidr.modelingtool.client.ui.ModelChangeListener;
 
 /**
@@ -33,8 +31,6 @@ public abstract class AbstractModel implements Model {
 
     /** The unique id of the model. */
     private Long id;
-
-    private static Long lastAssignedId = 0L;
 
     /** The name of the model. */
     protected String name;
@@ -74,19 +70,8 @@ public abstract class AbstractModel implements Model {
      * @return the id of the model
      */
     public Long getId() {
-        /*
-         * If the id is null, use timestamp as id. To ensure that the ids are
-         * unique, timestamp has to be greater that the last assigned id.
-         */
         if (this.id == null) {
-            Long time = new Date().getTime();
-            if (time > lastAssignedId) {
-                this.id = time;
-                lastAssignedId = time;
-            } else {
-                lastAssignedId++;
-                this.id = lastAssignedId;
-            }
+            id = IdGenerator.generateId();
         }
         return id;
     }
@@ -117,8 +102,8 @@ public abstract class AbstractModel implements Model {
      */
     public void setId(Long id) {
         this.id = id;
-        if (id > lastAssignedId) {
-            lastAssignedId = id;
+        if (id > IdGenerator.generateId()) {
+            IdGenerator.setHighestId(id);
         }
     }
 

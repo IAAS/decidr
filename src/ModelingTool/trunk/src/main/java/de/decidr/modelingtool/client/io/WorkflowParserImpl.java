@@ -138,7 +138,7 @@ public class WorkflowParserImpl implements WorkflowParser {
          * (NCnames must not begin with a digit), we cannot simply use the long
          * id for this attribute, we have to set a prefix.
          */
-        variableElement.setAttribute(DWDLNames.name, VariableNameFactory
+        variableElement.setAttribute(DWDLNames.name, NCNameFactory
                 .createNCNameFromId(variable.getId()));
 
         /* Label */
@@ -194,7 +194,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Set name and label */
         roleElement.setAttribute(DWDLNames.label, role.getLabel());
         /* For variableNCNamePrefix, see comment in createVariables() */
-        roleElement.setAttribute(DWDLNames.name, VariableNameFactory
+        roleElement.setAttribute(DWDLNames.name, NCNameFactory
                 .createNCNameFromId(role.getId()));
 
         /* Append the values of the role variables as actors */
@@ -400,7 +400,7 @@ public class WorkflowParserImpl implements WorkflowParser {
         /* Create get property of human task */
         Element getProperty = doc.createElement(DWDLNames.getProperty);
         getProperty.setAttribute(DWDLNames.name, DWDLNames.taskResult);
-        getProperty.setAttribute(DWDLNames.variable, VariableNameFactory
+        getProperty.setAttribute(DWDLNames.variable, NCNameFactory
                 .createNCNameFromId(model.getFormVariableId()));
         humanTaskElement.appendChild(getProperty);
 
@@ -414,8 +414,9 @@ public class WorkflowParserImpl implements WorkflowParser {
                 Element taskItem = doc.createElement(DWDLNames.taskItem);
                 Variable variable = Workflow.getInstance().getModel()
                         .getVariable(ti.getVariableId());
-                taskItem.setAttribute(DWDLNames.name, "taskItem");
-                taskItem.setAttribute(DWDLNames.variable, VariableNameFactory
+                taskItem.setAttribute(DWDLNames.name, NCNameFactory
+                        .createNCNameFromId(ti.getId()));
+                taskItem.setAttribute(DWDLNames.variable, NCNameFactory
                         .createNCNameFromId(variable.getId()));
                 taskItem.setAttribute(DWDLNames.type, variable.getType()
                         .getDwdlName());
@@ -530,14 +531,14 @@ public class WorkflowParserImpl implements WorkflowParser {
 
                 /* Create the condition statement */
                 conditionElement.appendChild(createTextElement(doc,
-                        DWDLNames.leftOp, VariableNameFactory
+                        DWDLNames.leftOp, NCNameFactory
                                 .createNCNameFromId(condition
                                         .getLeftOperandId())));
                 conditionElement.appendChild(createTextElement(doc,
                         DWDLNames.operator, condition.getOperator()
                                 .getDisplayString()));
                 conditionElement.appendChild(createTextElement(doc,
-                        DWDLNames.rightOp, VariableNameFactory
+                        DWDLNames.rightOp, NCNameFactory
                                 .createNCNameFromId(condition
                                         .getRightOperandId())));
             }
@@ -611,14 +612,13 @@ public class WorkflowParserImpl implements WorkflowParser {
              * Creating counter values and completion condition elements. The
              * start counter value is always set to 1.
              */
-            forEachElement.setAttribute(DWDLNames.countername,
-                    VariableNameFactory.createNCNameFromId(model
-                            .getIterationVariableId()));
+            forEachElement.setAttribute(DWDLNames.countername, NCNameFactory
+                    .createNCNameFromId(model.getIterationVariableId()));
             forEachElement.appendChild(createTextElement(doc,
                     DWDLNames.startCounterValue, "1"));
             forEachElement
                     .appendChild(createTextElement(doc,
-                            DWDLNames.finalCounterValue, VariableNameFactory
+                            DWDLNames.finalCounterValue, NCNameFactory
                                     .createNCNameFromId(model
                                             .getIterationVariableId())));
         }
@@ -680,21 +680,24 @@ public class WorkflowParserImpl implements WorkflowParser {
     }
 
     /*
-     * The created element looks like this: <setProperty name="<name>"
-     * variable="<NCnamePrefix + variableID>"> <propertyValue> variableID.value
-     * </propertyValue> </setProperty>
+     * The created element looks like this: <setProperty name="{name}"
+     * variable="{NCnamePrefix + variableID}" />
      */
     private Element createSetPropertyElement(Document doc, String name,
             Long variableId) {
         Element property = doc.createElement(DWDLNames.setProperty);
         property.setAttribute(DWDLNames.name, name);
         if (variableId != null) {
-            property.setAttribute(DWDLNames.variable, VariableNameFactory
+            property.setAttribute(DWDLNames.variable, NCNameFactory
                     .createNCNameFromId(variableId));
         }
         return property;
     }
 
+    /*
+     * The created element looks like this: <setProperty name="{name}">
+     * <propertyValue>{value}<propertyValue> </setProperty>
+     */
     private Element createSetPropertyElementWithValue(Document doc,
             String name, String value) {
         Element property = doc.createElement(DWDLNames.setProperty);
