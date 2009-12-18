@@ -40,6 +40,7 @@ import de.decidr.ui.view.uibuilder.TenantAdminViewBuilder;
 import de.decidr.ui.view.uibuilder.UIBuilder;
 import de.decidr.ui.view.uibuilder.UserViewBuilder;
 import de.decidr.ui.view.uibuilder.WorkflowAdminViewBuilder;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
  * This class handles the login for the web application.<br>
@@ -92,53 +93,65 @@ public class Login {
 
         userId = userFacade.getUserIdByLogin(username, password);
 
-        userFacade = new UserFacade(new UserRole(userId));
+        if (userFacade.isRegistered(userId)) {
+            userFacade = new UserFacade(new UserRole(userId));
 
-        if (session.getAttribute("tenantId") == null) {
-            tenantId = userFacade.getCurrentTenantId(userId);
+            if (session.getAttribute("tenantId") == null) {
+                tenantId = userFacade.getCurrentTenantId(userId);
+            } else {
+                tenantId = (Long) session.getAttribute("tenantId");
+                userFacade.setCurrentTenantId(userId, tenantId);
+            }
+
+            if (tenantId == null) {
+                tenant = DecidrGlobals.getDefaultTenant();
+                tenantId = tenant.getId();
+                userFacade.setCurrentTenantId(userId, tenantId);
+            }
+
+            GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(
+                    new SuperAdminRole(DecidrGlobals.getSettings()
+                            .getSuperAdmin().getId()), tenantId);
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+            Tenant tenant = cmd.getTenantSettings();
+            tenantName = tenant.getName();
+
+            role = userFacade.getUserRoleForTenant(userId, tenantId);
+            Role roleInstance = null;
+            try {
+                roleInstance = role.getConstructor(Long.class).newInstance(
+                        userId);
+            } catch (Exception exception) {
+                throw new RuntimeException(exception);
+            }
+
+            session.setAttribute("userId", userId);
+            session.setAttribute("tenantId", tenantId);
+            session.setAttribute("role", roleInstance);
+
+            loadProtectedResources();
         } else {
-            tenantId = (Long) session.getAttribute("tenantId");
-            userFacade.setCurrentTenantId(userId, tenantId);
+            Main
+                    .getCurrent()
+                    .getMainWindow()
+                    .addWindow(
+                            new InformationDialogComponent(
+                                    "The user isn't registered yet. Please confirm your registration first",
+                                    "Information"));
         }
 
-        if (tenantId == null) {
-            tenant = DecidrGlobals.getDefaultTenant();
-            tenantId = tenant.getId();
-            userFacade.setCurrentTenantId(userId, tenantId);
-        }
-
-        GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(
-                new SuperAdminRole(DecidrGlobals.getSettings().getSuperAdmin()
-                        .getId()), tenantId);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        Tenant tenant = cmd.getTenantSettings();
-        tenantName = tenant.getName();
-
-        role = userFacade.getUserRoleForTenant(userId, tenantId);
-        Role roleInstance = null;
-        try {
-            roleInstance = role.getConstructor(Long.class).newInstance(userId);
-        } catch (Exception exception) {
-            throw new RuntimeException(exception);
-        }
-
-        session.setAttribute("userId", userId);
-        session.setAttribute("tenantId", tenantId);
-        session.setAttribute("role", roleInstance);
-
-        loadProtectedResources();
     }
 
     /**
-     * Provides the same functionality as authenticate(..) but requires a user id
-     * and an authentification key.
-     * Should be used if login is executed by clicking i.e. an email link.
-     *
+     * Provides the same functionality as authenticate(..) but requires a user
+     * id and an authentification key. Should be used if login is executed by
+     * clicking i.e. an email link.
+     * 
      * @param userId
-     *          ID of the user to be logged in
+     *            ID of the user to be logged in
      * @param authentificationKey
-     *          auth key of the user to be logged in. If is not accepted by the facade,
-     *          login fails
+     *            auth key of the user to be logged in. If is not accepted by
+     *            the facade, login fails
      */
     public void loginById(Long userId, String authentificationKey)
             throws EntityNotFoundException, TransactionException {
