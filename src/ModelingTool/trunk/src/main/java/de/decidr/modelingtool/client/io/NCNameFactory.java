@@ -38,7 +38,7 @@ public class NCNameFactory {
 
     public static Long createIdFromNCName(String ncname) {
         /*
-         * It can occur, that an ncname is "Lnull". This happens if there was no
+         * It can occur, that an ncname is "NCnull". This happens if there was no
          * variable assigned. If that is the case, we do not want to return a
          * Long number, but a null object.
          */

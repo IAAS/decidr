@@ -115,12 +115,12 @@
 
 			<parameter>
 				<humanTaskData>
-					<taskItem name="taskItem" variable="ID1255088176468" type="string">
+					<taskItem name="NC74643" variable="ID1255088176468" type="string">
 						<label>Label 1</label>
 						<hint>First</hint>
 						<value>New Value</value>
 					</taskItem>
-					<taskItem name="taskItem" variable="ID1255088176468" type="string">
+					<taskItem name="NC74647" variable="ID1255088176468" type="string">
 						<label>Label 2</label>
 						<hint>Second</hint>
 						<value>New Value</value>

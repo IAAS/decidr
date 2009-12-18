@@ -79,7 +79,7 @@
 				<target arcId="1255956748640" />
 			</targets>
 			<startCounterValue>1</startCounterValue>
-			<finalCounterValue>L768768</finalCounterValue>
+			<finalCounterValue>ID768768</finalCounterValue>
 			<completionCondition>XOR</completionCondition>
 			<nodes>
 				<invokeNode
@@ -118,5 +118,3 @@
 			id="1255956748640" source="1255956748593" target="1255956748703" />
 	</arcs>
 </workflow>
-
-
