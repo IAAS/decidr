@@ -50,12 +50,12 @@ public class FileAccessAsserter implements Asserter, TransactionalCommand {
 
     private Session session = null;
 
-    private Boolean hasFileAccess = false;
+    private boolean hasFileAccess = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
-        Boolean result = false;
+        boolean result = false;
         this.role = role;
 
         if (permission instanceof FilePermission) {

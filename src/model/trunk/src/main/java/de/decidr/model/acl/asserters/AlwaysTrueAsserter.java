@@ -32,7 +32,7 @@ public class AlwaysTrueAsserter implements Asserter {
     /**
      * @see Asserter#assertRule(Role, Permission)
      */
-    public Boolean assertRule(Role role, Permission permission) {
+    public boolean assertRule(Role role, Permission permission) {
         return true;
     }
 }

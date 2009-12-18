@@ -41,7 +41,7 @@ public class UserIsWorkflowAdminWithinTenantAsserter extends
     boolean isWorkflowAdmin = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
         boolean result = false;
 

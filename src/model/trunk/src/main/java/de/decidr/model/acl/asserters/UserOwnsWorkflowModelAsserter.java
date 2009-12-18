@@ -25,13 +25,13 @@ public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
 
     private Long userId = null;
     private Set<Long> workflowModelIds = null;
-    private Boolean isOwner = false;
+    private boolean isOwner = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
 
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole) {
             userId = role.getActorId();

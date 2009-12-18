@@ -40,10 +40,10 @@ public class UserIsSuperAdminAsserter extends AbstractTransactionalCommand
         implements Asserter {
 
     private Long userid = null;
-    private Boolean isSuperAdmin = false;
+    private boolean isSuperAdmin = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
         isSuperAdmin = false;
 

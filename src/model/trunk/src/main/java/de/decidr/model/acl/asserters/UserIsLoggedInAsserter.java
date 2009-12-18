@@ -36,8 +36,8 @@ import de.decidr.model.acl.roles.UserRole;
 public class UserIsLoggedInAsserter implements Asserter {
 
     @Override
-    public Boolean assertRule(Role role, Permission permission) {
-        Boolean result = false;
+    public boolean assertRule(Role role, Permission permission) {
+        boolean result = false;
         if (role instanceof UserRole) {
             UserRole userRole = (UserRole) role;
             result = UserRole.MIN_VALID_USER_ID

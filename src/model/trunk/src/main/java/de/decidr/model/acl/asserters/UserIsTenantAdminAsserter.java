@@ -23,12 +23,12 @@ public class UserIsTenantAdminAsserter extends CommandAsserter {
 
     private Long userId = null;
     private Long[] tenantIds = null;
-    private Boolean userIsAdmin = false;
+    private boolean userIsAdmin = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole) {
             userId = role.getActorId();

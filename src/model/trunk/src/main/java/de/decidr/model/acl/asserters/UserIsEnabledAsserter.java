@@ -22,12 +22,12 @@ public class UserIsEnabledAsserter extends AbstractTransactionalCommand
         implements Asserter {
 
     private Long userId = null;
-    private Boolean userIsEnabled = false;
+    private boolean userIsEnabled = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole) {
             userId = role.getActorId();

@@ -16,12 +16,15 @@
 
 package de.decidr.model.commands.user;
 
+import org.apache.log4j.Logger;
+
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.Password;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.ChangeEmailRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.TransactionEvent;
 
@@ -33,6 +36,9 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  */
 public class RequestChangeEmailCommand extends UserCommand {
+
+    private static final Logger logger = DefaultLogger
+            .getLogger(RequestChangeEmailCommand.class);
 
     private String newEmail;
 
@@ -67,8 +73,12 @@ public class RequestChangeEmailCommand extends UserCommand {
         User user = fetchUser(evt.getSession());
         ChangeEmailRequest currentRequest = user.getChangeEmailRequest();
         if (currentRequest != null) {
+            logger.debug("Existing change email request found. Deleting.");
             evt.getSession().delete(currentRequest);
         }
+
+        logger.debug("Creating new change email request. From: "
+                + user.getEmail() + " To: " + newEmail);
 
         ChangeEmailRequest newRequest = new ChangeEmailRequest();
         newRequest.setAuthKey(Password.getRandomAuthKey());
@@ -76,6 +86,7 @@ public class RequestChangeEmailCommand extends UserCommand {
         newRequest.setNewEmail(newEmail);
         newRequest.setUser(user);
         newRequest.setId(user.getId());
+        logger.debug("Saving new change email request.");
         evt.getSession().save(newRequest);
 
         user.setChangeEmailRequest(newRequest);

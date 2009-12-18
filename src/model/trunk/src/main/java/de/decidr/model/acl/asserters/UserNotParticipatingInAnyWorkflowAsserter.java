@@ -24,13 +24,13 @@ public class UserNotParticipatingInAnyWorkflowAsserter extends
         AbstractTransactionalCommand implements Asserter {
 
     private Long userid = null;
-    private Boolean notParticipating = false;
+    private boolean notParticipating = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
 
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole) {
             userid = role.getActorId();

@@ -22,12 +22,12 @@ public class UserIsTenantMemberAsserter extends CommandAsserter {
 
     private Long userId = null;
     private Long[] tenantIds = null;
-    private Boolean userIsMember = false;
+    private boolean userIsMember = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole) {
             userId = role.getActorId();
@@ -65,7 +65,7 @@ public class UserIsTenantMemberAsserter extends CommandAsserter {
             for (Long tenantId : tenantIds) {
                 q.setLong("userId", userId);
                 q.setLong("tenantId", tenantId);
-                Boolean isMember = q.uniqueResult() != null;
+                boolean isMember = q.uniqueResult() != null;
                 userIsMember = userIsMember && isMember;
                 if (!userIsMember) {
                     break;

@@ -37,9 +37,9 @@ public class IsRoleEqualToAccessedUserAsserter extends CommandAsserter {
     private Long[] accessedUserIds = null;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole) {
             userId = role.getActorId();

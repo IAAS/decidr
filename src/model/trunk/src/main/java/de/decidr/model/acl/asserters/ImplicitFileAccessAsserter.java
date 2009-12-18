@@ -42,7 +42,7 @@ import de.decidr.model.transactions.TransactionEvent;
 public class ImplicitFileAccessAsserter extends AbstractTransactionalCommand
         implements Asserter {
 
-    Boolean implicitAccess = false;
+    boolean implicitAccess = false;
 
     Long userId = null;
     FilePermission filePermission = null;
@@ -51,10 +51,10 @@ public class ImplicitFileAccessAsserter extends AbstractTransactionalCommand
     Session session = null;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
 
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole && role.getActorId() != null
                 && permission instanceof FilePermission) {

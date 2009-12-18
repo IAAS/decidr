@@ -15,6 +15,8 @@
  */
 package de.decidr.model.commands.user;
 
+import org.apache.log4j.Logger;
+
 import de.decidr.model.LifetimeValidator;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.ChangeEmailRequest;
@@ -22,6 +24,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.AuthKeyException;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -37,6 +40,9 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  */
 public class ConfirmChangeEmailRequestCommand extends UserCommand {
+
+    private static final Logger logger = DefaultLogger
+            .getLogger(RequestChangeEmailCommand.class);
 
     private String requestAuthKey = null;
     private Long userId = null;
@@ -89,13 +95,14 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
         }
 
         if (LifetimeValidator.isChangeEmailRequestValid(request)) {
-
+            logger.debug("Confirming change email request.");
             user.setEmail(request.getNewEmail());
             // due to a consistency trigger we must delete the request BEFORE
             // updating the user.
             evt.getSession().delete(request);
             evt.getSession().update(user);
         } else {
+            logger.debug("Change email request has expired.");
             // the request has expired
             requestExpired = true;
             evt.getSession().delete(request);

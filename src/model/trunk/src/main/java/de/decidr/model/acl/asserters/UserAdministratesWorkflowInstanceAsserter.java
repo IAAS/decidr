@@ -22,12 +22,12 @@ public class UserAdministratesWorkflowInstanceAsserter extends CommandAsserter {
 
     private Long[] workflowInstanceIds = null;
     private Long userId = null;
-    private Boolean isWorkflowAdmin = false;
+    private boolean isWorkflowAdmin = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof WorkflowAdminRole) {
             userId = role.getActorId();

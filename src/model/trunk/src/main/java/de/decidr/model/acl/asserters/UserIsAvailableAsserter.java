@@ -22,12 +22,12 @@ public class UserIsAvailableAsserter extends AbstractTransactionalCommand
         implements Asserter {
 
     private Long userId = null;
-    private Boolean userIsAvailable = false;
+    private boolean userIsAvailable = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
-        Boolean result = null;
+        boolean result = false;
 
         if (role instanceof UserRole) {
             userId = role.getActorId();

@@ -15,13 +15,13 @@ public class UserIsInvitationReceiverAsserter extends CommandAsserter {
 
     private Long userId;
     private Long[] invitationIds = new Long[0];
-    private Boolean isReceiver = false;
+    private boolean isReceiver = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
 
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole) {
 
@@ -38,7 +38,6 @@ public class UserIsInvitationReceiverAsserter extends CommandAsserter {
 
         }
         return result;
-
     }
 
     @Override

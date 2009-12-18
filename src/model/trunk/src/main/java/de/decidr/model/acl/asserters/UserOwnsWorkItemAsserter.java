@@ -23,13 +23,13 @@ public class UserOwnsWorkItemAsserter extends CommandAsserter {
 
     private Long userId = null;
     private Long[] workItemIds = null;
-    private Boolean isOwner = false;
+    private boolean isOwner = false;
 
     @Override
-    public Boolean assertRule(Role role, Permission permission)
+    public boolean assertRule(Role role, Permission permission)
             throws TransactionException {
 
-        Boolean result = false;
+        boolean result = false;
 
         if (role instanceof UserRole) {
             userId = role.getActorId();
