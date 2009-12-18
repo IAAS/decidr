@@ -101,7 +101,7 @@ REPLACE INTO `known_web_service` (`id`, `name`) VALUES
 
 REPLACE INTO `server` (`id`, `location`, `load`, `locked`, `dynamicallyAdded`, `serverTypeId`, `lastLoadUpdate`) VALUES
 (6, 'localhost:8080', -1, 0, 0, 1, '2009-11-09 13:03:10'),
-(8, 'localhost:8280', -1, 0, 0, 3, '2009-11-08 07:32:24'),
+(8, 'localhost:8080', -1, 0, 0, 3, '2009-11-08 07:32:24'),
 (9, 'localhost:8080', -1, 0, 0, 2, NULL);
 
 --
