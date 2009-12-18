@@ -19,13 +19,13 @@ package de.decidr.ui.controller.show;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.AppointWorkflowAdminComponent;
 import de.decidr.ui.view.Main;
