@@ -16,8 +16,6 @@
 
 package de.decidr.ui.controller;
 
-import java.io.Serializable;
-
 import com.vaadin.data.Container.Filterable;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;

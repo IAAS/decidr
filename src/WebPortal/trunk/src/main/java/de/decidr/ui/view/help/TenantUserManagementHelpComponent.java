@@ -80,11 +80,6 @@ public class TenantUserManagementHelpComponent extends VerticalLayout {
                 + "<li>Select the user you want to promote and click on the "
                 + "&quot;Promote to tenant admin&quot; button.</li>"
                 + "<li>The system sends a notification email to the super admin "
-                // aleks, gh, TK: Not sure here: doesn't the new tenant
-                // admin have a say in this? No confirmation
-                // "yes I want to administrate this tenant"? ~rr
-                // RR I doubt we have implemented this since it's only nth,
-                // but according to the spec this description is correct ~gh
                 + "and the designated tenant admin, stating that the tenant "
                 + "admin role has been transferred.</li>"
                 + "</ol><br/>",

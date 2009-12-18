@@ -33,15 +33,8 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
- * Opens the {@link AppointWorkflowAdminComponent}, allowing the tenant admin
- * to appoint one or more workflow admins.<br>
- * aleks, gh: several problems with this comment: a) The user decides nothing,
- * that's got to be an admin doing this b) If the workflow admin supervises the
- * instance, what is the name of the work model admin? ~rr
- * RR "If the workflow admin supervises the
- * instance, what is the name of the work model admin?"
- * Hope i got your question right, the person who administrates the workflow models
- * is the tenant admin, see spec
+ * Opens the {@link AppointWorkflowAdminComponent}, allowing the tenant admin to
+ * appoint one or more workflow admins.
  * 
  * @author AT
  */
@@ -71,21 +64,23 @@ public class ShowAppointWorkflowAdminAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         Long wfmId = null;
-        Set<?> items = (Set<?>)table.getValue();
-        
-        if(items.size() == 1){
+        Set<?> items = (Set<?>) table.getValue();
+
+        if (items.size() == 1) {
             for (Iterator<?> iter = items.iterator(); iter.hasNext();) {
-                WorkflowModelsBean workflowModelsBean = (WorkflowModelsBean) iter.next();
+                WorkflowModelsBean workflowModelsBean = (WorkflowModelsBean) iter
+                        .next();
                 wfmId = workflowModelsBean.getId();
             }
-            if (wfmId != null){
+            if (wfmId != null) {
                 siteFrame.setContent(new AppointWorkflowAdminComponent(wfmId));
-            }   
-            
+            }
+
         } else {
-            Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent(
-                    "Please select exactly one workflow model.",
-                    "Action Failed"));
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please select exactly one workflow model.",
+                            "Action Failed"));
         }
     }
 }
