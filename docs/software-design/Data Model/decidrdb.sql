@@ -594,7 +594,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`system_settings` (
   `modifiedDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `autoAcceptNewTenants` TINYINT(1) NOT NULL DEFAULT FALSE ,
   `systemName` VARCHAR(255) NOT NULL DEFAULT 'DecidR' ,
-  `domain` VARCHAR(255) NOT NULL DEFAULT 'decidr.de' ,
+  `baseUrl` VARCHAR(255) NOT NULL DEFAULT 'decidr.de' COMMENT 'the base url where the application can be reached (no protocol) e.g. decidr.de/WebPortal' ,
   `systemEmailAddress` VARCHAR(255) NOT NULL DEFAULT 'system@decidr.de' ,
   `logLevel` VARCHAR(30) NOT NULL ,
   `superAdminId` BIGINT NOT NULL ,
@@ -1111,8 +1111,8 @@ CREATE TRIGGER check_system_settings_update
 BEFORE UPDATE ON system_settings
 FOR EACH ROW BEGIN
     #checks constraints 
-    IF ( "" = TRIM(NEW.domain)  ) THEN
-        CALL ERROR_EMPTY_DOMAIN();
+    IF ( "" = TRIM(NEW.baseUrl)  ) THEN
+        CALL ERROR_EMPTY_BASE_URL();
     END IF;
 END;//
 
