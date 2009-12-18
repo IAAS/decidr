@@ -103,8 +103,8 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             dwfm.setDwdl(workflowModel.getDwdl());
             dwfm.setVersion(workflowModel.getVersion());
             // XXX workflow model wsdl is not used yet.
-            dwfm.setWsdl(new byte[] {});
-            dwfm.setSoapTemplate(new byte[] {});
+            dwfm.setWsdl(new byte[0]);
+            dwfm.setSoapTemplate(new byte[0]);
             dwfm.setDeployDate(DecidrGlobals.getTime().getTime());
 
             evt.getSession().save(dwfm);
