@@ -90,8 +90,8 @@ public class SaveSystemSettingsAction implements ClickListener {
                     .getItemProperty("changeEmailRequestLifetimeSeconds")
                     .getValue().toString()));
         }
-        if (item.getItemProperty("domain").getValue() != null) {
-            settings.setDomain(item.getItemProperty("domain").getValue()
+        if (item.getItemProperty("baseUrl").getValue() != null) {
+            settings.setBaseUrl(item.getItemProperty("baseUrl").getValue()
                     .toString());
         }
         if (item.getItemProperty("invitationLifetimeSeconds").getValue() != null) {

@@ -86,7 +86,7 @@ public class SystemSettingsComponent extends CustomComponent {
         settingsItem = new BeanItem(systemSettings);
         settingsForm.setItemDataSource(settingsItem);
         Object[] visiblePropertyIds = new Object[] { "autoAcceptNewTenants",
-                "logLevel", "changeEmailRequestLifetimeSeconds", "domain",
+                "logLevel", "changeEmailRequestLifetimeSeconds", "baseUrl",
                 "invitationLifetimeSeconds", "maxAttachmentsPerEmail",
                 "maxUploadFileSizeBytes", "maxUploadFileSizeBytes",
                 "mtaHostname", "mtaPassword", "mtaPort", "mtaUsername",
