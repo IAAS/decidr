@@ -64,8 +64,9 @@ public class UploadAction implements Receiver {
              fos = new FileOutputStream(file);
          } catch (IOException e) {
              Main.getCurrent().getMainWindow().addWindow(
-             // Aleks, GH: a little more verbose, if you please! ~rr
-                     new InformationDialogComponent("IOException", "Failure"));
+                     new InformationDialogComponent(
+                             "An error occured wihle uploading your file:<br/>"+ e.getMessage()
+                             , "Upload Failure"));
          }
 
          return fos;

@@ -76,7 +76,12 @@ public class RegisterUserAction implements ClickListener {
                                 "Registration successful"));
                 siteFrame.setContent(new WelcomePageComponent());
             } catch (NullPointerException e) {
-                // Aleks, GH: Well, do something? ~rr
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "An error occured while performing your registration.<br/>"
+                                +"If this error occurs repeatedly please inform the systems' administrator.<br/><br/>"
+                                +"Error Description:<br/>" + e.getMessage(),
+                                "Registration Error"));
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

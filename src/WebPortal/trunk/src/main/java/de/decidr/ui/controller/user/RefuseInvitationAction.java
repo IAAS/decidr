@@ -53,7 +53,11 @@ public class RefuseInvitationAction implements ClickListener {
     public RefuseInvitationAction(Long invId, Long uId) {
         invitationId = invId;
         userId = uId;
-        userFacade = new UserFacade(new UserRole(userId));
+        if (userId != null){
+            userFacade = new UserFacade(new UserRole(userId));
+        }else{
+            userFacade = new UserFacade(new UserRole());
+        }
     }
 
     /*

@@ -90,7 +90,6 @@ public class SaveProfileAction implements ClickListener {
 
     }
 
-    // GH length validator for this data needed in the UI
     private UserProfile fillUserProfile() {
         UserRole role = new UserRole(userId);
         GetUserWithProfileCommand cmd = new GetUserWithProfileCommand(role,
@@ -98,18 +97,16 @@ public class SaveProfileAction implements ClickListener {
         try {
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
             userProfile = cmd.getResult().getUserProfile();
-            // GH, Aleks: The following should be cast to a string in case the
-            // getValue() returns null ~rr
-            userProfile.setFirstName(content.getSettingsItem().getItemProperty(
-                    "firstName").getValue().toString());
-            userProfile.setLastName(content.getSettingsItem().getItemProperty(
-                    "lastName").getValue().toString());
-            userProfile.setCity(content.getSettingsItem().getItemProperty(
-                    "city").getValue().toString());
-            userProfile.setPostalCode(content.getSettingsItem()
-                    .getItemProperty("postalCode").getValue().toString());
-            userProfile.setStreet(content.getSettingsItem().getItemProperty(
-                    "street").getValue().toString());
+            userProfile.setFirstName((String)content.getSettingsItem().getItemProperty(
+                    "firstName").getValue());
+            userProfile.setLastName((String)content.getSettingsItem().getItemProperty(
+                    "lastName").getValue());
+            userProfile.setCity((String)content.getSettingsItem().getItemProperty(
+                    "city").getValue());
+            userProfile.setPostalCode((String)content.getSettingsItem()
+                    .getItemProperty("postalCode").getValue());
+            userProfile.setStreet((String)content.getSettingsItem().getItemProperty(
+                    "street").getValue());
             return userProfile;
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(

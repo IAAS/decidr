@@ -41,8 +41,7 @@ public class TenantTable extends Table {
     
 
     /**
-     * Default constructor with container which is set as data source.<br>
-     * Aleks, GH: *not* a default constructor ~rr
+     * Constructor, requires a container which is set as data source.<br>
      */
     public TenantTable(Container container) {
         tenantContainer = container;

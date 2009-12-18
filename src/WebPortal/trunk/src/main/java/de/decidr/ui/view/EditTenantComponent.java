@@ -31,8 +31,7 @@ import de.decidr.ui.view.tables.TenantTable;
 
 /**
  * The tenants can be edited. By selecting a tenant from the table, a tenant can
- * be deleted, approved or declined.<br>
- * Aleks, GH: according to the code, they can only be deleted ~rr
+ * be deleted.<br>
  * 
  * @author AT
  */

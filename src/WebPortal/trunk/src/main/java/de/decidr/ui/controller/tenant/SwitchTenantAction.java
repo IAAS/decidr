@@ -154,9 +154,11 @@ public class SwitchTenantAction implements ClickListener {
             uiBuilder = new SuperAdminViewBuilder();
             uiDirector.setUiBuilder(uiBuilder);
         } else {
-            Main.getCurrent().getMainWindow().showNotification(
-            // Aleks, GH: do you want to elaborate on that? ~rr
-                    "Role class not found");
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                    "Failed to load your resources due to a unknown role class.<br/>"+
+                    "Please inform the systems' administrator if this error occurs repeatedly.",
+                    "Login Failure"));
         }
 
         if (!oldRole.getClass().equals(role)) {

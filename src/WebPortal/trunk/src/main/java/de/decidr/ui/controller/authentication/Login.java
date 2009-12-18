@@ -143,15 +143,15 @@ public class Login {
     }
 
     /**
-     * Provides the same functionality as authenticate(..) but requires a user
-     * id and an authentification key. Should be used if login is executed by
-     * clicking i.e. an email link.
-     * 
+     * Provides the same functionality as authenticate(..) but requires a user id
+     * and an authentification key.
+     * Should be used if login is executed by clicking i.e. an email link.
+     *
      * @param userId
      *            ID of the user to be logged in
      * @param authentificationKey
-     *            auth key of the user to be logged in. If is not accepted by
-     *            the facade, login fails
+     *          auth key of the user to be logged in. If is not accepted by
+     *          the facade, login fails
      */
     public void loginById(Long userId, String authentificationKey)
             throws EntityNotFoundException, TransactionException {
@@ -214,9 +214,11 @@ public class Login {
             uiBuilder = new SuperAdminViewBuilder();
             uiDirector.setUiBuilder(uiBuilder);
         } else {
-            Main.getCurrent().getMainWindow().showNotification(
-            // GH, Aleks: please provide a decent error message ~rr
-                    "Role class not found");
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                    "Failed to load your resources due to a unknown role class.<br/>"+
+                    "Please inform the systems' administrator if this error occurs repeatedly.",
+                    "Login Failure"));
         }
 
         uiDirector.constructView();

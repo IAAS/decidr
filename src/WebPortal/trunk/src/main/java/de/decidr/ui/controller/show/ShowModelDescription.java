@@ -38,8 +38,7 @@ public class ShowModelDescription implements ClickListener {
     private Table table = null;
 
     /**
-     * Default constructor which gets the container<br>
-     * Aleks, GH: not a default constructor ~rr
+     * Constructor, requires a table that contains workflow models<br>
      */
     public ShowModelDescription(Table table) {
         this.table = table;

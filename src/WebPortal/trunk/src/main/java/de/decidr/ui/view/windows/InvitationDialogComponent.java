@@ -50,14 +50,16 @@ public class InvitationDialogComponent extends Window {
     private Button cancelButton = null;
 
     /**
-     * Default constructor. Stores the invitation id and calls the
+     * Stores the invitation id and calls the
      * initialization with the given description.
      * 
      * @param description
+     *          Description to be displayed in this dialog
      * @param invId
+     *          id of the invitation
      * @param uId
+     *          id of the invited user
      */
-    //GH, Aleks: What if the user is an unknown user, e.g. no user id?
     public InvitationDialogComponent(String description, Long invId, Long uId) {
         invitationId = invId;
         userId = uId;

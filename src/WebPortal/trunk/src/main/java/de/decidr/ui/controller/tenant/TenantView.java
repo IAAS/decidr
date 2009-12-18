@@ -33,6 +33,7 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.ui.view.Main;
+import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
@@ -150,8 +151,11 @@ public class TenantView {
             }
         } catch (IOException exception) {
             Main.getCurrent().getMainWindow().addWindow(
-            // Aleks, GH: This isn't a TransactionException, is it? ~rr
-                    new TransactionErrorDialogComponent(exception));
+                    new InformationDialogComponent(
+                            "An error occured while getting your tenant specific settings.<br/>"
+                            +"If this error occurs repeatedly please inform the systems' administrator.<br/><br/>"
+                            +"Error Description:<br/>" + exception.getMessage(),
+                            "Synchronization Error"));
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

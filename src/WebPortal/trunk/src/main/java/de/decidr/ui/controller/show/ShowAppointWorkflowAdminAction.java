@@ -19,13 +19,13 @@ package de.decidr.ui.controller.show;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
-import de.decidr.ui.beans.WorkflowModelsBean;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.AppointWorkflowAdminComponent;
 import de.decidr.ui.view.Main;
@@ -33,11 +33,15 @@ import de.decidr.ui.view.SiteFrame;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 
 /**
- * Opens the {@link AppointWorkflowAdminComponent}, so that the user is able to
- * decide which user is a workflow administrator for a workflow instance.<br>
- * Aleks, GH: several problems with this comment: a) The user decides nothing,
+ * Opens the {@link AppointWorkflowAdminComponent}, allowing the tenant admin
+ * to appoint one or more workflow admins.<br>
+ * aleks, gh: several problems with this comment: a) The user decides nothing,
  * that's got to be an admin doing this b) If the workflow admin supervises the
  * instance, what is the name of the work model admin? ~rr
+ * RR "If the workflow admin supervises the
+ * instance, what is the name of the work model admin?"
+ * Hope i got your question right, the person who administrates the workflow models
+ * is the tenant admin, see spec
  * 
  * @author AT
  */

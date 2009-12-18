@@ -34,7 +34,7 @@ import de.decidr.model.annotations.Reviewed.State;
  * @author Geoffrey-Alexeij Heinze
  */
 @Reviewed(reviewers = { "RR" }, lastRevision = "2343", currentReviewState = State.PassedWithComments)
-public class SearchAction implements ClickListener, Serializable {
+public class SearchAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
     private Table searchTable = null;
@@ -49,7 +49,6 @@ public class SearchAction implements ClickListener, Serializable {
      * @param textField
      *            {@link TextField}, which contains the search string
      */
-    // GH, Aleks: What if the input is null? ~rr
     public SearchAction(Table table, TextField textField) {
         searchTable = table;
         searchField = textField;
@@ -63,12 +62,15 @@ public class SearchAction implements ClickListener, Serializable {
      */
     @Override
     public void buttonClick(ClickEvent event) {
+        if (searchField == null || searchTable == null){
+            return;
+        }
         Filterable container = (Filterable) searchTable
                 .getContainerDataSource();
 
         container.removeAllContainerFilters();
         container.addContainerFilter(container.getContainerPropertyIds(),
-                searchField.getValue().toString(), true, false);
+                (String)searchField.getValue(), true, false);
         // Aleks, GH: check refresh method
         searchTable.getParent().requestRepaint();
     }
