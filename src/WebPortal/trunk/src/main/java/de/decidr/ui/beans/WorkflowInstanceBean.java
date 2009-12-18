@@ -26,12 +26,12 @@ import de.decidr.model.entities.WorkflowInstance;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
-@Reviewed(currentReviewState = State.NeedsReview, lastRevision = "", reviewers = { "" })
-public class WorkflowInstanceBean implements Serializable{
-    
+@Reviewed(currentReviewState = State.PassedWithComments, lastRevision = "2498", reviewers = { "RR" })
+public class WorkflowInstanceBean implements Serializable {
+
     private String model;
     private Long id;
     private Server server;
@@ -39,10 +39,10 @@ public class WorkflowInstanceBean implements Serializable{
     private byte[] startConfiguration;
     private Date startedDate;
     private Date completedDate;
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      */
     public WorkflowInstanceBean(WorkflowInstance workflowInstance) {
         this.model = workflowInstance.getDeployedWorkflowModel().getName();
@@ -53,10 +53,10 @@ public class WorkflowInstanceBean implements Serializable{
         this.odePid = workflowInstance.getOdePid();
         this.startConfiguration = workflowInstance.getStartConfiguration();
     }
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      * @return the model
      */
     public String getModel() {
@@ -65,8 +65,9 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
-     * @param model the model to set
+     * 
+     * @param model
+     *            the model to set
      */
     public void setModel(String model) {
         this.model = model;
@@ -74,7 +75,7 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the startedDate
      */
     public Date getStartedDate() {
@@ -83,8 +84,9 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
-     * @param startedDate the startedDate to set
+     * 
+     * @param startedDate
+     *            the startedDate to set
      */
     public void setStartedDate(Date startedDate) {
         this.startedDate = startedDate;
@@ -92,7 +94,7 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the completedDate
      */
     public Date getCompletedDate() {
@@ -101,8 +103,9 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
-     * @param completedDate the completedDate to set
+     * 
+     * @param completedDate
+     *            the completedDate to set
      */
     public void setCompletedDate(Date completedDate) {
         this.completedDate = completedDate;
@@ -110,7 +113,7 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the id
      */
     public Long getId() {
@@ -119,8 +122,9 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
-     * @param id the id to set
+     * 
+     * @param id
+     *            the id to set
      */
     public void setId(Long id) {
         this.id = id;
@@ -128,7 +132,7 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the server
      */
     public Server getServer() {
@@ -137,8 +141,9 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
-     * @param server the server to set
+     * 
+     * @param server
+     *            the server to set
      */
     public void setServer(Server server) {
         this.server = server;
@@ -146,7 +151,7 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the odePid
      */
     public String getOdePid() {
@@ -155,8 +160,9 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
-     * @param odePid the odePid to set
+     * 
+     * @param odePid
+     *            the odePid to set
      */
     public void setOdePid(String odePid) {
         this.odePid = odePid;
@@ -164,7 +170,7 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the startConfiguration
      */
     public byte[] getStartConfiguration() {
@@ -173,13 +179,11 @@ public class WorkflowInstanceBean implements Serializable{
 
     /**
      * TODO: add comment
-     *
-     * @param startConfiguration the startConfiguration to set
+     * 
+     * @param startConfiguration
+     *            the startConfiguration to set
      */
     public void setStartConfiguration(byte[] startConfiguration) {
         this.startConfiguration = startConfiguration;
     }
-
-    
-
 }

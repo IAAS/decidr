@@ -35,11 +35,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This container holds all completed workflow instances. These {@link Item
- * items} will be shown in a table.
+ * items} will be shown in a table.<br>
+ * Aleks: update comment: not an Item
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.PassedWithComments)
 public class CompletedInstancesContainer extends
         BeanItemContainer<WorkflowInstanceBean> {
 
@@ -62,7 +63,8 @@ public class CompletedInstancesContainer extends
             "Started Date", "Completed Date" };
 
     /**
-     * Adds completed instance {@link Item items} to the container.
+     * Adds completed instance {@link Item items} to the container.<br>
+     * Aleks: update comment: not an Item
      */
     public CompletedInstancesContainer() {
         super(WorkflowInstanceBean.class);
@@ -72,7 +74,8 @@ public class CompletedInstancesContainer extends
             WorkflowInstanceBean workflowInstanceBean;
             for (WorkflowInstance workflowInstance : workflowInstanceList) {
                 if (workflowInstance.getCompletedDate() != null) {
-                    workflowInstanceBean = new WorkflowInstanceBean(workflowInstance);
+                    workflowInstanceBean = new WorkflowInstanceBean(
+                            workflowInstance);
                     addBean(workflowInstanceBean);
                 }
             }

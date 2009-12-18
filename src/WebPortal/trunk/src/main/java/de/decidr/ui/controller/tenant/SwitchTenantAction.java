@@ -102,7 +102,7 @@ public class SwitchTenantAction implements ClickListener {
 
                     userFacade = new UserFacade(new UserRole(userId));
 
-                    tenantName = tenantBean.getName();;
+                    tenantName = tenantBean.getName();
                     tenantId = tenantBean.getId();
 
                     role = userFacade.getUserRoleForTenant(userId, tenantId);

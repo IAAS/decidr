@@ -39,7 +39,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2500", currentReviewState = State.Passed)
 public class AccountActivationAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
@@ -69,34 +69,32 @@ public class AccountActivationAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        UserBean user = (UserBean)table.getValue();
+        UserBean user = (UserBean) table.getValue();
         if (user != null) {
             try {
-                if(event.getButton().getCaption().equals("Deactivate Account")){
+                if (event.getButton().getCaption().equals("Deactivate Account")) {
                     userFacade.setDisabledSince(user.getId(), new Date());
                     user.setDisabledSince(new Date());
                     table.requestRepaint();
                     Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent("Account deactivated",
-                                    "Information"));
-                }else{
+                            new InformationDialogComponent(
+                                    "Account deactivated!", "Information"));
+                } else {
                     userFacade.setDisabledSince(user.getId(), null);
                     user.setDisabledSince(null);
                     table.requestRepaint();
                     Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent("Account activated",
-                                    "Information"));
+                            new InformationDialogComponent(
+                                    "Account activated!", "Information"));
                 }
-                
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
             }
         } else {
             Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent("Please select a user",
+                    new InformationDialogComponent("Please select a user!",
                             "Information"));
         }
-
     }
 }

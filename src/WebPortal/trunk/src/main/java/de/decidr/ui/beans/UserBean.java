@@ -25,12 +25,12 @@ import de.decidr.model.entities.User;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
-@Reviewed(currentReviewState = State.NeedsReview, lastRevision = "", reviewers = { "" })
+@Reviewed(currentReviewState = State.PassedWithComments, lastRevision = "2498", reviewers = { "RR" })
 public class UserBean implements Serializable {
-    
+
     private Long id;
     private String email;
     private Date disabledSince;
@@ -40,10 +40,10 @@ public class UserBean implements Serializable {
     private String firstName;
     private String lastName;
     private String username;
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      */
     public UserBean(User user) {
         this.id = user.getId();
@@ -52,21 +52,20 @@ public class UserBean implements Serializable {
         this.unavailableSince = user.getUnavailableSince();
         this.registeredSince = user.getRegisteredSince();
         this.creationDate = user.getCreationDate();
-        if(user.getUserProfile() != null){
+        if (user.getUserProfile() != null) {
             this.firstName = user.getUserProfile().getFirstName();
             this.lastName = user.getUserProfile().getLastName();
             this.username = user.getUserProfile().getUsername();
-        }else{
+        } else {
             this.firstName = "";
             this.lastName = "";
             this.username = "";
         }
-        
     }
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the id
      */
     public Long getId() {
@@ -75,8 +74,9 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param id the id to set
+     * 
+     * @param id
+     *            the id to set
      */
     public void setId(Long id) {
         this.id = id;
@@ -84,7 +84,7 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the email
      */
     public String getEmail() {
@@ -93,8 +93,9 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param email the email to set
+     * 
+     * @param email
+     *            the email to set
      */
     public void setEmail(String email) {
         this.email = email;
@@ -102,7 +103,7 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the disabledSince
      */
     public Date getDisabledSince() {
@@ -111,8 +112,9 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param disabledSince the disabledSince to set
+     * 
+     * @param disabledSince
+     *            the disabledSince to set
      */
     public void setDisabledSince(Date disabledSince) {
         this.disabledSince = disabledSince;
@@ -120,7 +122,7 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the unavailableSince
      */
     public Date getUnavailableSince() {
@@ -129,8 +131,9 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param unavailableSince the unavailableSince to set
+     * 
+     * @param unavailableSince
+     *            the unavailableSince to set
      */
     public void setUnavailableSince(Date unavailableSince) {
         this.unavailableSince = unavailableSince;
@@ -138,7 +141,7 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the registeredSince
      */
     public Date getRegisteredSince() {
@@ -147,8 +150,9 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param registeredSince the registeredSince to set
+     * 
+     * @param registeredSince
+     *            the registeredSince to set
      */
     public void setRegisteredSince(Date registeredSince) {
         this.registeredSince = registeredSince;
@@ -156,7 +160,7 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the creationDate
      */
     public Date getCreationDate() {
@@ -165,8 +169,9 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param creationDate the creationDate to set
+     * 
+     * @param creationDate
+     *            the creationDate to set
      */
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
@@ -174,7 +179,7 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the firstName
      */
     public String getFirstName() {
@@ -183,8 +188,9 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param firstName the firstName to set
+     * 
+     * @param firstName
+     *            the firstName to set
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -192,7 +198,7 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the lastName
      */
     public String getLastName() {
@@ -201,8 +207,9 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param lastName the lastName to set
+     * 
+     * @param lastName
+     *            the lastName to set
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -210,7 +217,7 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the username
      */
     public String getUsername() {
@@ -219,13 +226,11 @@ public class UserBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param username the username to set
+     * 
+     * @param username
+     *            the username to set
      */
     public void setUsername(String username) {
         this.username = username;
     }
-    
-    
-
 }

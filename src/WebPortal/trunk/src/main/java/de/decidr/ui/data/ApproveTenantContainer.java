@@ -18,10 +18,8 @@ package de.decidr.ui.data;
 
 import java.util.List;
 
-
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 
 import de.decidr.model.acl.roles.Role;
@@ -36,11 +34,11 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This container holds the tenants to approve. The tenants are represented as a
- * list of {@link Item items}.
+ * list of {@link TenantWithAdminView TenantWithAdminViews}.
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.Passed)
 public class ApproveTenantContainer extends
         BeanItemContainer<TenantWithAdminViewBean> {
 

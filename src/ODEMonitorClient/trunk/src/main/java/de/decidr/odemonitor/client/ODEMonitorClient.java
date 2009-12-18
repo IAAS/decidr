@@ -114,7 +114,13 @@ public class ODEMonitorClient {
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--wfm")) {
-                System.out.println(new LocalInstanceStats().getNumModels());
+                int wfms = new LocalInstanceStats().getNumModels();
+                if (wfms < 0) {
+                    log.error("Couldn't get the amount of workflow "
+                            + "models for the local Apache ODE.");
+                } else {
+                    System.out.println(wfms);
+                }
                 return;
             } else if (args[i].equals("-k")) {
                 if (monitor != null) {
@@ -192,16 +198,20 @@ public class ODEMonitorClient {
                         .getMemLoad());
                 return;
             } else if (args[i].equals("--inst")) {
-                System.out.println(new LocalInstanceStats().getNumInstances());
+                int inst = new LocalInstanceStats().getNumInstances();
+                if (inst < 0) {
+                    log.error("Couldn't get the amount of workflow "
+                            + "instances for the local Apache ODE.");
+                } else {
+                    System.out.println(inst);
+                }
                 return;
             } else {
                 log.error("Unrecognised option: " + args[i]);
             }
         }
 
-        Logger.getRootLogger().setLevel(Level.WARN);
-        // RR uncomment
-        // Logger.getRootLogger().setLevel(log.getEffectiveLevel());
+        Logger.getRootLogger().setLevel(log.getEffectiveLevel());
 
         if (ID == null) {
             log.error("You have to specify the ID"

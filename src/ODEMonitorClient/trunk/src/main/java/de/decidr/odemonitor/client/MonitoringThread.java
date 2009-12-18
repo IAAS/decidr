@@ -79,7 +79,7 @@ public class MonitoringThread extends Thread {
     /**
      * Change the period of time to average the system load over
      * 
-     * @param interval
+     * @param period
      *            the period of time to average over
      */
     public void changePeriod(int period) {

@@ -36,11 +36,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * The container holds the users. The users are represented as {@link Item
- * items} in a table.
+ * items} in a table.<br>
+ * Aleks: update comment: not an Item
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.PassedWithComments)
 public class UserListContainer extends BeanItemContainer<UserBean> {
 
     private static final long serialVersionUID = 1L;
@@ -54,14 +55,17 @@ public class UserListContainer extends BeanItemContainer<UserBean> {
     List<User> userList = null;
 
     public static final Object[] NAT_COL_ORDER = new Object[] { "username",
-            "firstName", "lastName", "email", "disabledSince", "unavailableSince" };
+            "firstName", "lastName", "email", "disabledSince",
+            "unavailableSince" };
 
     public static final String[] COL_HEADERS = new String[] { "Username",
-            "First Name", "Last Name", "Email", "Deactivated", "Unavailable" };
-    
-   
+            "First Name", "Surname", "Email",
+            // Aleks: shouldn't this be "Disabled"?
+            "Deactivated", "Unavailable" };
+
     /**
-     * The user {@link Item items} are added to the container.
+     * The user {@link Item items} are added to the container.<br>
+     * Aleks: update comment: not an Item
      */
     public UserListContainer() {
         super(UserBean.class);

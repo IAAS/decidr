@@ -38,12 +38,14 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * The container holds work items. The work items are represented as
- * {@link Item items} in a table.
+ * {@link Item items} in a table.<br>
+ * Aleks: update comment: not an Item; "work item" vs. "workitem"
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.NeedsReview)
-public class WorkItemContainer extends BeanItemContainer<WorkItemSummaryViewBean> {
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.PassedWithComments)
+public class WorkItemContainer extends
+        BeanItemContainer<WorkItemSummaryViewBean> {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,10 +66,11 @@ public class WorkItemContainer extends BeanItemContainer<WorkItemSummaryViewBean
             "workflowInstanceId", "creationDate", "workItemStatus" };
 
     public static final String[] COL_HEADERS = new String[] { "Name", "WfI#",
-            "Creation Date", "Status" };
+            "Creation Date", "State" };
 
     /**
-     * The work item items are added to the container.
+     * The work item items are added to the container.<br>
+     * Aleks: update comment: not an Item
      */
     public WorkItemContainer() {
         super(WorkItemSummaryViewBean.class);
@@ -76,7 +79,8 @@ public class WorkItemContainer extends BeanItemContainer<WorkItemSummaryViewBean
             workItemList = userFacade.getWorkItems(userId, filterList, null);
             WorkItemSummaryViewBean workItemSummaryViewBean;
             for (WorkItemSummaryView workItemSummaryView : workItemList) {
-                workItemSummaryViewBean = new WorkItemSummaryViewBean(workItemSummaryView);
+                workItemSummaryViewBean = new WorkItemSummaryViewBean(
+                        workItemSummaryView);
                 addBean(workItemSummaryViewBean);
             }
         } catch (TransactionException exception) {

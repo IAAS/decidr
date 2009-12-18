@@ -25,21 +25,23 @@ import de.decidr.model.entities.TenantSummaryView;
 
 /**
  * This bean represents the tenant summary view from the model in the GUI. The
- * properties are reachable through getter and setter. The bean has following
- * properties:
- * <li> id : Long </li>
- * <li> tenantName : String </li>
- * <li> approvedSince : Date </li>
- * <li> adminFirstName : String </li>
- * <li> adminLastName : String </li>
- * <li> numWorkflowModels : Long </li>
- * <li> numDeployedWorkflowModels : Long </li>
- * <li> numWorkflowInstances : Long </li>
- * <li> numMembers : Long </li>
+ * properties are reachable through getters and setters. The bean has the
+ * following properties:
+ * <ul>
+ * <li>id : Long</li>
+ * <li>tenantName : String</li>
+ * <li>approvedSince : Date</li>
+ * <li>adminFirstName : String</li>
+ * <li>adminLastName : String</li>
+ * <li>numWorkflowModels : Long</li>
+ * <li>numDeployedWorkflowModels : Long</li>
+ * <li>numWorkflowInstances : Long</li>
+ * <li>numMembers : Long</li>
+ * </ul>
  * 
  * @author AT
  */
-@Reviewed(currentReviewState = State.NeedsReview, lastRevision = "", reviewers = { "" })
+@Reviewed(currentReviewState = State.Passed, lastRevision = "2498", reviewers = { "RR" })
 public class TenantSummaryViewBean implements Serializable {
 
     private long id;
@@ -53,8 +55,8 @@ public class TenantSummaryViewBean implements Serializable {
     private Long numMembers;
 
     /**
-     * Constructor which initializes the properties from the given tenant summary view
-     * 
+     * Constructor which initializes the properties from the given
+     * {@link TenantSummaryView}.
      */
     public TenantSummaryViewBean(TenantSummaryView tenantSummaryView) {
         this.id = tenantSummaryView.getId();
@@ -69,94 +71,75 @@ public class TenantSummaryViewBean implements Serializable {
         this.numMembers = tenantSummaryView.getNumMembers();
     }
 
-    
     public long getId() {
         return id;
     }
 
-    
     public void setId(long id) {
         this.id = id;
     }
 
-    
     public String getTenantName() {
         return tenantName;
     }
 
-    
     public void setTenantName(String tenantName) {
         this.tenantName = tenantName;
     }
 
-    
     public Date getApprovedSince() {
         return approvedSince;
     }
 
-    
     public void setApprovedSince(Date approvedSince) {
         this.approvedSince = approvedSince;
     }
 
-   
     public String getAdminFirstName() {
         return adminFirstName;
     }
 
-    
     public void setAdminFirstName(String adminFirstName) {
         this.adminFirstName = adminFirstName;
     }
 
-    
     public String getAdminLastName() {
         return adminLastName;
     }
 
-    
     public void setAdminLastName(String adminLastName) {
         this.adminLastName = adminLastName;
     }
 
-    
     public Long getNumWorkflowModels() {
         return numWorkflowModels;
     }
 
-    
     public void setNumWorkflowModels(Long numWorkflowModels) {
         this.numWorkflowModels = numWorkflowModels;
     }
 
-    
     public Long getNumDeployedWorkflowModels() {
         return numDeployedWorkflowModels;
     }
 
-    
     public void setNumDeployedWorkflowModels(Long numDeployedWorkflowModels) {
         this.numDeployedWorkflowModels = numDeployedWorkflowModels;
     }
 
-    
     public Long getNumWorkflowInstances() {
         return numWorkflowInstances;
     }
 
-    
     public void setNumWorkflowInstances(Long numWorkflowInstances) {
         this.numWorkflowInstances = numWorkflowInstances;
     }
 
-    
     public Long getNumMembers() {
         return numMembers;
     }
 
-    
     public void setNumMembers(Long numMembers) {
         this.numMembers = numMembers;
     }
-
 }

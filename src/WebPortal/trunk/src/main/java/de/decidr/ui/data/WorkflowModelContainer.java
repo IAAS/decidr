@@ -38,12 +38,14 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This container holds the workflow models. The models are represented as
- * {@link Item items} in a table.
+ * {@link Item items} in a table.<br>
+ * Aleks: update comment: not an Item
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2342", currentReviewState = State.NeedsReview)
-public class WorkflowModelContainer extends BeanItemContainer<WorkflowModelsBean>{
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.PassedWithComments)
+public class WorkflowModelContainer extends
+        BeanItemContainer<WorkflowModelsBean> {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,7 +66,8 @@ public class WorkflowModelContainer extends BeanItemContainer<WorkflowModelsBean
             "Creation Date", "Published", "Locked" };
 
     /**
-     * The workflow model items are added to the container
+     * The workflow model items are added to the container<br>
+     * Aleks: update comment: not an Item
      */
     public WorkflowModelContainer() {
         super(WorkflowModelsBean.class);

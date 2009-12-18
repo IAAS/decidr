@@ -38,11 +38,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This container holds the running worfklow instances. The running instances
- * are represented as {@link Item items} in a table.
+ * are represented as {@link Item items} in a table.<br>
+ * Aleks: update comment: not an Item
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.PassedWithComments)
 public class RunningInstanceContainer extends
         BeanItemContainer<WorkflowInstanceBean> {
 

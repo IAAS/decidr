@@ -33,23 +33,6 @@ import java.lang.annotation.Target;
 public @interface Reviewed {
 
     /**
-     * The reviewers of this part, the most recent reviewer last.
-     */
-    String[] reviewers();
-
-    /**
-     * The SVN revision reviewed by the last reviewer.
-     */
-    String lastRevision();
-
-    /**
-     * Indicates the current review {@link State}. Should be changed every
-     * review or set to {@link State#NeedsReview} whenever a big change is made.
-     */
-    State currentReviewState();
-
-    
-    /**
      * This enum represents the current state of a Review.
      *
      * @author Reinhold
@@ -72,4 +55,21 @@ public @interface Reviewed {
          */
         NeedsReview
     }
+
+    /**
+     * Indicates the current review {@link State}. Should be changed every
+     * review or set to {@link State#NeedsReview} whenever a big change is made.
+     */
+    State currentReviewState();
+
+    /**
+     * The SVN revision reviewed by the last reviewer.
+     */
+    String lastRevision();
+
+    
+    /**
+     * The reviewers of this part, the most recent reviewer last.
+     */
+    String[] reviewers();
 }

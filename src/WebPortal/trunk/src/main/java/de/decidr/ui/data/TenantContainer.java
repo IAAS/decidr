@@ -40,11 +40,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This container holds tenants. The tenants are represented by a list of
- * {@link Item items}.
+ * {@link Item items}.<br>
+ * Aleks: update comment: not an Item
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2366", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.PassedWithComments)
 public class TenantContainer extends BeanItemContainer<TenantSummaryViewBean> {
 
     private static final long serialVersionUID = 1L;
@@ -64,10 +65,11 @@ public class TenantContainer extends BeanItemContainer<TenantSummaryViewBean> {
             "numMembers", "numWorkflowInstances" };
 
     public static final String[] COL_HEADERS = new String[] { "First name",
-            "Last name", "#Deployed Models", "#Members", "#Instances" };
+            "Surname", "#Deployed Models", "#Members", "#Instances" };
 
     /**
-     * The tenant {@link Item items} are added to the container.
+     * The tenant {@link Item items} are added to the container.<br>
+     * Aleks: update comment: not an Item
      */
     public TenantContainer() {
         super(TenantSummaryViewBean.class);
@@ -77,7 +79,8 @@ public class TenantContainer extends BeanItemContainer<TenantSummaryViewBean> {
             tenantList = tenantFacade.getAllTenants(null, null);
             TenantSummaryViewBean tenantSummaryViewBean;
             for (TenantSummaryView tenantSummaryView : tenantList) {
-                tenantSummaryViewBean = new TenantSummaryViewBean(tenantSummaryView);
+                tenantSummaryViewBean = new TenantSummaryViewBean(
+                        tenantSummaryView);
                 addBean(tenantSummaryViewBean);
             }
         } catch (TransactionException exception) {

@@ -35,11 +35,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This container holds all tenants which belong to the current user. The
- * tenants will be represented as {@link Item items} in a table.
+ * tenants will be represented as {@link Item items} in a table.<br>
+ * Aleks: update comment: not an Item
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.PassedWithComments)
 public class CurrentTenantContainer extends BeanItemContainer<TenantBean> {
 
     private static final long serialVersionUID = 1L;
@@ -53,15 +54,14 @@ public class CurrentTenantContainer extends BeanItemContainer<TenantBean> {
     UserFacade userFacade = new UserFacade(role);
 
     List<Tenant> currentTenantList = null;
-    
+
     public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name" };
 
     public static final String[] COL_HEADERS = new String[] { "ID", "Name" };
 
-
-
     /**
-     * Adds tenant items to the container.
+     * Adds tenant items to the container.<br>
+     * Aleks: update comment: not an Item
      */
     public CurrentTenantContainer() {
         super(TenantBean.class);

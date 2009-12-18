@@ -25,12 +25,12 @@ import de.decidr.model.entities.WorkItemSummaryView;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
-@Reviewed(currentReviewState = State.NeedsReview, lastRevision = "", reviewers = { "" })
+@Reviewed(currentReviewState = State.PassedWithComments, lastRevision = "2498", reviewers = { "RR" })
 public class WorkItemSummaryViewBean implements Serializable {
-    
+
     private long id;
     private String workItemName;
     private String tenantName;
@@ -38,10 +38,10 @@ public class WorkItemSummaryViewBean implements Serializable {
     private String workItemStatus;
     private long userId;
     private long workflowInstanceId;
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      */
     public WorkItemSummaryViewBean(WorkItemSummaryView workItemSummaryView) {
         this.id = workItemSummaryView.getId();
@@ -55,7 +55,7 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the id
      */
     public long getId() {
@@ -64,8 +64,9 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param id the id to set
+     * 
+     * @param id
+     *            the id to set
      */
     public void setId(long id) {
         this.id = id;
@@ -73,7 +74,7 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the workItemName
      */
     public String getWorkItemName() {
@@ -82,8 +83,9 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param workItemName the workItemName to set
+     * 
+     * @param workItemName
+     *            the workItemName to set
      */
     public void setWorkItemName(String workItemName) {
         this.workItemName = workItemName;
@@ -91,7 +93,7 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the tenantName
      */
     public String getTenantName() {
@@ -100,8 +102,9 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param tenantName the tenantName to set
+     * 
+     * @param tenantName
+     *            the tenantName to set
      */
     public void setTenantName(String tenantName) {
         this.tenantName = tenantName;
@@ -109,7 +112,7 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the creationDate
      */
     public Date getCreationDate() {
@@ -118,8 +121,9 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param creationDate the creationDate to set
+     * 
+     * @param creationDate
+     *            the creationDate to set
      */
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
@@ -127,7 +131,7 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the workItemStatus
      */
     public String getWorkItemStatus() {
@@ -136,8 +140,9 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param workItemStatus the workItemStatus to set
+     * 
+     * @param workItemStatus
+     *            the workItemStatus to set
      */
     public void setWorkItemStatus(String workItemStatus) {
         this.workItemStatus = workItemStatus;
@@ -145,7 +150,7 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the userId
      */
     public long getUserId() {
@@ -154,8 +159,9 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param userId the userId to set
+     * 
+     * @param userId
+     *            the userId to set
      */
     public void setUserId(long userId) {
         this.userId = userId;
@@ -163,7 +169,7 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the workflowInstanceId
      */
     public long getWorkflowInstanceId() {
@@ -172,13 +178,11 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param workflowInstanceId the workflowInstanceId to set
+     * 
+     * @param workflowInstanceId
+     *            the workflowInstanceId to set
      */
     public void setWorkflowInstanceId(long workflowInstanceId) {
         this.workflowInstanceId = workflowInstanceId;
     }
-
-    
-    
 }

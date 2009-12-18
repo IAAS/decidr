@@ -25,12 +25,12 @@ import de.decidr.model.entities.TenantWithAdminView;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
-@Reviewed(currentReviewState = State.NeedsReview, lastRevision = "", reviewers = { "" })
+@Reviewed(currentReviewState = State.PassedWithComments, lastRevision = "2498", reviewers = { "RR" })
 public class TenantWithAdminViewBean implements Serializable {
-    
+
     private long id;
     private String name;
     private String description;
@@ -43,10 +43,10 @@ public class TenantWithAdminViewBean implements Serializable {
     private String adminUsername;
     private String adminFirstName;
     private String adminLastName;
-    
+
     /**
      * TODO: add comment
-     *
+     * 
      */
     public TenantWithAdminViewBean(TenantWithAdminView tenantWithAdminView) {
         this.name = tenantWithAdminView.getName();
@@ -56,8 +56,10 @@ public class TenantWithAdminViewBean implements Serializable {
         this.id = tenantWithAdminView.getId();
         this.logoId = tenantWithAdminView.getLogoId();
         this.simpleColorSchemeId = tenantWithAdminView.getSimpleColorSchemeId();
-        this.advancedColorSchemeId = tenantWithAdminView.getAdvancedColorSchemeId();
-        this.currentColorSchemeId = tenantWithAdminView.getCurrentColorSchemeId();
+        this.advancedColorSchemeId = tenantWithAdminView
+                .getAdvancedColorSchemeId();
+        this.currentColorSchemeId = tenantWithAdminView
+                .getCurrentColorSchemeId();
         this.approvedSince = tenantWithAdminView.getApprovedSince();
         this.adminUsername = tenantWithAdminView.getAdminUsername();
         this.description = tenantWithAdminView.getDescription();
@@ -65,7 +67,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the name
      */
     public String getName() {
@@ -74,8 +76,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param name the name to set
+     * 
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -83,7 +86,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the adminFirstName
      */
     public String getAdminFirstName() {
@@ -92,8 +95,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param adminFirstName the adminFirstName to set
+     * 
+     * @param adminFirstName
+     *            the adminFirstName to set
      */
     public void setAdminFirstName(String adminFirstName) {
         this.adminFirstName = adminFirstName;
@@ -101,7 +105,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the adminLastName
      */
     public String getAdminLastName() {
@@ -110,8 +114,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param adminLastName the adminLastName to set
+     * 
+     * @param adminLastName
+     *            the adminLastName to set
      */
     public void setAdminLastName(String adminLastName) {
         this.adminLastName = adminLastName;
@@ -119,7 +124,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the adminId
      */
     public Long getAdminId() {
@@ -128,8 +133,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param adminId the adminId to set
+     * 
+     * @param adminId
+     *            the adminId to set
      */
     public void setAdminId(Long adminId) {
         this.adminId = adminId;
@@ -137,7 +143,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the id
      */
     public long getId() {
@@ -146,8 +152,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param id the id to set
+     * 
+     * @param id
+     *            the id to set
      */
     public void setId(long id) {
         this.id = id;
@@ -155,7 +162,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the description
      */
     public String getDescription() {
@@ -164,8 +171,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param description the description to set
+     * 
+     * @param description
+     *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;
@@ -173,7 +181,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the logoId
      */
     public Long getLogoId() {
@@ -182,8 +190,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param logoId the logoId to set
+     * 
+     * @param logoId
+     *            the logoId to set
      */
     public void setLogoId(Long logoId) {
         this.logoId = logoId;
@@ -191,7 +200,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the simpleColorSchemeId
      */
     public Long getSimpleColorSchemeId() {
@@ -200,8 +209,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param simpleColorSchemeId the simpleColorSchemeId to set
+     * 
+     * @param simpleColorSchemeId
+     *            the simpleColorSchemeId to set
      */
     public void setSimpleColorSchemeId(Long simpleColorSchemeId) {
         this.simpleColorSchemeId = simpleColorSchemeId;
@@ -209,7 +219,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the advancedColorSchemeId
      */
     public Long getAdvancedColorSchemeId() {
@@ -218,8 +228,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param advancedColorSchemeId the advancedColorSchemeId to set
+     * 
+     * @param advancedColorSchemeId
+     *            the advancedColorSchemeId to set
      */
     public void setAdvancedColorSchemeId(Long advancedColorSchemeId) {
         this.advancedColorSchemeId = advancedColorSchemeId;
@@ -227,7 +238,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the currentColorSchemeId
      */
     public Long getCurrentColorSchemeId() {
@@ -236,8 +247,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param currentColorSchemeId the currentColorSchemeId to set
+     * 
+     * @param currentColorSchemeId
+     *            the currentColorSchemeId to set
      */
     public void setCurrentColorSchemeId(Long currentColorSchemeId) {
         this.currentColorSchemeId = currentColorSchemeId;
@@ -245,7 +257,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the approvedSince
      */
     public Date getApprovedSince() {
@@ -254,8 +266,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param approvedSince the approvedSince to set
+     * 
+     * @param approvedSince
+     *            the approvedSince to set
      */
     public void setApprovedSince(Date approvedSince) {
         this.approvedSince = approvedSince;
@@ -263,7 +276,7 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
+     * 
      * @return the adminUsername
      */
     public String getAdminUsername() {
@@ -272,8 +285,9 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param adminUsername the adminUsername to set
+     * 
+     * @param adminUsername
+     *            the adminUsername to set
      */
     public void setAdminUsername(String adminUsername) {
         this.adminUsername = adminUsername;
@@ -281,13 +295,11 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     *
-     * @param adminId the adminId to set
+     * 
+     * @param adminId
+     *            the adminId to set
      */
     public void setAdminId(long adminId) {
         this.adminId = adminId;
     }
-    
-    
-
 }

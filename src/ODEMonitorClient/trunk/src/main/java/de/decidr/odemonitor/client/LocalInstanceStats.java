@@ -37,6 +37,7 @@ public class LocalInstanceStats {
 
     Logger log = DefaultLogger.getLogger(LocalInstanceStats.class);
     public static final String ODE_LOCATION = "http://localhost:8080/ode/processes/";
+    private static final ServiceClientUtil odeClient = new ServiceClientUtil();
 
     /**
      * Returns the number of workflow model instances running on this ODE
@@ -52,11 +53,10 @@ public class LocalInstanceStats {
         int numInst = -1;
 
         try {
-            ServiceClientUtil _client = new ServiceClientUtil();
-            OMElement root = _client.buildMessage("listAllInstances",
+            OMElement root = odeClient.buildMessage("listAllInstances",
                     new String[] {}, new String[] {});
-            OMElement result = _client.send(root,
-                    "http://localhost:8080/ode/processes/InstanceManagement");
+            OMElement result = odeClient.send(root, ODE_LOCATION
+                    + "InstanceManagement");
 
             numInst = 0;
             Iterator<?> list = result.getFirstChildWithName(
@@ -88,11 +88,10 @@ public class LocalInstanceStats {
         int numModels = -1;
 
         try {
-            ServiceClientUtil _client = new ServiceClientUtil();
-            OMElement root = _client.buildMessage("listAllProcesses",
+            OMElement root = odeClient.buildMessage("listAllProcesses",
                     new String[] {}, new String[] {});
-            OMElement result = _client.send(root,
-                    "http://localhost:8080/ode/processes/ProcessManagement");
+            OMElement result = odeClient.send(root, ODE_LOCATION
+                    + "ProcessManagement");
 
             numModels = 0;
             Iterator<?> list = result.getFirstChildWithName(

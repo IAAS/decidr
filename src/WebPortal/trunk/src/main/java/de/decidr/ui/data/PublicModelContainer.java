@@ -21,7 +21,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 
@@ -39,11 +38,12 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This container holds the public workflow models. The models are represented
- * as {@link Item items} in a table.
+ * as {@link Item items} in a table.<br>
+ * Aleks: update comment: not an Item
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2353", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2499", currentReviewState = State.PassedWithComments)
 public class PublicModelContainer extends BeanItemContainer<WorkflowModelBean> {
 
     private static final long serialVersionUID = 1L;
@@ -67,7 +67,8 @@ public class PublicModelContainer extends BeanItemContainer<WorkflowModelBean> {
             "Modified Date", "Tenant Name" };
 
     /**
-     * The public model {@link Item items} are added to the container.
+     * The public model {@link Item items} are added to the container.<br>
+     * Aleks: update comment: not an Item
      */
     public PublicModelContainer() {
         super(WorkflowModelBean.class);

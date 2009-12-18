@@ -26,14 +26,21 @@ import de.decidr.model.entities.Tenant;
 
 /**
  * This bean represents the tenant from the model in the GUI. The properties are
- * reachable through getter and setter. The bean has following properties: <li>id :
- * Long</li> <li>logo : File</li> <li>simpleColorScheme : File</li> <li>
- * advancedColorScheme : File</li> <li>currentColorScheme : File</li> <li>name :
- * String</li> <li>description : String</li> <li>approvedSince : Date</li>
+ * reachable through getters and setters. The bean has the following properties:
+ * <ul>
+ * <li>id : Long</li>
+ * <li>logo : File</li>
+ * <li>simpleColorScheme : File</li>
+ * <li>advancedColorScheme : File</li>
+ * <li>currentColorScheme : File</li>
+ * <li>name : String</li>
+ * <li>description : String</li>
+ * <li>approvedSince : Date</li>
+ * </ul>
  * 
  * @author AT
  */
-@Reviewed(currentReviewState = State.NeedsReview, lastRevision = "", reviewers = { "" })
+@Reviewed(currentReviewState = State.Passed, lastRevision = "2498", reviewers = { "RR" })
 public class TenantBean implements Serializable {
 
     private Long id;
@@ -46,10 +53,10 @@ public class TenantBean implements Serializable {
     private Date approvedSince;
 
     /**
-     * Constructor which initializes the properties from the given tenant
+     * Constructor which initializes the properties from the given tenant.
      * 
      * @param tenant
-     *            - The tenant from the model
+     *            - The tenant from the model.
      */
     public TenantBean(Tenant tenant) {
         this.id = tenant.getId();
@@ -62,84 +69,67 @@ public class TenantBean implements Serializable {
         this.approvedSince = tenant.getApprovedSince();
     }
 
-   
     public Long getId() {
         return id;
     }
 
-    
     public void setId(Long id) {
         this.id = id;
     }
 
-    
     public File getLogo() {
         return logo;
     }
 
-    
     public void setLogo(File logo) {
         this.logo = logo;
     }
 
-    
     public File getSimpleColorScheme() {
         return simpleColorScheme;
     }
 
-    
     public void setSimpleColorScheme(File simpleColorScheme) {
         this.simpleColorScheme = simpleColorScheme;
     }
 
-    
     public File getAdvancedColorScheme() {
         return advancedColorScheme;
     }
 
-    
     public void setAdvancedColorScheme(File advancedColorScheme) {
         this.advancedColorScheme = advancedColorScheme;
     }
 
-    
     public File getCurrentColorScheme() {
         return currentColorScheme;
     }
 
-   
     public void setCurrentColorScheme(File currentColorScheme) {
         this.currentColorScheme = currentColorScheme;
     }
 
-    
     public String getName() {
         return name;
     }
 
-    
     public void setName(String name) {
         this.name = name;
     }
 
-    
     public String getDescription() {
         return description;
     }
 
-   
     public void setDescription(String description) {
         this.description = description;
     }
 
-    
     public Date getApprovedSince() {
         return approvedSince;
     }
 
-    
     public void setApprovedSince(Date approvedSince) {
         this.approvedSince = approvedSince;
     }
-
 }

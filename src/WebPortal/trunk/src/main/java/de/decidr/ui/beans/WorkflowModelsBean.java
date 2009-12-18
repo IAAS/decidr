@@ -25,10 +25,10 @@ import de.decidr.model.entities.WorkflowModel;
 
 /**
  * TODO: add comment
- *
+ * 
  * @author AT
  */
-@Reviewed(currentReviewState = State.NeedsReview, lastRevision = "", reviewers = { "" })
+@Reviewed(currentReviewState = State.PassedWithComments, lastRevision = "2498", reviewers = { "RR" })
 public class WorkflowModelsBean implements Serializable {
 
     private Long id;
@@ -206,6 +206,4 @@ public class WorkflowModelsBean implements Serializable {
     public void setDwdl(byte[] dwdl) {
         this.dwdl = dwdl;
     }
-
-    
 }

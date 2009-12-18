@@ -31,6 +31,7 @@ import org.apache.log4j.Logger;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.EmailRole;
+import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.user.GetUserPropertiesCommand;
 import de.decidr.model.email.MailBackend;
 import de.decidr.model.entities.File;
@@ -176,7 +177,7 @@ public class EmailService implements EmailInterface {
      * @return A list of email addresses.
      * @throws TransactionException
      *             see
-     *             <code>{@link HibernateTransactionCoordinator#runTransaction(de.decidr.model.commands.TransactionalCommand)}</code>
+     *             <code>{@link HibernateTransactionCoordinator#runTransaction(TransactionalCommand...)}</code>
      */
     private static List<String> extractActorAddresses(List<Actor> users)
             throws TransactionException {
