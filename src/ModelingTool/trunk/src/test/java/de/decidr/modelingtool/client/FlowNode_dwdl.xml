@@ -35,28 +35,28 @@
 	targetNamespace="namespace" xmlns="schema">
 	<description></description>
 	<variables>
-		<variable name="L123" label="Fault Message" type="string"
+		<variable name="ID123" label="Fault Message" type="string"
 			configurationVariable="no">
 			<initialValue>Workflow failed</initialValue>
 		</variable>
-		<variable name="L12" label="Success Message" type="string"
+		<variable name="ID12" label="Success Message" type="string"
 			configurationVariable="no">
 			<initialValue>Workflow succeded</initialValue>
 		</variable>
-		<variable name="L768768" label="Text" type="string"
+		<variable name="ID768768" label="Text" type="string"
 			configurationVariable="yes">
 			<initialValue>Loram Ipsum</initialValue>
 		</variable>
 	</variables>
 	<roles>
-		<role configurationVariable="no" label="Recipient" name="L345">
+		<role configurationVariable="no" label="Recipient" name="ID345">
 			<actor userId="decidradmin" />
 		</role>
 	</roles>
 	<faultHandler>
-		<setProperty name="message" variable="L123" />
+		<setProperty name="message" variable="ID123" />
 		<recipient>
-			<setProperty name="name" variable="L345" />
+			<setProperty name="name" variable="ID345" />
 		</recipient>
 	</faultHandler>
 	<nodes>
@@ -103,7 +103,7 @@
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull" />
+					<getProperty name="taskResult" variable="IDnull" />
 					<parameter>
 						<humanTaskData />
 					</parameter>
@@ -191,7 +191,7 @@
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull" />
+					<getProperty name="taskResult" variable="IDnull" />
 					<parameter>
 						<humanTaskData />
 					</parameter>
@@ -216,7 +216,7 @@
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull" />
+					<getProperty name="taskResult" variable="IDnull" />
 					<parameter>
 						<humanTaskData />
 					</parameter>
@@ -284,7 +284,7 @@
 					<setProperty name="userNotification">
 						<propertyValue>no</propertyValue>
 					</setProperty>
-					<getProperty name="taskResult" variable="Lnull" />
+					<getProperty name="taskResult" variable="IDnull" />
 					<parameter>
 						<humanTaskData />
 					</parameter>
@@ -307,8 +307,8 @@
 				<target arcId="1256287630656" />
 			</targets>
 			<notificationOfSuccess>
-				<setProperty name="successMessage" variable="L12" />
-				<setProperty name="recipient" variable="L345" />
+				<setProperty name="successMessage" variable="ID12" />
+				<setProperty name="recipient" variable="ID345" />
 			</notificationOfSuccess>
 		</endNode>
 	</nodes>
