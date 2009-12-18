@@ -18,7 +18,7 @@ public class SystemSettings implements java.io.Serializable {
     private Date modifiedDate;
     private boolean autoAcceptNewTenants;
     private String systemName;
-    private String domain;
+    private String baseUrl;
     private String systemEmailAddress;
     private String logLevel;
     private int passwordResetRequestLifetimeSeconds;
@@ -67,7 +67,7 @@ public class SystemSettings implements java.io.Serializable {
         this.modifiedDate = modifiedDate;
         this.autoAcceptNewTenants = autoAcceptNewTenants;
         this.systemName = systemName;
-        this.domain = domain;
+        this.baseUrl = domain;
         this.systemEmailAddress = systemEmailAddress;
         this.logLevel = logLevel;
         this.passwordResetRequestLifetimeSeconds = passwordResetRequestLifetimeSeconds;
@@ -133,12 +133,12 @@ public class SystemSettings implements java.io.Serializable {
         this.systemName = systemName;
     }
 
-    public String getDomain() {
-        return this.domain;
+    public String getBaseUrl() {
+        return this.baseUrl;
     }
 
-    public void setDomain(String domain) {
-        this.domain = domain;
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
     public String getSystemEmailAddress() {

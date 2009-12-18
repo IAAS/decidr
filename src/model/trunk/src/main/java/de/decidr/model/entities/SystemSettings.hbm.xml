@@ -20,8 +20,8 @@
         <property name="systemName" type="string">
             <column name="`systemName`" not-null="true" />
         </property>
-        <property name="domain" type="string">
-            <column name="`domain`" not-null="true" />
+        <property name="baseUrl" type="string">
+            <column name="`baseUrl`" not-null="true" />
         </property>
         <property name="systemEmailAddress" type="string">
             <column name="`systemEmailAddress`" not-null="true" />

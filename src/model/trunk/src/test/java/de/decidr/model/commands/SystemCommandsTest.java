@@ -394,7 +394,7 @@ public class SystemCommandsTest extends CommandsTest {
 
         setterSettings.setAutoAcceptNewTenants(true);
         setterSettings.setChangeEmailRequestLifetimeSeconds(20);
-        setterSettings.setDomain("decidr.de");
+        setterSettings.setBaseUrl("decidr.de");
         setterSettings.setInvitationLifetimeSeconds(10);
         setterSettings.setLogLevel("DEBUG");
         setterSettings.setMaxAttachmentsPerEmail(10);
@@ -428,7 +428,7 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals(true, getterSettings.isAutoAcceptNewTenants());
         assertEquals(true, getterSettings.isMtaUseTls());
         assertEquals(20, getterSettings.getChangeEmailRequestLifetimeSeconds());
-        assertEquals("decidr.de", getterSettings.getDomain());
+        assertEquals("decidr.de", getterSettings.getBaseUrl());
         assertEquals(10, getterSettings.getInvitationLifetimeSeconds());
         assertEquals("DEBUG", getterSettings.getLogLevel());
         assertEquals(10, getterSettings.getMaxAttachmentsPerEmail());
@@ -459,7 +459,7 @@ public class SystemCommandsTest extends CommandsTest {
 
         setterSettings.setAutoAcceptNewTenants(false);
         setterSettings.setChangeEmailRequestLifetimeSeconds(150);
-        setterSettings.setDomain("decidr.eu");
+        setterSettings.setBaseUrl("decidr.eu");
         setterSettings.setInvitationLifetimeSeconds(1450);
         setterSettings.setLogLevel("ERROR");
         setterSettings.setMaxAttachmentsPerEmail(0);
@@ -488,7 +488,7 @@ public class SystemCommandsTest extends CommandsTest {
         assertEquals(false, getterSettings.isAutoAcceptNewTenants());
         assertEquals(false, getterSettings.isMtaUseTls());
         assertEquals(150, getterSettings.getChangeEmailRequestLifetimeSeconds());
-        assertEquals("decidr.eu", getterSettings.getDomain());
+        assertEquals("decidr.eu", getterSettings.getBaseUrl());
         assertEquals(1450, getterSettings.getInvitationLifetimeSeconds());
         assertEquals("ERROR", getterSettings.getLogLevel());
         assertEquals(0, getterSettings.getMaxAttachmentsPerEmail());
@@ -528,12 +528,12 @@ public class SystemCommandsTest extends CommandsTest {
                 "invalid ChangeEmailRequestLifetimeSeconds succeeded", setter);
         setterSettings.setChangeEmailRequestLifetimeSeconds(1);
 
-        setterSettings.setDomain(null);
+        setterSettings.setBaseUrl(null);
         assertTransactionException("null domain succeeded", setter);
-        setterSettings.setDomain("");
+        setterSettings.setBaseUrl("");
 
         assertTransactionException("empty domain succeeded", setter);
-        setterSettings.setDomain("decidr.de");
+        setterSettings.setBaseUrl("decidr.de");
 
         setterSettings.setInvitationLifetimeSeconds(-1);
         assertTransactionException(

@@ -55,7 +55,7 @@ public class URLGenerator {
      */
     public String getInvitationURL(String userId, String invitationId,
             String authKey) throws UnsupportedEncodingException {
-        String url = "http://" + settings.getDomain() + "/";
+        String url = "http://" + settings.getBaseUrl() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_INVITATION_ID + "="
@@ -78,7 +78,7 @@ public class URLGenerator {
      */
     public String getInvitationRegistrationRequiredURL(String userId,
             String invitationId) throws UnsupportedEncodingException {
-        String url = "http://" + settings.getDomain() + "/";
+        String url = "http://" + settings.getBaseUrl() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_INVITATION_ID + "="
@@ -99,7 +99,7 @@ public class URLGenerator {
      */
     public String getChangeEmailRequestURL(String userId, String authKey)
             throws UnsupportedEncodingException {
-        String url = "http://" + settings.getDomain() + "/";
+        String url = "http://" + settings.getBaseUrl() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_CHANGE_EMAIL_REQUEST_ID + "="
@@ -119,7 +119,7 @@ public class URLGenerator {
      */
     public String getConfirmRegistrationURL(String userId, String authKey)
             throws UnsupportedEncodingException {
-        String url = "http://" + settings.getDomain() + "/";
+        String url = "http://" + settings.getBaseUrl() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_CONFIRM_REGISTRATION_ID + "="
@@ -139,7 +139,7 @@ public class URLGenerator {
      */
     public String getPasswordResetURL(String userId, String authKey)
             throws UnsupportedEncodingException {
-        String url = "http://" + settings.getDomain() + "/";
+        String url = "http://" + settings.getBaseUrl() + "/";
         url += "?" + DecidrGlobals.URL_PARAM_USER_ID + "="
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID + "="
@@ -157,7 +157,7 @@ public class URLGenerator {
      */
     public String getTenantURL(String tenantName)
             throws UnsupportedEncodingException {
-        String url = "http://" + settings.getDomain() + "/";
+        String url = "http://" + settings.getBaseUrl() + "/";
         url += URLEncoder.encode(tenantName, encoding) + "/";
         return url;
     }

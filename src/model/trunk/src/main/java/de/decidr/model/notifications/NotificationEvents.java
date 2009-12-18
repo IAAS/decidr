@@ -425,7 +425,7 @@ public final class NotificationEvents {
                 .getUsername();
         String tenantName = invitation.getJoinTenant().getName();
 
-        String tenantUrl = "http://" + settings.getDomain() + "/" + tenantName;
+        String tenantUrl = "http://" + settings.getBaseUrl() + "/" + tenantName;
 
         String invitationUrl = "";
         try {
@@ -507,7 +507,7 @@ public final class NotificationEvents {
                 .getUsername();
         String tenantName = invitation.getJoinTenant().getName();
 
-        String tenantUrl = "http://" + settings.getDomain() + "/" + tenantName;
+        String tenantUrl = "http://" + settings.getBaseUrl() + "/" + tenantName;
 
         String invitationUrl;
         try {

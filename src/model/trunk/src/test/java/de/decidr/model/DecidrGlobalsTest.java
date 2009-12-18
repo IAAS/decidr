@@ -101,7 +101,7 @@ public class DecidrGlobalsTest extends DecidrOthersTest {
     public void testGetSettings() {
         SystemSettings settings = DecidrGlobals.getSettings();
         assertNotNull(settings);
-        assertNotNull(settings.getDomain());
+        assertNotNull(settings.getBaseUrl());
         assertNotNull(settings.getId());
         assertNotNull(settings.getLogLevel());
         assertNotNull(settings.getModifiedDate());
