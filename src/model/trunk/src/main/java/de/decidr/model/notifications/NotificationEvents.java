@@ -300,7 +300,7 @@ public final class NotificationEvents {
         String confirmationUrl;
 
         try {
-            confirmationUrl = URLGenerator.getConfirmRegistrationURL(request
+            confirmationUrl = URLGenerator.getPasswordResetURL(request
                     .getUser().getId().toString(), request.getAuthKey());
         } catch (UnsupportedEncodingException e1) {
             throw new TransactionException(e1);
