@@ -17,14 +17,21 @@
 package de.decidr.model.commands.user;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
  * Sets the result variable true if the given user is registered, false
- * otherwise.
+ * otherwise. A user is considered to have registered if and only if:
+ * <ul>
+ * <li>The user has no pending registration request</li>
+ * <li>The user's register date has been set</li>
+ * <li>The user account hasn't been disabled by the superadmin</li>
+ * </ul>
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * @version 0.1
  */
 public class IsUserRegisteredCommand extends UserCommand {
@@ -53,7 +60,10 @@ public class IsUserRegisteredCommand extends UserCommand {
             throws TransactionException {
         // set to false in case fetchUser throws an exception.
         result = false;
-        result = fetchUser(evt.getSession()).getRegisteredSince() != null;
+        User user = fetchUser(evt.getSession());
+        result = user.getRegisteredSince() != null
+                && user.getRegistrationRequest() == null
+                && user.getDisabledSince() == null;
     }
 
     /**
