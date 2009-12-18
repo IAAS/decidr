@@ -39,16 +39,17 @@ public class TenantMonitoringHelpComponent extends VerticalLayout {
     public TenantMonitoringHelpComponent() {
         setMargin(false, true, true, true);
 
-        tenantStatusLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the"
-                        + " &quot;Tenant Status&quot; navigation link.<br/>"
-                        + "2) The system displays the tenant status page containing:<br/>"
-                        + "    - The number of registered and unregistered users.<br/>"
-                        + "    - The total number of workflow models.<br/>"
-                        + "    - The total number of completed workflow instances.<br/>"
-                        + "    - The total number of aborted/terminated workflow instances.<br/><br/>",
+        tenantStatusLabel = new Label("<ol>"
+                + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the"
+                + " &quot;Tenant Status&quot; navigation link.</li>"
+                + "<li>The system displays the tenant status page containing:"
+                + "<ul>"
+                + "<li>The number of registered and unregistered users.</li>"
+                + "<li>The total number of workflow models.</li>"
+                + "<li>The total number of completed workflow instances.</li>"
+                + "<li>The total number of aborted/terminated workflow instances.</li>"
+                + "</ul></li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         tenantStatusLabel.setVisible(false);
         tenantStatusButton = new Button("How do I view the tenant status?",

@@ -42,12 +42,11 @@ public class UserManagementHelpComponent extends VerticalLayout {
     public UserManagementHelpComponent() {
         setMargin(false, true, true, true);
 
-        userListLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR as tenant admin and navigate to the workflow modeling section"
-                        + " by clicking on the &quot;Users&quot; navigation link.<br/>"
-                        + "2) The system displays a list of all users in the web browser.<br/><br/>",
+        userListLabel = new Label("<ol>"
+                + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section"
+                + " by clicking on the &quot;Users&quot; navigation link.</li>"
+                + "<li>The system displays a list of all users in the web browser.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         userListLabel.setVisible(false);
         userListButton = new Button("How do I view the list of users?",
@@ -57,15 +56,14 @@ public class UserManagementHelpComponent extends VerticalLayout {
         this.addComponent(userListButton);
         this.addComponent(userListLabel);
 
-        disableAccountLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR as tenant admin and navigate to the workflow"
-                        + " modeling section by clicking on the &quot;Users&quot;"
-                        + " navigation link.<br/>"
-                        + "2) Select a number of user accounts to disable.<br/>"
-                        + "3) The system flags each selected user as disabled"
-                        + " unless the user is the super admin himself.<br/><br/>",
+        disableAccountLabel = new Label("<ol>"
+                + "<li>Log into DecidR as tenant admin and navigate to the workflow"
+                + " modeling section by clicking on the &quot;Users&quot;"
+                + " navigation link.</li>"
+                + "<li>Select a number of user accounts to disable.</li>"
+                + "<li>The system flags each selected user as disabled"
+                + " unless the user is the super admin himself.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         disableAccountLabel.setVisible(false);
         disableAccountButton = new Button("How do I disable user accounts?",

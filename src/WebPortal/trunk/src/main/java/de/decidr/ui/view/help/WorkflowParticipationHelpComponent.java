@@ -48,13 +48,12 @@ public class WorkflowParticipationHelpComponent extends VerticalLayout {
     public WorkflowParticipationHelpComponent() {
         setMargin(false, true, true, true);
 
-        currentTenantWorkItemsLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to the &quot;My Workitems&quot;"
-                        + " in the navigation bar.<br/>"
-                        + "2) The page shows you a list of your workitems"
-                        + " for the current tenant.<br/><br/>",
+        currentTenantWorkItemsLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to the &quot;My Workitems&quot;"
+                + " in the navigation bar.</li>"
+                + "<li>The page shows you a list of your workitems"
+                + " for the current tenant.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         currentTenantWorkItemsLabel.setVisible(false);
         currentTenantWorkItemsButton = new Button(
@@ -65,15 +64,14 @@ public class WorkflowParticipationHelpComponent extends VerticalLayout {
         this.addComponent(currentTenantWorkItemsButton);
         this.addComponent(currentTenantWorkItemsLabel);
 
-        allTenantWorkItemsLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to the &quot;My"
-                        + " Workitems&quot; in the navigation bar.<br/>"
-                        + "2) Select &quot;All tenants&quot; from the"
-                        + " combo box on the workitem page.<br/>"
-                        + "3) The page shows you a list of your"
-                        + " workitems for all tenants.<br/><br/>",
+        allTenantWorkItemsLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to the &quot;My"
+                + " Workitems&quot; in the navigation bar.</li>"
+                + "<li>Select &quot;All tenants&quot; from the"
+                + " combo box on the workitem page.</li>"
+                + "<li>The page shows you a list of your"
+                + " workitems for all tenants.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         allTenantWorkItemsLabel.setVisible(false);
         allTenantWorkItemsButton = new Button(
@@ -84,15 +82,12 @@ public class WorkflowParticipationHelpComponent extends VerticalLayout {
         this.addComponent(allTenantWorkItemsButton);
         this.addComponent(allTenantWorkItemsLabel);
 
-        startWorkOnItemLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to &quot;My Workitems&quot; in the navigation bar.<br/>"
-                        + "2) Select the item you want to work on and click on the &quot;Work on Item&quot; link.<br/>"
-                        + "3) DecidR opens a new window that contains one or more input fields.<br/>"
-                        // Aleks, GH, TK: This doesn't make any sense; what are
-                        // you trying to say? ~rr
-                        + "4) Fill out the field as are opposed to do and click on the &quot;Save&quot; button.<br/><br/>",
+        startWorkOnItemLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to &quot;My Workitems&quot; in the navigation bar.</li>"
+                + "<li>Select the item you want to work on and click on the &quot;Work on Item&quot; link.</li>"
+                + "<li>DecidR opens a new window that contains one or more input fields.</li>"
+                + "<li>Fill out the required fields and click on the &quot;Save&quot; button.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         startWorkOnItemLabel.setVisible(false);
         startWorkOnItemButton = new Button(
@@ -103,12 +98,11 @@ public class WorkflowParticipationHelpComponent extends VerticalLayout {
         this.addComponent(startWorkOnItemButton);
         this.addComponent(startWorkOnItemLabel);
 
-        resumeWorkOnItemLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to &quot;My Workitems&quot; in the navigation bar.<br/>"
-                        + "2) All items you already started have the status &quot;In progress&quot;."
-                        + " Select the item you want to work on and click on the &quot;Work on Item&quot; link.<br/><br/>",
+        resumeWorkOnItemLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to &quot;My Workitems&quot; in the navigation bar.</li>"
+                + "<li>All items you already started have the status &quot;In progress&quot;."
+                + " Select the item you want to work on and click on the &quot;Work on Item&quot; link.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         resumeWorkOnItemLabel.setVisible(false);
         resumeWorkOnItemButton = new Button(

@@ -45,13 +45,12 @@ public class TenantUserManagementHelpComponent extends VerticalLayout {
     public TenantUserManagementHelpComponent() {
         setMargin(false, true, true, true);
 
-        inviteUserLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to &quot;Edit user list&quot; in the navigation bar.<br/>"
-                        + "2) Navigate to the invitation sub-page.<br/>"
-                        + "3) Select &quot;invite user&quot; and enter a number of email addresses and/or user names.<br/>"
-                        + "4) If you are done, click on the &quot;Send&quot; button.<br/><br/>",
+        inviteUserLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to &quot;Edit user list&quot; in the navigation bar.</li>"
+                + "<li>Navigate to the invitation sub-page.</li>"
+                + "<li>Select &quot;invite user&quot; and enter a number of email addresses and/or user names.</li>"
+                + "<li>If you are done, click on the &quot;Send&quot; button.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         inviteUserLabel.setVisible(false);
         inviteUserButton = new Button("How do I invite users to a tenant?",
@@ -61,12 +60,11 @@ public class TenantUserManagementHelpComponent extends VerticalLayout {
         this.addComponent(inviteUserButton);
         this.addComponent(inviteUserLabel);
 
-        removeUserLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to &quot;Edit users&quot; in the navigation bar.<br/>"
-                        + "2) Select one or more tenant members to remove.<br/>"
-                        + "3) Click on the &quot;Remove&quot; button and confirm the removal.<br/><br/>",
+        removeUserLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to &quot;Edit users&quot; in the navigation bar.</li>"
+                + "<li>Select one or more tenant members to remove.</li>"
+                + "<li>Click on the &quot;Remove&quot; button and confirm the removal.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         removeUserLabel.setVisible(false);
         removeUserButton = new Button("How do I remove users from a tenant?",
@@ -76,19 +74,20 @@ public class TenantUserManagementHelpComponent extends VerticalLayout {
         this.addComponent(removeUserButton);
         this.addComponent(removeUserLabel);
 
-        transferAdminLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to the user administration by clicking on"
-                        + " &quot;User&quot; in the navigation bar.<br/>"
-                        + "2) Select the user you want to promote and click on the "
-                        + "&quot;Promote to tenant admin&quot; button.<br/>"
-                        + "3) The system sends a notification email to the super admin "
-                        // Aleks, GH: Not sure here: doesn't the new tenant
-                        // admin have a say in this? No confirmation
-                        // "yes I want to administrate this tenant"? ~rr
-                        + "and the designated tenant admin, stating that the tenant "
-                        + "admin role has been transferred.<br/><br/>",
+        transferAdminLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to the user administration by clicking on"
+                + " &quot;User&quot; in the navigation bar.</li>"
+                + "<li>Select the user you want to promote and click on the "
+                + "&quot;Promote to tenant admin&quot; button.</li>"
+                + "<li>The system sends a notification email to the super admin "
+                // aleks, gh, TK: Not sure here: doesn't the new tenant
+                // admin have a say in this? No confirmation
+                // "yes I want to administrate this tenant"? ~rr
+                // RR I doubt we have implemented this since it's only nth,
+                // but according to the spec this description is correct ~gh
+                + "and the designated tenant admin, stating that the tenant "
+                + "admin role has been transferred.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         transferAdminLabel.setVisible(false);
         transferAdminButton = new Button(

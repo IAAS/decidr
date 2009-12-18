@@ -42,11 +42,10 @@ public class SystemStatusHelpComponent extends VerticalLayout {
     public SystemStatusHelpComponent() {
         setMargin(false, true, true, true);
 
-        allWorkflowModelsLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Models' navigation link.<br/>"
-                        + "2) The system displays a list of all workflow models coming from all tenants in the system, including the default tenant.<br/><br/>",
+        allWorkflowModelsLabel = new Label("<ol>"
+                + "<li>Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the &quot;Models&quot; navigation link.</li>"
+                + "<li>The system displays a list of all workflow models coming from all tenants in the system, including the default tenant.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         allWorkflowModelsLabel.setVisible(false);
         allWorkflowModelsButton = new Button(
@@ -57,11 +56,10 @@ public class SystemStatusHelpComponent extends VerticalLayout {
         this.addComponent(allWorkflowModelsButton);
         this.addComponent(allWorkflowModelsLabel);
 
-        runningInstancesLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Instances' navigation link.<br/>"
-                        + "2) The system displays a list of all running workflow instances coming from all tenants in the system, including the default tenant.<br/><br/>",
+        runningInstancesLabel = new Label("<ol>"
+                + "<li>Login into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the 'Instances' navigation link.</li>"
+                + "<li>The system displays a list of all running workflow instances coming from all tenants in the system, including the default tenant.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         runningInstancesLabel.setVisible(false);
         runningInstancesButton = new Button(

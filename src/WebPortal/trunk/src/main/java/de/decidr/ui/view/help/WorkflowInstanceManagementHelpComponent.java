@@ -60,14 +60,12 @@ public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
     public WorkflowInstanceManagementHelpComponent() {
         setMargin(false, true, true, true);
 
-        workflowModelsLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "Please make sure that you are a workflow admin!<br/>"
-                        + "1) Log into DecidR and navigate to &quot;Create"
-                        + " workflow instance&quot; in the navigation bar.<br/>"
-                        + "2) If you are a workflow admin, the page will list all"
-                        + " your workflow models for the current tenant.<br/><br/>",
+        workflowModelsLabel = new Label("Please make sure that you are a workflow admin!<br/><ol>"
+                        + "<li>Log into DecidR and navigate to &quot;Create"
+                        + " workflow instance&quot; in the navigation bar.</li>"
+                        + "<li>If you are a workflow admin, the page will list all"
+                        + " your workflow models for the current tenant.</li>"
+                        + "</ol><br/>",
                 Label.CONTENT_XHTML);
         workflowModelsLabel.setVisible(false);
         workflowModelsButton = new Button("Where are my workflow models?",
@@ -77,12 +75,11 @@ public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
         this.addComponent(workflowModelsButton);
         this.addComponent(workflowModelsLabel);
 
-        workflowInstancesLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to &quot;Show workflow instances&quot;.<br/>"
-                        + "2) The page lists all running and completed workflow instances"
-                        + " started by the workflow admin.<br/><br/>",
+        workflowInstancesLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to &quot;Show workflow instances&quot;.</li>"
+                + "<li>The page lists all running and completed workflow instances"
+                + " started by the workflow admin.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         workflowInstancesLabel.setVisible(false);
         workflowInstancesButton = new Button(
@@ -93,13 +90,12 @@ public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
         this.addComponent(workflowInstancesButton);
         this.addComponent(workflowInstancesLabel);
 
-        workflowInstanceConfigurationLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to &quot;Create workflow instance&quot;.<br/>"
-                        + "2) Select a workflow model you want to prepare a workflow instance"
-                        + " for and click the &quot;Prepare&quot; button and then the"
-                        + " &quot;Save&quot; button.<br/><br/>",
+        workflowInstanceConfigurationLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to &quot;Create workflow instance&quot;.</li>"
+                + "<li>Select a workflow model you want to prepare a workflow instance"
+                + " for and click the &quot;Prepare&quot; button and then the"
+                + " &quot;Save&quot; button.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         workflowInstanceConfigurationLabel.setVisible(false);
         workflowInstanceConfigurationButton = new Button(
@@ -110,17 +106,16 @@ public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
         this.addComponent(workflowInstanceConfigurationButton);
         this.addComponent(workflowInstanceConfigurationLabel);
 
-        createWorkflowInstanceLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to the &quot;Workflow model overview&quot; page.<br/>"
-                        + "2) Select the desired model and click on &quot;Start instance&quot;.<br/>"
-                        + "3) Now you can configure the workflow instance through the configuration interface.<br/>"
-                        + "4) Set the startup options of the new workflow instance and press on the &quot;Start&quot; button.<br/>"
-                        + "5) If all workflow participants are available and you selected &quot;Start immediately&quot;,"
-                        + " the system sends invitation emails to all workflow participants that aren’t already members of the tenant,"
-                        + " including unregistered users. The invitation emails contain a link that lets the receivers participate"
-                        + " without creating a user profile.<br/><br/>",
+        createWorkflowInstanceLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to the &quot;Workflow model overview&quot; page.</li>"
+                + "<li>Select the desired model and click on &quot;Start instance&quot;.</li>"
+                + "<li>Now you can configure the workflow instance through the configuration interface.</li>"
+                + "<li>Set the startup options of the new workflow instance and press on the &quot;Start&quot; button.</li>"
+                + "<li>If all workflow participants are available and you selected &quot;Start immediately&quot;,"
+                + " the system sends invitation emails to all workflow participants that aren’t already members of the tenant,"
+                + " including unregistered users. The invitation emails contain a link that lets the receivers participate"
+                + " without creating a user profile.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         createWorkflowInstanceLabel.setVisible(false);
         createWofkflowInstanceButton = new Button(
@@ -131,11 +126,10 @@ public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
         this.addComponent(createWofkflowInstanceButton);
         this.addComponent(createWorkflowInstanceLabel);
 
-        addUserToConfigurationLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to the editing page of an instance.<br/>"
-                        + "2) Click on the &quot;Add user&quot; button and fill in the required fields.<br/><br/>",
+        addUserToConfigurationLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to the editing page of an instance.</li>"
+                + "<li>Click on the &quot;Add user&quot; button and fill in the required fields.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         addUserToConfigurationLabel.setVisible(false);
         addUserToConfigurationButton = new Button(
@@ -146,11 +140,10 @@ public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
         this.addComponent(addUserToConfigurationButton);
         this.addComponent(addUserToConfigurationLabel);
 
-        removeUserFromConfigurationLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to the editing page of an instance.<br/>"
-                        + "2) Select a user to be deleted and click on the &quot;Delete user&quot; button.<br/><br/>",
+        removeUserFromConfigurationLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to the editing page of an instance.</li>"
+                + "<li>Select a user to be deleted and click on the &quot;Delete user&quot; button.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         removeUserFromConfigurationLabel.setVisible(false);
         removeUserFromConfigurationButton = new Button(
@@ -161,15 +154,14 @@ public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
         this.addComponent(removeUserFromConfigurationButton);
         this.addComponent(removeUserFromConfigurationLabel);
 
-        completeWorkItemForUserLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to the workflow instance overview page.<br/>"
-                        + "2) Select a running workflow instance.<br/>"
-                        + "3) Click on the &quot;Show workitems&quot; button.<br/>"
-                        + "4) For each workitem in the list, the system displays the user to whom the workitem was assigned.<br/>"
-                        + "5) Now (if you are a workflow admin) you can start and resume working on a workitem.<br/>"
-                        + "6) Mark any workitem as done.<br/><br/>",
+        completeWorkItemForUserLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to the workflow instance overview page.</li>"
+                + "<li>Select a running workflow instance.</li>"
+                + "<li>Click on the &quot;Show workitems&quot; button.</li>"
+                + "<li>For each workitem in the list, the system displays the user to whom the workitem was assigned.</li>"
+                + "<li>Now (if you are a workflow admin) you can start and resume working on a workitem.</li>"
+                + "<li>Mark any workitem as done.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         completeWorkItemForUserLabel.setVisible(false);
         completeWorkItemForUserButton = new Button(
@@ -180,12 +172,11 @@ public class WorkflowInstanceManagementHelpComponent extends VerticalLayout {
         this.addComponent(completeWorkItemForUserButton);
         this.addComponent(completeWorkItemForUserLabel);
 
-        terminateWorkflowInstanceLabel = new Label(
-                // Aleks, GH: check whether this can be done with proper HTML
-                // ~rr
-                "1) Log into DecidR and navigate to the workflow instance overview page.<br/>"
-                        + "2) Select a running workflow instance.<br/>"
-                        + "3) Click on the &quot;Terminate&quot; button and confirm the termination.<br/><br/>",
+        terminateWorkflowInstanceLabel = new Label("<ol>"
+                + "<li>Log into DecidR and navigate to the workflow instance overview page.</li>"
+                + "<li>Select a running workflow instance.</li>"
+                + "<li>Click on the &quot;Terminate&quot; button and confirm the termination.</li>"
+                + "</ol><br/>",
                 Label.CONTENT_XHTML);
         terminateWorkflowInstanceLabel.setVisible(false);
         terminateWorkflowInstanceButton = new Button(

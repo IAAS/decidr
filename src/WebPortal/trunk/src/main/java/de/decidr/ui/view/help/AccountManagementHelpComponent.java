@@ -173,14 +173,10 @@ public class AccountManagementHelpComponent extends VerticalLayout {
                 + "&quot;Create Tenant&quot; using the navigation bar.</li>\n"
                 + "\t<li>Enter the tenant information.</li>\n"
                 + "\t<li>Click on the &quot;Save&quot; button.</li>\n"
-                // aleks, gh: No error message or anything? Nothing happens? ~rr
-                // rr please ask tk, he wrote all these texts
-                // GH Please tell me you didn't just copy tk's help without
-                // adapting it to the changes you made. Anything in here should
-                // be adapted to reality, and since it'S you changing this
-                // reality, you should be the one to fix the help files ~rr
                 + "\t<li>If the tenant isn't already registered you are not "
-                + "the tenant admin of the newly created tenant</li>\n"
+                + "the tenant admin of the newly created tenant. If the"
+                + "tenant is already registered, you will receive an error"
+                + "message and can try another tenant name.</li>\n"
                 + "</ol>\n<br/>", Label.CONTENT_XHTML);
         createNewTenantLabel.setVisible(false);
         createNewTenantButton = new Button("How do I create a new tenant?",
