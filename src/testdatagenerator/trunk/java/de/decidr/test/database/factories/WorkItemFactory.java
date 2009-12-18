@@ -11,8 +11,10 @@ import de.decidr.model.XmlTools;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserHasFileAccess;
+import de.decidr.model.entities.UserHasFileAccessId;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkItemContainsFile;
+import de.decidr.model.entities.WorkItemContainsFileId;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.soap.types.DWDLSimpleVariableType;
@@ -97,6 +99,8 @@ public class WorkItemFactory extends EntityFactory {
                 if (randomParticipatingUser != null) {
                     // Give the user access to the file
                     UserHasFileAccess access = new UserHasFileAccess();
+                    access.setId(new UserHasFileAccessId(
+                            randomParticipatingUser.getId(), existingFileId));
                     access.setFile((File) session.load(File.class,
                             existingFileId));
                     access.setMayDelete(true);
@@ -122,6 +126,8 @@ public class WorkItemFactory extends EntityFactory {
 
                     // Associate file with workitem
                     WorkItemContainsFile rel = new WorkItemContainsFile();
+                    rel.setId(new WorkItemContainsFileId(item.getId(),
+                            existingFileId));
                     rel
                             .setFile((File) session.load(File.class,
                                     existingFileId));

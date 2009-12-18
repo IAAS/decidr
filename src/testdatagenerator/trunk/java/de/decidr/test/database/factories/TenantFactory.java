@@ -171,6 +171,7 @@ public class TenantFactory extends EntityFactory {
         result.setCreationDate(DecidrGlobals.getTime().getTime());
         result.setMimeType("text/css");
         result.setData(getFileBytes("files/styles1.css"));
+        result.setFileSizeBytes(result.getData().length);
         session.save(result);
         return result;
     }
@@ -192,6 +193,7 @@ public class TenantFactory extends EntityFactory {
         result.setCreationDate(DecidrGlobals.getTime().getTime());
         result.setData(getFileBytes("files/logo"
                 + Integer.toString(rnd.nextInt(2) + 1) + ".png"));
+        result.setFileSizeBytes(result.getData().length);
         session.save(result);
         return result;
     }
