@@ -56,7 +56,8 @@ public class ServerFactory extends EntityFactory {
 
         // ESB
         List<String> esbServers = new ArrayList<String>();
-        esbServers.add("localhost:8280");
+        // Dirty hax: that's not actually the address of an esb, it's Axis2!
+        esbServers.add("localhost:8080");
         servers.put(ServerTypeEnum.Esb, esbServers);
 
         // Web Portal
@@ -65,6 +66,7 @@ public class ServerFactory extends EntityFactory {
         servers.put(ServerTypeEnum.WebPortal, portalServers);
 
         // Storage
+        // Notice: there aren't really any storage servers, yet
         List<String> storageServers = new ArrayList<String>();
         storageServers.add("localhost");
         servers.put(ServerTypeEnum.Storage, storageServers);

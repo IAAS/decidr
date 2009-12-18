@@ -3,12 +3,21 @@ package de.decidr.test.database.factories;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
 import org.hibernate.Session;
 
+import de.decidr.model.XmlTools;
+import de.decidr.model.entities.File;
 import de.decidr.model.entities.User;
+import de.decidr.model.entities.UserHasFileAccess;
 import de.decidr.model.entities.WorkItem;
+import de.decidr.model.entities.WorkItemContainsFile;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.WorkItemStatus;
+import de.decidr.model.soap.types.DWDLSimpleVariableType;
+import de.decidr.model.workflowmodel.humantask.THumanTaskData;
+import de.decidr.model.workflowmodel.humantask.TTaskItem;
 import de.decidr.test.database.main.ProgressListener;
 
 /**
@@ -59,39 +68,90 @@ public class WorkItemFactory extends EntityFactory {
         if (availableInstances == null || availableInstances.isEmpty()) {
             throw new RuntimeException("No available workflow instances found.");
         }
+        try {
+            THumanTaskData data = XmlTools.getElement(THumanTaskData.class,
+                    xmlFactory.getWorkItem());
 
-        for (int i = 0; i < numWorkItems; i++) {
-            WorkflowInstance randomWorkflowInstance = availableInstances
-                    .get(rnd.nextInt(availableInstances.size()));
+            Long existingFileId = (Long) session.createQuery(
+                    "select id from File where fileSizeBytes > 0")
+                    .setMaxResults(1).uniqueResult();
 
-            String hql = "from User u where "
-                    + "exists (from UserParticipatesInWorkflow rel where "
-                    + "rel.workflowInstance = :instance and rel.user = u) order by rand()";
-            User randomParticipatingUser = (User) session.createQuery(hql)
-                    .setMaxResults(1).setEntity("instance",
-                            randomWorkflowInstance).uniqueResult();
-
-            if (randomParticipatingUser != null) {
-                WorkItem item = new WorkItem();
-                item.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
-                item.setData(xmlFactory.getWorkItem());
-                item
-                        .setDescription("A random work item created by the test data generator. Created in loop #"
-                                + Integer.toString(i));
-                item.setName("Work item #" + Integer.toString(i));
-                item.setWorkflowInstance(randomWorkflowInstance);
-                item.setUser(randomParticipatingUser);
-                item.setStatus(statuses[rnd.nextInt(statuses.length)]
-                        .toString());
-
-                session.save(item);
-                result.add(item);
-
+            if (existingFileId == null) {
+                throw new RuntimeException(
+                        "Cannot find file id to link with work item data");
             }
-            
-            fireProgressEvent(numWorkItems, i + 1);
+
+            setFileId(data, existingFileId);
+
+            for (int i = 0; i < numWorkItems; i++) {
+                WorkflowInstance randomWorkflowInstance = availableInstances
+                        .get(rnd.nextInt(availableInstances.size()));
+
+                String hql = "from User u where "
+                        + "exists (from UserParticipatesInWorkflow rel where "
+                        + "rel.workflowInstance = :instance and rel.user = u) order by rand()";
+                User randomParticipatingUser = (User) session.createQuery(hql)
+                        .setMaxResults(1).setEntity("instance",
+                                randomWorkflowInstance).uniqueResult();
+
+                if (randomParticipatingUser != null) {
+                    // Give the user access to the file
+                    UserHasFileAccess access = new UserHasFileAccess();
+                    access.setFile((File) session.load(File.class,
+                            existingFileId));
+                    access.setMayDelete(true);
+                    access.setMayRead(true);
+                    access.setMayReplace(true);
+                    access.setUser(randomParticipatingUser);
+                    session.save(access);
+
+                    WorkItem item = new WorkItem();
+
+                    item.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
+                    item.setData(XmlTools.getBytes(data));
+                    item
+                            .setDescription("A random work item created by the test data generator. Created in loop #"
+                                    + Integer.toString(i));
+                    item.setName("Work item #" + Integer.toString(i));
+                    item.setWorkflowInstance(randomWorkflowInstance);
+                    item.setUser(randomParticipatingUser);
+                    item.setStatus(statuses[rnd.nextInt(statuses.length)]
+                            .toString());
+
+                    session.save(item);
+
+                    // Associate file with workitem
+                    WorkItemContainsFile rel = new WorkItemContainsFile();
+                    rel
+                            .setFile((File) session.load(File.class,
+                                    existingFileId));
+                    rel.setWorkItem(item);
+
+                    result.add(item);
+                }
+
+                fireProgressEvent(numWorkItems, i + 1);
+            }
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
         }
 
         return result;
+    }
+
+    /**
+     * Sets the value of all task items that are files to the given file id
+     */
+    private void setFileId(THumanTaskData data, long id) {
+        for (Object o : data.getTaskItemOrInformation()) {
+            if (o instanceof TTaskItem) {
+                TTaskItem item = (TTaskItem) o;
+                if (DWDLSimpleVariableType.ANY_URI.equals(item.getType())
+                        && item.getValue() != null
+                        && !"".equals(item.getValue())) {
+                    item.setValue(Long.toString(id));
+                }
+            }
+        }
     }
 }

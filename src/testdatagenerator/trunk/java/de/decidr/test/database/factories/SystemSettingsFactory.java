@@ -1,7 +1,7 @@
 package de.decidr.test.database.factories;
 
+import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -16,6 +16,7 @@ import de.decidr.test.database.main.ProgressListener;
  * are already available in the target database (see UserFactory).
  * 
  * @author Markus Fischer
+ * @author Daniel Huss
  * @version 0.1
  */
 public class SystemSettingsFactory extends EntityFactory {
@@ -79,18 +80,16 @@ public class SystemSettingsFactory extends EntityFactory {
         
         session.update(superAdmin);
 
-        // get log level
-        String logLevel = "WARN";
+        String logLevel = "DEBUG";
 
-        // get modified date
         Date modifiedDate = new Date();
-        GregorianCalendar cal = new GregorianCalendar();
+        Calendar cal = DecidrGlobals.getTime();
         cal.set(1985, 12, 28);
 
         modifiedDate.setTime(cal.getTimeInMillis());
 
         settings.setAutoAcceptNewTenants(false);
-        settings.setDomain("decidr.de");
+        settings.setBaseUrl("iaassrv4stud.informatik.uni-stuttgart.de:8080/WebPortal");
         settings.setMaxAttachmentsPerEmail(10);
         settings.setMaxUploadFileSizeBytes(10485760);
         settings.setModifiedDate(modifiedDate);
