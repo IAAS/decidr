@@ -118,6 +118,11 @@ public final class PropertyConstants {
          * will be informed via email that a new workitem is assigned to him.
          */
         public static final String USERNOTIFICATION = "userNotification";
+        
+        /**
+         * This property contains the task ID
+         */
+        public static final String TASKID = "taskID";
 
         /**
          * This property is set through the parameter element of an invoke node.

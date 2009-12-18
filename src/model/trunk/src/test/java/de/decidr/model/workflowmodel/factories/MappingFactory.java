@@ -251,6 +251,9 @@ public class MappingFactory {
         humanTask.setPartnerLinkType(partnerlinktype);
         humanTask.setService(HumanTaskInterface.SERVICE_NAME);
         humanTask.setServicePort(HumanTaskInterface.PORT_NAME);
+        
+        QName createTaskRequest = new QName(
+                HumanTaskInterface.TARGET_NAMESPACE, "createTaskRequest");
 
         Property wfmID = new Property();
         wfmID.setName(PropertyConstants.Humantask.WFMID);
@@ -261,108 +264,98 @@ public class MappingFactory {
         processID.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
         Property userID = new Property();
-        userID.setName("userID");
-        userID.setType(new QName("http://decidr.de/schema/DecidrTypes", "tID"));
+        userID.setName(PropertyConstants.Humantask.USER);
+        userID.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long"));
 
         Property taskName = new Property();
-        taskName.setName("taskName");
+        taskName.setName(PropertyConstants.Humantask.NAME);
         taskName
                 .setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"));
 
         Property userNotification = new Property();
-        userNotification.setName("userNotification");
+        userNotification.setName(PropertyConstants.Humantask.USERNOTIFICATION);
         userNotification.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,
                 "boolean"));
 
         Property description = new Property();
-        description.setName("description");
+        description.setName(PropertyConstants.Humantask.DESCRIPTION);
         description.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI,
                 "string"));
 
         Property taskData = new Property();
-        taskData.setName("taskData");
-        taskData.setType(new QName("http://decidr.de/schema/humanTask",
+        taskData.setName(PropertyConstants.Humantask.TASKDATA);
+        taskData.setType(new QName(Constants.HUMANTASK_NAMESPACE,
                 "tHumanTaskData"));
 
         Property taskID = new Property();
-        taskID.setName("taskID");
+        taskID.setName(PropertyConstants.Humantask.TASKID);
         taskID.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long"));
 
-        Query wfmID_Query = new Query();
-        wfmID_Query.getContent().add("/tns:createTask/tns:wfmID");
-
-        Query processID_Query = new Query();
-        processID_Query.getContent().add("/tns:createTask/tns:processID");
-
-        Query userID_Query = new Query();
-        userID_Query.getContent().add("/tns:createTask/tns:userID");
-
-        Query taskName_Query = new Query();
-        taskName_Query.getContent().add("/tns:createTask/tns:taskName");
-
-        Query userNotification_Query = new Query();
-        userNotification_Query.getContent().add(
-                "/tns:createTask/tns:userNotification");
-
-        Query description_Query = new Query();
-        description_Query.getContent().add("/tns:createTask/tns:description");
-
-        Query taskData_Query = new Query();
-        taskData_Query.getContent().add("/tns:createTask/tns:taskData");
-
-        Query taskID_Query = new Query();
-        taskID_Query.getContent().add("/tns:createTask/tns:taskID");
-
-        QName createTaskRequest = new QName(
-                HumanTaskInterface.TARGET_NAMESPACE, "createTaskRequest");
         PropertyAlias wfmID_Alias = new PropertyAlias();
-        wfmID_Alias.setPropertyName(new QName(wfmID.getName()));
+        wfmID_Alias.setPropertyName(new QName(HumanTaskInterface.TARGET_NAMESPACE, wfmID.getName()));
         wfmID_Alias.setMessageType(createTaskRequest);
         wfmID_Alias.setType(wfmID.getType());
+        Query wfmID_Query = new Query();
+        wfmID_Query.getContent().add("/wfmID");
         wfmID_Alias.setQuery(wfmID_Query);
 
+
         PropertyAlias processID_Alias = new PropertyAlias();
-        processID_Alias.setPropertyName(new QName(processID.getName()));
+        processID_Alias.setPropertyName(new QName(HumanTaskInterface.TARGET_NAMESPACE, processID.getName()));
         processID_Alias.setMessageType(createTaskRequest);
         processID_Alias.setType(processID.getType());
+        Query processID_Query = new Query();
+        processID_Query.getContent().add("/processID");
         processID_Alias.setQuery(processID_Query);
-
+        
         PropertyAlias userID_Alias = new PropertyAlias();
-        userID_Alias.setPropertyName(new QName(userID.getName()));
+        userID_Alias.setPropertyName(new QName(HumanTaskInterface.TARGET_NAMESPACE, userID.getName()));
         userID_Alias.setMessageType(createTaskRequest);
         userID_Alias.setType(userID.getType());
+        Query userID_Query = new Query();
+        userID_Query.getContent().add("/userID");
         userID_Alias.setQuery(userID_Query);
 
         PropertyAlias taskName_Alias = new PropertyAlias();
-        taskName_Alias.setPropertyName(new QName(taskName.getName()));
+        taskName_Alias.setPropertyName(new QName(HumanTaskInterface.TARGET_NAMESPACE, taskName.getName()));
         taskName_Alias.setMessageType(createTaskRequest);
         taskName_Alias.setType(taskName.getType());
+        Query taskName_Query = new Query();
+        taskName_Query.getContent().add("/taskName");
         taskName_Alias.setQuery(taskName_Query);
 
         PropertyAlias userNotification_Alias = new PropertyAlias();
-        userNotification_Alias.setPropertyName(new QName(userNotification
+        userNotification_Alias.setPropertyName(new QName(HumanTaskInterface.TARGET_NAMESPACE, userNotification
                 .getName()));
         userNotification_Alias.setMessageType(createTaskRequest);
         userNotification_Alias.setType(userNotification.getType());
+        Query userNotification_Query = new Query();
+        userNotification_Query.getContent().add("/userNotification");
         userNotification_Alias.setQuery(userNotification_Query);
 
         PropertyAlias description_Alias = new PropertyAlias();
-        description_Alias.setPropertyName(new QName(description.getName()));
+        description_Alias.setPropertyName(new QName(HumanTaskInterface.TARGET_NAMESPACE, description.getName()));
         description_Alias.setMessageType(createTaskRequest);
         description_Alias.setType(description.getType());
+        Query description_Query = new Query();
+        description_Query.getContent().add("/description");
         description_Alias.setQuery(description_Query);
-
+        
         PropertyAlias taskData_Alias = new PropertyAlias();
-        taskData_Alias.setPropertyName(new QName(taskData.getName()));
+        taskData_Alias.setPropertyName(new QName(HumanTaskInterface.TARGET_NAMESPACE, taskData.getName()));
         taskData_Alias.setMessageType(createTaskRequest);
         taskData_Alias.setType(taskData.getType());
+        Query taskData_Query = new Query();
+        taskData_Query.getContent().add("/taskData");
         taskData_Alias.setQuery(taskData_Query);
 
         PropertyAlias taskID_Alias = new PropertyAlias();
-        taskID_Alias.setPropertyName(new QName(taskID.getName()));
+        taskID_Alias.setPropertyName(new QName(HumanTaskInterface.TARGET_NAMESPACE, taskID.getName()));
         taskID_Alias.setMessageType(new QName(
                 HumanTaskInterface.TARGET_NAMESPACE, "createTaskResponse"));
         taskID_Alias.setType(taskID.getType());
+        Query taskID_Query = new Query();
+        taskID_Query.getContent().add("/taskID");
         taskID_Alias.setQuery(taskID_Query);
 
         Properties humanTaskProperties = factory.createProperties();

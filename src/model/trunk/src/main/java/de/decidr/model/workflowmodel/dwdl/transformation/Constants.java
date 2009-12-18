@@ -32,6 +32,7 @@ public final class Constants {
     public static final String PARTNERLINKTYPE_NAMESPACE = "http://docs.oasis-open.org/wsbpel/2.0/plnktype";
     public static final String VARPROP_NAMESPACE = "http://docs.oasis-open.org/wsbpel/2.0/varprop";
     public static final String DWDL_NAMESPACE = "http://decidr.de/schema/dwdl";
+    public static final String HUMANTASK_NAMESPACE = "http://decidr.de/schema/humanTask";
     public static final String DECIDRTYPES_NAMESPACE = "http://decidr.de/schema/DecidrTypes";
     public static final String DECIDRWSTYPES_NAMESPACE = "http://decidr.de/schema/DecidrWSTypes";
     public static final String DECIDRPROCESSTYPES_NAMESPACE = "http://decidr.de/schema/DecidrProcessTypes";
