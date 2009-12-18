@@ -43,6 +43,8 @@ public interface BasicProcessInterface {
             SERVICE_NAME);
     public static final QName ENDPOINT = new QName(TARGET_NAMESPACE,
             "basicProcessSOAP");
+    // XXX use ESB
+    public static final String SERVICE_LOCATION = "http://localhost:8080/ode/processes/";
 
     /**
      * The callback method for when a human task is completed.

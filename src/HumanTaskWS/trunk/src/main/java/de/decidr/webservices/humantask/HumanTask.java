@@ -124,14 +124,13 @@ public class HumanTask implements HumanTaskInterface {
             }
 
             log.debug("calling Callback");
-            new BasicProcessClient().getBPELCallbackInterfacePort()
-                    .taskCompleted(id, data);
+            new BasicProcessClient(workItem.getWorkflowInstance()
+                    .getDeployedWorkflowModel().getName())
+                    .getBPELCallbackInterfacePort().taskCompleted(id, data);
         } catch (Exception e) {
             throw new ReportingException(e.getMessage(), e);
         }
 
         log.trace("Leaving method: taskCompleted");
-        throw new java.lang.UnsupportedOperationException("Please implement "
-                + this.getClass().getName() + "#taskCompleted");
     }
 }

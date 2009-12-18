@@ -79,10 +79,13 @@ import de.decidr.model.workflowmodel.dwdl.Workflow;
 /**
  * This class converts a given DWDL object and returns the resulting WSDL.<br>
  * Following naming conventions are used: <br>
- * <li>Binding name = DWDL workflow name + "SOAPBinding"</li> <li>Message part
- * name = "payload"</li> <li>Role name in partner link type = DWDL workflow name
- * + "Provider"</li> <li>Port type = DWDL workflow name + "PT"</li> <li>Location
- * URL = Server location + "/ode/processes/" + DWDL workflow name</li>
+ * <ul>
+ * <li>Binding name = DWDL workflow name + "SOAPBinding"</li>
+ * <li>Message part name = "payload"</li>
+ * <li>Role name in partner link type = DWDL workflow name + "Provider"</li>
+ * <li>Port type = DWDL workflow name + "PT"</li>
+ * <li>Location URL = Server location + "/ode/processes/" + DWDL workflow name</li>
+ * </ul>
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -208,7 +211,6 @@ public class DWDL2WSDL {
         startMessageRequest.addPart(messagePart1);
         startMessageRequest.setUndefined(false);
 
-        
         wsdl.addMessage(startMessageResponse);
     }
 
@@ -227,7 +229,7 @@ public class DWDL2WSDL {
                 Constants.DECIDRPROCESSTYPES_NAMESPACE);
     }
 
-    private void setPartnerLinkTypes() throws JDOMException {
+    private void setPartnerLinkTypes() {
         PartnerLinkType partnerLinkType = new PartnerLinkType();
         partnerLinkType.setName(WSDLConstants.PROCESS_PARTNERLINKTYPE);
         de.decidr.model.workflowmodel.bpel.partnerlinktype.Role myRole = new de.decidr.model.workflowmodel.bpel.partnerlinktype.Role();
@@ -259,7 +261,7 @@ public class DWDL2WSDL {
         wsdl.addPortType(processPortType);
     }
 
-    private void setProperties() throws JDOMException {
+    private void setProperties() {
 
         if (dwdl.isSetVariables()) {
             for (Variable variable : dwdl.getVariables().getVariable()) {
@@ -305,7 +307,7 @@ public class DWDL2WSDL {
                 .getName()));
         Port servicePort = new PortImpl();
         servicePort.setBinding(processBinding);
-        servicePort.setName(dwdl.getName()+"Port");
+        servicePort.setName(dwdl.getName() + "Port");
         SOAPAddress soapLocation = new SOAPAddressImpl();
         soapLocation.setLocationURI(serverLocation);
         servicePort.addExtensibilityElement(soapLocation);
