@@ -20,6 +20,8 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.DecidrGlobals;
+import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -29,8 +31,7 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
-import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.WelcomePageComponent;
+import de.decidr.ui.view.uibuilder.UserViewBuilder;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -44,7 +45,6 @@ public class RegisterUserAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     private UserFacade userFacade = null;
 
@@ -65,7 +65,7 @@ public class RegisterUserAction implements ClickListener {
 
             try {
                 userFacade = new UserFacade(new UserRole());
-                userFacade.registerUser(content.getRegistrationForm()
+                Long userId = userFacade.registerUser(content.getRegistrationForm()
                         .getItemProperty("email").getValue().toString(),
                         content.getRegistrationForm().getItemProperty(
                                 "password").getValue().toString(),
@@ -74,7 +74,14 @@ public class RegisterUserAction implements ClickListener {
                         new InformationDialogComponent(
                                 "User successfully registered!",
                                 "Registration successful"));
-                siteFrame.setContent(new WelcomePageComponent());
+                
+                
+                Role roleInstance = new UserRole(userId);
+                Main.getCurrent().getSession().setAttribute("tenantId", DecidrGlobals.getDefaultTenant().getId());
+                Main.getCurrent().getSession().setAttribute("userId", userId);
+                Main.getCurrent().getSession().setAttribute("role", roleInstance);
+                
+                uiDirector.switchView(new UserViewBuilder());
             } catch (NullPointerException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(

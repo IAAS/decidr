@@ -16,10 +16,13 @@
 
 package de.decidr.ui.controller.tenant;
 
+
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -30,8 +33,7 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterTenantComponent;
-import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.WelcomePageComponent;
+import de.decidr.ui.view.uibuilder.TenantAdminViewBuilder;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
@@ -45,7 +47,6 @@ public class RegisterTenantAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
     private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
 
     private UserFacade userFacade = new UserFacade(new UserRole());
     private TenantFacade tenantFacade = new TenantFacade(new UserRole());
@@ -54,6 +55,8 @@ public class RegisterTenantAction implements ClickListener {
     private RegisterTenantComponent content = null;
 
     private UserProfile userProfile = null;
+    
+    private TenantAdminViewBuilder tenantAdminViewBuilder = new TenantAdminViewBuilder();
 
     /*
      * (non-Javadoc)
@@ -77,21 +80,30 @@ public class RegisterTenantAction implements ClickListener {
                                 "password").getValue().toString(),
                         fillUserProfile());
 
-                tenantFacade.createTenant(content.getRegistrationForm()
+                Long tenantId = tenantFacade.createTenant(content.getRegistrationForm()
                         .getItemProperty("tenantName").getValue().toString(),
                         "", userId);
+                
+                
+                Role roleInstance = new TenantAdminRole(userId);
+                Main.getCurrent().getSession().setAttribute("tenantId", tenantId);
+                Main.getCurrent().getSession().setAttribute("userId", userId);
+                Main.getCurrent().getSession().setAttribute("role", roleInstance);
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Tenant successfully registered",
                                 "Registration successfully"));
-                siteFrame.setContent(new WelcomePageComponent());
+                uiDirector.switchView(tenantAdminViewBuilder);
             } catch (NullPointerException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
-            }
+            } catch (Exception e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            } 
         } else {
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(
