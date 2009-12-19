@@ -24,6 +24,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.ui.controller.AddMemberToTenantAction;
 import de.decidr.ui.controller.show.ShowEditUserAction;
 import de.decidr.ui.controller.show.ShowInviteUserToTenantAction;
 import de.decidr.ui.controller.user.AccountActivationAction;
@@ -59,6 +60,7 @@ public class UserListComponent extends CustomComponent {
     private Button deactivateAccountButton = null;
     private Button activateAccountButton = null;
     private Button editUserButton = null;
+    private Button addMemberToTenantButton = null;
 
     /**
      * Default constructor.
@@ -81,11 +83,14 @@ public class UserListComponent extends CustomComponent {
         activateAccountButton = new Button("Activate Account",
                 new AccountActivationAction(userListTable));
         editUserButton = new Button("Edit user", new ShowEditUserAction());
+        addMemberToTenantButton = new Button("Add user to tenant",
+                new AddMemberToTenantAction(userListTable));
         getInviteUserButton().setVisible(true);
         getButtonHorizontalLayout().addComponent(removeFromTenantButton);
         getButtonHorizontalLayout().addComponent(deactivateAccountButton);
         getButtonHorizontalLayout().addComponent(activateAccountButton);
         getButtonHorizontalLayout().addComponent(editUserButton);
+        getButtonHorizontalLayout().addComponent(addMemberToTenantButton);
         getVerticalLayout().addComponent(getButtonPanel());
     }
 
@@ -97,7 +102,10 @@ public class UserListComponent extends CustomComponent {
         init();
         removeFromTenantButton = new Button("Remove from Tenant",
                 new RemoveUserFromTenantAction(userListTable));
+        addMemberToTenantButton = new Button("Add user to tenant",
+                new AddMemberToTenantAction(userListTable));
         getButtonHorizontalLayout().addComponent(removeFromTenantButton);
+        getButtonHorizontalLayout().addComponent(addMemberToTenantButton);
         getVerticalLayout().addComponent(getButtonPanel());
     }
 

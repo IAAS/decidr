@@ -23,6 +23,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
@@ -72,38 +73,25 @@ public class CreateTenantAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        boolean notEmpty = true;
-
-        for (Object id : createForm.getItemPropertyIds()) {
-            if (notEmpty) {
-                if (createForm.getField(id).getValue().toString().equals("")
-                        && createForm.getField(id).isRequired()) {
-                    notEmpty = false;
-                }
-            }
-        }
-
-        if (notEmpty) {
+        TenantView tenantView = new TenantView();
+        if (createForm.isValid()) {
             createForm.commit();
 
-            String tenantName = createForm.getItemProperty("tenantName")
+            String tenantName = createForm.getField("tenantName")
                     .getValue().toString();
 
             try {
                 Long tenantId = tenantFacade.createTenant(tenantName,
-                        createForm.getItemProperty("tenantDescription")
+                        createForm.getField("tenantDescription")
                                 .getValue().toString(), userId);
                 userFacade.setCurrentTenantId(userId, tenantId);
 
-                Class<? extends Role> roleClass = userFacade
-                        .getHighestUserRole(userId);
-                Role roleInstance = roleClass.getConstructor(Long.class)
-                        .newInstance(userId);
+                Role roleInstance = new TenantAdminRole();
 
                 Main.getCurrent().getSession().setAttribute("role",
                         roleInstance);
-                Main.getCurrent().getSession().setAttribute("tenant",
-                        tenantName);
+                Main.getCurrent().getSession().setAttribute("tenantId",
+                        tenantId);
 
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
@@ -112,6 +100,8 @@ public class CreateTenantAction implements ClickListener {
                 siteFrame.setContent(new TenantSettingsComponent(tenantId));
                 ((HorizontalNavigationMenu) uiDirector.getTemplateView()
                         .getHNavigation()).getLogoutButton().setVisible(true);
+                tenantView.synchronize();
+                Main.getCurrent().setTheme("decidr");
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

@@ -51,7 +51,8 @@ public class CreateTenantComponent extends CustomComponent {
     private Form createTenantForm = null;
 
     /**
-     * TODO document
+     * Default constructor which calls the init method to initialize the
+     * components
      */
     public CreateTenantComponent() {
         init();

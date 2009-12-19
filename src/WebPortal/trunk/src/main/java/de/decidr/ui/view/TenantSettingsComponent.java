@@ -120,7 +120,9 @@ public class TenantSettingsComponent extends CustomComponent {
                 tenantDescription = tenantFacade.getTenant(tenantId)
                         .getDescription();
             }
-            logoId = tenantFacade.getTenant(tenantId).getLogo().getId();
+            if(tenantFacade.getTenant(tenantId).getLogo() != null){
+                logoId = tenantFacade.getTenant(tenantId).getLogo().getId(); 
+            }
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

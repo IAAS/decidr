@@ -20,8 +20,6 @@ import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
 
-import de.decidr.model.annotations.Reviewed;
-import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 
 /**
@@ -31,7 +29,6 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
  * @author AT
  * @author JS
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2431", currentReviewState = State.Passed)
 public class VModelingTool extends ModelingToolWidget implements Paintable {
 
     /** Set the tagname used to statically resolve the widget from UIDL. */

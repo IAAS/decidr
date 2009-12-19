@@ -91,16 +91,18 @@ public class SwitchTenantAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         Set<?> set = (Set<?>) table.getValue();
-        if (table.getValue() != null && set.size() == 1) {
-            Iterator<?> iter = set.iterator();
-            while (iter.hasNext()) {
-                TenantBean tenantBean = (TenantBean) iter.next();
-                try {
+        try {
+            if (table.getValue() != null && set.size() == 1) {
+                Iterator<?> iter = set.iterator();
+                while (iter.hasNext()) {
+                    TenantBean tenantBean = (TenantBean) iter.next();
+                    
+
                     session = Main.getCurrent().getSession();
                     userId = (Long) session.getAttribute("userId");
                     oldRole = (Role) session.getAttribute("role");
 
-                    userFacade = new UserFacade(new UserRole(userId));
+                    userFacade = new UserFacade(oldRole);
 
                     tenantName = tenantBean.getName();
                     tenantId = tenantBean.getId();
@@ -119,21 +121,18 @@ public class SwitchTenantAction implements ClickListener {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent("Switched to "
                                     + tenantName, "Success"));
-                } catch (TransactionException exception) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new TransactionErrorDialogComponent(exception));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
                 }
-
+            } else {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent("Please select an item",
+                                "Information"));
             }
-
-        } else {
+        } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent("Please select an item",
-                            "Information"));
+                    new TransactionErrorDialogComponent(exception));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
     }
 
     /**
@@ -160,9 +159,8 @@ public class SwitchTenantAction implements ClickListener {
                     "Please inform the systems' administrator if this error occurs repeatedly.",
                     "Login Failure"));
         }
-
+        tenantView.synchronize();
         if (!oldRole.getClass().equals(role)) {
-            tenantView.synchronize();
             uiDirector.constructView();
             ((HorizontalNavigationMenu) uiDirector.getTemplateView()
                     .getHNavigation()).getLogoutButton().setVisible(true);

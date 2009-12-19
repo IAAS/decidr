@@ -14,46 +14,44 @@
  * under the License.
  */
 
-package de.decidr.ui.controller.show;
+package de.decidr.ui.controller;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.annotations.Reviewed;
-import de.decidr.model.annotations.Reviewed.State;
-import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.beans.UserBean;
-import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
-import de.decidr.ui.view.ProfileSettingsComponent;
-import de.decidr.ui.view.SiteFrame;
-import de.decidr.ui.view.UserListComponent;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
- * This action gets the user profile which belongs to the user selected in the
- * table and displays the {@link ProfileSettingsComponent} with the values of
- * the selected user.
+ * TODO: add comment
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2358", currentReviewState = State.Passed)
-public class ShowEditUserAction implements ClickListener {
+public class AddMemberToTenantAction implements ClickListener {
 
-    private static final long serialVersionUID = 1L;
-    private UIDirector uiDirector = Main.getCurrent().getUIDirector();
-    private SiteFrame siteFrame = uiDirector.getTemplateView();
+    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+            "role");
+    private Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
+            "tenantId");
+    private TenantFacade tenantFacade = new TenantFacade(role);
+    private UserFacade userFacade = new UserFacade(role);
 
-    private UserFacade userFacade = null;
+    private Table table;
 
-    private Table table = null;
-
-    Role role = (Role) Main.getCurrent().getSession().getAttribute("role");
+    /**
+     * Constructor with a given table where the memebers are selected
+     * 
+     */
+    public AddMemberToTenantAction(Table table) {
+        this.table = table;
+    }
 
     /*
      * (non-Javadoc)
@@ -63,25 +61,29 @@ public class ShowEditUserAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        table = ((UserListComponent) siteFrame.getContent()).getUserListTable();
 
-        userFacade = new UserFacade(role);
         if (table.getValue() != null) {
             UserBean userBean = (UserBean) table.getValue();
 
             try {
-                User user = userFacade.getUserProfile(userBean.getId());
-                ProfileSettingsComponent profile = new ProfileSettingsComponent(
-                        user);
-                siteFrame.setContent(profile);
+                tenantFacade.addTenantMember(tenantId, userBean.getId());
+                userFacade.setCurrentTenantId(userBean.getId(), tenantId);
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(userBean.getUsername()
+                                + " successfully add to the current tenant",
+                                "Success"));
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
             }
         } else {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                            "Please select a user to edit", "Information"));
+            Main
+                    .getCurrent()
+                    .getMainWindow()
+                    .addWindow(
+                            new InformationDialogComponent(
+                                    "Please select a member from the table to add him to the tenant",
+                                    "Information"));
         }
 
     }

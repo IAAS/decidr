@@ -18,7 +18,6 @@ package de.decidr.ui.controller.user;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -28,6 +27,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.ui.beans.UserBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -70,20 +70,25 @@ public class RemoveUserFromTenantAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Item item = table.getItem(table.getValue());
-        try {
-            userFacade.removeFromTenant((Long) item.getItemProperty("id")
-                    .getValue(), tenantId);
-            table.removeItem(table.getValue());
-            Main.getCurrent().getMainWindow()
-                    .addWindow(
-                            new InformationDialogComponent(
-                                    "Successfully removed user from tenant",
-                                    "Success"));
-        } catch (TransactionException e) {
+        if (table.getValue() != null) {
+            UserBean userBean = (UserBean) table.getValue();
+            try {
+                userFacade.removeFromTenant(userBean.getId(), tenantId);
+                table.removeItem(table.getValue());
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent(
+                                "Successfully removed user from tenant",
+                                "Success"));
+            } catch (TransactionException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new TransactionErrorDialogComponent(e));
+            }
+        } else {
             Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(e));
+                    new InformationDialogComponent(
+                            "Please select a user to delete", "Information"));
         }
+
     }
 
 }

@@ -26,12 +26,11 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
-import de.decidr.model.commands.tenant.GetTenantSettingsCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.controller.tenant.TenantView;
 import de.decidr.ui.view.Main;
@@ -109,13 +108,6 @@ public class Login {
                 userFacade.setCurrentTenantId(userId, tenantId);
             }
 
-            GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(
-                    new SuperAdminRole(DecidrGlobals.getSettings()
-                            .getSuperAdmin().getId()), tenantId);
-            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-            Tenant tenant = cmd.getTenantSettings();
-            tenantName = tenant.getName();
-
             role = userFacade.getUserRoleForTenant(userId, tenantId);
             Role roleInstance = null;
             try {
@@ -125,6 +117,9 @@ public class Login {
                 throw new RuntimeException(exception);
             }
 
+            TenantFacade tenantFacade = new TenantFacade(roleInstance);
+            tenantName = tenantFacade.getTenant(tenantId).getName();
+            
             session.setAttribute("userId", userId);
             session.setAttribute("tenantId", tenantId);
             session.setAttribute("role", roleInstance);
@@ -173,13 +168,6 @@ public class Login {
                 userFacade.setCurrentTenantId(userId, tenantId);
             }
 
-            GetTenantSettingsCommand cmd = new GetTenantSettingsCommand(
-                    new SuperAdminRole(DecidrGlobals.getSettings()
-                            .getSuperAdmin().getId()), tenantId);
-            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-            Tenant tenant = cmd.getTenantSettings();
-            tenantName = tenant.getName();
-
             role = userFacade.getUserRoleForTenant(userId, tenantId);
             Role roleInstance = null;
             try {
@@ -188,6 +176,9 @@ public class Login {
             } catch (Exception exception) {
                 throw new RuntimeException(exception);
             }
+            
+            TenantFacade tenantFacade = new TenantFacade(roleInstance);
+            tenantName = tenantFacade.getTenant(tenantId).getName();
 
             session.setAttribute("userId", userId);
             session.setAttribute("tenantId", tenantId);

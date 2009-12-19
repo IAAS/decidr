@@ -16,7 +16,6 @@
 
 package de.decidr.ui.data;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -30,8 +29,6 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.WorkItemSummaryView;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
-import de.decidr.model.filters.Filter;
-import de.decidr.model.filters.KeywordFilter;
 import de.decidr.ui.beans.WorkItemSummaryViewBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -58,10 +55,6 @@ public class WorkItemContainer extends
 
     private List<WorkItemSummaryView> workItemList = null;
 
-    private KeywordFilter filter = new KeywordFilter();
-
-    private List<Filter> filterList = new LinkedList<Filter>();
-
     public static final Object[] NAT_COL_ORDER = new Object[] { "workItemName",
             "workflowInstanceId", "creationDate", "workItemStatus" };
 
@@ -74,9 +67,8 @@ public class WorkItemContainer extends
      */
     public WorkItemContainer() {
         super(WorkItemSummaryViewBean.class);
-        filterList.add(filter);
         try {
-            workItemList = userFacade.getWorkItems(userId, filterList, null);
+            workItemList = userFacade.getWorkItems(userId, null, null);
             WorkItemSummaryViewBean workItemSummaryViewBean;
             for (WorkItemSummaryView workItemSummaryView : workItemList) {
                 workItemSummaryViewBean = new WorkItemSummaryViewBean(
@@ -86,6 +78,7 @@ public class WorkItemContainer extends
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(exception));
+            exception.printStackTrace();
         }
     }
 }

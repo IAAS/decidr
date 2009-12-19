@@ -20,8 +20,6 @@ import com.vaadin.terminal.gwt.client.DefaultWidgetSet;
 import com.vaadin.terminal.gwt.client.Paintable;
 import com.vaadin.terminal.gwt.client.UIDL;
 
-import de.decidr.model.annotations.Reviewed;
-import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.client.ui.VModelingTool;
 
 /**
@@ -30,7 +28,6 @@ import de.decidr.ui.view.client.ui.VModelingTool;
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2203", currentReviewState = State.Passed)
 public class MainWidgetset extends DefaultWidgetSet {
 
     /**
