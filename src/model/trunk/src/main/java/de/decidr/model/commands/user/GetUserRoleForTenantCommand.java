@@ -96,7 +96,7 @@ public class GetUserRoleForTenantCommand extends UserCommand {
         // check if super admin
         SystemSettings settings = DecidrGlobals.getSettings();
 
-        if (getUserId() == settings.getSuperAdmin().getId()) {
+        if (getUserId().equals(settings.getSuperAdmin().getId())) {
             result = SuperAdminRole.class;
             return;
         }
