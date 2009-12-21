@@ -30,20 +30,24 @@ public class UserRole extends BasicRole {
      */
     public static final Long MIN_VALID_USER_ID = 0L;
 
+    /**
+     * ID to use for unknown users. This is not a valid user ID and queries for
+     * this user ID will return empty results.
+     */
     public static final Long UNKNOWN_USER_ID = -1L;
 
     /**
-     * Constructor.
+     * Creates a new UserRole with the given user ID.
      * 
      * @param userId
+     *            actor / user ID to set
      */
     public UserRole(Long userId) {
         super(userId);
     }
 
     /**
-     * Creates a new UserRole with its actor id set to unknown;
-     * 
+     * Creates a new UserRole with its actor id set to UNKNOWN_USER_ID;
      */
     public UserRole() {
         this(UNKNOWN_USER_ID);

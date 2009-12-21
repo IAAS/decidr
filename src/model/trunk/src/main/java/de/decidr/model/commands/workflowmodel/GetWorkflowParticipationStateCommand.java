@@ -18,6 +18,7 @@ package de.decidr.model.commands.workflowmodel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -26,6 +27,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkflowModel;
@@ -135,15 +137,50 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
      */
     @SuppressWarnings("unchecked")
     private List<User> getKnownUsers(Session session) {
+        /*
+         * Workaround for "empty parameter list bug":
+         * 
+         * using setParameterList with a null value or an empty list results in
+         * a QuerySyntaxException.
+         */
+        List<String> nonEmptyEmails;
+        if (emails == null || emails.isEmpty()) {
+            nonEmptyEmails = new LinkedList<String>();
+            // this must not be a valid email address
+            nonEmptyEmails.add("");
+        } else {
+            nonEmptyEmails = emails;
+        }
+
+        List<String> nonEmptyUsernames;
+        if (usernames == null || usernames.isEmpty()) {
+            nonEmptyUsernames = new LinkedList<String>();
+            // this must not be a valid username
+            nonEmptyUsernames.add("");
+        } else {
+            nonEmptyUsernames = usernames;
+        }
+
+        List<Long> nonEmptyUserIds;
+        if (userIds == null || userIds.isEmpty()) {
+            nonEmptyUserIds = new LinkedList<Long>();
+            // this must not be a valid user ID
+            nonEmptyUserIds.add(UserRole.UNKNOWN_USER_ID);
+        } else {
+            nonEmptyUserIds = userIds;
+        }
+
         String hql = "select distinct u "
                 + "from User as u left join fetch u.userProfile "
                 + "where (u.email in (:emails)) or "
                 + "(u.userProfile.username in (:usernames)) or "
-                + "(u.id in (:userIds)";
+                + "(u.id in (:userIds))";
 
-        Query q = session.createQuery(hql).setParameterList("emails", emails)
-                .setParameterList("usernames", usernames).setParameterList(
-                        "userIds", userIds);
+        Query q = session.createQuery(hql);
+
+        q.setParameterList("emails", nonEmptyEmails);
+        q.setParameterList("usernames", nonEmptyUsernames);
+        q.setParameterList("userIds", nonEmptyUserIds);
 
         return q.list();
     }
@@ -164,10 +201,15 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
     @SuppressWarnings("unchecked")
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,
             Session session) {
-        String hql = "from User u " + "inner join UserIsMemberOfTenant as rel "
-                + "inner join WorkflowModel as w"
+
+        if (knownUsers == null || knownUsers.isEmpty()) {
+            return new ArrayList<User>();
+        }
+
+        String hql = "select u from User u inner join UserIsMemberOfTenant as rel "
+                + "inner join WorkflowModel as w "
                 + "where (u in (:knownUsers)) and (rel.user = u) and "
-                + "(rel.tenant = w.tenant) and " + "w.id = :modelId";
+                + "(rel.tenant = w.tenant) and w.id = :modelId";
 
         Query q = session.createQuery(hql).setLong("modelId", model.getId())
                 .setParameterList("knownUsers", knownUsers);

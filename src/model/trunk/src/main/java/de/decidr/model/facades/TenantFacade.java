@@ -81,7 +81,8 @@ public class TenantFacade extends AbstractFacade {
     }
 
     /**
-     * Creates a new tenant with the given properties.
+     * Creates a new tenant with the given properties. The given user becomes
+     * the tenant admin.
      * 
      * @param name
      *            name of the tenant
