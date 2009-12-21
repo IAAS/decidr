@@ -16,9 +16,10 @@
 
 package de.decidr.model.commands.user;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-
-import org.hibernate.Query;
+import java.util.Set;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
@@ -59,6 +60,7 @@ public class GetJoinedTenantsCommand extends UserCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        result = new LinkedList<Tenant>();
 
         String hql = "select u.id from User u where u.id = :userId";
 
@@ -69,14 +71,25 @@ public class GetJoinedTenantsCommand extends UserCommand {
             throw new EntityNotFoundException(User.class, getUserId());
         }
 
-        hql = "select rel.tenant from UserIsMemberOfTenant as rel "
+        Set<Long> tenantIds = new HashSet<Long>();
+
+        // Get tenants where a "is-member" relation exists
+        hql = "select rel.tenant.id from UserIsMemberOfTenant as rel "
                 + "where (rel.user.id = :userId) and "
                 + "(rel.tenant.approvedSince is not null)";
+        tenantIds.addAll(evt.getSession().createQuery(hql).setLong("userId",
+                getUserId()).list());
 
-        Query q = evt.getSession().createQuery(hql).setLong("userId",
-                getUserId());
+        // Get tenants where the user is admin
+        hql = "select t.id from Tenant t where t.admin.id = :userId";
+        tenantIds.addAll(evt.getSession().createQuery(hql).setLong("userId",
+                getUserId()).list());
 
-        result = q.list();
+        if (!tenantIds.isEmpty()) {
+            hql = "from Tenant t where t.id in (:tenantIds)";
+            result = evt.getSession().createQuery(hql).setParameterList(
+                    "tenantIds", tenantIds).list();
+        }
     }
 
     /**
