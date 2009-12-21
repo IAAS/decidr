@@ -112,6 +112,7 @@ public class ModelingTool extends AbstractComponent {
         logger.debug("[Modeling Tool] Trying to store the DWDL...");
         if (variables.containsKey("dwdl")) {
             String dwdl = variables.get("dwdl").toString();
+            logger.debug("This is the dwdl:\n" + dwdl);
             byte[] dwdlByte = dwdl.getBytes();
             try {
                 Workflow workflow = TransformUtil.bytesToWorkflow(dwdlByte);
