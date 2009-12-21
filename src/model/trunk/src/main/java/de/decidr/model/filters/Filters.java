@@ -50,7 +50,7 @@ public class Filters {
             Paginator paginator) {
 
         if (criteria == null) {
-            throw new NullPointerException("Criteria must not be null");
+            throw new IllegalArgumentException("Criteria must not be null");
         }
 
         if (filters != null) {

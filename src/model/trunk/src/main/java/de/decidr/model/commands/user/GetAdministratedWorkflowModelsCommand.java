@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
@@ -104,8 +103,9 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
         DetachedCriteria adminCriteria = DetachedCriteria.forClass(
                 UserAdministratesWorkflowModel.class, "rel");
 
-        adminCriteria.add(Restrictions.eqProperty("rel.workflowModel.id", "m.id"))
-                .add(Restrictions.eq("rel.user.id", getUserId()));
+        adminCriteria.add(Restrictions.conjunction().add(
+                Restrictions.eqProperty("rel.workflowModel.id", "m.id")).add(
+                Restrictions.eq("rel.user.id", getUserId())));
 
         /*
          * Workaround for Hibernate issue HHH-993: Criteria subquery without
@@ -114,14 +114,12 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
          * Additionally, Mysql doesn't seem to like aliases in EXISTS
          * subqueries, so we have to explicitly specify "*"
          */
-        Projection existsSubqueryProjection = Projections.sqlProjection("*",
-                new String[0], new Type[0]);
-        adminCriteria.setProjection(existsSubqueryProjection);
+        adminCriteria.setProjection(Projections.sqlProjection("*",
+                new String[0], new Type[0]));
         criteria.add(Subqueries.exists(adminCriteria));
+        Filters.apply(criteria, filters, paginator);
 
         criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
-
-        Filters.apply(criteria, filters, paginator);
 
         result = criteria.list();
     }
