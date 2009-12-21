@@ -135,7 +135,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
      */
     @SuppressWarnings("unchecked")
     private List<User> getKnownUsers(Session session) {
-        String hql = "select distinct u"
+        String hql = "select distinct u "
                 + "from User as u left join fetch u.userProfile "
                 + "where (u.email in (:emails)) or "
                 + "(u.userProfile.username in (:usernames)) or "
