@@ -60,8 +60,12 @@ public class URLGenerator {
                 + URLEncoder.encode(userId, encoding);
         url += "&" + DecidrGlobals.URL_PARAM_INVITATION_ID + "="
                 + URLEncoder.encode(invitationId, encoding);
-        url += "&" + DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY + "="
-                + URLEncoder.encode(authKey, encoding);
+
+        if (authKey != null) {
+            url += "&" + DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY + "="
+                    + URLEncoder.encode(authKey, encoding);
+        }
+        ;
         return url;
     }
 

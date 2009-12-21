@@ -55,12 +55,12 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.notifications.NotificationEvents;
+import de.decidr.model.stubs.InstanceManagerStub;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
-import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult;
 import de.decidr.model.workflowmodel.wsc.TActor;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
@@ -318,7 +318,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
         createdWorkflowInstance = new WorkflowInstance();
         if ((usersThatNeedInvitations.size() == 0) || (startImmediately)) {
-            InstanceManager manager = new InstanceManagerImpl();
+            InstanceManager manager = new InstanceManagerStub();
 
             Query q = session
                     .createQuery(
@@ -343,6 +343,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         createdWorkflowInstance.setCompletedDate(null);
         createdWorkflowInstance.setDeployedWorkflowModel(deployedModel);
         createdWorkflowInstance.setStartConfiguration(binaryStartConfig);
+        createdWorkflowInstance.setOdePid("");
 
         session.save(createdWorkflowInstance);
     }
@@ -556,11 +557,11 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
         // an instance may have been started, try to kill it
-        InstanceManagerImpl iManager = new InstanceManagerImpl();
+        InstanceManager instanceManager = new InstanceManagerStub();
         if ((createdWorkflowInstance != null)
                 && (createdWorkflowInstance.getStartedDate() != null)) {
             try {
-                iManager.stopInstance(createdWorkflowInstance);
+                instanceManager.stopInstance(createdWorkflowInstance);
             } catch (AxisFault e) {
                 throw new TransactionException(e);
             }

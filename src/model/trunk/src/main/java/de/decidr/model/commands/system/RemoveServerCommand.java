@@ -27,10 +27,10 @@ import de.decidr.model.entities.Server;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.stubs.DeployerImplStub;
+import de.decidr.model.stubs.InstanceManagerStub;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
-import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
 /**
  * Removes the server from the database. Removing a server causes all workflow
@@ -80,7 +80,7 @@ public class RemoveServerCommand extends SystemCommand {
         }
 
         // terminate workflow instances
-        InstanceManager instanceManager = new InstanceManagerImpl();
+        InstanceManager instanceManager = new InstanceManagerStub();
         Set<WorkflowInstance> instances = toDelete.getWorkflowInstances();
         for (WorkflowInstance toTerminate : instances) {
             try {

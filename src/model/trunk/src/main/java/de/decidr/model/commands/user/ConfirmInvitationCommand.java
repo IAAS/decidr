@@ -46,9 +46,9 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.RequestExpiredException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
+import de.decidr.model.stubs.InstanceManagerStub;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
-import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult;
 
 /**
@@ -222,7 +222,7 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
 
         if (remainingInvitations.intValue() == 1) {
             // this is the last invitation
-            InstanceManager manager = new InstanceManagerImpl();
+            InstanceManager manager = new InstanceManagerStub();
             Query q = session
                     .createQuery("from ServerLoadView s where s.serverType.name = :serverType");
             List<ServerLoadView> serverStatistics = q.setString("serverType",
