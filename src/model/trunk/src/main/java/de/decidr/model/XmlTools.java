@@ -18,7 +18,9 @@ package de.decidr.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
@@ -26,9 +28,11 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.JAXBIntrospector;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 
 import org.w3c.dom.Element;
 
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.DWDLSimpleVariableType;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
@@ -156,43 +160,5 @@ public class XmlTools {
             throw new JAXBException(
                     "Unmarshaller unmarshalled garbage without complaining.");
         }
-    }
-
-    /**
-     * Marshals the given object to a byte array using the JAXB marshaller.
-     * 
-     * @param <T>
-     *            class of node
-     * @param node
-     *            object to marshal
-     * @param clazz
-     *            class of node
-     * @return the marshalled XML
-     * @throws JAXBException
-     *             if the given object is not recognized by JAXB as a valid XML
-     *             entity.
-     */
-    public static <T> byte[] getBytes(T node, Class<T> clazz)
-            throws JAXBException {
-        if (node == null) {
-            throw new IllegalArgumentException("Node must not be null.");
-        }
-
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        JAXBContext context = JAXBContext.newInstance(clazz);
-        JAXBIntrospector introspector = context.createJAXBIntrospector();
-
-        if (!introspector.isElement(node)) {
-            throw new IllegalArgumentException(
-                    "Given node is not recognized by JAXB introspector.");
-        }
-
-        JAXBElement<T> element = new JAXBElement<T>(introspector
-                .getElementName(node), clazz, node);
-
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(element, outStream);
-
-        return outStream.toByteArray();
     }
 }

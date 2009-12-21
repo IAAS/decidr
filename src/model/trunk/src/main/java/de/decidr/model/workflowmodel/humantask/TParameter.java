@@ -5,7 +5,6 @@
 // Generated on: 2009.09.20 at 12:30:36 AM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.humantask;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,22 +15,24 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tParameter complex type.
+ * <p>
+ * Java class for tParameter complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tParameter">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
- *       &lt;attribute name="type" type="{http://decidr.de/schema/humanTask}DWDLVariableType" />
- *       &lt;attribute name="variable" use="required" type="{http://decidr.de/schema/humanTask}DWDLVariableName" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tParameter&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;attribute name=&quot;name&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}NCName&quot; /&gt;
+ *       &lt;attribute name=&quot;type&quot; type=&quot;{http://decidr.de/schema/humanTask}DWDLVariableType&quot; /&gt;
+ *       &lt;attribute name=&quot;variable&quot; use=&quot;required&quot; type=&quot;{http://decidr.de/schema/humanTask}DWDLVariableName&quot; /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -53,10 +54,8 @@ public class TParameter {
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -66,9 +65,8 @@ public class TParameter {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
@@ -77,10 +75,8 @@ public class TParameter {
     /**
      * Gets the value of the type property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getType() {
         return type;
@@ -90,9 +86,8 @@ public class TParameter {
      * Sets the value of the type property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setType(String value) {
         this.type = value;
@@ -101,10 +96,8 @@ public class TParameter {
     /**
      * Gets the value of the variable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getVariable() {
         return variable;
@@ -114,9 +107,8 @@ public class TParameter {
      * Sets the value of the variable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setVariable(String value) {
         this.variable = value;

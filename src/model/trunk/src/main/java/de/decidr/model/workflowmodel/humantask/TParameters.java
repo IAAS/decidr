@@ -5,7 +5,6 @@
 // Generated on: 2009.09.20 at 12:30:36 AM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.humantask;
 
 import java.util.ArrayList;
@@ -15,30 +14,30 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tParameters complex type.
+ * <p>
+ * Java class for tParameters complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tParameters">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="parameter" type="{http://decidr.de/schema/humanTask}tParameter" maxOccurs="unbounded"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tParameters&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name=&quot;parameter&quot; type=&quot;{http://decidr.de/schema/humanTask}tParameter&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tParameters", propOrder = {
-    "parameter"
-})
+@XmlType(name = "tParameters", propOrder = { "parameter" })
 public class TParameters {
 
     @XmlElement(required = true)
@@ -48,15 +47,16 @@ public class TParameters {
      * Gets the value of the parameter property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the parameter property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the parameter property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getParameter().add(newItem);
+     * getParameter().add(newItem);
      * </pre>
      * 
      * 

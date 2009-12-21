@@ -5,7 +5,6 @@
 // Generated on: 2009.09.20 at 12:30:36 AM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.humantask;
 
 import java.util.ArrayList;
@@ -16,52 +15,48 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tHumanTaskData complex type.
+ * <p>
+ * Java class for tHumanTaskData complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tHumanTaskData">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="parameters" type="{http://decidr.de/schema/humanTask}tParameters"/>
- *         &lt;choice maxOccurs="unbounded">
- *           &lt;element name="taskItem" type="{http://decidr.de/schema/humanTask}tTaskItem"/>
- *           &lt;element name="information" type="{http://decidr.de/schema/humanTask}tInformation"/>
- *         &lt;/choice>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tHumanTaskData&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name=&quot;parameters&quot; type=&quot;{http://decidr.de/schema/humanTask}tParameters&quot;/&gt;
+ *         &lt;choice maxOccurs=&quot;unbounded&quot;&gt;
+ *           &lt;element name=&quot;taskItem&quot; type=&quot;{http://decidr.de/schema/humanTask}tTaskItem&quot;/&gt;
+ *           &lt;element name=&quot;information&quot; type=&quot;{http://decidr.de/schema/humanTask}tInformation&quot;/&gt;
+ *         &lt;/choice&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tHumanTaskData", propOrder = {
-    "parameters",
-    "taskItemOrInformation"
-})
+@XmlType(name = "tHumanTaskData", propOrder = { "parameters",
+        "taskItemOrInformation" })
 public class THumanTaskData {
 
     @XmlElement(required = true)
     protected TParameters parameters;
-    @XmlElements({
-        @XmlElement(name = "taskItem", type = TTaskItem.class),
-        @XmlElement(name = "information", type = TInformation.class)
-    })
+    @XmlElements( { @XmlElement(name = "taskItem", type = TTaskItem.class),
+            @XmlElement(name = "information", type = TInformation.class) })
     protected List<Object> taskItemOrInformation;
 
     /**
      * Gets the value of the parameters property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TParameters }
-     *     
+     * @return possible object is {@link TParameters }
+     * 
      */
     public TParameters getParameters() {
         return parameters;
@@ -71,9 +66,8 @@ public class THumanTaskData {
      * Sets the value of the parameters property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link TParameters }
-     *     
+     *            allowed object is {@link TParameters }
+     * 
      */
     public void setParameters(TParameters value) {
         this.parameters = value;
@@ -83,22 +77,22 @@ public class THumanTaskData {
      * Gets the value of the taskItemOrInformation property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the taskItemOrInformation property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the taskItemOrInformation property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getTaskItemOrInformation().add(newItem);
+     * getTaskItemOrInformation().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TTaskItem }
-     * {@link TInformation }
+     * {@link TTaskItem } {@link TInformation }
      * 
      * 
      */

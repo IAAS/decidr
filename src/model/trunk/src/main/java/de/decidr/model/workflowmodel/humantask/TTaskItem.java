@@ -5,7 +5,6 @@
 // Generated on: 2009.09.20 at 12:30:36 AM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.humantask;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,37 +16,35 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tTaskItem complex type.
+ * <p>
+ * Java class for tTaskItem complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tTaskItem">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="label" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="hint" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="value" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}NCName" />
- *       &lt;attribute name="variable" type="{http://decidr.de/schema/humanTask}DWDLVariableName" />
- *       &lt;attribute name="type" use="required" type="{http://decidr.de/schema/humanTask}DWDLSimpleVariableType" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tTaskItem&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name=&quot;label&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
+ *         &lt;element name=&quot;hint&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anySimpleType&quot; minOccurs=&quot;0&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name=&quot;name&quot; use=&quot;required&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}NCName&quot; /&gt;
+ *       &lt;attribute name=&quot;variable&quot; type=&quot;{http://decidr.de/schema/humanTask}DWDLVariableName&quot; /&gt;
+ *       &lt;attribute name=&quot;type&quot; use=&quot;required&quot; type=&quot;{http://decidr.de/schema/humanTask}DWDLSimpleVariableType&quot; /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tTaskItem", propOrder = {
-    "label",
-    "hint",
-    "value"
-})
+@XmlType(name = "tTaskItem", propOrder = { "label", "hint", "value" })
 public class TTaskItem {
 
     @XmlElement(required = true)
@@ -68,10 +65,8 @@ public class TTaskItem {
     /**
      * Gets the value of the label property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLabel() {
         return label;
@@ -81,9 +76,8 @@ public class TTaskItem {
      * Sets the value of the label property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLabel(String value) {
         this.label = value;
@@ -92,10 +86,8 @@ public class TTaskItem {
     /**
      * Gets the value of the hint property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getHint() {
         return hint;
@@ -105,9 +97,8 @@ public class TTaskItem {
      * Sets the value of the hint property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setHint(String value) {
         this.hint = value;
@@ -116,10 +107,8 @@ public class TTaskItem {
     /**
      * Gets the value of the value property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     * @return possible object is {@link Object }
+     * 
      */
     public Object getValue() {
         return value;
@@ -129,9 +118,8 @@ public class TTaskItem {
      * Sets the value of the value property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *            allowed object is {@link Object }
+     * 
      */
     public void setValue(Object value) {
         this.value = value;
@@ -140,10 +128,8 @@ public class TTaskItem {
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -153,9 +139,8 @@ public class TTaskItem {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
@@ -164,10 +149,8 @@ public class TTaskItem {
     /**
      * Gets the value of the variable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getVariable() {
         return variable;
@@ -177,9 +160,8 @@ public class TTaskItem {
      * Sets the value of the variable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setVariable(String value) {
         this.variable = value;
@@ -188,10 +170,8 @@ public class TTaskItem {
     /**
      * Gets the value of the type property.
      * 
-     * @return
-     *     possible object is
-     *     {@link DWDLSimpleVariableType }
-     *     
+     * @return possible object is {@link DWDLSimpleVariableType }
+     * 
      */
     public DWDLSimpleVariableType getType() {
         return type;
@@ -201,9 +181,8 @@ public class TTaskItem {
      * Sets the value of the type property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link DWDLSimpleVariableType }
-     *     
+     *            allowed object is {@link DWDLSimpleVariableType }
+     * 
      */
     public void setType(DWDLSimpleVariableType value) {
         this.type = value;

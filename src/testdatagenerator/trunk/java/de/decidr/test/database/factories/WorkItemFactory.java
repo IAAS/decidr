@@ -18,6 +18,7 @@ import de.decidr.model.entities.WorkItemContainsFileId;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.soap.types.DWDLSimpleVariableType;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
 import de.decidr.test.database.main.ProgressListener;
@@ -112,7 +113,7 @@ public class WorkItemFactory extends EntityFactory {
                     WorkItem item = new WorkItem();
 
                     item.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
-                    item.setData(XmlTools.getBytes(data, THumanTaskData.class));
+                    item.setData(TransformUtil.humanTaskToByte(data));
                     item
                             .setDescription("A random work item created by the test data generator. Created in loop #"
                                     + Integer.toString(i));

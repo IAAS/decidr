@@ -73,12 +73,18 @@ public class TransformUtil {
 
     static {
         try {
-            dwdlCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.dwdl");
-            wscCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.wsc");
-            mappingCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.webservices");
-            htaskCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.humantask");
-            bpelCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.bpel");
-            ddCntxt = JAXBContext.newInstance("de.decidr.model.workflowmodel.dd");
+            dwdlCntxt = JAXBContext
+                    .newInstance("de.decidr.model.workflowmodel.dwdl");
+            wscCntxt = JAXBContext
+                    .newInstance("de.decidr.model.workflowmodel.wsc");
+            mappingCntxt = JAXBContext
+                    .newInstance("de.decidr.model.workflowmodel.webservices");
+            htaskCntxt = JAXBContext
+                    .newInstance("de.decidr.model.workflowmodel.humantask");
+            bpelCntxt = JAXBContext
+                    .newInstance("de.decidr.model.workflowmodel.bpel");
+            ddCntxt = JAXBContext
+                    .newInstance("de.decidr.model.workflowmodel.dd");
         } catch (JAXBException e) {
             log.error("Couldn't create JAXBContext", e);
         }
@@ -201,7 +207,6 @@ public class TransformUtil {
     }
 
     public static byte[] workflowToBytes(Workflow dwdl) throws JAXBException {
-
         Marshaller marshaller = dwdlCntxt.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -235,6 +240,33 @@ public class TransformUtil {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         msg.writeTo(out);
         return out.toByteArray();
+    }
+
+    /**
+     * Marshalls human task data into a byte array.
+     * 
+     * XXX a generic solution is preferable to one method per XML type. Hard to
+     * achieve with the current XML -> POJO mapping. This is copy&paste
+     * programming :-(
+     * 
+     * @author Daniel Huss
+     * @param data
+     *            human task data to marshal
+     * @return marshalled human task
+     * @throws JAXBException
+     *             if the given human task data cannot be marshalled
+     */
+    public static byte[] humanTaskToByte(THumanTaskData data)
+            throws JAXBException {
+        Marshaller marshaller = htaskCntxt.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        JAXBElement<THumanTaskData> mappingElement = new JAXBElement<THumanTaskData>(
+                new QName(Constants.HUMANTASK_NAMESPACE, "humanTaskData"),
+                THumanTaskData.class, data);
+        marshaller.marshal(mappingElement, os);
+
+        return os.toByteArray();
     }
 
 }

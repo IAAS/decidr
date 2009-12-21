@@ -24,6 +24,7 @@ import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServerId;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.test.database.main.ProgressListener;
 
 /**
@@ -118,7 +119,7 @@ public class WorkflowModelFactory extends EntityFactory {
 
                 // we need the workflow model id to set it within the DWDL file
                 workflow.setId(model.getId());
-                model.setDwdl(XmlTools.getBytes(workflow, Workflow.class));
+                model.setDwdl(TransformUtil.workflowToBytes(workflow));
 
                 // find suitable workflow administrators -requires persisted
                 // workflow model!

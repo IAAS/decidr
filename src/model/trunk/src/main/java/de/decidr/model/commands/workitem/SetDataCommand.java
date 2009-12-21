@@ -11,6 +11,7 @@ import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
@@ -63,7 +64,7 @@ public class SetDataCommand extends WorkItemCommand {
 
         // save human task data as blob
         try {
-            workItem.setData(XmlTools.getBytes(data, THumanTaskData.class));
+            workItem.setData(TransformUtil.humanTaskToByte(data));
         } catch (JAXBException e) {
             throw new TransactionException(e);
         }

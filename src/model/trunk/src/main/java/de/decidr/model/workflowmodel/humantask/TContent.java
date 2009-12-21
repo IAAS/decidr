@@ -5,7 +5,6 @@
 // Generated on: 2009.09.20 at 12:30:36 AM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.humantask;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,31 +13,31 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tContent complex type.
+ * <p>
+ * Java class for tContent complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType name="tContent">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;any/>
- *       &lt;/sequence>
- *       &lt;attribute name="contentType" type="{http://www.w3.org/2001/XMLSchema}string" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;tContent&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;any/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name=&quot;contentType&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tContent", propOrder = {
-    "any"
-})
+@XmlType(name = "tContent", propOrder = { "any" })
 public class TContent {
 
     @XmlAnyElement(lax = true)
@@ -49,10 +48,8 @@ public class TContent {
     /**
      * Gets the value of the any property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     * @return possible object is {@link Object }
+     * 
      */
     public Object getAny() {
         return any;
@@ -62,9 +59,8 @@ public class TContent {
      * Sets the value of the any property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *            allowed object is {@link Object }
+     * 
      */
     public void setAny(Object value) {
         this.any = value;
@@ -73,10 +69,8 @@ public class TContent {
     /**
      * Gets the value of the contentType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getContentType() {
         return contentType;
@@ -86,9 +80,8 @@ public class TContent {
      * Sets the value of the contentType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setContentType(String value) {
         this.contentType = value;

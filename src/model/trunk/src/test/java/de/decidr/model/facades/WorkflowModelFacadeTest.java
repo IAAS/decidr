@@ -44,6 +44,7 @@ import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testing.LowLevelDatabaseTest;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * Test case for <code>{@link WorkflowModelFacade}</code>. Some of the methods
@@ -147,7 +148,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         assertEquals(name, NAME);
         assertEquals(description, DESCRIPTION);
         try {
-            assertArrayEquals(dwdl, XmlTools.getBytes(DWDL, Workflow.class));
+            assertArrayEquals(dwdl, TransformUtil.workflowToBytes(DWDL));
         } catch (JAXBException e) {
             fail("Marshal failure");
         }

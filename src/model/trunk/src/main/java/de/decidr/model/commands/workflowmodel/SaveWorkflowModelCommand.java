@@ -19,7 +19,6 @@ package de.decidr.model.commands.workflowmodel;
 import javax.xml.bind.JAXBException;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowModel;
@@ -27,6 +26,7 @@ import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * Saves a workflow model, incrementing its version by one.
@@ -88,7 +88,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
 
             model.setDescription(description);
             try {
-                model.setDwdl(XmlTools.getBytes(dwdl, Workflow.class));
+                model.setDwdl(TransformUtil.workflowToBytes(dwdl));
             } catch (JAXBException e) {
                 throw new TransactionException(e);
             }
