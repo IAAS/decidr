@@ -272,7 +272,7 @@ CREATE  TABLE IF NOT EXISTS `decidrdb`.`workflow_instance` (
   `startConfiguration` LONGBLOB NOT NULL ,
   `startedDate` DATETIME NULL COMMENT 'if null, the workflow instance is waiting to be started' ,
   `completedDate` DATETIME NULL COMMENT 'if not null, the workflow instance is no longer running' ,
-  `serverId` BIGINT NOT NULL ,
+  `serverId` BIGINT NULL COMMENT 'The server on which this instance is running. Is null if the instance hasn\'t been started, yet.' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_workflowInstance_deployedWorkflowModel` (`deployedWorkflowModelId` ASC) ,
   INDEX `index_odePid` (`odePid` ASC) ,
