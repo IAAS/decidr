@@ -32,7 +32,7 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 public class DWDLFactory {
 
     static String dwdlSimpleName = "/dwdl/verySimpleProcess.xml";
-    static String dwdlSampleName = "/dwdl/sampleProcess.xml";
+    static String dwdlSampleName = "/test/HumanTaskProcess.xml";
 
     public static byte[] getDWDLWorkflowByteArray() throws IOException {
         InputStream in = DWDLFactory.class.getResourceAsStream(dwdlSampleName);

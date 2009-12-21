@@ -21,6 +21,8 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.JAXBException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,6 +30,7 @@ import de.decidr.model.workflowmodel.dd.TDeployment;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2DD;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
 import de.decidr.model.workflowmodel.factories.DecidrWebserviceAdapterFactory;
 import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
@@ -62,12 +65,15 @@ public class DWDL2DDTest {
      * Test method for
      * {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2DD#getDD(de.decidr.model.workflowmodel.bpel.Process, java.util.Map)}
      * .
+     * @throws JAXBException 
      */
     @Test
-    public void testGetDD() {
+    public void testGetDD() throws JAXBException {
 
         TDeployment dd = translater.getDD(bpel, adapters);
         assertNotNull(dd);
+        String result = new String(TransformUtil.ddToBytes(dd));
+        System.out.println(result);
     }
 
 }
