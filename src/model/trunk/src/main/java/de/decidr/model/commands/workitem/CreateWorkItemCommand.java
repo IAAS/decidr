@@ -130,7 +130,7 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
         WorkItem newWorkItem = new WorkItem();
         newWorkItem.setCreationDate(DecidrGlobals.getTime().getTime());
         try {
-            newWorkItem.setData(XmlTools.getBytes(data));
+            newWorkItem.setData(XmlTools.getBytes(data, THumanTaskData.class));
         } catch (JAXBException e) {
             throw new TransactionException(e);
         }

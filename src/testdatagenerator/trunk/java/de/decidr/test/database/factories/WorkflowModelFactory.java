@@ -118,7 +118,7 @@ public class WorkflowModelFactory extends EntityFactory {
 
                 // we need the workflow model id to set it within the DWDL file
                 workflow.setId(model.getId());
-                model.setDwdl(XmlTools.getBytes(workflow));
+                model.setDwdl(XmlTools.getBytes(workflow, Workflow.class));
 
                 // find suitable workflow administrators -requires persisted
                 // workflow model!

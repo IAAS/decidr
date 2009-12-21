@@ -147,7 +147,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         assertEquals(name, NAME);
         assertEquals(description, DESCRIPTION);
         try {
-            assertArrayEquals(dwdl, XmlTools.getBytes(DWDL));
+            assertArrayEquals(dwdl, XmlTools.getBytes(DWDL, Workflow.class));
         } catch (JAXBException e) {
             fail("Marshal failure");
         }

@@ -88,7 +88,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
 
             model.setDescription(description);
             try {
-                model.setDwdl(XmlTools.getBytes(dwdl));
+                model.setDwdl(XmlTools.getBytes(dwdl, Workflow.class));
             } catch (JAXBException e) {
                 throw new TransactionException(e);
             }

@@ -24,8 +24,8 @@ import java.util.Set;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.JAXBIntrospector;
 import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
 
 import org.w3c.dom.Element;
 
@@ -161,27 +161,38 @@ public class XmlTools {
     /**
      * Marshals the given object to a byte array using the JAXB marshaller.
      * 
+     * @param <T>
+     *            class of node
      * @param node
      *            object to marshal
+     * @param clazz
+     *            class of node
      * @return the marshalled XML
      * @throws JAXBException
      *             if the given object is not recognized by JAXB as a valid XML
      *             entity.
      */
-    public static byte[] getBytes(Object node) throws JAXBException {
+    public static <T> byte[] getBytes(T node, Class<T> clazz)
+            throws JAXBException {
         if (node == null) {
             throw new IllegalArgumentException("Node must not be null.");
         }
 
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        JAXBContext context = JAXBContext.newInstance(clazz);
+        JAXBIntrospector introspector = context.createJAXBIntrospector();
 
-        JAXBContext context = JAXBContext.newInstance(node.getClass());
+        if (!introspector.isElement(node)) {
+            throw new IllegalArgumentException(
+                    "Given node is not recognized by JAXB introspector.");
+        }
+
+        JAXBElement<T> element = new JAXBElement<T>(introspector
+                .getElementName(node), clazz, node);
+
         Marshaller marshaller = context.createMarshaller();
-        JAXBElement<Object> element = new JAXBElement<Object>(new QName("uri",
-                "local"), Object.class, node);
-
         marshaller.marshal(element, outStream);
+
         return outStream.toByteArray();
     }
-
 }

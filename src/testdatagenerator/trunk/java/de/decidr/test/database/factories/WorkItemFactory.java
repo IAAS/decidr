@@ -112,7 +112,7 @@ public class WorkItemFactory extends EntityFactory {
                     WorkItem item = new WorkItem();
 
                     item.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
-                    item.setData(XmlTools.getBytes(data));
+                    item.setData(XmlTools.getBytes(data, THumanTaskData.class));
                     item
                             .setDescription("A random work item created by the test data generator. Created in loop #"
                                     + Integer.toString(i));

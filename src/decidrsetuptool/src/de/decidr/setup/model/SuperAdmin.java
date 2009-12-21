@@ -16,8 +16,8 @@
 
 package de.decidr.setup.model;
 
+import de.decidr.model.acl.Password;
 import de.decidr.setup.helpers.DateUtils;
-import de.decidr.setup.helpers.Password;
 
 public class SuperAdmin {
 

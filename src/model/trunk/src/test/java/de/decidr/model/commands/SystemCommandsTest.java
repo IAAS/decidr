@@ -61,13 +61,6 @@ import de.decidr.model.transactions.HibernateTransactionCoordinator;
  * <p>
  * <em>NOTE: due to time constraints, {@link SystemFacadeTest} may be more complete in places!</em>
  * 
- * rr the system settings test breaks the system settings (MTA, email port set
- * to 22...) ~dh<br>
- * DH I know. That's why it should only be executed on a test system and should
- * probably be the last test to be executed. If you can think of a proper way to
- * restore the system settings after the test, that should definitely be done.
- * ~rr
- * 
  * @author Reinhold
  */
 public class SystemCommandsTest extends CommandsTest {

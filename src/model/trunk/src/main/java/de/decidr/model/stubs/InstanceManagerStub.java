@@ -35,7 +35,7 @@ import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResultImpl;
 /**
  * Stub for the ODE Instance Manager. Does not communicate with the ODE.
  * 
- * DH FIXME replace stub with actual implementation when it's ready.
+ * DH FIXME replace stub with actual implementation asap ~dh.
  * 
  * @author Daniel Huss
  * @version 0.1

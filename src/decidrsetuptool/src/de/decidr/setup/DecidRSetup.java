@@ -39,7 +39,7 @@ public class DecidRSetup {
         // web portal
         sql.append(InputServer.getSql(2, "localhost:8080"));
         // esb
-        sql.append(InputServer.getSql(3, "localhost:8280"));
+        sql.append(InputServer.getSql(3, "localhost:8080"));
         // storage
         sql.append(InputServer.getSql(4, "localhost:8080"));
         // ode

@@ -63,7 +63,7 @@ public class SetDataCommand extends WorkItemCommand {
 
         // save human task data as blob
         try {
-            workItem.setData(XmlTools.getBytes(data));
+            workItem.setData(XmlTools.getBytes(data, THumanTaskData.class));
         } catch (JAXBException e) {
             throw new TransactionException(e);
         }
