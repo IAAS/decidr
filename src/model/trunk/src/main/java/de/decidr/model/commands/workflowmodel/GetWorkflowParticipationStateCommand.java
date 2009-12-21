@@ -206,10 +206,20 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
             return new ArrayList<User>();
         }
 
-        String hql = "select u from User u inner join UserIsMemberOfTenant as rel "
-                + "inner join WorkflowModel as w "
-                + "where (u in (:knownUsers)) and (rel.user = u) and "
-                + "(rel.tenant = w.tenant) and w.id = :modelId";
+        /*
+         * "Give me all users who are members or admins of the tenant that owns
+         * the given model and are also present in the list of known users". If
+         * you have a more elegant query that returns the same result (such a
+         * query probably exists), please go ahead and put it here ;-)
+         */
+        String hql = "select distinct u from User u "
+                + "where u in (:knownUsers) and "
+                + "(exists(from Tenant t where t.admin = u "
+                + "and exists(from WorkflowModel m "
+                + "where m.tenant = t and m.id = :modelId))) or "
+                + "exists(from UserIsMemberOfTenant rel "
+                + "where rel.user = u and " + "exists(from WorkflowModel m "
+                + "where m.tenant = rel.tenant and m.id = :modelId)))";
 
         Query q = session.createQuery(hql).setLong("modelId", model.getId())
                 .setParameterList("knownUsers", knownUsers);

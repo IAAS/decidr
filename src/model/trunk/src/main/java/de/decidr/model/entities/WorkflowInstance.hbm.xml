@@ -12,7 +12,7 @@
             <column name="`deployedWorkflowModelId`" not-null="true" />
         </many-to-one>
         <many-to-one name="server" class="de.decidr.model.entities.Server" fetch="select">
-            <column name="`serverId`" not-null="true" />
+            <column name="`serverId`" />
         </many-to-one>
         <property name="odePid" type="string">
             <column name="`odePid`" not-null="true">

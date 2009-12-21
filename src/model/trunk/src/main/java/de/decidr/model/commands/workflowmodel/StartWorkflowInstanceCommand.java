@@ -342,7 +342,6 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
         createdWorkflowInstance.setCompletedDate(null);
         createdWorkflowInstance.setDeployedWorkflowModel(deployedModel);
-        createdWorkflowInstance.setId(null);
         createdWorkflowInstance.setStartConfiguration(binaryStartConfig);
 
         session.save(createdWorkflowInstance);
