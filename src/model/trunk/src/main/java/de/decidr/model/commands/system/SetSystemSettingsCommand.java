@@ -70,13 +70,17 @@ public class SetSystemSettingsCommand extends SystemCommand {
             throw new TransactionException("Invalid log level.");
         }
 
-        String simpleEmailPattern = "[\\p{L}_-]+@[a-z0-9\\.\\-_]\\.[a-z]{2,4}";
+        // Very lax email validation
+        String simpleEmailPattern = "^[-\\p{L}_\\.]+@[-a-z0-9\\._]+\\.[a-z]{2,4}$";
 
         if (newSettings.getSystemEmailAddress() == null
-                || !newSettings.getSystemEmailAddress().matches(
-                        simpleEmailPattern)) {
+                || newSettings.getSystemEmailAddress().isEmpty()) {
             throw new TransactionException(
                     "System email address must not be null or empty.");
+        }
+
+        if (!newSettings.getSystemEmailAddress().matches(simpleEmailPattern)) {
+            throw new TransactionException("Email doesn't match lax pattern.");
         }
     }
 
