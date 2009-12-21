@@ -107,7 +107,7 @@ public class WorkItemFactory extends EntityFactory {
                     access.setMayRead(true);
                     access.setMayReplace(true);
                     access.setUser(randomParticipatingUser);
-                    session.save(access);
+                    session.merge(access);
 
                     WorkItem item = new WorkItem();
 
@@ -132,6 +132,7 @@ public class WorkItemFactory extends EntityFactory {
                             .setFile((File) session.load(File.class,
                                     existingFileId));
                     rel.setWorkItem(item);
+                    session.merge(rel);
 
                     result.add(item);
                 }

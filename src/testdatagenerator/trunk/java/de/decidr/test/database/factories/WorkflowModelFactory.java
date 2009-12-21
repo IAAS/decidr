@@ -202,15 +202,8 @@ public class WorkflowModelFactory extends EntityFactory {
 
         long deployedVersion = model.getVersion() - (n - 1);
         if (deployedVersion < 0) {
-            logger
-                    .debug("Not adding a deployed workflow model due to version < 0");
             return;
         }
-
-        logger.debug(String.format(
-                "Adding deployed workflow model for workflow model "
-                        + "(ID%1$s, v%2$s) with version %3$s", model.getId(),
-                model.getVersion(), deployedVersion));
 
         DeployedWorkflowModel deployed = new DeployedWorkflowModel();
         deployed.setOriginalWorkflowModel(model);
