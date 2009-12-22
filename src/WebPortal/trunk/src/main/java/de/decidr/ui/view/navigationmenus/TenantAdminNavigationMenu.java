@@ -29,6 +29,7 @@ import de.decidr.ui.controller.show.ShowCreateWorkflowModelAction;
 import de.decidr.ui.controller.show.ShowMyWorkitemsAction;
 import de.decidr.ui.controller.show.ShowProfileSettingsAction;
 import de.decidr.ui.controller.show.ShowTenantSettingsAction;
+import de.decidr.ui.controller.show.ShowUserListAction;
 import de.decidr.ui.controller.show.ShowWorkflowInstancesAction;
 
 /**
@@ -49,6 +50,7 @@ public class TenantAdminNavigationMenu extends CustomComponent {
     private Button createWorkflowModelLink = null;
     private Button createWorkflowInstanceLink = null;
     private Button showWorkflowInstancesLink = null;
+    private Button showUserListLink = null;
     private Button createTenantLink = null;
     private Button profileSettingsLink = null;
     private Button tenantSettingsLink = null;
@@ -89,6 +91,9 @@ public class TenantAdminNavigationMenu extends CustomComponent {
         showWorkflowInstancesLink = new Button("Show Workflow Instances",
                 new ShowWorkflowInstancesAction());
         showWorkflowInstancesLink.setStyleName(Button.STYLE_LINK);
+        showUserListLink = new Button("Show/Edit User List",
+                new ShowUserListAction());
+        showUserListLink.setStyleName(Button.STYLE_LINK);
         createTenantLink = new Button("Create Tenant",
                 new ShowCreateTenantAction());
         createTenantLink.setStyleName(Button.STYLE_LINK);
@@ -125,6 +130,9 @@ public class TenantAdminNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(workflowInstancesLabel);
         verticalLayout.addComponent(createWorkflowInstanceLink);
         verticalLayout.addComponent(showWorkflowInstancesLink);
+        
+        verticalLayout.addComponent(usersLabel);
+        verticalLayout.addComponent(showUserListLink);
 
         verticalLayout.addComponent(tenantsLabel);
         verticalLayout.addComponent(createTenantLink);

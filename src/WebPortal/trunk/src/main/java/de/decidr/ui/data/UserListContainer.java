@@ -24,10 +24,13 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.acl.roles.SuperAdminRole;
+import de.decidr.model.acl.roles.TenantAdminRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 
 import de.decidr.ui.beans.UserBean;
@@ -49,8 +52,10 @@ public class UserListContainer extends BeanItemContainer<UserBean> {
     private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
+    private Long tenantId = (Long)session.getAttribute("tenantId");
 
     UserFacade userFacade = new UserFacade(role);
+    TenantFacade tenantFacade = new TenantFacade(role);
 
     List<User> userList = null;
 
@@ -70,7 +75,11 @@ public class UserListContainer extends BeanItemContainer<UserBean> {
     public UserListContainer() {
         super(UserBean.class);
         try {
-            userList = userFacade.getAllUsers(null, null);
+            if(role instanceof SuperAdminRole){
+                userList = userFacade.getAllUsers(null, null);
+            }else if(role instanceof TenantAdminRole){
+                userList = tenantFacade.getUsersOfTenant(tenantId, null);
+            }
             UserBean userBean;
             for (User user : userList) {
                 userBean = new UserBean(user);

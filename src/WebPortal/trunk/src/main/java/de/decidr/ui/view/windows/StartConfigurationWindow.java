@@ -51,6 +51,8 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.workflowmodel.dwdl.Variable;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.ui.beans.RoleBean;
@@ -113,15 +115,18 @@ public class StartConfigurationWindow extends Window {
 
     private static int count = 0;
 
+    private Workflow workflow = null;
+
     /**
      * Default constructor with TConfiguration as parameter.<br>
      * Aleks: If you want me to tell you what a default constructor is, don't
      * hesitate to ask ~rr
      */
     public StartConfigurationWindow(TConfiguration tConfiguration,
-            Long workflowModelId) {
+            Long workflowModelId, Workflow workflow) {
         this.tConfiguration = tConfiguration;
         this.workflowModelId = workflowModelId;
+        this.workflow = workflow;
         init();
     }
 
@@ -345,6 +350,7 @@ public class StartConfigurationWindow extends Window {
      */
     private void addAssignmentToForm(TConfiguration tConfiguration) {
         for (TAssignment assignment : tConfiguration.getAssignment()) {
+            String label = getLabel(assignment.getKey());
             if (assignment.getValue().size() > 0) {
                 for (String string : assignment.getValue()) {
                     if (assignment.getValueType().equals("string")) {
@@ -409,6 +415,21 @@ public class StartConfigurationWindow extends Window {
     }
 
     /**
+     * Returns the label from the dwdl to show in the start configuration window
+     * 
+     * @param key
+     * @return label - set as label in the start configuration window
+     */
+    private String getLabel(String key) {
+        for (Variable variable : workflow.getVariables().getVariable()) {
+            if (variable.equals(key)) {
+                return variable.getLabel();
+            }
+        }
+        return null;
+    }
+
+    /**
      * Fills the combo box with the usernames currently contained in the tenant,
      * so that the user can choose from the usernames and add them as actors to
      * a role.
@@ -421,10 +442,10 @@ public class StartConfigurationWindow extends Window {
             Long tenantId = (Long) session.getAttribute("tenantId");
             List<User> users = tenantFacade.getUsersOfTenant(tenantId, null);
             for (User user : users) {
-                if(user.getUserProfile() != null){
+                if (user.getUserProfile() != null) {
                     comboBox.addItem(user.getUserProfile().getUsername());
                 }
-                
+
             }
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(

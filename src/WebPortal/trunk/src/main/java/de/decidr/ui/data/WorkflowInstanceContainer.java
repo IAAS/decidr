@@ -66,10 +66,10 @@ public class WorkflowInstanceContainer extends
     private List<Filter> filterList;
 
     public static final Object[] NAT_COL_ORDER = new Object[] { "id", "name",
-            "description" };
+            "description", "executable" };
 
     public static final String[] COL_HEADERS = new String[] { "ID", "Name",
-            "Description" };
+            "Description", "Executable" };
 
     /**
      * The instance items are added to the container.<br>
@@ -81,7 +81,8 @@ public class WorkflowInstanceContainer extends
             // Aleks Please review my changes: ~dh
             filterList = new ArrayList<Filter>();
             filterList.add(new StartableWorkflowModelFilter());
-            filterList.add(new EqualsFilter(true, "tenant.id", tenantId));
+            //filterList.add(new EqualsFilter(true, "executable", true));
+            //filterList.add(new EqualsFilter(true, "tenant.id", tenantId));
 
             workflowModelList = userFacade.getAdministratedWorkflowModels(
                     userId, null, null);

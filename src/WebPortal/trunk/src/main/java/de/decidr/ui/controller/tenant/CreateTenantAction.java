@@ -24,6 +24,8 @@ import com.vaadin.ui.Button.ClickListener;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.TenantAdminRole;
+import de.decidr.model.acl.roles.UserRole;
+import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
@@ -77,16 +79,16 @@ public class CreateTenantAction implements ClickListener {
         if (createForm.isValid()) {
             createForm.commit();
 
-            String tenantName = createForm.getField("tenantName")
-                    .getValue().toString();
+            String tenantName = createForm.getField("tenantName").getValue()
+                    .toString();
 
             try {
                 Long tenantId = tenantFacade.createTenant(tenantName,
-                        createForm.getField("tenantDescription")
-                                .getValue().toString(), userId);
+                        createForm.getField("tenantDescription").getValue()
+                                .toString(), userId);
                 userFacade.setCurrentTenantId(userId, tenantId);
 
-                Role roleInstance = new TenantAdminRole();
+                Role roleInstance = new TenantAdminRole(userId);
 
                 Main.getCurrent().getSession().setAttribute("role",
                         roleInstance);
@@ -96,7 +98,11 @@ public class CreateTenantAction implements ClickListener {
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Tenant successfully created!", "Success"));
-                uiDirector.switchView(tenantAdminViewBuilder);
+                if (role instanceof UserRole
+                        || role instanceof WorkflowAdminRole
+                        || role instanceof TenantAdminRole) {
+                    uiDirector.switchView(tenantAdminViewBuilder);
+                }
                 siteFrame.setContent(new TenantSettingsComponent(tenantId));
                 ((HorizontalNavigationMenu) uiDirector.getTemplateView()
                         .getHNavigation()).getLogoutButton().setVisible(true);

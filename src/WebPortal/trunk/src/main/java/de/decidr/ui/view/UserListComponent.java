@@ -102,10 +102,7 @@ public class UserListComponent extends CustomComponent {
         init();
         removeFromTenantButton = new Button("Remove from Tenant",
                 new RemoveUserFromTenantAction(userListTable));
-        addMemberToTenantButton = new Button("Add user to tenant",
-                new AddMemberToTenantAction(userListTable));
         getButtonHorizontalLayout().addComponent(removeFromTenantButton);
-        getButtonHorizontalLayout().addComponent(addMemberToTenantButton);
         getVerticalLayout().addComponent(getButtonPanel());
     }
 

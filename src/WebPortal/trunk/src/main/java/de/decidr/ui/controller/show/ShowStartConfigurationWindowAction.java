@@ -90,14 +90,16 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
         try {
             wsc = workflowModelFacade
                     .getLastStartConfiguration(workflowModelId);
+            
+            byte[] dwdl = workflowModelFacade.getWorkflowModel(
+                    workflowModelId).getDwdl();
+            Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
 
             if (wsc == null) {
-                byte[] dwdl = workflowModelFacade.getWorkflowModel(
-                        workflowModelId).getDwdl();
+                
                 DefaultLogger.getLogger(
                         ShowStartConfigurationWindowAction.class).debug(
                         (new String(dwdl, Charset.forName("UTF-8"))));
-                Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
                 DWDL2WSC dwdl2wsc = new DWDL2WSC();
                 tConfiguration = dwdl2wsc.getStartConfiguration(workflow);
 
@@ -107,7 +109,7 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
 
             Main.getCurrent().getMainWindow().addWindow(
                     new StartConfigurationWindow(tConfiguration,
-                            workflowModelId));
+                            workflowModelId, workflow));
         } catch (JAXBException exception) {
             Main.getCurrent().addWindow(
                     new TransactionErrorDialogComponent(exception));

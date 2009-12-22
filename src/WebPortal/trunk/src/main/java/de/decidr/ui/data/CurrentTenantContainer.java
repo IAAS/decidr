@@ -29,6 +29,7 @@ import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.beans.TenantBean;
 import de.decidr.ui.view.Main;
@@ -53,6 +54,7 @@ public class CurrentTenantContainer extends BeanItemContainer<TenantBean> {
     private Role role = (Role) session.getAttribute("role");
 
     UserFacade userFacade = new UserFacade(role);
+    TenantFacade tenantFacade = new TenantFacade(role);
 
     List<Tenant> currentTenantList = null;
 

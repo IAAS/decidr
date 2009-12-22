@@ -65,6 +65,7 @@ public class ShowModelingToolAction implements ClickListener {
     @SuppressWarnings("unchecked")
     @Override
     public void buttonClick(ClickEvent event) {
+        Main.getCurrent().getMainWindow().requestRepaint();
         if (table instanceof WorkflowModelTable) {
             Set<WorkflowModelsBean> set = (Set<WorkflowModelsBean>) table
                     .getValue();
@@ -84,7 +85,7 @@ public class ShowModelingToolAction implements ClickListener {
         } else if (table instanceof PublicModelTable) {
             Set<WorkflowModelBean> set = (Set<WorkflowModelBean>) table
                     .getValue();
-            if (table.getValue() != null && set.size() == 1) {
+            if (table.getValue() != null && set.size() <= 1) {
                 Iterator<WorkflowModelBean> iter = set.iterator();
                 while (iter.hasNext()) {
                     WorkflowModelBean workflowModel = iter.next();

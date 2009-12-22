@@ -35,6 +35,7 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.beans.TenantBean;
+import de.decidr.ui.beans.TenantSummaryViewBean;
 import de.decidr.ui.controller.UIDirector;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.navigationmenus.HorizontalNavigationMenu;
@@ -90,43 +91,67 @@ public class SwitchTenantAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Set<?> set = (Set<?>) table.getValue();
+        session = Main.getCurrent().getSession();
+        userId = (Long) session.getAttribute("userId");
+        oldRole = (Role) session.getAttribute("role");
+
+        userFacade = new UserFacade(oldRole);
+
         try {
-            if (table.getValue() != null && set.size() == 1) {
-                Iterator<?> iter = set.iterator();
-                while (iter.hasNext()) {
-                    TenantBean tenantBean = (TenantBean) iter.next();
-                    
+            Set<?> set = null;
+            TenantSummaryViewBean tsvb = null;
+            if (oldRole instanceof SuperAdminRole) {
+                tsvb = (TenantSummaryViewBean) table.getValue();
+                tenantName = tsvb.getTenantName();
+                tenantId = tsvb.getId();
+                
+                role = userFacade
+                .getUserRoleForTenant(userId, tenantId);
+                Role roleInstance = role.getConstructor(Long.class).newInstance(
+                        userId);
 
-                    session = Main.getCurrent().getSession();
-                    userId = (Long) session.getAttribute("userId");
-                    oldRole = (Role) session.getAttribute("role");
+                userFacade.setCurrentTenantId(userId, tenantId);
 
-                    userFacade = new UserFacade(oldRole);
+                session.setAttribute("tenantId", tenantId);
+                session.setAttribute("role", roleInstance);
 
-                    tenantName = tenantBean.getName();
-                    tenantId = tenantBean.getId();
+                loadProtectedResources();
 
-                    role = userFacade.getUserRoleForTenant(userId, tenantId);
-                    Role roleInstance = role.getConstructor(Long.class)
-                            .newInstance(userId);
-
-                    userFacade.setCurrentTenantId(userId, tenantId);
-
-                    session.setAttribute("tenantId", tenantId);
-                    session.setAttribute("role", roleInstance);
-
-                    loadProtectedResources();
-
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent("Switched to "
-                                    + tenantName, "Success"));
-                }
-            } else {
                 Main.getCurrent().getMainWindow().addWindow(
-                        new InformationDialogComponent("Please select an item",
-                                "Information"));
+                        new InformationDialogComponent("Switched to " + tenantName,
+                                "Success"));
+            } else {
+                set = (Set<?>) table.getValue();
+                if (table.getValue() != null && set.size() <= 1) {
+                    Iterator<?> iter = set.iterator();
+                    while (iter.hasNext()) {
+                        TenantBean tenantBean = (TenantBean) iter.next();
+                        tenantName = tenantBean.getName();
+                        tenantId = tenantBean.getId();
+                        
+                        role = userFacade
+                        .getUserRoleForTenant(userId, tenantId);
+                        Role roleInstance = role.getConstructor(Long.class).newInstance(
+                                userId);
+
+                        userFacade.setCurrentTenantId(userId, tenantId);
+
+                        session.setAttribute("tenantId", tenantId);
+                        session.setAttribute("role", roleInstance);
+
+                        loadProtectedResources();
+
+                        Main.getCurrent().getMainWindow().addWindow(
+                                new InformationDialogComponent("Switched to " + tenantName,
+                                        "Success"));
+                    }
+                } else {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new InformationDialogComponent(
+                                    "Please select an item", "Information"));
+                }
             }
+            
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(exception));
@@ -140,32 +165,32 @@ public class SwitchTenantAction implements ClickListener {
      */
     private void loadProtectedResources() {
         TenantView tenantView = new TenantView();
-        if (UserRole.class.equals(role) || role == null) {
-            uiBuilder = new UserViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (WorkflowAdminRole.class.equals(role)) {
-            uiBuilder = new WorkflowAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (TenantAdminRole.class.equals(role)) {
-            uiBuilder = new TenantAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (SuperAdminRole.class.equals(role)) {
-            uiBuilder = new SuperAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                    "Failed to load your resources due to a unknown role class.<br/>"+
-                    "Please inform the systems' administrator if this error occurs repeatedly.",
-                    "Login Failure"));
-        }
-        tenantView.synchronize();
         if (!oldRole.getClass().equals(role)) {
-            uiDirector.constructView();
+            if (UserRole.class.equals(role) || role == null) {
+                uiBuilder = new UserViewBuilder();
+            } else if (WorkflowAdminRole.class.equals(role)) {
+                uiBuilder = new WorkflowAdminViewBuilder();
+            } else if (TenantAdminRole.class.equals(role)) {
+                uiBuilder = new TenantAdminViewBuilder();
+            } else if (SuperAdminRole.class.equals(role)) {
+                uiBuilder = new SuperAdminViewBuilder();
+            } else {
+                Main
+                        .getCurrent()
+                        .getMainWindow()
+                        .addWindow(
+                                new InformationDialogComponent(
+                                        "Failed to load your resources due to a unknown role class.<br/>"
+                                                + "Please inform the systems' administrator if this error occurs repeatedly.",
+                                        "Login Failure"));
+            }
+            
+            uiDirector.switchView(uiBuilder);
             ((HorizontalNavigationMenu) uiDirector.getTemplateView()
                     .getHNavigation()).getLogoutButton().setVisible(true);
+            
         }
-
+        tenantView.synchronize();
         Main.getCurrent().setTheme(tenantName);
     }
 }
