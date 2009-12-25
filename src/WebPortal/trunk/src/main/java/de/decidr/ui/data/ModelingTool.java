@@ -109,7 +109,6 @@ public class ModelingTool extends AbstractComponent {
     @Override
     public void changeVariables(Object source, Map variables) {
         super.changeVariables(source, variables);
-        requestRepaint();
         logger.debug("[Modeling Tool] Trying to store the DWDL...");
         if (variables.containsKey("dwdl")) {
             String dwdl = variables.get("dwdl").toString();
@@ -133,8 +132,8 @@ public class ModelingTool extends AbstractComponent {
         } else {
             logger.debug("[Modeling Tool] Client variables did not"
                     + " contain a dwdl key.");
-            requestRepaint();
         }
+        requestRepaint();
     }
 
     /**
@@ -146,7 +145,6 @@ public class ModelingTool extends AbstractComponent {
      * @return xml formatted user list
      */
     private String convertUserMapToString(HashMap<Long, String> userMap) {
-        requestRepaint();
         Document doc = new Document();
 
         doc.setRootElement(new Element("userlist"));
@@ -162,7 +160,6 @@ public class ModelingTool extends AbstractComponent {
     }
 
     private String getDWDL() {
-        requestRepaint();
         try {
             WorkflowModel workflowModel = workflowModelFacade
                     .getWorkflowModel(workflowModelId);
@@ -179,7 +176,6 @@ public class ModelingTool extends AbstractComponent {
     }
 
     private String getUsers() {
-        requestRepaint();
         userMap = new HashMap<Long, String>();
         try {
             logger.debug("[Modeling Tool] Trying to get "
@@ -226,7 +222,6 @@ public class ModelingTool extends AbstractComponent {
     @Override
     public void paintContent(PaintTarget target) throws PaintException {
         super.paintContent(target);
-        requestRepaint();
         target.addVariable(this, "dwdl", getDWDL());
         target.addVariable(this, "users", getUsers());
 
@@ -239,6 +234,5 @@ public class ModelingTool extends AbstractComponent {
         target.addVariable(this, "width", width);
         // Main.getCurrent().getUIDirector().getTemplateView().getContent().getHeight();
         target.addVariable(this, "height", 500);
-        requestRepaint();
     }
 }

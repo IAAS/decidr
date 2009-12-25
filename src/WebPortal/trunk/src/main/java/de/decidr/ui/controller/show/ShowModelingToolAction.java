@@ -75,6 +75,7 @@ public class ShowModelingToolAction implements ClickListener {
                     WorkflowModelsBean workflowModel = iter.next();
                     siteFrame
                             .setContent(new ModelingTool(workflowModel.getId()));
+                    ((ModelingTool)siteFrame.getContent()).requestRepaint();
                 }
             }else{
                 Main.getCurrent().getMainWindow().addWindow(
@@ -91,7 +92,7 @@ public class ShowModelingToolAction implements ClickListener {
                     WorkflowModelBean workflowModel = iter.next();
                     siteFrame
                             .setContent(new ModelingTool(workflowModel.getId()));
-
+                    ((ModelingTool)siteFrame.getContent()).requestRepaint();
                 }
 
             } else {
@@ -100,6 +101,7 @@ public class ShowModelingToolAction implements ClickListener {
                                 "Please select exactly one workflow model",
                                 "Information"));
             }
+            
         }
     }
 }
