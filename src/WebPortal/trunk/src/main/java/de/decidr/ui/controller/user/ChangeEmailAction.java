@@ -36,7 +36,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.Passed)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.NeedsReview)
 public class ChangeEmailAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;
@@ -63,8 +63,6 @@ public class ChangeEmailAction implements ClickListener {
         try {
             userFacade.requestChangeEmail(userId, email.getItemProperty(
                     "newEmail").getValue().toString());
-            userFacade.setEmailAddress(userId, email
-                    .getItemProperty("newEmail").getValue().toString());
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

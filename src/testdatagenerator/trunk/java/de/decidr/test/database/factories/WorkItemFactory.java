@@ -114,9 +114,9 @@ public class WorkItemFactory extends EntityFactory {
 
                     item.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
                     item.setData(TransformUtil.humanTaskToByte(data));
-                    item
-                            .setDescription("A random work item created by the test data generator. Created in loop #"
-                                    + Integer.toString(i));
+                    item.setDescription("A random work item created by the "
+                            + "test data generator. Created in loop #"
+                            + Integer.toString(i));
                     item.setName("Work item #" + Integer.toString(i));
                     item.setWorkflowInstance(randomWorkflowInstance);
                     item.setUser(randomParticipatingUser);

@@ -177,36 +177,6 @@ public class UserFacade extends AbstractFacade {
     }
 
     /**
-     * Sets the email address of the given user to the new value.
-     * 
-     * @param userId
-     *            the id of the user whose email address should be set
-     * @param newEmail
-     *            the new email address
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     * @throws IllegalArgumentException
-     *             if the email address is <code>null</code> or empty or if
-     *             userId is <code>null</code>
-     */
-    @AllowedRole(UserRole.class)
-    public void setEmailAddress(Long userId, String newEmail)
-            throws TransactionException {
-
-        if (newEmail == null || newEmail.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Email address must not be null or empty.");
-        }
-
-        Map<String, String> properties = new HashMap<String, String>();
-        properties.put("email", newEmail);
-
-        SetUserPropertyCommand cmd = new SetUserPropertyCommand(actor, userId,
-                properties);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-    }
-
-    /**
      * Sets the disabled date of the given user, effectively preventing the user
      * from logging in. To re-activate the user account, set the disabled date
      * to null. Disabling the super admin account has no effect.Disabling a

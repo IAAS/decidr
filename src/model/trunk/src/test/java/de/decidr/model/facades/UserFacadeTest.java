@@ -204,18 +204,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.setPassword(testUserID, null, TEST_PASSWORD);
     }
 
-    private static void setEmailAddressExceptionHelper(String failmsg,
-            UserFacade facade, Long userID, String newEmail) {
-        try {
-            facade.setEmailAddress(userID, newEmail);
-            fail(failmsg);
-        } catch (IllegalArgumentException e) {
-            // supposed to be thrown
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-    }
-
     /**
      * Initialises the facade instances and registers a User, testing
      * {@link UserFacade#registerUser(String, String, UserProfile)}.
@@ -854,48 +842,6 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         adminFacade.setDisabledSince(testUserID, null);
         assertNull(adminFacade.getUserProfile(testUserID).getDisabledSince());
-    }
-
-    /**
-     * Test method for {@link UserFacade#setEmailAddress(Long, String)}.
-     */
-    @Test
-    public void testSetEmailAddress() throws TransactionException {
-        UserProfile testProfile = new UserProfile();
-        testProfile.setFirstName("test");
-        testProfile.setLastName("user");
-        testProfile.setCity("boringtown");
-        testProfile.setStreet("ancient st.");
-        testProfile.setPostalCode("112");
-        testProfile.setUsername(USERNAME_PREFIX);
-
-        Long secondUserID = adminFacade.registerUser(getTestEmail(2), "asd",
-                testProfile);
-
-        adminFacade.setEmailAddress(testUserID, TEST_EMAIL + ".vu");
-        assertEquals(TEST_EMAIL + ".vu", adminFacade.getUserProfile(testUserID,
-                true).getEmail());
-        adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
-        adminFacade.setEmailAddress(testUserID, TEST_EMAIL);
-
-        for (UserFacade facade : new UserFacade[] { userFacade, adminFacade,
-                nullFacade }) {
-            setEmailAddressExceptionHelper("setting null email succeeded",
-                    facade, testUserID, null);
-            setEmailAddressExceptionHelper("setting empty email succeeded",
-                    facade, testUserID, "");
-            setEmailAddressExceptionHelper(
-                    "setting email for null user ID succeeded", facade, null,
-                    getTestEmail(4));
-        }
-
-        setEmailAddressExceptionHelper("setting same email succeeded",
-                new UserFacade(new UserRole(secondUserID)), secondUserID,
-                TEST_EMAIL);
-        setEmailAddressExceptionHelper(
-                "setting email with null facade succeeded", nullFacade,
-                testUserID, TEST_EMAIL);
-        userFacade.setEmailAddress(testUserID, TEST_EMAIL);
     }
 
     /**

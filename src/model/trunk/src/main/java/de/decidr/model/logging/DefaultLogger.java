@@ -38,6 +38,7 @@ public class DefaultLogger {
 
     private static final String DEFAULT_LOGGER = "de.decidr";
     private static final String HIBERNATE_LOGGER = "org.hibernate";
+    private static boolean initialized = false;
 
     private static Appender defaultAppender = new ConsoleAppender(
             new PatternLayout("[%-5p: %d{dd.MM. HH:mm:ss}] %m%n"),
@@ -64,6 +65,14 @@ public class DefaultLogger {
             defaultLogger.warn(
                     "Cannot retrieve global log level from database.", e);
         }
+        initialized = true;
+    }
+
+    /**
+     * @return whether the default logger has been initialized.
+     */
+    public static boolean isInitialized() {
+        return initialized;
     }
 
     /**

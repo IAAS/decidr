@@ -16,7 +16,7 @@ package de.decidr.model.transactions;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.log4j.Priority;
+import org.apache.log4j.Level;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -113,11 +113,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private HibernateTransactionCoordinator() {
         logger = new LogQueue(HibernateTransactionCoordinator.class);
-        logger.log(Priority.DEBUG_INT,
+        logger.log(Level.DEBUG,
                 "Creating HibernateTransactionCoordinator"
                         + " thread-local instance.");
         this.setConfiguration(new Configuration().configure());
-        logger.log(Priority.DEBUG_INT,
+        logger.log(Level.DEBUG,
                 "Initial Hibernate configuration successfully applied.");
         this.currentTransaction = null;
         this.transactionDepth = 0;
@@ -131,7 +131,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * the existing outer transaction is reused.
      */
     protected synchronized void beginTransaction() {
-        logger.log(Priority.DEBUG_INT,
+        logger.log(Level.DEBUG,
                 "Beginning transaction. New transaction depth: "
                         + (transactionDepth + 1));
         if (transactionDepth == 0) {
@@ -146,7 +146,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Commits the current transaction.
      */
     protected void commitCurrentTransaction() throws TransactionException {
-        logger.log(Priority.DEBUG_INT,
+        logger.log(Level.DEBUG,
                 "Committing transaction. Current transaction depth: "
                         + transactionDepth);
 
@@ -169,7 +169,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Performs a rollback for the current transaction.
      */
     protected void rollbackCurrentTransaction() throws TransactionException {
-        logger.log(Priority.DEBUG_INT,
+        logger.log(Level.DEBUG,
                 "Aborting transaction. Current transaction depth: "
                         + transactionDepth);
 
@@ -204,7 +204,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      *            the initialized configuration
      */
     public void setConfiguration(Configuration config) {
-        logger.log(Priority.DEBUG_INT, "Setting new Hibernate configuration.");
+        logger.log(Level.DEBUG, "Setting new Hibernate configuration.");
         if (config == null) {
             throw new IllegalArgumentException(
                     "Hibernate config cannot be null");
@@ -273,6 +273,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
             for (TransactionalCommand c : commands) {
                 notifiedReceivers.add(c);
+                logger.log(Level.DEBUG, "Attempting to execute "
+                        + c.getClass().getSimpleName());
                 fireTransactionStarted(c);
             }
 
@@ -280,7 +282,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
         } catch (Exception e) {
             try {
-                logger.log(Priority.INFO_INT,
+                logger.log(Level.INFO,
                         "Exception in transactionStarted: ", e);
 
                 if (currentTransaction != null) {
@@ -295,7 +297,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                         try {
                             fireTransactionAborted(c, e);
                         } catch (Exception receiverRollbackException) {
-                            logger.log(Priority.WARN_INT,
+                            logger.log(Level.WARN,
                                     "Exception during transactionAborted",
                                     receiverRollbackException);
                         }
@@ -303,7 +305,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                     notifiedReceivers.clear();
                 }
             } catch (Exception rollbackException) {
-                logger.log(Priority.FATAL_INT,
+                logger.log(Level.FATAL,
                         "Could not roll back transaction.", rollbackException);
             }
 

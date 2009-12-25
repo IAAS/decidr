@@ -21,7 +21,6 @@ import java.util.Queue;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 
 /**
  * Provides delayed logging using the {@link DefaultLogger}.
@@ -36,7 +35,7 @@ import org.apache.log4j.Priority;
  *     //this class depends on DefaultLogger and 
  *     //DefaultLogger depends on this class
  *     logger = new LogQueue(DependentClass.class);
- *     logger.log(Level.DEBUG_INT, 
+ *     logger.log(Level.DEBUG, 
  *              &quot;Creating new instance of DependentClass&quot;);
  *     initThings();
  *     ...
@@ -54,7 +53,7 @@ public class LogQueue {
      * A simple record that holds the properties of a delayed log entry.
      */
     private class LogEntry {
-        public int level;
+        public Level level;
         public Object message;
         public Throwable t;
 
@@ -62,13 +61,13 @@ public class LogQueue {
          * Create a new log entry.
          * 
          * @param level
-         *            log level (Level.xxx_INT)
+         *            log level
          * @param message
          *            message to log
          * @param t
          *            optional throwable to log (can be <code>null</code>)
          */
-        public LogEntry(int level, Object message, Throwable t) {
+        public LogEntry(Level level, Object message, Throwable t) {
             this.level = level;
             this.message = message;
             this.t = t;
@@ -89,6 +88,11 @@ public class LogQueue {
      * Name of the logger (one it's initialized)
      */
     private String loggerName = null;
+
+    /**
+     * Whether the logging system should be initialized at the next opportunity
+     */
+    private boolean initializeAsap = false;
 
     /**
      * Creates a new LogQueue that uses the given string as the logger's name.
@@ -123,37 +127,8 @@ public class LogQueue {
      * @param t
      *            optional throwable to log, can be null
      */
-    private void writeToLogger(int level, Object message, Throwable t) {
-        switch (level) {
-        case Priority.DEBUG_INT:
-            logger.debug(message, t);
-            break;
-
-        case Priority.ERROR_INT:
-            logger.error(message, t);
-            break;
-
-        case Priority.FATAL_INT:
-            logger.fatal(message, t);
-            break;
-
-        case Priority.INFO_INT:
-            logger.info(message, t);
-            break;
-
-        case Level.TRACE_INT:
-            logger.trace(message, t);
-            break;
-
-        case Priority.WARN_INT:
-            logger.warn(message, t);
-            break;
-
-        default:
-            // unknown or invalid log level (including ALL_INT and OFF_INT) - do
-            // not log
-            break;
-        }
+    private void writeToLogger(Level level, Object message, Throwable t) {
+        logger.log(level, message, t);
     }
 
     /**
@@ -168,14 +143,9 @@ public class LogQueue {
      * @param t
      *            optional throwable to log, can be null
      */
-    public void log(int level, Object message, Throwable t) {
+    public void log(Level level, Object message, Throwable t) {
+        graspLogOpportunity();
         if (isReady()) {
-            // use this opportunity to flush any queued messages
-            LogEntry queued = logQueue.poll();
-            while (queued != null) {
-                writeToLogger(queued.level, queued.message, queued.t);
-                queued = logQueue.poll();
-            }
             writeToLogger(level, message, t);
         } else {
             // logger hasn't been initialized, yet
@@ -193,7 +163,7 @@ public class LogQueue {
      * @param message
      *            message to log (such as a string)
      */
-    public void log(int level, Object message) {
+    public void log(Level level, Object message) {
         log(level, message, null);
     }
 
@@ -206,12 +176,32 @@ public class LogQueue {
     }
 
     /**
-     * Initializes the internal logger. Any queued log messages will be flushed
-     * at the next opportunity, but not in this method.
+     * At the next opportunity (but not in this method), the logger will be
+     * initialized and ny queued log messages will be flushed.
+     * 
      */
     public void makeReady() {
-        if (logger == null) {
+        if (!isReady()) {
+            initializeAsap = true;
+        }
+    }
+
+    /**
+     * Initializes the logging system and flushes any log messages.
+     */
+    private void graspLogOpportunity() {
+        if (initializeAsap && !isReady() && DefaultLogger.isInitialized()) {
+            initializeAsap = false;
             logger = DefaultLogger.getLogger(loggerName);
+        }
+
+        if (isReady()) {
+            // use this opportunity to flush any queued messages
+            LogEntry queued = logQueue.poll();
+            while (queued != null) {
+                writeToLogger(queued.level, queued.message, queued.t);
+                queued = logQueue.poll();
+            }
         }
     }
 }
