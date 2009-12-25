@@ -69,6 +69,7 @@ public class DeployerImplStub implements Deployer {
         
         result.setDeploymentDate(new Date());
         result.setServers(servers);
+        result.setSOAPTemplate(new byte[0]);
         
         return result;
     }

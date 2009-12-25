@@ -136,8 +136,11 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
                             sid));
                 }
 
-                dwfm.setDeployDate(result.getDeploymentDate());
+                dwfm.setDeployDate(DecidrGlobals.getTime().getTime());
                 dwfm.setSoapTemplate(result.getSOAPTemplate());
+                if (dwfm.getSoapTemplate() == null) {
+                    dwfm.setSoapTemplate(new byte[0]);
+                }
                 dwfm.setWorkflowModelIsDeployedOnServers(dbEntry);
                 newDeployedWorkflowModel = dwfm;
 

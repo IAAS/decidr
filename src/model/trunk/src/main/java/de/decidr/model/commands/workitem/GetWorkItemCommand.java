@@ -22,7 +22,8 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
- * Retrieves the properties of the given work item.
+ * Retrieves the properties of the given work item, including the following
+ * properties which are normally not available due to lazy loading:
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -54,7 +55,7 @@ public class GetWorkItemCommand extends WorkItemCommand {
 
         // make sure the required properties are loaded.
         result.getData();
-        result.getWorkflowInstance();
+        result.getWorkflowInstance().getDeployedWorkflowModel();
     }
 
     /**

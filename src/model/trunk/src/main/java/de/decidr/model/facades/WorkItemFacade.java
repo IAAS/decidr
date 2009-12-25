@@ -55,6 +55,12 @@ public class WorkItemFacade extends AbstractFacade {
     /**
      * Fetches a workitem from the database.
      * 
+     * Preloaded foreign key properties:
+     * <ul>
+     * <li>workflowInstance</li>
+     * <li>workflowInstance.deployedWorkflowModel</li>
+     * </ul>
+     * 
      * @param workItemId
      *            the ID of the workitem which should be requested
      * @return workitem
