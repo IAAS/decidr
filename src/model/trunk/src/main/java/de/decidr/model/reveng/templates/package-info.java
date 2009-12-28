@@ -21,6 +21,8 @@
  * <ul>
  * <li>Set dynamic-insert and dynamic-update to true for all generated entities.</li>
  * <li>Put all column names in backticks so they will be put into dialect-specific quotes.</li>
+ * <li>Added comments to generated / empty default constructors</li>
+ * <li>Added disclaimer to generated mapping files</li>
  * </ul>
  */
 package de.decidr.model.reveng.templates;
