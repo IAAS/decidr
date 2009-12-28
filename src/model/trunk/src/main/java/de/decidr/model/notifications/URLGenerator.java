@@ -65,7 +65,7 @@ public class URLGenerator {
             url += "&" + DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY + "="
                     + URLEncoder.encode(authKey, encoding);
         }
-        ;
+
         return url;
     }
 

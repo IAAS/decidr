@@ -9,12 +9,12 @@ empty block comments to the generated constructors.
 
 <#--  /** default constructor */ -->
     public ${pojo.getDeclarationName()}() {
-    	//default empty JavaBean constructor
+    	// default empty JavaBean constructor
     }
 
 <#if pojo.needsMinimalConstructor()>	<#-- /** minimal constructor */ -->
     public ${pojo.getDeclarationName()}(${c2j.asParameterList(pojo.getPropertyClosureForMinimalConstructor(), jdk5, pojo)}) {
-		//generated minimal constructor
+		// generated minimal constructor
 <#if pojo.isSubclass() && !pojo.getPropertyClosureForSuperclassMinimalConstructor().isEmpty()>
         super(${c2j.asArgumentList(pojo.getPropertyClosureForSuperclassMinimalConstructor())});        
 </#if>
@@ -26,7 +26,7 @@ empty block comments to the generated constructors.
 <#if pojo.needsFullConstructor()>
 <#-- /** full constructor */ -->
     public ${pojo.getDeclarationName()}(${c2j.asParameterList(pojo.getPropertyClosureForFullConstructor(), jdk5, pojo)}) {
-		//generated full constructor
+		// generated full constructor
 <#if pojo.isSubclass() && !pojo.getPropertyClosureForSuperclassFullConstructor().isEmpty()>
         super(${c2j.asArgumentList(pojo.getPropertyClosureForSuperclassFullConstructor())});        
 </#if>

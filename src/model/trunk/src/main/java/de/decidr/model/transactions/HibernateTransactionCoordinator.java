@@ -196,7 +196,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
     /**
      * Updates the session factory using the given configuration. Currently
-     * runnning transactions are not affected by the new configuration. The new
+     * running transactions are not affected by the new configuration. The new
      * configuration will be applied the next time a session is opened. A new
      * session is opened every time a top-level transaction is started.
      * 
@@ -360,6 +360,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * @param receiver
      *            the receiver of the "transaction committed" event
      * @throws TransactionException
+     *             TODO document
      */
     private void fireTransactionCommitted(TransactionalCommand receiver)
             throws TransactionException {
