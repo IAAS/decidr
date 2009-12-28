@@ -261,12 +261,12 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      *            list of users to invite
      * @param session
      *            current Hibernate session
-     * @return TODO document
+     * @return persisted workflow participation invitations
      */
     private Set<Invitation> createInvitations(List<User> invitedUsers,
             Session session) {
 
-        Set<Invitation> invis = new HashSet<Invitation>();
+        Set<Invitation> result = new HashSet<Invitation>();
 
         for (User invitedUser : invitedUsers) {
             Invitation invitation = new Invitation();
@@ -287,10 +287,10 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             invitation.setSender(sender);
 
             session.save(invitation);
-            invis.add(invitation);
+            result.add(invitation);
         }
 
-        return invis;
+        return result;
     }
 
     /**
@@ -356,9 +356,13 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * filled in).
      * 
      * @throws TransactionException
+     *             if getting the workflow participation state fails
      * @throws UserDisabledException
+     *             if a disabled user is found
      * @throws UserUnavailableException
+     *             if an unavailable user is found
      * @throws UsernameNotFoundException
+     *             if an unknown username is detected
      */
     private void processUserWorkflowParticipationState()
             throws TransactionException, UserDisabledException,

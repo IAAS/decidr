@@ -25,7 +25,7 @@ import de.decidr.model.commands.TransactionalCommand;
  * new CommandPermission(DeleteTenantCommand.class) is internally stored as the
  * string "de.decidr.model.commands.tenant.DeleteTenantCommand".
  * <p>
- * Two CommandPermissions only imply each other if they point to the exact same
+ * Two CommandPermissions only imply each other if they point to the very same
  * command class. Class hierarchies are ignored:
  * <p>
  * <code>false == new CommandPermission(AbstractTenantCommand.class).implies(new
@@ -46,10 +46,11 @@ public class CommandPermission extends
     private Class<? extends TransactionalCommand> commandClass = null;
 
     /**
-     * Constructor. Creates CommandPermission for the given command class.
+     * Creates a new CommandPermission for the class of the given command
+     * instance.
      * 
      * @param command
-     *            TODO document
+     *            command instance
      */
     public CommandPermission(TransactionalCommand command) {
         super(command.getClass().getName());
@@ -57,10 +58,10 @@ public class CommandPermission extends
     }
 
     /**
-     * Constructor. Creates CommandPermission for the given command Class.
+     * Creates a new CommandPermission for the given command class.
      * 
      * @param clazz
-     *            TODO document
+     *            command class
      */
     public CommandPermission(Class<? extends TransactionalCommand> clazz) {
         super(clazz.getName());
@@ -69,7 +70,7 @@ public class CommandPermission extends
     }
 
     /**
-     * @return Class of the Command which will be executed
+     * @return Class of the command to be executed.
      */
     public Class<? extends TransactionalCommand> getCommandClass() {
         if (command != null) {
@@ -80,9 +81,9 @@ public class CommandPermission extends
     }
 
     /**
-     * 
-     * @return the command instance
-     * 
+     * @return the command instance (<code>null</code> if a {@link Class}
+     *         instead of an instance was used to instantiate this
+     *         {@link CommandPermission})
      */
     public TransactionalCommand getCommand() {
         return this.command;
