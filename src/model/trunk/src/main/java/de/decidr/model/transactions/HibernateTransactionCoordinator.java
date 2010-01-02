@@ -113,9 +113,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private HibernateTransactionCoordinator() {
         logger = new LogQueue(HibernateTransactionCoordinator.class);
-        logger.log(Level.DEBUG,
-                "Creating HibernateTransactionCoordinator"
-                        + " thread-local instance.");
+        logger.log(Level.DEBUG, "Creating HibernateTransactionCoordinator"
+                + " thread-local instance.");
         this.setConfiguration(new Configuration().configure());
         logger.log(Level.DEBUG,
                 "Initial Hibernate configuration successfully applied.");
@@ -266,6 +265,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
         }
 
+        // DH: what if this method is called within a transaction? Won't that
+        // stop the calling TransactionalCommands from being notified? (how
+        // about only clearing if the transactionDepth is 0?) ~rr
         notifiedReceivers.clear();
 
         try {
@@ -282,8 +284,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
         } catch (Exception e) {
             try {
-                logger.log(Level.INFO,
-                        "Exception in transactionStarted: ", e);
+                logger.log(Level.INFO, "Exception in transactionStarted: ", e);
 
                 if (currentTransaction != null) {
                     rollbackCurrentTransaction();
@@ -305,8 +306,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                     notifiedReceivers.clear();
                 }
             } catch (Exception rollbackException) {
-                logger.log(Level.FATAL,
-                        "Could not roll back transaction.", rollbackException);
+                logger.log(Level.FATAL, "Could not roll back transaction.",
+                        rollbackException);
             }
 
             if (e instanceof TransactionException) {
