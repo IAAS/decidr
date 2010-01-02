@@ -287,6 +287,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 logger.log(Level.INFO, "Exception in transactionStarted: ", e);
 
                 if (currentTransaction != null) {
+                    // DH: potential problem: here you're closing the session...
                     rollbackCurrentTransaction();
 
                     for (TransactionalCommand c : notifiedReceivers) {
@@ -296,6 +297,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                          * rollback.
                          */
                         try {
+                            // DH: ... and here you're passing it inside an
+                            // event... ~rr
                             fireTransactionAborted(c, e);
                         } catch (Exception receiverRollbackException) {
                             logger.log(Level.WARN,
