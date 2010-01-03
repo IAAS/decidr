@@ -177,8 +177,7 @@ public class LogQueue {
 
     /**
      * At the next opportunity (but not in this method), the logger will be
-     * initialized and ny queued log messages will be flushed.
-     * 
+     * initialized and any queued log messages will be flushed.
      */
     public void makeReady() {
         if (!isReady()) {

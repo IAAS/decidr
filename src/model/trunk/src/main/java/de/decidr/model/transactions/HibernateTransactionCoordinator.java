@@ -76,17 +76,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     private Integer transactionDepth = 0;
 
     /**
-     * A list of commands whose transactionStarted() method has been called and
-     * should therefore be notified of the transactionAborted() and
-     * transactionCommitted() events.
-     * 
-     * It is intended that a single command instance can be present more than
-     * once in a command chain and the expected behavior in this case is to
-     * receive multiple events as well.
-     */
-    private ArrayList<TransactionalCommand> notifiedReceivers = null;
-
-    /**
      * The current Hibernate configuration.
      */
     private Configuration configuration;
@@ -121,7 +110,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         this.currentTransaction = null;
         this.transactionDepth = 0;
         this.session = null;
-        this.notifiedReceivers = new ArrayList<TransactionalCommand>();
         logger.makeReady();
     }
 
@@ -129,7 +117,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * Starts a new transaction. If the new transaction is an inner transaction,
      * the existing outer transaction is reused.
      */
-    protected synchronized void beginTransaction() {
+    protected void beginTransaction() {
         logger.log(Level.DEBUG,
                 "Beginning transaction. New transaction depth: "
                         + (transactionDepth + 1));
@@ -143,11 +131,16 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
     /**
      * Commits the current transaction.
+     * 
+     * @throws TransactionException
+     *             if no transaction has been started, yet.
      */
     protected void commitCurrentTransaction() throws TransactionException {
-        logger.log(Level.DEBUG,
-                "Committing transaction. Current transaction depth: "
-                        + transactionDepth);
+        String logMessage = transactionDepth == 1 ? "Committing transaction."
+                : "Delaying commit until the outmost transaction commits.";
+
+        logger.log(Level.DEBUG, logMessage + " Current transaction depth: "
+                + transactionDepth);
 
         if (currentTransaction == null) {
             throw new TransactionException(
@@ -166,6 +159,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
     /**
      * Performs a rollback for the current transaction.
+     * 
+     * @throws TransactionException
+     *             if no transaction has been started, yet.
      */
     protected void rollbackCurrentTransaction() throws TransactionException {
         logger.log(Level.DEBUG,
@@ -265,10 +261,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
         }
 
-        // DH: what if this method is called within a transaction? Won't that
-        // stop the calling TransactionalCommands from being notified? (how
-        // about only clearing if the transactionDepth is 0?) ~rr
-        notifiedReceivers.clear();
+        ArrayList<TransactionalCommand> notifiedReceivers = new ArrayList<TransactionalCommand>();
 
         try {
             beginTransaction();
@@ -287,7 +280,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 logger.log(Level.INFO, "Exception in transactionStarted: ", e);
 
                 if (currentTransaction != null) {
-                    // DH: potential problem: here you're closing the session...
                     rollbackCurrentTransaction();
 
                     for (TransactionalCommand c : notifiedReceivers) {
@@ -297,8 +289,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                          * rollback.
                          */
                         try {
-                            // DH: ... and here you're passing it inside an
-                            // event... ~rr
                             fireTransactionAborted(c, e);
                         } catch (Exception receiverRollbackException) {
                             logger.log(Level.WARN,
@@ -364,7 +354,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * @param receiver
      *            the receiver of the "transaction committed" event
      * @throws TransactionException
-     *             TODO document
+     *             the only checked exception that is allowed to occur within
+     *             the "transaction committed" event
      */
     private void fireTransactionCommitted(TransactionalCommand receiver)
             throws TransactionException {
