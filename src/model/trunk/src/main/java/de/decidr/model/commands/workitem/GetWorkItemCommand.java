@@ -20,10 +20,15 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
 /**
  * Retrieves the properties of the given work item, including the following
  * properties which are normally not available due to lazy loading:
+ * 
+ * <ul>
+ * <li>deployedWorkflowModel</li>
+ * </ul>
  * 
  * @author Daniel Huss
  * @version 0.1

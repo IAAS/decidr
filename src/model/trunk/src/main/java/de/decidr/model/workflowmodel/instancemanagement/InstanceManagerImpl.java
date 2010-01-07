@@ -67,7 +67,7 @@ public class InstanceManagerImpl implements InstanceManager {
                 .bytesToConfiguration(startConfiguration));
         SOAPExecution execution = new SOAPExecution();
         SOAPMessage replySOAPMessage = execution.invoke(selectedServer,
-                soapMessage);
+                soapMessage, dwfm);
         StartInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
         result.setODEPid(getODEPid(replySOAPMessage));

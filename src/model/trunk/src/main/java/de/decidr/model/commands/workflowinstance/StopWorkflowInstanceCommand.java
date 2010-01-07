@@ -21,9 +21,9 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.stubs.InstanceManagerStub;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
+import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
 /**
  * 
@@ -55,7 +55,7 @@ public class StopWorkflowInstanceCommand extends WorkflowInstanceCommand {
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
-        InstanceManager instanceManager = new InstanceManagerStub();
+        InstanceManager instanceManager = new InstanceManagerImpl();
 
         try {
             WorkflowInstance instance = fetchWorkflowInstance(evt.getSession());
