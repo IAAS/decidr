@@ -19,9 +19,11 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
+import javax.wsdl.extensions.ExtensionRegistry;
 import javax.wsdl.xml.WSDLReader;
 import javax.wsdl.xml.WSDLWriter;
 import javax.xml.bind.JAXBContext;
@@ -36,7 +38,6 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.JDOMException;
@@ -44,8 +45,6 @@ import org.jdom.output.DOMOutputter;
 import org.xml.sax.InputSource;
 
 import com.ibm.wsdl.xml.WSDLWriterImpl;
-
-import javax.wsdl.extensions.ExtensionRegistry;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.bpel.Process;
@@ -142,7 +141,9 @@ public class TransformUtil {
     }
 
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
-        Logger.getRootLogger().setLevel(Level.DEBUG);
+        java.util.logging.Logger.getLogger(
+                java.util.logging.Logger.GLOBAL_LOGGER_NAME)
+                .setLevel(Level.ALL);
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
