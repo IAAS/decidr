@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:HumanTask="http://decidr.de/webservices/HumanTask" xmlns:basicProcess="http://decidr.de/wsdl/basicProcess" xmlns:processes_302="http://decidr.de/Default_Tenant/processes/302">
+  <process name="processes_302:TestProcess">
+    <active>true</active>
+    <retired>false</retired>
+    <process-events generate="all"/>
+    <provide partnerLink="client">
+      <service name="processes_302:HumanTaskTest" port="HumanTaskTestPort"/>
+    </provide>
+    <provide partnerLink="HumanTaskService">
+      <service name="basicProcess:basicProcessSOAP11" port="basicProcessSOAP11"/>
+    </provide>
+    <invoke partnerLink="HumanTaskService">
+      <service name="HumanTask:HumanTask" port="HumanTaskSOAP11"/>
+    </invoke>
+  </process>
+</deploy>
