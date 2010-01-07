@@ -70,38 +70,5 @@ public class UploadAction implements Receiver {
          }
 
          return fos;
-    	
-        /*FileOutputStream fos = null;
-        FileInputStream fis = null;
-
-        file = new java.io.File(filename);
-
-        try {
-            fis = new FileInputStream(file);
-            fos = new FileOutputStream(file);
-            HashSet<Class<? extends FilePermission>> filePermission = new HashSet<Class<? extends FilePermission>>();
-            filePermission.add(FileReadPermission.class);
-            fileId = fileFacade.createFile(fis, file.length(), filename,
-                    MIMEType, true, filePermission);
-            Main.getCurrent().getMainWindow().showNotification(
-                    "File " + filename + "successfully temporarily saved!");
-
-            deleteUploadComponent.getLabel().setValue(filename);
-            startConfigurationWindow.getUpload().setVisible(false);
-            startConfigurationWindow.getAssignmentForm().getLayout()
-                    .addComponent(deleteUploadComponent);
-
-            Main.getCurrent().getMainWindow().setData(fileId);
-        } catch (FileNotFoundException exception) {
-            Main.getCurrent().getMainWindow()
-                    .showNotification("File not found.");
-        } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new TransactionErrorDialogComponent(exception));
-        }
-
-        // GH, Aleks: this will return null if an Exception is thrown - is that
-        // on purpose? ~rr
-        return fos;*/
-    }
+    }    	
 }

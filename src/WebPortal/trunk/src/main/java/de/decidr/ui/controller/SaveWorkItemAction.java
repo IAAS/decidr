@@ -99,6 +99,9 @@ public class SaveWorkItemAction implements ClickListener {
 					value = form.getField(tTaskItem.getName()).getValue();
 				} else {
 					value = Main.getCurrent().getMainWindow().getData();
+					if(value == null){
+					    value = "";
+					}
 				}
 
 				// If the value equals to a string representation of a boolean

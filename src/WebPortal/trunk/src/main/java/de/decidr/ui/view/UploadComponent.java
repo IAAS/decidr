@@ -18,15 +18,18 @@ package de.decidr.ui.view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashSet;
+
+import org.apache.commons.io.IOUtils;
 
 import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Upload.Receiver;
@@ -60,9 +63,8 @@ public class UploadComponent extends CustomComponent {
 
     private HorizontalLayout horizontalLayout = null;
 
-    private TextField fileInfo = null;
-
     private Button button = null;
+    private Button download = null;
 
     private com.vaadin.ui.Upload upload = null;
 
@@ -111,7 +113,6 @@ public class UploadComponent extends CustomComponent {
             horizontalLayout.addComponent(upload);
 
             upload.addListener(new Upload.SucceededListener() {
-
                 @Override
                 public void uploadSucceeded(SucceededEvent event) {
                     UploadAction action = (UploadAction) receiver;
@@ -149,6 +150,7 @@ public class UploadComponent extends CustomComponent {
                                             + " successfully uploaded!",
                                             "Success"));
 
+                            // Refreshes the header with the new logo
                             if (siteFrame.getContent() instanceof TenantSettingsComponent
                                     && siteFrame.getHeader() instanceof Header) {
                                 TenantSettingsComponent tsc = (TenantSettingsComponent) siteFrame
@@ -181,8 +183,9 @@ public class UploadComponent extends CustomComponent {
             try {
                 file = fileFacade.getFileInfo(fileId);
 
-                fileInfo = new TextField("File info");
                 button = new Button("Delete file");
+                download = new Button("Download file");
+                download.setStyleName(Button.STYLE_LINK);
                 button.addListener(new Button.ClickListener() {
 
                     @Override
@@ -192,15 +195,44 @@ public class UploadComponent extends CustomComponent {
                     }
                 });
 
+                download.addListener(new Button.ClickListener() {
+
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        try {
+                            InputStream in = fileFacade.getFileData(fileId);
+                            java.io.File file = java.io.File.createTempFile(
+                                    "decidr-download", "");
+                            OutputStream out = new FileOutputStream(file);
+                            IOUtils.copy(in, out);
+                            Main.getCurrent().getMainWindow().addWindow(
+                                    new InformationDialogComponent(
+                                            "File successfully downloaded!",
+                                            "Successful download"));
+                        } catch (Exception e) {
+                            Main.getCurrent().getMainWindow().addWindow(
+                                    new InformationDialogComponent(
+                                            "File couldn't be found!",
+                                            "File not found"));
+                        }
+                    }
+                });
+
                 horizontalLayout.setSpacing(true);
-                horizontalLayout.addComponent(fileInfo);
+                horizontalLayout.addComponent(download);
                 horizontalLayout.addComponent(button);
 
-                fileInfo.setValue(file.getFileName());
+                download.setCaption(file.getFileName());
             } catch (TransactionException e) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new InformationDialogComponent(
-                                "File couldn't be found!", "File not found"));
+                Main
+                        .getCurrent()
+                        .getMainWindow()
+                        .addWindow(
+                                new InformationDialogComponent(
+                                        "File couldn't be found! Please upload an other file!",
+                                        "File not found"));
+                UploadComponent.this.deleted = true;
+                UploadComponent.this.init();
             }
         }
     }

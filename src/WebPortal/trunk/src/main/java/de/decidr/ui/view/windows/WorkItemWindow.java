@@ -114,7 +114,7 @@ public class WorkItemWindow extends Window {
         this.setHeight("650px");
         this.setWidth("370px");
         this.center();
-        this.setResizable(false);
+        this.setResizable(true);
         this.setCaption("Work item");
 
         verticalLayout.addComponent(label);
