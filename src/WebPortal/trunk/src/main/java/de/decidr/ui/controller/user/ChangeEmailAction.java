@@ -36,7 +36,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author Geoffrey-Alexeij Heinze
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2351", currentReviewState = State.NeedsReview)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2563", currentReviewState = State.Passed)
 public class ChangeEmailAction implements ClickListener {
 
     private static final long serialVersionUID = 1L;

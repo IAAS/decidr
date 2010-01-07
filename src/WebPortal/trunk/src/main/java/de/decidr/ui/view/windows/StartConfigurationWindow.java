@@ -70,7 +70,7 @@ import de.decidr.ui.view.Main;
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "RR" }, lastRevision = "2465", currentReviewState = State.PassedWithComments)
+@Reviewed(reviewers = { "RR" }, lastRevision = "2560", currentReviewState = State.PassedWithComments)
 public class StartConfigurationWindow extends Window {
 
     private static final long serialVersionUID = 1L;
@@ -350,6 +350,7 @@ public class StartConfigurationWindow extends Window {
      */
     private void addAssignmentToForm(TConfiguration tConfiguration) {
         for (TAssignment assignment : tConfiguration.getAssignment()) {
+            // Aleks, GH: unused variable ~rr
             String label = getLabel(assignment.getKey());
             if (assignment.getValue().size() > 0) {
                 for (String string : assignment.getValue()) {
@@ -418,7 +419,11 @@ public class StartConfigurationWindow extends Window {
      * Returns the label from the dwdl to show in the start configuration window
      * 
      * @param key
-     * @return label - set as label in the start configuration window
+     *            TODO document
+     * @return label - set as label in the start configuration window<br>
+     *         Aleks, GH: this comment doesn't make sense. Better would be
+     *         "The label of the specified component, or null, if it can't be found."
+     *         ~rr
      */
     private String getLabel(String key) {
         for (Variable variable : workflow.getVariables().getVariable()) {

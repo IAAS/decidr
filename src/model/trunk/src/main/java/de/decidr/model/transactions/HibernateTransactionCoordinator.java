@@ -274,7 +274,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
 
             commitCurrentTransaction();
-
         } catch (Exception e) {
             try {
                 logger.log(Level.INFO, "Exception in transactionStarted: ", e);
