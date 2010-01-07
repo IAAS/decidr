@@ -43,6 +43,10 @@ import de.decidr.model.entities.Tenant;
 @Reviewed(currentReviewState = State.Passed, lastRevision = "2498", reviewers = { "RR" })
 public class TenantBean implements Serializable {
 
+    /**
+     * Serial version uid
+     */
+    private static final long serialVersionUID = -779554821373778177L;
     private Long id;
     private File logo;
     private File simpleColorScheme;
