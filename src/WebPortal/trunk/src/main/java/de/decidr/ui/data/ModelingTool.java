@@ -163,11 +163,13 @@ public class ModelingTool extends AbstractComponent {
         try {
             WorkflowModel workflowModel = workflowModelFacade
                     .getWorkflowModel(workflowModelId);
+            String dwdl = new String(workflowModel.getDwdl());
             name = workflowModel.getName();
             description = workflowModel.getDescription();
             logger.debug("[Modeling Tool] Retrieving dwdl document was"
                     + " successfull");
-            return new String(workflowModel.getDwdl());
+            logger.debug("This is the dwdl:\n" + dwdl);
+            return dwdl;
         } catch (TransactionException e) {
             Main.getCurrent().addWindow(new TransactionErrorDialogComponent(e));
             logger.debug("[Modeling Tool] Retrieving dwdl document failed");
