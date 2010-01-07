@@ -55,7 +55,7 @@ public class ChangeEmailWindow extends Window {
     private Button cancelButton = null;
 
     /**
-     * TODO document
+     * Constructor, calls init method.
      */
     public ChangeEmailWindow() {
         init();

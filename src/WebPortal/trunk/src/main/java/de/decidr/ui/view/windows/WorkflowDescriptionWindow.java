@@ -51,8 +51,7 @@ public class WorkflowDescriptionWindow extends Window {
     private Table table = null;
 
     /**
-     * Default constructor which calls the init method.<br>
-     * Aleks, GH: this isn't a default constructor ~rr
+     * Constructor which calls the init method.<br>
      */
     public WorkflowDescriptionWindow(Table table) {
         this.table = table;
@@ -81,10 +80,10 @@ public class WorkflowDescriptionWindow extends Window {
         cancelButton = new Button("Cancel", new HideDialogWindowAction());
 
         verticalLayout.addComponent(nameTextField);
-        nameTextField.setColumns(10);
+        nameTextField.setColumns(20);
 
         verticalLayout.addComponent(descriptionTextField);
-        descriptionTextField.setColumns(10);
+        descriptionTextField.setColumns(20);
         descriptionTextField.setRows(5);
 
         verticalLayout.addComponent(buttonHorizontalLayout);
@@ -97,6 +96,5 @@ public class WorkflowDescriptionWindow extends Window {
         this.setCaption("Workflow description");
         this.center();
         this.setModal(true);
-        this.setWidth("100px");
     }
 }
