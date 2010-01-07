@@ -18,7 +18,6 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 
@@ -150,7 +149,10 @@ public class TransformUtil {
         SchemaFactory sf = SchemaFactory
                 .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {
-            unmarshaller.setSchema(sf.newSchema(new File("dwdl/dwdl.xsd")));
+            unmarshaller
+                    .setSchema(sf.newSchema(new StreamSource(
+                            TransformUtil.class
+                                    .getResourceAsStream("/dwdl/dwdl.xsd"))));
         } catch (SAXException e) {
             log.error("Danger! Danger!!!11!");
         }

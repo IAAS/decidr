@@ -40,7 +40,7 @@ import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
  * @version 0.1
  */
 public class DWDL2DD {
-    
+
     private static Logger log = DefaultLogger.getLogger(DWDL2DD.class);
 
     TDeployment deployment = null;
@@ -57,35 +57,35 @@ public class DWDL2DD {
                 .createTDeploymentProcess();
         process.setName(new QName(bpel.getTargetNamespace(), bpel.getName(),
                 "pns"));
-        
+
         // create for all partner links the corresponding provide and invoke tag
         for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()) {
-                if (partnerLink.isSetMyRole()) {
-                    TProvide provide = factory.createTProvide();
+            if (partnerLink.isSetMyRole()) {
+                TProvide provide = factory.createTProvide();
+                provide.setPartnerLink(partnerLink.getName());
+                TService service = factory.createTService();
+                DecidrWebserviceAdapter webservice = findWebserviceAdapter(
+                        partnerLink, webservices);
+                if (webservice != null && webservice.getService() != null) {
+                    service.setName(webservice.getService().getQName());
+                    provide.setService(service);
                     provide.setPartnerLink(partnerLink.getName());
-                    TService service = factory.createTService();
-                    DecidrWebserviceAdapter webservice = findWebserviceAdapter(
-                            partnerLink, webservices);
-                    if (webservice != null && webservice.getService() != null){
-                        service.setName(webservice.getService().getQName());
-                        provide.setService(service);
-                        provide.setPartnerLink(partnerLink.getName());
-                        process.getProvide().add(provide);
-                    }
-                    
+                    process.getProvide().add(provide);
                 }
-                if (partnerLink.isSetPartnerRole()) {
-                    TInvoke invoke = factory.createTInvoke();
+
+            }
+            if (partnerLink.isSetPartnerRole()) {
+                TInvoke invoke = factory.createTInvoke();
+                invoke.setPartnerLink(partnerLink.getName());
+                TService service = factory.createTService();
+                DecidrWebserviceAdapter webservice = findWebserviceAdapter(
+                        partnerLink, webservices);
+                if (webservice != null && webservice.getService() != null) {
+                    service.setName(webservice.getService().getQName());
+                    invoke.setService(service);
                     invoke.setPartnerLink(partnerLink.getName());
-                    TService service = factory.createTService();
-                    DecidrWebserviceAdapter webservice = findWebserviceAdapter(
-                            partnerLink, webservices);
-                    if (webservice != null && webservice.getService() != null){
-                        service.setName(webservice.getService().getQName());
-                        invoke.setService(service);
-                        invoke.setPartnerLink(partnerLink.getName());
-                        process.getInvoke().add(invoke);
-                    }
+                    process.getInvoke().add(invoke);
+                }
             }
             // consider special case for the process partner link
             PartnerLink processPartnerLink = getProcessPartnerLink(bpel);
@@ -93,7 +93,8 @@ public class DWDL2DD {
                 TProvide provide = factory.createTProvide();
                 provide.setPartnerLink(processPartnerLink.getName());
                 TService service = factory.createTService();
-                service.setName(new QName(bpel.getTargetNamespace(),bpel.getName()));
+                service.setName(new QName(bpel.getTargetNamespace(), bpel
+                        .getName()));
                 provide.setService(service);
                 provide.setPartnerLink(processPartnerLink.getName());
                 process.getProvide().add(provide);
@@ -102,7 +103,8 @@ public class DWDL2DD {
                 TInvoke invoke = factory.createTInvoke();
                 invoke.setPartnerLink(partnerLink.getName());
                 TService service = factory.createTService();
-                service.setName(new QName(bpel.getTargetNamespace(),bpel.getName()));
+                service.setName(new QName(bpel.getTargetNamespace(), bpel
+                        .getName()));
                 invoke.setService(service);
                 invoke.setPartnerLink(processPartnerLink.getName());
                 process.getInvoke().add(invoke);
@@ -121,19 +123,24 @@ public class DWDL2DD {
                 return adapter;
             }
         }
-        log.warn("Can't find "+partnerLink.getName()+" in DecidrWebserviceAdapter list");
+        log.warn("Can't find " + partnerLink.getName()
+                + " in DecidrWebserviceAdapter list");
         return null;
     }
-    
-    private PartnerLink getProcessPartnerLink(Process bpel){
-        if (bpel.isSetPartnerLinks()){
-            for (PartnerLink partnerLink : bpel.getPartnerLinks().getPartnerLink()){
-                if(partnerLink.getName().equals(BPELConstants.Process.PARTNERLINK)){
+
+    private PartnerLink getProcessPartnerLink(Process bpel) {
+        if (bpel.isSetPartnerLinks()) {
+            for (PartnerLink partnerLink : bpel.getPartnerLinks()
+                    .getPartnerLink()) {
+                if (partnerLink.getName().equals(
+                        BPELConstants.Process.PARTNERLINK)) {
                     return partnerLink;
                 }
             }
         }
-        log.warn("Can't find process partner link "+bpel.getTargetNamespace());
+        log
+                .warn("Can't find process partner link "
+                        + bpel.getTargetNamespace());
         return null;
     }
 

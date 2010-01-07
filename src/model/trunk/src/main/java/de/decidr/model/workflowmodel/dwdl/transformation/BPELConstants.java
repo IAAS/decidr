@@ -18,36 +18,36 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 
 /**
  * A class that holds all BPEL relevant constants
- *
+ * 
  * @author Modood Alvi
  */
 public final class BPELConstants {
-    
+
     public static class Process {
-        
+
         public static final String NS_PREFIX = "tns";
         public static final String PARTNERLINK = "ProcessPL";
         public static final String MYROLE = "ProcessProvider";
         public static final String CORRELATION = "standard-correlation";
-        public static final String[] CORRELATION_PROPERTIES = {"taskID"};
+        public static final String[] CORRELATION_PROPERTIES = { "taskID" };
     }
-    
+
     public static class Humantask {
         public static final String NAME = "Decidr-HumanTask";
     }
-    
+
     public static class Email {
         public static final String NAME = "Decidr-Email";
     }
-    
+
     public static class Types {
         public static final String NS_PREFIX = "decidr";
     }
-    
+
     public static class Processtypes {
         public static final String NS_PREFIX = "pdecidr";
     }
-    
+
     public static class Variables {
         public static final String SUCCESS_IN = "successIn";
         public static final String SUCCESS_OUT = "successOut";
@@ -58,10 +58,8 @@ public final class BPELConstants {
         public static final String PROCESS_OUT = "processOut";
         public static final String WFMID = "wfmid";
     }
-    
-    
-    
-    private BPELConstants(){
+
+    private BPELConstants() {
         // do nothing
     }
 

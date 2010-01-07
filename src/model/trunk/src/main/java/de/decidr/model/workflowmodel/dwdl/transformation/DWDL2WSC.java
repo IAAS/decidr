@@ -73,7 +73,7 @@ public class DWDL2WSC {
             }
 
         }
-        
+
         return startConfiguration;
     }
 }

@@ -86,13 +86,13 @@ public class DWDL2SOAP {
                 // Find the element in the schema declaration in types
                 Element element = findElement(elementName.getLocalPart(),
                         getSchemaElement(definition));
-                
+
                 // Find the corresponding complexType
                 Element typeElement = findElement("complexType", element
                         .getAttribute("type").getValue().toString(),
                         getSchemaElement(definition));
 
-                // Iterate over all children of the complexType 
+                // Iterate over all children of the complexType
                 Iterator<?> iter = typeElement.getChildren().iterator();
 
                 while (iter.hasNext()) {
@@ -129,8 +129,9 @@ public class DWDL2SOAP {
         return complexChild.getName().equals("all");
     }
 
-    private SOAPMessage buildMessage(List<Element> soapElements, Element jdomBodyElement)
-            throws UnsupportedOperationException, SOAPException {
+    private SOAPMessage buildMessage(List<Element> soapElements,
+            Element jdomBodyElement) throws UnsupportedOperationException,
+            SOAPException {
 
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage message = messageFactory.createMessage();
@@ -140,8 +141,8 @@ public class DWDL2SOAP {
         SOAPHeader header = envelope.getHeader();
         SOAPBody body = envelope.getBody();
 
-        header.addAttribute(envelope.createName("bodyElementName"), jdomBodyElement
-                .getAttributeValue("name"));
+        header.addAttribute(envelope.createName("bodyElementName"),
+                jdomBodyElement.getAttributeValue("name"));
         header.addAttribute(envelope.createName("targetNamespace"), definition
                 .getTargetNamespace());
 

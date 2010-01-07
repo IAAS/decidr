@@ -30,23 +30,26 @@ import de.decidr.model.workflowmodel.webservices.PropertySerializer;
 
 /**
  * This class extends the {@link PopulatedExtensionRegistry} class and adds
- * {@link PartnerLinkTypeSerializer}, {@link PropertySerializer} and {@link PropertyAliasSerializer}
- *
+ * {@link PartnerLinkTypeSerializer}, {@link PropertySerializer} and
+ * {@link PropertyAliasSerializer}
+ * 
  * @author Modood Alvi
  */
-public class DecidrExtensionRegistry extends PopulatedExtensionRegistry{
+public class DecidrExtensionRegistry extends PopulatedExtensionRegistry {
 
     private static final long serialVersionUID = 1L;
-    
-    public DecidrExtensionRegistry(){
+
+    public DecidrExtensionRegistry() {
         super();
         PartnerLinkTypeSerializer partnerlinkSerializer = new PartnerLinkTypeSerializer();
         PropertySerializer propertySerializer = new PropertySerializer();
         PropertyAliasSerializer propertyAliasSerializer = new PropertyAliasSerializer();
         registerSerializer(Definition.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), partnerlinkSerializer);
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
+                partnerlinkSerializer);
         registerDeserializer(Definition.class, new QName(
-                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"), partnerlinkSerializer);
+                Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
+                partnerlinkSerializer);
         mapExtensionTypes(Definition.class, new QName(
                 Constants.PARTNERLINKTYPE_NAMESPACE, "partnerLinkType"),
                 PartnerLinkType.class);
@@ -55,12 +58,13 @@ public class DecidrExtensionRegistry extends PopulatedExtensionRegistry{
         registerDeserializer(Definition.class, new QName(
                 Constants.VARPROP_NAMESPACE, "property"), propertySerializer);
         mapExtensionTypes(Definition.class, new QName(
-                Constants.VARPROP_NAMESPACE, "property"),
-                Property.class);
+                Constants.VARPROP_NAMESPACE, "property"), Property.class);
         registerSerializer(Definition.class, new QName(
-                Constants.VARPROP_NAMESPACE, "propertyAlias"), propertyAliasSerializer);
+                Constants.VARPROP_NAMESPACE, "propertyAlias"),
+                propertyAliasSerializer);
         registerDeserializer(Definition.class, new QName(
-                Constants.VARPROP_NAMESPACE, "propertyAlias"), propertyAliasSerializer);
+                Constants.VARPROP_NAMESPACE, "propertyAlias"),
+                propertyAliasSerializer);
         mapExtensionTypes(Definition.class, new QName(
                 Constants.VARPROP_NAMESPACE, "propertyAlias"),
                 PropertyAlias.class);

@@ -27,12 +27,12 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 public final class PropertyConstants {
 
     public static class Email {
-        
+
         /**
          * This property accepts a rolet.
          */
         public static final String TO = "to";
-        
+
         /**
          * This property accepts an actor.
          */
@@ -47,12 +47,12 @@ public final class PropertyConstants {
          * This property accepts a role
          */
         public static final String BCC = "bcc";
-        
+
         /**
          * This property accepts simple string name
          */
         public static final String FROM = "fromName";
-        
+
         /**
          * This property accepts simple string address
          */
@@ -62,7 +62,7 @@ public final class PropertyConstants {
          * The subject of the email
          */
         public static final String SUBJECT = "subject";
-        
+
         /**
          * The headers of the email
          */
@@ -72,7 +72,7 @@ public final class PropertyConstants {
          * The message of the email
          */
         public static final String MESSAGE = "message";
-        
+
         /**
          * The message of the email as HTML
          */
@@ -90,7 +90,7 @@ public final class PropertyConstants {
          * which by default holds the id of the workflow.
          */
         public static final String WFMID = "wfmID";
-        
+
         /**
          * The current process ID set by Apache ODE
          */
@@ -118,7 +118,7 @@ public final class PropertyConstants {
          * will be informed via email that a new workitem is assigned to him.
          */
         public static final String USERNOTIFICATION = "userNotification";
-        
+
         /**
          * This property contains the task ID
          */
@@ -135,7 +135,7 @@ public final class PropertyConstants {
          * and names.
          */
         public static final String TASKRESULT = "taskResult";
-        
+
         /**
          * The actual HumanTask definition as XML
          */

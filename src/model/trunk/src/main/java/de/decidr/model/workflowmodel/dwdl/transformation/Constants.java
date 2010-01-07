@@ -19,8 +19,8 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 import org.jdom.Namespace;
 
 /**
- * A class holding schema and namespace information used in the transformation process of
- * {@link DWDL2BPEL}
+ * A class holding schema and namespace information used in the transformation
+ * process of {@link DWDL2BPEL}
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -40,14 +40,14 @@ public final class Constants {
     public static final String MAPPING_NAMESPACE = "http://decidr.de/schema/wsmapping";
     public static final String CONFIGURATION_NAMESPACE = "http://decidr.de/schema/wsc";
     public static final String DOCUMENT_BASE_URI = "resources/xsd/";
-    public static final String DOCUMENT_BASE_DIRECTORY  = "/xsd/";
+    public static final String DOCUMENT_BASE_DIRECTORY = "/xsd/";
     public static final String DECIDRTYPES_LOCATION = "DecidrTypes.xsd";
     public static final String DECIDRWSTYPES_LOCATION = "DecidrWSTypes.xsd";
     public static final String DECIDRPROCESSTYPES_LOCATION = "DecidrProcessTypes.xsd";
     public static final String DD_NAMESPACE = "http://www.apache.org/ode/schemas/dd/2007/03";
     public static final Namespace XML_SCHEMA_NS = Namespace.getNamespace("xsd",
-    "http://www.w3.org/2001/XMLSchema");
-    
+            "http://www.w3.org/2001/XMLSchema");
+
     private Constants() {
         // do nothing
     }

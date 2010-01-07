@@ -261,11 +261,10 @@ public class DWDL2BPEL {
                 }
             }
         }
-        emailInvoke.setPartnerLink(adapters.get(
-                BPELConstants.Email.NAME).getPartnerLink().getName());
-        emailInvoke.setOperation(adapters
-                .get(BPELConstants.Email.NAME).getOpertation()
-                .getName());
+        emailInvoke.setPartnerLink(adapters.get(BPELConstants.Email.NAME)
+                .getPartnerLink().getName());
+        emailInvoke.setOperation(adapters.get(BPELConstants.Email.NAME)
+                .getOpertation().getName());
         emailInvoke.setInputVariable(BPELConstants.Variables.SUCCESS_IN);
         emailInvoke.setOutputVariable(BPELConstants.Variables.SUCCESS_OUT);
         sequence.getActivity().add(assign);
@@ -625,8 +624,7 @@ public class DWDL2BPEL {
         correlation.setName(BPELConstants.Process.CORRELATION);
         for (String propertyName : BPELConstants.Process.CORRELATION_PROPERTIES) {
             correlation.getProperties().add(
-                    new QName(adapters.get(
-                            BPELConstants.Humantask.NAME)
+                    new QName(adapters.get(BPELConstants.Humantask.NAME)
                             .getTargetNamespace(), propertyName));
         }
         process.setCorrelationSets(correlationSets);
@@ -672,11 +670,10 @@ public class DWDL2BPEL {
                 }
             }
         }
-        emailInvoke.setPartnerLink(adapters.get(
-                BPELConstants.Email.NAME).getPartnerLink().getName());
-        emailInvoke.setOperation(adapters
-                .get(BPELConstants.Email.NAME).getOpertation()
-                .getName());
+        emailInvoke.setPartnerLink(adapters.get(BPELConstants.Email.NAME)
+                .getPartnerLink().getName());
+        emailInvoke.setOperation(adapters.get(BPELConstants.Email.NAME)
+                .getOpertation().getName());
         emailInvoke.setInputVariable(BPELConstants.Variables.FAULT_IN);
         emailInvoke.setOutputVariable(BPELConstants.Variables.FAULT_OUT);
         sequence.getActivity().add(assign);
@@ -826,16 +823,16 @@ public class DWDL2BPEL {
 
         // setting fault handler variables
         faultMessage.setName(BPELConstants.Variables.FAULT_IN);
-        faultMessage.setMessageType(adapters.get(
-                BPELConstants.Email.NAME).getInputMessageType());
+        faultMessage.setMessageType(adapters.get(BPELConstants.Email.NAME)
+                .getInputMessageType());
         faultMessageResponse.setName(BPELConstants.Variables.FAULT_OUT);
         faultMessageResponse.setMessageType(adapters.get(
                 BPELConstants.Email.NAME).getOutputMessageType());
 
         // setting success notification variables
         successMessage.setName(BPELConstants.Variables.SUCCESS_IN);
-        successMessage.setMessageType(adapters.get(
-                BPELConstants.Email.NAME).getInputMessageType());
+        successMessage.setMessageType(adapters.get(BPELConstants.Email.NAME)
+                .getInputMessageType());
         successMessageResponse.setName(BPELConstants.Variables.SUCCESS_IN);
         successMessageResponse.setMessageType(adapters.get(
                 BPELConstants.Email.NAME).getOutputMessageType());
