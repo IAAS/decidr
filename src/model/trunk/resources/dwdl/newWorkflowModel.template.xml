@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <workflow name="NCName" id="0"
 	targetNamespace="http://decidr.de/tenantName/processes/NCName" xmlns="http://decidr.de/schema/dwdl">
 	<description></description>
