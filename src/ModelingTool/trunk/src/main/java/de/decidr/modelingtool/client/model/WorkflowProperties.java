@@ -51,6 +51,11 @@ public class WorkflowProperties {
     }
 
     public String getSchema() {
+        String schema = properties.get(schemaFieldName);
+        // JS remove
+        if (schema == null) {
+            schema = "http://decidr.de/schema/dwdl";
+        }
         return properties.get(schemaFieldName);
     }
 

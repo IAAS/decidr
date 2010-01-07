@@ -82,7 +82,8 @@ public class DWDLParserImpl implements DWDLParser {
         workflow.setVariables(variables);
 
         /* Create nodes */
-        createChildNodeModels((Element) doc.getFirstChild(), workflow, workflow);
+        createChildNodeModels((Element) doc.getFirstChild().getNextSibling(),
+                workflow, workflow);
 
         return workflow;
     }
