@@ -104,6 +104,7 @@ public class UserListComponent extends CustomComponent {
                 new RemoveUserFromTenantAction(userListTable));
         getButtonHorizontalLayout().addComponent(removeFromTenantButton);
         getVerticalLayout().addComponent(getButtonPanel());
+        getInviteUserButton().setVisible(true);
     }
 
     /**
