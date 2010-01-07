@@ -18,6 +18,7 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 
@@ -37,12 +38,14 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.SchemaFactory;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 
@@ -141,10 +144,16 @@ public class TransformUtil {
     }
 
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
-        java.util.logging.Logger.getLogger(
-                java.util.logging.Logger.GLOBAL_LOGGER_NAME)
-                .setLevel(Level.ALL);
+        java.util.logging.Logger.getLogger("com.sun.xml.bind").setLevel(
+                Level.ALL);
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
+        SchemaFactory sf = SchemaFactory
+                .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        try {
+            unmarshaller.setSchema(sf.newSchema(new File("dwdl/dwdl.xsd")));
+        } catch (SAXException e) {
+            log.error("Danger! Danger!!!11!");
+        }
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
