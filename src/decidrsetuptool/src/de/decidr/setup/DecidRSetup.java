@@ -31,7 +31,6 @@ public class DecidRSetup {
 
     public static void main(String[] args) {
         StringBuilder sql = new StringBuilder();
-
         sql.append(InputSuperAdmin.getSql());
         sql.append(InputSystemSettings.getSql());
         sql.append(InputServerType.getSql());

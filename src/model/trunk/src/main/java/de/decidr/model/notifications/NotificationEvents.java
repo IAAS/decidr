@@ -42,11 +42,11 @@ import de.decidr.model.webservices.EmailInterface;
 /**
  * Provides a very simple means of sending notifications to users.
  * 
- * XXX this class violates DNRY. ~dh
+ * XXX this class violates DNRY. Should be replaced with a proper template
+ * system ~dh
  * 
  * @author Daniel Huss
  * @author Markus Fischer
- * 
  * @version 0.1
  */
 public final class NotificationEvents {
@@ -797,7 +797,7 @@ public final class NotificationEvents {
      * workflow model if he wants to accept the workflow admin invitation.
      * 
      * @param invitation
-     *            TODO document
+     *            invitation that has been sent / created
      * @param model
      *            workflow model [and tenant via getTenant()] to administrate
      */
@@ -877,7 +877,7 @@ public final class NotificationEvents {
      * model if he wants to accept the workflow admin invitation.
      * 
      * @param invitation
-     *            TODO document
+     *            invitation that has been sent / created
      * @param model
      *            workflow model [and tenant via getTenant()] to administrate
      */
@@ -958,7 +958,7 @@ public final class NotificationEvents {
      * participate in a workflow of a tenant that he is not a member of.
      * 
      * @param invitation
-     *            TODO document
+     *            invitation that has been sent / created
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */
@@ -1042,7 +1042,7 @@ public final class NotificationEvents {
      * participate in a workflow of a tenant that he is not a member of.
      * 
      * @param invitation
-     *            TODO document
+     *            invitation that has been sent / created
      * @param createdWorkflowInstance
      *            workflow instance in which the invited user should participate
      */

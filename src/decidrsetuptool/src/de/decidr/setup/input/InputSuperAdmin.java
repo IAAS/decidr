@@ -17,7 +17,6 @@
 package de.decidr.setup.input;
 
 import de.decidr.setup.helpers.EmailRequest;
-import de.decidr.setup.helpers.NumberRequest;
 import de.decidr.setup.helpers.StringRequest;
 import de.decidr.setup.model.SuperAdmin;
 
@@ -42,7 +41,7 @@ public class InputSuperAdmin {
                 + "," + sa.getCreationDate() + "," + sa.getCurrentTenantId()
                 + ");\n\n");
 
-        sql.append("REPLACE INTO `user_profile` (`userId`,`username`,"
+        sql.append("REPLACE INTO `user_profile` (`id`,`username`,"
                 + "`passwordHash`,`passwordSalt`,`firstName`,`lastName`,"
                 + "`street`,`postalCode`,`city`)\n");
 
@@ -68,12 +67,14 @@ public class InputSuperAdmin {
         SuperAdmin sa = new SuperAdmin();
 
         sa.setEmail(EmailRequest.getResult("Email address"));
+        // Username validation missing, max length validation missing for other
+        // properties ~dh
         sa.setUsername(StringRequest.getResult("Username"));
         sa.setPassword(StringRequest.getString("Password"));
         sa.setFirstName(StringRequest.getResult("First name"));
         sa.setLastName(StringRequest.getResult("Last name"));
         sa.setStreet(StringRequest.getResult("Street"));
-        sa.setPostalCode(NumberRequest.getResult("Postal code"));
+        sa.setPostalCode(StringRequest.getResult("Postal code"));
         sa.setCity(StringRequest.getResult("City"));
 
         return sa;

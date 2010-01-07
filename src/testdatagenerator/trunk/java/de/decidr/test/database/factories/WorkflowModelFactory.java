@@ -72,10 +72,12 @@ public class WorkflowModelFactory extends EntityFactory {
      * workflow model will be flagged as published.
      * 
      * @param numModels
-     *            TODO document
+     *            number of models to create
      * @param modelsPerTenant
-     *            TODO document
-     * @return TODO document
+     *            desired number of models to assign with a single tenant
+     *            (models are distributed over numModels / modelsPerTenant
+     *            tenants)
+     * @return persisted workflow models
      */
     public List<WorkflowModel> createRandomWorkflowModels(int numModels,
             int modelsPerTenant) {

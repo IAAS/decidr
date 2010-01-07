@@ -88,7 +88,7 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
      * Creates a new GetUserPropertiesCommand
      * 
      * @param role
-     *            TODO document
+     *            user / system executing the command
      * @param userId
      *            the ID of the user whose properties are requested
      * @param propertiesToGet

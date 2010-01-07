@@ -77,7 +77,7 @@ public class TenantFactory extends EntityFactory {
      * Creates numTenants random persisted tenants.
      * 
      * @param numTenants
-     * @return TODO document
+     * @return persisted tenant entities
      */
     public List<Tenant> createRandomTenants(int numTenants,
             int maxMembersPerTenant) {
@@ -156,10 +156,10 @@ public class TenantFactory extends EntityFactory {
     }
 
     /**
-     * Creates a new persisted file reference (to a nonexistent file) that can
-     * be used as a tenant color scheme.
+     * Creates a new persisted file reference that can be used as a tenant color
+     * scheme.
      * 
-     * @return TODO document
+     * @return persisted file entity
      */
     public File createDefaultColorScheme() {
         File result = new File();
@@ -177,10 +177,9 @@ public class TenantFactory extends EntityFactory {
     }
 
     /**
-     * Creates a new persisted file reference (to a nonexistent file) that can
-     * be used as a tenant logo.
+     * Creates a new persisted file reference that can be used as a tenant logo.
      * 
-     * @return TODO document
+     * @return persisted file entity
      */
     public File createDefaultLogo() {
         File result = new File();
@@ -202,7 +201,7 @@ public class TenantFactory extends EntityFactory {
      * Retrieves a random user from the database who can be promoted to tenant
      * admin.
      * 
-     * @return TODO document
+     * @return suitable user entity
      * @throws RuntimeException
      *             if no user can be found.
      */
@@ -228,7 +227,7 @@ public class TenantFactory extends EntityFactory {
      * 
      * @param id
      *            tenant "ID" appended to the end of the tenant name
-     * @return TODO document
+     * @return random tenant name
      */
     private String getRandomTenantName(int id) {
         StringBuffer randomName = new StringBuffer(MAX_TENANT_NAME_LENTH);

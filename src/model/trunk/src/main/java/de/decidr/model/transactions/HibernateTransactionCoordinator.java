@@ -27,9 +27,9 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.LogQueue;
 
 /**
- * Invokes {@link TransactionalCommand}s within a hibernate transaction. Inner
- * transactions are supported by giving up the durability property of all inner
- * transactions.
+ * Invokes {@link TransactionalCommand}s within a Hibernate transaction. Closed
+ * nested transactions are supported by giving up the durability property of all
+ * inner transactions.
  * <p>
  * The HibernateTransactionCoordinator is implemented as a thread-local
  * "pseudo singleton" (see {@link ThreadLocal}. The freshly initialized instance

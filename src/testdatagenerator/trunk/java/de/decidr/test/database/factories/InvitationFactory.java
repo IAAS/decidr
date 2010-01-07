@@ -51,7 +51,7 @@ public class InvitationFactory extends EntityFactory {
      * all invitation types.
      * 
      * @param numInvitations
-     * @return TODO document
+     * @return persisted invitation entities
      */
     @SuppressWarnings("unchecked")
     public List<Invitation> createRandomInvitations(int numInvitations) {

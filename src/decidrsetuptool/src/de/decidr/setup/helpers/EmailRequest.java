@@ -54,7 +54,6 @@ public class EmailRequest {
      * @return true if valid, else false
      */
     private static boolean validateEmail(String mail) {
-
         // Set the email pattern string
         Pattern p = Pattern
                 .compile(".+@(.+|\\[[012]?\\d{1,2}\\.[012]?\\d{1,2}.[012]?\\d{1,2}\\])");

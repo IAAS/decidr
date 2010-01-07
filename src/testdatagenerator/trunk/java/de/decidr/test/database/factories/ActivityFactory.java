@@ -52,7 +52,7 @@ public class ActivityFactory extends EntityFactory {
     /**
      * Create the default persisted activity entites and known web services.
      * 
-     * @return TODO document
+     * @return persisted activities
      */
     public List<Activity> createActivites() {
         ArrayList<Activity> result = new ArrayList<Activity>();

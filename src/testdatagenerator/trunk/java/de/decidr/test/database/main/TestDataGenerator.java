@@ -459,8 +459,8 @@ public class TestDataGenerator {
      * as "--help" or "-help"
      * 
      * @param args
-     *            TODO document
-     * @return TODO document
+     *            arguments to scan for switches
+     * @return set of switches without "-" or "--"
      */
     private Set<String> getSwitches(String[] args) {
         HashSet<String> result = new HashSet<String>();

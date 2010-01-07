@@ -53,8 +53,9 @@ public class WorkflowInstanceFactory extends EntityFactory {
     /**
      * Creates numInstances random persisted workflow instances.
      * 
-     * @param numInstances TODO document
-     * @return TODO document
+     * @param numInstances
+     *            number of instances to create
+     * @return persisted workflow instances
      */
     @SuppressWarnings("unchecked")
     public List<WorkflowInstance> createRandomWorkflowInstances(int numInstances) {
@@ -108,7 +109,8 @@ public class WorkflowInstanceFactory extends EntityFactory {
 
             newInstance.setOdePid(Password.getRandomAuthKey());
             newInstance.setServer(servers.get(rnd.nextInt(servers.size())));
-            newInstance.setStartConfiguration(xmlFactory.createStartConfiguration());
+            newInstance.setStartConfiguration(xmlFactory
+                    .createStartConfiguration());
             newInstance.setDeployedWorkflowModel(deployedModels.get(rnd
                     .nextInt(deployedModels.size())));
 

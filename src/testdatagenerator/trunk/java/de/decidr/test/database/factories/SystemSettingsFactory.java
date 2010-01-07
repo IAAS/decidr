@@ -42,7 +42,7 @@ public class SystemSettingsFactory extends EntityFactory {
     /**
      * Creates and persists system settings.
      * 
-     * @return TODO document
+     * @return persisted system settings entity
      */
     public SystemSettings createSystemSettings() {
 
@@ -62,22 +62,22 @@ public class SystemSettingsFactory extends EntityFactory {
         superAdmin.setRegisteredSince(DecidrGlobals.getTime().getTime());
         superAdmin.setDisabledSince(null);
         superAdmin.setUnavailableSince(null);
-        
+
         Object toDelete = superAdmin.getPasswordResetRequest();
         if (toDelete != null) {
             session.delete(toDelete);
         }
-        
+
         toDelete = superAdmin.getChangeEmailRequest();
         if (toDelete != null) {
             session.delete(toDelete);
         }
-        
+
         toDelete = superAdmin.getRegistrationRequest();
         if (toDelete != null) {
             session.delete(toDelete);
         }
-        
+
         session.update(superAdmin);
 
         String logLevel = "DEBUG";
@@ -89,7 +89,8 @@ public class SystemSettingsFactory extends EntityFactory {
         modifiedDate.setTime(cal.getTimeInMillis());
 
         settings.setAutoAcceptNewTenants(false);
-        settings.setBaseUrl("iaassrv4stud.informatik.uni-stuttgart.de:8080/WebPortal");
+        settings
+                .setBaseUrl("iaassrv4stud.informatik.uni-stuttgart.de:8080/WebPortal");
         settings.setMaxAttachmentsPerEmail(10);
         settings.setMaxUploadFileSizeBytes(10485760);
         settings.setModifiedDate(modifiedDate);

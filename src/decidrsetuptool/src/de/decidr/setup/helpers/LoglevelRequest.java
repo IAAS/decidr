@@ -17,6 +17,7 @@
 package de.decidr.setup.helpers;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class LoglevelRequest {
 
@@ -44,7 +45,7 @@ public class LoglevelRequest {
     }
 
     private static boolean validateLoglevel(String loglevel) {
-        loglevel = loglevel.toUpperCase();
+        loglevel = loglevel.toUpperCase(Locale.ENGLISH);
         return (loglevel.equals("WARN") || loglevel.equals("ALL")
                 || loglevel.equals("DEBUG") || loglevel.equals("FATAL")
                 || loglevel.equals("INFO") || loglevel.equals("OFF"));

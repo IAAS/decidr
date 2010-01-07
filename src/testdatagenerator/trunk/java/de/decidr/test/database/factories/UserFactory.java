@@ -67,8 +67,8 @@ public class UserFactory extends EntityFactory {
      * </ul>
      * 
      * @param numUsers
-     *            TODO document
-     * @return TODO document
+     *            number of users to generate
+     * @return persisted user entities
      */
     public List<User> createRandomUsers(int numUsers) {
         ArrayList<User> result = new ArrayList<User>(numUsers);

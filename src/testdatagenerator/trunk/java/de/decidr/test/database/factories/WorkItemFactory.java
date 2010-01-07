@@ -52,10 +52,10 @@ public class WorkItemFactory extends EntityFactory {
     }
 
     /**
-     * Creates up to numWorkItems work items.
+     * Creates up to numWorkItems workitems.
      * 
      * @param numWorkItems
-     * @return TODO document
+     * @return persisted workitems
      */
     @SuppressWarnings("unchecked")
     public List<WorkItem> createRandomWorkItems(int numWorkItems) {
