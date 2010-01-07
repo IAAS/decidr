@@ -66,15 +66,13 @@ public class WorkflowDescriptionWindow extends Window {
      * Initializes the components.
      */
     private void init() {
-
-        this.setWidth(350, UNITS_PIXELS);
         
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         buttonHorizontalLayout = new HorizontalLayout();
         buttonHorizontalLayout.setSpacing(true);
-        verticalLayout.setSizeFull();
+        verticalLayout.setSizeUndefined();
 
         nameTextField = new TextField("Name");
         nameTextField.setImmediate(true);

@@ -92,7 +92,7 @@ public class WorkItemWindow extends Window {
      */
     private void init(THumanTaskData tHumanTaskData, Long workItemId) {
         verticalLayout = new VerticalLayout();
-
+        verticalLayout.setMargin(true);
         horizontalLayout = new HorizontalLayout();
 
         label = new Label();

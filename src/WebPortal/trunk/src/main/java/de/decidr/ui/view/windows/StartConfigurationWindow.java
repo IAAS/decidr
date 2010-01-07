@@ -142,6 +142,7 @@ public class StartConfigurationWindow extends Window {
         horizontalLayout = new HorizontalLayout();
         verticalLayout = new VerticalLayout();
         mainVerticalLayout = new VerticalLayout();
+        mainVerticalLayout.setMargin(true);
         buttonHorizontalLayout = new HorizontalLayout();
         rolesTree = new Tree("Roles");
         treeRoleContainer = new TreeRoleContainer(tConfiguration, rolesTree);
