@@ -19,7 +19,6 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
@@ -143,8 +142,6 @@ public class TransformUtil {
     }
 
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
-        java.util.logging.Logger.getLogger("com.sun.xml.bind").setLevel(
-                Level.ALL);
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
         SchemaFactory sf = SchemaFactory
                 .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -154,6 +151,7 @@ public class TransformUtil {
                             TransformUtil.class
                                     .getResourceAsStream("/dwdl/dwdl.xsd"))));
         } catch (SAXException e) {
+            // TODO RR what are we to do about validation?
             log.error("Danger! Danger!!!11!");
         }
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(

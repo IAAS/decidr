@@ -410,7 +410,7 @@ public class DWDL2BPEL {
         return sequence;
     }
 
-    private Assign initRoles() throws TransformerException {
+    private Assign initRoles() {
         Assign assign = null;
         if (dwdl.isSetRoles()) {
             assign = factory.createAssign();
@@ -560,7 +560,7 @@ public class DWDL2BPEL {
         return result;
     }
 
-    private void setActivity() throws TransformerException {
+    private void setActivity() {
         Sequence mainSequence = factory.createSequence();
         mainSequence.setName("mainSequence");
         Assign initVariables = initVariables();
