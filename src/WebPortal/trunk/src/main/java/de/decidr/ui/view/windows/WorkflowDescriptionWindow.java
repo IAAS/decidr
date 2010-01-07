@@ -71,6 +71,7 @@ public class WorkflowDescriptionWindow extends Window {
         
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
+        verticalLayout.setMargin(true);
         buttonHorizontalLayout = new HorizontalLayout();
         buttonHorizontalLayout.setSpacing(true);
         verticalLayout.setSizeFull();
