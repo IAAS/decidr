@@ -16,6 +16,8 @@
 
 package de.decidr.ui.view.windows;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -379,7 +381,19 @@ public class StartConfigurationWindow extends Window {
                                         new FloatValidator(
                                                 "Please enter a floating point value!"));
                     }
-                    if (!string.isEmpty()) {
+                    if (assignmentForm.getField(assignment.getKey()) instanceof DateField) {
+                        // Temporary solution. Should be improved.
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                                "yyyy-MM-dd");
+                        Date date;
+                        try {
+                            date = simpleDateFormat.parse(string);
+                        } catch (ParseException e) {
+                            date = new Date();
+                        }
+                        assignmentForm.getField(assignment.getKey()).setValue(
+                                date);
+                    } else if (!string.isEmpty()) {
                         assignmentForm.getField(assignment.getKey()).setValue(
                                 string);
                     }
@@ -420,10 +434,7 @@ public class StartConfigurationWindow extends Window {
      * 
      * @param key
      *            TODO document
-     * @return label - set as label in the start configuration window<br>
-     *         Aleks, GH: this comment doesn't make sense. Better would be
-     *         "The label of the specified component, or null, if it can't be found."
-     *         ~rr
+     * @return label - The label of the specified component, or null, if it can't be found.
      */
     private String getLabel(String key) {
         for (Variable variable : workflow.getVariables().getVariable()) {
