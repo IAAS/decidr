@@ -32,7 +32,7 @@ import javax.xml.ws.WebServiceFeature;
 @WebServiceClient(name = "BasicProcessClient", targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, wsdlLocation = "wsdl/ode_process.wsdl")
 public class BasicProcessClient extends Service {
 
-    public BasicProcessClient(String wfmName) throws MalformedURLException {
+    public BasicProcessClient(Long wfmName) throws MalformedURLException {
         // XXX: revert when ESB works
         // this(new URL(DecidrGlobals
         // .getWebServiceWsdlUrl(BasicProcessInterface.SERVICE_NAME)),
