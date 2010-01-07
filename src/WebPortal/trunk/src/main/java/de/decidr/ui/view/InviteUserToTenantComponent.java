@@ -84,7 +84,7 @@ public class InviteUserToTenantComponent extends CustomComponent {
         inviteForm.setWriteThrough(true);
 
         descriptionLabel = new Label(
-                "Invite new users by pressing &quot>Add User&quot;"
+                "Invite new users by pressing &quotAdd User&quot;"
                         + " and entering either their username or email address.",
                 Label.CONTENT_XHTML);
 

@@ -109,6 +109,6 @@ public class ChangeTenantComponent extends CustomComponent {
         buttonList.add(changeTenantButton);
 
         buttonPanel = new ButtonPanel(buttonList);
-        buttonPanel.setCaption("Edit tenant");
+        buttonPanel.setCaption("Change tenant");
     }
 }
