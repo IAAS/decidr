@@ -52,10 +52,13 @@ public class SaveMenuItem implements Command {
      */
     @Override
     public void execute() {
+        String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+
         /* Invoke parser and send resulting dwdl document to server */
         WorkflowParser parser = new WorkflowParserImpl();
-        String dwdl = parser.parse(Workflow.getInstance().getModel());
-        modelingToolWidget.sendDWDLtoServer(dwdl);
+        // JS make this nicer -> create class as collection of constants
+        String doc = parser.parse(Workflow.getInstance().getModel());
+        modelingToolWidget.sendDWDLtoServer(header + doc);
     }
 
 }
