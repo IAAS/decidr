@@ -324,7 +324,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
                     "from ServerLoadView s where "
                             + "exists (from ServerType t "
                             + "where t.id = s.serverTypeId "
-                            + "and t.name = :serverType").setString(
+                            + "and t.name = :serverType)").setString(
                     "serverType", ServerTypeEnum.Ode.toString());
 
             List<ServerLoadView> serverStatistics = q.list();
