@@ -36,6 +36,7 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.JDOMException;
@@ -141,6 +142,7 @@ public class TransformUtil {
     }
 
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
+        Logger.getRootLogger().setLevel(Level.DEBUG);
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
