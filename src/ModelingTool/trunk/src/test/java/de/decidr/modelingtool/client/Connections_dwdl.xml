@@ -12,6 +12,7 @@
 <!-- specific language governing permissions and limitations -->
 <!-- under the License. -->
 
+<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>
 <workflow name="Simple Workflow" id="1255353235687"
 	targetNamespace="namespace" xmlns="schema">
 	<description></description>

@@ -17,6 +17,7 @@
 		format
 	-->
 
+<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>
 <workflow name="Simple Workflow" id="1255087539250"
 	targetNamespace="namespace" xmlns="schema">
 	<description>This is a simple workflow.</description>

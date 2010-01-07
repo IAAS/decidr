@@ -70,27 +70,29 @@ public class DWDLParserImpl implements DWDLParser {
         Document doc;
         doc = XMLParser.createDocument();
         doc = XMLParser.parse(dwdl);
+        
+        
 
         WorkflowModel workflow = new WorkflowModel();
 
-        createWorkflowProperties(doc, workflow);
+        Element root = (Element) doc.getElementsByTagName(DWDLNames.root).item(0);
+        
+        createWorkflowProperties(root, workflow);
 
         /* Create variables and roles */
         List<Variable> variables = new ArrayList<Variable>();
-        createVariables(doc, variables);
-        createRoles(doc, variables);
+        createVariables(root, variables);
+        createRoles(root, variables);
         workflow.setVariables(variables);
 
         /* Create nodes */
-        createChildNodeModels((Element) doc.getFirstChild().getNextSibling(),
+        createChildNodeModels(root,
                 workflow, workflow);
 
         return workflow;
     }
 
-    private void createWorkflowProperties(Document doc, WorkflowModel workflow) {
-        Element root = (Element) doc.getElementsByTagName(DWDLNames.root).item(
-                0);
+    private void createWorkflowProperties(Element root, WorkflowModel workflow) {
 
         /* Set workflow name, id and description */
         workflow.setName(root.getAttribute(DWDLNames.name));
@@ -151,10 +153,10 @@ public class DWDLParserImpl implements DWDLParser {
         workflow.setProperties(properties);
     }
 
-    private void createVariables(Document doc, List<Variable> variables) {
+    private void createVariables(Element root, List<Variable> variables) {
 
         /* Get the variables element */
-        Element variablesElement = (Element) doc.getElementsByTagName(
+        Element variablesElement = (Element) root.getElementsByTagName(
                 DWDLNames.variables).item(0);
 
         /* Go through all child elements with tag name variable */
@@ -217,10 +219,10 @@ public class DWDLParserImpl implements DWDLParser {
         }
     }
 
-    private void createRoles(Document doc, List<Variable> variables) {
+    private void createRoles(Element root, List<Variable> variables) {
 
         /* Get the roles element */
-        Element rolesElement = (Element) doc.getElementsByTagName(
+        Element rolesElement = (Element) root.getElementsByTagName(
                 DWDLNames.roles).item(0);
 
         /* Go through all child elements */
