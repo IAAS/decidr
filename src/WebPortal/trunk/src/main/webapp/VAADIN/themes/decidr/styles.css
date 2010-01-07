@@ -516,3 +516,16 @@ div > .dcdr_content .v-button.v-button-link.v-disabled:hover .v-button-caption,
 	text-decoration: underline;
 	background-image: none;
 	}
+
+/* list style */
+.popupContent .v-accordion ol{
+    margin-left: 20px;
+	list-style-type: decimal;
+	list-style-position: outside;
+	}
+
+.popupContent .v-accordion ul{
+	margin-left: 20px;
+	list-style-type: disc;
+	list-style-position: outside;
+	}
