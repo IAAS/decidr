@@ -66,11 +66,14 @@ public class WorkflowDescriptionWindow extends Window {
      * Initializes the components.
      */
     private void init() {
+
+        this.setWidth(350, UNITS_PIXELS);
+        
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         buttonHorizontalLayout = new HorizontalLayout();
         buttonHorizontalLayout.setSpacing(true);
-        verticalLayout.setWidth(350, UNITS_PIXELS);
+        verticalLayout.setSizeFull();
 
         nameTextField = new TextField("Name");
         nameTextField.setImmediate(true);
@@ -97,6 +100,5 @@ public class WorkflowDescriptionWindow extends Window {
         this.setCaption("Workflow description");
         this.center();
         this.setModal(true);
-        this.setWidth(350, UNITS_PIXELS);
     }
 }
