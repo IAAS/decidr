@@ -320,10 +320,12 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         if ((usersThatNeedInvitations.size() == 0) || (startImmediately)) {
             InstanceManager manager = new InstanceManagerStub();
 
-            Query q = session
-                    .createQuery(
-                            "from ServerLoadView s where s.serverType.name = :serverType")
-                    .setString("serverType", ServerTypeEnum.Ode.toString());
+            Query q = session.createQuery(
+                    "from ServerLoadView s where "
+                            + "exists (from ServerType t "
+                            + "where t.id = s.serverTypeId "
+                            + "and t.name = :serverType").setString(
+                    "serverType", ServerTypeEnum.Ode.toString());
 
             List<ServerLoadView> serverStatistics = q.list();
 
