@@ -143,13 +143,13 @@ public class SaveWorkItemAction implements ClickListener {
 				workItemFacade.setData(workItemId, tHumanTaskData);
 				Main.getCurrent().getMainWindow().addWindow(
 						new InformationDialogComponent(
-								"Work item edited and marked as progressed",
+								"Work item edited and marked as \"in progress\"",
 								"Edit success"));
 			} else if (event.getButton().getCaption().equals("Mark as done")) {
 				workItemFacade.setDataAndMarkAsDone(workItemId, tHumanTaskData);
 				Main.getCurrent().getMainWindow().addWindow(
 						new InformationDialogComponent(
-								"Work item edited and marked as done", "Done"));
+								"Work item edited and marked as \"done\"", "Done"));
 			}
 			Main.getCurrent().getMainWindow().removeWindow(
 					event.getButton().getWindow());
