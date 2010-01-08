@@ -16,7 +16,7 @@
 
 package de.decidr.model.commands.workflowmodel;
 
-import javax.xml.bind.JAXBException;
+import java.io.UnsupportedEncodingException;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
@@ -25,8 +25,6 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
-import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * Saves a workflow model, incrementing its version by one.
@@ -38,7 +36,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
 
     private String name;
     private String description;
-    private Workflow dwdl;
+    private String dwdl;
 
     /**
      * Creates a new SaveWorkflowModelCommand that saves a workflow model and
@@ -47,12 +45,19 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
      * @param role
      *            user / system executing the command
      * @param workflowModelId
+     *            ID of workflow model to save
+     * @param name
+     *            name of workflow model
+     * @param description
+     *            description of workflow model
+     * @param dwdl
+     *            XML to save
      * @throws IllegalArgumentException
      *             if workflowModelId is <code>null</code> or if name is
      *             <code>null</code> or empty.
      */
     public SaveWorkflowModelCommand(Role role, Long workflowModelId,
-            String name, String description, Workflow dwdl) {
+            String name, String description, String dwdl) {
         super(role, workflowModelId);
         requireWorkflowModelId();
         if (name == null || name.isEmpty()) {
@@ -88,8 +93,8 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
 
             model.setDescription(description);
             try {
-                model.setDwdl(TransformUtil.workflowToBytes(dwdl));
-            } catch (JAXBException e) {
+                model.setDwdl(dwdl.getBytes("UTF-8"));
+            } catch (UnsupportedEncodingException e) {
                 throw new TransactionException(e);
             }
             model.setModifiedByUser(user);

@@ -16,13 +16,14 @@
 
 package de.decidr.model.facades;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBException;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.AfterClass;
@@ -30,7 +31,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.SuperAdminRole;
@@ -43,8 +43,6 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.filters.Paginator;
 import de.decidr.model.testing.LowLevelDatabaseTest;
-import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * Test case for <code>{@link WorkflowModelFacade}</code>. Some of the methods
@@ -121,20 +119,14 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for
-     * {@link WorkflowModelFacade#saveWorkflowModel(Long, String, String, Workflow)}
+     * {@link WorkflowModelFacade#saveWorkflowModel(Long, String, String, String)}
      * {@link WorkflowModelFacade#getWorkflowModel(Long)}
      */
     @Test
     public void testSaveWorkflowModel() throws TransactionException {
         final String NAME = "WorkflowModelFacadeTestWorkflowModel";
         final String DESCRIPTION = "UnitTest Model for WorkflowModelFacade UnitTest";
-        Workflow DWDL = null;
-        try {
-            DWDL = XmlTools.getElement(Workflow.class,
-                    "<workflow>DWDLBLA</workflow>".getBytes());
-        } catch (JAXBException e) {
-            fail("Invalid DWDL?");
-        }
+        final String DWDL = "<workflow>DWDLBLA</workflow>";
 
         adminFacade.saveWorkflowModel(wfmId, NAME, DESCRIPTION, DWDL);
         WorkflowModel wfm = adminFacade.getWorkflowModel(wfmId);
@@ -147,11 +139,7 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         assertEquals(id, wfmId);
         assertEquals(name, NAME);
         assertEquals(description, DESCRIPTION);
-        try {
-            assertArrayEquals(dwdl, TransformUtil.workflowToBytes(DWDL));
-        } catch (JAXBException e) {
-            fail("Marshal failure");
-        }
+        assertEquals(dwdl, DWDL);
     }
 
     /**

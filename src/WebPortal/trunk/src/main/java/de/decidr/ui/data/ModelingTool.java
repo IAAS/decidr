@@ -21,13 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBException;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
-import org.xml.sax.SAXException;
 
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
@@ -42,8 +40,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.WorkflowModelFacade;
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -114,27 +110,15 @@ public class ModelingTool extends AbstractComponent {
         if (variables.containsKey("dwdl")) {
             String dwdl = variables.get("dwdl").toString();
             logger.debug("This is the dwdl:\n" + dwdl);
-            byte[] dwdlByte = dwdl.getBytes();
             try {
-                Workflow workflow = TransformUtil.bytesToWorkflow(dwdlByte);
                 workflowModelFacade.saveWorkflowModel(workflowModelId, name,
-                        description, workflow);
+                        description, dwdl);
                 logger.debug("[Modeling Tool] DWDL stored successfully.");
             } catch (TransactionException e) {
                 Main.getCurrent().addWindow(
                         new TransactionErrorDialogComponent(e));
                 logger.debug("[Modeling Tool] DWDL storing failed.");
-            } catch (JAXBException e) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new InformationDialogComponent("Transformation failed",
-                                "Failure"));
-                throw new RuntimeException(e);
-            } catch (SAXException e) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new InformationDialogComponent("Transformation failed",
-                                "Failure"));
-                throw new RuntimeException(e);
-            }
+            } 
         } else {
             logger.debug("[Modeling Tool] Client variables did not"
                     + " contain a dwdl key.");

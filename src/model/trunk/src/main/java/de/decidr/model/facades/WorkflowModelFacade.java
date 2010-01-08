@@ -75,6 +75,21 @@ public class WorkflowModelFacade extends AbstractFacade {
      * Sets the properties of an existing workflow model, incrementing its
      * version by one.
      * 
+     * TODO since using the {@link Workflow} pojo turned out to be buggy for
+     * some reason, we temporarily switched to simply passing the XML as a
+     * String. However, since validation would be nice to have, please switch
+     * back to {@link Workflow} as soon as possible. ~dh
+     * 
+     * @param workflowModelId
+     *            ID of workflow model to save
+     * @param name
+     *            workflow model name (since we no longer have access to a
+     *            {@link Workflow} object)
+     * @param description
+     *            workflow model description (since we no longer have access to
+     *            a {@link Workflow} object)
+     * @param dwdl
+     *            XML data
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
@@ -85,7 +100,7 @@ public class WorkflowModelFacade extends AbstractFacade {
      */
     @AllowedRole(TenantAdminRole.class)
     public void saveWorkflowModel(Long workflowModelId, String name,
-            String description, Workflow dwdl) throws TransactionException {
+            String description, String dwdl) throws TransactionException {
 
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new SaveWorkflowModelCommand(actor, workflowModelId, name,
