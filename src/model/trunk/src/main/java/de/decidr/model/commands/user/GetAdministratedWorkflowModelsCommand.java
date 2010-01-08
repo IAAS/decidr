@@ -137,12 +137,13 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
          * admin of the tenant that owns the model. We now add each criterion to
          * a disjuncion.
          */
+        criteria.createAlias("tenant", "t");
         Disjunction allAdministrationCriteria = Restrictions.disjunction();
         allAdministrationCriteria.add(Subqueries.exists(superAdminCriteria));
         allAdministrationCriteria.add(Subqueries
                 .exists(explicitWorkflowAdminCriteria));
-        allAdministrationCriteria.add(Restrictions.eq("m.tenant.admin.id",
-                getUserId()));
+        allAdministrationCriteria.add(Restrictions
+                .eq("t.admin.id", getUserId()));
 
         criteria.add(allAdministrationCriteria);
 
