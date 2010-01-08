@@ -148,21 +148,25 @@ public class TransformUtil {
         // problem with StartConfigurationWindow not showing ~gh
         // GH: this code makes the transformation fail if the passed XML doesn't
         // validate
+        log.debug("creating schema factory");
         SchemaFactory sf = SchemaFactory
                 .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {
+            log.debug("attempting to make unmarshaller validate");
             unmarshaller
                     .setSchema(sf.newSchema(new StreamSource(
                             TransformUtil.class
                                     .getResourceAsStream("/dwdl/dwdl.xsd"))));
         } catch (SAXException e) {
             // TODO RR what are we to do about validation?
-            log.error("Danger! Danger!!!11!", e);
+            log.error("... failed", e);
             throw e;
         }
+        log.debug("unmarshalling");
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
+        log.debug("returning Workflow object");
         return dwdlElement.getValue();
     }
 
