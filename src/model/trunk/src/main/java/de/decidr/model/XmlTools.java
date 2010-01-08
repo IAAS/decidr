@@ -26,6 +26,7 @@ import javax.xml.bind.JAXBException;
 
 import org.w3c.dom.Element;
 
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.DWDLSimpleVariableType;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 import de.decidr.model.workflowmodel.humantask.TTaskItem;
@@ -119,6 +120,9 @@ public class XmlTools {
      * Unmarshalls an object from XML data stored in a byte array.
      * 
      * @author Daniel Huss
+     * @deprecated TODO Shit doesn't work. If anyone knows how to fix it we
+     *             could use this generic method instead of creating one method
+     *             for each type of XML object in {@link TransformUtil} ~dh
      * @param clazz
      *            the expected class of the unmarshalled object.
      * @param bytes
