@@ -31,7 +31,7 @@
 		port, the email is connected with container exit port
 	-->
 	
-<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <workflow name="Simple Workflow" id="1256287630390"
 	targetNamespace="namespace" xmlns="schema">
 	<description></description>
