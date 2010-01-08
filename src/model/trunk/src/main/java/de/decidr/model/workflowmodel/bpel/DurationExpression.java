@@ -36,5 +36,6 @@ public class DurationExpression
     extends Expression
 {
 
+    // TODO document empty block
 
 }

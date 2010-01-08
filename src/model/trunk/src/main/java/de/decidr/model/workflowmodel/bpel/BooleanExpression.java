@@ -36,5 +36,6 @@ public class BooleanExpression
     extends Expression
 {
 
+    // TODO document empty block
 
 }

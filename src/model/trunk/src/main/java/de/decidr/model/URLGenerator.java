@@ -90,30 +90,16 @@ public class URLGenerator {
     /**
      * System settings from which the base URL is retrieved.
      */
-    private SystemSettings settings = null;
-
-    /**
-     * @return a new {@link URLGenerator} instance
-     */
-    public static URLGenerator instance() {
-        return new URLGenerator();
-    }
+    private static SystemSettings settings = null;
 
     /**
      * @return the system settings
      */
-    private SystemSettings getSettings() {
+    private static SystemSettings getSettings() {
         if (settings == null) {
             settings = DecidrGlobals.getSettings();
         }
         return settings;
-    }
-
-    /**
-     * Create a new URLGenerator.
-     */
-    public URLGenerator() {
-        // nothing needs to be done
     }
 
     /**
@@ -124,7 +110,7 @@ public class URLGenerator {
      * @return empty string if s is <code>null</code>, otherwise returns the
      *         trimmed string
      */
-    private String trim(String s) {
+    private static String trim(String s) {
         if (s == null) {
             return "";
         }
@@ -160,7 +146,7 @@ public class URLGenerator {
      * @throws IllegalArgumentException
      *             if location is <code>null</code> or empty
      */
-    public String getHttpUrl(String location, String path,
+    public static String getHttpUrl(String location, String path,
             Map<String, String> getParams) {
         if (location == null || location.isEmpty()) {
             throw new IllegalArgumentException(
@@ -216,7 +202,7 @@ public class URLGenerator {
      * @return base url to the decidr domain including protocol and a trailing
      *         slash, if params is not null the urlencoded parameters are added.
      */
-    public String getHttpUrl(String path, Map<String, String> getParams) {
+    public static String getHttpUrl(String path, Map<String, String> getParams) {
         return getHttpUrl(getSettings().getBaseUrl(), path, getParams);
     }
 
@@ -234,7 +220,7 @@ public class URLGenerator {
      *            invitation.
      * @return complete url with required parameters
      */
-    public String getInvitationUrl(String userId, String invitationId,
+    public static String getInvitationUrl(String userId, String invitationId,
             String authKey) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(URLGenerator.URL_PARAM_USER_ID, userId);
@@ -256,7 +242,7 @@ public class URLGenerator {
      *            ID of the invitation
      * @return complete url with required parameters
      */
-    public String getInvitationRegistrationRequiredUrl(String userId,
+    public static String getInvitationRegistrationRequiredUrl(String userId,
             String invitationId) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(URLGenerator.URL_PARAM_USER_ID, userId);
@@ -275,7 +261,7 @@ public class URLGenerator {
      *            authentication key that allows the user to change his email
      * @return complete url with required parameters
      */
-    public String getChangeEmailRequestUrl(String userId, String authKey) {
+    public static String getChangeEmailRequestUrl(String userId, String authKey) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(URLGenerator.URL_PARAM_USER_ID, userId);
         params.put(URLGenerator.URL_PARAM_CHANGE_EMAIL_REQUEST_ID, authKey);
@@ -291,7 +277,7 @@ public class URLGenerator {
      *            authentication key that allows the confirmation
      * @return complete url with required parameters
      */
-    public String getConfirmRegistrationUrl(String userId, String authKey) {
+    public static String getConfirmRegistrationUrl(String userId, String authKey) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(URLGenerator.URL_PARAM_USER_ID, userId);
         params.put(URLGenerator.URL_PARAM_CONFIRM_REGISTRATION_ID, authKey);
@@ -308,7 +294,7 @@ public class URLGenerator {
      *            authentication key that allows the user to reset the password
      * @return complete url with required parameters
      */
-    public String getPasswordResetUrl(String userId, String authKey) {
+    public static String getPasswordResetUrl(String userId, String authKey) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(URLGenerator.URL_PARAM_USER_ID, userId);
         params.put(URLGenerator.URL_PARAM_PASSWORD_RESET_REQUEST_ID, authKey);
@@ -323,7 +309,7 @@ public class URLGenerator {
      *            name of the tenant
      * @return complete url
      */
-    public String getTenantUrl(String tenantName) {
+    public static String getTenantUrl(String tenantName) {
         return getHttpUrl(tenantName, null);
     }
 
@@ -334,7 +320,7 @@ public class URLGenerator {
      * @return An URL which can be used to connect to the web service identified
      *         by webServiceName
      */
-    public String getWebServiceUrl(String webServiceName) {
+    public static String getWebServiceUrl(String webServiceName) {
         if ((webServiceName == null) || (webServiceName == "")) {
             throw new IllegalArgumentException(
                     "Web service name must not be null or empty");
@@ -362,7 +348,7 @@ public class URLGenerator {
      * @throws IllegalArgumentException
      *             if webServiceName is <code>null</code> or empty.
      */
-    public String getWebServiceWsdlUrl(String webServiceName) {
+    public static String getWebServiceWsdlUrl(String webServiceName) {
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
         if (webServiceName == null || webServiceName.isEmpty()) {
@@ -383,7 +369,7 @@ public class URLGenerator {
      * @throws IllegalArgumentException
      *             if serverLocation is <code>null</code> or empty
      */
-    public String getOdeDeploymentServiceUrl(String serverLocation) {
+    public static String getOdeDeploymentServiceUrl(String serverLocation) {
         if (serverLocation == null || serverLocation.isEmpty()) {
             throw new IllegalArgumentException(
                     "Server location must not be null or empty.");
@@ -402,7 +388,7 @@ public class URLGenerator {
      * @throws IllegalArgumentException
      *             if server is <code>null</code>
      */
-    public String getOdeDeploymentServiceUrl(Server server) {
+    public static String getOdeDeploymentServiceUrl(Server server) {
         if (server == null) {
             throw new IllegalArgumentException("Server must not be null.");
         }
@@ -419,7 +405,7 @@ public class URLGenerator {
      * @throws IllegalArgumentException
      *             if server is <code>null</code>
      */
-    public String getOdeDeploymentServiceUrl(ServerLoadView server) {
+    public static String getOdeDeploymentServiceUrl(ServerLoadView server) {
         if (server == null) {
             throw new IllegalArgumentException("Server must not be null.");
         }
@@ -436,7 +422,7 @@ public class URLGenerator {
      * @throws IllegalArgumentException
      *             if serverLocation is <code>null</code> or empty
      */
-    public String getOdeInstanceManangementUrl(String serverLocation) {
+    public static String getOdeInstanceManangementUrl(String serverLocation) {
         if (serverLocation == null) {
             throw new IllegalArgumentException(
                     "Server location must not be null or empty.");
@@ -455,7 +441,7 @@ public class URLGenerator {
      * @throws IllegalArgumentException
      *             if server is <code>null</code>
      */
-    public String getOdeInstanceManangementUrl(Server server) {
+    public static String getOdeInstanceManangementUrl(Server server) {
         if (server == null) {
             throw new IllegalArgumentException("Server must not be null.");
         }
@@ -472,11 +458,10 @@ public class URLGenerator {
      * @throws IllegalArgumentException
      *             if server is <code>null</code>
      */
-    public String getOdeInstanceManangementUrl(ServerLoadView server) {
+    public static String getOdeInstanceManangementUrl(ServerLoadView server) {
         if (server == null) {
             throw new IllegalArgumentException("Server must not be null.");
         }
         return getOdeInstanceManangementUrl(server.getLocation());
     }
-
 }

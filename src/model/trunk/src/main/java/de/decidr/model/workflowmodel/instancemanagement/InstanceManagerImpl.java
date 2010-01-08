@@ -98,7 +98,7 @@ public class InstanceManagerImpl implements InstanceManager {
 
         // send the message
         // returns a OMElement that is not used
-        client.send(terminateMsg, URLGenerator.instance()
+        client.send(terminateMsg, URLGenerator
                 .getOdeInstanceManangementUrl(instance.getServer()));
         log.info("Pid " + instance.getOdePid() + "stopped");
 
@@ -109,7 +109,7 @@ public class InstanceManagerImpl implements InstanceManager {
 
         // send the message
         // returns a OMElement that is not used
-        client.send(deleteMsg, URLGenerator.instance()
+        client.send(deleteMsg, URLGenerator
                 .getOdeInstanceManangementUrl(instance.getServer()));
         log.info("Pid " + instance.getOdePid() + " terminated");
     }

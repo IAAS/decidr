@@ -37,7 +37,7 @@ public class EmailClientStatic extends Service {
 
     public EmailClientStatic() throws MalformedURLException {
         // XXX revert once the ESB works
-        this(new URL(URLGenerator.instance()
+        this(new URL(URLGenerator
                 .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
                         + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
     }

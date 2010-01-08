@@ -158,6 +158,7 @@ public class ConnectionDragBox extends DragBox {
             }
         } else {
             GWT.log("Could not make port draggable", null);
+            return;
         }
 
         dc.makeDraggable(this);

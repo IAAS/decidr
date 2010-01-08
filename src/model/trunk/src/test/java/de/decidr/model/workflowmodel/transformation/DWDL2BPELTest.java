@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,15 +27,14 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 import javax.xml.namespace.QName;
-import javax.xml.transform.TransformerException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.workflowmodel.bpel.Process;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
 import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2BPEL;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
 import de.decidr.model.workflowmodel.factories.DecidrWebserviceAdapterFactory;
 import de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter;
@@ -90,8 +89,6 @@ public class DWDL2BPELTest {
                     Constants.BPEL_NAMESPACE, "process"), Process.class,
                     process);
             m.marshal(element, System.out);
-        } catch (TransformerException e) {
-            e.printStackTrace();
         } catch (PropertyException e) {
             e.printStackTrace();
         } catch (JAXBException e) {

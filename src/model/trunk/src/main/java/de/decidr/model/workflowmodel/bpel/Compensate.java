@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Compensate
     extends Activity
 {
+    // TODO document empty block
 
 
 }

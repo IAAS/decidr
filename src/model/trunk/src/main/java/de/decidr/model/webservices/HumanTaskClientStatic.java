@@ -37,7 +37,7 @@ public class HumanTaskClientStatic extends Service {
 
     public HumanTaskClientStatic() throws MalformedURLException {
         // XXX revert once the ESB works
-        this(new URL(URLGenerator.instance()
+        this(new URL(URLGenerator
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
                         + HumanTaskInterface.PORT_NAME)),
                 HumanTaskInterface.SERVICE);

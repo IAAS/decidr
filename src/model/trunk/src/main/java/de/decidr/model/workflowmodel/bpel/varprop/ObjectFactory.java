@@ -38,7 +38,8 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
+        // TODO document empty block
+   }
 
     /**
      * Create an instance of {@link Query }

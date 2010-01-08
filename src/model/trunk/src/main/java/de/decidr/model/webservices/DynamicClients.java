@@ -36,7 +36,7 @@ public class DynamicClients {
 
     public static EmailInterface getEmailClient() throws MalformedURLException {
         // XXX revert once the ESB works
-        Service service = Service.create(new URL(URLGenerator.instance()
+        Service service = Service.create(new URL(URLGenerator
                 .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
                         + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
         return service.getPort(EmailInterface.ENDPOINT, EmailInterface.class);
@@ -45,7 +45,7 @@ public class DynamicClients {
     public static EmailInterface getEmailClient(WebServiceFeature... features)
             throws MalformedURLException {
         // XXX revert once the ESB works
-        Service service = Service.create(new URL(URLGenerator.instance()
+        Service service = Service.create(new URL(URLGenerator
                 .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
                         + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
         return service.getPort(EmailInterface.ENDPOINT, EmailInterface.class,
@@ -55,7 +55,7 @@ public class DynamicClients {
     public static HumanTaskInterface getHumanTaskClient()
             throws MalformedURLException {
         // XXX revert once the ESB works
-        Service service = Service.create(new URL(URLGenerator.instance()
+        Service service = Service.create(new URL(URLGenerator
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
                         + HumanTaskInterface.PORT_NAME)),
                 HumanTaskInterface.SERVICE);
@@ -66,7 +66,7 @@ public class DynamicClients {
     public static HumanTaskInterface getHumanTaskClient(
             WebServiceFeature... features) throws MalformedURLException {
         // XXX revert once the ESB works
-        Service service = Service.create(new URL(URLGenerator.instance()
+        Service service = Service.create(new URL(URLGenerator
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
                         + HumanTaskInterface.PORT_NAME)),
                 HumanTaskInterface.SERVICE);

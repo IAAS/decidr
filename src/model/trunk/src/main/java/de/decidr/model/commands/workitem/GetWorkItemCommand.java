@@ -20,7 +20,6 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
-import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
 /**
  * Retrieves the properties of the given work item, including the following

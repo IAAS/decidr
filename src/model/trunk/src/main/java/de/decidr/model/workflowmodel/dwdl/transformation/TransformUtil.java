@@ -36,14 +36,12 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.SchemaFactory;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 

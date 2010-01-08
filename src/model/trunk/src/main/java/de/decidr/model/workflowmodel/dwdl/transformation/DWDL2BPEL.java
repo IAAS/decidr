@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
-import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
@@ -188,8 +187,7 @@ public class DWDL2BPEL {
     }
 
     public Process getBPEL(Workflow dwdl,
-            Map<String, DecidrWebserviceAdapter> adapters)
-            throws TransformerException {
+            Map<String, DecidrWebserviceAdapter> adapters) {
 
         this.dwdl = dwdl;
         factory = new ObjectFactory();

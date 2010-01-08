@@ -145,7 +145,7 @@ public final class NotificationEvents {
         UserProfile profile = request.getUser().getUserProfile();
 
         String confirmationUrl;
-        confirmationUrl = URLGenerator.instance().getConfirmRegistrationUrl(Long
+        confirmationUrl = URLGenerator.getConfirmRegistrationUrl(Long
                 .toString(request.getUser().getId()), request.getAuthKey());
 
         SystemSettings settings = DecidrGlobals.getSettings();
@@ -212,12 +212,11 @@ public final class NotificationEvents {
         }
 
         // create url
-        URLGenerator urlGenerator = URLGenerator.instance();
         Long userIdLong = request.getId();
         String userId = userIdLong.toString();
         String confirmationUrl;
 
-        confirmationUrl = urlGenerator.getChangeEmailRequestUrl(userId, request
+        confirmationUrl = URLGenerator.getChangeEmailRequestUrl(userId, request
                 .getAuthKey());
 
         // calculate Date
@@ -269,8 +268,6 @@ public final class NotificationEvents {
     public static void createdPasswordResetRequest(PasswordResetRequest request)
             throws TransactionException {
 
-        URLGenerator urlGenerator = URLGenerator.instance();
-
         SystemSettings settings = DecidrGlobals.getSettings();
 
         try {
@@ -291,7 +288,7 @@ public final class NotificationEvents {
 
         String confirmationUrl;
 
-        confirmationUrl = urlGenerator.getPasswordResetUrl(request.getUser()
+        confirmationUrl = URLGenerator.getPasswordResetUrl(request.getUser()
                 .getId().toString(), request.getAuthKey());
 
         // calculate Date
@@ -397,7 +394,6 @@ public final class NotificationEvents {
     public static void invitedRegisteredUserAsTenantMember(Invitation invitation)
             throws TransactionException {
 
-        URLGenerator urlGenerator = URLGenerator.instance();
         SystemSettings settings = DecidrGlobals.getSettings();
 
         try {
@@ -416,7 +412,7 @@ public final class NotificationEvents {
         String tenantUrl = "http://" + settings.getBaseUrl() + "/" + tenantName;
 
         String invitationUrl = "";
-        invitationUrl = urlGenerator.getInvitationUrl(invitation.getReceiver()
+        invitationUrl = URLGenerator.getInvitationUrl(invitation.getReceiver()
                 .getId().toString(), invitation.getId().toString(), invitation
                 .getReceiver().getAuthKey());
 
@@ -477,7 +473,6 @@ public final class NotificationEvents {
     public static void invitedUnregisteredUserAsTenantMember(
             Invitation invitation) throws TransactionException {
 
-        URLGenerator urlGenerator = URLGenerator.instance();
         SystemSettings settings = DecidrGlobals.getSettings();
 
         try {
@@ -494,7 +489,7 @@ public final class NotificationEvents {
         String tenantUrl = "http://" + settings.getBaseUrl() + "/" + tenantName;
 
         String invitationUrl;
-        invitationUrl = urlGenerator.getInvitationUrl(invitation.getReceiver()
+        invitationUrl = URLGenerator.getInvitationUrl(invitation.getReceiver()
                 .getId().toString(), invitation.getId().toString(), invitation
                 .getReceiver().getAuthKey());
 
@@ -785,8 +780,6 @@ public final class NotificationEvents {
             Invitation invitation, WorkflowModel model)
             throws TransactionException {
 
-        URLGenerator urlGenerator = URLGenerator.instance();
-
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -808,7 +801,7 @@ public final class NotificationEvents {
 
         String tenantName = model.getTenant().getName();
         String invitationUrl;
-        invitationUrl = urlGenerator.getInvitationUrl(invitation.getReceiver()
+        invitationUrl = URLGenerator.getInvitationUrl(invitation.getReceiver()
                 .getId().toString(), invitation.getId().toString(), invitation
                 .getReceiver().getAuthKey());
 
@@ -844,7 +837,6 @@ public final class NotificationEvents {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-
     }
 
     /**
@@ -860,8 +852,6 @@ public final class NotificationEvents {
     public static void invitedRegisteredUserAsWorkflowAdmin(
             Invitation invitation, WorkflowModel model)
             throws TransactionException {
-
-        URLGenerator urlGenerator = URLGenerator.instance();
 
         try {
             client = de.decidr.model.webservices.DynamicClients
@@ -887,7 +877,7 @@ public final class NotificationEvents {
                 .getUsername();
 
         String invitationUrl;
-        invitationUrl = urlGenerator.getInvitationUrl(invitation.getReceiver()
+        invitationUrl = URLGenerator.getInvitationUrl(invitation.getReceiver()
                 .getId().toString(), invitation.getId().toString(), invitation
                 .getReceiver().getAuthKey());
 
@@ -938,8 +928,6 @@ public final class NotificationEvents {
             Invitation invitation, WorkflowInstance createdWorkflowInstance)
             throws TransactionException {
 
-        URLGenerator urlGenerator = URLGenerator.instance();
-
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -965,7 +953,7 @@ public final class NotificationEvents {
                 .getDeployedWorkflowModel().getName();
 
         String invitationUrl;
-        invitationUrl = urlGenerator.getInvitationUrl(invitation.getReceiver()
+        invitationUrl = URLGenerator.getInvitationUrl(invitation.getReceiver()
                 .getId().toString(), invitation.getId().toString(), invitation
                 .getReceiver().getAuthKey());
 
@@ -1018,8 +1006,6 @@ public final class NotificationEvents {
             Invitation invitation, WorkflowInstance createdWorkflowInstance)
             throws TransactionException {
 
-        URLGenerator urlGenerator = URLGenerator.instance();
-
         try {
             client = de.decidr.model.webservices.DynamicClients
                     .getEmailClient();
@@ -1045,7 +1031,7 @@ public final class NotificationEvents {
                 .getDeployedWorkflowModel().getName();
 
         String invitationUrl;
-        invitationUrl = urlGenerator.getInvitationUrl(invitation.getReceiver()
+        invitationUrl = URLGenerator.getInvitationUrl(invitation.getReceiver()
                 .getId().toString(), invitation.getId().toString(), invitation
                 .getReceiver().getAuthKey());
 

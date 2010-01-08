@@ -34,7 +34,7 @@ import de.decidr.model.URLGenerator;
 public class ODEMonitor extends Service {
     public ODEMonitor() throws MalformedURLException {
         // XXX revert once the ESB works
-        this(new URL(URLGenerator.instance()
+        this(new URL(URLGenerator
                 .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
                         + ODEMonitorService.PORT_NAME)),
                 ODEMonitorService.SERVICE);
@@ -70,7 +70,7 @@ public class ODEMonitor extends Service {
     public static ODEMonitorService getODEMonitorClient()
             throws MalformedURLException {
         // XXX revert once the ESB works
-        Service service = Service.create(new URL(URLGenerator.instance()
+        Service service = Service.create(new URL(URLGenerator
                 .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
                         + ODEMonitorService.PORT_NAME)),
                 ODEMonitorService.SERVICE);
@@ -81,7 +81,7 @@ public class ODEMonitor extends Service {
     public static ODEMonitorService getODEMonitorClient(
             WebServiceFeature... features) throws MalformedURLException {
         // XXX revert once the ESB works
-        Service service = Service.create(new URL(URLGenerator.instance()
+        Service service = Service.create(new URL(URLGenerator
                 .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
                         + ODEMonitorService.PORT_NAME)),
                 ODEMonitorService.SERVICE);

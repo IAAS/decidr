@@ -25,7 +25,6 @@ import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
@@ -77,12 +76,7 @@ public class Translator {
 
     public Process getBPEL() {
         DWDL2BPEL bpelConverter = new DWDL2BPEL();
-        try {
-            bpelProcess = bpelConverter.getBPEL(dwdlWorkflow,
-                    webserviceAdapters);
-        } catch (TransformerException e) {
-            log.error("Can't translate dwdl to bpel", e);
-        }
+        bpelProcess = bpelConverter.getBPEL(dwdlWorkflow, webserviceAdapters);
 
         return bpelProcess;
     }

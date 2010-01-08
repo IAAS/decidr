@@ -35,5 +35,6 @@ public class StartNode
     extends BasicNode
 {
 
+    // TODO document empty block
 
 }

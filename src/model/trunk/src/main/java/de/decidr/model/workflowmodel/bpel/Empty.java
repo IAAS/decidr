@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Empty
     extends Activity
 {
+    // TODO document empty block
 
 
 }

@@ -250,10 +250,12 @@ public class PropertyAlias
 
     @Override
     public void setElementType(QName elementType) {
+        // TODO document empty block
     }
 
     @Override
     public void setRequired(Boolean required) {
+        // TODO document empty block
     }
 
 }

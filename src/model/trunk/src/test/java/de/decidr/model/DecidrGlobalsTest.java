@@ -158,17 +158,17 @@ public class DecidrGlobalsTest extends DecidrOthersTest {
      */
     @Test
     public void testGetWebServiceUrl() {
-        assertNotNull(URLGenerator.instance().getWebServiceUrl("MyWS"));
-        assertTrue(URLGenerator.instance().getWebServiceUrl("MyWS").contains("MyWS"));
+        assertNotNull(URLGenerator.getWebServiceUrl("MyWS"));
+        assertTrue(URLGenerator.getWebServiceUrl("MyWS").contains("MyWS"));
 
         try {
-            URLGenerator.instance().getWebServiceUrl(null);
+            URLGenerator.getWebServiceUrl(null);
             fail("null web service name is incorrect");
         } catch (IllegalArgumentException e) {
             // this is supposed to fail
         }
         try {
-            URLGenerator.instance().getWebServiceUrl("");
+            URLGenerator.getWebServiceUrl("");
             fail("empty web service name is incorrect");
         } catch (IllegalArgumentException e) {
             // this is supposed to fail
@@ -180,17 +180,17 @@ public class DecidrGlobalsTest extends DecidrOthersTest {
      */
     @Test
     public void testGetWebServiceWsdlUrl() {
-        assertNotNull(URLGenerator.instance().getWebServiceWsdlUrl("MyWS"));
-        assertTrue(URLGenerator.instance().getWebServiceWsdlUrl("MyWS").contains("MyWS"));
+        assertNotNull(URLGenerator.getWebServiceWsdlUrl("MyWS"));
+        assertTrue(URLGenerator.getWebServiceWsdlUrl("MyWS").contains("MyWS"));
 
         try {
-            URLGenerator.instance().getWebServiceWsdlUrl(null);
+            URLGenerator.getWebServiceWsdlUrl(null);
             fail("null web service name is incorrect");
         } catch (IllegalArgumentException e) {
             // this is supposed to fail
         }
         try {
-            URLGenerator.instance().getWebServiceWsdlUrl("");
+            URLGenerator.getWebServiceWsdlUrl("");
             fail("empty web service name is incorrect");
         } catch (IllegalArgumentException e) {
             // this is supposed to fail
