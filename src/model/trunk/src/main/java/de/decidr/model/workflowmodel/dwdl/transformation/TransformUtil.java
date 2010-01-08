@@ -143,7 +143,8 @@ public class TransformUtil {
 
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
-// RR, GH: Attempt to fix problem with StartConfigurationWindow not showing
+// RR: Please review or remove this code, as it causes the
+//        problem with StartConfigurationWindow not showing ~gh
 //        SchemaFactory sf = SchemaFactory
 //                .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
 //        try {
