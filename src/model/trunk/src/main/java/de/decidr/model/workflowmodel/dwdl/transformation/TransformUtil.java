@@ -166,12 +166,13 @@ public class TransformUtil {
             }
         }
 
-        log.debug("unmarshalling:\n" + new String(dwdl));
+        log.trace("unmarshalling:\n" + new String(dwdl));
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
-        log.debug("resulting object:\n"
-                + new String(workflowToBytes(dwdlElement.getValue())));
+        // used to make sure that the output equals the input
+        // log.trace("resulting object:\n"
+        // + new String(workflowToBytes(dwdlElement.getValue())));
         log.debug("returning Workflow object");
         return dwdlElement.getValue();
     }
