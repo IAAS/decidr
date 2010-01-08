@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,11 +12,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tWait complex type.
+ * <p>
+ * Java class for tWait complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tWait">
@@ -36,13 +37,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tWait", propOrder = {
-    "_for",
-    "until"
-})
-public class Wait
-    extends Activity
-{
+@XmlType(name = "tWait", propOrder = { "_for", "until" })
+public class Wait extends Activity {
 
     @XmlElement(name = "for")
     protected DurationExpression _for;
@@ -51,10 +47,8 @@ public class Wait
     /**
      * Gets the value of the for property.
      * 
-     * @return
-     *     possible object is
-     *     {@link DurationExpression }
-     *     
+     * @return possible object is {@link DurationExpression }
+     * 
      */
     public DurationExpression getFor() {
         return _for;
@@ -64,25 +58,22 @@ public class Wait
      * Sets the value of the for property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link DurationExpression }
-     *     
+     *            allowed object is {@link DurationExpression }
+     * 
      */
     public void setFor(DurationExpression value) {
         this._for = value;
     }
 
     public boolean isSetFor() {
-        return (this._for!= null);
+        return (this._for != null);
     }
 
     /**
      * Gets the value of the until property.
      * 
-     * @return
-     *     possible object is
-     *     {@link DeadlineExpression }
-     *     
+     * @return possible object is {@link DeadlineExpression }
+     * 
      */
     public DeadlineExpression getUntil() {
         return until;
@@ -92,16 +83,15 @@ public class Wait
      * Sets the value of the until property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link DeadlineExpression }
-     *     
+     *            allowed object is {@link DeadlineExpression }
+     * 
      */
     public void setUntil(DeadlineExpression value) {
         this.until = value;
     }
 
     public boolean isSetUntil() {
-        return (this.until!= null);
+        return (this.until != null);
     }
 
 }

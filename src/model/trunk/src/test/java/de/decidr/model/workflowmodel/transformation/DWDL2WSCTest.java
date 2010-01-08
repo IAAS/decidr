@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -28,8 +28,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC;
 import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 

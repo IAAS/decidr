@@ -5,11 +5,11 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -20,16 +20,19 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
-
 /**
  * 
- * 				XSD Authors: The child element correlations needs to be a Local Element Declaration, 
- * 				because there is another correlations element defined for the non-invoke activities.
- * 			
+ * XSD Authors: The child element correlations needs to be a Local Element
+ * Declaration, because there is another correlations element defined for the
+ * non-invoke activities.
  * 
- * <p>Java class for tInvoke complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for tInvoke complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tInvoke">
@@ -57,17 +60,9 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tInvoke", propOrder = {
-    "correlations",
-    "_catch",
-    "catchAll",
-    "compensationHandler",
-    "toParts",
-    "fromParts"
-})
-public class Invoke
-    extends Activity
-{
+@XmlType(name = "tInvoke", propOrder = { "correlations", "_catch", "catchAll",
+        "compensationHandler", "toParts", "fromParts" })
+public class Invoke extends Activity {
 
     protected CorrelationsWithPattern correlations;
     @XmlElement(name = "catch")
@@ -96,10 +91,8 @@ public class Invoke
     /**
      * Gets the value of the correlations property.
      * 
-     * @return
-     *     possible object is
-     *     {@link CorrelationsWithPattern }
-     *     
+     * @return possible object is {@link CorrelationsWithPattern }
+     * 
      */
     public CorrelationsWithPattern getCorrelations() {
         return correlations;
@@ -109,37 +102,36 @@ public class Invoke
      * Sets the value of the correlations property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link CorrelationsWithPattern }
-     *     
+     *            allowed object is {@link CorrelationsWithPattern }
+     * 
      */
     public void setCorrelations(CorrelationsWithPattern value) {
         this.correlations = value;
     }
 
     public boolean isSetCorrelations() {
-        return (this.correlations!= null);
+        return (this.correlations != null);
     }
 
     /**
      * Gets the value of the catch property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the catch property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the catch property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCatch().add(newItem);
+     * getCatch().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Catch }
+     * Objects of the following type(s) are allowed in the list {@link Catch }
      * 
      * 
      */
@@ -151,7 +143,7 @@ public class Invoke
     }
 
     public boolean isSetCatch() {
-        return ((this._catch!= null)&&(!this._catch.isEmpty()));
+        return ((this._catch != null) && (!this._catch.isEmpty()));
     }
 
     public void unsetCatch() {
@@ -161,10 +153,8 @@ public class Invoke
     /**
      * Gets the value of the catchAll property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ActivityContainer }
-     *     
+     * @return possible object is {@link ActivityContainer }
+     * 
      */
     public ActivityContainer getCatchAll() {
         return catchAll;
@@ -174,25 +164,22 @@ public class Invoke
      * Sets the value of the catchAll property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ActivityContainer }
-     *     
+     *            allowed object is {@link ActivityContainer }
+     * 
      */
     public void setCatchAll(ActivityContainer value) {
         this.catchAll = value;
     }
 
     public boolean isSetCatchAll() {
-        return (this.catchAll!= null);
+        return (this.catchAll != null);
     }
 
     /**
      * Gets the value of the compensationHandler property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ActivityContainer }
-     *     
+     * @return possible object is {@link ActivityContainer }
+     * 
      */
     public ActivityContainer getCompensationHandler() {
         return compensationHandler;
@@ -202,25 +189,22 @@ public class Invoke
      * Sets the value of the compensationHandler property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ActivityContainer }
-     *     
+     *            allowed object is {@link ActivityContainer }
+     * 
      */
     public void setCompensationHandler(ActivityContainer value) {
         this.compensationHandler = value;
     }
 
     public boolean isSetCompensationHandler() {
-        return (this.compensationHandler!= null);
+        return (this.compensationHandler != null);
     }
 
     /**
      * Gets the value of the toParts property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ToParts }
-     *     
+     * @return possible object is {@link ToParts }
+     * 
      */
     public ToParts getToParts() {
         return toParts;
@@ -230,25 +214,22 @@ public class Invoke
      * Sets the value of the toParts property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ToParts }
-     *     
+     *            allowed object is {@link ToParts }
+     * 
      */
     public void setToParts(ToParts value) {
         this.toParts = value;
     }
 
     public boolean isSetToParts() {
-        return (this.toParts!= null);
+        return (this.toParts != null);
     }
 
     /**
      * Gets the value of the fromParts property.
      * 
-     * @return
-     *     possible object is
-     *     {@link FromParts }
-     *     
+     * @return possible object is {@link FromParts }
+     * 
      */
     public FromParts getFromParts() {
         return fromParts;
@@ -258,25 +239,22 @@ public class Invoke
      * Sets the value of the fromParts property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link FromParts }
-     *     
+     *            allowed object is {@link FromParts }
+     * 
      */
     public void setFromParts(FromParts value) {
         this.fromParts = value;
     }
 
     public boolean isSetFromParts() {
-        return (this.fromParts!= null);
+        return (this.fromParts != null);
     }
 
     /**
      * Gets the value of the partnerLink property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPartnerLink() {
         return partnerLink;
@@ -286,25 +264,22 @@ public class Invoke
      * Sets the value of the partnerLink property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPartnerLink(String value) {
         this.partnerLink = value;
     }
 
     public boolean isSetPartnerLink() {
-        return (this.partnerLink!= null);
+        return (this.partnerLink != null);
     }
 
     /**
      * Gets the value of the portType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getPortType() {
         return portType;
@@ -314,25 +289,22 @@ public class Invoke
      * Sets the value of the portType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setPortType(QName value) {
         this.portType = value;
     }
 
     public boolean isSetPortType() {
-        return (this.portType!= null);
+        return (this.portType != null);
     }
 
     /**
      * Gets the value of the operation property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getOperation() {
         return operation;
@@ -342,25 +314,22 @@ public class Invoke
      * Sets the value of the operation property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setOperation(String value) {
         this.operation = value;
     }
 
     public boolean isSetOperation() {
-        return (this.operation!= null);
+        return (this.operation != null);
     }
 
     /**
      * Gets the value of the inputVariable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getInputVariable() {
         return inputVariable;
@@ -370,25 +339,22 @@ public class Invoke
      * Sets the value of the inputVariable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setInputVariable(String value) {
         this.inputVariable = value;
     }
 
     public boolean isSetInputVariable() {
-        return (this.inputVariable!= null);
+        return (this.inputVariable != null);
     }
 
     /**
      * Gets the value of the outputVariable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getOutputVariable() {
         return outputVariable;
@@ -398,16 +364,15 @@ public class Invoke
      * Sets the value of the outputVariable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setOutputVariable(String value) {
         this.outputVariable = value;
     }
 
     public boolean isSetOutputVariable() {
-        return (this.outputVariable!= null);
+        return (this.outputVariable != null);
     }
 
 }

@@ -5,27 +5,30 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * 
- * 				XSD Authors: The child element onAlarm needs to be a Local Element Declaration, 
- * 				because there is another onAlarm element defined for event handlers.
- * 			
+ * XSD Authors: The child element onAlarm needs to be a Local Element
+ * Declaration, because there is another onAlarm element defined for event
+ * handlers.
  * 
- * <p>Java class for tPick complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for tPick complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tPick">
@@ -45,13 +48,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tPick", propOrder = {
-    "onMessage",
-    "onAlarm"
-})
-public class Pick
-    extends Activity
-{
+@XmlType(name = "tPick", propOrder = { "onMessage", "onAlarm" })
+public class Pick extends Activity {
 
     @XmlElement(required = true)
     protected List<OnMessage> onMessage;
@@ -63,15 +61,16 @@ public class Pick
      * Gets the value of the onMessage property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the onMessage property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the onMessage property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getOnMessage().add(newItem);
+     * getOnMessage().add(newItem);
      * </pre>
      * 
      * 
@@ -89,7 +88,7 @@ public class Pick
     }
 
     public boolean isSetOnMessage() {
-        return ((this.onMessage!= null)&&(!this.onMessage.isEmpty()));
+        return ((this.onMessage != null) && (!this.onMessage.isEmpty()));
     }
 
     public void unsetOnMessage() {
@@ -100,15 +99,16 @@ public class Pick
      * Gets the value of the onAlarm property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the onAlarm property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the onAlarm property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getOnAlarm().add(newItem);
+     * getOnAlarm().add(newItem);
      * </pre>
      * 
      * 
@@ -126,7 +126,7 @@ public class Pick
     }
 
     public boolean isSetOnAlarm() {
-        return ((this.onAlarm!= null)&&(!this.onAlarm.isEmpty()));
+        return ((this.onAlarm != null) && (!this.onAlarm.isEmpty()));
     }
 
     public void unsetOnAlarm() {
@@ -136,10 +136,8 @@ public class Pick
     /**
      * Gets the value of the createInstance property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getCreateInstance() {
         if (createInstance == null) {
@@ -153,16 +151,15 @@ public class Pick
      * Sets the value of the createInstance property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setCreateInstance(Boolean value) {
         this.createInstance = value;
     }
 
     public boolean isSetCreateInstance() {
-        return (this.createInstance!= null);
+        return (this.createInstance != null);
     }
 
 }

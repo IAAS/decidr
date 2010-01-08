@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,11 +17,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tBasicNode complex type.
+ * <p>
+ * Java class for tBasicNode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tBasicNode">
@@ -44,20 +45,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tBasicNode", propOrder = {
-    "description",
-    "graphics",
-    "targets",
-    "sources"
-})
-@XmlSeeAlso({
-    ForEachNode.class,
-    StartNode.class,
-    InvokeNode.class,
-    IfNode.class,
-    EndNode.class,
-    FlowNode.class
-})
+@XmlType(name = "tBasicNode", propOrder = { "description", "graphics",
+        "targets", "sources" })
+@XmlSeeAlso( { ForEachNode.class, StartNode.class, InvokeNode.class,
+        IfNode.class, EndNode.class, FlowNode.class })
 public class BasicNode {
 
     protected String description;
@@ -75,10 +66,8 @@ public class BasicNode {
     /**
      * Gets the value of the description property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getDescription() {
         return description;
@@ -88,25 +77,22 @@ public class BasicNode {
      * Sets the value of the description property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setDescription(String value) {
         this.description = value;
     }
 
     public boolean isSetDescription() {
-        return (this.description!= null);
+        return (this.description != null);
     }
 
     /**
      * Gets the value of the graphics property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Graphics }
-     *     
+     * @return possible object is {@link Graphics }
+     * 
      */
     public Graphics getGraphics() {
         return graphics;
@@ -116,25 +102,22 @@ public class BasicNode {
      * Sets the value of the graphics property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Graphics }
-     *     
+     *            allowed object is {@link Graphics }
+     * 
      */
     public void setGraphics(Graphics value) {
         this.graphics = value;
     }
 
     public boolean isSetGraphics() {
-        return (this.graphics!= null);
+        return (this.graphics != null);
     }
 
     /**
      * Gets the value of the targets property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Targets }
-     *     
+     * @return possible object is {@link Targets }
+     * 
      */
     public Targets getTargets() {
         return targets;
@@ -144,25 +127,22 @@ public class BasicNode {
      * Sets the value of the targets property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Targets }
-     *     
+     *            allowed object is {@link Targets }
+     * 
      */
     public void setTargets(Targets value) {
         this.targets = value;
     }
 
     public boolean isSetTargets() {
-        return (this.targets!= null);
+        return (this.targets != null);
     }
 
     /**
      * Gets the value of the sources property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Sources }
-     *     
+     * @return possible object is {@link Sources }
+     * 
      */
     public Sources getSources() {
         return sources;
@@ -172,16 +152,15 @@ public class BasicNode {
      * Sets the value of the sources property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Sources }
-     *     
+     *            allowed object is {@link Sources }
+     * 
      */
     public void setSources(Sources value) {
         this.sources = value;
     }
 
     public boolean isSetSources() {
-        return (this.sources!= null);
+        return (this.sources != null);
     }
 
     /**
@@ -207,10 +186,8 @@ public class BasicNode {
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -220,16 +197,15 @@ public class BasicNode {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
 }

@@ -32,8 +32,10 @@ public interface DeploymentStrategy {
      * This interface defines a simple deployment strategy. It provides a method
      * how a to select servers for deployment.
      * 
-     * @param serverStatistics A {@link List} of {@link ServerLoadView}
-     * @return {@link List} of {@link ServerLoadView} on which deployment can be done
+     * @param serverStatistics
+     *            A {@link List} of {@link ServerLoadView}
+     * @return {@link List} of {@link ServerLoadView} on which deployment can be
+     *         done
      */
     public List<ServerLoadView> selectServer(
             List<ServerLoadView> serverStatistics);

@@ -38,7 +38,7 @@ public class UserOwnsWorkflowModelAsserterTest extends LowLevelDatabaseTest {
     // private static TenantFacade tenantFacade;
     // private static WorkflowModelFacade wfmFacade;
 
-//    private static Long superAdminId;
+    // private static Long superAdminId;
 
     // private static Long tenantAdminId;
     // private static Long workflowAdminId;
@@ -49,10 +49,10 @@ public class UserOwnsWorkflowModelAsserterTest extends LowLevelDatabaseTest {
 
     @BeforeClass
     public static void setUpBeforeClass() {
-//        UserFacadeTest.deleteTestUsers();
+        // UserFacadeTest.deleteTestUsers();
 
         // create test users
-//        superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
+        // superAdminId = DecidrGlobals.getSettings().getSuperAdmin().getId();
         // userFacade = new UserFacade(new SuperAdminRole(superAdminId));
 
         // UserProfile userProfile = new UserProfile();

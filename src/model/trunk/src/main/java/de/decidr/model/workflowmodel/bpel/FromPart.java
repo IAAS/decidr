@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tFromPart complex type.
+ * <p>
+ * Java class for tFromPart complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tFromPart">
@@ -38,9 +39,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tFromPart")
-public class FromPart
-    extends ExtensibleElements
-{
+public class FromPart extends ExtensibleElements {
 
     @XmlAttribute(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -53,10 +52,8 @@ public class FromPart
     /**
      * Gets the value of the part property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPart() {
         return part;
@@ -66,25 +63,22 @@ public class FromPart
      * Sets the value of the part property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPart(String value) {
         this.part = value;
     }
 
     public boolean isSetPart() {
-        return (this.part!= null);
+        return (this.part != null);
     }
 
     /**
      * Gets the value of the toVariable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getToVariable() {
         return toVariable;
@@ -94,16 +88,15 @@ public class FromPart
      * Sets the value of the toVariable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setToVariable(String value) {
         this.toVariable = value;
     }
 
     public boolean isSetToVariable() {
-        return (this.toVariable!= null);
+        return (this.toVariable != null);
     }
 
 }

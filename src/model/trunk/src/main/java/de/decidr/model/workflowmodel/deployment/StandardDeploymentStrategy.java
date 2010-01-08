@@ -25,29 +25,37 @@ import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.logging.DefaultLogger;
 
 /**
- * This is the standard deployment strategy. The server with min. load is selected.
+ * This is the standard deployment strategy. The server with min. load is
+ * selected.
  * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class StandardDeploymentStrategy implements DeploymentStrategy {
 
-    private static Logger log = DefaultLogger.getLogger(StandardDeploymentStrategy.class);
-    
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.deployment.DeploymentStrategy#selectServer(java.util.List)
+    private static Logger log = DefaultLogger
+            .getLogger(StandardDeploymentStrategy.class);
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.model.workflowmodel.deployment.DeploymentStrategy#selectServer
+     * (java.util.List)
      */
     @Override
-    public List<ServerLoadView> selectServer(List<ServerLoadView> serverStatistics) {
-        if (serverStatistics.isEmpty()){
+    public List<ServerLoadView> selectServer(
+            List<ServerLoadView> serverStatistics) {
+        if (serverStatistics.isEmpty()) {
             log.error("Server list for process deployment is empty");
-            throw new IllegalArgumentException("Server list for process deployment is empty");
+            throw new IllegalArgumentException(
+                    "Server list for process deployment is empty");
         }
         List<ServerLoadView> resultList = new ArrayList<ServerLoadView>();
         ServerLoadView minServer = serverStatistics.get(0);
-        for (ServerLoadView serverView : serverStatistics){
-            if (!serverView.isLocked()){
-                if(serverView.getLoad() < minServer.getId()){
+        for (ServerLoadView serverView : serverStatistics) {
+            if (!serverView.isLocked()) {
+                if (serverView.getLoad() < minServer.getId()) {
                     minServer = serverView;
                 }
             }

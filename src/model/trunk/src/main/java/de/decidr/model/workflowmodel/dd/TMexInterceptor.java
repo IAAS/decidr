@@ -5,7 +5,6 @@
 // Generated on: 2009.08.28 at 06:27:43 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.dd;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,15 +12,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * 
- *                 Message exchange interceptor configuration.
- *             
+ * Message exchange interceptor configuration.
  * 
- * <p>Java class for tMexInterceptor complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for tMexInterceptor complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tMexInterceptor">
@@ -38,9 +39,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tMexInterceptor", propOrder = {
-    "className"
-})
+@XmlType(name = "tMexInterceptor", propOrder = { "className" })
 public class TMexInterceptor {
 
     @XmlElement(name = "class-name", required = true)
@@ -49,10 +48,8 @@ public class TMexInterceptor {
     /**
      * Gets the value of the className property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getClassName() {
         return className;
@@ -62,9 +59,8 @@ public class TMexInterceptor {
      * Sets the value of the className property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setClassName(String value) {
         this.className = value;

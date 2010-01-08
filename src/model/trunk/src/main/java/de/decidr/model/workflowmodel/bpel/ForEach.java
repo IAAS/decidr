@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tForEach complex type.
+ * <p>
+ * Java class for tForEach complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tForEach">
@@ -43,15 +44,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tForEach", propOrder = {
-    "startCounterValue",
-    "finalCounterValue",
-    "completionCondition",
-    "scope"
-})
-public class ForEach
-    extends Activity
-{
+@XmlType(name = "tForEach", propOrder = { "startCounterValue",
+        "finalCounterValue", "completionCondition", "scope" })
+public class ForEach extends Activity {
 
     @XmlElement(required = true)
     protected Expression startCounterValue;
@@ -69,10 +64,8 @@ public class ForEach
     /**
      * Gets the value of the startCounterValue property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Expression }
-     *     
+     * @return possible object is {@link Expression }
+     * 
      */
     public Expression getStartCounterValue() {
         return startCounterValue;
@@ -82,25 +75,22 @@ public class ForEach
      * Sets the value of the startCounterValue property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Expression }
-     *     
+     *            allowed object is {@link Expression }
+     * 
      */
     public void setStartCounterValue(Expression value) {
         this.startCounterValue = value;
     }
 
     public boolean isSetStartCounterValue() {
-        return (this.startCounterValue!= null);
+        return (this.startCounterValue != null);
     }
 
     /**
      * Gets the value of the finalCounterValue property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Expression }
-     *     
+     * @return possible object is {@link Expression }
+     * 
      */
     public Expression getFinalCounterValue() {
         return finalCounterValue;
@@ -110,25 +100,22 @@ public class ForEach
      * Sets the value of the finalCounterValue property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Expression }
-     *     
+     *            allowed object is {@link Expression }
+     * 
      */
     public void setFinalCounterValue(Expression value) {
         this.finalCounterValue = value;
     }
 
     public boolean isSetFinalCounterValue() {
-        return (this.finalCounterValue!= null);
+        return (this.finalCounterValue != null);
     }
 
     /**
      * Gets the value of the completionCondition property.
      * 
-     * @return
-     *     possible object is
-     *     {@link CompletionCondition }
-     *     
+     * @return possible object is {@link CompletionCondition }
+     * 
      */
     public CompletionCondition getCompletionCondition() {
         return completionCondition;
@@ -138,25 +125,22 @@ public class ForEach
      * Sets the value of the completionCondition property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link CompletionCondition }
-     *     
+     *            allowed object is {@link CompletionCondition }
+     * 
      */
     public void setCompletionCondition(CompletionCondition value) {
         this.completionCondition = value;
     }
 
     public boolean isSetCompletionCondition() {
-        return (this.completionCondition!= null);
+        return (this.completionCondition != null);
     }
 
     /**
      * Gets the value of the scope property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Scope }
-     *     
+     * @return possible object is {@link Scope }
+     * 
      */
     public Scope getScope() {
         return scope;
@@ -166,25 +150,22 @@ public class ForEach
      * Sets the value of the scope property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Scope }
-     *     
+     *            allowed object is {@link Scope }
+     * 
      */
     public void setScope(Scope value) {
         this.scope = value;
     }
 
     public boolean isSetScope() {
-        return (this.scope!= null);
+        return (this.scope != null);
     }
 
     /**
      * Gets the value of the counterName property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getCounterName() {
         return counterName;
@@ -194,25 +175,22 @@ public class ForEach
      * Sets the value of the counterName property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setCounterName(String value) {
         this.counterName = value;
     }
 
     public boolean isSetCounterName() {
-        return (this.counterName!= null);
+        return (this.counterName != null);
     }
 
     /**
      * Gets the value of the parallel property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getParallel() {
         return parallel;
@@ -222,16 +200,15 @@ public class ForEach
      * Sets the value of the parallel property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setParallel(Boolean value) {
         this.parallel = value;
     }
 
     public boolean isSetParallel() {
-        return (this.parallel!= null);
+        return (this.parallel != null);
     }
 
 }

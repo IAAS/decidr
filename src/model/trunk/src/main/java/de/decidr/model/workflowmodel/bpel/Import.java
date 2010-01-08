@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,11 +13,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tImport complex type.
+ * <p>
+ * Java class for tImport complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tImport">
@@ -37,9 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tImport")
-public class Import
-    extends ExtensibleElements
-{
+public class Import extends ExtensibleElements {
 
     @XmlAttribute
     @XmlSchemaType(name = "anyURI")
@@ -54,10 +53,8 @@ public class Import
     /**
      * Gets the value of the namespace property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getNamespace() {
         return namespace;
@@ -67,25 +64,22 @@ public class Import
      * Sets the value of the namespace property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setNamespace(String value) {
         this.namespace = value;
     }
 
     public boolean isSetNamespace() {
-        return (this.namespace!= null);
+        return (this.namespace != null);
     }
 
     /**
      * Gets the value of the location property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLocation() {
         return location;
@@ -95,25 +89,22 @@ public class Import
      * Sets the value of the location property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLocation(String value) {
         this.location = value;
     }
 
     public boolean isSetLocation() {
-        return (this.location!= null);
+        return (this.location != null);
     }
 
     /**
      * Gets the value of the importType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getImportType() {
         return importType;
@@ -123,16 +114,15 @@ public class Import
      * Sets the value of the importType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setImportType(String value) {
         this.importType = value;
     }
 
     public boolean isSetImportType() {
-        return (this.importType!= null);
+        return (this.importType != null);
     }
 
 }

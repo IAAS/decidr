@@ -78,7 +78,7 @@ public class RemoveServerCommand extends SystemCommand {
             // server not found, nothing to do
             return;
         }
-        
+
         // terminate workflow instances
         InstanceManager instanceManager = new InstanceManagerImpl();
         Set<WorkflowInstance> instances = toDelete.getWorkflowInstances();

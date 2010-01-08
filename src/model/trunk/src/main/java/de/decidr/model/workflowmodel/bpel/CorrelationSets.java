@@ -5,21 +5,23 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tCorrelationSets complex type.
+ * <p>
+ * Java class for tCorrelationSets complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCorrelationSets">
@@ -37,12 +39,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tCorrelationSets", propOrder = {
-    "correlationSet"
-})
-public class CorrelationSets
-    extends ExtensibleElements
-{
+@XmlType(name = "tCorrelationSets", propOrder = { "correlationSet" })
+public class CorrelationSets extends ExtensibleElements {
 
     @XmlElement(required = true)
     protected List<CorrelationSet> correlationSet;
@@ -51,15 +49,16 @@ public class CorrelationSets
      * Gets the value of the correlationSet property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the correlationSet property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the correlationSet property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCorrelationSet().add(newItem);
+     * getCorrelationSet().add(newItem);
      * </pre>
      * 
      * 
@@ -77,7 +76,8 @@ public class CorrelationSets
     }
 
     public boolean isSetCorrelationSet() {
-        return ((this.correlationSet!= null)&&(!this.correlationSet.isEmpty()));
+        return ((this.correlationSet != null) && (!this.correlationSet
+                .isEmpty()));
     }
 
     public void unsetCorrelationSet() {

@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,11 +12,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tBranches complex type.
+ * <p>
+ * Java class for tBranches complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tBranches">
@@ -34,9 +35,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tBranches")
-public class Branches
-    extends Expression
-{
+public class Branches extends Expression {
 
     @XmlAttribute
     protected Boolean successfulBranchesOnly;
@@ -44,10 +43,8 @@ public class Branches
     /**
      * Gets the value of the successfulBranchesOnly property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getSuccessfulBranchesOnly() {
         if (successfulBranchesOnly == null) {
@@ -61,16 +58,15 @@ public class Branches
      * Sets the value of the successfulBranchesOnly property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setSuccessfulBranchesOnly(Boolean value) {
         this.successfulBranchesOnly = value;
     }
 
     public boolean isSetSuccessfulBranchesOnly() {
-        return (this.successfulBranchesOnly!= null);
+        return (this.successfulBranchesOnly != null);
     }
 
 }

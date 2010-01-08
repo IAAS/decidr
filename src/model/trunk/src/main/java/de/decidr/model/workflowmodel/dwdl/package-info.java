@@ -7,3 +7,4 @@
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://decidr.de/schema/dwdl", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package de.decidr.model.workflowmodel.dwdl;
+

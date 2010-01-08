@@ -32,7 +32,7 @@ import de.decidr.model.logging.DefaultLogger;
  * @version 0.1
  */
 public class ServerSelector {
-    
+
     private static Logger log = DefaultLogger.getLogger(ServerSelector.class);
 
     /**
@@ -43,16 +43,17 @@ public class ServerSelector {
      * @return {@link ServerLoadView} The selected server with the least load.
      */
     public ServerLoadView selectServer(List<ServerLoadView> serverStatistics) {
-        
-        if (serverStatistics.isEmpty()){
+
+        if (serverStatistics.isEmpty()) {
             log.warn("Server list for process invocation is empty");
-            throw new IllegalArgumentException("Server list for process invocation is empty");
+            throw new IllegalArgumentException(
+                    "Server list for process invocation is empty");
         }
-        
+
         ServerLoadView minServer = serverStatistics.get(0);
         // find the server with the least load
-        for (ServerLoadView server : serverStatistics){
-            if (server.getLoad()<minServer.getLoad()){
+        for (ServerLoadView server : serverStatistics) {
+            if (server.getLoad() < minServer.getLoad()) {
                 minServer = server;
             }
         }

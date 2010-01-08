@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,11 +12,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tGraphics complex type.
+ * <p>
+ * Java class for tGraphics complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tGraphics">
@@ -90,10 +91,8 @@ public class Graphics {
     /**
      * Gets the value of the width property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     * @return possible object is {@link Integer }
+     * 
      */
     public int getWidth() {
         return width;
@@ -103,16 +102,15 @@ public class Graphics {
      * Sets the value of the width property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *            allowed object is {@link Integer }
+     * 
      */
     public void setWidth(int value) {
         this.width = value;
     }
 
     public boolean isSetWidth() {
-        return (this.width!= null);
+        return (this.width != null);
     }
 
     public void unsetWidth() {
@@ -122,10 +120,8 @@ public class Graphics {
     /**
      * Gets the value of the height property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     * @return possible object is {@link Integer }
+     * 
      */
     public int getHeight() {
         return height;
@@ -135,16 +131,15 @@ public class Graphics {
      * Sets the value of the height property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *            allowed object is {@link Integer }
+     * 
      */
     public void setHeight(int value) {
         this.height = value;
     }
 
     public boolean isSetHeight() {
-        return (this.height!= null);
+        return (this.height != null);
     }
 
     public void unsetHeight() {

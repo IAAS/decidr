@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,11 +14,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tActor complex type.
+ * <p>
+ * Java class for tActor complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tActor">
@@ -56,10 +57,8 @@ public class Actor {
     /**
      * Gets the value of the userId property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
+     * @return possible object is {@link Long }
+     * 
      */
     public long getUserId() {
         return userId;
@@ -69,16 +68,15 @@ public class Actor {
      * Sets the value of the userId property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
+     *            allowed object is {@link Long }
+     * 
      */
     public void setUserId(long value) {
         this.userId = value;
     }
 
     public boolean isSetUserId() {
-        return (this.userId!= null);
+        return (this.userId != null);
     }
 
     public void unsetUserId() {
@@ -88,10 +86,8 @@ public class Actor {
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -101,25 +97,22 @@ public class Actor {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the label property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLabel() {
         return label;
@@ -129,25 +122,22 @@ public class Actor {
      * Sets the value of the label property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLabel(String value) {
         this.label = value;
     }
 
     public boolean isSetLabel() {
-        return (this.label!= null);
+        return (this.label != null);
     }
 
     /**
      * Gets the value of the email property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getEmail() {
         return email;
@@ -157,25 +147,22 @@ public class Actor {
      * Sets the value of the email property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setEmail(String value) {
         this.email = value;
     }
 
     public boolean isSetEmail() {
-        return (this.email!= null);
+        return (this.email != null);
     }
 
     /**
      * Gets the value of the configurationVariable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getConfigurationVariable() {
         if (configurationVariable == null) {
@@ -189,16 +176,15 @@ public class Actor {
      * Sets the value of the configurationVariable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setConfigurationVariable(Boolean value) {
         this.configurationVariable = value;
     }
 
     public boolean isSetConfigurationVariable() {
-        return (this.configurationVariable!= null);
+        return (this.configurationVariable != null);
     }
 
 }

@@ -71,7 +71,8 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
                 evt.getSession());
         Filters.apply(c, filters, paginator);
 
-        result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
+        result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY)
+                .list();
     }
 
     /**

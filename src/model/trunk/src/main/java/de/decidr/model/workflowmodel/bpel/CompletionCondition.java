@@ -5,18 +5,19 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tCompletionCondition complex type.
+ * <p>
+ * Java class for tCompletionCondition complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCompletionCondition">
@@ -34,22 +35,16 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tCompletionCondition", propOrder = {
-    "branches"
-})
-public class CompletionCondition
-    extends ExtensibleElements
-{
+@XmlType(name = "tCompletionCondition", propOrder = { "branches" })
+public class CompletionCondition extends ExtensibleElements {
 
     protected Branches branches;
 
     /**
      * Gets the value of the branches property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Branches }
-     *     
+     * @return possible object is {@link Branches }
+     * 
      */
     public Branches getBranches() {
         return branches;
@@ -59,16 +54,15 @@ public class CompletionCondition
      * Sets the value of the branches property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Branches }
-     *     
+     *            allowed object is {@link Branches }
+     * 
      */
     public void setBranches(Branches value) {
         this.branches = value;
     }
 
     public boolean isSetBranches() {
-        return (this.branches!= null);
+        return (this.branches != null);
     }
 
 }

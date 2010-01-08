@@ -76,8 +76,8 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "messagingException")
     public JAXBElement<String> createMessagingExceptionWrapper(String value) {
-        return new JAXBElement<String>(_MessagingExceptionWrapper_QNAME, String.class,
-                null, value);
+        return new JAXBElement<String>(_MessagingExceptionWrapper_QNAME,
+                String.class, null, value);
     }
 
     /**

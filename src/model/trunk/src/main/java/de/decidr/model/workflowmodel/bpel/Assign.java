@@ -5,11 +5,11 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -17,11 +17,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tAssign complex type.
+ * <p>
+ * Java class for tAssign complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tAssign">
@@ -43,17 +45,12 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tAssign", propOrder = {
-    "copyOrExtensionAssignOperation"
-})
-public class Assign
-    extends Activity
-{
+@XmlType(name = "tAssign", propOrder = { "copyOrExtensionAssignOperation" })
+public class Assign extends Activity {
 
-    @XmlElements({
-        @XmlElement(name = "copy", type = Copy.class),
-        @XmlElement(name = "extensionAssignOperation", type = ExtensionAssignOperation.class)
-    })
+    @XmlElements( {
+            @XmlElement(name = "copy", type = Copy.class),
+            @XmlElement(name = "extensionAssignOperation", type = ExtensionAssignOperation.class) })
     protected List<ExtensibleElements> copyOrExtensionAssignOperation;
     @XmlAttribute
     protected Boolean validate;
@@ -62,21 +59,21 @@ public class Assign
      * Gets the value of the copyOrExtensionAssignOperation property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the copyOrExtensionAssignOperation property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the copyOrExtensionAssignOperation property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCopyOrExtensionAssignOperation().add(newItem);
+     * getCopyOrExtensionAssignOperation().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Copy }
+     * Objects of the following type(s) are allowed in the list {@link Copy }
      * {@link ExtensionAssignOperation }
      * 
      * 
@@ -89,7 +86,8 @@ public class Assign
     }
 
     public boolean isSetCopyOrExtensionAssignOperation() {
-        return ((this.copyOrExtensionAssignOperation!= null)&&(!this.copyOrExtensionAssignOperation.isEmpty()));
+        return ((this.copyOrExtensionAssignOperation != null) && (!this.copyOrExtensionAssignOperation
+                .isEmpty()));
     }
 
     public void unsetCopyOrExtensionAssignOperation() {
@@ -99,10 +97,8 @@ public class Assign
     /**
      * Gets the value of the validate property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getValidate() {
         if (validate == null) {
@@ -116,16 +112,15 @@ public class Assign
      * Sets the value of the validate property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setValidate(Boolean value) {
         this.validate = value;
     }
 
     public boolean isSetValidate() {
-        return (this.validate!= null);
+        return (this.validate != null);
     }
 
 }

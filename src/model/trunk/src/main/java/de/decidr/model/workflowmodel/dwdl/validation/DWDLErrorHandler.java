@@ -16,12 +16,12 @@
 
 package de.decidr.model.workflowmodel.dwdl.validation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Custom ErrorHandler for DWDL validation.
@@ -50,8 +50,7 @@ public class DWDLErrorHandler implements ErrorHandler {
     /**
      * Returns the list with all errors. If no error occurred, null is returned
      * 
-     * @return 
-     *          List<IProblem>: List of all found problems
+     * @return List<IProblem>: List of all found problems
      */
     public List<IProblem> getProblemList() {
         return errorList;
@@ -61,7 +60,7 @@ public class DWDLErrorHandler implements ErrorHandler {
      * Adds a new Problem to the errorList.
      * 
      * @param e
-     *          The exception object
+     *            The exception object
      */
     private void addProblemToList(SAXParseException e) {
         String msg = e.getMessage();

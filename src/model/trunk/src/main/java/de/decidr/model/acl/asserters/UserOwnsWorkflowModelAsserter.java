@@ -64,7 +64,8 @@ public class UserOwnsWorkflowModelAsserter extends CommandAsserter {
                     userId).setParameterList("workflowModelIds",
                     workflowModelIds);
 
-            isOwner = ((Number) q.uniqueResult()).intValue() == workflowModelIds.size();
+            isOwner = ((Number) q.uniqueResult()).intValue() == workflowModelIds
+                    .size();
         }
     }
 }

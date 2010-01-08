@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,16 +16,19 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
-
 /**
  * 
- * 				XSD Authors: The child element correlations needs to be a Local Element Declaration, 
- * 				because there is another correlations element defined for the invoke activity.
- * 			
+ * XSD Authors: The child element correlations needs to be a Local Element
+ * Declaration, because there is another correlations element defined for the
+ * invoke activity.
  * 
- * <p>Java class for tReceive complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for tReceive complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tReceive">
@@ -51,13 +53,8 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tReceive", propOrder = {
-    "correlations",
-    "fromParts"
-})
-public class Receive
-    extends Activity
-{
+@XmlType(name = "tReceive", propOrder = { "correlations", "fromParts" })
+public class Receive extends Activity {
 
     protected Correlations correlations;
     protected FromParts fromParts;
@@ -84,10 +81,8 @@ public class Receive
     /**
      * Gets the value of the correlations property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Correlations }
-     *     
+     * @return possible object is {@link Correlations }
+     * 
      */
     public Correlations getCorrelations() {
         return correlations;
@@ -97,25 +92,22 @@ public class Receive
      * Sets the value of the correlations property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Correlations }
-     *     
+     *            allowed object is {@link Correlations }
+     * 
      */
     public void setCorrelations(Correlations value) {
         this.correlations = value;
     }
 
     public boolean isSetCorrelations() {
-        return (this.correlations!= null);
+        return (this.correlations != null);
     }
 
     /**
      * Gets the value of the fromParts property.
      * 
-     * @return
-     *     possible object is
-     *     {@link FromParts }
-     *     
+     * @return possible object is {@link FromParts }
+     * 
      */
     public FromParts getFromParts() {
         return fromParts;
@@ -125,25 +117,22 @@ public class Receive
      * Sets the value of the fromParts property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link FromParts }
-     *     
+     *            allowed object is {@link FromParts }
+     * 
      */
     public void setFromParts(FromParts value) {
         this.fromParts = value;
     }
 
     public boolean isSetFromParts() {
-        return (this.fromParts!= null);
+        return (this.fromParts != null);
     }
 
     /**
      * Gets the value of the partnerLink property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPartnerLink() {
         return partnerLink;
@@ -153,25 +142,22 @@ public class Receive
      * Sets the value of the partnerLink property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPartnerLink(String value) {
         this.partnerLink = value;
     }
 
     public boolean isSetPartnerLink() {
-        return (this.partnerLink!= null);
+        return (this.partnerLink != null);
     }
 
     /**
      * Gets the value of the portType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getPortType() {
         return portType;
@@ -181,25 +167,22 @@ public class Receive
      * Sets the value of the portType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setPortType(QName value) {
         this.portType = value;
     }
 
     public boolean isSetPortType() {
-        return (this.portType!= null);
+        return (this.portType != null);
     }
 
     /**
      * Gets the value of the operation property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getOperation() {
         return operation;
@@ -209,25 +192,22 @@ public class Receive
      * Sets the value of the operation property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setOperation(String value) {
         this.operation = value;
     }
 
     public boolean isSetOperation() {
-        return (this.operation!= null);
+        return (this.operation != null);
     }
 
     /**
      * Gets the value of the variable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getVariable() {
         return variable;
@@ -237,25 +217,22 @@ public class Receive
      * Sets the value of the variable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setVariable(String value) {
         this.variable = value;
     }
 
     public boolean isSetVariable() {
-        return (this.variable!= null);
+        return (this.variable != null);
     }
 
     /**
      * Gets the value of the createInstance property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getCreateInstance() {
         if (createInstance == null) {
@@ -269,25 +246,22 @@ public class Receive
      * Sets the value of the createInstance property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setCreateInstance(Boolean value) {
         this.createInstance = value;
     }
 
     public boolean isSetCreateInstance() {
-        return (this.createInstance!= null);
+        return (this.createInstance != null);
     }
 
     /**
      * Gets the value of the messageExchange property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getMessageExchange() {
         return messageExchange;
@@ -297,16 +271,15 @@ public class Receive
      * Sets the value of the messageExchange property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setMessageExchange(String value) {
         this.messageExchange = value;
     }
 
     public boolean isSetMessageExchange() {
-        return (this.messageExchange!= null);
+        return (this.messageExchange != null);
     }
 
 }

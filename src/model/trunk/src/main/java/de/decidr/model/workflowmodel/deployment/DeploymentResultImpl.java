@@ -19,7 +19,6 @@ package de.decidr.model.workflowmodel.deployment;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * An interface for the deployment component
  * 
@@ -31,31 +30,35 @@ public class DeploymentResultImpl implements DeploymentResult {
     private List<Long> servers;
     private byte[] soapMessage;
     private Date deployDate;
+
     @Override
     public Date getDeploymentDate() {
         return deployDate;
     }
+
     @Override
     public List<Long> getServers() {
         return servers;
     }
+
     @Override
     public void setDeploymentDate(Date deploymentDate) {
         deployDate = deploymentDate;
     }
+
     @Override
     public void setSOAPTemplate(byte[] soap) {
         soapMessage = soap;
     }
+
     @Override
     public void setServers(List<Long> servers) {
         this.servers = servers;
     }
-    
+
     @Override
     public byte[] getSOAPTemplate() {
         return soapMessage;
     }
-    
 
 }

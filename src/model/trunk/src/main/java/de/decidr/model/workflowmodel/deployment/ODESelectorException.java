@@ -22,7 +22,7 @@ import de.decidr.model.entities.ServerLoadView;
 
 /**
  * This exception is thrown by {@link DeployerImpl}.<br>
- * It indicates that no server is found for deployment. 
+ * It indicates that no server is found for deployment.
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -30,14 +30,14 @@ import de.decidr.model.entities.ServerLoadView;
 public class ODESelectorException extends Exception {
 
     private static final long serialVersionUID = 1L;
-    
+
     private List<ServerLoadView> serverStatistics = null;
-    
+
     public ODESelectorException(List<ServerLoadView> serverStatistics) {
         this.serverStatistics = serverStatistics;
     }
-    
-    public List<ServerLoadView> getServerStatistics(){
+
+    public List<ServerLoadView> getServerStatistics() {
         return serverStatistics;
     }
 

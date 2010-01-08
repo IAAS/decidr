@@ -40,21 +40,27 @@ import de.decidr.model.workflowmodel.bpel.varprop.Property;
 import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 
 /**
- * A custom serializer to read and easily handle properties and property alias in
- * {@link Definition} This serializer wraps the JAXB marshaller and unmarshaller
- * created for properties.
- *
+ * A custom serializer to read and easily handle properties and property alias
+ * in {@link Definition} This serializer wraps the JAXB marshaller and
+ * unmarshaller created for properties.
+ * 
  * @author Modood Alvi
  */
 public class PropertySerializer implements ExtensionDeserializer,
         ExtensionSerializer, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    private static Logger log = DefaultLogger.getLogger(PropertySerializer.class);
 
-    /* (non-Javadoc)
-     * @see javax.wsdl.extensions.ExtensionDeserializer#unmarshall(java.lang.Class, javax.xml.namespace.QName, org.w3c.dom.Element, javax.wsdl.Definition, javax.wsdl.extensions.ExtensionRegistry)
+    private static Logger log = DefaultLogger
+            .getLogger(PropertySerializer.class);
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * javax.wsdl.extensions.ExtensionDeserializer#unmarshall(java.lang.Class,
+     * javax.xml.namespace.QName, org.w3c.dom.Element, javax.wsdl.Definition,
+     * javax.wsdl.extensions.ExtensionRegistry)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -65,37 +71,43 @@ public class PropertySerializer implements ExtensionDeserializer,
                 elementType);
         Property tmpProperty = null;
         try {
-            Unmarshaller u = JAXBContext.newInstance(Property.class).createUnmarshaller();
+            Unmarshaller u = JAXBContext.newInstance(Property.class)
+                    .createUnmarshaller();
             JAXBElement<Property> jaxbElement = u.unmarshal(el, Property.class);
             tmpProperty = jaxbElement.getValue();
         } catch (JAXBException e) {
-            log.error("Can't unmarshall property element in "+def.getTargetNamespace(), e);
+            log.error("Can't unmarshall property element in "
+                    + def.getTargetNamespace(), e);
         }
-        if (tmpProperty != null){
-            if (tmpProperty.isSetName()){
+        if (tmpProperty != null) {
+            if (tmpProperty.isSetName()) {
                 extProperty.setName(tmpProperty.getName());
             }
-            if (tmpProperty.isSetElement()){
+            if (tmpProperty.isSetElement()) {
                 extProperty.setElement(tmpProperty.getElement());
             }
-            if (tmpProperty.isSetType()){
+            if (tmpProperty.isSetType()) {
                 extProperty.setType(tmpProperty.getType());
             }
-            if (tmpProperty.isSetAny()){
+            if (tmpProperty.isSetAny()) {
                 extProperty.getAny().addAll(tmpProperty.getAny());
             }
-            if (tmpProperty.isSetDocumentation()){
+            if (tmpProperty.isSetDocumentation()) {
                 extProperty.getAny().addAll(tmpProperty.getDocumentation());
             }
-        }
-        else {
-            log.warn("Property is null in "+def.getTargetNamespace());
+        } else {
+            log.warn("Property is null in " + def.getTargetNamespace());
         }
         return extProperty;
     }
 
-    /* (non-Javadoc)
-     * @see javax.wsdl.extensions.ExtensionSerializer#marshall(java.lang.Class, javax.xml.namespace.QName, javax.wsdl.extensions.ExtensibilityElement, java.io.PrintWriter, javax.wsdl.Definition, javax.wsdl.extensions.ExtensionRegistry)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.wsdl.extensions.ExtensionSerializer#marshall(java.lang.Class,
+     * javax.xml.namespace.QName, javax.wsdl.extensions.ExtensibilityElement,
+     * java.io.PrintWriter, javax.wsdl.Definition,
+     * javax.wsdl.extensions.ExtensionRegistry)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -104,16 +116,18 @@ public class PropertySerializer implements ExtensionDeserializer,
             ExtensionRegistry extReg) throws WSDLException {
         try {
             Property property = (Property) extension;
-            Marshaller m = JAXBContext.newInstance(Property.class).createMarshaller();
+            Marshaller m = JAXBContext.newInstance(Property.class)
+                    .createMarshaller();
             JAXBElement<Property> jaxbElement = new JAXBElement<Property>(
-                    new QName(Constants.VARPROP_NAMESPACE,
-                            "property"), Property.class, property);
+                    new QName(Constants.VARPROP_NAMESPACE, "property"),
+                    Property.class, property);
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
             m.marshal(jaxbElement, pw);
             pw.println();
         } catch (JAXBException e) {
-            log.error("Can't marshall the property element in "+def.getTargetNamespace(), e);
+            log.error("Can't marshall the property element in "
+                    + def.getTargetNamespace(), e);
         }
 
     }

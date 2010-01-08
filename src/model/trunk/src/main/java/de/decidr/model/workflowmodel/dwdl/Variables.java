@@ -5,21 +5,23 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tVariables complex type.
+ * <p>
+ * Java class for tVariables complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tVariables">
@@ -36,9 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tVariables", propOrder = {
-    "variable"
-})
+@XmlType(name = "tVariables", propOrder = { "variable" })
 public class Variables {
 
     @XmlElement(required = true)
@@ -48,21 +48,21 @@ public class Variables {
      * Gets the value of the variable property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the variable property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the variable property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getVariable().add(newItem);
+     * getVariable().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Variable }
+     * Objects of the following type(s) are allowed in the list {@link Variable }
      * 
      * 
      */
@@ -74,7 +74,7 @@ public class Variables {
     }
 
     public boolean isSetVariable() {
-        return ((this.variable!= null)&&(!this.variable.isEmpty()));
+        return ((this.variable != null) && (!this.variable.isEmpty()));
     }
 
     public void unsetVariable() {

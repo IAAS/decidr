@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,11 +16,13 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
-
 /**
- * <p>Java class for tPartnerLink complex type.
+ * <p>
+ * Java class for tPartnerLink complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tPartnerLink">
@@ -42,9 +43,7 @@ import javax.xml.namespace.QName;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tPartnerLink")
-public class PartnerLink
-    extends ExtensibleElements
-{
+public class PartnerLink extends ExtensibleElements {
 
     @XmlAttribute(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -66,10 +65,8 @@ public class PartnerLink
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -79,25 +76,22 @@ public class PartnerLink
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the partnerLinkType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getPartnerLinkType() {
         return partnerLinkType;
@@ -107,25 +101,22 @@ public class PartnerLink
      * Sets the value of the partnerLinkType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setPartnerLinkType(QName value) {
         this.partnerLinkType = value;
     }
 
     public boolean isSetPartnerLinkType() {
-        return (this.partnerLinkType!= null);
+        return (this.partnerLinkType != null);
     }
 
     /**
      * Gets the value of the myRole property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getMyRole() {
         return myRole;
@@ -135,25 +126,22 @@ public class PartnerLink
      * Sets the value of the myRole property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setMyRole(String value) {
         this.myRole = value;
     }
 
     public boolean isSetMyRole() {
-        return (this.myRole!= null);
+        return (this.myRole != null);
     }
 
     /**
      * Gets the value of the partnerRole property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPartnerRole() {
         return partnerRole;
@@ -163,25 +151,22 @@ public class PartnerLink
      * Sets the value of the partnerRole property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPartnerRole(String value) {
         this.partnerRole = value;
     }
 
     public boolean isSetPartnerRole() {
-        return (this.partnerRole!= null);
+        return (this.partnerRole != null);
     }
 
     /**
      * Gets the value of the initializePartnerRole property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getInitializePartnerRole() {
         return initializePartnerRole;
@@ -191,16 +176,15 @@ public class PartnerLink
      * Sets the value of the initializePartnerRole property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setInitializePartnerRole(Boolean value) {
         this.initializePartnerRole = value;
     }
 
     public boolean isSetInitializePartnerRole() {
-        return (this.initializePartnerRole!= null);
+        return (this.initializePartnerRole != null);
     }
 
 }

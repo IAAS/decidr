@@ -5,21 +5,23 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tArcs complex type.
+ * <p>
+ * Java class for tArcs complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tArcs">
@@ -36,9 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tArcs", propOrder = {
-    "arc"
-})
+@XmlType(name = "tArcs", propOrder = { "arc" })
 public class Arcs {
 
     @XmlElement(required = true)
@@ -48,21 +48,21 @@ public class Arcs {
      * Gets the value of the arc property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the arc property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the arc property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getArc().add(newItem);
+     * getArc().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Arc }
+     * Objects of the following type(s) are allowed in the list {@link Arc }
      * 
      * 
      */
@@ -74,7 +74,7 @@ public class Arcs {
     }
 
     public boolean isSetArc() {
-        return ((this.arc!= null)&&(!this.arc.isEmpty()));
+        return ((this.arc != null) && (!this.arc.isEmpty()));
     }
 
     public void unsetArc() {

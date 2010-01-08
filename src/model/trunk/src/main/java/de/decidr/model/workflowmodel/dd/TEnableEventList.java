@@ -5,22 +5,24 @@
 // Generated on: 2009.08.28 at 06:27:43 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.dd;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tEnableEventList complex type.
+ * <p>
+ * Java class for tEnableEventList complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tEnableEventList">
@@ -37,13 +39,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tEnableEventList", propOrder = {
-    "enableEvent"
-})
-@XmlSeeAlso({
-    TProcessEvents.class,
-    TScopeEvents.class
-})
+@XmlType(name = "tEnableEventList", propOrder = { "enableEvent" })
+@XmlSeeAlso( { TProcessEvents.class, TScopeEvents.class })
 public class TEnableEventList {
 
     @XmlElement(name = "enable-event", required = true)
@@ -53,21 +50,21 @@ public class TEnableEventList {
      * Gets the value of the enableEvent property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the enableEvent property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the enableEvent property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getEnableEvent().add(newItem);
+     * getEnableEvent().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      * 
      * 
      */

@@ -7,3 +7,4 @@
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://www.apache.org/ode/schemas/dd/2007/03", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package de.decidr.model.workflowmodel.dd;
+

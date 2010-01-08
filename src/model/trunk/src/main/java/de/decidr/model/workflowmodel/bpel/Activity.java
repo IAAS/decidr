@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,11 +16,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tActivity complex type.
+ * <p>
+ * Java class for tActivity complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tActivity">
@@ -42,35 +43,13 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tActivity", propOrder = {
-    "targets",
-    "sources"
-})
-@XmlSeeAlso({
-    Assign.class,
-    Wait.class,
-    Flow.class,
-    Validate.class,
-    Empty.class,
-    Rethrow.class,
-    CompensateScope.class,
-    ForEach.class,
-    Exit.class,
-    RepeatUntil.class,
-    Compensate.class,
-    Scope.class,
-    While.class,
-    Throw.class,
-    If.class,
-    Reply.class,
-    Pick.class,
-    Receive.class,
-    Sequence.class,
-    Invoke.class
-})
-public class Activity
-    extends ExtensibleElements
-{
+@XmlType(name = "tActivity", propOrder = { "targets", "sources" })
+@XmlSeeAlso( { Assign.class, Wait.class, Flow.class, Validate.class,
+        Empty.class, Rethrow.class, CompensateScope.class, ForEach.class,
+        Exit.class, RepeatUntil.class, Compensate.class, Scope.class,
+        While.class, Throw.class, If.class, Reply.class, Pick.class,
+        Receive.class, Sequence.class, Invoke.class })
+public class Activity extends ExtensibleElements {
 
     protected Targets targets;
     protected Sources sources;
@@ -84,10 +63,8 @@ public class Activity
     /**
      * Gets the value of the targets property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Targets }
-     *     
+     * @return possible object is {@link Targets }
+     * 
      */
     public Targets getTargets() {
         return targets;
@@ -97,25 +74,22 @@ public class Activity
      * Sets the value of the targets property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Targets }
-     *     
+     *            allowed object is {@link Targets }
+     * 
      */
     public void setTargets(Targets value) {
         this.targets = value;
     }
 
     public boolean isSetTargets() {
-        return (this.targets!= null);
+        return (this.targets != null);
     }
 
     /**
      * Gets the value of the sources property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Sources }
-     *     
+     * @return possible object is {@link Sources }
+     * 
      */
     public Sources getSources() {
         return sources;
@@ -125,25 +99,22 @@ public class Activity
      * Sets the value of the sources property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Sources }
-     *     
+     *            allowed object is {@link Sources }
+     * 
      */
     public void setSources(Sources value) {
         this.sources = value;
     }
 
     public boolean isSetSources() {
-        return (this.sources!= null);
+        return (this.sources != null);
     }
 
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -153,25 +124,22 @@ public class Activity
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the suppressJoinFailure property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getSuppressJoinFailure() {
         return suppressJoinFailure;
@@ -181,16 +149,15 @@ public class Activity
      * Sets the value of the suppressJoinFailure property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setSuppressJoinFailure(Boolean value) {
         this.suppressJoinFailure = value;
     }
 
     public boolean isSetSuppressJoinFailure() {
-        return (this.suppressJoinFailure!= null);
+        return (this.suppressJoinFailure != null);
     }
 
 }

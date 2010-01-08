@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,11 +13,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tCopy complex type.
+ * <p>
+ * Java class for tCopy complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCopy">
@@ -39,13 +40,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tCopy", propOrder = {
-    "from",
-    "to"
-})
-public class Copy
-    extends ExtensibleElements
-{
+@XmlType(name = "tCopy", propOrder = { "from", "to" })
+public class Copy extends ExtensibleElements {
 
     @XmlElement(required = true)
     protected From from;
@@ -59,10 +55,8 @@ public class Copy
     /**
      * Gets the value of the from property.
      * 
-     * @return
-     *     possible object is
-     *     {@link From }
-     *     
+     * @return possible object is {@link From }
+     * 
      */
     public From getFrom() {
         return from;
@@ -72,25 +66,22 @@ public class Copy
      * Sets the value of the from property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link From }
-     *     
+     *            allowed object is {@link From }
+     * 
      */
     public void setFrom(From value) {
         this.from = value;
     }
 
     public boolean isSetFrom() {
-        return (this.from!= null);
+        return (this.from != null);
     }
 
     /**
      * Gets the value of the to property.
      * 
-     * @return
-     *     possible object is
-     *     {@link To }
-     *     
+     * @return possible object is {@link To }
+     * 
      */
     public To getTo() {
         return to;
@@ -100,25 +91,22 @@ public class Copy
      * Sets the value of the to property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link To }
-     *     
+     *            allowed object is {@link To }
+     * 
      */
     public void setTo(To value) {
         this.to = value;
     }
 
     public boolean isSetTo() {
-        return (this.to!= null);
+        return (this.to != null);
     }
 
     /**
      * Gets the value of the keepSrcElementName property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getKeepSrcElementName() {
         if (keepSrcElementName == null) {
@@ -132,25 +120,22 @@ public class Copy
      * Sets the value of the keepSrcElementName property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setKeepSrcElementName(Boolean value) {
         this.keepSrcElementName = value;
     }
 
     public boolean isSetKeepSrcElementName() {
-        return (this.keepSrcElementName!= null);
+        return (this.keepSrcElementName != null);
     }
 
     /**
      * Gets the value of the ignoreMissingFromData property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getIgnoreMissingFromData() {
         if (ignoreMissingFromData == null) {
@@ -164,16 +149,15 @@ public class Copy
      * Sets the value of the ignoreMissingFromData property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setIgnoreMissingFromData(Boolean value) {
         this.ignoreMissingFromData = value;
     }
 
     public boolean isSetIgnoreMissingFromData() {
-        return (this.ignoreMissingFromData!= null);
+        return (this.ignoreMissingFromData != null);
     }
 
 }

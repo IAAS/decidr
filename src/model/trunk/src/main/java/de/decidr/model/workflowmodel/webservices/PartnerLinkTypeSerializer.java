@@ -48,11 +48,11 @@ import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
  */
 public class PartnerLinkTypeSerializer implements ExtensionSerializer,
         ExtensionDeserializer, Serializable {
-    
+
     public static final long serialVersionUID = 1l;
-    
-    private static Logger log = DefaultLogger.getLogger(PartnerLinkTypeSerializer.class);
-    
+
+    private static Logger log = DefaultLogger
+            .getLogger(PartnerLinkTypeSerializer.class);
 
     /*
      * (non-Javadoc)
@@ -69,16 +69,19 @@ public class PartnerLinkTypeSerializer implements ExtensionSerializer,
             ExtensionRegistry extReg) throws WSDLException {
         try {
             PartnerLinkType partnerLinkType = (PartnerLinkType) extension;
-            Marshaller m = JAXBContext.newInstance(PartnerLinkType.class).createMarshaller();
+            Marshaller m = JAXBContext.newInstance(PartnerLinkType.class)
+                    .createMarshaller();
             JAXBElement<PartnerLinkType> jaxbElement = new JAXBElement<PartnerLinkType>(
                     new QName(Constants.PARTNERLINKTYPE_NAMESPACE,
-                            "partnerLinkType"), PartnerLinkType.class, partnerLinkType);
+                            "partnerLinkType"), PartnerLinkType.class,
+                    partnerLinkType);
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
             m.marshal(jaxbElement, pw);
             pw.println();
         } catch (JAXBException e) {
-            log.error("Can't marshall the partner link type element in "+def.getTargetNamespace(), e);
+            log.error("Can't marshall the partner link type element in "
+                    + def.getTargetNamespace(), e);
         }
 
     }
@@ -96,32 +99,37 @@ public class PartnerLinkTypeSerializer implements ExtensionSerializer,
     public ExtensibilityElement unmarshall(Class parentType, QName elementType,
             Element el, Definition def, ExtensionRegistry extReg)
             throws WSDLException {
-        PartnerLinkType extpartnerLinkType = (PartnerLinkType) extReg.createExtension(parentType,
-                elementType);
+        PartnerLinkType extpartnerLinkType = (PartnerLinkType) extReg
+                .createExtension(parentType, elementType);
         PartnerLinkType tmpPartnerLinkType = null;
         try {
-            Unmarshaller u = JAXBContext.newInstance(PartnerLinkType.class).createUnmarshaller();
-            JAXBElement<PartnerLinkType> jaxbElement = u.unmarshal(el, PartnerLinkType.class);
+            Unmarshaller u = JAXBContext.newInstance(PartnerLinkType.class)
+                    .createUnmarshaller();
+            JAXBElement<PartnerLinkType> jaxbElement = u.unmarshal(el,
+                    PartnerLinkType.class);
             tmpPartnerLinkType = jaxbElement.getValue();
         } catch (JAXBException e) {
-            log.error("Can't unmarshall the partner link type element in "+def.getTargetNamespace(), e);
+            log.error("Can't unmarshall the partner link type element in "
+                    + def.getTargetNamespace(), e);
         }
-        if (tmpPartnerLinkType != null){
-            if (tmpPartnerLinkType.isSetName()){
+        if (tmpPartnerLinkType != null) {
+            if (tmpPartnerLinkType.isSetName()) {
                 extpartnerLinkType.setName(tmpPartnerLinkType.getName());
             }
-            if (tmpPartnerLinkType.isSetRole()){
-                extpartnerLinkType.getRole().addAll(tmpPartnerLinkType.getRole());
+            if (tmpPartnerLinkType.isSetRole()) {
+                extpartnerLinkType.getRole().addAll(
+                        tmpPartnerLinkType.getRole());
             }
-            if (tmpPartnerLinkType.isSetDocumentation()){
-                extpartnerLinkType.getDocumentation().addAll(tmpPartnerLinkType.getDocumentation());
+            if (tmpPartnerLinkType.isSetDocumentation()) {
+                extpartnerLinkType.getDocumentation().addAll(
+                        tmpPartnerLinkType.getDocumentation());
             }
-            if (tmpPartnerLinkType.isSetAny()){
+            if (tmpPartnerLinkType.isSetAny()) {
                 extpartnerLinkType.getAny().addAll(tmpPartnerLinkType.getAny());
             }
-        }
-        else {
-            log.warn("Partner link in type is null in "+def.getTargetNamespace());
+        } else {
+            log.warn("Partner link in type is null in "
+                    + def.getTargetNamespace());
         }
         return extpartnerLinkType;
     }

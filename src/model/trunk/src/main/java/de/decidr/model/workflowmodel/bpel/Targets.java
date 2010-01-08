@@ -5,21 +5,23 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tTargets complex type.
+ * <p>
+ * Java class for tTargets complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tTargets">
@@ -38,13 +40,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tTargets", propOrder = {
-    "joinCondition",
-    "target"
-})
-public class Targets
-    extends ExtensibleElements
-{
+@XmlType(name = "tTargets", propOrder = { "joinCondition", "target" })
+public class Targets extends ExtensibleElements {
 
     protected Condition joinCondition;
     @XmlElement(required = true)
@@ -53,10 +50,8 @@ public class Targets
     /**
      * Gets the value of the joinCondition property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Condition }
-     *     
+     * @return possible object is {@link Condition }
+     * 
      */
     public Condition getJoinCondition() {
         return joinCondition;
@@ -66,37 +61,36 @@ public class Targets
      * Sets the value of the joinCondition property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Condition }
-     *     
+     *            allowed object is {@link Condition }
+     * 
      */
     public void setJoinCondition(Condition value) {
         this.joinCondition = value;
     }
 
     public boolean isSetJoinCondition() {
-        return (this.joinCondition!= null);
+        return (this.joinCondition != null);
     }
 
     /**
      * Gets the value of the target property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the target property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the target property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getTarget().add(newItem);
+     * getTarget().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Target }
+     * Objects of the following type(s) are allowed in the list {@link Target }
      * 
      * 
      */
@@ -108,7 +102,7 @@ public class Targets
     }
 
     public boolean isSetTarget() {
-        return ((this.target!= null)&&(!this.target.isEmpty()));
+        return ((this.target != null) && (!this.target.isEmpty()));
     }
 
     public void unsetTarget() {

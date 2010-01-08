@@ -5,21 +5,23 @@
 // Generated on: 2009.08.28 at 04:33:51 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.wsc;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tConfiguration complex type.
+ * <p>
+ * Java class for tConfiguration complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tConfiguration">
@@ -37,10 +39,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tConfiguration", propOrder = {
-    "roles",
-    "assignment"
-})
+@XmlType(name = "tConfiguration", propOrder = { "roles", "assignment" })
 public class TConfiguration {
 
     @XmlElement(required = true)
@@ -51,10 +50,8 @@ public class TConfiguration {
     /**
      * Gets the value of the roles property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TRoles }
-     *     
+     * @return possible object is {@link TRoles }
+     * 
      */
     public TRoles getRoles() {
         return roles;
@@ -64,9 +61,8 @@ public class TConfiguration {
      * Sets the value of the roles property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link TRoles }
-     *     
+     *            allowed object is {@link TRoles }
+     * 
      */
     public void setRoles(TRoles value) {
         this.roles = value;
@@ -76,15 +72,16 @@ public class TConfiguration {
      * Gets the value of the assignment property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the assignment property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the assignment property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getAssignment().add(newItem);
+     * getAssignment().add(newItem);
      * </pre>
      * 
      * 

@@ -102,7 +102,8 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for
-     * {@link FileFacade#createFile(InputStream, Long, String, String, boolean, Set)} and
+     * {@link FileFacade#createFile(InputStream, Long, String, String, boolean, Set)}
+     * and
      * {@link FileFacade#replaceFile(Long, InputStream, Long, String, String)},
      * {@link FileFacade#getFileInfo(Long)},
      * {@link FileFacade#getFileData(Long)}, {@link FileFacade#deleteFile(Long)}

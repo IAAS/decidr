@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:49:05 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel.partnerlinktype;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,11 +16,13 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
-
 /**
- * <p>Java class for tRole complex type.
+ * <p>
+ * Java class for tRole complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tRole">
@@ -39,9 +40,7 @@ import javax.xml.namespace.QName;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tRole")
-public class Role
-    extends ExtensibleElements
-{
+public class Role extends ExtensibleElements {
 
     @XmlAttribute(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -53,10 +52,8 @@ public class Role
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -66,25 +63,22 @@ public class Role
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the portType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getPortType() {
         return portType;
@@ -94,16 +88,15 @@ public class Role
      * Sets the value of the portType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setPortType(QName value) {
         this.portType = value;
     }
 
     public boolean isSetPortType() {
-        return (this.portType!= null);
+        return (this.portType != null);
     }
 
 }

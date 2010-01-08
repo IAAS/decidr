@@ -5,21 +5,23 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tPartnerLinks complex type.
+ * <p>
+ * Java class for tPartnerLinks complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tPartnerLinks">
@@ -37,12 +39,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tPartnerLinks", propOrder = {
-    "partnerLink"
-})
-public class PartnerLinks
-    extends ExtensibleElements
-{
+@XmlType(name = "tPartnerLinks", propOrder = { "partnerLink" })
+public class PartnerLinks extends ExtensibleElements {
 
     @XmlElement(required = true)
     protected List<PartnerLink> partnerLink;
@@ -51,15 +49,16 @@ public class PartnerLinks
      * Gets the value of the partnerLink property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the partnerLink property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the partnerLink property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getPartnerLink().add(newItem);
+     * getPartnerLink().add(newItem);
      * </pre>
      * 
      * 
@@ -77,7 +76,7 @@ public class PartnerLinks
     }
 
     public boolean isSetPartnerLink() {
-        return ((this.partnerLink!= null)&&(!this.partnerLink.isEmpty()));
+        return ((this.partnerLink != null) && (!this.partnerLink.isEmpty()));
     }
 
     public void unsetPartnerLink() {

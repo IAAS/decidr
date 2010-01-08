@@ -5,20 +5,22 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
+
 import org.w3c.dom.Element;
 
-
 /**
- * <p>Java class for tExtensionActivity complex type.
+ * <p>
+ * Java class for tExtensionActivity complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tExtensionActivity">
@@ -35,9 +37,7 @@ import org.w3c.dom.Element;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExtensionActivity", propOrder = {
-    "any"
-})
+@XmlType(name = "tExtensionActivity", propOrder = { "any" })
 public class ExtensionActivity {
 
     @XmlAnyElement(lax = true)
@@ -46,11 +46,8 @@ public class ExtensionActivity {
     /**
      * Gets the value of the any property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Element }
-     *     {@link Object }
-     *     
+     * @return possible object is {@link Element } {@link Object }
+     * 
      */
     public Object getAny() {
         return any;
@@ -60,17 +57,15 @@ public class ExtensionActivity {
      * Sets the value of the any property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Element }
-     *     {@link Object }
-     *     
+     *            allowed object is {@link Element } {@link Object }
+     * 
      */
     public void setAny(Object value) {
         this.any = value;
     }
 
     public boolean isSetAny() {
-        return (this.any!= null);
+        return (this.any != null);
     }
 
 }

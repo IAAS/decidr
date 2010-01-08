@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
-
 /**
- * <p>Java class for tVariable complex type.
+ * <p>
+ * Java class for tVariable complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tVariable">
@@ -42,12 +43,8 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tVariable", propOrder = {
-    "from"
-})
-public class Variable
-    extends ExtensibleElements
-{
+@XmlType(name = "tVariable", propOrder = { "from" })
+public class Variable extends ExtensibleElements {
 
     protected From from;
     @XmlAttribute(required = true)
@@ -63,10 +60,8 @@ public class Variable
     /**
      * Gets the value of the from property.
      * 
-     * @return
-     *     possible object is
-     *     {@link From }
-     *     
+     * @return possible object is {@link From }
+     * 
      */
     public From getFrom() {
         return from;
@@ -76,25 +71,22 @@ public class Variable
      * Sets the value of the from property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link From }
-     *     
+     *            allowed object is {@link From }
+     * 
      */
     public void setFrom(From value) {
         this.from = value;
     }
 
     public boolean isSetFrom() {
-        return (this.from!= null);
+        return (this.from != null);
     }
 
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -104,25 +96,22 @@ public class Variable
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the messageType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getMessageType() {
         return messageType;
@@ -132,25 +121,22 @@ public class Variable
      * Sets the value of the messageType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setMessageType(QName value) {
         this.messageType = value;
     }
 
     public boolean isSetMessageType() {
-        return (this.messageType!= null);
+        return (this.messageType != null);
     }
 
     /**
      * Gets the value of the type property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getType() {
         return type;
@@ -160,25 +146,22 @@ public class Variable
      * Sets the value of the type property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setType(QName value) {
         this.type = value;
     }
 
     public boolean isSetType() {
-        return (this.type!= null);
+        return (this.type != null);
     }
 
     /**
      * Gets the value of the element property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getElement() {
         return element;
@@ -188,16 +171,15 @@ public class Variable
      * Sets the value of the element property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setElement(QName value) {
         this.element = value;
     }
 
     public boolean isSetElement() {
-        return (this.element!= null);
+        return (this.element != null);
     }
 
 }

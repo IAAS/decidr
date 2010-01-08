@@ -5,10 +5,10 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.math.BigInteger;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -16,11 +16,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tCondition complex type.
+ * <p>
+ * Java class for tCondition complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCondition">
@@ -44,13 +46,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tCondition", propOrder = {
-    "leftOperand",
-    "operator",
-    "rightOperand",
-    "nodes",
-    "arcs"
-})
+@XmlType(name = "tCondition", propOrder = { "leftOperand", "operator",
+        "rightOperand", "nodes", "arcs" })
 public class Condition {
 
     @XmlElement(name = "left-operand")
@@ -73,10 +70,8 @@ public class Condition {
     /**
      * Gets the value of the leftOperand property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLeftOperand() {
         return leftOperand;
@@ -86,25 +81,22 @@ public class Condition {
      * Sets the value of the leftOperand property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLeftOperand(String value) {
         this.leftOperand = value;
     }
 
     public boolean isSetLeftOperand() {
-        return (this.leftOperand!= null);
+        return (this.leftOperand != null);
     }
 
     /**
      * Gets the value of the operator property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getOperator() {
         return operator;
@@ -114,25 +106,22 @@ public class Condition {
      * Sets the value of the operator property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setOperator(String value) {
         this.operator = value;
     }
 
     public boolean isSetOperator() {
-        return (this.operator!= null);
+        return (this.operator != null);
     }
 
     /**
      * Gets the value of the rightOperand property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getRightOperand() {
         return rightOperand;
@@ -142,25 +131,22 @@ public class Condition {
      * Sets the value of the rightOperand property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setRightOperand(String value) {
         this.rightOperand = value;
     }
 
     public boolean isSetRightOperand() {
-        return (this.rightOperand!= null);
+        return (this.rightOperand != null);
     }
 
     /**
      * Gets the value of the nodes property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Nodes }
-     *     
+     * @return possible object is {@link Nodes }
+     * 
      */
     public Nodes getNodes() {
         return nodes;
@@ -170,25 +156,22 @@ public class Condition {
      * Sets the value of the nodes property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Nodes }
-     *     
+     *            allowed object is {@link Nodes }
+     * 
      */
     public void setNodes(Nodes value) {
         this.nodes = value;
     }
 
     public boolean isSetNodes() {
-        return (this.nodes!= null);
+        return (this.nodes != null);
     }
 
     /**
      * Gets the value of the arcs property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Arcs }
-     *     
+     * @return possible object is {@link Arcs }
+     * 
      */
     public Arcs getArcs() {
         return arcs;
@@ -198,25 +181,22 @@ public class Condition {
      * Sets the value of the arcs property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Arcs }
-     *     
+     *            allowed object is {@link Arcs }
+     * 
      */
     public void setArcs(Arcs value) {
         this.arcs = value;
     }
 
     public boolean isSetArcs() {
-        return (this.arcs!= null);
+        return (this.arcs != null);
     }
 
     /**
      * Gets the value of the order property.
      * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
+     * @return possible object is {@link BigInteger }
+     * 
      */
     public BigInteger getOrder() {
         return order;
@@ -226,16 +206,15 @@ public class Condition {
      * Sets the value of the order property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
+     *            allowed object is {@link BigInteger }
+     * 
      */
     public void setOrder(BigInteger value) {
         this.order = value;
     }
 
     public boolean isSetOrder() {
-        return (this.order!= null);
+        return (this.order != null);
     }
 
     /**
@@ -261,10 +240,8 @@ public class Condition {
     /**
      * Gets the value of the defaultCondition property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getDefaultCondition() {
         if (defaultCondition == null) {
@@ -278,16 +255,15 @@ public class Condition {
      * Sets the value of the defaultCondition property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setDefaultCondition(Boolean value) {
         this.defaultCondition = value;
     }
 
     public boolean isSetDefaultCondition() {
-        return (this.defaultCondition!= null);
+        return (this.defaultCondition != null);
     }
 
 }

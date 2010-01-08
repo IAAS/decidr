@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tSource complex type.
+ * <p>
+ * Java class for tSource complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tSource">
@@ -39,12 +40,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tSource", propOrder = {
-    "transitionCondition"
-})
-public class Source
-    extends ExtensibleElements
-{
+@XmlType(name = "tSource", propOrder = { "transitionCondition" })
+public class Source extends ExtensibleElements {
 
     protected Condition transitionCondition;
     @XmlAttribute(required = true)
@@ -55,10 +52,8 @@ public class Source
     /**
      * Gets the value of the transitionCondition property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Condition }
-     *     
+     * @return possible object is {@link Condition }
+     * 
      */
     public Condition getTransitionCondition() {
         return transitionCondition;
@@ -68,25 +63,22 @@ public class Source
      * Sets the value of the transitionCondition property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Condition }
-     *     
+     *            allowed object is {@link Condition }
+     * 
      */
     public void setTransitionCondition(Condition value) {
         this.transitionCondition = value;
     }
 
     public boolean isSetTransitionCondition() {
-        return (this.transitionCondition!= null);
+        return (this.transitionCondition != null);
     }
 
     /**
      * Gets the value of the linkName property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLinkName() {
         return linkName;
@@ -96,16 +88,15 @@ public class Source
      * Sets the value of the linkName property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLinkName(String value) {
         this.linkName = value;
     }
 
     public boolean isSetLinkName() {
-        return (this.linkName!= null);
+        return (this.linkName != null);
     }
 
 }

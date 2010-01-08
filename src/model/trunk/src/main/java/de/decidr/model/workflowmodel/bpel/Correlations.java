@@ -5,26 +5,29 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * 
- * 				XSD Authors: The child element correlation needs to be a Local Element Declaration, 
- * 				because there is another correlation element defined for the invoke activity.
- * 			
+ * XSD Authors: The child element correlation needs to be a Local Element
+ * Declaration, because there is another correlation element defined for the
+ * invoke activity.
  * 
- * <p>Java class for tCorrelations complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for tCorrelations complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCorrelations">
@@ -42,12 +45,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tCorrelations", propOrder = {
-    "correlation"
-})
-public class Correlations
-    extends ExtensibleElements
-{
+@XmlType(name = "tCorrelations", propOrder = { "correlation" })
+public class Correlations extends ExtensibleElements {
 
     @XmlElement(required = true)
     protected List<Correlation> correlation;
@@ -56,15 +55,16 @@ public class Correlations
      * Gets the value of the correlation property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the correlation property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the correlation property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCorrelation().add(newItem);
+     * getCorrelation().add(newItem);
      * </pre>
      * 
      * 
@@ -82,7 +82,7 @@ public class Correlations
     }
 
     public boolean isSetCorrelation() {
-        return ((this.correlation!= null)&&(!this.correlation.isEmpty()));
+        return ((this.correlation != null) && (!this.correlation.isEmpty()));
     }
 
     public void unsetCorrelation() {

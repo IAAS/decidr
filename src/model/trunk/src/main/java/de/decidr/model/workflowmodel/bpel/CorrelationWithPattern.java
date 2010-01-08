@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,11 +12,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tCorrelationWithPattern complex type.
+ * <p>
+ * Java class for tCorrelationWithPattern complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCorrelationWithPattern">
@@ -34,9 +35,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tCorrelationWithPattern")
-public class CorrelationWithPattern
-    extends Correlation
-{
+public class CorrelationWithPattern extends Correlation {
 
     @XmlAttribute
     protected Pattern pattern;
@@ -44,10 +43,8 @@ public class CorrelationWithPattern
     /**
      * Gets the value of the pattern property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Pattern }
-     *     
+     * @return possible object is {@link Pattern }
+     * 
      */
     public Pattern getPattern() {
         return pattern;
@@ -57,16 +54,15 @@ public class CorrelationWithPattern
      * Sets the value of the pattern property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Pattern }
-     *     
+     *            allowed object is {@link Pattern }
+     * 
      */
     public void setPattern(Pattern value) {
         this.pattern = value;
     }
 
     public boolean isSetPattern() {
-        return (this.pattern!= null);
+        return (this.pattern != null);
     }
 
 }

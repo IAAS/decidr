@@ -5,13 +5,13 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,13 +26,16 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
+
 import org.w3c.dom.Element;
 
-
 /**
- * <p>Java class for tFrom complex type.
+ * <p>
+ * Java class for tFrom complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tFrom">
@@ -61,16 +64,13 @@ import org.w3c.dom.Element;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tFrom", propOrder = {
-    "content"
-})
+@XmlType(name = "tFrom", propOrder = { "content" })
 public class From {
 
-    @XmlElementRefs({
-        @XmlElementRef(name = "query", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
-        @XmlElementRef(name = "literal", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
-        @XmlElementRef(name = "documentation", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class)
-    })
+    @XmlElementRefs( {
+            @XmlElementRef(name = "query", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
+            @XmlElementRef(name = "literal", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
+            @XmlElementRef(name = "documentation", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class) })
     @XmlMixed
     @XmlAnyElement(lax = true)
     protected List<Object> content;
@@ -99,26 +99,24 @@ public class From {
      * Gets the value of the content property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the content property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the content property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getContent().add(newItem);
+     * getContent().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Element }
-     * {@link String }
-     * {@link JAXBElement }{@code <}{@link Query }{@code >}
+     * Objects of the following type(s) are allowed in the list {@link Element }
+     * {@link String } {@link JAXBElement }{@code <}{@link Query }{@code >}
      * {@link JAXBElement }{@code <}{@link Documentation }{@code >}
-     * {@link JAXBElement }{@code <}{@link Literal }{@code >}
-     * {@link Object }
+     * {@link JAXBElement }{@code <}{@link Literal }{@code >} {@link Object }
      * 
      * 
      */
@@ -130,7 +128,7 @@ public class From {
     }
 
     public boolean isSetContent() {
-        return ((this.content!= null)&&(!this.content.isEmpty()));
+        return ((this.content != null) && (!this.content.isEmpty()));
     }
 
     public void unsetContent() {
@@ -140,10 +138,8 @@ public class From {
     /**
      * Gets the value of the expressionLanguage property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getExpressionLanguage() {
         return expressionLanguage;
@@ -153,25 +149,22 @@ public class From {
      * Sets the value of the expressionLanguage property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setExpressionLanguage(String value) {
         this.expressionLanguage = value;
     }
 
     public boolean isSetExpressionLanguage() {
-        return (this.expressionLanguage!= null);
+        return (this.expressionLanguage != null);
     }
 
     /**
      * Gets the value of the variable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getVariable() {
         return variable;
@@ -181,25 +174,22 @@ public class From {
      * Sets the value of the variable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setVariable(String value) {
         this.variable = value;
     }
 
     public boolean isSetVariable() {
-        return (this.variable!= null);
+        return (this.variable != null);
     }
 
     /**
      * Gets the value of the part property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPart() {
         return part;
@@ -209,25 +199,22 @@ public class From {
      * Sets the value of the part property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPart(String value) {
         this.part = value;
     }
 
     public boolean isSetPart() {
-        return (this.part!= null);
+        return (this.part != null);
     }
 
     /**
      * Gets the value of the property property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getProperty() {
         return property;
@@ -237,25 +224,22 @@ public class From {
      * Sets the value of the property property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setProperty(QName value) {
         this.property = value;
     }
 
     public boolean isSetProperty() {
-        return (this.property!= null);
+        return (this.property != null);
     }
 
     /**
      * Gets the value of the partnerLink property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPartnerLink() {
         return partnerLink;
@@ -265,25 +249,22 @@ public class From {
      * Sets the value of the partnerLink property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPartnerLink(String value) {
         this.partnerLink = value;
     }
 
     public boolean isSetPartnerLink() {
-        return (this.partnerLink!= null);
+        return (this.partnerLink != null);
     }
 
     /**
      * Gets the value of the endpointReference property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Roles }
-     *     
+     * @return possible object is {@link Roles }
+     * 
      */
     public Roles getEndpointReference() {
         return endpointReference;
@@ -293,31 +274,30 @@ public class From {
      * Sets the value of the endpointReference property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Roles }
-     *     
+     *            allowed object is {@link Roles }
+     * 
      */
     public void setEndpointReference(Roles value) {
         this.endpointReference = value;
     }
 
     public boolean isSetEndpointReference() {
-        return (this.endpointReference!= null);
+        return (this.endpointReference != null);
     }
 
     /**
-     * Gets a map that contains attributes that aren't bound to any typed property on this class.
+     * Gets a map that contains attributes that aren't bound to any typed
+     * property on this class.
      * 
      * <p>
-     * the map is keyed by the name of the attribute and 
-     * the value is the string value of the attribute.
+     * the map is keyed by the name of the attribute and the value is the string
+     * value of the attribute.
      * 
-     * the map returned by this method is live, and you can add new attribute
-     * by updating the map directly. Because of this design, there's no setter.
+     * the map returned by this method is live, and you can add new attribute by
+     * updating the map directly. Because of this design, there's no setter.
      * 
      * 
-     * @return
-     *     always non-null
+     * @return always non-null
      */
     public Map<QName, String> getOtherAttributes() {
         return otherAttributes;

@@ -5,11 +5,11 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,11 +17,13 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tOnAlarmEvent complex type.
+ * <p>
+ * Java class for tOnAlarmEvent complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tOnAlarmEvent">
@@ -46,44 +48,43 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tOnAlarmEvent", propOrder = {
-    "rest"
-})
-public class OnAlarmEvent
-    extends ExtensibleElements
-{
+@XmlType(name = "tOnAlarmEvent", propOrder = { "rest" })
+public class OnAlarmEvent extends ExtensibleElements {
 
-    @XmlElementRefs({
-        @XmlElementRef(name = "scope", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
-        @XmlElementRef(name = "repeatEvery", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
-        @XmlElementRef(name = "for", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
-        @XmlElementRef(name = "until", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class)
-    })
+    @XmlElementRefs( {
+            @XmlElementRef(name = "scope", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
+            @XmlElementRef(name = "repeatEvery", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
+            @XmlElementRef(name = "for", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class),
+            @XmlElementRef(name = "until", namespace = "http://docs.oasis-open.org/wsbpel/2.0/process/executable", type = JAXBElement.class) })
     protected List<JAXBElement<?>> rest;
 
     /**
-     * Gets the rest of the content model. 
+     * Gets the rest of the content model.
      * 
      * <p>
-     * You are getting this "catch-all" property because of the following reason: 
-     * The field name "RepeatEvery" is used by two different parts of a schema. See: 
-     * line 537 of file:/mnt/data/home/modood/projects/svn/Modeling%20Tool/ws-bpel_executable.xsd
-     * line 535 of file:/mnt/data/home/modood/projects/svn/Modeling%20Tool/ws-bpel_executable.xsd
+     * You are getting this "catch-all" property because of the following
+     * reason: The field name "RepeatEvery" is used by two different parts of a
+     * schema. See: line 537 of
+     * file:/mnt/data/home/modood/projects/svn/Modeling%
+     * 20Tool/ws-bpel_executable.xsd line 535 of
+     * file:/mnt/data/home/modood/projects
+     * /svn/Modeling%20Tool/ws-bpel_executable.xsd
      * <p>
-     * To get rid of this property, apply a property customization to one 
-     * of both of the following declarations to change their names: 
-     * Gets the value of the rest property.
+     * To get rid of this property, apply a property customization to one of
+     * both of the following declarations to change their names: Gets the value
+     * of the rest property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the rest property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the rest property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getRest().add(newItem);
+     * getRest().add(newItem);
      * </pre>
      * 
      * 
@@ -91,8 +92,8 @@ public class OnAlarmEvent
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link DurationExpression }{@code >}
      * {@link JAXBElement }{@code <}{@link DeadlineExpression }{@code >}
-     * {@link JAXBElement }{@code <}{@link Scope }{@code >}
-     * {@link JAXBElement }{@code <}{@link DurationExpression }{@code >}
+     * {@link JAXBElement }{@code <}{@link Scope }{@code >} {@link JAXBElement }
+     * {@code <}{@link DurationExpression }{@code >}
      * 
      * 
      */

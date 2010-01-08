@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
@@ -74,7 +74,7 @@ public class DWDL2SOAPTest {
      * 
      * @throws SOAPException
      * @throws UnsupportedOperationException
-     * @throws IOException 
+     * @throws IOException
      */
     @Test
     public void testGetSOAP() throws UnsupportedOperationException,

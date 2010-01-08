@@ -78,7 +78,7 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         modelSet = null;
-        
+
         Date now = DecidrGlobals.getTime().getTime();
 
         Tenant t = fetchTenant(evt.getSession());

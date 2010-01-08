@@ -42,7 +42,7 @@ public class SetDataCommand extends WorkItemCommand {
     public SetDataCommand(Role role, Long workItemId, THumanTaskData data) {
         super(role, workItemId);
         requireWorkItemId();
-        if ( data == null) {
+        if (data == null) {
             throw new IllegalArgumentException(
                     "Work item data must not be null.");
         }

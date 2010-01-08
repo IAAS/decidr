@@ -5,11 +5,11 @@
 // Generated on: 2009.08.28 at 06:27:43 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.dd;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -17,13 +17,16 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
+
 import org.w3c.dom.Element;
 
-
 /**
- * <p>Java class for tDeployment complex type.
+ * <p>
+ * Java class for tDeployment complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tDeployment">
@@ -84,9 +87,7 @@ import org.w3c.dom.Element;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tDeployment", propOrder = {
-    "process"
-})
+@XmlType(name = "tDeployment", propOrder = { "process" })
 public class TDeployment {
 
     protected List<TDeployment.Process> process;
@@ -95,15 +96,16 @@ public class TDeployment {
      * Gets the value of the process property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the process property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the process property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getProcess().add(newItem);
+     * getProcess().add(newItem);
      * </pre>
      * 
      * 
@@ -120,11 +122,13 @@ public class TDeployment {
         return this.process;
     }
 
-
     /**
-     * <p>Java class for anonymous complex type.
+     * <p>
+     * Java class for anonymous complex type.
      * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
+     * <p>
+     * The following schema fragment specifies the expected content contained
+     * within this class.
      * 
      * <pre>
      * &lt;complexType>
@@ -175,19 +179,9 @@ public class TDeployment {
      * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "active",
-        "retired",
-        "inMemory",
-        "property",
-        "processEvents",
-        "provide",
-        "invoke",
-        "mexInterceptors",
-        "type",
-        "cleanup",
-        "schedule"
-    })
+    @XmlType(name = "", propOrder = { "active", "retired", "inMemory",
+            "property", "processEvents", "provide", "invoke",
+            "mexInterceptors", "type", "cleanup", "schedule" })
     public static class Process {
 
         @XmlElement(defaultValue = "true")
@@ -216,10 +210,8 @@ public class TDeployment {
         /**
          * Gets the value of the active property.
          * 
-         * @return
-         *     possible object is
-         *     {@link Boolean }
-         *     
+         * @return possible object is {@link Boolean }
+         * 
          */
         public Boolean isActive() {
             return active;
@@ -229,9 +221,8 @@ public class TDeployment {
          * Sets the value of the active property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link Boolean }
-         *     
+         *            allowed object is {@link Boolean }
+         * 
          */
         public void setActive(Boolean value) {
             this.active = value;
@@ -240,10 +231,8 @@ public class TDeployment {
         /**
          * Gets the value of the retired property.
          * 
-         * @return
-         *     possible object is
-         *     {@link Boolean }
-         *     
+         * @return possible object is {@link Boolean }
+         * 
          */
         public Boolean isRetired() {
             return retired;
@@ -253,9 +242,8 @@ public class TDeployment {
          * Sets the value of the retired property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link Boolean }
-         *     
+         *            allowed object is {@link Boolean }
+         * 
          */
         public void setRetired(Boolean value) {
             this.retired = value;
@@ -264,10 +252,8 @@ public class TDeployment {
         /**
          * Gets the value of the inMemory property.
          * 
-         * @return
-         *     possible object is
-         *     {@link Boolean }
-         *     
+         * @return possible object is {@link Boolean }
+         * 
          */
         public Boolean isInMemory() {
             return inMemory;
@@ -277,9 +263,8 @@ public class TDeployment {
          * Sets the value of the inMemory property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link Boolean }
-         *     
+         *            allowed object is {@link Boolean }
+         * 
          */
         public void setInMemory(Boolean value) {
             this.inMemory = value;
@@ -289,15 +274,16 @@ public class TDeployment {
          * Gets the value of the property property.
          * 
          * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the property property.
+         * This accessor method returns a reference to the live list, not a
+         * snapshot. Therefore any modification you make to the returned list
+         * will be present inside the JAXB object. This is why there is not a
+         * <CODE>set</CODE> method for the property property.
          * 
          * <p>
          * For example, to add a new item, do as follows:
+         * 
          * <pre>
-         *    getProperty().add(newItem);
+         * getProperty().add(newItem);
          * </pre>
          * 
          * 
@@ -317,10 +303,8 @@ public class TDeployment {
         /**
          * Gets the value of the processEvents property.
          * 
-         * @return
-         *     possible object is
-         *     {@link TProcessEvents }
-         *     
+         * @return possible object is {@link TProcessEvents }
+         * 
          */
         public TProcessEvents getProcessEvents() {
             return processEvents;
@@ -330,9 +314,8 @@ public class TDeployment {
          * Sets the value of the processEvents property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link TProcessEvents }
-         *     
+         *            allowed object is {@link TProcessEvents }
+         * 
          */
         public void setProcessEvents(TProcessEvents value) {
             this.processEvents = value;
@@ -342,15 +325,16 @@ public class TDeployment {
          * Gets the value of the provide property.
          * 
          * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the provide property.
+         * This accessor method returns a reference to the live list, not a
+         * snapshot. Therefore any modification you make to the returned list
+         * will be present inside the JAXB object. This is why there is not a
+         * <CODE>set</CODE> method for the provide property.
          * 
          * <p>
          * For example, to add a new item, do as follows:
+         * 
          * <pre>
-         *    getProvide().add(newItem);
+         * getProvide().add(newItem);
          * </pre>
          * 
          * 
@@ -371,15 +355,16 @@ public class TDeployment {
          * Gets the value of the invoke property.
          * 
          * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the invoke property.
+         * This accessor method returns a reference to the live list, not a
+         * snapshot. Therefore any modification you make to the returned list
+         * will be present inside the JAXB object. This is why there is not a
+         * <CODE>set</CODE> method for the invoke property.
          * 
          * <p>
          * For example, to add a new item, do as follows:
+         * 
          * <pre>
-         *    getInvoke().add(newItem);
+         * getInvoke().add(newItem);
          * </pre>
          * 
          * 
@@ -399,10 +384,9 @@ public class TDeployment {
         /**
          * Gets the value of the mexInterceptors property.
          * 
-         * @return
-         *     possible object is
-         *     {@link TDeployment.Process.MexInterceptors }
-         *     
+         * @return possible object is
+         *         {@link TDeployment.Process.MexInterceptors }
+         * 
          */
         public TDeployment.Process.MexInterceptors getMexInterceptors() {
             return mexInterceptors;
@@ -412,9 +396,9 @@ public class TDeployment {
          * Sets the value of the mexInterceptors property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link TDeployment.Process.MexInterceptors }
-         *     
+         *            allowed object is
+         *            {@link TDeployment.Process.MexInterceptors }
+         * 
          */
         public void setMexInterceptors(TDeployment.Process.MexInterceptors value) {
             this.mexInterceptors = value;
@@ -423,10 +407,8 @@ public class TDeployment {
         /**
          * Gets the value of the type property.
          * 
-         * @return
-         *     possible object is
-         *     {@link QName }
-         *     
+         * @return possible object is {@link QName }
+         * 
          */
         public QName getType() {
             return type;
@@ -436,9 +418,8 @@ public class TDeployment {
          * Sets the value of the type property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link QName }
-         *     
+         *            allowed object is {@link QName }
+         * 
          */
         public void setType(QName value) {
             this.type = value;
@@ -448,15 +429,16 @@ public class TDeployment {
          * Gets the value of the cleanup property.
          * 
          * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the cleanup property.
+         * This accessor method returns a reference to the live list, not a
+         * snapshot. Therefore any modification you make to the returned list
+         * will be present inside the JAXB object. This is why there is not a
+         * <CODE>set</CODE> method for the cleanup property.
          * 
          * <p>
          * For example, to add a new item, do as follows:
+         * 
          * <pre>
-         *    getCleanup().add(newItem);
+         * getCleanup().add(newItem);
          * </pre>
          * 
          * 
@@ -477,15 +459,16 @@ public class TDeployment {
          * Gets the value of the schedule property.
          * 
          * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the schedule property.
+         * This accessor method returns a reference to the live list, not a
+         * snapshot. Therefore any modification you make to the returned list
+         * will be present inside the JAXB object. This is why there is not a
+         * <CODE>set</CODE> method for the schedule property.
          * 
          * <p>
          * For example, to add a new item, do as follows:
+         * 
          * <pre>
-         *    getSchedule().add(newItem);
+         * getSchedule().add(newItem);
          * </pre>
          * 
          * 
@@ -505,10 +488,8 @@ public class TDeployment {
         /**
          * Gets the value of the name property.
          * 
-         * @return
-         *     possible object is
-         *     {@link QName }
-         *     
+         * @return possible object is {@link QName }
+         * 
          */
         public QName getName() {
             return name;
@@ -518,9 +499,8 @@ public class TDeployment {
          * Sets the value of the name property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link QName }
-         *     
+         *            allowed object is {@link QName }
+         * 
          */
         public void setName(QName value) {
             this.name = value;
@@ -529,10 +509,8 @@ public class TDeployment {
         /**
          * Gets the value of the fileName property.
          * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         * @return possible object is {@link String }
+         * 
          */
         public String getFileName() {
             return fileName;
@@ -542,9 +520,8 @@ public class TDeployment {
          * Sets the value of the fileName property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *            allowed object is {@link String }
+         * 
          */
         public void setFileName(String value) {
             this.fileName = value;
@@ -553,10 +530,8 @@ public class TDeployment {
         /**
          * Gets the value of the bpel11WsdlFileName property.
          * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         * @return possible object is {@link String }
+         * 
          */
         public String getBpel11WsdlFileName() {
             return bpel11WsdlFileName;
@@ -566,19 +541,20 @@ public class TDeployment {
          * Sets the value of the bpel11WsdlFileName property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         *            allowed object is {@link String }
+         * 
          */
         public void setBpel11WsdlFileName(String value) {
             this.bpel11WsdlFileName = value;
         }
 
-
         /**
-         * <p>Java class for anonymous complex type.
+         * <p>
+         * Java class for anonymous complex type.
          * 
-         * <p>The following schema fragment specifies the expected content contained within this class.
+         * <p>
+         * The following schema fragment specifies the expected content
+         * contained within this class.
          * 
          * <pre>
          * &lt;complexType>
@@ -595,9 +571,7 @@ public class TDeployment {
          * 
          */
         @XmlAccessorType(XmlAccessType.FIELD)
-        @XmlType(name = "", propOrder = {
-            "mexInterceptor"
-        })
+        @XmlType(name = "", propOrder = { "mexInterceptor" })
         public static class MexInterceptors {
 
             @XmlElement(name = "mex-interceptor")
@@ -607,15 +581,16 @@ public class TDeployment {
              * Gets the value of the mexInterceptor property.
              * 
              * <p>
-             * This accessor method returns a reference to the live list,
-             * not a snapshot. Therefore any modification you make to the
-             * returned list will be present inside the JAXB object.
-             * This is why there is not a <CODE>set</CODE> method for the mexInterceptor property.
+             * This accessor method returns a reference to the live list, not a
+             * snapshot. Therefore any modification you make to the returned
+             * list will be present inside the JAXB object. This is why there is
+             * not a <CODE>set</CODE> method for the mexInterceptor property.
              * 
              * <p>
              * For example, to add a new item, do as follows:
+             * 
              * <pre>
-             *    getMexInterceptor().add(newItem);
+             * getMexInterceptor().add(newItem);
              * </pre>
              * 
              * 
@@ -634,11 +609,13 @@ public class TDeployment {
 
         }
 
-
         /**
-         * <p>Java class for anonymous complex type.
+         * <p>
+         * Java class for anonymous complex type.
          * 
-         * <p>The following schema fragment specifies the expected content contained within this class.
+         * <p>
+         * The following schema fragment specifies the expected content
+         * contained within this class.
          * 
          * <pre>
          * &lt;complexType>
@@ -656,9 +633,7 @@ public class TDeployment {
          * 
          */
         @XmlAccessorType(XmlAccessType.FIELD)
-        @XmlType(name = "", propOrder = {
-            "any"
-        })
+        @XmlType(name = "", propOrder = { "any" })
         public static class Property {
 
             @XmlAnyElement(lax = true)
@@ -670,22 +645,22 @@ public class TDeployment {
              * Gets the value of the any property.
              * 
              * <p>
-             * This accessor method returns a reference to the live list,
-             * not a snapshot. Therefore any modification you make to the
-             * returned list will be present inside the JAXB object.
-             * This is why there is not a <CODE>set</CODE> method for the any property.
+             * This accessor method returns a reference to the live list, not a
+             * snapshot. Therefore any modification you make to the returned
+             * list will be present inside the JAXB object. This is why there is
+             * not a <CODE>set</CODE> method for the any property.
              * 
              * <p>
              * For example, to add a new item, do as follows:
+             * 
              * <pre>
-             *    getAny().add(newItem);
+             * getAny().add(newItem);
              * </pre>
              * 
              * 
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link Object }
-             * {@link Element }
+             * {@link Object } {@link Element }
              * 
              * 
              */
@@ -699,10 +674,8 @@ public class TDeployment {
             /**
              * Gets the value of the name property.
              * 
-             * @return
-             *     possible object is
-             *     {@link QName }
-             *     
+             * @return possible object is {@link QName }
+             * 
              */
             public QName getName() {
                 return name;
@@ -712,9 +685,8 @@ public class TDeployment {
              * Sets the value of the name property.
              * 
              * @param value
-             *     allowed object is
-             *     {@link QName }
-             *     
+             *            allowed object is {@link QName }
+             * 
              */
             public void setName(QName value) {
                 this.name = value;

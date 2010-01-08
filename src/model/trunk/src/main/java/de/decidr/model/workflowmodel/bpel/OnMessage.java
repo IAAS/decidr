@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,11 +12,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tOnMessage complex type.
+ * <p>
+ * Java class for tOnMessage complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tOnMessage">
@@ -35,32 +36,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tOnMessage", propOrder = {
-    "assign",
-    "compensate",
-    "compensateScope",
-    "empty",
-    "exit",
-    "extensionActivity",
-    "flow",
-    "forEach",
-    "_if",
-    "invoke",
-    "pick",
-    "receive",
-    "repeatUntil",
-    "reply",
-    "rethrow",
-    "scope",
-    "sequence",
-    "_throw",
-    "validate",
-    "wait",
-    "_while"
-})
-public class OnMessage
-    extends OnMsgCommon
-{
+@XmlType(name = "tOnMessage", propOrder = { "assign", "compensate",
+        "compensateScope", "empty", "exit", "extensionActivity", "flow",
+        "forEach", "_if", "invoke", "pick", "receive", "repeatUntil", "reply",
+        "rethrow", "scope", "sequence", "_throw", "validate", "wait", "_while" })
+public class OnMessage extends OnMsgCommon {
 
     protected Assign assign;
     protected Compensate compensate;
@@ -90,10 +70,8 @@ public class OnMessage
     /**
      * Gets the value of the assign property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Assign }
-     *     
+     * @return possible object is {@link Assign }
+     * 
      */
     public Assign getAssign() {
         return assign;
@@ -103,25 +81,22 @@ public class OnMessage
      * Sets the value of the assign property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Assign }
-     *     
+     *            allowed object is {@link Assign }
+     * 
      */
     public void setAssign(Assign value) {
         this.assign = value;
     }
 
     public boolean isSetAssign() {
-        return (this.assign!= null);
+        return (this.assign != null);
     }
 
     /**
      * Gets the value of the compensate property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Compensate }
-     *     
+     * @return possible object is {@link Compensate }
+     * 
      */
     public Compensate getCompensate() {
         return compensate;
@@ -131,25 +106,22 @@ public class OnMessage
      * Sets the value of the compensate property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Compensate }
-     *     
+     *            allowed object is {@link Compensate }
+     * 
      */
     public void setCompensate(Compensate value) {
         this.compensate = value;
     }
 
     public boolean isSetCompensate() {
-        return (this.compensate!= null);
+        return (this.compensate != null);
     }
 
     /**
      * Gets the value of the compensateScope property.
      * 
-     * @return
-     *     possible object is
-     *     {@link CompensateScope }
-     *     
+     * @return possible object is {@link CompensateScope }
+     * 
      */
     public CompensateScope getCompensateScope() {
         return compensateScope;
@@ -159,25 +131,22 @@ public class OnMessage
      * Sets the value of the compensateScope property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link CompensateScope }
-     *     
+     *            allowed object is {@link CompensateScope }
+     * 
      */
     public void setCompensateScope(CompensateScope value) {
         this.compensateScope = value;
     }
 
     public boolean isSetCompensateScope() {
-        return (this.compensateScope!= null);
+        return (this.compensateScope != null);
     }
 
     /**
      * Gets the value of the empty property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Empty }
-     *     
+     * @return possible object is {@link Empty }
+     * 
      */
     public Empty getEmpty() {
         return empty;
@@ -187,25 +156,22 @@ public class OnMessage
      * Sets the value of the empty property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Empty }
-     *     
+     *            allowed object is {@link Empty }
+     * 
      */
     public void setEmpty(Empty value) {
         this.empty = value;
     }
 
     public boolean isSetEmpty() {
-        return (this.empty!= null);
+        return (this.empty != null);
     }
 
     /**
      * Gets the value of the exit property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Exit }
-     *     
+     * @return possible object is {@link Exit }
+     * 
      */
     public Exit getExit() {
         return exit;
@@ -215,25 +181,22 @@ public class OnMessage
      * Sets the value of the exit property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Exit }
-     *     
+     *            allowed object is {@link Exit }
+     * 
      */
     public void setExit(Exit value) {
         this.exit = value;
     }
 
     public boolean isSetExit() {
-        return (this.exit!= null);
+        return (this.exit != null);
     }
 
     /**
      * Gets the value of the extensionActivity property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ExtensionActivity }
-     *     
+     * @return possible object is {@link ExtensionActivity }
+     * 
      */
     public ExtensionActivity getExtensionActivity() {
         return extensionActivity;
@@ -243,25 +206,22 @@ public class OnMessage
      * Sets the value of the extensionActivity property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ExtensionActivity }
-     *     
+     *            allowed object is {@link ExtensionActivity }
+     * 
      */
     public void setExtensionActivity(ExtensionActivity value) {
         this.extensionActivity = value;
     }
 
     public boolean isSetExtensionActivity() {
-        return (this.extensionActivity!= null);
+        return (this.extensionActivity != null);
     }
 
     /**
      * Gets the value of the flow property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Flow }
-     *     
+     * @return possible object is {@link Flow }
+     * 
      */
     public Flow getFlow() {
         return flow;
@@ -271,25 +231,22 @@ public class OnMessage
      * Sets the value of the flow property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Flow }
-     *     
+     *            allowed object is {@link Flow }
+     * 
      */
     public void setFlow(Flow value) {
         this.flow = value;
     }
 
     public boolean isSetFlow() {
-        return (this.flow!= null);
+        return (this.flow != null);
     }
 
     /**
      * Gets the value of the forEach property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ForEach }
-     *     
+     * @return possible object is {@link ForEach }
+     * 
      */
     public ForEach getForEach() {
         return forEach;
@@ -299,25 +256,22 @@ public class OnMessage
      * Sets the value of the forEach property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ForEach }
-     *     
+     *            allowed object is {@link ForEach }
+     * 
      */
     public void setForEach(ForEach value) {
         this.forEach = value;
     }
 
     public boolean isSetForEach() {
-        return (this.forEach!= null);
+        return (this.forEach != null);
     }
 
     /**
      * Gets the value of the if property.
      * 
-     * @return
-     *     possible object is
-     *     {@link If }
-     *     
+     * @return possible object is {@link If }
+     * 
      */
     public If getIf() {
         return _if;
@@ -327,25 +281,22 @@ public class OnMessage
      * Sets the value of the if property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link If }
-     *     
+     *            allowed object is {@link If }
+     * 
      */
     public void setIf(If value) {
         this._if = value;
     }
 
     public boolean isSetIf() {
-        return (this._if!= null);
+        return (this._if != null);
     }
 
     /**
      * Gets the value of the invoke property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Invoke }
-     *     
+     * @return possible object is {@link Invoke }
+     * 
      */
     public Invoke getInvoke() {
         return invoke;
@@ -355,25 +306,22 @@ public class OnMessage
      * Sets the value of the invoke property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Invoke }
-     *     
+     *            allowed object is {@link Invoke }
+     * 
      */
     public void setInvoke(Invoke value) {
         this.invoke = value;
     }
 
     public boolean isSetInvoke() {
-        return (this.invoke!= null);
+        return (this.invoke != null);
     }
 
     /**
      * Gets the value of the pick property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Pick }
-     *     
+     * @return possible object is {@link Pick }
+     * 
      */
     public Pick getPick() {
         return pick;
@@ -383,25 +331,22 @@ public class OnMessage
      * Sets the value of the pick property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Pick }
-     *     
+     *            allowed object is {@link Pick }
+     * 
      */
     public void setPick(Pick value) {
         this.pick = value;
     }
 
     public boolean isSetPick() {
-        return (this.pick!= null);
+        return (this.pick != null);
     }
 
     /**
      * Gets the value of the receive property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Receive }
-     *     
+     * @return possible object is {@link Receive }
+     * 
      */
     public Receive getReceive() {
         return receive;
@@ -411,25 +356,22 @@ public class OnMessage
      * Sets the value of the receive property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Receive }
-     *     
+     *            allowed object is {@link Receive }
+     * 
      */
     public void setReceive(Receive value) {
         this.receive = value;
     }
 
     public boolean isSetReceive() {
-        return (this.receive!= null);
+        return (this.receive != null);
     }
 
     /**
      * Gets the value of the repeatUntil property.
      * 
-     * @return
-     *     possible object is
-     *     {@link RepeatUntil }
-     *     
+     * @return possible object is {@link RepeatUntil }
+     * 
      */
     public RepeatUntil getRepeatUntil() {
         return repeatUntil;
@@ -439,25 +381,22 @@ public class OnMessage
      * Sets the value of the repeatUntil property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link RepeatUntil }
-     *     
+     *            allowed object is {@link RepeatUntil }
+     * 
      */
     public void setRepeatUntil(RepeatUntil value) {
         this.repeatUntil = value;
     }
 
     public boolean isSetRepeatUntil() {
-        return (this.repeatUntil!= null);
+        return (this.repeatUntil != null);
     }
 
     /**
      * Gets the value of the reply property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Reply }
-     *     
+     * @return possible object is {@link Reply }
+     * 
      */
     public Reply getReply() {
         return reply;
@@ -467,25 +406,22 @@ public class OnMessage
      * Sets the value of the reply property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Reply }
-     *     
+     *            allowed object is {@link Reply }
+     * 
      */
     public void setReply(Reply value) {
         this.reply = value;
     }
 
     public boolean isSetReply() {
-        return (this.reply!= null);
+        return (this.reply != null);
     }
 
     /**
      * Gets the value of the rethrow property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Rethrow }
-     *     
+     * @return possible object is {@link Rethrow }
+     * 
      */
     public Rethrow getRethrow() {
         return rethrow;
@@ -495,25 +431,22 @@ public class OnMessage
      * Sets the value of the rethrow property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Rethrow }
-     *     
+     *            allowed object is {@link Rethrow }
+     * 
      */
     public void setRethrow(Rethrow value) {
         this.rethrow = value;
     }
 
     public boolean isSetRethrow() {
-        return (this.rethrow!= null);
+        return (this.rethrow != null);
     }
 
     /**
      * Gets the value of the scope property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Scope }
-     *     
+     * @return possible object is {@link Scope }
+     * 
      */
     public Scope getScope() {
         return scope;
@@ -523,25 +456,22 @@ public class OnMessage
      * Sets the value of the scope property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Scope }
-     *     
+     *            allowed object is {@link Scope }
+     * 
      */
     public void setScope(Scope value) {
         this.scope = value;
     }
 
     public boolean isSetScope() {
-        return (this.scope!= null);
+        return (this.scope != null);
     }
 
     /**
      * Gets the value of the sequence property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Sequence }
-     *     
+     * @return possible object is {@link Sequence }
+     * 
      */
     public Sequence getSequence() {
         return sequence;
@@ -551,25 +481,22 @@ public class OnMessage
      * Sets the value of the sequence property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Sequence }
-     *     
+     *            allowed object is {@link Sequence }
+     * 
      */
     public void setSequence(Sequence value) {
         this.sequence = value;
     }
 
     public boolean isSetSequence() {
-        return (this.sequence!= null);
+        return (this.sequence != null);
     }
 
     /**
      * Gets the value of the throw property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Throw }
-     *     
+     * @return possible object is {@link Throw }
+     * 
      */
     public Throw getThrow() {
         return _throw;
@@ -579,25 +506,22 @@ public class OnMessage
      * Sets the value of the throw property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Throw }
-     *     
+     *            allowed object is {@link Throw }
+     * 
      */
     public void setThrow(Throw value) {
         this._throw = value;
     }
 
     public boolean isSetThrow() {
-        return (this._throw!= null);
+        return (this._throw != null);
     }
 
     /**
      * Gets the value of the validate property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Validate }
-     *     
+     * @return possible object is {@link Validate }
+     * 
      */
     public Validate getValidate() {
         return validate;
@@ -607,25 +531,22 @@ public class OnMessage
      * Sets the value of the validate property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Validate }
-     *     
+     *            allowed object is {@link Validate }
+     * 
      */
     public void setValidate(Validate value) {
         this.validate = value;
     }
 
     public boolean isSetValidate() {
-        return (this.validate!= null);
+        return (this.validate != null);
     }
 
     /**
      * Gets the value of the wait property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Wait }
-     *     
+     * @return possible object is {@link Wait }
+     * 
      */
     public Wait getWait() {
         return wait;
@@ -635,25 +556,22 @@ public class OnMessage
      * Sets the value of the wait property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Wait }
-     *     
+     *            allowed object is {@link Wait }
+     * 
      */
     public void setWait(Wait value) {
         this.wait = value;
     }
 
     public boolean isSetWait() {
-        return (this.wait!= null);
+        return (this.wait != null);
     }
 
     /**
      * Gets the value of the while property.
      * 
-     * @return
-     *     possible object is
-     *     {@link While }
-     *     
+     * @return possible object is {@link While }
+     * 
      */
     public While getWhile() {
         return _while;
@@ -663,16 +581,15 @@ public class OnMessage
      * Sets the value of the while property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link While }
-     *     
+     *            allowed object is {@link While }
+     * 
      */
     public void setWhile(While value) {
         this._while = value;
     }
 
     public boolean isSetWhile() {
-        return (this._while!= null);
+        return (this._while != null);
     }
 
 }

@@ -5,7 +5,6 @@
 // Generated on: 2009.08.28 at 06:27:43 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.dd;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,11 +13,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
-
 /**
- * <p>Java class for tInvoke complex type.
+ * <p>
+ * Java class for tInvoke complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tInvoke">
@@ -45,10 +46,7 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tInvoke", propOrder = {
-    "service",
-    "binding"
-})
+@XmlType(name = "tInvoke", propOrder = { "service", "binding" })
 public class TInvoke {
 
     protected TService service;
@@ -59,10 +57,8 @@ public class TInvoke {
     /**
      * Gets the value of the service property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TService }
-     *     
+     * @return possible object is {@link TService }
+     * 
      */
     public TService getService() {
         return service;
@@ -72,9 +68,8 @@ public class TInvoke {
      * Sets the value of the service property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link TService }
-     *     
+     *            allowed object is {@link TService }
+     * 
      */
     public void setService(TService value) {
         this.service = value;
@@ -83,10 +78,8 @@ public class TInvoke {
     /**
      * Gets the value of the binding property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TInvoke.Binding }
-     *     
+     * @return possible object is {@link TInvoke.Binding }
+     * 
      */
     public TInvoke.Binding getBinding() {
         return binding;
@@ -96,9 +89,8 @@ public class TInvoke {
      * Sets the value of the binding property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link TInvoke.Binding }
-     *     
+     *            allowed object is {@link TInvoke.Binding }
+     * 
      */
     public void setBinding(TInvoke.Binding value) {
         this.binding = value;
@@ -107,10 +99,8 @@ public class TInvoke {
     /**
      * Gets the value of the partnerLink property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPartnerLink() {
         return partnerLink;
@@ -120,19 +110,20 @@ public class TInvoke {
      * Sets the value of the partnerLink property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPartnerLink(String value) {
         this.partnerLink = value;
     }
 
-
     /**
-     * <p>Java class for anonymous complex type.
+     * <p>
+     * Java class for anonymous complex type.
      * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
+     * <p>
+     * The following schema fragment specifies the expected content contained
+     * within this class.
      * 
      * <pre>
      * &lt;complexType>
@@ -156,10 +147,8 @@ public class TInvoke {
         /**
          * Gets the value of the name property.
          * 
-         * @return
-         *     possible object is
-         *     {@link QName }
-         *     
+         * @return possible object is {@link QName }
+         * 
          */
         public QName getName() {
             return name;
@@ -169,9 +158,8 @@ public class TInvoke {
          * Sets the value of the name property.
          * 
          * @param value
-         *     allowed object is
-         *     {@link QName }
-         *     
+         *            allowed object is {@link QName }
+         * 
          */
         public void setName(QName value) {
             this.name = value;

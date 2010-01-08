@@ -5,21 +5,23 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tRecipient complex type.
+ * <p>
+ * Java class for tRecipient complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tRecipient">
@@ -36,9 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tRecipient", propOrder = {
-    "setProperty"
-})
+@XmlType(name = "tRecipient", propOrder = { "setProperty" })
 public class Recipient {
 
     @XmlElement(required = true)
@@ -48,15 +48,16 @@ public class Recipient {
      * Gets the value of the setProperty property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the setProperty property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the setProperty property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getSetProperty().add(newItem);
+     * getSetProperty().add(newItem);
      * </pre>
      * 
      * 
@@ -74,7 +75,7 @@ public class Recipient {
     }
 
     public boolean isSetSetProperty() {
-        return ((this.setProperty!= null)&&(!this.setProperty.isEmpty()));
+        return ((this.setProperty != null) && (!this.setProperty.isEmpty()));
     }
 
     public void unsetSetProperty() {

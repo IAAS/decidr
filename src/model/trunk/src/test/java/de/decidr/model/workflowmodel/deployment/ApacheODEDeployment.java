@@ -47,7 +47,7 @@ public class ApacheODEDeployment {
 
     @Test
     public void testDeployStringByteArrayString() throws AxisFault {
-        //deployer.deploy("HelloWorld2", simpleHelloLocal, location_local);
+        // deployer.deploy("HelloWorld2", simpleHelloLocal, location_local);
         deployer.deploy("HelloWorld2", simpleHelloRemote, location_remote);
     }
 

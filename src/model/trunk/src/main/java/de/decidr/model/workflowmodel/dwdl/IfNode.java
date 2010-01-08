@@ -5,21 +5,23 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tIfNode complex type.
+ * <p>
+ * Java class for tIfNode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tIfNode">
@@ -36,12 +38,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tIfNode", propOrder = {
-    "condition"
-})
-public class IfNode
-    extends BasicNode
-{
+@XmlType(name = "tIfNode", propOrder = { "condition" })
+public class IfNode extends BasicNode {
 
     @XmlElement(required = true)
     protected List<Condition> condition;
@@ -50,15 +48,16 @@ public class IfNode
      * Gets the value of the condition property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the condition property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the condition property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCondition().add(newItem);
+     * getCondition().add(newItem);
      * </pre>
      * 
      * 
@@ -76,7 +75,7 @@ public class IfNode
     }
 
     public boolean isSetCondition() {
-        return ((this.condition!= null)&&(!this.condition.isEmpty()));
+        return ((this.condition != null) && (!this.condition.isEmpty()));
     }
 
     public void unsetCondition() {

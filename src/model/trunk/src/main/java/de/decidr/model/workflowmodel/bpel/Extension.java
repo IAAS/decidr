@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,11 +13,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tExtension complex type.
+ * <p>
+ * Java class for tExtension complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tExtension">
@@ -36,9 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tExtension")
-public class Extension
-    extends ExtensibleElements
-{
+public class Extension extends ExtensibleElements {
 
     @XmlAttribute(required = true)
     @XmlSchemaType(name = "anyURI")
@@ -49,10 +48,8 @@ public class Extension
     /**
      * Gets the value of the namespace property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getNamespace() {
         return namespace;
@@ -62,25 +59,22 @@ public class Extension
      * Sets the value of the namespace property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setNamespace(String value) {
         this.namespace = value;
     }
 
     public boolean isSetNamespace() {
-        return (this.namespace!= null);
+        return (this.namespace != null);
     }
 
     /**
      * Gets the value of the mustUnderstand property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getMustUnderstand() {
         return mustUnderstand;
@@ -90,16 +84,15 @@ public class Extension
      * Sets the value of the mustUnderstand property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setMustUnderstand(Boolean value) {
         this.mustUnderstand = value;
     }
 
     public boolean isSetMustUnderstand() {
-        return (this.mustUnderstand!= null);
+        return (this.mustUnderstand != null);
     }
 
 }

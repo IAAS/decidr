@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tWorkflow complex type.
+ * <p>
+ * Java class for tWorkflow complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tWorkflow">
@@ -45,14 +46,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tWorkflow", propOrder = {
-    "description",
-    "variables",
-    "roles",
-    "faultHandler",
-    "nodes",
-    "arcs"
-})
+@XmlType(name = "tWorkflow", propOrder = { "description", "variables", "roles",
+        "faultHandler", "nodes", "arcs" })
 public class Workflow {
 
     protected String description;
@@ -74,10 +69,8 @@ public class Workflow {
     /**
      * Gets the value of the description property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getDescription() {
         return description;
@@ -87,25 +80,22 @@ public class Workflow {
      * Sets the value of the description property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setDescription(String value) {
         this.description = value;
     }
 
     public boolean isSetDescription() {
-        return (this.description!= null);
+        return (this.description != null);
     }
 
     /**
      * Gets the value of the variables property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Variables }
-     *     
+     * @return possible object is {@link Variables }
+     * 
      */
     public Variables getVariables() {
         return variables;
@@ -115,25 +105,22 @@ public class Workflow {
      * Sets the value of the variables property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Variables }
-     *     
+     *            allowed object is {@link Variables }
+     * 
      */
     public void setVariables(Variables value) {
         this.variables = value;
     }
 
     public boolean isSetVariables() {
-        return (this.variables!= null);
+        return (this.variables != null);
     }
 
     /**
      * Gets the value of the roles property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Roles }
-     *     
+     * @return possible object is {@link Roles }
+     * 
      */
     public Roles getRoles() {
         return roles;
@@ -143,25 +130,22 @@ public class Workflow {
      * Sets the value of the roles property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Roles }
-     *     
+     *            allowed object is {@link Roles }
+     * 
      */
     public void setRoles(Roles value) {
         this.roles = value;
     }
 
     public boolean isSetRoles() {
-        return (this.roles!= null);
+        return (this.roles != null);
     }
 
     /**
      * Gets the value of the faultHandler property.
      * 
-     * @return
-     *     possible object is
-     *     {@link FaultHandler }
-     *     
+     * @return possible object is {@link FaultHandler }
+     * 
      */
     public FaultHandler getFaultHandler() {
         return faultHandler;
@@ -171,25 +155,22 @@ public class Workflow {
      * Sets the value of the faultHandler property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link FaultHandler }
-     *     
+     *            allowed object is {@link FaultHandler }
+     * 
      */
     public void setFaultHandler(FaultHandler value) {
         this.faultHandler = value;
     }
 
     public boolean isSetFaultHandler() {
-        return (this.faultHandler!= null);
+        return (this.faultHandler != null);
     }
 
     /**
      * Gets the value of the nodes property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Nodes }
-     *     
+     * @return possible object is {@link Nodes }
+     * 
      */
     public Nodes getNodes() {
         return nodes;
@@ -199,25 +180,22 @@ public class Workflow {
      * Sets the value of the nodes property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Nodes }
-     *     
+     *            allowed object is {@link Nodes }
+     * 
      */
     public void setNodes(Nodes value) {
         this.nodes = value;
     }
 
     public boolean isSetNodes() {
-        return (this.nodes!= null);
+        return (this.nodes != null);
     }
 
     /**
      * Gets the value of the arcs property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Arcs }
-     *     
+     * @return possible object is {@link Arcs }
+     * 
      */
     public Arcs getArcs() {
         return arcs;
@@ -227,25 +205,22 @@ public class Workflow {
      * Sets the value of the arcs property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Arcs }
-     *     
+     *            allowed object is {@link Arcs }
+     * 
      */
     public void setArcs(Arcs value) {
         this.arcs = value;
     }
 
     public boolean isSetArcs() {
-        return (this.arcs!= null);
+        return (this.arcs != null);
     }
 
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -255,16 +230,15 @@ public class Workflow {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
@@ -290,10 +264,8 @@ public class Workflow {
     /**
      * Gets the value of the targetNamespace property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getTargetNamespace() {
         return targetNamespace;
@@ -303,16 +275,15 @@ public class Workflow {
      * Sets the value of the targetNamespace property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setTargetNamespace(String value) {
         this.targetNamespace = value;
     }
 
     public boolean isSetTargetNamespace() {
-        return (this.targetNamespace!= null);
+        return (this.targetNamespace != null);
     }
 
 }

@@ -25,20 +25,19 @@ package de.decidr.model.workflowmodel.dwdl.validation;
  * @version 0.1
  */
 public interface IProblem {
-    
+
     /**
      * Returns description of the error
      * 
      * @return readable description
      */
     public String getErrorDescription();
-    
+
     /**
-     * Returns the position of the error, e.g line 12 or
-     * variablename
+     * Returns the position of the error, e.g line 12 or variablename
      * 
      * @return position of the error
      */
     public String getErrorPosition();
-    
+
 }

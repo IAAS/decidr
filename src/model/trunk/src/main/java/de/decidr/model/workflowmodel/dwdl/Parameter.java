@@ -5,11 +5,11 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -19,13 +19,16 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import org.w3c.dom.Element;
 
-
 /**
- * <p>Java class for tParameter complex type.
+ * <p>
+ * Java class for tParameter complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tParameter">
@@ -43,9 +46,7 @@ import org.w3c.dom.Element;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tParameter", propOrder = {
-    "content"
-})
+@XmlType(name = "tParameter", propOrder = { "content" })
 public class Parameter {
 
     @XmlMixed
@@ -60,23 +61,22 @@ public class Parameter {
      * Gets the value of the content property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the content property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the content property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getContent().add(newItem);
+     * getContent().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Object }
-     * {@link Element }
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link Object }
+     * {@link Element } {@link String }
      * 
      * 
      */
@@ -88,7 +88,7 @@ public class Parameter {
     }
 
     public boolean isSetContent() {
-        return ((this.content!= null)&&(!this.content.isEmpty()));
+        return ((this.content != null) && (!this.content.isEmpty()));
     }
 
     public void unsetContent() {
@@ -98,10 +98,8 @@ public class Parameter {
     /**
      * Gets the value of the setProperty property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getSetProperty() {
         return setProperty;
@@ -111,16 +109,15 @@ public class Parameter {
      * Sets the value of the setProperty property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setSetProperty(String value) {
         this.setProperty = value;
     }
 
     public boolean isSetSetProperty() {
-        return (this.setProperty!= null);
+        return (this.setProperty != null);
     }
 
 }

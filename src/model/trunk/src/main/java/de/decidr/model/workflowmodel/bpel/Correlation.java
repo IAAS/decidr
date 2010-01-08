@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,11 +16,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tCorrelation complex type.
+ * <p>
+ * Java class for tCorrelation complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCorrelation">
@@ -39,12 +40,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tCorrelation")
-@XmlSeeAlso({
-    CorrelationWithPattern.class
-})
-public class Correlation
-    extends ExtensibleElements
-{
+@XmlSeeAlso( { CorrelationWithPattern.class })
+public class Correlation extends ExtensibleElements {
 
     @XmlAttribute(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -56,10 +53,8 @@ public class Correlation
     /**
      * Gets the value of the set property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getSet() {
         return set;
@@ -69,25 +64,22 @@ public class Correlation
      * Sets the value of the set property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setSet(String value) {
         this.set = value;
     }
 
     public boolean isSetSet() {
-        return (this.set!= null);
+        return (this.set != null);
     }
 
     /**
      * Gets the value of the initiate property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Initiate }
-     *     
+     * @return possible object is {@link Initiate }
+     * 
      */
     public Initiate getInitiate() {
         if (initiate == null) {
@@ -101,16 +93,15 @@ public class Correlation
      * Sets the value of the initiate property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Initiate }
-     *     
+     *            allowed object is {@link Initiate }
+     * 
      */
     public void setInitiate(Initiate value) {
         this.initiate = value;
     }
 
     public boolean isSetInitiate() {
-        return (this.initiate!= null);
+        return (this.initiate != null);
     }
 
 }

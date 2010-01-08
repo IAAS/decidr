@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tSetProperty complex type.
+ * <p>
+ * Java class for tSetProperty complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tSetProperty">
@@ -39,9 +40,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tSetProperty", propOrder = {
-    "propertyValue"
-})
+@XmlType(name = "tSetProperty", propOrder = { "propertyValue" })
 public class SetProperty {
 
     protected Literal propertyValue;
@@ -56,10 +55,8 @@ public class SetProperty {
     /**
      * Gets the value of the propertyValue property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Literal }
-     *     
+     * @return possible object is {@link Literal }
+     * 
      */
     public Literal getPropertyValue() {
         return propertyValue;
@@ -69,25 +66,22 @@ public class SetProperty {
      * Sets the value of the propertyValue property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Literal }
-     *     
+     *            allowed object is {@link Literal }
+     * 
      */
     public void setPropertyValue(Literal value) {
         this.propertyValue = value;
     }
 
     public boolean isSetPropertyValue() {
-        return (this.propertyValue!= null);
+        return (this.propertyValue != null);
     }
 
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -97,25 +91,22 @@ public class SetProperty {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the variable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getVariable() {
         return variable;
@@ -125,16 +116,15 @@ public class SetProperty {
      * Sets the value of the variable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setVariable(String value) {
         this.variable = value;
     }
 
     public boolean isSetVariable() {
-        return (this.variable!= null);
+        return (this.variable != null);
     }
 
 }

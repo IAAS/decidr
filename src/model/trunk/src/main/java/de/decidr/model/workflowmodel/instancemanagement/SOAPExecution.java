@@ -34,7 +34,7 @@ import de.decidr.model.logging.DefaultLogger;
  * @version 0.1
  */
 public class SOAPExecution {
-    
+
     private static Logger log = DefaultLogger.getLogger(SOAPExecution.class);
 
     /**
@@ -44,16 +44,18 @@ public class SOAPExecution {
      * 
      * @param server
      * @param soapMessage
-     * @param dwfm 
+     * @param dwfm
      * @throws SOAPException
      */
-    public SOAPMessage invoke(ServerLoadView server, SOAPMessage soapMessage, DeployedWorkflowModel dwfm)
-            throws SOAPException {
+    public SOAPMessage invoke(ServerLoadView server, SOAPMessage soapMessage,
+            DeployedWorkflowModel dwfm) throws SOAPException {
         SOAPConnectionFactory soapConnFactory = SOAPConnectionFactory
                 .newInstance();
         SOAPConnection connection = soapConnFactory.createConnection();
         // Next line Modified by "best guess" by DH and RM
-        SOAPMessage reply = connection.call(soapMessage, "http://"+server.getLocation()+"/ode/processes/"+dwfm.getId()+"DecidrProcess");
+        SOAPMessage reply = connection.call(soapMessage, "http://"
+                + server.getLocation() + "/ode/processes/" + dwfm.getId()
+                + "DecidrProcess");
         connection.close();
         log.info("SOAP message sent");
         return reply;

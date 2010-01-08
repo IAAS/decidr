@@ -5,22 +5,24 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tFlow complex type.
+ * <p>
+ * Java class for tFlow complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tFlow">
@@ -39,47 +41,39 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tFlow", propOrder = {
-    "links",
-    "activity"
-})
-public class Flow
-    extends Activity
-{
+@XmlType(name = "tFlow", propOrder = { "links", "activity" })
+public class Flow extends Activity {
 
     protected Links links;
-    @XmlElements({
-        @XmlElement(name = "reply", type = Reply.class),
-        @XmlElement(name = "invoke", type = Invoke.class),
-        @XmlElement(name = "pick", type = Pick.class),
-        @XmlElement(name = "exit", type = Exit.class),
-        @XmlElement(name = "extensionActivity", type = ExtensionActivity.class),
-        @XmlElement(name = "empty", type = Empty.class),
-        @XmlElement(name = "compensate", type = Compensate.class),
-        @XmlElement(name = "rethrow", type = Rethrow.class),
-        @XmlElement(name = "sequence", type = Sequence.class),
-        @XmlElement(name = "wait", type = Wait.class),
-        @XmlElement(name = "validate", type = Validate.class),
-        @XmlElement(name = "repeatUntil", type = RepeatUntil.class),
-        @XmlElement(name = "assign", type = Assign.class),
-        @XmlElement(name = "flow", type = Flow.class),
-        @XmlElement(name = "while", type = While.class),
-        @XmlElement(name = "receive", type = Receive.class),
-        @XmlElement(name = "scope", type = Scope.class),
-        @XmlElement(name = "forEach", type = ForEach.class),
-        @XmlElement(name = "compensateScope", type = CompensateScope.class),
-        @XmlElement(name = "throw", type = Throw.class),
-        @XmlElement(name = "if", type = If.class)
-    })
+    @XmlElements( {
+            @XmlElement(name = "reply", type = Reply.class),
+            @XmlElement(name = "invoke", type = Invoke.class),
+            @XmlElement(name = "pick", type = Pick.class),
+            @XmlElement(name = "exit", type = Exit.class),
+            @XmlElement(name = "extensionActivity", type = ExtensionActivity.class),
+            @XmlElement(name = "empty", type = Empty.class),
+            @XmlElement(name = "compensate", type = Compensate.class),
+            @XmlElement(name = "rethrow", type = Rethrow.class),
+            @XmlElement(name = "sequence", type = Sequence.class),
+            @XmlElement(name = "wait", type = Wait.class),
+            @XmlElement(name = "validate", type = Validate.class),
+            @XmlElement(name = "repeatUntil", type = RepeatUntil.class),
+            @XmlElement(name = "assign", type = Assign.class),
+            @XmlElement(name = "flow", type = Flow.class),
+            @XmlElement(name = "while", type = While.class),
+            @XmlElement(name = "receive", type = Receive.class),
+            @XmlElement(name = "scope", type = Scope.class),
+            @XmlElement(name = "forEach", type = ForEach.class),
+            @XmlElement(name = "compensateScope", type = CompensateScope.class),
+            @XmlElement(name = "throw", type = Throw.class),
+            @XmlElement(name = "if", type = If.class) })
     protected List<Object> activity;
 
     /**
      * Gets the value of the links property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Links }
-     *     
+     * @return possible object is {@link Links }
+     * 
      */
     public Links getLinks() {
         return links;
@@ -89,57 +83,41 @@ public class Flow
      * Sets the value of the links property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Links }
-     *     
+     *            allowed object is {@link Links }
+     * 
      */
     public void setLinks(Links value) {
         this.links = value;
     }
 
     public boolean isSetLinks() {
-        return (this.links!= null);
+        return (this.links != null);
     }
 
     /**
      * Gets the value of the activity property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the activity property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the activity property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getActivity().add(newItem);
+     * getActivity().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Reply }
-     * {@link Invoke }
-     * {@link Pick }
-     * {@link Exit }
-     * {@link ExtensionActivity }
-     * {@link Empty }
-     * {@link Compensate }
-     * {@link Rethrow }
-     * {@link Sequence }
-     * {@link Wait }
-     * {@link Validate }
-     * {@link RepeatUntil }
-     * {@link Assign }
-     * {@link Flow }
-     * {@link While }
-     * {@link Receive }
-     * {@link Scope }
-     * {@link ForEach }
-     * {@link CompensateScope }
-     * {@link Throw }
-     * {@link If }
+     * Objects of the following type(s) are allowed in the list {@link Reply }
+     * {@link Invoke } {@link Pick } {@link Exit } {@link ExtensionActivity }
+     * {@link Empty } {@link Compensate } {@link Rethrow } {@link Sequence }
+     * {@link Wait } {@link Validate } {@link RepeatUntil } {@link Assign }
+     * {@link Flow } {@link While } {@link Receive } {@link Scope } {@link ForEach }
+     * {@link CompensateScope } {@link Throw } {@link If }
      * 
      * 
      */
@@ -151,7 +129,7 @@ public class Flow
     }
 
     public boolean isSetActivity() {
-        return ((this.activity!= null)&&(!this.activity.isEmpty()));
+        return ((this.activity != null) && (!this.activity.isEmpty()));
     }
 
     public void unsetActivity() {

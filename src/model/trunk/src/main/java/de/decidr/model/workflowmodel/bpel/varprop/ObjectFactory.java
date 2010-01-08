@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 10:09:06 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel.varprop;
 
 import javax.xml.bind.JAXBElement;
@@ -13,33 +12,33 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the de.decidr.model.workflowmodel.bpel.varprop package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
- * provided in this class.
+ * This object contains factory methods for each Java content interface and Java
+ * element interface generated in the de.decidr.model.workflowmodel.bpel.varprop
+ * package.
+ * <p>
+ * An ObjectFactory allows you to programatically construct new instances of the
+ * Java representation for XML content. The Java representation of XML content
+ * can consist of schema derived interfaces and classes representing the binding
+ * of schema type definitions, element declarations and model groups. Factory
+ * methods for each of these are provided in this class.
  * 
  */
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Query_QNAME = new QName("http://docs.oasis-open.org/wsbpel/2.0/varprop", "query");
+    private final static QName _Query_QNAME = new QName(
+            "http://docs.oasis-open.org/wsbpel/2.0/varprop", "query");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.decidr.model.workflowmodel.bpel.varprop
+     * Create a new ObjectFactory that can be used to create new instances of
+     * schema derived classes for package:
+     * de.decidr.model.workflowmodel.bpel.varprop
      * 
      */
     public ObjectFactory() {
         // TODO document empty block
-   }
+    }
 
     /**
      * Create an instance of {@link Query }
@@ -82,7 +81,7 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Query }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link Query }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wsbpel/2.0/varprop", name = "query")

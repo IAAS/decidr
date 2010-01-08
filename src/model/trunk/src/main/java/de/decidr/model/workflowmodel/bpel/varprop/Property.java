@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 10:09:06 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel.varprop;
 
 import javax.wsdl.extensions.ExtensibilityElement;
@@ -21,11 +20,13 @@ import javax.xml.namespace.QName;
 
 import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType>
@@ -45,9 +46,8 @@ import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "property")
-public class Property
-    extends ExtensibleElements implements ExtensibilityElement
-{
+public class Property extends ExtensibleElements implements
+        ExtensibilityElement {
 
     @XmlAttribute(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -61,10 +61,8 @@ public class Property
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -74,25 +72,22 @@ public class Property
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the type property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getType() {
         return type;
@@ -102,25 +97,22 @@ public class Property
      * Sets the value of the type property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setType(QName value) {
         this.type = value;
     }
 
     public boolean isSetType() {
-        return (this.type!= null);
+        return (this.type != null);
     }
 
     /**
      * Gets the value of the element property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getElement() {
         return element;
@@ -130,16 +122,15 @@ public class Property
      * Sets the value of the element property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setElement(QName value) {
         this.element = value;
     }
 
     public boolean isSetElement() {
-        return (this.element!= null);
+        return (this.element != null);
     }
 
     @Override

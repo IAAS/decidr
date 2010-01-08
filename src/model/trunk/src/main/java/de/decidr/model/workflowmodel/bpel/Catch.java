@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
-
 /**
- * <p>Java class for tCatch complex type.
+ * <p>
+ * Java class for tCatch complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCatch">
@@ -40,9 +41,7 @@ import javax.xml.namespace.QName;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tCatch")
-public class Catch
-    extends ActivityContainer
-{
+public class Catch extends ActivityContainer {
 
     @XmlAttribute
     protected QName faultName;
@@ -57,10 +56,8 @@ public class Catch
     /**
      * Gets the value of the faultName property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getFaultName() {
         return faultName;
@@ -70,25 +67,22 @@ public class Catch
      * Sets the value of the faultName property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setFaultName(QName value) {
         this.faultName = value;
     }
 
     public boolean isSetFaultName() {
-        return (this.faultName!= null);
+        return (this.faultName != null);
     }
 
     /**
      * Gets the value of the faultVariable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getFaultVariable() {
         return faultVariable;
@@ -98,25 +92,22 @@ public class Catch
      * Sets the value of the faultVariable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setFaultVariable(String value) {
         this.faultVariable = value;
     }
 
     public boolean isSetFaultVariable() {
-        return (this.faultVariable!= null);
+        return (this.faultVariable != null);
     }
 
     /**
      * Gets the value of the faultMessageType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getFaultMessageType() {
         return faultMessageType;
@@ -126,25 +117,22 @@ public class Catch
      * Sets the value of the faultMessageType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setFaultMessageType(QName value) {
         this.faultMessageType = value;
     }
 
     public boolean isSetFaultMessageType() {
-        return (this.faultMessageType!= null);
+        return (this.faultMessageType != null);
     }
 
     /**
      * Gets the value of the faultElement property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getFaultElement() {
         return faultElement;
@@ -154,16 +142,15 @@ public class Catch
      * Sets the value of the faultElement property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setFaultElement(QName value) {
         this.faultElement = value;
     }
 
     public boolean isSetFaultElement() {
-        return (this.faultElement!= null);
+        return (this.faultElement != null);
     }
 
 }

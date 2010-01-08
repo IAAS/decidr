@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +65,8 @@ public class DWDL2DDTest {
      * Test method for
      * {@link de.decidr.model.workflowmodel.dwdl.transformation.DWDL2DD#getDD(de.decidr.model.workflowmodel.bpel.Process, java.util.Map)}
      * .
-     * @throws JAXBException 
+     * 
+     * @throws JAXBException
      */
     @Test
     public void testGetDD() throws JAXBException {

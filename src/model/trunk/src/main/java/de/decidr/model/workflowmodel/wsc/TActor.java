@@ -5,7 +5,6 @@
 // Generated on: 2009.08.28 at 04:33:51 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.wsc;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,11 +16,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tActor complex type.
+ * <p>
+ * Java class for tActor complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tActor">
@@ -54,10 +55,8 @@ public class TActor {
     /**
      * Gets the value of the userId property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getUserId() {
         return userId;
@@ -67,9 +66,8 @@ public class TActor {
      * Sets the value of the userId property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setUserId(String value) {
         this.userId = value;
@@ -78,10 +76,8 @@ public class TActor {
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -91,9 +87,8 @@ public class TActor {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
@@ -102,10 +97,8 @@ public class TActor {
     /**
      * Gets the value of the email property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getEmail() {
         return email;
@@ -115,9 +108,8 @@ public class TActor {
      * Sets the value of the email property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setEmail(String value) {
         this.email = value;

@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,11 +12,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tFlowNode complex type.
+ * <p>
+ * Java class for tFlowNode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tFlowNode">
@@ -35,13 +36,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tFlowNode", propOrder = {
-    "nodes",
-    "arcs"
-})
-public class FlowNode
-    extends BasicNode
-{
+@XmlType(name = "tFlowNode", propOrder = { "nodes", "arcs" })
+public class FlowNode extends BasicNode {
 
     @XmlElement(required = true)
     protected Nodes nodes;
@@ -51,10 +47,8 @@ public class FlowNode
     /**
      * Gets the value of the nodes property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Nodes }
-     *     
+     * @return possible object is {@link Nodes }
+     * 
      */
     public Nodes getNodes() {
         return nodes;
@@ -64,25 +58,22 @@ public class FlowNode
      * Sets the value of the nodes property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Nodes }
-     *     
+     *            allowed object is {@link Nodes }
+     * 
      */
     public void setNodes(Nodes value) {
         this.nodes = value;
     }
 
     public boolean isSetNodes() {
-        return (this.nodes!= null);
+        return (this.nodes != null);
     }
 
     /**
      * Gets the value of the arcs property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Arcs }
-     *     
+     * @return possible object is {@link Arcs }
+     * 
      */
     public Arcs getArcs() {
         return arcs;
@@ -92,16 +83,15 @@ public class FlowNode
      * Sets the value of the arcs property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Arcs }
-     *     
+     *            allowed object is {@link Arcs }
+     * 
      */
     public void setArcs(Arcs value) {
         this.arcs = value;
     }
 
     public boolean isSetArcs() {
-        return (this.arcs!= null);
+        return (this.arcs != null);
     }
 
 }

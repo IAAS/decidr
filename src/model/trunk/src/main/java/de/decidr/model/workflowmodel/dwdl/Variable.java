@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tVariable complex type.
+ * <p>
+ * Java class for tVariable complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tVariable">
@@ -44,10 +45,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tVariable", propOrder = {
-    "initialValue",
-    "initialValues"
-})
+@XmlType(name = "tVariable", propOrder = { "initialValue", "initialValues" })
 public class Variable {
 
     protected Literal initialValue;
@@ -66,10 +64,8 @@ public class Variable {
     /**
      * Gets the value of the initialValue property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Literal }
-     *     
+     * @return possible object is {@link Literal }
+     * 
      */
     public Literal getInitialValue() {
         return initialValue;
@@ -79,25 +75,22 @@ public class Variable {
      * Sets the value of the initialValue property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Literal }
-     *     
+     *            allowed object is {@link Literal }
+     * 
      */
     public void setInitialValue(Literal value) {
         this.initialValue = value;
     }
 
     public boolean isSetInitialValue() {
-        return (this.initialValue!= null);
+        return (this.initialValue != null);
     }
 
     /**
      * Gets the value of the initialValues property.
      * 
-     * @return
-     *     possible object is
-     *     {@link InitialValues }
-     *     
+     * @return possible object is {@link InitialValues }
+     * 
      */
     public InitialValues getInitialValues() {
         return initialValues;
@@ -107,25 +100,22 @@ public class Variable {
      * Sets the value of the initialValues property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link InitialValues }
-     *     
+     *            allowed object is {@link InitialValues }
+     * 
      */
     public void setInitialValues(InitialValues value) {
         this.initialValues = value;
     }
 
     public boolean isSetInitialValues() {
-        return (this.initialValues!= null);
+        return (this.initialValues != null);
     }
 
     /**
      * Gets the value of the label property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLabel() {
         return label;
@@ -135,25 +125,22 @@ public class Variable {
      * Sets the value of the label property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLabel(String value) {
         this.label = value;
     }
 
     public boolean isSetLabel() {
-        return (this.label!= null);
+        return (this.label != null);
     }
 
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -163,25 +150,22 @@ public class Variable {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the type property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getType() {
         return type;
@@ -191,25 +175,22 @@ public class Variable {
      * Sets the value of the type property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setType(String value) {
         this.type = value;
     }
 
     public boolean isSetType() {
-        return (this.type!= null);
+        return (this.type != null);
     }
 
     /**
      * Gets the value of the configurationVariable property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getConfigurationVariable() {
         if (configurationVariable == null) {
@@ -223,16 +204,15 @@ public class Variable {
      * Sets the value of the configurationVariable property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setConfigurationVariable(Boolean value) {
         this.configurationVariable = value;
     }
 
     public boolean isSetConfigurationVariable() {
-        return (this.configurationVariable!= null);
+        return (this.configurationVariable != null);
     }
 
 }

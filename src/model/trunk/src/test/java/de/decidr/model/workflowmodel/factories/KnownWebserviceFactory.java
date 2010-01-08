@@ -16,13 +16,11 @@
 
 package de.decidr.model.workflowmodel.factories;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.wsdl.WSDLException;
 import javax.xml.bind.JAXBException;
 
 import de.decidr.model.entities.Activity;
@@ -36,7 +34,7 @@ import de.decidr.model.entities.KnownWebService;
 public class KnownWebserviceFactory {
 
     public static List<KnownWebService> getKnownWebservice()
-            throws IOException, JAXBException, WSDLException {
+            throws JAXBException {
         List<KnownWebService> knownWebServices = new ArrayList<KnownWebService>();
         KnownWebService humanTaskWS = new KnownWebService();
         humanTaskWS.setName("HumanTask");

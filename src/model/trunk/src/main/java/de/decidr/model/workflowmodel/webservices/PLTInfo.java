@@ -5,7 +5,6 @@
 // Generated on: 2009.11.14 at 04:34:51 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for PLTInfo complex type.
+ * <p>
+ * Java class for PLTInfo complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="PLTInfo">
@@ -39,11 +40,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PLTInfo", propOrder = {
-    "name",
-    "myRole",
-    "partnerRole"
-})
+@XmlType(name = "PLTInfo", propOrder = { "name", "myRole", "partnerRole" })
 public class PLTInfo {
 
     @XmlElement(required = true)
@@ -61,10 +58,8 @@ public class PLTInfo {
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -74,25 +69,22 @@ public class PLTInfo {
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
     /**
      * Gets the value of the myRole property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getMyRole() {
         return myRole;
@@ -102,25 +94,22 @@ public class PLTInfo {
      * Sets the value of the myRole property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setMyRole(String value) {
         this.myRole = value;
     }
 
     public boolean isSetMyRole() {
-        return (this.myRole!= null);
+        return (this.myRole != null);
     }
 
     /**
      * Gets the value of the partnerRole property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPartnerRole() {
         return partnerRole;
@@ -130,16 +119,15 @@ public class PLTInfo {
      * Sets the value of the partnerRole property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPartnerRole(String value) {
         this.partnerRole = value;
     }
 
     public boolean isSetPartnerRole() {
-        return (this.partnerRole!= null);
+        return (this.partnerRole != null);
     }
 
 }

@@ -5,21 +5,23 @@
 // Generated on: 2009.08.28 at 06:27:43 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.dd;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tSchedule complex type.
+ * <p>
+ * Java class for tSchedule complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tSchedule">
@@ -37,9 +39,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tSchedule", propOrder = {
-    "cleanup"
-})
+@XmlType(name = "tSchedule", propOrder = { "cleanup" })
 public class TSchedule {
 
     protected List<TCleanup> cleanup;
@@ -50,21 +50,21 @@ public class TSchedule {
      * Gets the value of the cleanup property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the cleanup property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the cleanup property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCleanup().add(newItem);
+     * getCleanup().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TCleanup }
+     * Objects of the following type(s) are allowed in the list {@link TCleanup }
      * 
      * 
      */
@@ -78,10 +78,8 @@ public class TSchedule {
     /**
      * Gets the value of the when property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getWhen() {
         return when;
@@ -91,9 +89,8 @@ public class TSchedule {
      * Sets the value of the when property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setWhen(String value) {
         this.when = value;

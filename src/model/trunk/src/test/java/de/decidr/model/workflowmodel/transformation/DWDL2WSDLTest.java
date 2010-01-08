@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
@@ -67,7 +67,7 @@ public class DWDL2WSDLTest {
     public void testGetWSDL() throws JDOMException, WSDLException {
         Definition wsdl = translater.getWSDL(dwdl, location, tenantName);
         assertNotNull(wsdl);
-        byte [] byteWSDL = TransformUtil.definitionToBytes(wsdl);
+        byte[] byteWSDL = TransformUtil.definitionToBytes(wsdl);
         String wsdlString = new String(byteWSDL);
         System.out.println(wsdlString);
         Definition readWSDL = TransformUtil.bytesToDefinition(byteWSDL);

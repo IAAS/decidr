@@ -5,20 +5,22 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tRoles complex type.
+ * <p>
+ * Java class for tRoles complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tRoles">
@@ -36,10 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tRoles", propOrder = {
-    "role",
-    "actor"
-})
+@XmlType(name = "tRoles", propOrder = { "role", "actor" })
 public class Roles {
 
     protected List<Role> role;
@@ -49,21 +48,21 @@ public class Roles {
      * Gets the value of the role property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the role property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the role property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getRole().add(newItem);
+     * getRole().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Role }
+     * Objects of the following type(s) are allowed in the list {@link Role }
      * 
      * 
      */
@@ -75,7 +74,7 @@ public class Roles {
     }
 
     public boolean isSetRole() {
-        return ((this.role!= null)&&(!this.role.isEmpty()));
+        return ((this.role != null) && (!this.role.isEmpty()));
     }
 
     public void unsetRole() {
@@ -86,21 +85,21 @@ public class Roles {
      * Gets the value of the actor property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the actor property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the actor property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getActor().add(newItem);
+     * getActor().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Actor }
+     * Objects of the following type(s) are allowed in the list {@link Actor }
      * 
      * 
      */
@@ -112,7 +111,7 @@ public class Roles {
     }
 
     public boolean isSetActor() {
-        return ((this.actor!= null)&&(!this.actor.isEmpty()));
+        return ((this.actor != null) && (!this.actor.isEmpty()));
     }
 
     public void unsetActor() {

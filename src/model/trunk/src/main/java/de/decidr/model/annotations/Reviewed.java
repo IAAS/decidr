@@ -34,7 +34,7 @@ public @interface Reviewed {
 
     /**
      * This enum represents the current state of a Review.
-     *
+     * 
      * @author Reinhold
      */
     public enum State {
@@ -67,7 +67,6 @@ public @interface Reviewed {
      */
     String lastRevision();
 
-    
     /**
      * The reviewers of this part, the most recent reviewer last.
      */

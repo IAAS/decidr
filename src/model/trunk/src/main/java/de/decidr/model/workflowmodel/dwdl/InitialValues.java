@@ -5,21 +5,23 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tInitialValues complex type.
+ * <p>
+ * Java class for tInitialValues complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tInitialValues">
@@ -36,9 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tInitialValues", propOrder = {
-    "initialValue"
-})
+@XmlType(name = "tInitialValues", propOrder = { "initialValue" })
 public class InitialValues {
 
     @XmlElement(required = true)
@@ -48,21 +48,21 @@ public class InitialValues {
      * Gets the value of the initialValue property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the initialValue property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the initialValue property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getInitialValue().add(newItem);
+     * getInitialValue().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Literal }
+     * Objects of the following type(s) are allowed in the list {@link Literal }
      * 
      * 
      */
@@ -74,7 +74,7 @@ public class InitialValues {
     }
 
     public boolean isSetInitialValue() {
-        return ((this.initialValue!= null)&&(!this.initialValue.isEmpty()));
+        return ((this.initialValue != null) && (!this.initialValue.isEmpty()));
     }
 
     public void unsetInitialValue() {

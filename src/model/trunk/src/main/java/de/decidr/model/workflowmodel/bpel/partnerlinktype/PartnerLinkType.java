@@ -139,6 +139,6 @@ public class PartnerLinkType extends ExtensibleElements implements
     @Override
     public void setRequired(Boolean required) {
         // TODO document empty block
-   }
+    }
 
 }

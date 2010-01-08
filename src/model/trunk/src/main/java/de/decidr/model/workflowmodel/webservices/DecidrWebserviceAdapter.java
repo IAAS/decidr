@@ -114,8 +114,7 @@ public class DecidrWebserviceAdapter {
             if (element instanceof SOAP12Address) {
                 SOAP12Address adress = (SOAP12Address) element;
                 return adress.getLocationURI();
-            }
-            else if (element instanceof SOAPAddress){
+            } else if (element instanceof SOAPAddress) {
                 SOAPAddress adress = (SOAPAddress) element;
                 return adress.getLocationURI();
             }
@@ -138,8 +137,8 @@ public class DecidrWebserviceAdapter {
     public Definition getDefinition() {
         return definition;
     }
-    
-    public WebserviceMapping getMapping(){
+
+    public WebserviceMapping getMapping() {
         return mapping;
     }
 

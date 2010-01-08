@@ -20,42 +20,58 @@ import java.util.Date;
 
 /**
  * Implements {@link StartInstanceResult}
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public class StartInstanceResultImpl implements StartInstanceResult {
-    
+
     private long serverId = 0l;
     private Date startDate = null;
     private String pid = null;
 
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#getServer()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#
+     * getServer()
      */
     @Override
     public long getServer() {
         return serverId;
     }
 
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#getStartDate()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#
+     * getStartDate()
      */
     @Override
     public Date getStartDate() {
         return startDate;
     }
 
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#setServer(long)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#
+     * setServer(long)
      */
     @Override
     public void setServer(long server) {
         serverId = server;
     }
 
-    /* (non-Javadoc)
-     * @see de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#setStartDate(java.util.Date)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult#
+     * setStartDate(java.util.Date)
      */
     @Override
     public void setStartDate(Date startDate) {

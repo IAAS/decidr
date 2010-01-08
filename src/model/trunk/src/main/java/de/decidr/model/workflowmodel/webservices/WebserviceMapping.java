@@ -5,11 +5,11 @@
 // Generated on: 2009.11.14 at 04:34:51 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.webservices;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,11 +18,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for WebserviceMapping complex type.
+ * <p>
+ * Java class for WebserviceMapping complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="WebserviceMapping">
@@ -47,17 +49,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WebserviceMapping", propOrder = {
-    "activity",
-    "portType",
-    "operation",
-    "binding",
-    "partnerLinkType",
-    "service",
-    "servicePort",
-    "properties",
-    "propertyAliases"
-})
+@XmlType(name = "WebserviceMapping", propOrder = { "activity", "portType",
+        "operation", "binding", "partnerLinkType", "service", "servicePort",
+        "properties", "propertyAliases" })
 public class WebserviceMapping {
 
     @XmlElement(required = true)
@@ -92,10 +86,8 @@ public class WebserviceMapping {
     /**
      * Gets the value of the activity property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getActivity() {
         return activity;
@@ -105,25 +97,22 @@ public class WebserviceMapping {
      * Sets the value of the activity property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setActivity(String value) {
         this.activity = value;
     }
 
     public boolean isSetActivity() {
-        return (this.activity!= null);
+        return (this.activity != null);
     }
 
     /**
      * Gets the value of the portType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPortType() {
         return portType;
@@ -133,25 +122,22 @@ public class WebserviceMapping {
      * Sets the value of the portType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPortType(String value) {
         this.portType = value;
     }
 
     public boolean isSetPortType() {
-        return (this.portType!= null);
+        return (this.portType != null);
     }
 
     /**
      * Gets the value of the operation property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getOperation() {
         return operation;
@@ -161,25 +147,22 @@ public class WebserviceMapping {
      * Sets the value of the operation property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setOperation(String value) {
         this.operation = value;
     }
 
     public boolean isSetOperation() {
-        return (this.operation!= null);
+        return (this.operation != null);
     }
 
     /**
      * Gets the value of the binding property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getBinding() {
         return binding;
@@ -189,25 +172,22 @@ public class WebserviceMapping {
      * Sets the value of the binding property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setBinding(String value) {
         this.binding = value;
     }
 
     public boolean isSetBinding() {
-        return (this.binding!= null);
+        return (this.binding != null);
     }
 
     /**
      * Gets the value of the partnerLinkType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PLTInfo }
-     *     
+     * @return possible object is {@link PLTInfo }
+     * 
      */
     public PLTInfo getPartnerLinkType() {
         return partnerLinkType;
@@ -217,25 +197,22 @@ public class WebserviceMapping {
      * Sets the value of the partnerLinkType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link PLTInfo }
-     *     
+     *            allowed object is {@link PLTInfo }
+     * 
      */
     public void setPartnerLinkType(PLTInfo value) {
         this.partnerLinkType = value;
     }
 
     public boolean isSetPartnerLinkType() {
-        return (this.partnerLinkType!= null);
+        return (this.partnerLinkType != null);
     }
 
     /**
      * Gets the value of the service property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getService() {
         return service;
@@ -245,25 +222,22 @@ public class WebserviceMapping {
      * Sets the value of the service property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setService(String value) {
         this.service = value;
     }
 
     public boolean isSetService() {
-        return (this.service!= null);
+        return (this.service != null);
     }
 
     /**
      * Gets the value of the servicePort property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getServicePort() {
         return servicePort;
@@ -273,31 +247,31 @@ public class WebserviceMapping {
      * Sets the value of the servicePort property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setServicePort(String value) {
         this.servicePort = value;
     }
 
     public boolean isSetServicePort() {
-        return (this.servicePort!= null);
+        return (this.servicePort != null);
     }
 
     /**
      * Gets the value of the properties property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the properties property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the properties property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getProperties().add(newItem);
+     * getProperties().add(newItem);
      * </pre>
      * 
      * 
@@ -315,7 +289,7 @@ public class WebserviceMapping {
     }
 
     public boolean isSetProperties() {
-        return ((this.properties!= null)&&(!this.properties.isEmpty()));
+        return ((this.properties != null) && (!this.properties.isEmpty()));
     }
 
     public void unsetProperties() {
@@ -326,15 +300,16 @@ public class WebserviceMapping {
      * Gets the value of the propertyAliases property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the propertyAliases property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the propertyAliases property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getPropertyAliases().add(newItem);
+     * getPropertyAliases().add(newItem);
      * </pre>
      * 
      * 
@@ -352,7 +327,8 @@ public class WebserviceMapping {
     }
 
     public boolean isSetPropertyAliases() {
-        return ((this.propertyAliases!= null)&&(!this.propertyAliases.isEmpty()));
+        return ((this.propertyAliases != null) && (!this.propertyAliases
+                .isEmpty()));
     }
 
     public void unsetPropertyAliases() {

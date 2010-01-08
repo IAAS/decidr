@@ -5,22 +5,25 @@
 // Generated on: 2009.11.14 at 04:34:51 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.webservices;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
 import de.decidr.model.workflowmodel.bpel.varprop.PropertyAlias;
 
-
 /**
- * <p>Java class for PropertyAliases complex type.
+ * <p>
+ * Java class for PropertyAliases complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="PropertyAliases">
@@ -37,9 +40,7 @@ import de.decidr.model.workflowmodel.bpel.varprop.PropertyAlias;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PropertyAliases", propOrder = {
-    "propertyAlias"
-})
+@XmlType(name = "PropertyAliases", propOrder = { "propertyAlias" })
 public class PropertyAliases {
 
     @XmlElement(namespace = "http://docs.oasis-open.org/wsbpel/2.0/varprop", required = true)
@@ -49,15 +50,16 @@ public class PropertyAliases {
      * Gets the value of the propertyAlias property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the propertyAlias property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the propertyAlias property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getPropertyAlias().add(newItem);
+     * getPropertyAlias().add(newItem);
      * </pre>
      * 
      * 
@@ -75,7 +77,7 @@ public class PropertyAliases {
     }
 
     public boolean isSetPropertyAlias() {
-        return ((this.propertyAlias!= null)&&(!this.propertyAlias.isEmpty()));
+        return ((this.propertyAlias != null) && (!this.propertyAlias.isEmpty()));
     }
 
     public void unsetPropertyAlias() {

@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
@@ -98,14 +98,14 @@ public class SOAPGeneratorTest {
         startConfiguration.setRoles(roles);
     }
 
-
     /**
      * Test method for
      * {@link de.decidr.model.workflowmodel.instancemanagement.SOAPGenerator#getSOAP(javax.xml.soap.SOAPMessage, de.decidr.model.workflowmodel.wsc.TConfiguration)}
      * .
-     * @throws JAXBException 
-     * @throws IOException 
-     * @throws SOAPException 
+     * 
+     * @throws JAXBException
+     * @throws IOException
+     * @throws SOAPException
      */
     @Test
     public void testGetSOAP() throws SOAPException, IOException, JAXBException {

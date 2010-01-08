@@ -16,7 +16,7 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,6 +35,7 @@ public class InstanceManagerTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
+        // TODO fill or delete
     }
 
     /**

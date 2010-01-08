@@ -5,21 +5,23 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tSources complex type.
+ * <p>
+ * Java class for tSources complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tSources">
@@ -37,12 +39,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tSources", propOrder = {
-    "source"
-})
-public class Sources
-    extends ExtensibleElements
-{
+@XmlType(name = "tSources", propOrder = { "source" })
+public class Sources extends ExtensibleElements {
 
     @XmlElement(required = true)
     protected List<Source> source;
@@ -51,21 +49,21 @@ public class Sources
      * Gets the value of the source property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the source property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the source property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getSource().add(newItem);
+     * getSource().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Source }
+     * Objects of the following type(s) are allowed in the list {@link Source }
      * 
      * 
      */
@@ -77,7 +75,7 @@ public class Sources
     }
 
     public boolean isSetSource() {
-        return ((this.source!= null)&&(!this.source.isEmpty()));
+        return ((this.source != null) && (!this.source.isEmpty()));
     }
 
     public void unsetSource() {

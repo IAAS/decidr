@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Holds all relevant data created during deployment of a dwdl workflow. 
+ * Holds all relevant data created during deployment of a dwdl workflow.
  * 
  * @author Modood Alvi
  * @version 0.1
@@ -28,13 +28,13 @@ import java.util.List;
 public interface DeploymentResult {
 
     public List<Long> getServers();
-    
+
     public Date getDeploymentDate();
-    
+
     public void setDeploymentDate(Date deploymentDate);
-    
+
     public void setServers(List<Long> servers);
-    
+
     public void setSOAPTemplate(byte[] soap);
 
     public byte[] getSOAPTemplate();

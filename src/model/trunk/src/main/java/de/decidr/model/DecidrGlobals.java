@@ -260,8 +260,7 @@ public class DecidrGlobals {
      */
     public static byte[] getWebServiceWsdl(String webServiceName) {
         try {
-            URL url = new URL(URLGenerator.getWebServiceWsdlUrl(
-                    webServiceName));
+            URL url = new URL(URLGenerator.getWebServiceWsdlUrl(webServiceName));
             ByteArrayOutputStream result = new ByteArrayOutputStream();
             InputStream urlStream = url.openStream();
             try {

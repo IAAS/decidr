@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for tForEachNode complex type.
+ * <p>
+ * Java class for tForEachNode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tForEachNode">
@@ -43,16 +44,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tForEachNode", propOrder = {
-    "startCounterValue",
-    "finalCounterValue",
-    "completionCondition",
-    "nodes",
-    "arcs"
-})
-public class ForEachNode
-    extends BasicNode
-{
+@XmlType(name = "tForEachNode", propOrder = { "startCounterValue",
+        "finalCounterValue", "completionCondition", "nodes", "arcs" })
+public class ForEachNode extends BasicNode {
 
     @XmlElement(required = true)
     protected String startCounterValue;
@@ -71,10 +65,8 @@ public class ForEachNode
     /**
      * Gets the value of the startCounterValue property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getStartCounterValue() {
         return startCounterValue;
@@ -84,25 +76,22 @@ public class ForEachNode
      * Sets the value of the startCounterValue property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setStartCounterValue(String value) {
         this.startCounterValue = value;
     }
 
     public boolean isSetStartCounterValue() {
-        return (this.startCounterValue!= null);
+        return (this.startCounterValue != null);
     }
 
     /**
      * Gets the value of the finalCounterValue property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getFinalCounterValue() {
         return finalCounterValue;
@@ -112,25 +101,22 @@ public class ForEachNode
      * Sets the value of the finalCounterValue property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setFinalCounterValue(String value) {
         this.finalCounterValue = value;
     }
 
     public boolean isSetFinalCounterValue() {
-        return (this.finalCounterValue!= null);
+        return (this.finalCounterValue != null);
     }
 
     /**
      * Gets the value of the completionCondition property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getCompletionCondition() {
         return completionCondition;
@@ -140,25 +126,22 @@ public class ForEachNode
      * Sets the value of the completionCondition property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setCompletionCondition(String value) {
         this.completionCondition = value;
     }
 
     public boolean isSetCompletionCondition() {
-        return (this.completionCondition!= null);
+        return (this.completionCondition != null);
     }
 
     /**
      * Gets the value of the nodes property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Nodes }
-     *     
+     * @return possible object is {@link Nodes }
+     * 
      */
     public Nodes getNodes() {
         return nodes;
@@ -168,25 +151,22 @@ public class ForEachNode
      * Sets the value of the nodes property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Nodes }
-     *     
+     *            allowed object is {@link Nodes }
+     * 
      */
     public void setNodes(Nodes value) {
         this.nodes = value;
     }
 
     public boolean isSetNodes() {
-        return (this.nodes!= null);
+        return (this.nodes != null);
     }
 
     /**
      * Gets the value of the arcs property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Arcs }
-     *     
+     * @return possible object is {@link Arcs }
+     * 
      */
     public Arcs getArcs() {
         return arcs;
@@ -196,25 +176,22 @@ public class ForEachNode
      * Sets the value of the arcs property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Arcs }
-     *     
+     *            allowed object is {@link Arcs }
+     * 
      */
     public void setArcs(Arcs value) {
         this.arcs = value;
     }
 
     public boolean isSetArcs() {
-        return (this.arcs!= null);
+        return (this.arcs != null);
     }
 
     /**
      * Gets the value of the counterName property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getCounterName() {
         return counterName;
@@ -224,25 +201,22 @@ public class ForEachNode
      * Sets the value of the counterName property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setCounterName(String value) {
         this.counterName = value;
     }
 
     public boolean isSetCounterName() {
-        return (this.counterName!= null);
+        return (this.counterName != null);
     }
 
     /**
      * Gets the value of the parallel property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getParallel() {
         return parallel;
@@ -252,16 +226,15 @@ public class ForEachNode
      * Sets the value of the parallel property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setParallel(Boolean value) {
         this.parallel = value;
     }
 
     public boolean isSetParallel() {
-        return (this.parallel!= null);
+        return (this.parallel != null);
     }
 
 }

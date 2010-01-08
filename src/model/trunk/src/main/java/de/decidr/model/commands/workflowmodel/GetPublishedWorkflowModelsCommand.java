@@ -74,7 +74,8 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
 
         Filters.apply(crit, filters, paginator);
 
-        result = crit.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
+        result = crit.setResultTransformer(CriteriaSpecification.ROOT_ENTITY)
+                .list();
     }
 
     /**

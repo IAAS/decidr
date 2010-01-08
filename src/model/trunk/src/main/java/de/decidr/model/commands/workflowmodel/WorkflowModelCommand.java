@@ -128,7 +128,8 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
         crit.createCriteria("originalWorkflowModel", "owm").add(
                 Restrictions.eqProperty("owm.version", "dwm.version"));
 
-        crit.add(Restrictions.eq("originalWorkflowModel.id", getWorkflowModelId()));
+        crit.add(Restrictions.eq("originalWorkflowModel.id",
+                getWorkflowModelId()));
 
         return (DeployedWorkflowModel) crit.setResultTransformer(
                 CriteriaSpecification.ROOT_ENTITY).uniqueResult();

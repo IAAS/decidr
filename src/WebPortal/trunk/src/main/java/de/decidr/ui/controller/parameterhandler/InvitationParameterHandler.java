@@ -37,7 +37,6 @@ import de.decidr.ui.view.Main;
 import de.decidr.ui.view.RegisterUserComponent;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.InvitationDialogComponent;
-import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This class handles URL parameters for invitation tasks.

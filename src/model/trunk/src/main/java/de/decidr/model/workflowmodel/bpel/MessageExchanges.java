@@ -5,21 +5,23 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tMessageExchanges complex type.
+ * <p>
+ * Java class for tMessageExchanges complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tMessageExchanges">
@@ -37,12 +39,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tMessageExchanges", propOrder = {
-    "messageExchange"
-})
-public class MessageExchanges
-    extends ExtensibleElements
-{
+@XmlType(name = "tMessageExchanges", propOrder = { "messageExchange" })
+public class MessageExchanges extends ExtensibleElements {
 
     @XmlElement(required = true)
     protected List<MessageExchange> messageExchange;
@@ -51,15 +49,16 @@ public class MessageExchanges
      * Gets the value of the messageExchange property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the messageExchange property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the messageExchange property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getMessageExchange().add(newItem);
+     * getMessageExchange().add(newItem);
      * </pre>
      * 
      * 
@@ -77,7 +76,8 @@ public class MessageExchanges
     }
 
     public boolean isSetMessageExchange() {
-        return ((this.messageExchange!= null)&&(!this.messageExchange.isEmpty()));
+        return ((this.messageExchange != null) && (!this.messageExchange
+                .isEmpty()));
     }
 
     public void unsetMessageExchange() {

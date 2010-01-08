@@ -76,7 +76,8 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
 
         Filters.apply(c, filters, paginator);
 
-        result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY).list();
+        result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY)
+                .list();
     }
 
     /**

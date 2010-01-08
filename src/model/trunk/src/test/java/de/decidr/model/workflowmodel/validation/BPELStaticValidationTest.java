@@ -16,12 +16,10 @@
 
 package de.decidr.model.workflowmodel.validation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -41,8 +39,9 @@ import de.decidr.model.logging.DefaultLogger;
  * @author Modood Alvi
  */
 public class BPELStaticValidationTest {
-    
-    private static Logger log = DefaultLogger.getLogger(BPELStaticValidationTest.class);
+
+    private static Logger log = DefaultLogger
+            .getLogger(BPELStaticValidationTest.class);
 
     static BpelC compiler = null;
     static List<CompilationMessage> errors = null;
@@ -84,18 +83,17 @@ public class BPELStaticValidationTest {
         }
 
         assertTrue(errors.size() == 0);
-        log.debug(errors.size()+" errors found by compiler");
+        log.debug(errors.size() + " errors found by compiler");
     }
 
-    public static void onMessage(
-            CompilationMessage compilationMessage) {
+    public static void onMessage(CompilationMessage compilationMessage) {
         errors.add(compilationMessage);
         log.debug(compilationMessage.messageText);
     }
 
     @AfterClass
     public static void afterTest() throws Exception {
-        
+        // TODO fill with content or delete
     }
 
 }

@@ -5,11 +5,11 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -19,11 +19,13 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
-
 /**
- * <p>Java class for tCorrelationSet complex type.
+ * <p>
+ * Java class for tCorrelationSet complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tCorrelationSet">
@@ -41,9 +43,7 @@ import javax.xml.namespace.QName;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tCorrelationSet")
-public class CorrelationSet
-    extends ExtensibleElements
-{
+public class CorrelationSet extends ExtensibleElements {
 
     @XmlAttribute(required = true)
     protected List<QName> properties;
@@ -56,21 +56,21 @@ public class CorrelationSet
      * Gets the value of the properties property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the properties property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the properties property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getProperties().add(newItem);
+     * getProperties().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link QName }
+     * Objects of the following type(s) are allowed in the list {@link QName }
      * 
      * 
      */
@@ -82,7 +82,7 @@ public class CorrelationSet
     }
 
     public boolean isSetProperties() {
-        return ((this.properties!= null)&&(!this.properties.isEmpty()));
+        return ((this.properties != null) && (!this.properties.isEmpty()));
     }
 
     public void unsetProperties() {
@@ -92,10 +92,8 @@ public class CorrelationSet
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getName() {
         return name;
@@ -105,16 +103,15 @@ public class CorrelationSet
      * Sets the value of the name property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setName(String value) {
         this.name = value;
     }
 
     public boolean isSetName() {
-        return (this.name!= null);
+        return (this.name != null);
     }
 
 }

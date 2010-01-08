@@ -20,22 +20,22 @@ import java.util.Date;
 
 /**
  * Holds all relevant data created during invocation of the workflow model
- *
+ * 
  * @author Modood Alvi
  * @version 0.1
  */
 public interface StartInstanceResult {
-    
+
     public long getServer();
-    
+
     public Date getStartDate();
-    
+
     public String getODEPid();
-    
+
     public void setStartDate(Date startDate);
-    
+
     public void setServer(long server);
-    
+
     public void setODEPid(String pid);
 
 }

@@ -32,7 +32,6 @@ import de.decidr.model.facades.UserFacade;
 import de.decidr.ui.controller.authentication.Login;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
-import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 
 /**
  * This parameter handler allows automated logins with a given link.

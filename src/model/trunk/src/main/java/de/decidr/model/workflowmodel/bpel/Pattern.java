@@ -5,19 +5,21 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tPattern.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for tPattern.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="tPattern">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -34,10 +36,8 @@ import javax.xml.bind.annotation.XmlType;
 public enum Pattern {
 
     @XmlEnumValue("request")
-    REQUEST("request"),
-    @XmlEnumValue("response")
-    RESPONSE("response"),
-    @XmlEnumValue("request-response")
+    REQUEST("request"), @XmlEnumValue("response")
+    RESPONSE("response"), @XmlEnumValue("request-response")
     REQUEST_RESPONSE("request-response");
     private final String value;
 
@@ -50,7 +50,7 @@ public enum Pattern {
     }
 
     public static Pattern fromValue(String v) {
-        for (Pattern c: Pattern.values()) {
+        for (Pattern c : Pattern.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

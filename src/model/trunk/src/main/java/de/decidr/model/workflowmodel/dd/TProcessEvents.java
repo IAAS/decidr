@@ -5,22 +5,24 @@
 // Generated on: 2009.08.28 at 06:27:43 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.dd;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tProcessEvents complex type.
+ * <p>
+ * Java class for tProcessEvents complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tProcessEvents">
@@ -45,12 +47,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tProcessEvents", propOrder = {
-    "scopeEvents"
-})
-public class TProcessEvents
-    extends TEnableEventList
-{
+@XmlType(name = "tProcessEvents", propOrder = { "scopeEvents" })
+public class TProcessEvents extends TEnableEventList {
 
     @XmlElement(name = "scope-events", required = true)
     protected List<TScopeEvents> scopeEvents;
@@ -61,15 +59,16 @@ public class TProcessEvents
      * Gets the value of the scopeEvents property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the scopeEvents property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the scopeEvents property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getScopeEvents().add(newItem);
+     * getScopeEvents().add(newItem);
      * </pre>
      * 
      * 
@@ -89,10 +88,8 @@ public class TProcessEvents
     /**
      * Gets the value of the generate property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getGenerate() {
         return generate;
@@ -102,9 +99,8 @@ public class TProcessEvents
      * Sets the value of the generate property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setGenerate(String value) {
         this.generate = value;

@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:49:05 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel.partnerlinktype;
 
 import javax.xml.bind.JAXBElement;
@@ -13,29 +12,30 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the de.decidr.model.workflowmodel.bpel.partnerlinktype package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
- * provided in this class.
+ * This object contains factory methods for each Java content interface and Java
+ * element interface generated in the
+ * de.decidr.model.workflowmodel.bpel.partnerlinktype package.
+ * <p>
+ * An ObjectFactory allows you to programatically construct new instances of the
+ * Java representation for XML content. The Java representation of XML content
+ * can consist of schema derived interfaces and classes representing the binding
+ * of schema type definitions, element declarations and model groups. Factory
+ * methods for each of these are provided in this class.
  * 
  */
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Role_QNAME = new QName("http://docs.oasis-open.org/wsbpel/2.0/plnktype", "role");
-    private final static QName _PartnerLinkType_QNAME = new QName("http://docs.oasis-open.org/wsbpel/2.0/plnktype", "partnerLinkType");
+    private final static QName _Role_QNAME = new QName(
+            "http://docs.oasis-open.org/wsbpel/2.0/plnktype", "role");
+    private final static QName _PartnerLinkType_QNAME = new QName(
+            "http://docs.oasis-open.org/wsbpel/2.0/plnktype", "partnerLinkType");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.decidr.model.workflowmodel.bpel.partnerlinktype
+     * Create a new ObjectFactory that can be used to create new instances of
+     * schema derived classes for package:
+     * de.decidr.model.workflowmodel.bpel.partnerlinktype
      * 
      */
     public ObjectFactory() {
@@ -75,7 +75,7 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Role }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link Role }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wsbpel/2.0/plnktype", name = "role")
@@ -84,12 +84,15 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PartnerLinkType }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link PartnerLinkType }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wsbpel/2.0/plnktype", name = "partnerLinkType")
-    public JAXBElement<PartnerLinkType> createPartnerLinkType(PartnerLinkType value) {
-        return new JAXBElement<PartnerLinkType>(_PartnerLinkType_QNAME, PartnerLinkType.class, null, value);
+    public JAXBElement<PartnerLinkType> createPartnerLinkType(
+            PartnerLinkType value) {
+        return new JAXBElement<PartnerLinkType>(_PartnerLinkType_QNAME,
+                PartnerLinkType.class, null, value);
     }
 
 }

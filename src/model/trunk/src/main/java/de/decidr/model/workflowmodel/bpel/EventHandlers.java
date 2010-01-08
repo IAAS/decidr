@@ -5,25 +5,28 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * 
- * 				XSD Authors: The child element onAlarm needs to be a Local Element Declaration, 
- * 				because there is another onAlarm element defined for the pick activity.
- * 			
+ * XSD Authors: The child element onAlarm needs to be a Local Element
+ * Declaration, because there is another onAlarm element defined for the pick
+ * activity.
  * 
- * <p>Java class for tEventHandlers complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for tEventHandlers complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tEventHandlers">
@@ -42,13 +45,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tEventHandlers", propOrder = {
-    "onEvent",
-    "onAlarm"
-})
-public class EventHandlers
-    extends ExtensibleElements
-{
+@XmlType(name = "tEventHandlers", propOrder = { "onEvent", "onAlarm" })
+public class EventHandlers extends ExtensibleElements {
 
     protected List<OnEvent> onEvent;
     protected List<OnAlarmEvent> onAlarm;
@@ -57,21 +55,21 @@ public class EventHandlers
      * Gets the value of the onEvent property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the onEvent property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the onEvent property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getOnEvent().add(newItem);
+     * getOnEvent().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link OnEvent }
+     * Objects of the following type(s) are allowed in the list {@link OnEvent }
      * 
      * 
      */
@@ -83,7 +81,7 @@ public class EventHandlers
     }
 
     public boolean isSetOnEvent() {
-        return ((this.onEvent!= null)&&(!this.onEvent.isEmpty()));
+        return ((this.onEvent != null) && (!this.onEvent.isEmpty()));
     }
 
     public void unsetOnEvent() {
@@ -94,15 +92,16 @@ public class EventHandlers
      * Gets the value of the onAlarm property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the onAlarm property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the onAlarm property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getOnAlarm().add(newItem);
+     * getOnAlarm().add(newItem);
      * </pre>
      * 
      * 
@@ -120,7 +119,7 @@ public class EventHandlers
     }
 
     public boolean isSetOnAlarm() {
-        return ((this.onAlarm!= null)&&(!this.onAlarm.isEmpty()));
+        return ((this.onAlarm != null) && (!this.onAlarm.isEmpty()));
     }
 
     public void unsetOnAlarm() {

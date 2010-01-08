@@ -161,8 +161,8 @@ public class DeployerImpl implements Deployer {
         zipElmt.addChild(zipContent);
 
         // deploy
-        client.send(root, URLGenerator.getOdeDeploymentServiceUrl(
-                serverLocation));
+        client.send(root, URLGenerator
+                .getOdeDeploymentServiceUrl(serverLocation));
     }
 
     /*
@@ -185,7 +185,6 @@ public class DeployerImpl implements Deployer {
         root.addChild(part);
 
         // undeploy
-        client.send(root, URLGenerator.getOdeDeploymentServiceUrl(
-                server));
+        client.send(root, URLGenerator.getOdeDeploymentServiceUrl(server));
     }
 }

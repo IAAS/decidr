@@ -5,7 +5,6 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,11 +14,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
-
 /**
- * <p>Java class for tOnEvent complex type.
+ * <p>
+ * Java class for tOnEvent complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tOnEvent">
@@ -39,12 +40,8 @@ import javax.xml.namespace.QName;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tOnEvent", propOrder = {
-    "scope"
-})
-public class OnEvent
-    extends OnMsgCommon
-{
+@XmlType(name = "tOnEvent", propOrder = { "scope" })
+public class OnEvent extends OnMsgCommon {
 
     @XmlElement(required = true)
     protected Scope scope;
@@ -56,10 +53,8 @@ public class OnEvent
     /**
      * Gets the value of the scope property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Scope }
-     *     
+     * @return possible object is {@link Scope }
+     * 
      */
     public Scope getScope() {
         return scope;
@@ -69,25 +64,22 @@ public class OnEvent
      * Sets the value of the scope property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Scope }
-     *     
+     *            allowed object is {@link Scope }
+     * 
      */
     public void setScope(Scope value) {
         this.scope = value;
     }
 
     public boolean isSetScope() {
-        return (this.scope!= null);
+        return (this.scope != null);
     }
 
     /**
      * Gets the value of the messageType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getMessageType() {
         return messageType;
@@ -97,25 +89,22 @@ public class OnEvent
      * Sets the value of the messageType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setMessageType(QName value) {
         this.messageType = value;
     }
 
     public boolean isSetMessageType() {
-        return (this.messageType!= null);
+        return (this.messageType != null);
     }
 
     /**
      * Gets the value of the element property.
      * 
-     * @return
-     *     possible object is
-     *     {@link QName }
-     *     
+     * @return possible object is {@link QName }
+     * 
      */
     public QName getElement() {
         return element;
@@ -125,16 +114,15 @@ public class OnEvent
      * Sets the value of the element property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link QName }
-     *     
+     *            allowed object is {@link QName }
+     * 
      */
     public void setElement(QName value) {
         this.element = value;
     }
 
     public boolean isSetElement() {
-        return (this.element!= null);
+        return (this.element != null);
     }
 
 }

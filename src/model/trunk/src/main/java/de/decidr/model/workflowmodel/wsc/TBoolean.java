@@ -5,19 +5,21 @@
 // Generated on: 2009.08.28 at 04:33:51 PM MESZ 
 //
 
-
 package de.decidr.model.workflowmodel.wsc;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tBoolean.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for tBoolean.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="tBoolean">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -33,8 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 public enum TBoolean {
 
     @XmlEnumValue("yes")
-    YES("yes"),
-    @XmlEnumValue("no")
+    YES("yes"), @XmlEnumValue("no")
     NO("no");
     private final String value;
 
@@ -47,7 +48,7 @@ public enum TBoolean {
     }
 
     public static TBoolean fromValue(String v) {
-        for (TBoolean c: TBoolean.values()) {
+        for (TBoolean c : TBoolean.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

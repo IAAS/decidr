@@ -5,18 +5,19 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tEndNode complex type.
+ * <p>
+ * Java class for tEndNode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tEndNode">
@@ -33,22 +34,16 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tEndNode", propOrder = {
-    "notificationOfSuccess"
-})
-public class EndNode
-    extends BasicNode
-{
+@XmlType(name = "tEndNode", propOrder = { "notificationOfSuccess" })
+public class EndNode extends BasicNode {
 
     protected Notification notificationOfSuccess;
 
     /**
      * Gets the value of the notificationOfSuccess property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Notification }
-     *     
+     * @return possible object is {@link Notification }
+     * 
      */
     public Notification getNotificationOfSuccess() {
         return notificationOfSuccess;
@@ -58,16 +53,15 @@ public class EndNode
      * Sets the value of the notificationOfSuccess property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Notification }
-     *     
+     *            allowed object is {@link Notification }
+     * 
      */
     public void setNotificationOfSuccess(Notification value) {
         this.notificationOfSuccess = value;
     }
 
     public boolean isSetNotificationOfSuccess() {
-        return (this.notificationOfSuccess!= null);
+        return (this.notificationOfSuccess != null);
     }
 
 }

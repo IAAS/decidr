@@ -134,6 +134,7 @@ public class XmlTools {
      *             if the given class is not recognized by JAXB as a valid XML
      *             entity.
      */
+    @Deprecated
     @SuppressWarnings("unchecked")
     public static <T> T getElement(Class<? extends T> clazz, byte[] bytes)
             throws JAXBException {

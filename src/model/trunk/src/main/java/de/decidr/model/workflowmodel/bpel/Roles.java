@@ -5,19 +5,21 @@
 // Generated on: 2009.11.07 at 09:21:14 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.bpel;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tRoles.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for tRoles.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="tRoles">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -33,8 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 public enum Roles {
 
     @XmlEnumValue("myRole")
-    MY_ROLE("myRole"),
-    @XmlEnumValue("partnerRole")
+    MY_ROLE("myRole"), @XmlEnumValue("partnerRole")
     PARTNER_ROLE("partnerRole");
     private final String value;
 
@@ -47,7 +48,7 @@ public enum Roles {
     }
 
     public static Roles fromValue(String v) {
-        for (Roles c: Roles.values()) {
+        for (Roles c : Roles.values()) {
             if (c.value.equals(v)) {
                 return c;
             }
