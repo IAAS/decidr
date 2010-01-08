@@ -121,6 +121,9 @@ public class WorkflowModelFactory extends EntityFactory {
 
                 // we need the workflow model id to set it within the DWDL file
                 workflow.setId(model.getId());
+                workflow.setTargetNamespace("http://decidr.de/"
+                        + owningTenant.getName() + "/processes/"
+                        + model.getId());
                 model.setDwdl(TransformUtil.workflowToBytes(workflow));
 
                 // find suitable workflow administrators -requires persisted
