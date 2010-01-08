@@ -19,7 +19,7 @@ Here you can browse the maven central repository to search for artifacts.
 
 
 == Maven Repository Manager ==
-*Artifacotry:*
+*Artifactory:*
 http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory
 
 The Repository Manager is used for uploading external jars which aren't available in the central maven repository.
