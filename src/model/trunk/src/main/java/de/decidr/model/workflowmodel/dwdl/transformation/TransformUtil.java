@@ -67,7 +67,7 @@ public class TransformUtil {
      * This boolean decides, whether the {@link #bytesToWorkflow(byte[])}
      * validates or not.
      */
-    private static final boolean validate = true;
+    private static final boolean validate = false;
 
     private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
 
