@@ -14,20 +14,22 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.nodes;
 
-import de.decidr.modelingtool.client.ui.EndNode;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
 import de.decidr.modelingtool.client.ui.InputPort;
 import de.decidr.modelingtool.client.ui.OutputPort;
+import de.decidr.modelingtool.client.ui.StartNode;
 
 /**
- * This class is the model of a {@link EndNode}. The node has no model data (aka
- * {@link NodePropertyData}), only an {@link OutputPort} and no
- * {@link InputPort}.
+ * This class is the model of a {@link StartNode}. The node has no model data
+ * (aka {@link NodePropertyData}), only an {@link InputPort} and no
+ * {@link OutputPort}.
  * 
  * @author Johannes Engelhardt
  */
-public class EndNodeModel extends NodeModel {
+public class StartNodeModel extends NodeModel {
 
     /**
      * Default constructor. No properties are set by default.
@@ -35,13 +37,13 @@ public class EndNodeModel extends NodeModel {
      * @param parentModel
      *            the model of the parent node
      */
-    public EndNodeModel(HasChildModels parentModel) {
+    public StartNodeModel(HasChildModels parentModel) {
         super(parentModel);
         this.name = this.getClass().getName();
     }
 
     @Override
-    public ConnectionModel getOutput() {
+    public ConnectionModel getInput() {
         return null;
     }
 

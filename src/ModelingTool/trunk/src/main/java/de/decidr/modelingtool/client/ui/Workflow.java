@@ -31,8 +31,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
-import de.decidr.modelingtool.client.model.HasChildModels;
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
+import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.workflow.WorkflowPropertyWindowInvoker;
 import de.decidr.modelingtool.client.ui.dnd.ConnectionDragController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;

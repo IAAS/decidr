@@ -27,22 +27,22 @@ import com.google.gwt.xml.client.Text;
 import com.google.gwt.xml.client.XMLParser;
 
 import de.decidr.modelingtool.client.io.resources.DWDLNames;
-import de.decidr.modelingtool.client.model.ConnectionModel;
-import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
-import de.decidr.modelingtool.client.model.EndNodeModel;
-import de.decidr.modelingtool.client.model.FlowContainerModel;
-import de.decidr.modelingtool.client.model.HasChildModels;
-import de.decidr.modelingtool.client.model.NodeModel;
-import de.decidr.modelingtool.client.model.StartNodeModel;
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
+import de.decidr.modelingtool.client.model.container.FlowContainerModel;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
 import de.decidr.modelingtool.client.model.foreach.ExitCondition;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
+import de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel;
+import de.decidr.modelingtool.client.model.nodes.EndNodeModel;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
+import de.decidr.modelingtool.client.model.nodes.StartNodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
+import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**

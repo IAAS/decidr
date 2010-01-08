@@ -17,7 +17,7 @@
 package de.decidr.modelingtool.client.model.ifcondition;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
+import de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;
 

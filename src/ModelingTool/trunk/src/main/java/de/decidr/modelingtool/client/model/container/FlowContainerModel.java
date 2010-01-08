@@ -14,35 +14,25 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
-
-import de.decidr.modelingtool.client.ui.InputPort;
-import de.decidr.modelingtool.client.ui.OutputPort;
-import de.decidr.modelingtool.client.ui.StartNode;
+package de.decidr.modelingtool.client.model.container;
 
 /**
- * This class is the model of a {@link StartNode}. The node has no model data
- * (aka {@link NodePropertyData}), only an {@link InputPort} and no
- * {@link OutputPort}.
+ * Model class for the {@link FlowContainerModel}. Currently, this class holds
+ * no properties that can or need to be modeled.
  * 
  * @author Johannes Engelhardt
  */
-public class StartNodeModel extends NodeModel {
+public class FlowContainerModel extends ContainerModel {
 
     /**
-     * Default constructor. No properties are set by default.
+     * Default constructor invoking the super constructor.
      * 
      * @param parentModel
-     *            the model of the parent node
+     *            the mode of the parent node
      */
-    public StartNodeModel(HasChildModels parentModel) {
+    public FlowContainerModel(HasChildModels parentModel) {
         super(parentModel);
         this.name = this.getClass().getName();
-    }
-
-    @Override
-    public ConnectionModel getInput() {
-        return null;
     }
 
 }

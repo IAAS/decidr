@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.io;
 
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
 
 /**
  * The DWDLParser is responsible for converting a DWDL into a

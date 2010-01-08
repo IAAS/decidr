@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.ui;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 
-import de.decidr.modelingtool.client.model.ConnectionModel;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 
 /**

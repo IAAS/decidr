@@ -31,7 +31,7 @@ import de.decidr.modelingtool.client.command.RemoveNodeCommand;
 import de.decidr.modelingtool.client.command.UndoableCommand;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.exception.OperationNotAllowedException;
-import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
 import de.decidr.modelingtool.client.ui.dnd.ContainerDropController;
 import de.decidr.modelingtool.client.ui.dnd.DndRegistry;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;

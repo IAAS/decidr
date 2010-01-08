@@ -20,13 +20,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
-import de.decidr.modelingtool.client.model.ConnectionModel;
-import de.decidr.modelingtool.client.model.ContainerModel;
-import de.decidr.modelingtool.client.model.EndNodeModel;
-import de.decidr.modelingtool.client.model.InvokeNodeModel;
-import de.decidr.modelingtool.client.model.NodeModel;
-import de.decidr.modelingtool.client.model.StartNodeModel;
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
+import de.decidr.modelingtool.client.model.container.ContainerModel;
+import de.decidr.modelingtool.client.model.nodes.EndNodeModel;
+import de.decidr.modelingtool.client.model.nodes.InvokeNodeModel;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
+import de.decidr.modelingtool.client.model.nodes.StartNodeModel;
+import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
 import de.decidr.modelingtool.client.ui.Workflow;
 
 /**

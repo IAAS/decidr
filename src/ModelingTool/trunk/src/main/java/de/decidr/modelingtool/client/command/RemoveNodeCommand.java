@@ -17,7 +17,7 @@
 package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.exception.NodeNotDeletableException;
-import de.decidr.modelingtool.client.model.NodeModel;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.selection.SelectionHandler;
 

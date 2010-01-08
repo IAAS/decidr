@@ -18,8 +18,8 @@ package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
-import de.decidr.modelingtool.client.model.ContainerModel;
-import de.decidr.modelingtool.client.model.FlowContainerModel;
+import de.decidr.modelingtool.client.model.container.ContainerModel;
+import de.decidr.modelingtool.client.model.container.FlowContainerModel;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.ui.Container;

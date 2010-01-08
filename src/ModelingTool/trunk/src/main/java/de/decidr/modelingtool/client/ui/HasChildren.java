@@ -19,7 +19,7 @@ package de.decidr.modelingtool.client.ui;
 import java.util.Collection;
 
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
-import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
 
 /**
  * Interface with methods needed for nodes which have children (workflows and

@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.io;
 
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
 
 /**
  * The WorkflowParser is responsible for converting a WorkflowModel to a DWDL

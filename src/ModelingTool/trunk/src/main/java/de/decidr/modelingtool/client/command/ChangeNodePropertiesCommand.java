@@ -16,8 +16,8 @@
 
 package de.decidr.modelingtool.client.command;
 
-import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
-import de.decidr.modelingtool.client.model.NodePropertyData;
+import de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel;
+import de.decidr.modelingtool.client.model.nodes.NodePropertyData;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 import de.decidr.modelingtool.client.ui.Node;
 

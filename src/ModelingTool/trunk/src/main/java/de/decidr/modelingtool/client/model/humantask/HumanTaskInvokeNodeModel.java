@@ -18,8 +18,8 @@ package de.decidr.modelingtool.client.model.humantask;
 
 import java.util.List;
 
-import de.decidr.modelingtool.client.model.HasChildModels;
-import de.decidr.modelingtool.client.model.InvokeNodeModel;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
+import de.decidr.modelingtool.client.model.nodes.InvokeNodeModel;
 
 /**
  * This class holds all properties of a {@link HumanTaskInvokeNodeModel}.

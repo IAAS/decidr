@@ -14,8 +14,9 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.nodes;
 
+import de.decidr.modelingtool.client.model.container.HasChildModels;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;
 
 /**

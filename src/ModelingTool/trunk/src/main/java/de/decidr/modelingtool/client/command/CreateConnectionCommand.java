@@ -20,9 +20,9 @@ import com.google.gwt.user.client.Window;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
 import de.decidr.modelingtool.client.exception.InvalidTypeException;
-import de.decidr.modelingtool.client.model.ConnectionModel;
-import de.decidr.modelingtool.client.model.ContainerExitConnectionModel;
-import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
+import de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel;
+import de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.Container;

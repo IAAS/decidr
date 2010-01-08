@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeNodePropertiesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
+import de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.EmailInvokeNode;

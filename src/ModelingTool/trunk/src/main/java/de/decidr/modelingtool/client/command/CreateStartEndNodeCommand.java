@@ -17,9 +17,9 @@
 package de.decidr.modelingtool.client.command;
 
 import de.decidr.modelingtool.client.exception.IncompleteModelDataException;
-import de.decidr.modelingtool.client.model.EndNodeModel;
-import de.decidr.modelingtool.client.model.NodeModel;
-import de.decidr.modelingtool.client.model.StartNodeModel;
+import de.decidr.modelingtool.client.model.nodes.EndNodeModel;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
+import de.decidr.modelingtool.client.model.nodes.StartNodeModel;
 import de.decidr.modelingtool.client.ui.EndNode;
 import de.decidr.modelingtool.client.ui.Node;
 import de.decidr.modelingtool.client.ui.StartNode;

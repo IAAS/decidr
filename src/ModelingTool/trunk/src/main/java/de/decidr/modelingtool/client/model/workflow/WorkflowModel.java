@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.workflow;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +23,10 @@ import java.util.List;
 
 import com.extjs.gxt.ui.client.store.ListStore;
 
+import de.decidr.modelingtool.client.model.AbstractModel;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.HasChildren;

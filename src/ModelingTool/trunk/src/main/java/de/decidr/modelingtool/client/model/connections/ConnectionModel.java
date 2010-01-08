@@ -14,7 +14,11 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.connections;
+
+import de.decidr.modelingtool.client.model.AbstractModel;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
 
 /**
  * This is the basic model of all connections in the workflow. It contains

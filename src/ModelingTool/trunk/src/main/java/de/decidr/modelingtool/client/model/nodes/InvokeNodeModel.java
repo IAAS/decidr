@@ -14,7 +14,9 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.nodes;
+
+import de.decidr.modelingtool.client.model.container.HasChildModels;
 
 /**
  * This is the parent model of all invoke node models.

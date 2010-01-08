@@ -42,7 +42,7 @@
 		</recipient>
 	</faultHandler>
 	<nodes>
-		<startNode name="de.decidr.modelingtool.client.model.StartNodeModel"
+		<startNode name="de.decidr.modelingtool.client.model.nodes.StartNodeModel"
 			id="1255956748593">
 			<description></description>
 			<graphics x="25" y="25" width="50" height="30" />
@@ -50,7 +50,7 @@
 				<source arcId="1255956748640" />
 			</sources>
 		</startNode>
-		<endNode name="de.decidr.modelingtool.client.model.EndNodeModel"
+		<endNode name="de.decidr.modelingtool.client.model.nodes.EndNodeModel"
 			id="1255956748656">
 			<description></description>
 			<graphics x="690" y="499" width="50" height="30" />
@@ -84,7 +84,7 @@
 			<completionCondition>XOR</completionCondition>
 			<nodes>
 				<invokeNode
-					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1255956748750"
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1255956748750"
 					activity="Decidr-Email">
 					<description></description>
 					<graphics x="119" y="123" width="100" height="60" />
@@ -104,18 +104,18 @@
 			</nodes>
 			<arcs>
 				<arc
-					name="de.decidr.modelingtool.client.model.ContainerExitConnectionModel"
+					name="de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel"
 					id="1255956748765" source="1255956748750" target="1255956748703" />
 				<arc
-					name="de.decidr.modelingtool.client.model.ContainerStartConnectionModel"
+					name="de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel"
 					id="1255956748781" source="1255956748703" target="1255956748750" />
 			</arcs>
 		</forEachNode>
 	</nodes>
 	<arcs>
-		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+		<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
 			id="1255956748671" source="1255956748703" target="1255956748656" />
-		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+		<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
 			id="1255956748640" source="1255956748593" target="1255956748703" />
 	</arcs>
 </workflow>

@@ -16,8 +16,8 @@
 
 package de.decidr.modelingtool.client.command;
 
-import de.decidr.modelingtool.client.model.WorkflowModel;
-import de.decidr.modelingtool.client.model.WorkflowProperties;
+import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
+import de.decidr.modelingtool.client.model.workflow.WorkflowProperties;
 import de.decidr.modelingtool.client.ui.Workflow;
 import de.decidr.modelingtool.client.ui.dialogs.workflow.WorkflowPropertyWindow;
 

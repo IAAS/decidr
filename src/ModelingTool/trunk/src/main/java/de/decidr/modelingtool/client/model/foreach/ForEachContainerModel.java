@@ -16,8 +16,8 @@
 
 package de.decidr.modelingtool.client.model.foreach;
 
-import de.decidr.modelingtool.client.model.ContainerModel;
-import de.decidr.modelingtool.client.model.HasChildModels;
+import de.decidr.modelingtool.client.model.container.ContainerModel;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
 import de.decidr.modelingtool.client.ui.ForEachContainer;
 
 /**

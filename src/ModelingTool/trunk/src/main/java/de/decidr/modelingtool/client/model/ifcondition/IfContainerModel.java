@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.decidr.modelingtool.client.model.ConnectionModel;
-import de.decidr.modelingtool.client.model.ContainerModel;
-import de.decidr.modelingtool.client.model.HasChildModels;
-import de.decidr.modelingtool.client.model.NodeModel;
-import de.decidr.modelingtool.client.model.NodePropertyData;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
+import de.decidr.modelingtool.client.model.container.ContainerModel;
+import de.decidr.modelingtool.client.model.container.HasChildModels;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
+import de.decidr.modelingtool.client.model.nodes.NodePropertyData;
 import de.decidr.modelingtool.client.ui.IfContainer;
 
 /**

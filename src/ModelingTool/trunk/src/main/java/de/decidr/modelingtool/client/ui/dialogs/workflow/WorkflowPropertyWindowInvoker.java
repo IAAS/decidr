@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.workflow;
 
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**

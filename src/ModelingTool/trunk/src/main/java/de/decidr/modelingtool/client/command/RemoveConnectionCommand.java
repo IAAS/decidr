@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.command;
 
-import de.decidr.modelingtool.client.model.ConnectionModel;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.selection.ConnectionDragBox;
 

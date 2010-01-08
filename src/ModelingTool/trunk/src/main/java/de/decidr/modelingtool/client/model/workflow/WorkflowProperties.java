@@ -14,7 +14,9 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.workflow;
+
+import de.decidr.modelingtool.client.model.nodes.NodePropertyData;
 
 /**
  * This class serves as a container for the properties of a workflow, such as
@@ -24,6 +26,7 @@ package de.decidr.modelingtool.client.model;
  */
 public class WorkflowProperties {
 
+    private final String xmlHeaderFieldName = "xmlheader";
     private final String namespaceFieldName = "namespace";
     private final String schemaFieldName = "schema";
 
@@ -46,10 +49,17 @@ public class WorkflowProperties {
         this.properties = properties;
     }
 
+    @Deprecated
+    public String getXmlHeader() {
+        return properties.get(xmlHeaderFieldName);
+    }
+
+    @Deprecated
     public String getNamespace() {
         return properties.get(namespaceFieldName);
     }
 
+    @Deprecated
     public String getSchema() {
         String schema = properties.get(schemaFieldName);
         // JS remove
@@ -75,10 +85,17 @@ public class WorkflowProperties {
         return properties.get(notifyOnSuccessFieldName);
     }
 
+    @Deprecated
+    public void setXmlHeader(String xmlHeader) {
+        this.properties.set(xmlHeaderFieldName, xmlHeader);
+    }
+
+    @Deprecated
     public void setNamespace(String namespace) {
         this.properties.set(namespaceFieldName, namespace);
     }
 
+    @Deprecated
     public void setSchema(String schema) {
         this.properties.set(schemaFieldName, schema);
     }

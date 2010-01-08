@@ -14,17 +14,17 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.connections;
 
 /**
- * The connection model of connection which are connected to a container exit
+ * The connection model of connection which are connected to a container start
  * port. This class is used for identification.
  * 
  * @author Johannes Engelhardt
  */
-public class ContainerExitConnectionModel extends ConnectionModel {
+public class ContainerStartConnectionModel extends ConnectionModel {
 
-    public ContainerExitConnectionModel() {
+    public ContainerStartConnectionModel() {
         super();
     }
 

@@ -61,13 +61,13 @@
 		</recipient>
 	</faultHandler>
 	<nodes>
-		<flowNode name="de.decidr.modelingtool.client.model.FlowContainerModel"
+		<flowNode name="de.decidr.modelingtool.client.model.container.FlowContainerModel"
 			id="1256287630468">
 			<description></description>
 			<graphics x="378" y="213" width="357" height="194" />
 			<nodes>
 				<invokeNode
-					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1256287630515"
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1256287630515"
 					activity="Decidr-Email">
 					<description></description>
 					<graphics x="228" y="65" width="100" height="60" />
@@ -111,13 +111,13 @@
 				</invokeNode>
 			</nodes>
 			<arcs>
-				<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+				<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
 					id="1256287630546" source="1256287630547" target="1256287630515" />
-				<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+				<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
 					id="1256287630531" source="1256287630515" target="1256287630547" />
 			</arcs>
 		</flowNode>
-		<startNode name="de.decidr.modelingtool.client.model.StartNodeModel"
+		<startNode name="de.decidr.modelingtool.client.model.nodes.StartNodeModel"
 			id="1256287630593">
 			<description></description>
 			<graphics x="25" y="25" width="50" height="30" />
@@ -125,7 +125,7 @@
 				<source arcId="1256287630625" />
 			</sources>
 		</startNode>
-		<flowNode name="de.decidr.modelingtool.client.model.FlowContainerModel"
+		<flowNode name="de.decidr.modelingtool.client.model.container.FlowContainerModel"
 			id="1256287630626">
 			<description></description>
 			<graphics x="35" y="120" width="318" height="315" />
@@ -137,7 +137,7 @@
 			</targets>
 			<nodes>
 				<invokeNode
-					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1256287630657"
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1256287630657"
 					activity="Decidr-Email">
 					<description></description>
 					<graphics x="28" y="191" width="100" height="60" />
@@ -155,7 +155,7 @@
 					<setProperty name="attachment" />
 				</invokeNode>
 				<invokeNode
-					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1256287630689"
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1256287630689"
 					activity="Decidr-Email">
 					<description></description>
 					<graphics x="180" y="71" width="100" height="60" />
@@ -225,30 +225,30 @@
 			</nodes>
 			<arcs>
 				<arc
-					name="de.decidr.modelingtool.client.model.ContainerStartConnectionModel"
+					name="de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel"
 					id="1256287630719" source="1256287630626" target="1256287630689" />
-				<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+				<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
 					id="1256287630718" source="1256287630689" target="1256287630734" />
-				<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+				<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
 					id="1256287630688" source="1256287630781" target="1256287630657" />
 				<arc
-					name="de.decidr.modelingtool.client.model.ContainerExitConnectionModel"
+					name="de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel"
 					id="1256287630765" source="1256287630734" target="1256287630626" />
 				<arc
-					name="de.decidr.modelingtool.client.model.ContainerStartConnectionModel"
+					name="de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel"
 					id="1256287630812" source="1256287630626" target="1256287630781" />
 				<arc
-					name="de.decidr.modelingtool.client.model.ContainerExitConnectionModel"
+					name="de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel"
 					id="1256287630687" source="1256287630657" target="1256287630626" />
 			</arcs>
 		</flowNode>
-		<flowNode name="de.decidr.modelingtool.client.model.FlowContainerModel"
+		<flowNode name="de.decidr.modelingtool.client.model.container.FlowContainerModel"
 			id="1256287630828">
 			<description></description>
 			<graphics x="374" y="45" width="362" height="150" />
 			<nodes>
 				<invokeNode
-					name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel" id="1256287630859"
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1256287630859"
 					activity="Decidr-Email">
 					<description></description>
 					<graphics x="256" y="57" width="100" height="60" />
@@ -293,14 +293,14 @@
 			</nodes>
 			<arcs>
 				<arc
-					name="de.decidr.modelingtool.client.model.ContainerStartConnectionModel"
+					name="de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel"
 					id="1256287630953" source="1256287630828" target="1256287630937" />
 				<arc
-					name="de.decidr.modelingtool.client.model.ContainerExitConnectionModel"
+					name="de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel"
 					id="1256287630890" source="1256287630859" target="1256287630828" />
 			</arcs>
 		</flowNode>
-		<endNode name="de.decidr.modelingtool.client.model.EndNodeModel"
+		<endNode name="de.decidr.modelingtool.client.model.nodes.EndNodeModel"
 			id="1256287630968">
 			<description></description>
 			<graphics x="614" y="469" width="50" height="30" />
@@ -314,9 +314,9 @@
 		</endNode>
 	</nodes>
 	<arcs>
-		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+		<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
 			id="1256287630625" source="1256287630593" target="1256287630626" />
-		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+		<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
 			id="1256287630656" source="1256287630626" target="1256287630968" />
 	</arcs>
 </workflow>

@@ -23,23 +23,23 @@ import com.google.gwt.junit.client.GWTTestCase;
 import de.decidr.modelingtool.client.io.DWDLParser;
 import de.decidr.modelingtool.client.io.DWDLParserImpl;
 import de.decidr.modelingtool.client.model.AbstractModel;
-import de.decidr.modelingtool.client.model.ConnectionModel;
-import de.decidr.modelingtool.client.model.ContainerExitConnectionModel;
-import de.decidr.modelingtool.client.model.ContainerStartConnectionModel;
-import de.decidr.modelingtool.client.model.EmailInvokeNodeModel;
-import de.decidr.modelingtool.client.model.EndNodeModel;
-import de.decidr.modelingtool.client.model.FlowContainerModel;
-import de.decidr.modelingtool.client.model.NodeModel;
-import de.decidr.modelingtool.client.model.StartNodeModel;
-import de.decidr.modelingtool.client.model.WorkflowModel;
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
+import de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel;
+import de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel;
+import de.decidr.modelingtool.client.model.container.FlowContainerModel;
 import de.decidr.modelingtool.client.model.foreach.ExitCondition;
 import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.model.ifcondition.Condition;
 import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.model.ifcondition.Operator;
+import de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel;
+import de.decidr.modelingtool.client.model.nodes.EndNodeModel;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
+import de.decidr.modelingtool.client.model.nodes.StartNodeModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
+import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
 
 /**
  * GWT JUnit tests must extend GWTTestCase.

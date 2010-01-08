@@ -14,10 +14,12 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.container;
 
 import java.util.Collection;
 
+import de.decidr.modelingtool.client.model.connections.ConnectionModel;
+import de.decidr.modelingtool.client.model.nodes.NodeModel;
 import de.decidr.modelingtool.client.ui.HasChildren;
 
 /**

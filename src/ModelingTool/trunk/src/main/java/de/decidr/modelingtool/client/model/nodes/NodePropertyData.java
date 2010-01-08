@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model;
+package de.decidr.modelingtool.client.model.nodes;
 
 import java.util.Collection;
 import java.util.HashMap;
