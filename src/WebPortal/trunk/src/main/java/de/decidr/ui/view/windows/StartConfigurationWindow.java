@@ -53,6 +53,7 @@ import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.Variable;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
@@ -129,6 +130,9 @@ public class StartConfigurationWindow extends Window {
         this.tConfiguration = tConfiguration;
         this.workflowModelId = workflowModelId;
         this.workflow = workflow;
+        
+        DefaultLogger.getLogger(StartConfigurationWindow.class).
+            debug("StartConfigurationWindow initialized, setting up ui components");
         init();
     }
 
@@ -175,7 +179,13 @@ public class StartConfigurationWindow extends Window {
         comboBox.setNullSelectionAllowed(true);
         comboBox.setNewItemsAllowed(false);
         comboBox.setImmediate(true);
+
+        DefaultLogger.getLogger(StartConfigurationWindow.class).
+            debug("StartConfigurationWindow filling up containers...");
         fillContainer();
+
+        DefaultLogger.getLogger(StartConfigurationWindow.class).
+            debug("StartConfigurationWindow filling up containers...done");
 
         this.setContent(mainVerticalLayout);
 
@@ -187,6 +197,7 @@ public class StartConfigurationWindow extends Window {
 
         mainVerticalLayout.setSpacing(true);
         mainVerticalLayout.addComponent(splitPanel);
+        mainVerticalLayout.setMargin(true);
 
         splitPanel.setOrientation(SplitPanel.ORIENTATION_HORIZONTAL);
         splitPanel.setSplitPosition(350, Sizeable.UNITS_PIXELS);
@@ -209,8 +220,14 @@ public class StartConfigurationWindow extends Window {
         assignmentForm.setCaption("Configuration variables");
         assignmentForm.setWriteThrough(false);
         assignmentForm.setInvalidCommitted(false);
+
+        DefaultLogger.getLogger(StartConfigurationWindow.class).
+            debug("StartConfigurationWindow adding assignment form...");
         addAssignmentToForm(tConfiguration);
 
+        DefaultLogger.getLogger(StartConfigurationWindow.class).
+            debug("StartConfigurationWindow adding assignemnt form...done");
+        
         mainVerticalLayout.addComponent(buttonHorizontalLayout);
 
         buttonHorizontalLayout.setSpacing(true);
@@ -221,7 +238,13 @@ public class StartConfigurationWindow extends Window {
         buttonHorizontalLayout.addComponent(okButton);
         buttonHorizontalLayout.addComponent(cancelButton);
 
+
+        DefaultLogger.getLogger(StartConfigurationWindow.class).
+            debug("StartConfigurationWindow initializing handler...");
         initializeHandler();
+
+        DefaultLogger.getLogger(StartConfigurationWindow.class).
+            debug("StartConfigurationWindow initializing handler...done");
     }
 
     private void initializeHandler() {
