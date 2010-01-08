@@ -697,7 +697,7 @@ public class NotificationText {
      */
     public static String getInviteUnregisteredUserAsTenantMemberSubject() {
         String message = bundle
-                .getString("InviteUnregisteredUserAsTenantMember");
+                .getString("InviteUnregisteredUserAsTenantMember_Subject");
         return message;
     }
 
