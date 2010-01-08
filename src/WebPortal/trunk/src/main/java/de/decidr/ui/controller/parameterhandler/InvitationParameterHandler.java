@@ -21,6 +21,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.ParameterHandler;
 
 import de.decidr.model.DecidrGlobals;
@@ -279,10 +280,20 @@ public class InvitationParameterHandler implements ParameterHandler {
                     }
                 }
             } catch (TransactionException exception) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent(exception));
+                Main
+                .getCurrent()
+                .getMainWindow()
+                .addWindow(
+                        new InformationDialogComponent(
+                                "Unfortunately the link you follow seems to be invalid.<br/><br/>"+
+                                "This can have several reasons. Please make sure the link is not "+
+                                "outdated and correctly copied from the email you received.",
+                                "Invalid Link"));
             }
         }
+
+        Main.getCurrent().getMainWindow().open(
+                new ExternalResource(Main.getCurrent().getURL()));
     }
 
     /**
