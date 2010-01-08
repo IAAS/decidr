@@ -20,12 +20,14 @@ import java.util.List;
 
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.hibernate.type.Type;
 
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserAdministratesWorkflowModel;
 import de.decidr.model.entities.WorkflowModel;
@@ -95,17 +97,28 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
          * 
          * "from WorkflowModel w where exists(from
          * UserAdministratesWorkflowModel rel where rel.workflowModel = w and
-         * rel.user.id = :userId)"
+         * rel.user.id = :userId) or w.tenant.admin.id = :userId) or exists
+         * (from SystemSettings s where s.admin.id = :userId)"
          */
         PaginatingCriteria criteria = new PaginatingCriteria(
                 WorkflowModel.class, "m", evt.getSession());
 
-        DetachedCriteria adminCriteria = DetachedCriteria.forClass(
-                UserAdministratesWorkflowModel.class, "rel");
-
-        adminCriteria.add(Restrictions.conjunction().add(
+        /*
+         * A user administers a workflow model if there's an explicit
+         * relationship.
+         */
+        DetachedCriteria explicitWorkflowAdminCriteria = DetachedCriteria
+                .forClass(UserAdministratesWorkflowModel.class, "rel");
+        explicitWorkflowAdminCriteria.add(Restrictions.conjunction().add(
                 Restrictions.eqProperty("rel.workflowModel.id", "m.id")).add(
                 Restrictions.eq("rel.user.id", getUserId())));
+
+        /*
+         * A user administers *any* workflow model if he is the super admin.
+         */
+        DetachedCriteria superAdminCriteria = DetachedCriteria.forClass(
+                SystemSettings.class, "s");
+        superAdminCriteria.add(Restrictions.eq("s.superAdmin.id", getUserId()));
 
         /*
          * Workaround for Hibernate issue HHH-993: Criteria subquery without
@@ -114,9 +127,25 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
          * Additionally, Mysql doesn't seem to like aliases in EXISTS
          * subqueries, so we have to explicitly specify "*"
          */
-        adminCriteria.setProjection(Projections.sqlProjection("*",
+        explicitWorkflowAdminCriteria.setProjection(Projections.sqlProjection(
+                "*", new String[0], new Type[0]));
+        superAdminCriteria.setProjection(Projections.sqlProjection("*",
                 new String[0], new Type[0]));
-        criteria.add(Subqueries.exists(adminCriteria));
+
+        /*
+         * Finally, a user administers a workflow model if he is the tenant
+         * admin of the tenant that owns the model. We now add each criterion to
+         * a disjuncion.
+         */
+        Disjunction allAdministrationCriteria = Restrictions.disjunction();
+        allAdministrationCriteria.add(Subqueries.exists(superAdminCriteria));
+        allAdministrationCriteria.add(Subqueries
+                .exists(explicitWorkflowAdminCriteria));
+        allAdministrationCriteria.add(Restrictions.eq("m.tenant.admin.id",
+                getUserId()));
+
+        criteria.add(allAdministrationCriteria);
+
         Filters.apply(criteria, filters, paginator);
 
         criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);

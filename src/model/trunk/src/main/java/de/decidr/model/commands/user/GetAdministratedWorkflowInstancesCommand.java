@@ -30,6 +30,8 @@ import de.decidr.model.transactions.TransactionEvent;
  * Retrieves all {@link WorkflowInstance}s that are administrated by a given
  * user.
  * 
+ * XXX why does this command not support pagination and filters? ~dh
+ * 
  * @author Markus Fischer
  * @author Daniel Huss
  * 
@@ -71,10 +73,23 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
             throw new EntityNotFoundException(User.class, getUserId());
         }
 
+        /*-
+         * A user administers a workflow instance iff:
+         * 
+         *  - an explicit ownership relation has been created.
+         *                        OR
+         *  - the user is the administrator of the tenant that owns 
+         *    the worflow instance.
+         *                        OR
+         *  - the user is the superadmin who administers ALL workflow
+         *    instances (careful, you might get a lot of results)
+         */
         hql = "select wi from WorkflowInstance wi "
                 + "join fetch wi.deployedWorkflowModel where "
                 + "exists( from UserAdministratesWorkflowInstance rel "
-                + "where rel.workflowInstance = wi and rel.user.id = :userId)";
+                + "where rel.workflowInstance = wi and rel.user.id = :userId) "
+                + "or wi.deployedWorkflowModel.tenant.admin.id = :userId "
+                + "or exists(from SystemSettings s where s.superAdmin.id = :userId)";
 
         result = evt.getSession().createQuery(hql).setLong("userId",
                 getUserId()).list();
