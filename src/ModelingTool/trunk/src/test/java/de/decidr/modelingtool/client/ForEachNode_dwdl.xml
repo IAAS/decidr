@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- The DecidR Development Team licenses this file to you under -->
 <!-- the Apache License, Version 2.0 (the "License"); you may -->
 <!-- not use this file except in compliance with the License. -->
@@ -11,8 +12,6 @@
 <!-- KIND, either express or implied. See the License for the -->
 <!-- specific language governing permissions and limitations -->
 <!-- under the License. -->
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <workflow name="Simple Workflow" id="1255956748515"
 	targetNamespace="namespace" xmlns="schema">
 	<description></description>
