@@ -55,13 +55,6 @@ public class MonitoringThread extends Thread {
     private boolean exitLoop = false;
 
     /**
-     * Tells the Client to exit the loop and stop the loop.
-     */
-    public void stopClient() {
-        exitLoop = true;
-    }
-
-    /**
      * Change the updating interval and force an update.
      * 
      * @param interval
@@ -318,5 +311,12 @@ public class MonitoringThread extends Thread {
     public synchronized void start(long id) {
         odeID = id;
         super.start();
+    }
+
+    /**
+     * Tells the Client to exit the loop and stop the loop.
+     */
+    public void stopClient() {
+        exitLoop = true;
     }
 }

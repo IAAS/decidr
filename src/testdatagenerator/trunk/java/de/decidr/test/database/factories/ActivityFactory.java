@@ -36,17 +36,17 @@ public class ActivityFactory extends EntityFactory {
 
     /**
      * @param session
-     * @param progressListener
      */
-    public ActivityFactory(Session session, ProgressListener progressListener) {
-        super(session, progressListener);
+    public ActivityFactory(Session session) {
+        super(session);
     }
 
     /**
      * @param session
+     * @param progressListener
      */
-    public ActivityFactory(Session session) {
-        super(session);
+    public ActivityFactory(Session session, ProgressListener progressListener) {
+        super(session, progressListener);
     }
 
     /**

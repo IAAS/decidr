@@ -80,6 +80,14 @@ public class TestDataGenerator {
     public static final String SWITCH_NO_STDERR = "no-stderr";
 
     /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        TestDataGenerator program = new TestDataGenerator(args);
+        program.run();
+    }
+
+    /**
      * Application settings.
      */
     private Properties settings;
@@ -88,20 +96,12 @@ public class TestDataGenerator {
      * Set of active switches such as "--help"
      */
     private Set<String> activeSwitches;
-
     /**
      * last recorded progress in percent
      */
     private long lastProgressPercent = 0;
-    private Calendar lastProgressReportTime = null;
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        TestDataGenerator program = new TestDataGenerator(args);
-        program.run();
-    }
+    private Calendar lastProgressReportTime = null;
 
     /**
      * Constructor that initializes the application
@@ -123,24 +123,63 @@ public class TestDataGenerator {
     }
 
     /**
-     * Runs the program (with "error handling")
+     * Applies the current application settings.
      */
-    private void run() {
-        try {
-            doRun();
-        } catch (Throwable e) {
-            stdErr("An error occurred! Stack trace:");
-            e.printStackTrace(System.err);
+    private void applyCurrentSettings() {
+        String connectionUrl = settings.getProperty(PROPERTY_CONNECTION_URL);
 
-            while (e.getCause() != null) {
-                e = e.getCause();
-                if (e instanceof JDBCException) {
-                    JDBCException jdbcException = (JDBCException) e;
-                    stdErr("Statement that caused the exception:");
-                    stdErr(jdbcException.getSQL());
-                }
-            }
-        }
+        Configuration config = HibernateTransactionCoordinator.getInstance()
+                .getConfiguration();
+        config.setProperty("hibernate.connection.url", connectionUrl);
+        HibernateTransactionCoordinator.getInstance().setConfiguration(config);
+    }
+
+    /**
+     * Displays a help message informing the user about the available switches
+     * and properties
+     */
+    private void displayHelp() {
+        StringBuffer help = new StringBuffer(10000);
+
+        help.append("DecidR test data generator\n\n");
+        help.append(DecidrGlobals.DISCLAIMER);
+        help.append("\n\n");
+        help.append("Usage: java -jar testdatagenerator.jar "
+                + "[--property=value]+ [--switch]+\n");
+
+        help.append("\n\nProperties:\n--------------------\n");
+        help.append(PROPERTY_CONNECTION_URL);
+        help
+                .append("\t - \tHibernate connection URL override such as 'jdbc:mysql://localhost:3306/decidrdb'\n");
+        help.append(PROPERTY_USERS);
+        help.append("\t - \tTotal number of users to create\n");
+        help.append(PROPERTY_TENANTS);
+        help.append("\t - \tTotal number of tenants to create\n");
+        help.append(PROPERTY_MODELS);
+        help.append("\t - \tTotal number of workflow models to create\n");
+        help.append(PROPERTY_MODELS_PER_TENANT);
+        help.append("\t - \tNumber of workflow models per tenant\n");
+        help.append(PROPERTY_INSTANCES);
+        help.append("\t - \tTotal number of workflow instances to create\n");
+        help.append(PROPERTY_WORKITEMS);
+        help.append("\t - \tTotal number of work items to create\n");
+        help.append(PROPERTY_INVITATIONS);
+        help.append("\t - \tTotal number of invitations to create\n");
+        help.append(PROPERTY_MAX_USERS_PER_TENANT);
+        help
+                .append("\t - \tMaximum number of users to associate with each tenant\n");
+
+        help.append("\nSwitches:\n--------------------\n");
+        help.append(SWITCH_HELP);
+        help.append("\t - \tDisplay this help then exit\n");
+        help.append(SWITCH_NON_INTERACTIVE);
+        help.append("\t - \tDo not prompt for user input\n");
+        help.append(SWITCH_NO_STDOUT);
+        help.append("\t - \tSuppress output to STDOUT\n");
+        help.append(SWITCH_NO_STDERR);
+        help.append("\t - \tSuppress output to STDERR\n");
+
+        System.out.println(help.toString());
     }
 
     /**
@@ -192,9 +231,9 @@ public class TestDataGenerator {
                 }
 
                 // report progress only if it has changed or we're done!
-                if (totalItems == doneItems
-                        || lastProgressPercent != progressPercent
-                        && (DecidrGlobals.getTime().after(nextReportDate))) {
+                if ((totalItems == doneItems)
+                        || ((lastProgressPercent != progressPercent) && (DecidrGlobals
+                                .getTime().after(nextReportDate)))) {
                     stdOut(progressPercent + "% done");
                     lastProgressPercent = progressPercent;
                     lastProgressReportTime = DecidrGlobals.getTime();
@@ -296,101 +335,6 @@ public class TestDataGenerator {
     }
 
     /**
-     * Makes sure the given properties are valid.
-     */
-    private boolean isPropertiesValid() {
-        boolean result = true;
-        // XXX add more checks?
-
-        try {
-            int numUsers = Integer.parseInt(settings
-                    .getProperty(PROPERTY_USERS));
-            int numTenants = Integer.parseInt(settings
-                    .getProperty(PROPERTY_TENANTS));
-
-            if (numTenants > numUsers) {
-                stdErr("Number of tenants must be smaller or equal to number of users!");
-                result = false;
-            }
-
-        } catch (NumberFormatException e) {
-            stdErr("Number of users and number of tenants must be integers!");
-            result = false;
-        }
-
-        return result;
-    }
-
-    /**
-     * Resets progress information so the next progress event will generate
-     * output
-     */
-    private void resetProgress() {
-        lastProgressPercent = 0;
-        lastProgressReportTime = null;
-    }
-
-    /**
-     * Displays a help message informing the user about the available switches
-     * and properties
-     */
-    private void displayHelp() {
-        StringBuffer help = new StringBuffer(10000);
-
-        help.append("DecidR test data generator\n\n");
-        help.append(DecidrGlobals.DISCLAIMER);
-        help.append("\n\n");
-        help.append("Usage: java -jar testdatagenerator.jar "
-                + "[--property=value]+ [--switch]+\n");
-
-        help.append("\n\nProperties:\n--------------------\n");
-        help.append(PROPERTY_CONNECTION_URL);
-        help
-                .append("\t - \tHibernate connection URL override such as 'jdbc:mysql://localhost:3306/decidrdb'\n");
-        help.append(PROPERTY_USERS);
-        help.append("\t - \tTotal number of users to create\n");
-        help.append(PROPERTY_TENANTS);
-        help.append("\t - \tTotal number of tenants to create\n");
-        help.append(PROPERTY_MODELS);
-        help.append("\t - \tTotal number of workflow models to create\n");
-        help.append(PROPERTY_MODELS_PER_TENANT);
-        help.append("\t - \tNumber of workflow models per tenant\n");
-        help.append(PROPERTY_INSTANCES);
-        help.append("\t - \tTotal number of workflow instances to create\n");
-        help.append(PROPERTY_WORKITEMS);
-        help.append("\t - \tTotal number of work items to create\n");
-        help.append(PROPERTY_INVITATIONS);
-        help.append("\t - \tTotal number of invitations to create\n");
-        help.append(PROPERTY_MAX_USERS_PER_TENANT);
-        help
-                .append("\t - \tMaximum number of users to associate with each tenant\n");
-
-        help.append("\nSwitches:\n--------------------\n");
-        help.append(SWITCH_HELP);
-        help.append("\t - \tDisplay this help then exit\n");
-        help.append(SWITCH_NON_INTERACTIVE);
-        help.append("\t - \tDo not prompt for user input\n");
-        help.append(SWITCH_NO_STDOUT);
-        help.append("\t - \tSuppress output to STDOUT\n");
-        help.append(SWITCH_NO_STDERR);
-        help.append("\t - \tSuppress output to STDERR\n");
-
-        System.out.println(help.toString());
-    }
-
-    /**
-     * Applies the current application settings.
-     */
-    private void applyCurrentSettings() {
-        String connectionUrl = settings.getProperty(PROPERTY_CONNECTION_URL);
-
-        Configuration config = HibernateTransactionCoordinator.getInstance()
-                .getConfiguration();
-        config.setProperty("hibernate.connection.url", connectionUrl);
-        HibernateTransactionCoordinator.getInstance().setConfiguration(config);
-    }
-
-    /**
      * 
      * @param settingsFile
      *            file that contains the system settings.
@@ -428,6 +372,55 @@ public class TestDataGenerator {
     }
 
     /**
+     * Returns a set of all command line switches that are present in args, such
+     * as "--help" or "-help"
+     * 
+     * @param args
+     *            arguments to scan for switches
+     * @return set of switches without "-" or "--"
+     */
+    private Set<String> getSwitches(String[] args) {
+        HashSet<String> result = new HashSet<String>();
+        Pattern pattern = Pattern.compile("^--?((\\w+-?)+)$");
+
+        for (String arg : args) {
+            Matcher match = pattern.matcher(arg.trim());
+            if (match.matches()) {
+                String switchName = match.group(1);
+                result.add(switchName);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Makes sure the given properties are valid.
+     */
+    private boolean isPropertiesValid() {
+        boolean result = true;
+        // XXX add more checks?
+
+        try {
+            int numUsers = Integer.parseInt(settings
+                    .getProperty(PROPERTY_USERS));
+            int numTenants = Integer.parseInt(settings
+                    .getProperty(PROPERTY_TENANTS));
+
+            if (numTenants > numUsers) {
+                stdErr("Number of tenants must be smaller or equal to number of users!");
+                result = false;
+            }
+
+        } catch (NumberFormatException e) {
+            stdErr("Number of users and number of tenants must be integers!");
+            result = false;
+        }
+
+        return result;
+    }
+
+    /**
      * Puts all arguments of the form "--argument-name=argument value" in the
      * given property map.
      * 
@@ -455,36 +448,32 @@ public class TestDataGenerator {
     }
 
     /**
-     * Returns a set of all command line switches that are present in args, such
-     * as "--help" or "-help"
-     * 
-     * @param args
-     *            arguments to scan for switches
-     * @return set of switches without "-" or "--"
+     * Resets progress information so the next progress event will generate
+     * output
      */
-    private Set<String> getSwitches(String[] args) {
-        HashSet<String> result = new HashSet<String>();
-        Pattern pattern = Pattern.compile("^--?((\\w+-?)+)$");
-
-        for (String arg : args) {
-            Matcher match = pattern.matcher(arg.trim());
-            if (match.matches()) {
-                String switchName = match.group(1);
-                result.add(switchName);
-            }
-        }
-
-        return result;
+    private void resetProgress() {
+        lastProgressPercent = 0;
+        lastProgressReportTime = null;
     }
 
     /**
-     * Prints output to stdout unless the "no-stdout" switch is set.
-     * 
-     * @param output
+     * Runs the program (with "error handling")
      */
-    private void stdOut(CharSequence output) {
-        if (!activeSwitches.contains(SWITCH_NO_STDOUT)) {
-            System.out.println(output);
+    private void run() {
+        try {
+            doRun();
+        } catch (Throwable e) {
+            stdErr("An error occurred! Stack trace:");
+            e.printStackTrace(System.err);
+
+            while (e.getCause() != null) {
+                e = e.getCause();
+                if (e instanceof JDBCException) {
+                    JDBCException jdbcException = (JDBCException) e;
+                    stdErr("Statement that caused the exception:");
+                    stdErr(jdbcException.getSQL());
+                }
+            }
         }
     }
 
@@ -496,6 +485,17 @@ public class TestDataGenerator {
     private void stdErr(CharSequence output) {
         if (!activeSwitches.contains(SWITCH_NO_STDERR)) {
             System.err.println(output);
+        }
+    }
+
+    /**
+     * Prints output to stdout unless the "no-stdout" switch is set.
+     * 
+     * @param output
+     */
+    private void stdOut(CharSequence output) {
+        if (!activeSwitches.contains(SWITCH_NO_STDOUT)) {
+            System.out.println(output);
         }
     }
 }

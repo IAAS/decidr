@@ -67,6 +67,51 @@ public class WorkflowModelFactory extends EntityFactory {
     }
 
     /**
+     * Adds a persisted deployed workflow model that corresponds with the given
+     * workflow model.
+     * 
+     * @param model
+     *            model for which a deployed version is added
+     * @param n
+     *            The Nth deployed version of a workflow model receives version
+     *            model.getVersion() - (n-1). If that version would be less than
+     *            zero, no deployed version is added.
+     */
+    public void addDeployedWorkflowModels(WorkflowModel model, int n) {
+        if (n < 1) {
+            throw new IllegalArgumentException("n must be > 0");
+        }
+
+        long deployedVersion = model.getVersion() - (n - 1);
+        if (deployedVersion < 0) {
+            return;
+        }
+
+        DeployedWorkflowModel deployed = new DeployedWorkflowModel();
+        deployed.setOriginalWorkflowModel(model);
+        deployed.setDeployDate(DecidrGlobals.getTime().getTime());
+        deployed.setDescription(model.getDescription());
+        deployed.setDwdl(model.getDwdl());
+        deployed.setName(model.getName());
+        deployed.setSoapTemplate(new byte[0]);
+        deployed.setWsdl(new byte[0]);
+        deployed.setVersion(deployedVersion);
+        deployed.setTenant(model.getTenant());
+
+        // make it seem as if the model had been deployed on an ODE server, but
+        // do not actually deploy the model
+        WorkflowModelIsDeployedOnServer deployedOn = new WorkflowModelIsDeployedOnServer();
+        Server server = getRandomOdeServer();
+        deployedOn.setDeployedWorkflowModel(deployed);
+        deployedOn.setServer(server);
+
+        session.save(deployed);
+        deployedOn.setId(new WorkflowModelIsDeployedOnServerId(
+                deployed.getId(), server.getId()));
+        session.save(deployedOn);
+    }
+
+    /**
      * Creates numModels random workflow models. Every other workflow model
      * created in this way will also have a deployed version. Every 10th
      * workflow model will be flagged as published.
@@ -155,6 +200,43 @@ public class WorkflowModelFactory extends EntityFactory {
     }
 
     /**
+     * @return a random list of approved tenants.
+     */
+    @SuppressWarnings("unchecked")
+    private List<Tenant> getRandomApprovedTenants(int maxTenants) {
+        String hql = "from Tenant t where t.approvedSince is not null "
+                + "order by rand()";
+
+        Query q = session.createQuery(hql).setMaxResults(maxTenants);
+
+        List<Tenant> result = q.list();
+
+        if (result.size() == 0) {
+            throw new RuntimeException("Cannot find an approved tenant.");
+        }
+
+        return result;
+    }
+
+    /**
+     * @return a random ODE server
+     */
+    private Server getRandomOdeServer() {
+        String hql = "from Server s where s.serverType.name = :serverName order by rand()";
+
+        Server result = (Server) session.createQuery(hql).setMaxResults(1)
+                .setString("serverName", ServerTypeEnum.Ode.toString())
+                .uniqueResult();
+
+        if (result == null) {
+            throw new RuntimeException(
+                    "Cannot find a server to 'deploy' the workflow model on");
+        }
+
+        return result;
+    }
+
+    /**
      * Tries to find up to MAX_ADDITIONAL_WORKFLOW_ADMINS active tenant members
      * that will become workflow administrators.
      * 
@@ -187,88 +269,6 @@ public class WorkflowModelFactory extends EntityFactory {
             session.save(relation);
 
             result.add(relation);
-        }
-
-        return result;
-    }
-
-    /**
-     * Adds a persisted deployed workflow model that corresponds with the given
-     * workflow model.
-     * 
-     * @param model
-     *            model for which a deployed version is added
-     * @param n
-     *            The Nth deployed version of a workflow model receives version
-     *            model.getVersion() - (n-1). If that version would be less than
-     *            zero, no deployed version is added.
-     */
-    public void addDeployedWorkflowModels(WorkflowModel model, int n) {
-        if (n < 1) {
-            throw new IllegalArgumentException("n must be > 0");
-        }
-
-        long deployedVersion = model.getVersion() - (n - 1);
-        if (deployedVersion < 0) {
-            return;
-        }
-
-        DeployedWorkflowModel deployed = new DeployedWorkflowModel();
-        deployed.setOriginalWorkflowModel(model);
-        deployed.setDeployDate(DecidrGlobals.getTime().getTime());
-        deployed.setDescription(model.getDescription());
-        deployed.setDwdl(model.getDwdl());
-        deployed.setName(model.getName());
-        deployed.setSoapTemplate(new byte[0]);
-        deployed.setWsdl(new byte[0]);
-        deployed.setVersion(deployedVersion);
-        deployed.setTenant(model.getTenant());
-
-        // make it seem as if the model had been deployed on an ODE server, but
-        // do not actually deploy the model
-        WorkflowModelIsDeployedOnServer deployedOn = new WorkflowModelIsDeployedOnServer();
-        Server server = getRandomOdeServer();
-        deployedOn.setDeployedWorkflowModel(deployed);
-        deployedOn.setServer(server);
-
-        session.save(deployed);
-        deployedOn.setId(new WorkflowModelIsDeployedOnServerId(
-                deployed.getId(), server.getId()));
-        session.save(deployedOn);
-    }
-
-    /**
-     * @return a random ODE server
-     */
-    private Server getRandomOdeServer() {
-        String hql = "from Server s where s.serverType.name = :serverName order by rand()";
-
-        Server result = (Server) session.createQuery(hql).setMaxResults(1)
-                .setString("serverName", ServerTypeEnum.Ode.toString())
-                .uniqueResult();
-
-        if (result == null) {
-            throw new RuntimeException(
-                    "Cannot find a server to 'deploy' the workflow model on");
-        }
-
-        return result;
-    }
-
-    /**
-     * @return a random list of approved tenants.
-     */
-    @SuppressWarnings("unchecked")
-    private List<Tenant> getRandomApprovedTenants(int maxTenants) {
-        String hql = "from Tenant t where t.approvedSince is not null "
-                + "order by rand()";
-
-        Query q = session.createQuery(hql).setMaxResults(maxTenants);
-
-        List<Tenant> result = q.list();
-
-        if (result.size() == 0) {
-            throw new RuntimeException("Cannot find an approved tenant.");
         }
 
         return result;

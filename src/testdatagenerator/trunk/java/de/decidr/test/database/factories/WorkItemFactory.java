@@ -67,7 +67,7 @@ public class WorkItemFactory extends EntityFactory {
                         + "wi.startedDate is not null and "
                         + "wi.completedDate is null").list();
 
-        if (availableInstances == null || availableInstances.isEmpty()) {
+        if ((availableInstances == null) || availableInstances.isEmpty()) {
             throw new RuntimeException("No available workflow instances found.");
         }
         try {
@@ -154,7 +154,7 @@ public class WorkItemFactory extends EntityFactory {
             if (o instanceof TTaskItem) {
                 TTaskItem item = (TTaskItem) o;
                 if (DWDLSimpleVariableType.ANY_URI.equals(item.getType())
-                        && item.getValue() != null
+                        && (item.getValue() != null)
                         && !"".equals(item.getValue())) {
                     item.setValue(Long.toString(id));
                 }

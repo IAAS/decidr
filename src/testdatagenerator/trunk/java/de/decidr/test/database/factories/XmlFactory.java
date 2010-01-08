@@ -42,13 +42,6 @@ public class XmlFactory extends EntityFactory {
     }
 
     /**
-     * @return the DWDL of a sample process as raw xml data
-     */
-    public byte[] getDwdl() {
-        return getFileBytes("processes/sampleProcess.xml");
-    }
-
-    /**
      * @param activityName
      *            name of the activity such as "email" or "humanTask"
      * @return raw xml data of the activity mapping
@@ -60,13 +53,10 @@ public class XmlFactory extends EntityFactory {
     }
 
     /**
-     * @param webServiceName
-     *            name of web service whose wsdl should be retrieved
-     * @return raw xml data of the wsdl file
+     * @return the DWDL of a sample process as raw xml data
      */
-    public byte[] getWsdl(String webServiceName) {
-        // convention: all wsdl files have to be named <webservicename>.wsdl
-        return getFileBytes("wsdl/" + webServiceName + ".wsdl");
+    public byte[] getDwdl() {
+        return getFileBytes("processes/sampleProcess.xml");
     }
 
     /**
@@ -74,5 +64,15 @@ public class XmlFactory extends EntityFactory {
      */
     public byte[] getWorkItem() {
         return getFileBytes("files/workitem.xml");
+    }
+
+    /**
+     * @param webServiceName
+     *            name of web service whose wsdl should be retrieved
+     * @return raw xml data of the wsdl file
+     */
+    public byte[] getWsdl(String webServiceName) {
+        // convention: all wsdl files have to be named <webservicename>.wsdl
+        return getFileBytes("wsdl/" + webServiceName + ".wsdl");
     }
 }

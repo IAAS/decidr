@@ -50,8 +50,7 @@ public interface ODEMonitorService {
     public static final QName SERVICE = new QName(TARGET_NAMESPACE,
             SERVICE_NAME);
     // XXX revert once the ESB works
-    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            PORT_NAME);
+    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE, PORT_NAME);
 
     /**
      * Returns the current configuration.

@@ -93,39 +93,15 @@ public class EntityFactory {
     }
 
     /**
-     * @return the current Hibernate session
+     * Fires a progress event.
+     * 
+     * @param totalItems
+     * @param doneItems
      */
-    public Session getSession() {
-        return session;
-    }
-
-    /**
-     * @return a random date +-1 year from now
-     */
-    public Date getRandomDate(Boolean allowFuture, Boolean allowPast,
-            int spanSeconds) {
-        Calendar result = DecidrGlobals.getTime();
-        ArrayList<Integer> multiplicators = new ArrayList<Integer>();
-
-        spanSeconds = Math.abs(spanSeconds);
-
-        if (!allowFuture && !allowPast) {
-            multiplicators.add(0);
-        } else {
-            if (allowFuture) {
-                multiplicators.add(1);
-            }
-            if (allowPast) {
-                multiplicators.add(-1);
-            }
+    protected void fireProgressEvent(int totalItems, int doneItems) {
+        if (progressListener != null) {
+            progressListener.reportProgress(totalItems, doneItems);
         }
-
-        // multiplicators is now never empty
-        int multiplicator = multiplicators.get(rnd.nextInt(multiplicators
-                .size()));
-
-        result.add(Calendar.SECOND, multiplicator * rnd.nextInt(spanSeconds));
-        return result.getTime();
     }
 
     /**
@@ -160,15 +136,32 @@ public class EntityFactory {
     }
 
     /**
-     * Fires a progress event.
-     * 
-     * @param totalItems
-     * @param doneItems
+     * @return a random date +-1 year from now
      */
-    protected void fireProgressEvent(int totalItems, int doneItems) {
-        if (progressListener != null) {
-            progressListener.reportProgress(totalItems, doneItems);
+    public Date getRandomDate(Boolean allowFuture, Boolean allowPast,
+            int spanSeconds) {
+        Calendar result = DecidrGlobals.getTime();
+        ArrayList<Integer> multiplicators = new ArrayList<Integer>();
+
+        spanSeconds = Math.abs(spanSeconds);
+
+        if (!allowFuture && !allowPast) {
+            multiplicators.add(0);
+        } else {
+            if (allowFuture) {
+                multiplicators.add(1);
+            }
+            if (allowPast) {
+                multiplicators.add(-1);
+            }
         }
+
+        // multiplicators is now never empty
+        int multiplicator = multiplicators.get(rnd.nextInt(multiplicators
+                .size()));
+
+        result.add(Calendar.SECOND, multiplicator * rnd.nextInt(spanSeconds));
+        return result.getTime();
     }
 
     /**
@@ -204,5 +197,12 @@ public class EntityFactory {
         }
 
         return result;
+    }
+
+    /**
+     * @return the current Hibernate session
+     */
+    public Session getSession() {
+        return session;
     }
 }

@@ -184,7 +184,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
             }
 
             // remove servers that don't update
-            if (serv.getLastLoadUpdate() != null
+            if ((serv.getLastLoadUpdate() != null)
                     && serv.getLastLoadUpdate().before(deadTime)) {
                 try {
                     unregisterODE(serv.getId());

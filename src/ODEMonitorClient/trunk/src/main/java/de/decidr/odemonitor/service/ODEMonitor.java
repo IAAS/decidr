@@ -32,6 +32,28 @@ import de.decidr.model.URLGenerator;
  */
 @WebServiceClient(name = ODEMonitorService.SERVICE_NAME, targetNamespace = ODEMonitorService.TARGET_NAMESPACE)
 public class ODEMonitor extends Service {
+    public static ODEMonitorService getODEMonitorClient()
+            throws MalformedURLException {
+        // XXX revert once the ESB works
+        Service service = Service.create(new URL(URLGenerator
+                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
+                        + ODEMonitorService.PORT_NAME)),
+                ODEMonitorService.SERVICE);
+        return service.getPort(ODEMonitorService.ENDPOINT,
+                ODEMonitorService.class);
+    }
+
+    public static ODEMonitorService getODEMonitorClient(
+            WebServiceFeature... features) throws MalformedURLException {
+        // XXX revert once the ESB works
+        Service service = Service.create(new URL(URLGenerator
+                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
+                        + ODEMonitorService.PORT_NAME)),
+                ODEMonitorService.SERVICE);
+        return service.getPort(ODEMonitorService.ENDPOINT,
+                ODEMonitorService.class, features);
+    }
+
     public ODEMonitor() throws MalformedURLException {
         // XXX revert once the ESB works
         this(new URL(URLGenerator
@@ -64,28 +86,6 @@ public class ODEMonitor extends Service {
     @WebEndpoint(name = ODEMonitorService.ENDPOINT_NAME)
     public ODEMonitorService getODEMonitorSOAP(WebServiceFeature... features) {
         return super.getPort(ODEMonitorService.ENDPOINT,
-                ODEMonitorService.class, features);
-    }
-
-    public static ODEMonitorService getODEMonitorClient()
-            throws MalformedURLException {
-        // XXX revert once the ESB works
-        Service service = Service.create(new URL(URLGenerator
-                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
-                        + ODEMonitorService.PORT_NAME)),
-                ODEMonitorService.SERVICE);
-        return service.getPort(ODEMonitorService.ENDPOINT,
-                ODEMonitorService.class);
-    }
-
-    public static ODEMonitorService getODEMonitorClient(
-            WebServiceFeature... features) throws MalformedURLException {
-        // XXX revert once the ESB works
-        Service service = Service.create(new URL(URLGenerator
-                .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
-                        + ODEMonitorService.PORT_NAME)),
-                ODEMonitorService.SERVICE);
-        return service.getPort(ODEMonitorService.ENDPOINT,
                 ODEMonitorService.class, features);
     }
 }

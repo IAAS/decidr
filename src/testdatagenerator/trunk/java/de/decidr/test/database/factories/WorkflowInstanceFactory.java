@@ -51,81 +51,6 @@ public class WorkflowInstanceFactory extends EntityFactory {
     }
 
     /**
-     * Creates numInstances random persisted workflow instances.
-     * 
-     * @param numInstances
-     *            number of instances to create
-     * @return persisted workflow instances
-     */
-    @SuppressWarnings("unchecked")
-    public List<WorkflowInstance> createRandomWorkflowInstances(int numInstances) {
-        ArrayList<WorkflowInstance> result = new ArrayList<WorkflowInstance>();
-
-        // find some suitable deployed workflow models and ODE servers.
-        String hql = "from DeployedWorkflowModel d "
-                + "where d.originalWorkflowModel is not null "
-                + "order by rand()";
-        List<DeployedWorkflowModel> deployedModels = session.createQuery(hql)
-                .setMaxResults(1000).list();
-
-        if (deployedModels == null || deployedModels.isEmpty()) {
-            throw new RuntimeException(
-                    "Need at least one deployed workflow model to create a workflow instance.");
-        }
-
-        hql = "from Server s where s.serverType.name = :serverType";
-        List<Server> servers = session.createQuery(hql).setString("serverType",
-                ServerTypeEnum.Ode.toString()).list();
-
-        if (servers == null || servers.isEmpty()) {
-            throw new RuntimeException(
-                    "Need at least one ODE server to create a workflow instance.");
-        }
-
-        for (int i = 0; i < numInstances; i++) {
-            WorkflowInstance newInstance = new WorkflowInstance();
-
-            if (i % 5 == 0) {
-                // every 5th workflow instance is waiting to be started
-                newInstance.setStartedDate(null);
-            } else {
-                // We allow startedDate to be in the future. The system
-                // should be able to cope with it!
-                newInstance
-                        .setStartedDate(getRandomDate(true, true, SPAN_YEAR));
-                if (i % 2 == 0) {
-                    // every other workflow instance that has been started has
-                    // been completed or terminated, but the start date should
-                    // always preceed the completed date.
-                    long completedDateMilliSeconds = newInstance
-                            .getStartedDate().getTime()
-                            + rnd.nextInt(Integer.MAX_VALUE);
-                    newInstance.setCompletedDate(new Date(
-                            completedDateMilliSeconds));
-                } else {
-                    newInstance.setCompletedDate(null);
-                }
-            }
-
-            newInstance.setOdePid(Password.getRandomAuthKey());
-            newInstance.setServer(servers.get(rnd.nextInt(servers.size())));
-            newInstance.setStartConfiguration(xmlFactory
-                    .createStartConfiguration());
-            newInstance.setDeployedWorkflowModel(deployedModels.get(rnd
-                    .nextInt(deployedModels.size())));
-
-            session.save(newInstance);
-            result.add(newInstance);
-
-            associateParticipantsWithInstance(newInstance, rnd.nextInt(50) + 1);
-            associateAdministratorsWithInstance(newInstance, rnd.nextInt(5) + 1);
-
-            fireProgressEvent(numInstances, i + 1);
-        }
-        return result;
-    }
-
-    /**
      * Makes up to numAdmin tenant members administrators of the given workflow
      * instance
      * 
@@ -184,5 +109,80 @@ public class WorkflowInstanceFactory extends EntityFactory {
                     instance.getId()));
             session.save(rel);
         }
+    }
+
+    /**
+     * Creates numInstances random persisted workflow instances.
+     * 
+     * @param numInstances
+     *            number of instances to create
+     * @return persisted workflow instances
+     */
+    @SuppressWarnings("unchecked")
+    public List<WorkflowInstance> createRandomWorkflowInstances(int numInstances) {
+        ArrayList<WorkflowInstance> result = new ArrayList<WorkflowInstance>();
+
+        // find some suitable deployed workflow models and ODE servers.
+        String hql = "from DeployedWorkflowModel d "
+                + "where d.originalWorkflowModel is not null "
+                + "order by rand()";
+        List<DeployedWorkflowModel> deployedModels = session.createQuery(hql)
+                .setMaxResults(1000).list();
+
+        if ((deployedModels == null) || deployedModels.isEmpty()) {
+            throw new RuntimeException(
+                    "Need at least one deployed workflow model to create a workflow instance.");
+        }
+
+        hql = "from Server s where s.serverType.name = :serverType";
+        List<Server> servers = session.createQuery(hql).setString("serverType",
+                ServerTypeEnum.Ode.toString()).list();
+
+        if ((servers == null) || servers.isEmpty()) {
+            throw new RuntimeException(
+                    "Need at least one ODE server to create a workflow instance.");
+        }
+
+        for (int i = 0; i < numInstances; i++) {
+            WorkflowInstance newInstance = new WorkflowInstance();
+
+            if (i % 5 == 0) {
+                // every 5th workflow instance is waiting to be started
+                newInstance.setStartedDate(null);
+            } else {
+                // We allow startedDate to be in the future. The system
+                // should be able to cope with it!
+                newInstance
+                        .setStartedDate(getRandomDate(true, true, SPAN_YEAR));
+                if (i % 2 == 0) {
+                    // every other workflow instance that has been started has
+                    // been completed or terminated, but the start date should
+                    // always preceed the completed date.
+                    long completedDateMilliSeconds = newInstance
+                            .getStartedDate().getTime()
+                            + rnd.nextInt(Integer.MAX_VALUE);
+                    newInstance.setCompletedDate(new Date(
+                            completedDateMilliSeconds));
+                } else {
+                    newInstance.setCompletedDate(null);
+                }
+            }
+
+            newInstance.setOdePid(Password.getRandomAuthKey());
+            newInstance.setServer(servers.get(rnd.nextInt(servers.size())));
+            newInstance.setStartConfiguration(xmlFactory
+                    .createStartConfiguration());
+            newInstance.setDeployedWorkflowModel(deployedModels.get(rnd
+                    .nextInt(deployedModels.size())));
+
+            session.save(newInstance);
+            result.add(newInstance);
+
+            associateParticipantsWithInstance(newInstance, rnd.nextInt(50) + 1);
+            associateAdministratorsWithInstance(newInstance, rnd.nextInt(5) + 1);
+
+            fireProgressEvent(numInstances, i + 1);
+        }
+        return result;
     }
 }

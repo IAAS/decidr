@@ -47,47 +47,35 @@ public class InvitationFactory extends EntityFactory {
     }
 
     /**
-     * Creates up to numInvitations persisted Invitations spread evenly across
-     * all invitation types.
+     * Creates an "administrate workflow model" invitation if there is a
+     * workflow model that is not already administrated by the receiver.
      * 
-     * @param numInvitations
-     * @return persisted invitation entities
+     * @param receiver
+     * @return null if no suitable workflow model is found.
      */
-    @SuppressWarnings("unchecked")
-    public List<Invitation> createRandomInvitations(int numInvitations) {
-        ArrayList<Invitation> result = new ArrayList<Invitation>();
+    private Invitation createAdministrateWorkflowModelInvitation(User receiver) {
+        Invitation result = null;
 
-        // fill random pools
-        userPool = session.createQuery("from User u").list();
-        if (userPool == null || userPool.isEmpty()) {
-            throw new RuntimeException(
-                    "need at least one user to create invitations.");
-        }
+        // need to find a workflow model that is not already administrated by
+        // the receiver.
+        String hql = "from WorkflowModel w where w.tenant.admin <> :receiver and "
+                + "not exists(from UserAdministratesWorkflowModel rel where "
+                + "rel.workflowModel = w and rel.user = :receiver) order by rand()";
 
-        for (int i = 0; i < numInvitations; i++) {
-            Invitation newInvitation;
-            User randomUser = userPool.get(rnd.nextInt(userPool.size()));
+        WorkflowModel model = (WorkflowModel) session.createQuery(hql)
+                .setEntity("receiver", receiver).setMaxResults(1)
+                .uniqueResult();
 
-            switch (i % 3) {
-            case 0:
-                newInvitation = createAdministrateWorkflowModelInvitation(randomUser);
-                break;
+        if (model != null) {
+            User sender = model.getTenant().getAdmin();
 
-            case 1:
-                newInvitation = createJoinTenantInvitation(randomUser);
-                break;
-
-            default:
-                newInvitation = createParticipateInWorkflowInvitation(randomUser);
-                break;
-            }
-
-            if (newInvitation != null) {
-                session.save(newInvitation);
-                result.add(newInvitation);
-            }
-
-            fireProgressEvent(numInvitations, i + 1);
+            result = new Invitation();
+            result.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
+            result.setAdministrateWorkflowModel(model);
+            result.setJoinTenant(null);
+            result.setParticipateInWorkflowInstance(null);
+            result.setReceiver(receiver);
+            result.setSender(sender);
         }
 
         return result;
@@ -118,41 +106,6 @@ public class InvitationFactory extends EntityFactory {
             result.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
             result.setJoinTenant(joinedTenant);
             result.setAdministrateWorkflowModel(null);
-            result.setParticipateInWorkflowInstance(null);
-            result.setReceiver(receiver);
-            result.setSender(sender);
-        }
-
-        return result;
-    }
-
-    /**
-     * Creates an "administrate workflow model" invitation if there is a
-     * workflow model that is not already administrated by the receiver.
-     * 
-     * @param receiver
-     * @return null if no suitable workflow model is found.
-     */
-    private Invitation createAdministrateWorkflowModelInvitation(User receiver) {
-        Invitation result = null;
-
-        // need to find a workflow model that is not already administrated by
-        // the receiver.
-        String hql = "from WorkflowModel w where w.tenant.admin <> :receiver and "
-                + "not exists(from UserAdministratesWorkflowModel rel where "
-                + "rel.workflowModel = w and rel.user = :receiver) order by rand()";
-
-        WorkflowModel model = (WorkflowModel) session.createQuery(hql)
-                .setEntity("receiver", receiver).setMaxResults(1)
-                .uniqueResult();
-
-        if (model != null) {
-            User sender = model.getTenant().getAdmin();
-
-            result = new Invitation();
-            result.setCreationDate(getRandomDate(true, true, SPAN_WEEK));
-            result.setAdministrateWorkflowModel(model);
-            result.setJoinTenant(null);
             result.setParticipateInWorkflowInstance(null);
             result.setReceiver(receiver);
             result.setSender(sender);
@@ -215,6 +168,53 @@ public class InvitationFactory extends EntityFactory {
                     session.save(existingRelation);
                 }
             }
+        }
+
+        return result;
+    }
+
+    /**
+     * Creates up to numInvitations persisted Invitations spread evenly across
+     * all invitation types.
+     * 
+     * @param numInvitations
+     * @return persisted invitation entities
+     */
+    @SuppressWarnings("unchecked")
+    public List<Invitation> createRandomInvitations(int numInvitations) {
+        ArrayList<Invitation> result = new ArrayList<Invitation>();
+
+        // fill random pools
+        userPool = session.createQuery("from User u").list();
+        if ((userPool == null) || userPool.isEmpty()) {
+            throw new RuntimeException(
+                    "need at least one user to create invitations.");
+        }
+
+        for (int i = 0; i < numInvitations; i++) {
+            Invitation newInvitation;
+            User randomUser = userPool.get(rnd.nextInt(userPool.size()));
+
+            switch (i % 3) {
+            case 0:
+                newInvitation = createAdministrateWorkflowModelInvitation(randomUser);
+                break;
+
+            case 1:
+                newInvitation = createJoinTenantInvitation(randomUser);
+                break;
+
+            default:
+                newInvitation = createParticipateInWorkflowInvitation(randomUser);
+                break;
+            }
+
+            if (newInvitation != null) {
+                session.save(newInvitation);
+                result.add(newInvitation);
+            }
+
+            fireProgressEvent(numInvitations, i + 1);
         }
 
         return result;

@@ -51,6 +51,73 @@ public class TenantFactory extends EntityFactory {
     }
 
     /**
+     * Makes up to numMembers users that are not already an admin of the given
+     * tenant and makes them members of the given tenant.
+     * 
+     * @param tenant
+     * @param numMembers
+     */
+    @SuppressWarnings("unchecked")
+    private void associateUsersWithTenant(Tenant tenant, int numMembers) {
+        String hql = "from User u where not exists(from Tenant t where t.admin = u and "
+                + "t.id = :tenantId) order by rand()";
+        List<User> members = session.createQuery(hql).setMaxResults(numMembers)
+                .setLong("tenantId", tenant.getId()).list();
+
+        for (User member : members) {
+            UserIsMemberOfTenant rel = new UserIsMemberOfTenant();
+            rel.setTenant(tenant);
+            rel.setUser(member);
+            rel
+                    .setId(new UserIsMemberOfTenantId(member.getId(), tenant
+                            .getId()));
+            session.save(rel);
+        }
+    }
+
+    /**
+     * Creates a new persisted file reference that can be used as a tenant color
+     * scheme.
+     * 
+     * @return persisted file entity
+     */
+    public File createDefaultColorScheme() {
+        File result = new File();
+        result.setFileName("styles1.css");
+        result.setMayPublicRead(true);
+        result.setMayPublicDelete(false);
+        result.setMayPublicReplace(false);
+        result.setTemporary(false);
+        result.setCreationDate(DecidrGlobals.getTime().getTime());
+        result.setMimeType("text/css");
+        result.setData(getFileBytes("files/styles1.css"));
+        result.setFileSizeBytes(result.getData().length);
+        session.save(result);
+        return result;
+    }
+
+    /**
+     * Creates a new persisted file reference that can be used as a tenant logo.
+     * 
+     * @return persisted file entity
+     */
+    public File createDefaultLogo() {
+        File result = new File();
+        result.setFileName("logo.png");
+        result.setMimeType("image/png");
+        result.setMayPublicRead(true);
+        result.setMayPublicDelete(false);
+        result.setMayPublicReplace(false);
+        result.setTemporary(false);
+        result.setCreationDate(DecidrGlobals.getTime().getTime());
+        result.setData(getFileBytes("files/logo"
+                + Integer.toString(rnd.nextInt(2) + 1) + ".png"));
+        result.setFileSizeBytes(result.getData().length);
+        session.save(result);
+        return result;
+    }
+
+    /**
      * Creates the default tenant.
      */
     public void createDefaultTenant() {
@@ -127,73 +194,6 @@ public class TenantFactory extends EntityFactory {
             fireProgressEvent(numTenants, i + 1);
         }
 
-        return result;
-    }
-
-    /**
-     * Makes up to numMembers users that are not already an admin of the given
-     * tenant and makes them members of the given tenant.
-     * 
-     * @param tenant
-     * @param numMembers
-     */
-    @SuppressWarnings("unchecked")
-    private void associateUsersWithTenant(Tenant tenant, int numMembers) {
-        String hql = "from User u where not exists(from Tenant t where t.admin = u and "
-                + "t.id = :tenantId) order by rand()";
-        List<User> members = session.createQuery(hql).setMaxResults(numMembers)
-                .setLong("tenantId", tenant.getId()).list();
-
-        for (User member : members) {
-            UserIsMemberOfTenant rel = new UserIsMemberOfTenant();
-            rel.setTenant(tenant);
-            rel.setUser(member);
-            rel
-                    .setId(new UserIsMemberOfTenantId(member.getId(), tenant
-                            .getId()));
-            session.save(rel);
-        }
-    }
-
-    /**
-     * Creates a new persisted file reference that can be used as a tenant color
-     * scheme.
-     * 
-     * @return persisted file entity
-     */
-    public File createDefaultColorScheme() {
-        File result = new File();
-        result.setFileName("styles1.css");
-        result.setMayPublicRead(true);
-        result.setMayPublicDelete(false);
-        result.setMayPublicReplace(false);
-        result.setTemporary(false);
-        result.setCreationDate(DecidrGlobals.getTime().getTime());
-        result.setMimeType("text/css");
-        result.setData(getFileBytes("files/styles1.css"));
-        result.setFileSizeBytes(result.getData().length);
-        session.save(result);
-        return result;
-    }
-
-    /**
-     * Creates a new persisted file reference that can be used as a tenant logo.
-     * 
-     * @return persisted file entity
-     */
-    public File createDefaultLogo() {
-        File result = new File();
-        result.setFileName("logo.png");
-        result.setMimeType("image/png");
-        result.setMayPublicRead(true);
-        result.setMayPublicDelete(false);
-        result.setMayPublicReplace(false);
-        result.setTemporary(false);
-        result.setCreationDate(DecidrGlobals.getTime().getTime());
-        result.setData(getFileBytes("files/logo"
-                + Integer.toString(rnd.nextInt(2) + 1) + ".png"));
-        result.setFileSizeBytes(result.getData().length);
-        session.save(result);
         return result;
     }
 
