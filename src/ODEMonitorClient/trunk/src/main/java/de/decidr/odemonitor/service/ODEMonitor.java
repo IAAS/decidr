@@ -25,7 +25,7 @@ import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
-import de.decidr.model.DecidrGlobals;
+import de.decidr.model.URLGenerator;
 
 /**
  * A Client for the <code>{@link ODEMonitorService}</code>.
@@ -34,7 +34,7 @@ import de.decidr.model.DecidrGlobals;
 public class ODEMonitor extends Service {
     public ODEMonitor() throws MalformedURLException {
         // XXX revert once the ESB works
-        this(new URL(DecidrGlobals
+        this(new URL(URLGenerator.instance()
                 .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
                         + ODEMonitorService.PORT_NAME)),
                 ODEMonitorService.SERVICE);
@@ -70,7 +70,7 @@ public class ODEMonitor extends Service {
     public static ODEMonitorService getODEMonitorClient()
             throws MalformedURLException {
         // XXX revert once the ESB works
-        Service service = Service.create(new URL(DecidrGlobals
+        Service service = Service.create(new URL(URLGenerator.instance()
                 .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
                         + ODEMonitorService.PORT_NAME)),
                 ODEMonitorService.SERVICE);
@@ -81,7 +81,7 @@ public class ODEMonitor extends Service {
     public static ODEMonitorService getODEMonitorClient(
             WebServiceFeature... features) throws MalformedURLException {
         // XXX revert once the ESB works
-        Service service = Service.create(new URL(DecidrGlobals
+        Service service = Service.create(new URL(URLGenerator.instance()
                 .getWebServiceWsdlUrl(ODEMonitorService.SERVICE_NAME + "."
                         + ODEMonitorService.PORT_NAME)),
                 ODEMonitorService.SERVICE);
