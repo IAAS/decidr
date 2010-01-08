@@ -143,17 +143,18 @@ public class TransformUtil {
 
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
-        SchemaFactory sf = SchemaFactory
-                .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        try {
-            unmarshaller
-                    .setSchema(sf.newSchema(new StreamSource(
-                            TransformUtil.class
-                                    .getResourceAsStream("/dwdl/dwdl.xsd"))));
-        } catch (SAXException e) {
-            // TODO RR what are we to do about validation?
-            log.error("Danger! Danger!!!11!");
-        }
+// RR, GH: Attempt to fix problem with StartConfigurationWindow not showing
+//        SchemaFactory sf = SchemaFactory
+//                .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+//        try {
+//            unmarshaller
+//                    .setSchema(sf.newSchema(new StreamSource(
+//                            TransformUtil.class
+//                                    .getResourceAsStream("/dwdl/dwdl.xsd"))));
+//        } catch (SAXException e) {
+//            // TODO RR what are we to do about validation?
+//            log.error("Danger! Danger!!!11!");
+//        }
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
