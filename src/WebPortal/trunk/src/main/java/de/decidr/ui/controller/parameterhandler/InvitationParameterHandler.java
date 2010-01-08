@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import com.vaadin.terminal.ParameterHandler;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.URLGenerator;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -76,7 +77,7 @@ public class InvitationParameterHandler implements ParameterHandler {
             key = it.next();
             value = ((String[]) parameters.get(key))[0];
             try {
-                if (key.equals(DecidrGlobals.URL_PARAM_INVITATION_ID)) {
+                if (key.equals(URLGenerator.URL_PARAM_INVITATION_ID)) {
                     if (invitationId != null) {
                         Main
                                 .getCurrent()
@@ -88,7 +89,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                                                         + "invalid.", "Error"));
                     }
                     invitationId = Long.parseLong(value);
-                } else if (key.equals(DecidrGlobals.URL_PARAM_USER_ID)) {
+                } else if (key.equals(URLGenerator.URL_PARAM_USER_ID)) {
                     if (userId != null) {
                         Main
                                 .getCurrent()
@@ -101,7 +102,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                     }
                     userId = Long.parseLong(value);
                 } else if (key
-                        .equals(DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY)) {
+                        .equals(URLGenerator.URL_PARAM_AUTHENTICATION_KEY)) {
                     if (!authKey.equals("")) {
                         Main
                                 .getCurrent()

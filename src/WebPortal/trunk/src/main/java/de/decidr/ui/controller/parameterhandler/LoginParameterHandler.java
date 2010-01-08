@@ -21,7 +21,7 @@ import java.util.Map;
 
 import com.vaadin.terminal.ParameterHandler;
 
-import de.decidr.model.DecidrGlobals;
+import de.decidr.model.URLGenerator;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -63,7 +63,7 @@ public class LoginParameterHandler implements ParameterHandler {
             key = it.next();
             value = ((String[]) parameters.get(key))[0];
             try {
-                if (key.equals(DecidrGlobals.URL_PARAM_LOGIN_ID)) {
+                if (key.equals(URLGenerator.URL_PARAM_LOGIN_ID)) {
                     if (userId != null) {
                         Main.getCurrent().getMainWindow().addWindow(
                                 new InformationDialogComponent(
@@ -73,7 +73,7 @@ public class LoginParameterHandler implements ParameterHandler {
                     }
                     userId = Long.getLong(value);
                 } else if (key
-                        .equals(DecidrGlobals.URL_PARAM_AUTHENTICATION_KEY)) {
+                        .equals(URLGenerator.URL_PARAM_AUTHENTICATION_KEY)) {
                     if (authKey != null) {
                         Main.getCurrent().getMainWindow().addWindow(
                                 new InformationDialogComponent(

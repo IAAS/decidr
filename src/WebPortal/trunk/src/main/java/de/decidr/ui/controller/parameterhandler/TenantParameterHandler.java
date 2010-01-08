@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 
 import com.vaadin.terminal.ParameterHandler;
 
-import de.decidr.model.DecidrGlobals;
+import de.decidr.model.URLGenerator;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -67,7 +67,7 @@ public class TenantParameterHandler implements ParameterHandler {
             key = it.next();
             value = ((String[]) parameters.get(key))[0];
             try {
-                if (key.equals(DecidrGlobals.URL_PARAM_TENANT_NAME )) {
+                if (key.equals(URLGenerator.URL_PARAM_TENANT_NAME )) {
                     if (! tenantName.equals("")) {
                         Main.getCurrent().getMainWindow().addWindow(
                                 new InformationDialogComponent(

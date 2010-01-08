@@ -44,44 +44,6 @@ import de.decidr.model.transactions.TransactionEvent;
 public class DecidrGlobals {
 
     /**
-     * URL parameter name that contains the user id.
-     */
-    public static final String URL_PARAM_USER_ID = "user";
-    /**
-     * URL parameter name that contains the invitation id.
-     */
-    public static final String URL_PARAM_INVITATION_ID = "invitation";
-    /**
-     * URL parameter name that contains the id of the password reset request.
-     */
-    public static final String URL_PARAM_PASSWORD_RESET_REQUEST_ID = "passwordreset";
-    /**
-     * URL parameter name that contains the id of the change email request.
-     */
-    public static final String URL_PARAM_CHANGE_EMAIL_REQUEST_ID = "changeemail";
-    /**
-     * URL parameter name that contains the id of the registration request.
-     */
-    public static final String URL_PARAM_CONFIRM_REGISTRATION_ID = "registration";
-    /**
-     * URL parameter name that contains the id of the user who is allowed to
-     * login with this link.
-     */
-    public static final String URL_PARAM_LOGIN_ID = "login";
-    /**
-     * URL parameter name that contains the file id.
-     */
-    public static final String URL_PARAM_FILE_ID = "file";
-    /**
-     * URL parameter name that contains the name of the tenant.
-     */
-    public static final String URL_PARAM_TENANT_NAME = "tenant";
-    /**
-     * URL parameter name that contains the authentication key.
-     */
-    public static final String URL_PARAM_AUTHENTICATION_KEY = "authkey";
-
-    /**
      * The official DecidR disclaimer
      */
     public static String DISCLAIMER = "The DecidR Development Team licenses "
@@ -118,13 +80,14 @@ public class DecidrGlobals {
 
     /**
      * For scalability, the entire application should use the same time zone
-     * (UTC).
+     * (UTC). Please use this method instead of
+     * <code>Calendar.getInstance()</code>.
      * 
      * @param removeMilliseconds
      *            whether the milliseconds field should be set to zero (useful
      *            when working with Hibernate dates where milliseconds get
      *            truncated anyway)
-     * @return the current system time (UTC)
+     * @return the current system time and date (UTC)
      */
     public static Calendar getTime(boolean removeMilliseconds) {
         Calendar result = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -136,16 +99,17 @@ public class DecidrGlobals {
 
     /**
      * For scalability, the entire application should use the same time zone
-     * (UTC).
+     * (UTC). Please use this method instead of
+     * <code>Calendar.getInstance()</code>.
      * 
-     * @return the current system time (UTC)
+     * @return the current system time and date (UTC)
      */
     public static Calendar getTime() {
         return getTime(false);
     }
 
     /**
-     * @return Returns the global DecidR version <code>{@link String}</code>.
+     * @return the global DecidR version <code>{@link String}</code>.
      */
     public static String getVersion() {
         return "0.0.1";
@@ -170,7 +134,6 @@ public class DecidrGlobals {
      * Internal command that fetches the default tenant from the database.
      */
     static class FetchDefaultTenantCommand extends AbstractTransactionalCommand {
-
         Tenant defaultTenant;
 
         @Override
@@ -207,7 +170,7 @@ public class DecidrGlobals {
      * Internal command that fetches the settings from the database.
      */
     static class FetchSettingsCommand extends AbstractTransactionalCommand {
-        public SystemSettings settings = null;
+        SystemSettings settings = null;
 
         @Override
         public void transactionStarted(TransactionEvent evt)
@@ -282,53 +245,12 @@ public class DecidrGlobals {
     }
 
     /**
-     * @param webServiceName
-     *            the name of the webservice of which the url should be
-     *            requested
-     * @return An URL which can be used to connect to the web service identified
-     *         by webServiceName
-     */
-    public static String getWebServiceUrl(String webServiceName) {
-        if ((webServiceName == null) || (webServiceName == "")) {
-            throw new IllegalArgumentException(
-                    "Web service name must not be null or empty");
-        }
-
-        // This may change if we switch from Synapse to another ESB that's not
-        // based on Axis2
-        /*
-         * XXX workaround until the ESB is re-integrated: use Axis2 server
-         * location as the ESB location (by changing the corresponding database
-         * entry) and append "/axis2/services/" instead of "/soap/".
-         * 
-         * Should be changed back to "/soap/" once the WS client interface is
-         * decoupled from Axis2.
-         */
-        return "http://" + getEsb().getLocation() + "/axis2/services/"
-                + webServiceName;
-    }
-
-    /**
-     * @param webServiceName
-     *            name of the web service such as "Email"
-     * @return An URL which can be used to retrieve the WSDL of the web service
-     *         identified by webServiceName
-     * @throws IllegalArgumentException
-     *             if webServiceName is <code>null</code> or empty.
-     */
-    public static String getWebServiceWsdlUrl(String webServiceName) {
-        // This may change if we switch from Synapse to another ESB that's not
-        // based on Axis2
-        if (webServiceName == null || webServiceName.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Web service name must not be null or empty.");
-        }
-        return getWebServiceUrl(webServiceName) + "?wsdl";
-    }
-
-    /**
+     * XXX feels kind of weird to have this in DecidrGlobals. Where could we
+     * move this to? ~dh
+     * 
      * Retrieves the WSDL for the given known Web service by performing a HTTP
-     * request to the URL returned by {@link #getWebServiceWsdlUrl(String)}
+     * request to the URL returned by
+     * {@link URLGenerator#getWebServiceWsdlUrl(String)}
      * 
      * @param webServiceName
      *            name of the Web service whose WSDL should be retrieved.
@@ -338,7 +260,8 @@ public class DecidrGlobals {
      */
     public static byte[] getWebServiceWsdl(String webServiceName) {
         try {
-            URL url = new URL(getWebServiceWsdlUrl(webServiceName));
+            URL url = new URL(URLGenerator.instance().getWebServiceWsdlUrl(
+                    webServiceName));
             ByteArrayOutputStream result = new ByteArrayOutputStream();
             InputStream urlStream = url.openStream();
             try {

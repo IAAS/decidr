@@ -24,7 +24,7 @@ import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
-import de.decidr.model.DecidrGlobals;
+import de.decidr.model.URLGenerator;
 
 /**
  * Client for the <code>{@link HumanTaskInterface}</code>. Needs at least the
@@ -37,7 +37,7 @@ public class HumanTaskClientStatic extends Service {
 
     public HumanTaskClientStatic() throws MalformedURLException {
         // XXX revert once the ESB works
-        this(new URL(DecidrGlobals
+        this(new URL(URLGenerator.instance()
                 .getWebServiceWsdlUrl(HumanTaskInterface.SERVICE_NAME + "."
                         + HumanTaskInterface.PORT_NAME)),
                 HumanTaskInterface.SERVICE);

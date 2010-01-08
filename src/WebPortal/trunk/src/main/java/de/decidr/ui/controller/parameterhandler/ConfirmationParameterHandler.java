@@ -21,7 +21,7 @@ import java.util.Map;
 
 import com.vaadin.terminal.ParameterHandler;
 
-import de.decidr.model.DecidrGlobals;
+import de.decidr.model.URLGenerator;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -66,7 +66,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
         for (Iterator<String> it = parameters.keySet().iterator(); it.hasNext();) {
             key = it.next();
             value = ((String[]) parameters.get(key))[0];
-            if (key.equals(DecidrGlobals.URL_PARAM_USER_ID)) {
+            if (key.equals(URLGenerator.URL_PARAM_USER_ID)) {
                 if (userId != null) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent(
@@ -76,7 +76,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                 }
                 userId = value;
             } else if (key
-                    .equals(DecidrGlobals.URL_PARAM_CHANGE_EMAIL_REQUEST_ID)) {
+                    .equals(URLGenerator.URL_PARAM_CHANGE_EMAIL_REQUEST_ID)) {
                 if (confirmationId != null) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent(
@@ -87,7 +87,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                 confirmationId = value;
                 action = "email";
             } else if (key
-                    .equals(DecidrGlobals.URL_PARAM_CONFIRM_REGISTRATION_ID)) {
+                    .equals(URLGenerator.URL_PARAM_CONFIRM_REGISTRATION_ID)) {
                 if (confirmationId != null) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent(
@@ -98,7 +98,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                 confirmationId = value;
                 action = "reg";
             } else if (key
-                    .equals(DecidrGlobals.URL_PARAM_PASSWORD_RESET_REQUEST_ID)) {
+                    .equals(URLGenerator.URL_PARAM_PASSWORD_RESET_REQUEST_ID)) {
                 if (confirmationId != null) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent(

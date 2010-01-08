@@ -24,7 +24,7 @@ import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
-import de.decidr.model.DecidrGlobals;
+import de.decidr.model.URLGenerator;
 
 /**
  * Client for the <code>{@link EmailInterface}</code>. Needs at least the WSDL's
@@ -37,7 +37,7 @@ public class EmailClientStatic extends Service {
 
     public EmailClientStatic() throws MalformedURLException {
         // XXX revert once the ESB works
-        this(new URL(DecidrGlobals
+        this(new URL(URLGenerator.instance()
                 .getWebServiceWsdlUrl(EmailInterface.SERVICE_NAME + "."
                         + EmailInterface.PORT_NAME)), EmailInterface.SERVICE);
     }

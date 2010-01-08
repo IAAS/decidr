@@ -38,6 +38,7 @@ import org.apache.ode.axis2.service.ServiceClientUtil;
 import org.apache.ode.utils.Namespaces;
 
 import de.decidr.model.DecidrGlobals;
+import de.decidr.model.URLGenerator;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.Server;
@@ -105,7 +106,7 @@ public class DeployerImpl implements Deployer {
         translator = new Translator();
         translator.load(dwdl, tenantName, knownWebservices);
         Process bpel = translator.getBPEL();
-        
+
         PackageBuilder builder = new PackageBuilder();
 
         // deploy on each selected server
@@ -159,7 +160,8 @@ public class DeployerImpl implements Deployer {
         zipElmt.addChild(zipContent);
 
         // deploy
-        client.send(root, serverLocation + "/ode/processes/DeploymentService");
+        client.send(root, URLGenerator.instance().getOdeDeploymentServiceUrl(
+                serverLocation));
     }
 
     /*
@@ -182,8 +184,7 @@ public class DeployerImpl implements Deployer {
         root.addChild(part);
 
         // undeploy
-        client
-                .send(root, server.getLocation()
-                        + "/processes/DeploymentService");
+        client.send(root, URLGenerator.instance().getOdeDeploymentServiceUrl(
+                server));
     }
 }

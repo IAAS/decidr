@@ -309,6 +309,11 @@ public class DWDL2WSDL {
         servicePort.setBinding(processBinding);
         servicePort.setName(dwdl.getName() + "Port");
         SOAPAddress soapLocation = new SOAPAddressImpl();
+        /*
+         * MA FIXME the server location alone won't do! Please use the
+         * URLGenerator. The location URI should look something like this:
+         * http://serverlocation:serverport/ode/services/<NUMERIC ID>.service ~dh
+         */
         soapLocation.setLocationURI(serverLocation);
         servicePort.addExtensibilityElement(soapLocation);
         processService.addPort(servicePort);
