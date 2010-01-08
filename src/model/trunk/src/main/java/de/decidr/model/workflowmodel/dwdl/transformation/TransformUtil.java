@@ -162,7 +162,7 @@ public class TransformUtil {
             log.error("... failed", e);
             throw e;
         }
-        log.debug("unmarshalling");
+        log.debug("unmarshalling:\n" + new String(dwdl));
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
