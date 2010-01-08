@@ -74,11 +74,10 @@ public class DWDLParserImpl implements DWDLParser {
 
         WorkflowModel workflow = new WorkflowModel();
 
-        Node header = doc.getFirstChild();
         Element root = (Element) doc.getElementsByTagName(DWDLNames.root).item(
                 0);
 
-        createXmlProperties(header, root, workflow);
+        createXmlProperties(root, workflow);
         createWorkflowProperties(root, workflow);
 
         /* Create variables and roles */
@@ -93,11 +92,8 @@ public class DWDLParserImpl implements DWDLParser {
         return workflow;
     }
 
-    private void createXmlProperties(Node header, Element root,
-            WorkflowModel workflow) {
-        /* Header */
+    private void createXmlProperties(Element root, WorkflowModel workflow) {
         XmlProperties xmlProperties = new XmlProperties();
-        xmlProperties.setHeader(header.toString());
 
         /* namespace and schema */
         xmlProperties.setNamespace(root.getAttribute(DWDLNames.namespace));

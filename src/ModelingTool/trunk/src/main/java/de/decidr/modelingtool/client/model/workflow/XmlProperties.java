@@ -21,18 +21,16 @@ package de.decidr.modelingtool.client.model.workflow;
  * workflow. These xml properties (such as header, namespace, schema etc.) may
  * not be edited by the user.
  * 
- * @author Jonas
+ * @author Jonas Schlaak
  */
 public class XmlProperties {
 
-    //JS fallback constants
-    
+    private final String HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
     private String namespace;
     private String schema;
-    private String header;
 
     public String getHeader() {
-        return header;
+        return HEADER;
     }
 
     public String getNamespace() {
@@ -41,10 +39,6 @@ public class XmlProperties {
 
     public String getSchema() {
         return schema;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
     }
 
     public void setNamespace(String namespace) {
