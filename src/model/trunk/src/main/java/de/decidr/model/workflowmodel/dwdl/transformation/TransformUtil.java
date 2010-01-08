@@ -63,6 +63,12 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
  */
 public class TransformUtil {
 
+    /**
+     * This boolean decides, whether the {@link #bytesToWorkflow(byte[])}
+     * validates or not.
+     */
+    private static final boolean validate = false;
+
     private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
 
     private static JAXBContext dwdlCntxt = null;
@@ -144,25 +150,24 @@ public class TransformUtil {
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException,
             SAXException {
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
-        // rr: Please review or remove this code, as it causes the
-        // problem with StartConfigurationWindow not showing ~gh
-        // GH: this code makes the transformation fail if the passed XML doesn't
-        // validate
-        log.debug("creating schema factory");
-        SchemaFactory sf = SchemaFactory
-                .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        try {
-            log.debug("attempting to make unmarshaller validate");
-            unmarshaller
-                    .setSchema(sf.newSchema(new StreamSource(
-                            TransformUtil.class
-                                    .getResourceAsStream("/dwdl/dwdl.xsd"))));
-        } catch (SAXException e) {
-            // TODO RR what are we to do about validation?
-            log.error("... failed", e);
-            throw e;
+
+        if (validate) {
+            log.debug("creating schema factory");
+            SchemaFactory sf = SchemaFactory
+                    .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            try {
+                log.debug("attempting to make unmarshaller validate");
+                unmarshaller.setSchema(sf.newSchema(new StreamSource(
+                        TransformUtil.class
+                                .getResourceAsStream("/dwdl/dwdl.xsd"))));
+            } catch (SAXException e) {
+                // TODO RR what are we to do about validation?
+                log.error("... failed", e);
+                throw e;
+            }
         }
-        log.debug("unmarshalling:\n" + new String(dwdl));
+
+        log.trace("unmarshalling:\n" + new String(dwdl));
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
