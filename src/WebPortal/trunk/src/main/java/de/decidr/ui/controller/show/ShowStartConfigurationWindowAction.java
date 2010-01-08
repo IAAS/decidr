@@ -21,6 +21,8 @@ import java.nio.charset.Charset;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 
+import org.xml.sax.SAXException;
+
 import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
@@ -121,6 +123,9 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(
                     new TransactionErrorDialogComponent(exception));
+        } catch (SAXException e) {
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(e));
         }
     }
 }
