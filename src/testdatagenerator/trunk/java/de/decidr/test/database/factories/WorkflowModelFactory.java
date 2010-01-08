@@ -10,9 +10,9 @@ import javax.xml.bind.JAXBException;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.xml.sax.SAXException;
 
 import de.decidr.model.DecidrGlobals;
-import de.decidr.model.XmlTools;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.Tenant;
@@ -99,7 +99,7 @@ public class WorkflowModelFactory extends EntityFactory {
         byte[] sampleDwdl = xml.getDwdl();
         Workflow workflow;
         try {
-            workflow = XmlTools.getElement(Workflow.class, sampleDwdl);
+            workflow = TransformUtil.bytesToWorkflow(sampleDwdl);
 
             for (int i = 0; i < numModels; i++) {
                 WorkflowModel model = new WorkflowModel();
@@ -144,6 +144,8 @@ public class WorkflowModelFactory extends EntityFactory {
                 fireProgressEvent(numModels, i + 1);
             }
         } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
             throw new RuntimeException(e);
         }
         return result;

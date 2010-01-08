@@ -7,7 +7,6 @@ import javax.xml.bind.JAXBException;
 
 import org.hibernate.Session;
 
-import de.decidr.model.XmlTools;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserHasFileAccess;
@@ -72,8 +71,8 @@ public class WorkItemFactory extends EntityFactory {
             throw new RuntimeException("No available workflow instances found.");
         }
         try {
-            THumanTaskData data = XmlTools.getElement(THumanTaskData.class,
-                    xmlFactory.getWorkItem());
+            THumanTaskData data = TransformUtil.bytesToHumanTask(xmlFactory
+                    .getWorkItem());
 
             Long existingFileId = (Long) session.createQuery(
                     "select id from File where fileSizeBytes > 0")
