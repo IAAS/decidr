@@ -99,6 +99,8 @@ public class URLGenerator {
         if (settings == null) {
             settings = DecidrGlobals.getSettings();
         }
+
+        // DH might these not be outdated? ~rr
         return settings;
     }
 
