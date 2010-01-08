@@ -180,12 +180,7 @@ public class StartConfigurationWindow extends Window {
         comboBox.setNewItemsAllowed(false);
         comboBox.setImmediate(true);
 
-        DefaultLogger.getLogger(StartConfigurationWindow.class).
-            debug("StartConfigurationWindow filling up containers...");
         fillContainer();
-
-        DefaultLogger.getLogger(StartConfigurationWindow.class).
-            debug("StartConfigurationWindow filling up containers...done");
 
         this.setContent(mainVerticalLayout);
 
@@ -221,12 +216,8 @@ public class StartConfigurationWindow extends Window {
         assignmentForm.setWriteThrough(false);
         assignmentForm.setInvalidCommitted(false);
 
-        DefaultLogger.getLogger(StartConfigurationWindow.class).
-            debug("StartConfigurationWindow adding assignment form...");
         addAssignmentToForm(tConfiguration);
 
-        DefaultLogger.getLogger(StartConfigurationWindow.class).
-            debug("StartConfigurationWindow adding assignemnt form...done");
         
         mainVerticalLayout.addComponent(buttonHorizontalLayout);
 
@@ -239,12 +230,7 @@ public class StartConfigurationWindow extends Window {
         buttonHorizontalLayout.addComponent(cancelButton);
 
 
-        DefaultLogger.getLogger(StartConfigurationWindow.class).
-            debug("StartConfigurationWindow initializing handler...");
         initializeHandler();
-
-        DefaultLogger.getLogger(StartConfigurationWindow.class).
-            debug("StartConfigurationWindow initializing handler...done");
     }
 
     private void initializeHandler() {

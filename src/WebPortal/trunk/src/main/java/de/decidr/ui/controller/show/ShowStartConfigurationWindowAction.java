@@ -85,55 +85,35 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        Logger logger = DefaultLogger.getLogger(ShowStartConfigurationWindowAction.class);
-        logger.debug("ShowStartConfigWindowAction ... button clicked");
-        
         table = ((CreateWorkflowInstanceComponent) siteFrame.getContent())
                 .getInstanceTable();
-        logger.debug("ShowStartConfigWindowAction ... retrieved table");
         
         Item item = table.getItem(table.getValue());
-        logger.debug("ShowStartConfigWindowAction ... retrieved selected item");
                 
         workflowModelId = (Long) item.getItemProperty("id").getValue();
-        logger.debug("ShowStartConfigWindowAction ... retrieved selected workflow model id");
         
         try {
             wsc = workflowModelFacade
                     .getLastStartConfiguration(workflowModelId);
-            logger.debug("ShowStartConfigWindowAction ... retrieved last start config byte[]");
             
             
             byte[] dwdl = workflowModelFacade.getWorkflowModel(
                     workflowModelId).getDwdl();
-            logger.debug("ShowStartConfigWindowAction ... retrieved dwdl");
-            if (dwdl == null){
-                logger.debug("ShowStartConfigWindowAction ... retrieved dwdl, but it's null!");
-            }
             
             Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
-            logger.debug("ShowStartConfigWindowAction ... retrieved workflow");
 
             if (wsc == null) {
-                logger.debug("ShowStartConfigWindowAction ... wsc is null");
                 DefaultLogger.getLogger(
                         ShowStartConfigurationWindowAction.class).debug(
                         (new String(dwdl, Charset.forName("UTF-8"))));
                 DWDL2WSC dwdl2wsc = new DWDL2WSC();
                 tConfiguration = dwdl2wsc.getStartConfiguration(workflow);
-                logger.debug("ShowStartConfigWindowAction ... retrieved start config from workflow");
+
             } else {
                 tConfiguration = TransformUtil.bytesToConfiguration(wsc);
-                logger.debug("ShowStartConfigWindowAction ... retrieved start config");
                 
             }
 
-            if (tConfiguration == null){
-                logger.debug("ShowStartConfigWindowAction ... start config is null!");
-            }
-            
-            logger.debug("ShowStartConfigWindowAction ... adding StartConfigurationWindow");
-            
             Main.getCurrent().getMainWindow().addWindow(
                     new StartConfigurationWindow(tConfiguration,
                             workflowModelId, workflow));
