@@ -21,6 +21,8 @@ import java.nio.charset.Charset;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 
+import org.apache.log4j.Logger;
+
 import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
@@ -83,16 +85,29 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
+        Logger logger = DefaultLogger.getLogger(ShowStartConfigurationWindowAction.class);
+        logger.debug("ShowStartConfigWindowAction ... button clicked");
+        
         table = ((CreateWorkflowInstanceComponent) siteFrame.getContent())
                 .getInstanceTable();
+        logger.debug("ShowStartConfigWindowAction ... retrieved table");
+        
         Item item = table.getItem(table.getValue());
+        logger.debug("ShowStartConfigWindowAction ... retrieved selected item");
+                
         workflowModelId = (Long) item.getItemProperty("id").getValue();
+        logger.debug("ShowStartConfigWindowAction ... retrieved selected workflow model id");
+        
         try {
             wsc = workflowModelFacade
                     .getLastStartConfiguration(workflowModelId);
+            logger.debug("ShowStartConfigWindowAction ... retrieved last start config byte[]");
+            
             
             byte[] dwdl = workflowModelFacade.getWorkflowModel(
                     workflowModelId).getDwdl();
+            logger.debug("ShowStartConfigWindowAction ... retrieved dwdl");
+            
             Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
 
             if (wsc == null) {
@@ -105,8 +120,13 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
 
             } else {
                 tConfiguration = TransformUtil.bytesToConfiguration(wsc);
+                logger.debug("ShowStartConfigWindowAction ... retrieved start config");
+                
             }
 
+
+            logger.debug("ShowStartConfigWindowAction ... adding StartConfigurationWindow");
+            
             Main.getCurrent().getMainWindow().addWindow(
                     new StartConfigurationWindow(tConfiguration,
                             workflowModelId, workflow));
