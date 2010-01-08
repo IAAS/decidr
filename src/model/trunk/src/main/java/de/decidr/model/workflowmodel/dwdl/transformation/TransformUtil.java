@@ -171,7 +171,7 @@ public class TransformUtil {
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
         log.debug("resulting object:\n"
-                + workflowToBytes(dwdlElement.getValue()));
+                + new String(workflowToBytes(dwdlElement.getValue())));
         log.debug("returning Workflow object");
         return dwdlElement.getValue();
     }
