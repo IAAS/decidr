@@ -419,8 +419,8 @@ public class TestDataGenerator {
         result.setProperty(PROPERTY_TENANTS, "30");
         result.setProperty(PROPERTY_MODELS, "300");
         result.setProperty(PROPERTY_MODELS_PER_TENANT, "10");
-        result.setProperty(PROPERTY_INSTANCES, "1000");
-        result.setProperty(PROPERTY_WORKITEMS, "3000");
+        result.setProperty(PROPERTY_INSTANCES, "500");
+        result.setProperty(PROPERTY_WORKITEMS, "1000");
         result.setProperty(PROPERTY_INVITATIONS, "300");
         result.setProperty(PROPERTY_MAX_USERS_PER_TENANT, "50");
 
