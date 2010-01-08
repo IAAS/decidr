@@ -126,6 +126,9 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                                     new InformationDialogComponent(
                                             "Your email address has been successfully changed!",
                                             "Email Changed!"));
+
+                    Main.getCurrent().getMainWindow().open(
+                            new ExternalResource(Main.getCurrent().getURL()));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
@@ -157,6 +160,9 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                                                     + "it immediately to avoid a third party from "
                                                     + "using an intercepted password!",
                                             "Password Reset Confirmed!"));
+
+                    Main.getCurrent().getMainWindow().open(
+                            new ExternalResource(Main.getCurrent().getURL()));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));

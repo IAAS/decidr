@@ -113,6 +113,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                                                 "Your invitation link contained more "
                                                         + "parameters than expected and might be "
                                                         + "invalid.", "Error"));
+                        
                     }
                     authKey = value;
                 } else if (key
@@ -191,6 +192,9 @@ public class InvitationParameterHandler implements ParameterHandler {
                                     new InvitationDialogComponent(
                                             invDescription, invitationId,
                                             userId));
+
+                            Main.getCurrent().getMainWindow().open(
+                                    new ExternalResource(Main.getCurrent().getURL()));
                         } else {
                             // not logged in
                             Main
@@ -230,6 +234,9 @@ public class InvitationParameterHandler implements ParameterHandler {
                                     new InvitationDialogComponent(
                                             invDescription, invitationId,
                                             userId));
+
+                            Main.getCurrent().getMainWindow().open(
+                                    new ExternalResource(Main.getCurrent().getURL()));
                         } else {
                             // not logged in
                             // check if user is even registered
@@ -260,6 +267,9 @@ public class InvitationParameterHandler implements ParameterHandler {
                                                 new InformationDialogComponent(
                                                         "Authentication failed: Unknown User.",
                                                         "Authentication failed"));
+
+                                Main.getCurrent().getMainWindow().open(
+                                        new ExternalResource(Main.getCurrent().getURL()));
                             }
                         }
                     } else {

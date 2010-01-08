@@ -19,6 +19,7 @@ package de.decidr.ui.controller.parameterhandler;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.ParameterHandler;
 
 import de.decidr.model.URLGenerator;
@@ -108,8 +109,18 @@ public class LoginParameterHandler implements ParameterHandler {
                         new InformationDialogComponent(ERROR_AUTHENTICATING,
                                 "Invitation Error"));
             } catch (TransactionException e) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new TransactionErrorDialogComponent(e));
+                Main
+                .getCurrent()
+                .getMainWindow()
+                .addWindow(
+                        new InformationDialogComponent(
+                                "Unfortunately the link you followed seems to be invalid.<br/><br/>"+
+                                "This can have several reasons. Please make sure the link is not "+
+                                "outdated and correctly copied from the email you received.",
+                                "Invalid Link"));
+
+                Main.getCurrent().getMainWindow().open(
+                        new ExternalResource(Main.getCurrent().getURL()));
             }
         }
     }
