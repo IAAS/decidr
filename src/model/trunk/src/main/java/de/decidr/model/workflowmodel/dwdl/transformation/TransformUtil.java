@@ -161,16 +161,17 @@ public class TransformUtil {
                         TransformUtil.class
                                 .getResourceAsStream("/dwdl/dwdl.xsd"))));
             } catch (SAXException e) {
-                // TODO RR what are we to do about validation?
                 log.error("... failed", e);
                 throw e;
             }
         }
 
-        log.trace("unmarshalling:\n" + new String(dwdl));
+        log.debug("unmarshalling:\n" + new String(dwdl));
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
+        log.debug("resulting object:\n"
+                + workflowToBytes(dwdlElement.getValue()));
         log.debug("returning Workflow object");
         return dwdlElement.getValue();
     }

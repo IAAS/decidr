@@ -5,7 +5,6 @@
 // Generated on: 2009.11.05 at 06:27:20 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.dwdl;
 
 import java.util.ArrayList;
@@ -16,11 +15,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for tNodes complex type.
+ * <p>
+ * Java class for tNodes complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tNodes">
@@ -37,44 +38,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tNodes", propOrder = {
-    "allNodes"
-})
+@XmlType(name = "tNodes", propOrder = { "allNodes" })
 public class Nodes {
 
-    @XmlElements({
-        @XmlElement(name = "ifNode", type = IfNode.class),
-        @XmlElement(name = "startNode", type = StartNode.class),
-        @XmlElement(name = "flowNode", type = FlowNode.class),
-        @XmlElement(name = "endNode", type = EndNode.class),
-        @XmlElement(name = "invokeNode", type = InvokeNode.class),
-        @XmlElement(name = "forEachNode", type = ForEachNode.class)
-    })
+    @XmlElements( { @XmlElement(name = "ifNode", type = IfNode.class),
+            @XmlElement(name = "startNode", type = StartNode.class),
+            @XmlElement(name = "flowNode", type = FlowNode.class),
+            @XmlElement(name = "endNode", type = EndNode.class),
+            @XmlElement(name = "invokeNode", type = InvokeNode.class),
+            @XmlElement(name = "forEachNode", type = ForEachNode.class) })
     protected List<BasicNode> allNodes;
 
     /**
      * Gets the value of the allNodes property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the allNodes property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the allNodes property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getAllNodes().add(newItem);
+     * getAllNodes().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link IfNode }
-     * {@link StartNode }
-     * {@link FlowNode }
-     * {@link EndNode }
-     * {@link InvokeNode }
+     * Objects of the following type(s) are allowed in the list {@link IfNode }
+     * {@link StartNode } {@link FlowNode } {@link EndNode } {@link InvokeNode }
      * {@link ForEachNode }
      * 
      * 
@@ -87,7 +81,7 @@ public class Nodes {
     }
 
     public boolean isSetAllNodes() {
-        return ((this.allNodes!= null)&&(!this.allNodes.isEmpty()));
+        return ((this.allNodes != null) && (!this.allNodes.isEmpty()));
     }
 
     public void unsetAllNodes() {
