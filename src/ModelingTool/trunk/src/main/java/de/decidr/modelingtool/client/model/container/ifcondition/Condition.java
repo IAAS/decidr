@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model.ifcondition;
+package de.decidr.modelingtool.client.model.container.ifcondition;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel;

@@ -93,7 +93,7 @@
 			<setProperty name="attachment" />
 		</invokeNode>
 		<invokeNode
-			name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+			name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
 			id="1255088341250" activity="Decidr-HumanTask">
 			<description></description>
 			<graphics x="184" y="27" width="100" height="60" />
@@ -157,7 +157,7 @@
 					<setProperty name="attachment" />
 				</invokeNode>
 				<invokeNode
-					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+					name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
 					id="1255088341360" activity="Decidr-HumanTask">
 					<description></description>
 					<graphics x="172" y="54" width="100" height="60" />
@@ -190,7 +190,7 @@
 			</arcs>
 		</flowNode>
 		<forEachNode
-			name="de.decidr.modelingtool.client.model.foreach.ForEachContainerModel"
+			name="de.decidr.modelingtool.client.model.container.foreach.ForEachContainerModel"
 			id="1255341672812" countername="ID345" parallel="yes">
 			<description></description>
 			<graphics x="316" y="67" width="127" height="163" />

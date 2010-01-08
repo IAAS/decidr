@@ -19,8 +19,8 @@ package de.decidr.modelingtool.client.ui.dialogs.ifcontainer;
 import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.model.ifcondition.Condition;
-import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
+import de.decidr.modelingtool.client.model.container.ifcondition.Condition;
+import de.decidr.modelingtool.client.model.container.ifcondition.IfContainerModel;
 import de.decidr.modelingtool.client.ui.resources.Messages;
 
 /**

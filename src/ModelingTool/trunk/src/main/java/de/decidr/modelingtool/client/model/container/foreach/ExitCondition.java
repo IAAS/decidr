@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model.foreach;
+package de.decidr.modelingtool.client.model.container.foreach;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.ui.dialogs.foreachcontainer.ForEachWindow;

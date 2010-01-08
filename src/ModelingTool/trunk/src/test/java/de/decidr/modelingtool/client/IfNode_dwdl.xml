@@ -48,7 +48,7 @@
 			<graphics x="25" y="25" width="50" height="30" />
 		</startNode>
 		<ifNode
-			name="de.decidr.modelingtool.client.model.ifcondition.IfContainerModel"
+			name="de.decidr.modelingtool.client.model.container.ifcondition.IfContainerModel"
 			id="1256211850125">
 			<description></description>
 			<graphics x="380" y="94" width="381" height="295" />
@@ -66,7 +66,7 @@
 					<setProperty name="attachment" />
 				</invokeNode>
 				<invokeNode
-					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+					name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
 					id="1256211850187" activity="Decidr-HumanTask">
 					<description></description>
 					<graphics x="47" y="169" width="100" height="60" />
@@ -91,7 +91,7 @@
 					</parameter>
 				</invokeNode>
 				<invokeNode
-					name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+					name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
 					id="1256211850234" activity="Decidr-HumanTask">
 					<description></description>
 					<graphics x="230" y="79" width="100" height="60" />
@@ -142,7 +142,7 @@
 			</arcs>
 		</ifNode>
 		<ifNode
-			name="de.decidr.modelingtool.client.model.ifcondition.IfContainerModel"
+			name="de.decidr.modelingtool.client.model.container.ifcondition.IfContainerModel"
 			id="1257415091656">
 			<description></description>
 			<graphics x="140" y="126" width="389" height="286" />
@@ -172,7 +172,7 @@
 			<condition id="1257415091718">
 				<nodes>
 					<invokeNode
-						name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+						name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
 						id="1257415091719" activity="Decidr-HumanTask">
 						<description></description>
 						<graphics x="43" y="97" width="100" height="60" />
@@ -203,7 +203,7 @@
 			</condition>
 		</ifNode>
 		<ifNode
-			name="de.decidr.modelingtool.client.model.ifcondition.IfContainerModel"
+			name="de.decidr.modelingtool.client.model.container.ifcondition.IfContainerModel"
 			id="1256211693453">
 			<description></description>
 			<graphics x="29" y="148" width="282" height="326" />
@@ -231,7 +231,7 @@
 						<setProperty name="attachment" />
 					</invokeNode>
 					<invokeNode
-						name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+						name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
 						id="1256211850343" activity="Decidr-HumanTask">
 						<description></description>
 						<graphics x="19" y="193" width="100" height="60" />
@@ -273,7 +273,7 @@
 				<right-operand>ID123</right-operand>
 				<nodes>
 					<invokeNode
-						name="de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel"
+						name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
 						id="1256211693546" activity="Decidr-HumanTask">
 						<description></description>
 						<graphics x="173" y="85" width="100" height="60" />

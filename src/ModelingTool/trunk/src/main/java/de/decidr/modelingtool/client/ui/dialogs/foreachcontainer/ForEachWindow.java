@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeNodePropertiesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
-import de.decidr.modelingtool.client.model.foreach.ForEachContainerModel;
+import de.decidr.modelingtool.client.model.container.foreach.ForEachContainerModel;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.ForEachContainer;
 import de.decidr.modelingtool.client.ui.Workflow;

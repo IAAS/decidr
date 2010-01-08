@@ -23,9 +23,9 @@ import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.google.gwt.user.client.ui.Label;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.model.ifcondition.Condition;
-import de.decidr.modelingtool.client.model.ifcondition.IfContainerModel;
-import de.decidr.modelingtool.client.model.ifcondition.Operator;
+import de.decidr.modelingtool.client.model.container.ifcondition.Condition;
+import de.decidr.modelingtool.client.model.container.ifcondition.IfContainerModel;
+import de.decidr.modelingtool.client.model.container.ifcondition.Operator;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;

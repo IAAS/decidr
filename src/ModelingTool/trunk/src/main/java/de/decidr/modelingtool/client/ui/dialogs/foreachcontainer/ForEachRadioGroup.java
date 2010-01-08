@@ -22,7 +22,7 @@ import java.util.List;
 import com.extjs.gxt.ui.client.widget.form.Radio;
 import com.extjs.gxt.ui.client.widget.form.RadioGroup;
 
-import de.decidr.modelingtool.client.model.foreach.ExitCondition;
+import de.decidr.modelingtool.client.model.container.foreach.ExitCondition;
 
 /**
  * This class is an extension of {@link RadioGroup}. Its purpose is to make it

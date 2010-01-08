@@ -63,13 +63,13 @@
 			</notificationOfSuccess>
 		</endNode>
 		<forEachNode
-			name="de.decidr.modelingtool.client.model.foreach.ForEachContainerModel"
+			name="de.decidr.modelingtool.client.model.container.foreach.ForEachContainerModel"
 			id="1255956748687" parallel="no">
 			<description></description>
 			<graphics x="57" y="154" width="200" height="150" />
 		</forEachNode>
 		<forEachNode
-			name="de.decidr.modelingtool.client.model.foreach.ForEachContainerModel"
+			name="de.decidr.modelingtool.client.model.container.foreach.ForEachContainerModel"
 			id="1255956748703" countername="ID768768" parallel="yes">
 			<description></description>
 			<graphics x="367" y="126" width="312" height="279" />

@@ -23,7 +23,7 @@ import de.decidr.modelingtool.client.exception.InvalidTypeException;
 import de.decidr.modelingtool.client.model.connections.ConnectionModel;
 import de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel;
 import de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel;
-import de.decidr.modelingtool.client.model.ifcondition.Condition;
+import de.decidr.modelingtool.client.model.container.ifcondition.Condition;
 import de.decidr.modelingtool.client.ui.Connection;
 import de.decidr.modelingtool.client.ui.Container;
 import de.decidr.modelingtool.client.ui.ContainerExitPort;

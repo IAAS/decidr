@@ -35,8 +35,8 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import de.decidr.modelingtool.client.ModelingToolWidget;
-import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
-import de.decidr.modelingtool.client.model.humantask.TaskItem;
+import de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.model.nodes.humantask.TaskItem;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.ui.HumanTaskInvokeNode;
 import de.decidr.modelingtool.client.ui.Workflow;

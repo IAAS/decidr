@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model.humantask;
+package de.decidr.modelingtool.client.model.nodes.humantask;
 
 import java.util.List;
 

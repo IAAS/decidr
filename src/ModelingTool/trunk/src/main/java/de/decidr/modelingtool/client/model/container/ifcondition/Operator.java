@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package de.decidr.modelingtool.client.model.ifcondition;
+package de.decidr.modelingtool.client.model.container.ifcondition;
 
 import java.util.ArrayList;
 import java.util.List;

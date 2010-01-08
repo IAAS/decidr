@@ -16,7 +16,7 @@
 
 package de.decidr.modelingtool.client.ui.dialogs.humantask;
 
-import de.decidr.modelingtool.client.model.humantask.HumanTaskInvokeNodeModel;
+import de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 
 /**
