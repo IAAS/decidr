@@ -107,24 +107,31 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
             byte[] dwdl = workflowModelFacade.getWorkflowModel(
                     workflowModelId).getDwdl();
             logger.debug("ShowStartConfigWindowAction ... retrieved dwdl");
+            if (dwdl == null){
+                logger.debug("ShowStartConfigWindowAction ... retrieved dwdl, but it's null!");
+            }
             
             Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
+            logger.debug("ShowStartConfigWindowAction ... retrieved workflow");
 
             if (wsc == null) {
-                
+                logger.debug("ShowStartConfigWindowAction ... wsc is null");
                 DefaultLogger.getLogger(
                         ShowStartConfigurationWindowAction.class).debug(
                         (new String(dwdl, Charset.forName("UTF-8"))));
                 DWDL2WSC dwdl2wsc = new DWDL2WSC();
                 tConfiguration = dwdl2wsc.getStartConfiguration(workflow);
-
+                logger.debug("ShowStartConfigWindowAction ... retrieved start config from workflow");
             } else {
                 tConfiguration = TransformUtil.bytesToConfiguration(wsc);
                 logger.debug("ShowStartConfigWindowAction ... retrieved start config");
                 
             }
 
-
+            if (tConfiguration == null){
+                logger.debug("ShowStartConfigWindowAction ... start config is null!");
+            }
+            
             logger.debug("ShowStartConfigWindowAction ... adding StartConfigurationWindow");
             
             Main.getCurrent().getMainWindow().addWindow(
