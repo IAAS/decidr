@@ -11,6 +11,7 @@ import javax.xml.soap.SOAPException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import de.decidr.model.entities.KnownWebService;
 import de.decidr.model.entities.ServerLoadView;
@@ -43,7 +44,7 @@ public class DeployerTest {
     @Test
     public void testDeploy() throws DWDLValidationException,
             ODESelectorException, IOException, JAXBException, WSDLException,
-            SOAPException {
+            SOAPException, SAXException {
 
         DeploymentResult result = deployer.deploy(dwdl, knownWebservices,
                 tenantName, serverStatistics, strategy);
@@ -54,5 +55,4 @@ public class DeployerTest {
     public void testUndeploy() {
         fail("Not yet implemented");
     }
-
 }

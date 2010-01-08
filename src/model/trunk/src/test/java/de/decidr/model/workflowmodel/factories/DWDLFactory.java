@@ -21,6 +21,8 @@ import java.io.InputStream;
 
 import javax.xml.bind.JAXBException;
 
+import org.xml.sax.SAXException;
+
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
@@ -42,8 +44,8 @@ public class DWDLFactory {
         return bytesDWDL;
     }
 
-    public static Workflow getDWDLWorkflow() throws JAXBException, IOException {
+    public static Workflow getDWDLWorkflow() throws JAXBException, IOException,
+            SAXException {
         return TransformUtil.bytesToWorkflow(getDWDLWorkflowByteArray());
     }
-
 }

@@ -24,6 +24,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 
 import org.apache.axis2.AxisFault;
+import org.xml.sax.SAXException;
 
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.KnownWebService;
@@ -68,12 +69,13 @@ public interface Deployer {
      * @throws IOException
      * @throws JAXBException
      * @throws WSDLException
+     * @throws SAXException
      */
     public DeploymentResult deploy(byte[] dwdl,
             List<KnownWebService> webservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
-            JAXBException, WSDLException, SOAPException;
+            JAXBException, WSDLException, SOAPException, SAXException;
 
     /**
      * This method undeploys a given workflow model. The files in the ODE
@@ -88,5 +90,4 @@ public interface Deployer {
      */
     public void undeploy(DeployedWorkflowModel dwfm, Server server)
             throws AxisFault;
-
 }

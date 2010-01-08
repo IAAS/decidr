@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
+import org.xml.sax.SAXException;
 
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
@@ -124,6 +125,11 @@ public class ModelingTool extends AbstractComponent {
                         new TransactionErrorDialogComponent(e));
                 logger.debug("[Modeling Tool] DWDL storing failed.");
             } catch (JAXBException e) {
+                Main.getCurrent().getMainWindow().addWindow(
+                        new InformationDialogComponent("Transformation failed",
+                                "Failure"));
+                throw new RuntimeException(e);
+            } catch (SAXException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent("Transformation failed",
                                 "Failure"));

@@ -36,12 +36,14 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.SchemaFactory;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 
@@ -139,21 +141,25 @@ public class TransformUtil {
         return element.getValue();
     }
 
-    public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
+    public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException,
+            SAXException {
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
-// RR: Please review or remove this code, as it causes the
-//        problem with StartConfigurationWindow not showing ~gh
-//        SchemaFactory sf = SchemaFactory
-//                .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
-//        try {
-//            unmarshaller
-//                    .setSchema(sf.newSchema(new StreamSource(
-//                            TransformUtil.class
-//                                    .getResourceAsStream("/dwdl/dwdl.xsd"))));
-//        } catch (SAXException e) {
-//            // TODO RR what are we to do about validation?
-//            log.error("Danger! Danger!!!11!");
-//        }
+        // rr: Please review or remove this code, as it causes the
+        // problem with StartConfigurationWindow not showing ~gh
+        // GH: this code makes the transformation fail if the passed XML doesn't
+        // validate
+        SchemaFactory sf = SchemaFactory
+                .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        try {
+            unmarshaller
+                    .setSchema(sf.newSchema(new StreamSource(
+                            TransformUtil.class
+                                    .getResourceAsStream("/dwdl/dwdl.xsd"))));
+        } catch (SAXException e) {
+            // TODO RR what are we to do about validation?
+            log.error("Danger! Danger!!!11!", e);
+            throw e;
+        }
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);

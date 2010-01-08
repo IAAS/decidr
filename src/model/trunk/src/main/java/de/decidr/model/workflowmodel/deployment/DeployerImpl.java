@@ -36,6 +36,7 @@ import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
 import org.apache.ode.axis2.service.ServiceClientUtil;
 import org.apache.ode.utils.Namespaces;
+import org.xml.sax.SAXException;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.URLGenerator;
@@ -83,7 +84,7 @@ public class DeployerImpl implements Deployer {
             List<KnownWebService> knownWebservices, String tenantName,
             List<ServerLoadView> serverStatistics, DeploymentStrategy strategy)
             throws DWDLValidationException, ODESelectorException, IOException,
-            JAXBException, WSDLException, SOAPException {
+            JAXBException, WSDLException, SOAPException, SAXException {
 
         // validate the given DWDL workflow
         validator = new Validator();
