@@ -26,9 +26,9 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.stubs.DeployerImplStub;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
+import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 
@@ -91,7 +91,7 @@ public class RemoveServerCommand extends SystemCommand {
         }
 
         // undeploy workflow models
-        Deployer modelDeployer = new DeployerImplStub();
+        Deployer modelDeployer = new DeployerImpl();
         String hql = "from DeployedWorkflowModel dwm where "
                 + "exists(from WorkflowModelIsDeployedOnServer rel "
                 + "where rel.server = :toDelete)";

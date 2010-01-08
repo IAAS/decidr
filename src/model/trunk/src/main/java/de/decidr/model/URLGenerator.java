@@ -413,7 +413,7 @@ public class URLGenerator {
      * Returns the URL to the Apache ODE deployment service for the given Apache
      * ODE server location.
      * 
-     * @param serverLocation
+     * @param server
      *            server on which the Apache ODE is running.
      * @return URL to Apache ODE deployment service
      * @throws IllegalArgumentException
@@ -425,4 +425,58 @@ public class URLGenerator {
         }
         return getOdeDeploymentServiceUrl(server.getLocation());
     }
+
+    /**
+     * Returns the URL to the Apache ODE instance management service for the
+     * given Apache ODE server location.
+     * 
+     * @param serverLocation
+     *            server on which the Apache ODE is running.
+     * @return URL to Apache ODE instance management service
+     * @throws IllegalArgumentException
+     *             if serverLocation is <code>null</code> or empty
+     */
+    public String getOdeInstanceManangementUrl(String serverLocation) {
+        if (serverLocation == null) {
+            throw new IllegalArgumentException(
+                    "Server location must not be null or empty.");
+        }
+        return getHttpUrl(serverLocation, "ode/processes/InstanceManagement",
+                null);
+    }
+
+    /**
+     * Returns the URL to the Apache ODE instance management service for the
+     * given Apache ODE server location.
+     * 
+     * @param server
+     *            server on which the Apache ODE is running.
+     * @return URL to Apache ODE instance management service
+     * @throws IllegalArgumentException
+     *             if server is <code>null</code>
+     */
+    public String getOdeInstanceManangementUrl(Server server) {
+        if (server == null) {
+            throw new IllegalArgumentException("Server must not be null.");
+        }
+        return getOdeInstanceManangementUrl(server.getLocation());
+    }
+
+    /**
+     * Returns the URL to the Apache ODE instance management service for the
+     * given Apache ODE server location.
+     * 
+     * @param server
+     *            server on which the Apache ODE is running.
+     * @return URL to Apache ODE instance management service
+     * @throws IllegalArgumentException
+     *             if server is <code>null</code>
+     */
+    public String getOdeInstanceManangementUrl(ServerLoadView server) {
+        if (server == null) {
+            throw new IllegalArgumentException("Server must not be null.");
+        }
+        return getOdeInstanceManangementUrl(server.getLocation());
+    }
+
 }

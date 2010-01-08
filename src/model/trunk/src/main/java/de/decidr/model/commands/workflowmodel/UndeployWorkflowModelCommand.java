@@ -27,9 +27,9 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.stubs.DeployerImplStub;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
+import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 
 /**
  * Removes all deployed versions of a workflow model from the Apache ODE except
@@ -95,7 +95,7 @@ public class UndeployWorkflowModelCommand extends WorkflowModelCommand {
     @SuppressWarnings("unchecked")
     private void undeploy(DeployedWorkflowModel model, Session session)
             throws TransactionException {
-        Deployer deployer = new DeployerImplStub();
+        Deployer deployer = new DeployerImpl();
         List<Server> servers = session.createQuery(
                 "select rel.server "
                         + "from WorkflowModelIsDeployedOnServer rel "

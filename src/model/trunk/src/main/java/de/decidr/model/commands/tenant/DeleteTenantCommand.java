@@ -23,9 +23,9 @@ import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
-import de.decidr.model.stubs.DeployerImplStub;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
+import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 
 /**
  * Deletes a single tenant including all corresponding workflow instances and
@@ -75,7 +75,7 @@ public class DeleteTenantCommand extends TenantCommand {
                 }
 
                 // undeploy all workflow models the tenant owns
-                Deployer deployer = new DeployerImplStub();
+                Deployer deployer = new DeployerImpl();
                 for (DeployedWorkflowModel deployedModel : toDelete
                         .getDeployedWorkflowModels()) {
 
