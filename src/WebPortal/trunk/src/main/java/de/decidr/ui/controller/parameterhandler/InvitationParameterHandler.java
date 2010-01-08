@@ -289,11 +289,12 @@ public class InvitationParameterHandler implements ParameterHandler {
                                 "This can have several reasons. Please make sure the link is not "+
                                 "outdated and correctly copied from the email you received.",
                                 "Invalid Link"));
+
+                Main.getCurrent().getMainWindow().open(
+                        new ExternalResource(Main.getCurrent().getURL()));
             }
         }
 
-        Main.getCurrent().getMainWindow().open(
-                new ExternalResource(Main.getCurrent().getURL()));
     }
 
     /**
