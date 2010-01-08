@@ -285,7 +285,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                 .getMainWindow()
                 .addWindow(
                         new InformationDialogComponent(
-                                "Unfortunately the link you follow seems to be invalid.<br/><br/>"+
+                                "Unfortunately the link you followed seems to be invalid.<br/><br/>"+
                                 "This can have several reasons. Please make sure the link is not "+
                                 "outdated and correctly copied from the email you received.",
                                 "Invalid Link"));

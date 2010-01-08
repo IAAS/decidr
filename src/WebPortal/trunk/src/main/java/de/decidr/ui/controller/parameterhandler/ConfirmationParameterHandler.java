@@ -186,6 +186,9 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                                             "You successfully completed the registration!<br>"
                                                     + "You can now log into your account.",
                                             "Registration Complete!"));
+
+                    Main.getCurrent().getMainWindow().open(
+                            new ExternalResource(Main.getCurrent().getURL()));
                 } catch (NumberFormatException e) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new TransactionErrorDialogComponent(e));
@@ -195,7 +198,7 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                     .getMainWindow()
                     .addWindow(
                             new InformationDialogComponent(
-                                    "Unfortunately the link you follow seems to be invalid.<br/><br/>"+
+                                    "Unfortunately the link you followed seems to be invalid.<br/><br/>"+
                                     "This can have several reasons. Please make sure the link is not "+
                                     "outdated and correctly copied from the email you received.",
                                     "Invalid Link"));
