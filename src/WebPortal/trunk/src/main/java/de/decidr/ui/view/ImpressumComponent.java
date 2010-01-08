@@ -65,14 +65,14 @@ public class ImpressumComponent extends CustomComponent {
                         + "<h5>Verantwortlich</h5>"
                         + "Die Universität Stuttgart ist eine Körperschaft des Öffentlichen Rechts."
                         + " Sie wird durch den Rektor Prof. Dr.-Ing. Wolfram Ressel gesetzlich"
-                        + " vertreten.</br></br>"
-                        + "DecidR wurde im Rahmen des Studienprojektes A 2008/2009 an der "
+                        + " vertreten."
+                        + "<p>DecidR wurde im Rahmen des Studienprojektes A 2008/2009 an der "
                         + "Universität Stuttgart am Institut IAAS implementiert."
                         + " Die Gruppe aus neun Studenten bestehend aus: "
                         + "Modood Alvi, Johannes Engelhardt, Markus Fischer, Geoffrey Heinze, "
                         + "Daniel Huss, Thomas Karsten, Reinhold Rumberger, Jonas Schlaak und "
                         + "Aleksandar Tolev haben sich ein Jahr lang bemüht das Programm so zu "
-                        + "gestalten wie es der Kunde - Ralph Mietzner - gewünscht hat.",
+                        + "gestalten wie es der Kunde - Ralph Mietzner - gewünscht hat.</p>",
                 Label.CONTENT_XHTML);
 
         verticalLayout.addComponent(labelImpressum);
