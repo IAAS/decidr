@@ -58,6 +58,7 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     private Collection<NodeModel> childNodeModels = new HashSet<NodeModel>();
     private Collection<ConnectionModel> childConnectionModels = new HashSet<ConnectionModel>();
 
+    private XmlProperties xmlProperties;
     private WorkflowProperties properties;
     private List<Variable> variables;
 
@@ -66,6 +67,7 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
      * properties container.
      */
     public WorkflowModel() {
+        xmlProperties = new XmlProperties();
         properties = new WorkflowProperties();
         variables = new ArrayList<Variable>();
     }
@@ -175,6 +177,10 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         return result;
     }
 
+    public XmlProperties getXmlProperties() {
+        return xmlProperties;
+    }
+
     /**
      * Returns the container for the properties of this workflow.
      * 
@@ -192,6 +198,10 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
      */
     public void setVariables(List<Variable> variables) {
         this.variables = variables;
+    }
+
+    public void setXmlProperties(XmlProperties xmlProperties) {
+        this.xmlProperties = xmlProperties;
     }
 
     /**

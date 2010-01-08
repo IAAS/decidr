@@ -112,10 +112,6 @@ public class WorkflowPropertyWindow extends ModelingToolDialog {
     private void changeWorkflowModel() {
         WorkflowProperties newProperties = new WorkflowProperties();
 
-        /* copy namespace and schema from old properties */
-        newProperties.setNamespace(model.getProperties().getNamespace());
-        newProperties.setSchema(model.getProperties().getSchema());
-
         /* get user inputs, they are allowed to be null */
         if (recipientField.getValue() != null) {
             newProperties.setRecipientVariableId(recipientField.getValue()

@@ -49,6 +49,7 @@ import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.model.workflow.WorkflowModel;
 import de.decidr.modelingtool.client.model.workflow.WorkflowProperties;
+import de.decidr.modelingtool.client.model.workflow.XmlProperties;
 
 /**
  * The actual implementation of a dwdl parser.
@@ -73,9 +74,11 @@ public class DWDLParserImpl implements DWDLParser {
 
         WorkflowModel workflow = new WorkflowModel();
 
+        Node header = doc.getFirstChild();
         Element root = (Element) doc.getElementsByTagName(DWDLNames.root).item(
                 0);
 
+        createXmlProperties(header, root, workflow);
         createWorkflowProperties(root, workflow);
 
         /* Create variables and roles */
@@ -88,6 +91,19 @@ public class DWDLParserImpl implements DWDLParser {
         createChildNodeModels(root, workflow, workflow);
 
         return workflow;
+    }
+
+    private void createXmlProperties(Node header, Element root,
+            WorkflowModel workflow) {
+        /* Header */
+        XmlProperties xmlProperties = new XmlProperties();
+        xmlProperties.setHeader(header.toString());
+
+        /* namespace and schema */
+        xmlProperties.setNamespace(root.getAttribute(DWDLNames.namespace));
+        xmlProperties.setSchema(root.getAttribute(DWDLNames.schema));
+
+        workflow.setXmlProperties(xmlProperties);
     }
 
     private void createWorkflowProperties(Element root, WorkflowModel workflow) {
@@ -108,10 +124,6 @@ public class DWDLParserImpl implements DWDLParser {
             }
         }
         WorkflowProperties properties = new WorkflowProperties();
-
-        /* Get namespace and schema */
-        properties.setNamespace(root.getAttribute(DWDLNames.namespace));
-        properties.setSchema(root.getAttribute(DWDLNames.schema));
 
         /* parse faultHandlerElement and set fault message id and recipient */
         Element faultHandler = getChildNodesByTagName(root,

@@ -69,9 +69,9 @@ public class WorkflowParserImpl implements WorkflowParser {
         workflowElement.setAttribute(DWDLNames.name, workflow.getName());
         workflowElement.setAttribute(DWDLNames.id, workflow.getId().toString());
         workflowElement.setAttribute(DWDLNames.namespace, workflow
-                .getProperties().getNamespace());
-        workflowElement.setAttribute(DWDLNames.schema, workflow.getProperties()
-                .getSchema());
+                .getXmlProperties().getNamespace());
+        workflowElement.setAttribute(DWDLNames.schema, workflow
+                .getXmlProperties().getSchema());
 
         /* Create description node */
         workflowElement.appendChild(createTextElement(doc,
@@ -91,9 +91,13 @@ public class WorkflowParserImpl implements WorkflowParser {
         workflowElement.appendChild(createArcElements(doc, workflow, workflow
                 .getChildConnectionModels()));
 
-        /* append tree to root element */
+        /* Append tree to root element */
         doc.appendChild(workflowElement);
-        return doc.toString();
+
+        /* Add header element */
+        String dwdl = workflow.getXmlProperties().getHeader() + doc.toString();
+
+        return dwdl;
     }
 
     private void createVariablesAndRoles(Document doc, Element parent,

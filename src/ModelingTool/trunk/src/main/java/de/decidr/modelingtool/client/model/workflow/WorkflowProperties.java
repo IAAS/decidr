@@ -26,10 +26,6 @@ import de.decidr.modelingtool.client.model.nodes.NodePropertyData;
  */
 public class WorkflowProperties {
 
-    private final String xmlHeaderFieldName = "xmlheader";
-    private final String namespaceFieldName = "namespace";
-    private final String schemaFieldName = "schema";
-
     private final String recipientFieldName = "recipient";
     private final String faultMessageFieldName = "faultMessage";
     private final String successMessageFieldName = "successMessage";
@@ -49,26 +45,6 @@ public class WorkflowProperties {
         this.properties = properties;
     }
 
-    @Deprecated
-    public String getXmlHeader() {
-        return properties.get(xmlHeaderFieldName);
-    }
-
-    @Deprecated
-    public String getNamespace() {
-        return properties.get(namespaceFieldName);
-    }
-
-    @Deprecated
-    public String getSchema() {
-        String schema = properties.get(schemaFieldName);
-        // JS remove
-        if (schema == null) {
-            schema = "http://decidr.de/schema/dwdl";
-        }
-        return properties.get(schemaFieldName);
-    }
-
     public Long getRecipientVariableId() {
         return properties.get(recipientFieldName);
     }
@@ -83,21 +59,6 @@ public class WorkflowProperties {
 
     public Boolean getNotifyOnSuccess() {
         return properties.get(notifyOnSuccessFieldName);
-    }
-
-    @Deprecated
-    public void setXmlHeader(String xmlHeader) {
-        this.properties.set(xmlHeaderFieldName, xmlHeader);
-    }
-
-    @Deprecated
-    public void setNamespace(String namespace) {
-        this.properties.set(namespaceFieldName, namespace);
-    }
-
-    @Deprecated
-    public void setSchema(String schema) {
-        this.properties.set(schemaFieldName, schema);
     }
 
     public void setRecipientVariableId(Long recipientVariableId) {

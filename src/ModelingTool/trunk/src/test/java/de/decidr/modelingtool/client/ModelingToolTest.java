@@ -89,8 +89,8 @@ public class ModelingToolTest extends GWTTestCase {
         assertEquals(workflowId, model.getId());
         assertEquals("This is a simple workflow.", model.getDescription());
 
-        assertEquals("namespace", model.getProperties().getNamespace());
-        assertEquals("schema", model.getProperties().getSchema());
+        assertEquals("namespace", model.getXmlProperties().getNamespace());
+        assertEquals("schema", model.getXmlProperties().getSchema());
 
         assertEquals(faultVarId, model.getProperties()
                 .getFaultMessageVariableId());
