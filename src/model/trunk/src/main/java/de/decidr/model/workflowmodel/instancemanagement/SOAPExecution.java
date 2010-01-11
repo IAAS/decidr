@@ -52,7 +52,7 @@ public class SOAPExecution {
         SOAPConnectionFactory soapConnFactory = SOAPConnectionFactory
                 .newInstance();
         SOAPConnection connection = soapConnFactory.createConnection();
-        // Next line Modified by "best guess" by DH and RM
+        // Next line Modified by "best guess" by dh and rm
         SOAPMessage reply = connection.call(soapMessage, "http://"
                 + server.getLocation() + "/ode/processes/" + dwfm.getId()
                 + "DecidrProcess");
