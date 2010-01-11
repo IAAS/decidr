@@ -16,6 +16,8 @@
 
 package de.decidr.setup;
 
+import de.decidr.model.annotations.Reviewed;
+import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.setup.input.FileIO;
 import de.decidr.setup.input.InputServer;
 import de.decidr.setup.input.InputServerType;
@@ -25,8 +27,12 @@ import de.decidr.setup.input.InputSystemSettings;
 /**
  * The main class.
  * 
+ * FIXME I don't think this setup is up-to-date as far as the generated data
+ * model is concerned. There is no maintainer for this project at the moment ~dh
+ * 
  * @author Johannes Engelhardt
  */
+@Reviewed(currentReviewState = State.NeedsReview, reviewers = {}, lastRevision = "0")
 public class DecidRSetup {
 
     public static void main(String[] args) {

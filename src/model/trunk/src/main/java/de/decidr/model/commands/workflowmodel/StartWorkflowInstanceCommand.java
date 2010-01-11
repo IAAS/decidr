@@ -313,9 +313,6 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
     private void createWorkflowInstance(DeployedWorkflowModel deployedModel,
             Session session) throws JAXBException, SOAPException, IOException {
 
-        byte[] binaryStartConfig = TransformUtil
-                .configurationToBytes(startConfiguration);
-
         createdWorkflowInstance = new WorkflowInstance();
         if ((usersThatNeedInvitations.size() == 0) || (startImmediately)) {
             InstanceManager manager = new InstanceManagerImpl();
@@ -330,7 +327,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             List<ServerLoadView> serverStatistics = q.list();
 
             StartInstanceResult startInstanceResult = manager.startInstance(
-                    deployedModel, binaryStartConfig, serverStatistics);
+                    deployedModel, startConfiguration, serverStatistics);
 
             createdWorkflowInstance.setOdePid(startInstanceResult.getODEPid());
             createdWorkflowInstance.setServer((Server) session.get(
@@ -344,7 +341,8 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
         createdWorkflowInstance.setCompletedDate(null);
         createdWorkflowInstance.setDeployedWorkflowModel(deployedModel);
-        createdWorkflowInstance.setStartConfiguration(binaryStartConfig);
+        createdWorkflowInstance.setStartConfiguration(TransformUtil
+                .configurationToBytes(startConfiguration));
         createdWorkflowInstance.setOdePid("");
 
         session.save(createdWorkflowInstance);

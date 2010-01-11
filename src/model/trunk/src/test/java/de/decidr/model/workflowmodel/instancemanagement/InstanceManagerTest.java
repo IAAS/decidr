@@ -21,6 +21,8 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
+
 /**
  * This class JUnit test the instance management for all deployed processes
  * 
@@ -40,7 +42,7 @@ public class InstanceManagerTest {
 
     /**
      * Test method for
-     * {@link de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl#startInstance(de.decidr.model.entities.DeployedWorkflowModel, byte[], java.util.List)}
+     * {@link de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl#startInstance(de.decidr.model.entities.DeployedWorkflowModel, TConfiguration, java.util.List)}
      * .
      */
     @Test

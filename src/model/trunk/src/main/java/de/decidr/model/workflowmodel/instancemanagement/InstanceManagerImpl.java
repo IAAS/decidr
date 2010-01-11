@@ -34,6 +34,7 @@ import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
  * This class provides the functionality to start and stop instances of deployed
@@ -59,14 +60,15 @@ public class InstanceManagerImpl implements InstanceManager {
      */
     @Override
     public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, List<ServerLoadView> serverStatistics)
-            throws SOAPException, IOException, JAXBException {
+            TConfiguration startConfiguration,
+            List<ServerLoadView> serverStatistics) throws SOAPException,
+            IOException, JAXBException {
         ServerSelector selector = new ServerSelector();
         ServerLoadView selectedServer = selector.selectServer(serverStatistics);
         SOAPGenerator generator = new SOAPGenerator();
-        SOAPMessage soapMessage = generator.getSOAP(TransformUtil
-                .bytesToSOAPMessage(dwfm.getSoapTemplate()), TransformUtil
-                .bytesToConfiguration(startConfiguration));
+        SOAPMessage soapMessage = generator
+                .getSOAP(TransformUtil.bytesToSOAPMessage(dwfm
+                        .getSoapTemplate()), startConfiguration);
         SOAPExecution execution = new SOAPExecution();
         SOAPMessage replySOAPMessage = execution.invoke(selectedServer,
                 soapMessage, dwfm);
@@ -77,6 +79,7 @@ public class InstanceManagerImpl implements InstanceManager {
     }
 
     private String getODEPid(SOAPMessage replySOAPMessage) {
+        // FIXME null? ~dh
         return null;
     }
 

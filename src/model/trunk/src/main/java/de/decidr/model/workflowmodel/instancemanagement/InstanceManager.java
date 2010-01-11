@@ -27,6 +27,7 @@ import org.apache.axis2.AxisFault;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.entities.WorkflowInstance;
+import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
 /**
  * This interface specifies the functionality to start and stop instances of
@@ -47,6 +48,14 @@ public interface InstanceManager {
      * 
      * For this a SOAP Message is build and send to the process.
      * 
+     * TODO the checked exceptions thrown by this method should not be deduced
+     * from the (current) implementation. Same for stopInstance().
+     * <ul>
+     * <li>Create a new exception "InstanceManagerException?"</li>
+     * <li>Wrap in RuntimeException?</li>
+     * </ul>
+     * ~dh
+     * 
      * @param dwfm
      *            The deployed workflow model
      * @param startConfiguration
@@ -56,7 +65,7 @@ public interface InstanceManager {
      * @return A result type holding all relevant data
      */
     public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
-            byte[] startConfiguration, List<ServerLoadView> serverStatistics)
+            TConfiguration startConfiguration, List<ServerLoadView> serverStatistics)
             throws SOAPException, IOException, JAXBException;
 
     /**
