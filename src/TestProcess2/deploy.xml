@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:Email="http://decidr.de/webservices/Email" xmlns:processes_303="http://decidr.de/Default_Tenant/processes/303">
+  <process name="processes_303:TestProcess">
+    <active>true</active>
+    <retired>false</retired>
+    <process-events generate="all"/>
+    <provide partnerLink="client">
+      <service name="processes_303:EmailTest" port="EmailTestPort"/>
+    </provide>
+    <invoke partnerLink="EmailService">
+      <service name="Email:Email" port="EmailSOAP11"/>
+    </invoke>
+  </process>
+</deploy>
