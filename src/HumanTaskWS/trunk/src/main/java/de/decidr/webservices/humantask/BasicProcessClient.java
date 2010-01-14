@@ -38,6 +38,8 @@ public class BasicProcessClient extends Service {
 
     static Logger logger = DefaultLogger.getLogger(BasicProcessClient.class);
 
+    private Long deployedWorkflowModelId;
+
     public BasicProcessClient(Long deployedWorkflowModelId)
             throws MalformedURLException {
         // XXX: revert when ESB works
@@ -47,14 +49,15 @@ public class BasicProcessClient extends Service {
         super(new URL(BasicProcessInterface.SERVICE_LOCATION
                 + deployedWorkflowModelId + ".basicProcessSOAP?wsdl"),
                 getServiceQName(deployedWorkflowModelId));
+
+        this.deployedWorkflowModelId = deployedWorkflowModelId;
     }
 
     /**
      * @return The callback of the the ODE engine.
      */
     @WebEndpoint(name = "basicProcessSOAP")
-    public BasicProcessInterface getBPELCallbackInterfacePort(
-            Long deployedWorkflowModelId) {
+    public BasicProcessInterface getBPELCallbackInterfacePort() {
         return super.getPort(getPortQName(deployedWorkflowModelId),
                 BasicProcessInterface.class);
     }
@@ -67,7 +70,7 @@ public class BasicProcessClient extends Service {
      */
     @WebEndpoint(name = "basicProcessSOAP")
     public BasicProcessInterface getBPELCallbackInterfacePort(
-            Long deployedWorkflowModelId, WebServiceFeature... features) {
+            WebServiceFeature... features) {
         return super.getPort(getPortQName(deployedWorkflowModelId),
                 BasicProcessInterface.class, features);
     }
@@ -76,7 +79,7 @@ public class BasicProcessClient extends Service {
      * TODO document
      * 
      * @param deployedWorkflowModelId
-     * @return
+     * @return TODO document
      */
     private static QName getServiceQName(Long deployedWorkflowModelId) {
         QName result = new QName(BasicProcessInterface.TARGET_NAMESPACE,
@@ -91,12 +94,13 @@ public class BasicProcessClient extends Service {
      * TODO document
      * 
      * @param deployedWorkflowModelId
-     * @return
+     * @return TODO document
      */
     private static QName getPortQName(Long deployedWorkflowModelId) {
-        QName result =  new QName(BasicProcessInterface.TARGET_NAMESPACE,
+        QName result = new QName(BasicProcessInterface.TARGET_NAMESPACE,
                 deployedWorkflowModelId + BasicProcessInterface.PORT_SUFFIX);
-        logger.debug("BasicProcessClient: creating PORT QName: " + result.toString());
+        logger.debug("BasicProcessClient: creating PORT QName: "
+                + result.toString());
         return result;
     }
 }

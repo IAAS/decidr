@@ -127,8 +127,7 @@ public class HumanTask implements HumanTaskInterface {
             Long deployedWorkflowModelId = workItem.getWorkflowInstance()
                     .getDeployedWorkflowModel().getId();
             new BasicProcessClient(deployedWorkflowModelId)
-                    .getBPELCallbackInterfacePort(deployedWorkflowModelId)
-                    .taskCompleted(id, data);
+                    .getBPELCallbackInterfacePort().taskCompleted(id, data);
         } catch (Exception e) {
             throw new ReportingException(e.getMessage(), e);
         }
