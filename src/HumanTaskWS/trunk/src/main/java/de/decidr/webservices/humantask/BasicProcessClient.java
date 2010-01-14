@@ -39,7 +39,7 @@ public class BasicProcessClient extends Service {
         // BasicProcessInterface.SERVICE);
         this(
                 new URL(BasicProcessInterface.SERVICE_LOCATION + deployedWorkflowModelId
-                        + ".DecidrProcess?wsdl"), BasicProcessInterface.SERVICE);
+                        + ".basicProcessSOAP?wsdl"), BasicProcessInterface.SERVICE);
     }
 
     /**
