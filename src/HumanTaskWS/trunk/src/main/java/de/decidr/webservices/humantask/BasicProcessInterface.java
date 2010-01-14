@@ -20,7 +20,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.xml.namespace.QName;
 
 import de.decidr.model.soap.types.ReducedHumanTaskData;
 import de.decidr.model.soap.types.TaskIdentifier;
@@ -32,18 +31,14 @@ import de.decidr.model.soap.types.TaskIdentifier;
  * 
  * @author Reinhold
  */
-@WebService(targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, name = BasicProcessInterface.PORT_TYPE_NAME)
+@WebService(targetNamespace = BasicProcessInterface.TARGET_NAMESPACE)
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface BasicProcessInterface {
 
-    public static final String SERVICE_NAME = "basicProcess";
-    public static final String PORT_TYPE_NAME = "basicProcessPT";
+    public static final String SERVICE_NAME_SUFFIX = ".basicProcessSOAP11";
+    public static final String PORT_SUFFIX = ".basicProcessSOAPSOAP11port_http";
     public static final String TARGET_NAMESPACE = "http://decidr.de/wsdl/basicProcess";
-    public static final QName SERVICE = new QName(TARGET_NAMESPACE,
-            SERVICE_NAME);
-    public static final QName ENDPOINT = new QName(TARGET_NAMESPACE,
-            "basicProcessSOAP");
-    // XXX use ESB
+    // XXX use ESB and / or dynamic location
     public static final String SERVICE_LOCATION = "http://localhost:8080/ode/processes/";
 
     /**

@@ -24,50 +24,38 @@ import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
+import org.apache.log4j.Logger;
+
+import de.decidr.model.logging.DefaultLogger;
+
 /**
  * A web service client for the callback method provided by the BPEL process.
  * 
  * @author Reinhold
  */
-@WebServiceClient(name = "BasicProcessClient", targetNamespace = BasicProcessInterface.TARGET_NAMESPACE, wsdlLocation = "wsdl/ode_process.wsdl")
+@WebServiceClient(name = "BasicProcessClient", targetNamespace = BasicProcessInterface.TARGET_NAMESPACE)
 public class BasicProcessClient extends Service {
 
-    public BasicProcessClient(Long deployedWorkflowModelId) throws MalformedURLException {
+    static Logger logger = DefaultLogger.getLogger(BasicProcessClient.class);
+
+    public BasicProcessClient(Long deployedWorkflowModelId)
+            throws MalformedURLException {
         // XXX: revert when ESB works
         // this(new URL(DecidrGlobals
         // .getWebServiceWsdlUrl(BasicProcessInterface.SERVICE_NAME)),
         // BasicProcessInterface.SERVICE);
-        this(
-                new URL(BasicProcessInterface.SERVICE_LOCATION + deployedWorkflowModelId
-                        + ".basicProcessSOAP?wsdl"), BasicProcessInterface.SERVICE);
-    }
-
-    /**
-     * @param wsdlLocation
-     *            A <code>{@link URL}</code> pointing to the WSDL of the
-     *            service.
-     */
-    public BasicProcessClient(URL wsdlLocation) {
-        this(wsdlLocation, BasicProcessInterface.SERVICE);
-    }
-
-    /**
-     * @param wsdlDocumentLocation
-     *            A <code>{@link URL}</code> pointing to the WSDL of the
-     *            service.
-     * @param serviceName
-     *            The qualified name of the service.
-     */
-    protected BasicProcessClient(URL wsdlDocumentLocation, QName serviceName) {
-        super(wsdlDocumentLocation, serviceName);
+        super(new URL(BasicProcessInterface.SERVICE_LOCATION
+                + deployedWorkflowModelId + ".basicProcessSOAP?wsdl"),
+                getServiceQName(deployedWorkflowModelId));
     }
 
     /**
      * @return The callback of the the ODE engine.
      */
     @WebEndpoint(name = "basicProcessSOAP")
-    public BasicProcessInterface getBPELCallbackInterfacePort() {
-        return super.getPort(BasicProcessInterface.ENDPOINT,
+    public BasicProcessInterface getBPELCallbackInterfacePort(
+            Long deployedWorkflowModelId) {
+        return super.getPort(getPortQName(deployedWorkflowModelId),
                 BasicProcessInterface.class);
     }
 
@@ -79,8 +67,36 @@ public class BasicProcessClient extends Service {
      */
     @WebEndpoint(name = "basicProcessSOAP")
     public BasicProcessInterface getBPELCallbackInterfacePort(
-            WebServiceFeature... features) {
-        return super.getPort(BasicProcessInterface.ENDPOINT,
+            Long deployedWorkflowModelId, WebServiceFeature... features) {
+        return super.getPort(getPortQName(deployedWorkflowModelId),
                 BasicProcessInterface.class, features);
+    }
+
+    /**
+     * TODO document
+     * 
+     * @param deployedWorkflowModelId
+     * @return
+     */
+    private static QName getServiceQName(Long deployedWorkflowModelId) {
+        QName result = new QName(BasicProcessInterface.TARGET_NAMESPACE,
+                deployedWorkflowModelId
+                        + BasicProcessInterface.SERVICE_NAME_SUFFIX);
+        logger.debug("BasicProcessClient: creating SERVICE QName: "
+                + result.toString());
+        return result;
+    }
+
+    /**
+     * TODO document
+     * 
+     * @param deployedWorkflowModelId
+     * @return
+     */
+    private static QName getPortQName(Long deployedWorkflowModelId) {
+        QName result =  new QName(BasicProcessInterface.TARGET_NAMESPACE,
+                deployedWorkflowModelId + BasicProcessInterface.PORT_SUFFIX);
+        logger.debug("BasicProcessClient: creating PORT QName: " + result.toString());
+        return result;
     }
 }
