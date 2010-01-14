@@ -36,7 +36,7 @@ public class ForEachWindowInvoker {
     public static void invoke(ForEachContainer node) {
         /* Only invoke dialog if it is not visible */
         if (!DialogRegistry.getInstance().isDialogVisible(
-                ForEachContainer.class.getName())) {
+                ForEachWindow.class.getName())) {
             ((ForEachWindow) DialogRegistry.getInstance().getDialog(
                     ForEachWindow.class.getName())).setNode(node);
             DialogRegistry.getInstance().showDialog(
