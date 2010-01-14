@@ -35,7 +35,7 @@ import de.decidr.model.soap.types.TaskIdentifier;
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface BasicProcessInterface {
 
-    public static final String SERVICE_NAME_SUFFIX = ".basicProcessSOAP11";
+    public static final String SERVICE_NAME_SUFFIX = ".basicProcessSOAP";
     public static final String PORT_SUFFIX = ".basicProcessSOAPSOAP11port_http";
     public static final String TARGET_NAMESPACE = "http://decidr.de/wsdl/basicProcess";
     // XXX use ESB and / or dynamic location
