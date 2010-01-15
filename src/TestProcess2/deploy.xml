@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:Email="http://decidr.de/webservices/Email" xmlns:processes_303="http://decidr.de/Default_Tenant/processes/303">
-  <process name="processes_303:TestProcess">
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:HumanTask="http://decidr.de/webservices/HumanTask" xmlns:processes_302="http://decidr.de/Default_Tenant/processes/302">
+  <process name="processes_302:TestProcess">
     <active>true</active>
     <retired>false</retired>
+    <in-memory>false</in-memory>
     <process-events generate="all"/>
     <provide partnerLink="client">
-      <service name="processes_303:EmailTest" port="EmailTestPort"/>
+      <service name="processes_302:HumanTaskTest" port="HumanTaskTestPort"/>
     </provide>
-    <invoke partnerLink="EmailService">
-      <service name="Email:Email" port="EmailSOAP11"/>
+    <provide partnerLink="HumanTaskService">
+      <service name="processes_302:HumanTaskTest" port="HumanTaskTestPort"/>
+    </provide>
+    <invoke partnerLink="HumanTaskService">
+      <service name="HumanTask:HumanTask" port="HumanTaskSOAP11"/>
     </invoke>
   </process>
 </deploy>

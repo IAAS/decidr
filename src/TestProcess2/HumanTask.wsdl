@@ -17,7 +17,7 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/webservices/HumanTask"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:dwsdl="http://decidr.de/wsdl/basicProcess" xmlns:basic="http://decidr.de/schema/DecidrTypes"
+	xmlns:basic="http://decidr.de/schema/DecidrTypes"
 	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
 	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
 	xmlns:mex="http://decidr.de/model/exceptions" xmlns:sex="http://decidr.de/model/soap/exceptions"
@@ -197,13 +197,6 @@
 				wsaw:Action="urn:transactionException" />
 		</wsdl:operation>
 	</wsdl:portType>
-
-	<wsdl:import location="odeprocess.wsdl" namespace="http://decidr.de/wsdl/basicProcess" />
-
-	<plnk:partnerLinkType name="HumanTaskPLT">
-		<plnk:role name="HumanTaskProvider" portType="tns:HumanTaskPT" />
-		<plnk:role name="HumanTaskClient" portType="dwsdl:basicProcessPT" />
-	</plnk:partnerLinkType>
 
 	<wsdl:binding name="HumanTaskSOAP" type="tns:HumanTaskPT">
 		<soap:binding style="document"
