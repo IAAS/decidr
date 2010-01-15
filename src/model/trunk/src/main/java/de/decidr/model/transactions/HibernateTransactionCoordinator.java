@@ -293,8 +293,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
     /**
      * {@inheritDoc}
-     * 
-     * @return
      */
     public CommitResult runTransaction(TransactionalCommand... commands)
             throws TransactionException {

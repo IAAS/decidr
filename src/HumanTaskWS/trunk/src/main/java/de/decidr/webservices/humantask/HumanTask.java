@@ -23,8 +23,10 @@ import org.apache.log4j.Logger;
 
 import de.decidr.model.acl.roles.HumanTaskRole;
 import de.decidr.model.acl.roles.Role;
+import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.commands.workitem.GetWorkItemCommand;
 import de.decidr.model.entities.WorkItem;
+import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.facades.WorkflowInstanceFacade;
@@ -35,6 +37,7 @@ import de.decidr.model.soap.types.ReducedHumanTaskData;
 import de.decidr.model.soap.types.TaskDataItem;
 import de.decidr.model.soap.types.TaskIdentifier;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.webservices.HumanTaskInterface;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
@@ -90,58 +93,79 @@ public class HumanTask implements HumanTaskInterface {
     }
 
     @Override
-    public void taskCompleted(long taskID) throws TransactionException,
+    public void taskCompleted(final long taskID) throws TransactionException,
             ReportingException {
         log.trace("Entering method: taskCompleted");
 
-        log.debug("getting data associated with the task");
-        GetWorkItemCommand cmd = new GetWorkItemCommand(HUMANTASK_ROLE, taskID);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        WorkItem workItem = cmd.getResult();
+        // TODO extract to local class
+        AbstractTransactionalCommand cmd2 = new AbstractTransactionalCommand() {
 
-        TaskIdentifier id = new TaskIdentifier(taskID, workItem
-                .getWorkflowInstance().getOdePid());
+            @Override
+            public void transactionStarted(TransactionEvent evt)
+                    throws TransactionException {
+                log.debug("getting data associated with the task");
+                GetWorkItemCommand cmd = new GetWorkItemCommand(HUMANTASK_ROLE,
+                        taskID);
+                HibernateTransactionCoordinator.getInstance().runTransaction(
+                        cmd);
+                WorkItem workItem = cmd.getResult();
 
-        try {
-            log.debug("attempting to parse the data string into an Object");
-            THumanTaskData taskData = TransformUtil.bytesToHumanTask(workItem
-                    .getData());
+                TaskIdentifier id = new TaskIdentifier(taskID, workItem
+                        .getWorkflowInstance().getOdePid());
 
-            ReducedHumanTaskData data = new ReducedHumanTaskData();
-            List<TaskDataItem> dataList = data.getDataItem();
-            // RR remove
-            log.debug("!!!!!!!!!!!!!!\n\n\n!!!!!!!!!!!!!!!");
-            log.debug(new String(workItem.getData(), "UTF-8"));
-            log.debug("Number of objects in THumanTaskData instance: "
-                    + taskData.getTaskItemOrInformation().size());
-            for (Object object : taskData.getTaskItemOrInformation()) {
-                if (object instanceof TInformation) {
-                    log.debug("Object is TInformation, skipping.");
-                    continue;
+                try {
+                    log
+                            .debug("attempting to parse the data string into an Object");
+                    THumanTaskData taskData = TransformUtil
+                            .bytesToHumanTask(workItem.getData());
+
+                    ReducedHumanTaskData data = new ReducedHumanTaskData();
+                    List<TaskDataItem> dataList = data.getDataItem();
+                    log.debug(new String(workItem.getData(), "UTF-8"));
+                    log.debug("Number of objects in THumanTaskData instance: "
+                            + taskData.getTaskItemOrInformation().size());
+                    for (Object object : taskData.getTaskItemOrInformation()) {
+                        if (object instanceof TInformation) {
+                            log.debug("Object is TInformation, skipping.");
+                            continue;
+                        }
+                        TTaskItem task = (TTaskItem) object;
+                        log.debug("Object is TTaskItem");
+
+                        TaskDataItem item = new TaskDataItem();
+                        item.setName(task.getName());
+                        log.debug("task name: " + task.getName()
+                                + " item name: " + item.getName());
+                        item.setType(task.getType().value());
+                        log.debug("task type: " + task.getType()
+                                + " item type: " + item.getType());
+                        item.setValue(task.getValue());
+                        log.debug("task value: " + task.getValue()
+                                + " item value: " + item.getValue());
+
+                        dataList.add(item);
+                        log.debug("dataList size: " + dataList.size());
+                    }
+
+                    log.debug("calling Callback");
+                    Long deployedWorkflowModelId = workItem
+                            .getWorkflowInstance().getDeployedWorkflowModel()
+                            .getId();
+                    new BasicProcessClient(deployedWorkflowModelId)
+                            .getBPELCallbackInterfacePort().taskCompleted(id,
+                                    data);
+                } catch (Exception e) {
+                    throw new TransactionException(e.getMessage(), e);
                 }
-                TTaskItem task = (TTaskItem) object;
-                log.debug("Object is TTaskItem");
 
-                TaskDataItem item = new TaskDataItem();
-                item.setName(task.getName());
-                log.debug("task name: " + task.getName() + " item name: "
-                        + item.getName());
-                item.setType(task.getType().value());
-                log.debug("task type: " + task.getType() + " item type: "
-                        + item.getType());
-                item.setValue(task.getValue());
-                log.debug("task value: " + task.getValue() + " item value: "
-                        + item.getValue());
-
-                dataList.add(item);
-                log.debug("dataList size: " + dataList.size());
+                workItem.setStatus(WorkItemStatus.Done.toString());
+                evt.getSession().update(workItem);
             }
 
-            log.debug("calling Callback");
-            Long deployedWorkflowModelId = workItem.getWorkflowInstance()
-                    .getDeployedWorkflowModel().getId();
-            new BasicProcessClient(deployedWorkflowModelId)
-                    .getBPELCallbackInterfacePort().taskCompleted(id, data);
+        };
+
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd2);
         } catch (Exception e) {
             throw new ReportingException(e.getMessage(), e);
         }
