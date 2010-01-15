@@ -145,14 +145,17 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * 
      * @throws TransactionException
      *             if no transaction has been started, yet.
+     * @return result of the commit
      */
-    protected void commitCurrentTransaction() throws TransactionException {
+    protected CommitResult commitCurrentTransaction()
+            throws TransactionException {
         String logMessage = transactionDepth == 1 ? "Committing transaction."
                 : "Delaying commit until the outmost transaction commits.";
 
         logger.log(Level.DEBUG, logMessage + " Current transaction depth: "
                 + transactionDepth);
 
+        Exception resultException = null;
         if (currentTransaction == null) {
             throw new TransactionException(
                     "Transaction must be started before commit.");
@@ -167,17 +170,24 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                  */
                 int size = notifiedReceivers.size();
                 for (int i = 0; i < size; i++) {
-                    /*
-                     * note: the chain is broken if one of the commands throws
-                     * an exception in its transactionCommitted() method.
-                     */
-                    fireTransactionCommitted(notifiedReceivers.get(i));
+                    try {
+                        /*
+                         * note: the chain is broken if one of the commands
+                         * throws an exception in its transactionCommitted()
+                         * method.
+                         */
+                        fireTransactionCommitted(notifiedReceivers.get(i));
+                    } catch (Exception e) {
+                        resultException = e;
+                        break;
+                    }
                 }
                 notifiedReceivers.clear();
             } else if (transactionDepth > 0) {
                 transactionDepth--;
             }
         }
+        return new CommitResult(transactionDepth == 0, resultException);
     }
 
     /**
@@ -267,7 +277,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * {@inheritDoc}
      */
-    public void runTransaction(
+    public CommitResult runTransaction(
             Collection<? extends TransactionalCommand> commands)
             throws TransactionException {
         if (commands == null) {
@@ -278,13 +288,15 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         TransactionalCommand[] emptyArray = new TransactionalCommand[0];
         commands.toArray(emptyArray);
 
-        runTransaction(commands.toArray(emptyArray));
+        return runTransaction(commands.toArray(emptyArray));
     }
 
     /**
      * {@inheritDoc}
+     * 
+     * @return
      */
-    public void runTransaction(TransactionalCommand... commands)
+    public CommitResult runTransaction(TransactionalCommand... commands)
             throws TransactionException {
 
         // check parameters
@@ -305,35 +317,50 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
         }
 
-        try {
-            beginTransaction();
-
-            for (TransactionalCommand c : commands) {
+        beginTransaction();
+        for (TransactionalCommand c : commands) {
+            try {
                 notifiedReceivers.add(c);
                 logger.log(Level.DEBUG, "Attempting to execute "
                         + c.getClass().getSimpleName());
                 fireTransactionStarted(c);
-            }
+            } catch (Exception e) {
+                try {
+                    logger.log(Level.INFO, "Exception in transactionStarted: ",
+                            e);
 
-            commitCurrentTransaction();
-        } catch (Exception e) {
-            try {
-                logger.log(Level.INFO, "Exception in transactionStarted: ", e);
-
-                if (currentTransaction != null) {
-                    rollbackCurrentTransaction(e);
+                    if (currentTransaction != null) {
+                        rollbackCurrentTransaction(e);
+                    }
+                } catch (Exception rollbackEventException) {
+                    logger.log(Level.FATAL, "Could not roll back transaction.",
+                            rollbackEventException);
                 }
-            } catch (Exception rollbackException) {
-                logger.log(Level.FATAL, "Could not roll back transaction.",
-                        rollbackException);
-            }
 
-            if (e instanceof TransactionException) {
-                throw (TransactionException) e;
-            } else {
-                throw new TransactionException(e);
+                if (e instanceof TransactionException) {
+                    throw (TransactionException) e;
+                } else {
+                    throw new TransactionException(e);
+                }
             }
         }
+
+        CommitResult commitResult = commitCurrentTransaction();
+
+        if (commitResult.isFinalCommit()
+                && commitResult.getCommittedEventException() == null) {
+            logger.log(Level.DEBUG,
+                    "Everything OK, no exceptions in transactionCommitted.");
+        } else if (commitResult.isFinalCommit()) {
+            /*
+             * There was an exception in a "transaction committed" event.
+             */
+            logger.log(Level.DEBUG,
+                    "Exception thrown in transactionCommitted.", commitResult
+                            .getCommittedEventException());
+        }
+
+        return commitResult;
     }
 
     /**

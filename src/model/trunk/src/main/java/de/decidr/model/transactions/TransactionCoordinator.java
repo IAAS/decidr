@@ -23,7 +23,6 @@ import de.decidr.model.exceptions.TransactionException;
  * transactions are supported.
  * 
  * @author Daniel Huss
- * 
  * @version 0.1
  */
 public interface TransactionCoordinator {
@@ -35,11 +34,12 @@ public interface TransactionCoordinator {
      * 
      * @param commands
      *            the commands to execute - must not be null or empty.
+     * @return the result of the committed transaction
      * @throws TransactionException
      *             if transaction is not successful or commands are null or
      *             empty.
      */
-    public void runTransaction(TransactionalCommand... commands)
+    public CommitResult runTransaction(TransactionalCommand... commands)
             throws TransactionException;
 
     /**
@@ -49,11 +49,12 @@ public interface TransactionCoordinator {
      * 
      * @param commands
      *            the commands to execute - must not be null or empty.
+     * @return the result of the committed transaction
      * @throws TransactionException
      *             if transaction is not successful or commands are null or
      *             empty.
      */
-    public void runTransaction(
+    public CommitResult runTransaction(
             Collection<? extends TransactionalCommand> commands)
             throws TransactionException;
 }

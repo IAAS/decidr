@@ -98,6 +98,11 @@ public class SetStatusCommand extends WorkItemCommand {
     @Override
     public void transactionCommitted(TransactionEvent evt)
             throws TransactionException {
+        /*
+         * FIXME DH this is bad, what if calling the web service fails!?
+         * Possible solution: let the WS set the status to "DONE" and do not
+         * modify here.
+         */
         if (notifyHumanTask && newStatus.equals(WorkItemStatus.Done)) {
             /*
              * Notifiy human task web service AFTER the transaction has been
