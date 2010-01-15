@@ -126,7 +126,7 @@ public class HumanTask implements HumanTaskInterface {
                 item.setName(task.getName());
                 log.debug("task name: " + task.getName() + " item name: "
                         + item.getName());
-                item.setType(task.getType().name());
+                item.setType(task.getType().value());
                 log.debug("task type: " + task.getType() + " item type: "
                         + item.getType());
                 item.setValue(task.getValue());
