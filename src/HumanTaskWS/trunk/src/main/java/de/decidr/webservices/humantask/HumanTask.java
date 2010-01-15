@@ -109,6 +109,8 @@ public class HumanTask implements HumanTaskInterface {
 
             ReducedHumanTaskData data = new ReducedHumanTaskData();
             List<TaskDataItem> dataList = data.getDataItem();
+            // RR remove
+            log.debug("!!!!!!!!!!!!!!\n\n\n!!!!!!!!!!!!!!!");
             log.debug("Number of objects in THumanTaskData instance: "
                     + taskData.getTaskItemOrInformation().size());
             for (Object object : taskData.getTaskItemOrInformation()) {
@@ -121,8 +123,14 @@ public class HumanTask implements HumanTaskInterface {
 
                 TaskDataItem item = new TaskDataItem();
                 item.setName(task.getName());
+                log.debug("task name: " + task.getName() + " item name: "
+                        + item.getName());
                 item.setType(task.getType().name());
+                log.debug("task type: " + task.getType() + " item type: "
+                        + item.getType());
                 item.setValue(task.getValue());
+                log.debug("task value: " + task.getValue() + " item value: "
+                        + item.getValue());
 
                 dataList.add(item);
                 log.debug("dataList size: " + dataList.size());
