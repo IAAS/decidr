@@ -111,6 +111,7 @@ public class HumanTask implements HumanTaskInterface {
             List<TaskDataItem> dataList = data.getDataItem();
             // RR remove
             log.debug("!!!!!!!!!!!!!!\n\n\n!!!!!!!!!!!!!!!");
+            log.debug(new String(workItem.getData(), "UTF-8"));
             log.debug("Number of objects in THumanTaskData instance: "
                     + taskData.getTaskItemOrInformation().size());
             for (Object object : taskData.getTaskItemOrInformation()) {
