@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema targetNamespace="http://decidr.de/schema/wsc"
-	xmlns="http://decidr.de/schema/wsc" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://decidr.de/schema/wsc" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:decidr="http://decidr.de/schema/DecidrTypes"
 	elementFormDefault="qualified">
 
     <xsd:annotation>
@@ -9,11 +11,15 @@
 			Last modified date: 22th June, 2009
 
 			2009-06-22: MA: Creation date
+                        2010-01-15: MA: role and actor now in DecidrTypes namespace                        
         </xsd:documentation>
     </xsd:annotation>
 
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
 		schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+   <xsd:import namespace="http://decidr.de/schema/DecidrTypes"
+		schemaLocation="DecidrTypes.xsd" />
 
     <xsd:element name="configurations" type="tConfiguration">
         <xsd:annotation>
@@ -45,22 +51,9 @@
     <xsd:element name="roles" type="tRoles" />
     <xsd:complexType name="tRoles">
         <xsd:sequence>
-            <xsd:element ref="role" minOccurs="0" maxOccurs="unbounded" />
-            <xsd:element ref="actor" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="role" minOccurs="0" maxOccurs="unbounded" type="decidr:tRole"/>
+            <xsd:element name="actor" minOccurs="0" maxOccurs="unbounded" type="decidr:tActor"/>
         </xsd:sequence>
-    </xsd:complexType>
-    <xsd:element name="actor" type="tActor" />
-    <xsd:complexType name="tActor">
-        <xsd:attribute name="userId" type="xsd:ID" use="optional" />
-        <xsd:attribute name="name" type="xsd:string" use="optional" />
-        <xsd:attribute name="email" type="tEmail" use="optional" />
-    </xsd:complexType>
-    <xsd:element name="role" type="tRole" />
-    <xsd:complexType name="tRole">
-        <xsd:sequence>
-            <xsd:element ref="actor" minOccurs="1" maxOccurs="unbounded" />
-        </xsd:sequence>
-        <xsd:attribute name="name" type="xsd:NCName" use="required" />
     </xsd:complexType>
 
     <xsd:simpleType name="tEmail">
