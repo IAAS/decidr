@@ -86,7 +86,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * <code>transactionDepth
      * ==0</code>
      */
-    ArrayList<TransactionalCommand> notifiedReceivers;
+    ArrayList<TransactionalCommand> notifiedReceivers = new ArrayList<TransactionalCommand>();
 
     /**
      * @return the thread-local instance.
