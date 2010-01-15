@@ -1,14 +1,19 @@
 package de.decidr.model.commands.workitem;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Set;
 
 import javax.xml.bind.JAXBException;
+
+import org.apache.log4j.Logger;
 
 import de.decidr.model.XmlTools;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.file.AssociateFileWithWorkItemCommand;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
@@ -23,6 +28,9 @@ import de.decidr.model.workflowmodel.humantask.THumanTaskData;
  * @version 0.1
  */
 public class SetDataCommand extends WorkItemCommand {
+
+    private static final Logger logger = DefaultLogger
+            .getLogger(SetDataCommand.class);
 
     private THumanTaskData data;
 
@@ -52,6 +60,16 @@ public class SetDataCommand extends WorkItemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        // FIXME huge logging overhead ~dh
+        try {
+            logger.debug("Setting Human Task Data: "
+                    + new String(TransformUtil.humanTaskToByte(data), "UTF-8"));
+        } catch (UnsupportedEncodingException e1) {
+            throw new RuntimeException(e1);
+        } catch (JAXBException e1) {
+            throw new RuntimeException(e1);
+        }
+
         WorkItem workItem = fetchWorkItem(evt.getSession());
 
         // persist all uploaded files and associate with work item.

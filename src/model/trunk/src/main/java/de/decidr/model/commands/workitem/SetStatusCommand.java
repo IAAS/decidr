@@ -40,6 +40,8 @@ import de.decidr.model.webservices.HumanTaskInterface;
 public class SetStatusCommand extends WorkItemCommand {
 
     private WorkItemStatus newStatus;
+    private WorkItem foundWorkItem;
+    private boolean notifyHumanTask;
 
     /**
      * Creates a new instance of the SetStatusCommand.
@@ -67,9 +69,16 @@ public class SetStatusCommand extends WorkItemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        WorkItem workItem = fetchWorkItem(evt.getSession());
+        /*
+         * Reset local state for idempotence
+         */
+        notifyHumanTask = false;
+        foundWorkItem = null;
 
-        WorkItemStatus status = WorkItemStatus.valueOf(workItem.getStatus());
+        foundWorkItem = fetchWorkItem(evt.getSession());
+
+        WorkItemStatus status = WorkItemStatus.valueOf(foundWorkItem
+                .getStatus());
 
         if (status.equals(WorkItemStatus.Done)) {
             // We're not allowed to transition from "done" to any other status!
@@ -80,21 +89,31 @@ public class SetStatusCommand extends WorkItemCommand {
                 // Do no notify human task web service more than once.
             }
         } else {
-            workItem.setStatus(newStatus.toString());
-            evt.getSession().update(workItem);
+            foundWorkItem.setStatus(newStatus.toString());
+            evt.getSession().update(foundWorkItem);
+            notifyHumanTask = true;
+        }
+    }
 
-            if (newStatus.equals(WorkItemStatus.Done)) {
-                // Notifiy human task web service
-                try {
-                    HumanTaskInterface humanTask = new HumanTaskClientStatic()
-                            .getEmailSOAP();
-                    humanTask.taskCompleted(workItem.getId());
-                } catch (ReportingException e) {
-                    throw new TransactionException(e);
-                } catch (MalformedURLException e) {
-                    throw new TransactionException(e);
-                }
+    @Override
+    public void transactionCommitted(TransactionEvent evt)
+            throws TransactionException {
+        if (notifyHumanTask && newStatus.equals(WorkItemStatus.Done)) {
+            /*
+             * Notifiy human task web service AFTER the transaction has been
+             * completed, otherwise the human task may be unable to "see" the
+             * changes made to the work item.
+             */
+            try {
+                HumanTaskInterface humanTask = new HumanTaskClientStatic()
+                        .getEmailSOAP();
+                humanTask.taskCompleted(foundWorkItem.getId());
+            } catch (ReportingException e) {
+                throw new TransactionException(e);
+            } catch (MalformedURLException e) {
+                throw new TransactionException(e);
             }
         }
     }
+
 }
