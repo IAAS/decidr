@@ -2,10 +2,10 @@
 <wsdl:definitions xmlns:basic="http://decidr.de/wsdl/basicProcess" xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:pdecidr="http://decidr.de/schema/DecidrProcessTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/Default_Tenant/processes/302" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl1="http://decidr.de/webservices/HumanTask" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TestProcess" targetNamespace="http://decidr.de/Default_Tenant/processes/302">
     <vprop:property name="taskID" type="xsd:long"/>
     <vprop:propertyAlias messageType="wsdl1:createTaskResponse" part="parameters" propertyName="tns:taskID">
-    <vprop:query><![CDATA[/taskID]]></vprop:query>
+    <vprop:query><![CDATA[/taskID[1]]]></vprop:query>
   </vprop:propertyAlias>
     <vprop:propertyAlias messageType="basic:taskCompletedRequest" part="parameters" propertyName="tns:taskID">
-        <vprop:query><![CDATA[/taskID]]></vprop:query>
+        <vprop:query><![CDATA[/taskID[1]/decidr:taskID[1]]]></vprop:query>
     </vprop:propertyAlias>
     <wsdl:import location="HumanTask.wsdl" namespace="http://decidr.de/webservices/HumanTask"/>
     <wsdl:import location="odeprocess.wsdl" namespace="http://decidr.de/wsdl/basicProcess"/>
