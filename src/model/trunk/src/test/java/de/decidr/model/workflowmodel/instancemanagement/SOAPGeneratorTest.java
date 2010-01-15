@@ -30,6 +30,7 @@ import org.junit.Test;
 
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2SOAP;
+import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL;
 import de.decidr.model.workflowmodel.dwdl.transformation.WSDLConstants;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
@@ -51,6 +52,7 @@ public class SOAPGeneratorTest {
     static DWDL2SOAP soapConverter;
     static DWDL2SOAP translater = null;
     static DWDL2WSDL wsdlconv = null;
+    static DWDL2WSC wscconv = null;
     static Definition wsdl = null;
     static String portName = null;
     static String operationName = null;
@@ -69,6 +71,7 @@ public class SOAPGeneratorTest {
     public static void setUpBeforeClass() throws Exception {
         translater = new DWDL2SOAP();
         wsdlconv = new DWDL2WSDL();
+        wscconv = new DWDL2WSC();
         dwdl = DWDLFactory.getDWDLWorkflow();
         wsdl = wsdlconv.getWSDL(dwdl, location, tenantName);
         portName = dwdl.getName() + "PT";
@@ -76,26 +79,7 @@ public class SOAPGeneratorTest {
         generator = new SOAPGenerator();
         soapConverter = new DWDL2SOAP();
         template = soapConverter.getSOAP(wsdl, portName, operationName);
-        startConfiguration = new TConfiguration();
-        // Aleks, bitte hier entsprechen der template befüllen
-        TAssignment a1 = new TAssignment();
-        TAssignment a2 = new TAssignment();
-        a1.setKey("partydate");
-        a1.getValue().add("11.04.1987");
-        a2.setKey("faultMessage");
-        a2.getValue().add("False");
-        TRoles roles = new TRoles();
-        TRole role = new TRole();
-        TActor actor1 = new TActor();
-        actor1.setEmail("test@lol.de");
-        actor1.setName("Aleks");
-        actor1.setUserId("10L");
-        role.setName("student");
-        role.getActor().add(actor1);
-        roles.getRole().add(role);
-        startConfiguration.getAssignment().add(a1);
-        startConfiguration.getAssignment().add(a2);
-        startConfiguration.setRoles(roles);
+        startConfiguration = wscconv.getStartConfiguration(dwdl);
     }
 
     /**

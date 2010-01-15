@@ -18,18 +18,14 @@ package de.decidr.model.workflowmodel.transformation;
 
 import static org.junit.Assert.assertNotNull;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.decidr.model.workflowmodel.dwdl.Workflow;
-import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
@@ -65,18 +61,12 @@ public class DWDL2WSCTest {
     public void testGetStartConfiguration() throws JAXBException {
         TConfiguration config = translater.getStartConfiguration(dwdl);
         if (config != null) {
-            Marshaller m1 = JAXBContext.newInstance(TConfiguration.class)
-                    .createMarshaller();
-            Marshaller m2 = JAXBContext.newInstance(Workflow.class)
-            .createMarshaller();
-            m1.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m1.marshal(new JAXBElement<Workflow>(new QName(
-                    Constants.CONFIGURATION_NAMESPACE, "workflow"),
-                    Workflow.class, dwdl), System.out);
-            m2.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m2.marshal(new JAXBElement<TConfiguration>(new QName(
-                    Constants.CONFIGURATION_NAMESPACE, "configurations"),
-                    TConfiguration.class, config), System.out);
+            
+            String dwdlString = new String(TransformUtil.workflowToBytes(dwdl));
+            String wscString = new String (TransformUtil.configurationToBytes(config));
+            System.out.println(dwdlString);
+            System.out.println(wscString);
+            
         }
         assertNotNull(config);
     }

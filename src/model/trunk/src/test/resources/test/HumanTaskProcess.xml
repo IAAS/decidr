@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <workflow name="HumanTaskTest" id="302"
-	targetNamespace="http://decidr.de/Default_Tenant/processes/302" xmlns="">
+	targetNamespace="http://decidr.de/Default_Tenant/processes/302" xmlns="http://decidr.de/schema/dwdl">
 	<description>This is a test process for human task testing</description>
 	<variables>
 		<variable name="L1260445451575" label="my_faultMesssage"
