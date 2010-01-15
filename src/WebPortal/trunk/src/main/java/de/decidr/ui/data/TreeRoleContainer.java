@@ -30,7 +30,7 @@ import com.vaadin.ui.Tree;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.workflowmodel.wsc.TRole;
+import de.decidr.model.soap.types.*;
 import de.decidr.ui.beans.RoleBean;
 
 /**
@@ -60,7 +60,7 @@ public class TreeRoleContainer implements Container {
      * 
      */
     public TreeRoleContainer(TConfiguration tConfiguration, Tree tree) {
-        for (TRole role : tConfiguration.getRoles().getRole()) {
+        for (Role role : tConfiguration.getRoles().getRole()) {
             RoleBean roleBean = new RoleBean(role.getName());
             Item item = new BeanItem(roleBean);
             addItem(item);

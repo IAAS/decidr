@@ -36,10 +36,9 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.model.workflowmodel.wsc.TActor;
+import de.decidr.model.soap.types.*;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -120,11 +119,11 @@ public class SaveStartConfigurationAction implements ClickListener {
         }
         if (form.isValid() && notEmptyRoles) {
             for (Object id : itemIds) {
-                for (TRole role : tConfiguration.getRoles().getRole()) {
+                for (de.decidr.model.soap.types.Role role : tConfiguration.getRoles().getRole()) {
                     Collection<Object> collect = tree.getChildren(id);
                     if (collect != null) {
                         for (Object childId : collect) {
-                            TActor tActor = new TActor();
+                            Actor tActor = new Actor();
                             String actorOrEmail = tree.getItem(childId)
                                     .getItemProperty("actor").getValue()
                                     .toString();
