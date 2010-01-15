@@ -101,7 +101,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 }
             };
         }
-
         return instance.get();
     }
 
@@ -163,11 +162,16 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 session.flush();
                 session.close();
                 transactionDepth = 0;
-                for (TransactionalCommand command : notifiedReceivers) {
-                    // note: the chain is broken if one of the commands throws
-                    // an
-                    // exception in its transactionCommitted() method.
-                    fireTransactionCommitted(command);
+                /*
+                 * Not using foreach due to concurrent access.
+                 */
+                int size = notifiedReceivers.size();
+                for (int i = 0; i < size; i++) {
+                    /*
+                     * note: the chain is broken if one of the commands throws
+                     * an exception in its transactionCommitted() method.
+                     */
+                    fireTransactionCommitted(notifiedReceivers.get(i));
                 }
                 notifiedReceivers.clear();
             } else if (transactionDepth > 0) {
@@ -201,13 +205,17 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
         }
 
-        for (TransactionalCommand c : notifiedReceivers) {
+        /*
+         * Not using foreach due to concurrent access.
+         */
+        int size = notifiedReceivers.size();
+        for (int i = 0; i < size; i++) {
             /*
              * Exceptions thrown in transactionAborted must be ignored to give
              * all commands a chance to react to the rollback.
              */
             try {
-                fireTransactionAborted(c, e);
+                fireTransactionAborted(notifiedReceivers.get(i), e);
             } catch (Exception receiverRollbackException) {
                 logger.log(Level.WARN, "Exception during transactionAborted",
                         receiverRollbackException);
