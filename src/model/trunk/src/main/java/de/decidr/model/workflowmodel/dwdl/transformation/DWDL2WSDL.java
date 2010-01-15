@@ -211,7 +211,7 @@ public class DWDL2WSDL {
         startMessageRequest.addPart(messagePart1);
         startMessageRequest.setUndefined(false);
 
-        wsdl.addMessage(startMessageResponse);
+        wsdl.addMessage(startMessageRequest);
     }
 
     private void setNamespaces() {

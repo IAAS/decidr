@@ -101,6 +101,7 @@ public class URLGenerator {
         }
 
         // DH might these not be outdated? ~rr
+        // RR YOU made this a static member... ~dh
         return settings;
     }
 

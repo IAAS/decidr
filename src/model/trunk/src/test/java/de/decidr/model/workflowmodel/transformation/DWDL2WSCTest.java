@@ -65,10 +65,16 @@ public class DWDL2WSCTest {
     public void testGetStartConfiguration() throws JAXBException {
         TConfiguration config = translater.getStartConfiguration(dwdl);
         if (config != null) {
-            Marshaller m = JAXBContext.newInstance(TConfiguration.class)
+            Marshaller m1 = JAXBContext.newInstance(TConfiguration.class)
                     .createMarshaller();
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.marshal(new JAXBElement<TConfiguration>(new QName(
+            Marshaller m2 = JAXBContext.newInstance(Workflow.class)
+            .createMarshaller();
+            m1.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m1.marshal(new JAXBElement<Workflow>(new QName(
+                    Constants.CONFIGURATION_NAMESPACE, "workflow"),
+                    Workflow.class, dwdl), System.out);
+            m2.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m2.marshal(new JAXBElement<TConfiguration>(new QName(
                     Constants.CONFIGURATION_NAMESPACE, "configurations"),
                     TConfiguration.class, config), System.out);
         }

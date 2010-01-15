@@ -22,11 +22,15 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.transform.TransformerException;
 
 import org.apache.axiom.om.OMElement;
 import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
 import org.apache.ode.axis2.service.ServiceClientUtil;
+import org.apache.xpath.XPathAPI;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 import de.decidr.model.URLGenerator;
 import de.decidr.model.entities.DeployedWorkflowModel;
@@ -74,12 +78,38 @@ public class InstanceManagerImpl implements InstanceManager {
                 soapMessage, dwfm);
         StartInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
-        result.setODEPid(getODEPid(replySOAPMessage));
+        try {
+            result.setODEPid(getODEPid(replySOAPMessage, dwfm));
+        } catch (SAXException e) {
+            // TODO Auto-generated catch block FIXME ralph
+            e.printStackTrace();
+        }
         return result;
     }
 
-    private String getODEPid(SOAPMessage replySOAPMessage) {
-        // FIXME null? ~dh
+    private String getODEPid(SOAPMessage replySOAPMessage,
+            DeployedWorkflowModel dwfm) throws SOAPException, JAXBException,
+            SAXException {
+        // FIXME very very hacky! ~dh
+        String tenantName = dwfm.getTenant().getName().replace(' ', '_');
+        Long workflowModelId = dwfm.getId();
+        String targetNamespace = "http://decidr.de/" + tenantName
+                + "/processes/" + workflowModelId.toString();
+
+        replySOAPMessage.getSOAPBody().addNamespaceDeclaration("xyz",
+                targetNamespace);
+
+        try {
+            Node resultNode = XPathAPI
+                    .selectSingleNode(replySOAPMessage.getSOAPBody(),
+                            "//xyz:pid", replySOAPMessage.getSOAPBody());
+            log.debug("pid:" + resultNode.getTextContent());
+            return resultNode.getTextContent();
+
+        } catch (TransformerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return null;
     }
 
