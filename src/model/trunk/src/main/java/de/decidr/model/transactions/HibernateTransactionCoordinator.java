@@ -81,6 +81,14 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     private Configuration configuration;
 
     /**
+     * A list of commands that have received the transactionStarted event. These
+     * events need to be notified of transactionCommitted iff
+     * <code>transactionDepth
+     * ==0</code>
+     */
+    ArrayList<TransactionalCommand> notifiedReceivers;
+
+    /**
      * @return the thread-local instance.
      */
     public static HibernateTransactionCoordinator getInstance() {
@@ -261,7 +269,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
         }
 
-        ArrayList<TransactionalCommand> notifiedReceivers = new ArrayList<TransactionalCommand>();
+        notifiedReceivers = new ArrayList<TransactionalCommand>();
 
         try {
             beginTransaction();
@@ -309,14 +317,16 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
         }
 
-        // this code can only be reached if no exception occurred during the
-        // transaction and thus the transaction succeeded.
-        for (TransactionalCommand command : notifiedReceivers) {
-            // note: the chain is broken if one of the commands throws an
-            // exception in its transactionCommitted() method.
-            fireTransactionCommitted(command);
+        if (transactionDepth == 0) {
+            // this code can only be reached if no exception occurred during the
+            // transaction and thus the transaction succeeded.
+            for (TransactionalCommand command : notifiedReceivers) {
+                // note: the chain is broken if one of the commands throws an
+                // exception in its transactionCommitted() method.
+                fireTransactionCommitted(command);
+            }
+            notifiedReceivers.clear();
         }
-        notifiedReceivers.clear();
     }
 
     /**
