@@ -130,6 +130,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 "Beginning transaction. New transaction depth: "
                         + (transactionDepth + 1));
         if (transactionDepth == 0) {
+            notifiedReceivers.clear();
             session = sessionFactory.openSession();
             currentTransaction = session.beginTransaction();
         }
@@ -159,6 +160,13 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 session.flush();
                 session.close();
                 transactionDepth = 0;
+                for (TransactionalCommand command : notifiedReceivers) {
+                    // note: the chain is broken if one of the commands throws
+                    // an
+                    // exception in its transactionCommitted() method.
+                    fireTransactionCommitted(command);
+                }
+                notifiedReceivers.clear();
             } else if (transactionDepth > 0) {
                 transactionDepth--;
             }
@@ -168,10 +176,13 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * Performs a rollback for the current transaction.
      * 
+     * @param e
+     *            Exception that caused the rollback
      * @throws TransactionException
      *             if no transaction has been started, yet.
      */
-    protected void rollbackCurrentTransaction() throws TransactionException {
+    protected void rollbackCurrentTransaction(Exception e)
+            throws TransactionException {
         logger.log(Level.DEBUG,
                 "Aborting transaction. Current transaction depth: "
                         + transactionDepth);
@@ -186,6 +197,20 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 transactionDepth = 0;
             }
         }
+
+        for (TransactionalCommand c : notifiedReceivers) {
+            /*
+             * Exceptions thrown in transactionAborted must be ignored to give
+             * all commands a chance to react to the rollback.
+             */
+            try {
+                fireTransactionAborted(c, e);
+            } catch (Exception receiverRollbackException) {
+                logger.log(Level.WARN, "Exception during transactionAborted",
+                        receiverRollbackException);
+            }
+        }
+        notifiedReceivers.clear();
     }
 
     /**
@@ -269,8 +294,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
         }
 
-        notifiedReceivers = new ArrayList<TransactionalCommand>();
-
         try {
             beginTransaction();
 
@@ -287,23 +310,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 logger.log(Level.INFO, "Exception in transactionStarted: ", e);
 
                 if (currentTransaction != null) {
-                    rollbackCurrentTransaction();
-
-                    for (TransactionalCommand c : notifiedReceivers) {
-                        /*
-                         * Exceptions thrown in transactionAborted must be
-                         * ignored to give all commands a chance to react to the
-                         * rollback.
-                         */
-                        try {
-                            fireTransactionAborted(c, e);
-                        } catch (Exception receiverRollbackException) {
-                            logger.log(Level.WARN,
-                                    "Exception during transactionAborted",
-                                    receiverRollbackException);
-                        }
-                    }
-                    notifiedReceivers.clear();
+                    rollbackCurrentTransaction(e);
                 }
             } catch (Exception rollbackException) {
                 logger.log(Level.FATAL, "Could not roll back transaction.",
@@ -315,17 +322,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             } else {
                 throw new TransactionException(e);
             }
-        }
-
-        if (transactionDepth == 0) {
-            // this code can only be reached if no exception occurred during the
-            // transaction and thus the transaction succeeded.
-            for (TransactionalCommand command : notifiedReceivers) {
-                // note: the chain is broken if one of the commands throws an
-                // exception in its transactionCommitted() method.
-                fireTransactionCommitted(command);
-            }
-            notifiedReceivers.clear();
         }
     }
 
