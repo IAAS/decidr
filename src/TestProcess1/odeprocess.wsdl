@@ -85,7 +85,7 @@
 	<wsdl:service name="basicProcessSOAP11">
 		<wsdl:port name="basicProcessSOAP11" binding="tns:basicProcessSOAP">
 			<soap:address
-				location="http://localhost:8080/ode/processes/1.basicProcessSOAP" />
+				location="http://localhost:8080/ode/processes/302.basicProcessSOAP" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:HumanTask="http://decidr.de/webservices/HumanTask" xmlns:basicProcess="http://decidr.de/wsdl/basicProcess" xmlns:processes_302="http://decidr.de/Default_Tenant/processes/1">
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:HumanTask="http://decidr.de/webservices/HumanTask" xmlns:basicProcess="http://decidr.de/wsdl/basicProcess" xmlns:processes_302="http://decidr.de/Default_Tenant/processes/302">
   <process name="processes_302:TestProcess">
     <active>true</active>
     <retired>false</retired>
