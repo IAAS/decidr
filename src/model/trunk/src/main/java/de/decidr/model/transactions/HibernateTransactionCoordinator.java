@@ -15,6 +15,8 @@ package de.decidr.model.transactions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.log4j.Level;
 import org.hibernate.Session;
@@ -83,10 +85,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     /**
      * A list of commands that have received the transactionStarted event. These
      * events need to be notified of transactionCommitted iff
-     * <code>transactionDepth
-     * ==0</code>
+     * <code>transactionDepth == 0</code>
      */
-    ArrayList<TransactionalCommand> notifiedReceivers = new ArrayList<TransactionalCommand>();
+    List<TransactionalCommand> notifiedReceivers = null;
 
     /**
      * @return the thread-local instance.
@@ -113,6 +114,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         logger.log(Level.DEBUG, "Creating HibernateTransactionCoordinator"
                 + " thread-local instance.");
         this.setConfiguration(new Configuration().configure());
+        this.notifiedReceivers = Collections
+                .synchronizedList(new ArrayList<TransactionalCommand>());
         logger.log(Level.DEBUG,
                 "Initial Hibernate configuration successfully applied.");
         this.currentTransaction = null;
