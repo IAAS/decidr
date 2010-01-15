@@ -55,6 +55,7 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.notifications.NotificationEvents;
+import de.decidr.model.soap.types.Actor;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
@@ -62,9 +63,7 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
 import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult;
-import de.decidr.model.workflowmodel.wsc.TActor;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.model.workflowmodel.wsc.TRoles;
 
 /**
@@ -221,11 +220,11 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         participantIds = new ArrayList<Long>();
 
         TRoles roles = startConfiguration.getRoles();
-        for (TRole role : roles.getRole()) {
-            for (TActor actor : role.getActor()) {
+        for (de.decidr.model.soap.types.Role role : roles.getRole()) {
+            for (Actor actor : role.getActor()) {
                 Long userId = null;
                 try {
-                    userId = Long.parseLong(actor.getUserId());
+                    userId = actor.getUserid();
                 } catch (NumberFormatException e) {
                     // the user ID is not set
                 }
@@ -428,11 +427,11 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param user
      */
     private void completeStartConfigEntry(User user) {
-        for (TRole configRole : startConfiguration.getRoles().getRole()) {
-            for (TActor actor : configRole.getActor()) {
+        for (de.decidr.model.soap.types.Role configRole : startConfiguration.getRoles().getRole()) {
+            for (Actor actor : configRole.getActor()) {
                 Long userId = null;
                 try {
-                    userId = Long.parseLong(actor.getUserId());
+                    userId = actor.getUserid();
                 } catch (NumberFormatException e) {
                     // cannot parse to long - nothing needs to be done
                 }
@@ -488,8 +487,8 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param actor
      *            target actor (must not be null)
      */
-    private void copyUserToActor(User user, TActor actor) {
-        actor.setUserId(user.getId().toString());
+    private void copyUserToActor(User user, Actor actor) {
+        actor.setUserid(user.getId());
         actor.setName(user.getUserProfile() != null ? user.getUserProfile()
                 .getUsername() : "");
         actor.setEmail(user.getEmail());

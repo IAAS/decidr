@@ -22,10 +22,8 @@ import de.decidr.model.workflowmodel.dwdl.Role;
 import de.decidr.model.workflowmodel.dwdl.Variable;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.wsc.ObjectFactory;
-import de.decidr.model.workflowmodel.wsc.TActor;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.model.workflowmodel.wsc.TRoles;
 
 /**
@@ -35,7 +33,7 @@ import de.decidr.model.workflowmodel.wsc.TRoles;
  * @version 0.1
  */
 public class DWDL2WSC {
-
+    
     private ObjectFactory factory = new ObjectFactory();
 
     public TConfiguration getStartConfiguration(Workflow dwdl) {
@@ -45,7 +43,7 @@ public class DWDL2WSC {
             for (Role role : dwdl.getRoles().getRole()) {
                 if (role.isSetConfigurationVariable()
                         && role.getConfigurationVariable().equals(Boolean.YES)) {
-                    TRole newRole = factory.createTRole();
+                    de.decidr.model.soap.types.Role newRole = new de.decidr.model.soap.types.Role();
                     newRole.setName(role.getName());
                     roles.getRole().add(newRole);
                 }
@@ -53,7 +51,7 @@ public class DWDL2WSC {
             for (Actor actor : dwdl.getRoles().getActor()) {
                 if (actor.isSetConfigurationVariable()
                         && actor.getConfigurationVariable().equals(Boolean.YES)) {
-                    TActor newActor = factory.createTActor();
+                    de.decidr.model.soap.types.Actor newActor = new de.decidr.model.soap.types.Actor();
                     newActor.setName(actor.getName());
                     roles.getActor().add(newActor);
                 }

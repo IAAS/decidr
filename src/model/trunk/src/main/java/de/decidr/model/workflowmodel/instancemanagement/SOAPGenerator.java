@@ -28,10 +28,11 @@ import javax.xml.soap.SOAPMessage;
 import org.apache.log4j.Logger;
 
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.workflowmodel.wsc.TActor;
+import de.decidr.model.soap.types.Actor;
+import de.decidr.model.soap.types.Role;
+import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.workflowmodel.wsc.TRole;
 
 /**
  * This class generates a SOAP message, using the SOAP template of a workflow
@@ -43,8 +44,6 @@ import de.decidr.model.workflowmodel.wsc.TRole;
 public class SOAPGenerator {
 
     private static Logger log = DefaultLogger.getLogger(SOAPGenerator.class);
-
-    private String targetNamespace = null;
 
     private SOAPMessage soapMessage = null;
 
@@ -73,18 +72,15 @@ public class SOAPGenerator {
 
         soapMessage = template;
 
-        targetNamespace = soapMessage.getSOAPHeader().getAttribute(
-                "targetNamespace");
-
         SOAPElement operationElement = getOperationElement();
 
         if (startConfiguration.getRoles() != null) {
             if (!startConfiguration.getRoles().getRole().isEmpty()) {
                 SOAPElement roleElement = null;
-                for (TRole role : startConfiguration.getRoles().getRole()) {
+                for (Role role : startConfiguration.getRoles().getRole()) {
                     roleElement = addRole(operationElement, role);
                     if (!role.getActor().isEmpty()) {
-                        for (TActor actor : role.getActor()) {
+                        for (Actor actor : role.getActor()) {
                             addActor(roleElement, actor);
                         }
                     }
@@ -93,7 +89,7 @@ public class SOAPGenerator {
         }
 
         if (!startConfiguration.getRoles().getActor().isEmpty()) {
-            for (TActor actor : startConfiguration.getRoles().getActor()) {
+            for (Actor actor : startConfiguration.getRoles().getActor()) {
                 addActor(operationElement, actor);
             }
         }
@@ -106,24 +102,23 @@ public class SOAPGenerator {
         return soapMessage;
     }
 
-    private SOAPElement addRole(SOAPElement soapElement, TRole role)
+    private SOAPElement addRole(SOAPElement soapElement, Role role)
             throws SOAPException {
         SOAPElement element = soapElement.addChildElement(new QName(
-                targetNamespace, "role", "decidr"));
+                Constants.DECIDRTYPES_NAMESPACE, "role", "decidr"));
         element.addAttribute(new QName("name"), role.getName());
         return element;
     }
 
-    private void addActor(SOAPElement soapElement, TActor actor)
+    private void addActor(SOAPElement soapElement, Actor actor)
             throws SOAPException {
         SOAPElement element = soapElement.addChildElement(new QName(
-                targetNamespace, "actor", "decidr"));
-        element.addAttribute(new QName(targetNamespace, "email", "decidr"),
+                Constants.DECIDRTYPES_NAMESPACE, "actor", "decidr"));
+        element.addAttribute(new QName(Constants.DECIDRTYPES_NAMESPACE, "email", "decidr"),
                 actor.getEmail() == null ? "" : actor.getEmail());
-        element.addAttribute(new QName(targetNamespace, "name", "decidr"),
+        element.addAttribute(new QName(Constants.DECIDRTYPES_NAMESPACE, "name", "decidr"),
                 actor.getName() == null ? "" : actor.getName());
-        element.addAttribute(new QName(targetNamespace, "userId", "decidr"),
-                actor.getUserId() == null ? "" : actor.getUserId());
+        element.addAttribute(new QName(Constants.DECIDRTYPES_NAMESPACE, "userId", "decidr"), ""+actor.getUserid());
     }
 
     private void setAssignment(SOAPElement bodyElement, TAssignment assignment) {

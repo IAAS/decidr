@@ -34,11 +34,7 @@ import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSC;
 import de.decidr.model.workflowmodel.dwdl.transformation.DWDL2WSDL;
 import de.decidr.model.workflowmodel.dwdl.transformation.WSDLConstants;
 import de.decidr.model.workflowmodel.factories.DWDLFactory;
-import de.decidr.model.workflowmodel.wsc.TActor;
-import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.workflowmodel.wsc.TRole;
-import de.decidr.model.workflowmodel.wsc.TRoles;
 
 /**
  * This class JUnit test the correct construction of a SOAP template message

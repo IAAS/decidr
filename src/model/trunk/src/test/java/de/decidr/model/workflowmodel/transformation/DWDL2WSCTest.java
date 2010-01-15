@@ -64,6 +64,7 @@ public class DWDL2WSCTest {
             
             String dwdlString = new String(TransformUtil.workflowToBytes(dwdl));
             String wscString = new String (TransformUtil.configurationToBytes(config));
+            
             System.out.println(dwdlString);
             System.out.println(wscString);
             

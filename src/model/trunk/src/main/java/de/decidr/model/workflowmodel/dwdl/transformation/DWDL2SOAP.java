@@ -147,13 +147,13 @@ public class DWDL2SOAP {
                 .getTargetNamespace());
 
         SOAPElement bodyElement = body.addChildElement(envelope.createName(
-                jdomBodyElement.getAttributeValue("name"), "decidr", definition
+                jdomBodyElement.getAttributeValue("name"), "tns", definition
                         .getTargetNamespace()));
 
         for (Element soapElement : soapElements) {
             if (!soapElement.getAttributeValue("name").equals("role")) {
                 bodyElement.addChildElement(
-                        soapElement.getAttributeValue("name"), "decidr")
+                        soapElement.getAttributeValue("name"), "tns")
                         .addTextNode("?");
             }
         }

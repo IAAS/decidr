@@ -16,10 +16,10 @@
 
 package de.decidr.model.workflowmodel.factories;
 
-import de.decidr.model.workflowmodel.wsc.TActor;
+import de.decidr.model.soap.types.Actor;
+import de.decidr.model.soap.types.Role;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.workflowmodel.wsc.TRole;
 import de.decidr.model.workflowmodel.wsc.TRoles;
 
 /**
@@ -35,13 +35,13 @@ public class HumanTaskStartConfigurationFactory {
     public static TConfiguration getHumanTaskStartConfiguration() {
         TConfiguration tConfiguration = new TConfiguration();
         TRoles roles = new TRoles();
-        TRole role = new TRole();
-        TActor actor = new TActor();
+        Role role = new Role();
+        Actor actor = new Actor();
         role.setName("Student");
 
         actor.setEmail("test@gmx.de");
         actor.setName("Aleks");
-        actor.setUserId("002");
+        actor.setUserid(002);
         role.getActor().add(actor);
         roles.getRole().add(role);
         tConfiguration.setRoles(roles);
