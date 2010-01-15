@@ -18,7 +18,7 @@
   </extensions>
   <extensions>
     <extendedObject href="TestProcess.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1263564684026"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1263575110082"/>
   </extensions>
   <extensions>
     <extendedObject href="TestProcess.bpel#//@activity/@activities.1"/>
@@ -171,5 +171,13 @@
   <extensions>
     <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.3/@copy.0"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.5"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.6"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
 </extensionmodel:ExtensionMap>
