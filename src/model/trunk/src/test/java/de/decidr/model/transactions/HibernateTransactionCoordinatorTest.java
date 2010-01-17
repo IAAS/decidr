@@ -16,10 +16,14 @@
 
 package de.decidr.model.transactions;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Properties;
 
 import org.hibernate.HibernateException;
@@ -204,38 +208,4 @@ public class HibernateTransactionCoordinatorTest extends CommandsTest {
                 new TransactionalCommand[2]);
     }
 
-    @Test
-    public void testRunTransactionTransactionalCommandCollection()
-            throws TransactionException {
-        TransactionCoordinator htc = HibernateTransactionCoordinator
-                .getInstance();
-        TestCommandCommit c = new TestCommandCommit();
-        TestCommandCommit c2 = new TestCommandCommit();
-        Collection<TransactionalCommand> commands = new ArrayList<TransactionalCommand>();
-        commands.add(c);
-        commands.add(c2);
-
-        htc.runTransaction(commands);
-
-        assertTrue(c.started);
-        assertTrue(c.committed);
-        assertFalse(c.aborted);
-
-        assertTrue(c2.started);
-        assertTrue(c2.committed);
-        assertFalse(c2.aborted);
-
-        try {
-            htc.runTransaction((Collection<TransactionalCommand>) null);
-            fail("can't run empty transaction");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-        try {
-            htc.runTransaction(new ArrayList<TransactionalCommand>());
-            fail("can't run empty transaction");
-        } catch (TransactionException e) {
-            // supposed to be thrown
-        }
-    }
 }

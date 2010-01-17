@@ -56,7 +56,7 @@ public class HumanTaskClientStatic extends Service {
      *         <code>{@link HumanTaskInterface}</code>.
      */
     @WebEndpoint(name = HumanTaskInterface.ENDPOINT_NAME)
-    public HumanTaskInterface getEmailSOAP() {
+    public HumanTaskInterface getHumanTaskSOAP() {
         return super.getPort(HumanTaskInterface.ENDPOINT,
                 HumanTaskInterface.class);
     }

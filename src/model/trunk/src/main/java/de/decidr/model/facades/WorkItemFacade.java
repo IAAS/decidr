@@ -15,12 +15,14 @@
  */
 package de.decidr.model.facades;
 
+import java.net.MalformedURLException;
+
+import de.decidr.model.acl.roles.BasicRole;
 import de.decidr.model.acl.roles.HumanTaskRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.annotations.AllowedRole;
-import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.commands.workitem.CreateWorkItemCommand;
 import de.decidr.model.commands.workitem.DeleteWorkItemCommand;
 import de.decidr.model.commands.workitem.GetWorkItemCommand;
@@ -30,11 +32,14 @@ import de.decidr.model.entities.WorkItem;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
+import de.decidr.model.webservices.HumanTaskClientStatic;
+import de.decidr.model.webservices.HumanTaskInterface;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
 /**
- * Provides an interface for retrieving and manipulating work items.
+ * Provides an interface for retrieving and manipulating workitems.
  * 
  * @author Markus Fischer
  * @author Daniel Huss
@@ -46,7 +51,7 @@ public class WorkItemFacade extends AbstractFacade {
      * Creates a new instance of the WorkItemFacade.
      * 
      * @param actor
-     *            user/system that is using this facade to access work items.
+     *            user/system that is using this facade to access workitems.
      */
     public WorkItemFacade(Role actor) {
         super(actor);
@@ -67,7 +72,7 @@ public class WorkItemFacade extends AbstractFacade {
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
-     *             if the work item does not exist.
+     *             if the workitem does not exist.
      * @throws IllegalArgumentException
      *             if workItemId is <code>null</code>
      */
@@ -79,24 +84,24 @@ public class WorkItemFacade extends AbstractFacade {
     }
 
     /**
-     * Creates a new work item in the database, making it available to the user.
+     * Creates a new workitem in the database, making it available to the user.
      * 
      * @param userId
-     *            the user to whom the work item belongs
+     *            the user to whom the workitem belongs
      * @param deployedWorkflowModelId
      *            the deployed workflow model id of the workflow instance.
      * @param odePid
      *            the ODE process id of the workflow instance.
      * @param name
-     *            the name of the new work item.
+     *            the name of the new workitem.
      * @param description
-     *            the description of the new work item
+     *            the description of the new workitem
      * @param data
-     *            the data associated with this work item
+     *            the data associated with this workitem
      * @param notifyUser
      *            whether the user should be notified by email that a new work
      *            item has been created.
-     * @return the ID of the new work item.
+     * @return the ID of the new workitem.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws IllegalArgumentException
@@ -115,16 +120,16 @@ public class WorkItemFacade extends AbstractFacade {
     }
 
     /**
-     * Overwrites the current data of the given work item.
+     * Overwrites the current data of the given workitem.
      * 
      * @param workItemId
-     *            the work item to modify
+     *            the workitem to modify
      * @param data
-     *            the new work item data
+     *            the new workitem data
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
-     *             if the work item does not exist
+     *             if the workitem does not exist
      * @throws IllegalArgumentException
      *             if any parameter is <code>null</code>
      */
@@ -136,48 +141,57 @@ public class WorkItemFacade extends AbstractFacade {
     }
 
     /**
-     * Overwrites the xml data of the given work item with the given raw data.
+     * Overwrites the data of the given workitem and sets its status to "done"
+     * by invoking the HumanTask WS.
      * 
      * @param workItemId
-     *            the work item to modify
+     *            the workitem to modify
      * @param data
-     *            the new work item data.
+     *            the new workitem data.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
-     *             if the work item does not exist
+     *             if the workitem does not exist
      * @throws IllegalArgumentException
      *             if workItemId is or data is <code>null</code>.
      */
     @AllowedRole(UserRole.class)
     public void setDataAndMarkAsDone(Long workItemId, THumanTaskData data)
             throws TransactionException {
-        TransactionalCommand[] commands = {
-                new SetDataCommand(actor, workItemId, data),
-                new SetStatusCommand(actor, workItemId, WorkItemStatus.Done) };
-        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                new SetDataCommand(actor, workItemId, data));
+        markWorkItemAsDone(workItemId);
     }
 
     /**
-     * Sets the work item status of the given work item to "done".
+     * Sets the status of the given workitem to "done" by invoking the HumanTask
+     * WS.
      * 
      * @param workItemId
      *            ID of the workitem which should be marked as done
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
-     *             if the work item does not exist.
+     *             if the workitem does not exist.
      * @throws IllegalArgumentException
      *             if workItemId is <code>null</code>.
      */
-    @AllowedRole(UserRole.class)
+    @AllowedRole(BasicRole.class)
     public void markWorkItemAsDone(Long workItemId) throws TransactionException {
-        HibernateTransactionCoordinator.getInstance().runTransaction(
-                new SetStatusCommand(actor, workItemId, WorkItemStatus.Done));
+        // XXX no acl check ~dh
+        try {
+            HumanTaskInterface humanTask = new HumanTaskClientStatic()
+                    .getHumanTaskSOAP();
+            humanTask.taskCompleted(workItemId);
+        } catch (ReportingException e) {
+            throw new TransactionException(e);
+        } catch (MalformedURLException e) {
+            throw new TransactionException(e);
+        }
     }
 
     /**
-     * Deletes the given work item from the database.
+     * Deletes the given workitem from the database.
      * 
      * @param workItemId
      *            ID of the workitem which should be deleted
@@ -194,15 +208,15 @@ public class WorkItemFacade extends AbstractFacade {
 
     /**
      * Fetches a workitem from the database and sets the status of the given
-     * work item to "in progress".
+     * workitem to "in progress".
      * 
      * @param workItemId
-     *            the work item to retrieve
+     *            the workitem to retrieve
      * @return workitem
      * @throws TransactionException
      *             iff the transaction is aborted for any reason
      * @throws EntityNotFoundException
-     *             if the work item does not exist
+     *             if the workitem does not exist
      * @throws IllegalArgumentException
      *             if workItemId is <code>null</code>
      */

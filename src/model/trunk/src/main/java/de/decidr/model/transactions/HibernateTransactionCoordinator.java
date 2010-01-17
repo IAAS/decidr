@@ -14,7 +14,6 @@
 package de.decidr.model.transactions;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,15 +28,28 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.LogQueue;
 
 /**
- * Invokes {@link TransactionalCommand}s within a Hibernate transaction. Closed
- * nested transactions are supported by giving up the durability property of all
- * inner transactions.
+ * Invokes {@link TransactionalCommand}s within a Hibernate transaction. Inner
+ * transactions are supported by giving up the durability property of all inner
+ * transactions.
  * <p>
  * The HibernateTransactionCoordinator is implemented as a thread-local
  * "pseudo singleton" (see {@link ThreadLocal}. The freshly initialized instance
  * uses a default configuration which it reads from the first
  * "hibernate.cfg.xml" that it finds in the classpath. You can change the
  * configuration at any time using the <code>setConfiguration</code> method.
+ * <p>
+ * Usage example:
+ * 
+ * <pre>
+ * public static void main() {
+ *     TransactionalCommand killCommand = new KillCommand();
+ *     killCommand.setVictim(&quot;James Bond&quot;);
+ *     HibernateTransactionCoordinator.getInstance().run(killCommand);
+ *     if (!killCommand.victimHasEscaped()) {
+ *         // world domination!
+ *     }
+ * }
+ * </pre>
  * 
  * @author Daniel Huss
  * @author Markus Fischer
@@ -125,7 +137,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
 
     /**
      * Starts a new transaction. If the new transaction is an inner transaction,
-     * the existing outer transaction is reused.
+     * the session of the existing outer transaction is reused.
      */
     protected void beginTransaction() {
         logger.log(Level.DEBUG,
@@ -141,7 +153,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Commits the current transaction.
+     * Commits the current transaction. The current session is closed if the
+     * outmost transaction is committed.
      * 
      * @throws TransactionException
      *             if no transaction has been started, yet.
@@ -166,7 +179,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                 session.close();
                 transactionDepth = 0;
                 /*
-                 * Not using foreach due to concurrent access.
+                 * Not using foreach due to list write access in other methods.
                  */
                 int size = notifiedReceivers.size();
                 for (int i = 0; i < size; i++) {
@@ -191,7 +204,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Performs a rollback for the current transaction.
+     * Performs a rollback for the current transaction. All enclosing outer
+     * transactions are rolled back as well.
      * 
      * @param e
      *            Exception that caused the rollback
@@ -216,7 +230,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         }
 
         /*
-         * Not using foreach due to concurrent access.
+         * Not using foreach due to list write access in other methods.
          */
         int size = notifiedReceivers.size();
         for (int i = 0; i < size; i++) {
@@ -272,23 +286,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     public Configuration getConfiguration() {
         return configuration;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public CommitResult runTransaction(
-            Collection<? extends TransactionalCommand> commands)
-            throws TransactionException {
-        if (commands == null) {
-            throw new TransactionException(new IllegalArgumentException(
-                    "Commands collection must not be null."));
-        }
-
-        TransactionalCommand[] emptyArray = new TransactionalCommand[0];
-        commands.toArray(emptyArray);
-
-        return runTransaction(commands.toArray(emptyArray));
     }
 
     /**

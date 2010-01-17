@@ -325,6 +325,10 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
             List<ServerLoadView> serverStatistics = q.list();
 
+            // FIXME we haven't committed the transaction, yet! can't just start
+            // the workflow, it might do stuff that requires that we commit our
+            // changes, first. move the code that creates the instance to
+            // transactionCommitted!! ~dh
             StartInstanceResult startInstanceResult = manager.startInstance(
                     deployedModel, startConfiguration, serverStatistics);
 
@@ -427,7 +431,8 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
      * @param user
      */
     private void completeStartConfigEntry(User user) {
-        for (de.decidr.model.soap.types.Role configRole : startConfiguration.getRoles().getRole()) {
+        for (de.decidr.model.soap.types.Role configRole : startConfiguration
+                .getRoles().getRole()) {
             for (Actor actor : configRole.getActor()) {
                 Long userId = null;
                 try {

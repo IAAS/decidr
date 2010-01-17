@@ -24,9 +24,10 @@ import org.apache.log4j.Logger;
 import de.decidr.model.acl.roles.HumanTaskRole;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AbstractTransactionalCommand;
-import de.decidr.model.commands.workitem.GetWorkItemCommand;
+import de.decidr.model.commands.workitem.SetStatusCommand;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.enums.WorkItemStatus;
+import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.WorkItemFacade;
 import de.decidr.model.facades.WorkflowInstanceFacade;
@@ -93,83 +94,101 @@ public class HumanTask implements HumanTaskInterface {
     }
 
     @Override
-    public void taskCompleted(final long taskID) throws TransactionException,
+    public void taskCompleted(long taskID) throws TransactionException,
             ReportingException {
         log.trace("Entering method: taskCompleted");
 
-        // TODO extract to local class
-        AbstractTransactionalCommand cmd2 = new AbstractTransactionalCommand() {
-
-            @Override
-            public void transactionStarted(TransactionEvent evt)
-                    throws TransactionException {
-                log.debug("getting data associated with the task");
-                GetWorkItemCommand cmd = new GetWorkItemCommand(HUMANTASK_ROLE,
-                        taskID);
-                HibernateTransactionCoordinator.getInstance().runTransaction(
-                        cmd);
-                WorkItem workItem = cmd.getResult();
-
-                TaskIdentifier id = new TaskIdentifier(taskID, workItem
-                        .getWorkflowInstance().getOdePid());
-
-                try {
-                    log
-                            .debug("attempting to parse the data string into an Object");
-                    THumanTaskData taskData = TransformUtil
-                            .bytesToHumanTask(workItem.getData());
-
-                    ReducedHumanTaskData data = new ReducedHumanTaskData();
-                    List<TaskDataItem> dataList = data.getDataItem();
-                    log.debug(new String(workItem.getData(), "UTF-8"));
-                    log.debug("Number of objects in THumanTaskData instance: "
-                            + taskData.getTaskItemOrInformation().size());
-                    for (Object object : taskData.getTaskItemOrInformation()) {
-                        if (object instanceof TInformation) {
-                            log.debug("Object is TInformation, skipping.");
-                            continue;
-                        }
-                        TTaskItem task = (TTaskItem) object;
-                        log.debug("Object is TTaskItem");
-
-                        TaskDataItem item = new TaskDataItem();
-                        item.setName(task.getName());
-                        log.debug("task name: " + task.getName()
-                                + " item name: " + item.getName());
-                        item.setType(task.getType().value());
-                        log.debug("task type: " + task.getType()
-                                + " item type: " + item.getType());
-                        item.setValue(task.getValue());
-                        log.debug("task value: " + task.getValue()
-                                + " item value: " + item.getValue());
-
-                        dataList.add(item);
-                        log.debug("dataList size: " + dataList.size());
-                    }
-
-                    log.debug("calling Callback");
-                    Long deployedWorkflowModelId = workItem
-                            .getWorkflowInstance().getDeployedWorkflowModel()
-                            .getId();
-                    new BasicProcessClient(deployedWorkflowModelId)
-                            .getBPELCallbackInterfacePort().taskCompleted(id,
-                                    data);
-                } catch (Exception e) {
-                    throw new TransactionException(e.getMessage(), e);
-                }
-
-                workItem.setStatus(WorkItemStatus.Done.toString());
-                evt.getSession().update(workItem);
-            }
-
-        };
-
         try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(cmd2);
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    new TaskCompletedCommand(taskID));
         } catch (Exception e) {
             throw new ReportingException(e.getMessage(), e);
         }
 
         log.trace("Leaving method: taskCompleted");
+    }
+
+    /**
+     * Invokes the callback of the BPEL process and sets the workitem status to
+     * "done".
+     */
+    static class TaskCompletedCommand extends AbstractTransactionalCommand {
+        private Long taskID;
+
+        /**
+         * Creates a new {@link TaskCompletedCommand} that invokes the callback
+         * of the BPEL process and sets the workitem status to "done".
+         * 
+         * @param taskID
+         *            task identifier (= workitem ID)
+         */
+        public TaskCompletedCommand(Long taskID) {
+            super();
+            this.taskID = taskID;
+        }
+
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            log.debug("getting data associated with the task");
+            WorkItem workItem = (WorkItem) evt.getSession().get(WorkItem.class,
+                    taskID);
+            if (workItem == null) {
+                throw new EntityNotFoundException(WorkItem.class, taskID);
+            }
+
+            /*
+             * TODO OdePID should not be part of a task identifier because the
+             * work item ID is globally unique. taskID = work item ID. ~dh
+             */
+            TaskIdentifier id = new TaskIdentifier(taskID, workItem
+                    .getWorkflowInstance().getOdePid());
+
+            try {
+                log.debug("attempting to parse the data string into an Object");
+                ReducedHumanTaskData data = getReducedHumanTaskData(TransformUtil
+                        .bytesToHumanTask(workItem.getData()));
+                log.debug("calling Callback");
+                Long deployedWorkflowModelId = workItem.getWorkflowInstance()
+                        .getDeployedWorkflowModel().getId();
+                new BasicProcessClient(deployedWorkflowModelId)
+                        .getBPELCallbackInterfacePort().taskCompleted(id, data);
+            } catch (Exception e) {
+                throw new TransactionException(e.getMessage(), e);
+            }
+
+            /*
+             * Set status to "done"
+             */
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    new SetStatusCommand(HUMANTASK_ROLE, taskID,
+                            WorkItemStatus.Done));
+        }
+
+        /**
+         * Translates regular human task data into a reduced form that doesn't
+         * contain labels or hints.
+         * 
+         * @param taskData
+         *            human task data
+         * @return reduced human task data
+         */
+        private ReducedHumanTaskData getReducedHumanTaskData(
+                THumanTaskData taskData) {
+            ReducedHumanTaskData result = new ReducedHumanTaskData();
+            List<TaskDataItem> dataList = result.getDataItem();
+            for (Object object : taskData.getTaskItemOrInformation()) {
+                if (object instanceof TInformation) {
+                    continue;
+                }
+                TTaskItem task = (TTaskItem) object;
+                TaskDataItem item = new TaskDataItem();
+                item.setName(task.getName());
+                item.setType(task.getType().value());
+                item.setValue(task.getValue());
+                dataList.add(item);
+            }
+            return result;
+        }
     }
 }

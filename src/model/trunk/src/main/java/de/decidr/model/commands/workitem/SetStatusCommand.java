@@ -16,23 +16,16 @@
 
 package de.decidr.model.commands.workitem;
 
-import java.net.MalformedURLException;
-
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.transactions.TransactionEvent;
-import de.decidr.model.webservices.HumanTaskClientStatic;
-import de.decidr.model.webservices.HumanTaskInterface;
 
 /**
- * Sets the status of a work item to the given value. If the status is set to
- * "done", the Human Task Web Service is invoked and the work item properties
- * are sent back to the ODE. After the status has been set to "done", you cannot
- * set it to any other value (if you do, a {@link TransactionException} is
- * thrown).
+ * Sets the status of a work item to the given value. This command does not
+ * invoke the HumanTask WS, but can be used from within the HumanTask WS to set
+ * the status of a {@link WorkItem}.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -41,7 +34,6 @@ public class SetStatusCommand extends WorkItemCommand {
 
     private WorkItemStatus newStatus;
     private WorkItem foundWorkItem;
-    private boolean notifyHumanTask;
 
     /**
      * Creates a new instance of the SetStatusCommand.
@@ -69,56 +61,18 @@ public class SetStatusCommand extends WorkItemCommand {
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
-        /*
-         * Reset local state for idempotence
-         */
-        notifyHumanTask = false;
-        foundWorkItem = null;
-
         foundWorkItem = fetchWorkItem(evt.getSession());
 
         WorkItemStatus status = WorkItemStatus.valueOf(foundWorkItem
                 .getStatus());
 
-        if (status.equals(WorkItemStatus.Done)) {
+        if (status.equals(WorkItemStatus.Done) && !status.equals(newStatus)) {
             // We're not allowed to transition from "done" to any other status!
-            if (!status.equals(newStatus)) {
-                throw new TransactionException(
-                        "Cannot mark work item as 'not done' after it has been marked as 'done.'");
-            } else {
-                // Do no notify human task web service more than once.
-            }
+            throw new TransactionException(
+                    "Cannot mark work item as 'not done' after it has been marked as 'done.'");
         } else {
             foundWorkItem.setStatus(newStatus.toString());
             evt.getSession().update(foundWorkItem);
-            notifyHumanTask = true;
         }
     }
-
-    @Override
-    public void transactionCommitted(TransactionEvent evt)
-            throws TransactionException {
-        /*
-         * FIXME DH this is bad, what if calling the web service fails!?
-         * Possible solution: let the WS set the status to "DONE" and do not
-         * modify here.
-         */
-        if (notifyHumanTask && newStatus.equals(WorkItemStatus.Done)) {
-            /*
-             * Notifiy human task web service AFTER the transaction has been
-             * completed, otherwise the human task may be unable to "see" the
-             * changes made to the work item.
-             */
-            try {
-                HumanTaskInterface humanTask = new HumanTaskClientStatic()
-                        .getEmailSOAP();
-                humanTask.taskCompleted(foundWorkItem.getId());
-            } catch (ReportingException e) {
-                throw new TransactionException(e);
-            } catch (MalformedURLException e) {
-                throw new TransactionException(e);
-            }
-        }
-    }
-
 }

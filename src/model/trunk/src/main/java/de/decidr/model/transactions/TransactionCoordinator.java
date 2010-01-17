@@ -13,8 +13,6 @@
  */
 package de.decidr.model.transactions;
 
-import java.util.Collection;
-
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 
@@ -26,6 +24,7 @@ import de.decidr.model.exceptions.TransactionException;
  * @version 0.1
  */
 public interface TransactionCoordinator {
+
 
     /**
      * Executes a number of commands within a transaction. If another
@@ -42,19 +41,4 @@ public interface TransactionCoordinator {
     public CommitResult runTransaction(TransactionalCommand... commands)
             throws TransactionException;
 
-    /**
-     * Executes a number of commands within a transaction. If another
-     * transaction is already running, the new transactions become inner
-     * transactions.
-     * 
-     * @param commands
-     *            the commands to execute - must not be null or empty.
-     * @return the result of the committed transaction
-     * @throws TransactionException
-     *             if transaction is not successful or commands are null or
-     *             empty.
-     */
-    public CommitResult runTransaction(
-            Collection<? extends TransactionalCommand> commands)
-            throws TransactionException;
 }
