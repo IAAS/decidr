@@ -5,7 +5,6 @@
 // Generated on: 2010.01.15 at 06:57:19 PM MEZ 
 //
 
-
 package de.decidr.model.workflowmodel.wsc;
 
 import java.util.ArrayList;
@@ -19,12 +18,13 @@ import javax.xml.bind.annotation.XmlType;
 import de.decidr.model.soap.types.Actor;
 import de.decidr.model.soap.types.Role;
 
-
-
 /**
- * <p>Java class for tRoles complex type.
+ * <p>
+ * Java class for tRoles complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="tRoles">
@@ -42,10 +42,7 @@ import de.decidr.model.soap.types.Role;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tRoles", propOrder = {
-    "role",
-    "actor"
-})
+@XmlType(name = "tRoles", propOrder = { "role", "actor" })
 public class TRoles {
 
     @XmlElement(namespace = "http://decidr.de/schema/DecidrTypes")
@@ -57,23 +54,21 @@ public class TRoles {
      * Gets the value of the role property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the role property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the role property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getRole().add(newItem);
+     * getRole().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TRole }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link Role }
      */
     public List<Role> getRole() {
         if (role == null) {
@@ -86,23 +81,21 @@ public class TRoles {
      * Gets the value of the actor property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the actor property.
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the actor property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getActor().add(newItem);
+     * getActor().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TActor }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link Actor }
      */
     public List<Actor> getActor() {
         if (actor == null) {

@@ -14,6 +14,7 @@
 package de.decidr.model.transactions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -288,6 +289,10 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         return configuration;
     }
 
+    public CommitResult runTransaction(Collection<TransactionalCommand> commands){
+        return runTransaction(new ArrayList<TransactionalCommand>(commands));
+    }
+    
     /**
      * {@inheritDoc}
      */

@@ -32,7 +32,7 @@
 			<xsd:element name="taskCompleted">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="taskID" type="decidr:tTaskIdentifier"
+						<xsd:element name="taskID" type="xsd:long"
 							minOccurs="1" maxOccurs="1" nillable="false" />
 						<xsd:element name="dataList" type="decidr:tReducedHumanTaskData"
 							minOccurs="1" maxOccurs="1" nillable="false" />

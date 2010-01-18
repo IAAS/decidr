@@ -22,7 +22,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import de.decidr.model.soap.types.ReducedHumanTaskData;
-import de.decidr.model.soap.types.TaskIdentifier;
 
 /**
  * This is a temporary interface for the BEPL callback method web service
@@ -52,6 +51,6 @@ public interface BasicProcessInterface {
      */
     @Oneway
     @WebMethod(action = TARGET_NAMESPACE + "/taskCompleted", operationName = "taskCompleted")
-    public void taskCompleted(@WebParam(name = "taskID") TaskIdentifier taskID,
+    public void taskCompleted(@WebParam(name = "taskID") Long taskID,
             @WebParam(name = "dataList") ReducedHumanTaskData dataList);
 }

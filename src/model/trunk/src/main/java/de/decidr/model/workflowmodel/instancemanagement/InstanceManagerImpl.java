@@ -30,7 +30,6 @@ import org.apache.log4j.Logger;
 import org.apache.ode.axis2.service.ServiceClientUtil;
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 import de.decidr.model.URLGenerator;
 import de.decidr.model.entities.DeployedWorkflowModel;
@@ -78,18 +77,12 @@ public class InstanceManagerImpl implements InstanceManager {
                 soapMessage, dwfm);
         StartInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
-        try {
-            result.setODEPid(getODEPid(replySOAPMessage, dwfm));
-        } catch (SAXException e) {
-            // TODO Auto-generated catch block FIXME ralph
-            e.printStackTrace();
-        }
+        result.setODEPid(getODEPid(replySOAPMessage, dwfm));
         return result;
     }
 
     private String getODEPid(SOAPMessage replySOAPMessage,
-            DeployedWorkflowModel dwfm) throws SOAPException, JAXBException,
-            SAXException {
+            DeployedWorkflowModel dwfm) throws SOAPException {
         // FIXME very very hacky! ~dh
         String tenantName = dwfm.getTenant().getName().replace(' ', '_');
         Long workflowModelId = dwfm.getId();

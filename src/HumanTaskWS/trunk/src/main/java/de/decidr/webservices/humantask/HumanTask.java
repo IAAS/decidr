@@ -36,7 +36,6 @@ import de.decidr.model.soap.exceptions.ReportingException;
 import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.ReducedHumanTaskData;
 import de.decidr.model.soap.types.TaskDataItem;
-import de.decidr.model.soap.types.TaskIdentifier;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.webservices.HumanTaskInterface;
@@ -141,8 +140,7 @@ public class HumanTask implements HumanTaskInterface {
              * TODO OdePID should not be part of a task identifier because the
              * work item ID is globally unique. taskID = work item ID. ~dh
              */
-            TaskIdentifier id = new TaskIdentifier(taskID, workItem
-                    .getWorkflowInstance().getOdePid());
+            // DH this is easy to fix, but it'll require you to adapt the processes ~rr
 
             try {
                 log.debug("attempting to parse the data string into an Object");
@@ -152,14 +150,12 @@ public class HumanTask implements HumanTaskInterface {
                 Long deployedWorkflowModelId = workItem.getWorkflowInstance()
                         .getDeployedWorkflowModel().getId();
                 new BasicProcessClient(deployedWorkflowModelId)
-                        .getBPELCallbackInterfacePort().taskCompleted(id, data);
+                        .getBPELCallbackInterfacePort().taskCompleted(taskID, data);
             } catch (Exception e) {
                 throw new TransactionException(e.getMessage(), e);
             }
 
-            /*
-             * Set status to "done"
-             */
+            // Set status to "done"
             HibernateTransactionCoordinator.getInstance().runTransaction(
                     new SetStatusCommand(HUMANTASK_ROLE, taskID,
                             WorkItemStatus.Done));
