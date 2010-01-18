@@ -63,11 +63,11 @@ public class SaveSystemSettingsAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         SystemSettings settings = DecidrGlobals.getSettings();
 
-        try{
-            content = (SystemSettingsComponent) Main.getCurrent().getUIDirector()
-            .getTemplateView().getContent();
-            
-        }catch (ClassCastException e){
+        try {
+            content = (SystemSettingsComponent) Main.getCurrent()
+                    .getUIDirector().getTemplateView().getContent();
+
+        } catch (ClassCastException e) {
             // wrong content
             return;
         }

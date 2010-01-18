@@ -33,7 +33,10 @@ import de.decidr.ui.controller.SaveSystemSettingsAction;
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
+@Reviewed(reviewers = { "TK", "JS", "RR" }, lastRevision = "2537", currentReviewState = State.PassedWithComments)
+// XXX: This thing displays stuff like "Mta Use Tls" which doesn't only fail in
+// the area of capitalization, it also leaves the user pretty confused as to
+// what this is about... ~rr
 public class SystemSettingsComponent extends CustomComponent {
 
     private static final long serialVersionUID = 3389525551936631625L;
@@ -75,10 +78,8 @@ public class SystemSettingsComponent extends CustomComponent {
     }
 
     /**
-     * This method initializes the components of the system settings component
-     * 
+     * This method initializes the components of the system settings component.
      */
-
     private void init() {
         settingsForm = new Form();
         settingsForm.setWriteThrough(true);
@@ -115,7 +116,6 @@ public class SystemSettingsComponent extends CustomComponent {
 
     /**
      * Updates all changes since the previous commit to the data source.
-     * 
      */
     public void saveSettingsItem() {
         try {
@@ -125,5 +125,4 @@ public class SystemSettingsComponent extends CustomComponent {
             Main.getCurrent().getMainWindow().showNotification(e.getMessage());
         }
     }
-
 }

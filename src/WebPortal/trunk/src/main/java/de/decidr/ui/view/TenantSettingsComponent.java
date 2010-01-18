@@ -51,7 +51,8 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * 
  * @author AT
  */
-@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)
+@Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
+// XXX This should pre-select the current settings ~rr
 public class TenantSettingsComponent extends CustomComponent {
 
     private static final long serialVersionUID = -7841061147447361631L;
@@ -106,7 +107,6 @@ public class TenantSettingsComponent extends CustomComponent {
 
     /**
      * Default constructor.
-     * 
      */
     public TenantSettingsComponent(Long tenantId) {
         this.tenantId = tenantId;
@@ -120,8 +120,8 @@ public class TenantSettingsComponent extends CustomComponent {
                 tenantDescription = tenantFacade.getTenant(tenantId)
                         .getDescription();
             }
-            if(tenantFacade.getTenant(tenantId).getLogo() != null){
-                logoId = tenantFacade.getTenant(tenantId).getLogo().getId(); 
+            if (tenantFacade.getTenant(tenantId).getLogo() != null) {
+                logoId = tenantFacade.getTenant(tenantId).getLogo().getId();
             }
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
@@ -132,7 +132,6 @@ public class TenantSettingsComponent extends CustomComponent {
 
     /**
      * This method initializes the components for the tenant settings component.
-     * 
      */
     private void init() {
         verticalLayout = new VerticalLayout();
@@ -191,7 +190,6 @@ public class TenantSettingsComponent extends CustomComponent {
         buttonHorizontalLayout.setSpacing(true);
         buttonHorizontalLayout.addComponent(saveButton);
         buttonHorizontalLayout.addComponent(restoreDefaultSettingsButton);
-
     }
 
     /**
@@ -206,7 +204,6 @@ public class TenantSettingsComponent extends CustomComponent {
     /**
      * This method changes the view from basic to advanced. So the text area for
      * the CSS is visible.
-     * 
      */
     public void changeToAdvanced() {
         try {
@@ -226,16 +223,12 @@ public class TenantSettingsComponent extends CustomComponent {
             showBasicOptionsButton = new Button("Show basic options");
             showBasicOptionsButton.addListener(new Button.ClickListener() {
 
-                /**
-                 * Serial version uid
-                 */
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(ClickEvent event) {
                     changeToBasic();
                 }
-
             });
             cssTextArea = new TextField();
             cssTextArea.setRows(20);
@@ -256,14 +249,12 @@ public class TenantSettingsComponent extends CustomComponent {
                     new InformationDialogComponent(
                             "Failed to load the css file", "Failure"));
         }
-
     }
 
     /**
      * This method changes the view from advanced to basic. So only the basic
      * information are visible and the tenant can choose a given background or
      * font.
-     * 
      */
     public void changeToBasic() {
         backgroundSelect = new NativeSelect("Background");
@@ -277,16 +268,12 @@ public class TenantSettingsComponent extends CustomComponent {
         showAdvancedOptionsButton.setSwitchMode(true);
         showAdvancedOptionsButton.addListener(new Button.ClickListener() {
 
-            /**
-             * Serial version uid
-             */
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(ClickEvent event) {
                 changeToAdvanced();
             }
-
         });
 
         getSchemeHorizontalLayout().removeAllComponents();
@@ -301,7 +288,6 @@ public class TenantSettingsComponent extends CustomComponent {
 
     /**
      * Fills the Native Select components
-     * 
      */
     private void fillSelects() {
         for (int i = 0; i < colors.length; i++) {
