@@ -4,10 +4,6 @@
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/reini/uni/uni/hs/stuproA/tools/hyperic-sigar-1.6.3/sigar-bin/lib/sigar.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/home/reini/uni/uni/hs/stuproA/tools/hyperic-sigar-1.6.3/sigar-bin/lib"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/platformSigarLib"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
