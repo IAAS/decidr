@@ -88,21 +88,12 @@ public class URLGenerator {
     public static final String URL_PARAM_USER_ID = "user";
 
     /**
-     * System settings from which the base URL is retrieved.
-     */
-    private static SystemSettings settings = null;
-
-    /**
+     * May be used for caching the system settings in the future.
+     * 
      * @return the system settings
      */
     private static SystemSettings getSettings() {
-        if (settings == null) {
-            settings = DecidrGlobals.getSettings();
-        }
-
-        // DH might these not be outdated? ~rr
-        // RR yeah, but YOU made this a static member :-( ~dh
-        return settings;
+        return DecidrGlobals.getSettings();
     }
 
     /**

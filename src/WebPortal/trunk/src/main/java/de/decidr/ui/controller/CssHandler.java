@@ -159,7 +159,6 @@ public class CssHandler {
                             .getAbsolutePath(), new MimetypesFileTypeMap()
                             .getContentType(f), false, filePermission);
                     tenantFacade.setColorScheme(tenantId, fileId, advanced);
-
                 }
             } finally {
                 if (in != null) {
