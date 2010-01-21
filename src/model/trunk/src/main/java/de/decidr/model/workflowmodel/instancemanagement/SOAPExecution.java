@@ -26,6 +26,7 @@ import javax.xml.soap.SOAPMessage;
 
 import org.apache.log4j.Logger;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
 import de.decidr.model.logging.DefaultLogger;
@@ -55,6 +56,19 @@ public class SOAPExecution {
         SOAPConnectionFactory soapConnFactory = SOAPConnectionFactory
                 .newInstance();
         SOAPConnection connection = soapConnFactory.createConnection();
+
+        /*
+         * FIXME
+         * 
+         * Dirty hack: this looks like it was intended to be a generic
+         * "send soap message" action, but is actually only used to send
+         * startProcess messages. So we're hardcoding the SOAP action for now.
+         * ~dh
+         */
+        String soapAction = DecidrGlobals.getWorkflowTargetNamespace(dwfm
+                .getId(), dwfm.getTenant().getName())
+                + "/startProcess";
+        soapMessage.getMimeHeaders().setHeader("SOAPAction", soapAction);
 
         if (log.isDebugEnabled()) {
             try {
