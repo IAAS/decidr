@@ -39,14 +39,8 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 public interface InstanceManager {
 
     /**
-     * The function expects a deployed workflow model, which contains the
-     * required SOAP Template and the start configuration, and a server load
-     * view, containing a list of servers on which the workflow model is
-     * deployed, their ID, load, running instances and a byte-array, containing
-     * the start configuration. If successful the instance returns the newly
-     * created WorkflowInstance, containing all relevant data.
-     * 
-     * For this a SOAP Message is build and send to the process.
+     * Prepares a BPEL process for execution and puts it in "waiting" state.
+     * After preparing an instance you can start it using the
      * 
      * TODO the checked exceptions thrown by this method should not be deduced
      * from the (current) implementation. Same for stopInstance().
@@ -64,13 +58,24 @@ public interface InstanceManager {
      *            A list of servers on which the workflow model is deployed
      * @return A result type holding all relevant data
      */
-    public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
-            TConfiguration startConfiguration, List<ServerLoadView> serverStatistics)
-            throws SOAPException, IOException, JAXBException;
+    public PrepareInstanceResult prepareInstance(DeployedWorkflowModel dwfm,
+            TConfiguration startConfiguration,
+            List<ServerLoadView> serverStatistics) throws SOAPException,
+            IOException, JAXBException;
 
     /**
-     * This operation first terminates a given {@link WorkflowInstance} and then
-     * deletes it. For this the InstanceManagement API of Apache ODE is used.
+     * Actually starts a workflow instance that has been prepared and is in
+     * "waiting" state by sending a "go" message.
+     * 
+     * @param preparedInstance
+     *            workflow instance that is waiting to be started
+     */
+    public void startInstance(WorkflowInstance preparedInstance);
+
+    /**
+     * This operation first terminates a given prepared or started
+     * {@link WorkflowInstance} and then deletes it. For this the
+     * InstanceManagement API of Apache ODE is used.
      * 
      * The terminate operation causes the process instance to terminate
      * immediately, without a chance to perform any fault handling or

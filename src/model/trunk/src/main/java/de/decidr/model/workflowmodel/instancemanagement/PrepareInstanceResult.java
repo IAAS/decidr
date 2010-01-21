@@ -24,7 +24,7 @@ import java.util.Date;
  * @author Modood Alvi
  * @version 0.1
  */
-public interface StartInstanceResult {
+public interface PrepareInstanceResult {
 
     public long getServer();
 

@@ -64,7 +64,7 @@ import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
-import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult;
+import de.decidr.model.workflowmodel.instancemanagement.PrepareInstanceResult;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRoles;
 
@@ -341,12 +341,9 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
             List<ServerLoadView> serverStatistics = q.list();
 
-            // FIXME we haven't committed the transaction, yet! can't just start
-            // the workflow, it might do stuff that requires that we commit our
-            // changes, first. move the code that creates the instance to
-            // transactionCommitted!! ~dh
-            StartInstanceResult startInstanceResult = manager.startInstance(
-                    deployedModel, startConfiguration, serverStatistics);
+            PrepareInstanceResult startInstanceResult = manager
+                    .prepareInstance(deployedModel, startConfiguration,
+                            serverStatistics);
 
             createdWorkflowInstance.setOdePid(startInstanceResult.getODEPid());
             createdWorkflowInstance.setServer((Server) session.get(
@@ -365,6 +362,13 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         createdWorkflowInstance.setOdePid("");
 
         session.save(createdWorkflowInstance);
+
+        /*
+         * Make sure the required data is preloaded so it is available in
+         * transactionCommitted.
+         */
+        createdWorkflowInstance.getDeployedWorkflowModel().getTenant();
+        createdWorkflowInstance.getServer();
     }
 
     /**
@@ -591,6 +595,17 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             }
         }
         createdWorkflowInstance = null;
+    }
+
+    @Override
+    public void transactionCommitted(TransactionEvent evt)
+            throws TransactionException {
+        /*
+         * Now that the WorkflowInstance has been committed, we may safely start
+         * the BPEL process.
+         */
+        InstanceManager instanceManager = new InstanceManagerImpl();
+        instanceManager.startInstance(createdWorkflowInstance);
     }
 
     /**

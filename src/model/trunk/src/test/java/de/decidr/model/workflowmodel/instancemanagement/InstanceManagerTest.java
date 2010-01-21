@@ -42,7 +42,7 @@ public class InstanceManagerTest {
 
     /**
      * Test method for
-     * {@link de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl#startInstance(de.decidr.model.entities.DeployedWorkflowModel, TConfiguration, java.util.List)}
+     * {@link de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl#prepareInstance(de.decidr.model.entities.DeployedWorkflowModel, TConfiguration, java.util.List)}
      * .
      */
     @Test

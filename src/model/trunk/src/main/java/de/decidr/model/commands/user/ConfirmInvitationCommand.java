@@ -50,7 +50,7 @@ import de.decidr.model.transactions.TransactionEvent;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManagerImpl;
-import de.decidr.model.workflowmodel.instancemanagement.StartInstanceResult;
+import de.decidr.model.workflowmodel.instancemanagement.PrepareInstanceResult;
 
 /**
  * Confirms a single invitation by associating the user with the corresponding
@@ -70,6 +70,8 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
             .getLogger(ConfirmInvitationCommand.class);
     private Long invitationId;
     private Invitation invitation = null;
+
+    private WorkflowInstance instanceToStart = null;
 
     /**
      * Current Hibernate Session
@@ -231,9 +233,9 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
 
             // instance only needed to get the OdePid and Server from the
             // instance manager
-            StartInstanceResult startInstanceResult;
+            PrepareInstanceResult startInstanceResult;
             try {
-                startInstanceResult = manager.startInstance(instance
+                startInstanceResult = manager.prepareInstance(instance
                         .getDeployedWorkflowModel(),
                         TransformUtil.bytesToConfiguration(instance
                                 .getStartConfiguration()), serverStatistics);
@@ -256,6 +258,7 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
+        instanceToStart = null;
 
         session = evt.getSession();
 
@@ -301,6 +304,18 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
         }
 
         session.delete(invitation);
+    }
+
+    @Override
+    public void transactionCommitted(TransactionEvent evt)
+            throws TransactionException {
+        /*
+         * Start any prepared workflow instances.
+         */
+        if (instanceToStart != null) {
+            InstanceManager instanceManager = new InstanceManagerImpl();
+            instanceManager.startInstance(instanceToStart);
+        }
     }
 
     @Override

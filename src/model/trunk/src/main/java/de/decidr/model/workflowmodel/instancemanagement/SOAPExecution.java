@@ -81,6 +81,7 @@ public class SOAPExecution {
             }
         }
 
+        // FIXME use url generator? ~dh
         SOAPMessage reply = connection.call(soapMessage, "http://"
                 + server.getLocation() + "/ode/processes/" + dwfm.getId()
                 + ".DecidrProcess");

@@ -19,12 +19,12 @@ package de.decidr.model.workflowmodel.instancemanagement;
 import java.util.Date;
 
 /**
- * Implements {@link StartInstanceResult}
+ * Implements {@link PrepareInstanceResult}
  * 
  * @author Modood Alvi
  * @version 0.1
  */
-public class StartInstanceResultImpl implements StartInstanceResult {
+public class StartInstanceResultImpl implements PrepareInstanceResult {
 
     private long serverId = 0l;
     private Date startDate = null;

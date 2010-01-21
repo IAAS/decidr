@@ -21,8 +21,16 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
 import javax.xml.transform.TransformerException;
 
 import org.apache.axiom.om.OMElement;
@@ -64,7 +72,7 @@ public class InstanceManagerImpl implements InstanceManager {
      * java.util.List)
      */
     @Override
-    public StartInstanceResult startInstance(DeployedWorkflowModel dwfm,
+    public PrepareInstanceResult prepareInstance(DeployedWorkflowModel dwfm,
             TConfiguration startConfiguration,
             List<ServerLoadView> serverStatistics) throws SOAPException,
             IOException, JAXBException {
@@ -85,7 +93,7 @@ public class InstanceManagerImpl implements InstanceManager {
             log.debug(new String(out.toByteArray(), "UTF-8"));
         }
 
-        StartInstanceResult result = new StartInstanceResultImpl();
+        PrepareInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
         result.setODEPid(getODEPid(replySOAPMessage, dwfm));
         return result;
@@ -94,14 +102,15 @@ public class InstanceManagerImpl implements InstanceManager {
     private String getODEPid(SOAPMessage replySOAPMessage,
             DeployedWorkflowModel dwfm) throws SOAPException {
 
-        replySOAPMessage.getSOAPBody().addNamespaceDeclaration(
-                "tns",
-                DecidrGlobals.getWorkflowTargetNamespace(dwfm.getId(), dwfm
-                        .getTenant().getName()));
+        String workflowNamespace = DecidrGlobals.getWorkflowTargetNamespace(
+                dwfm.getId(), dwfm.getTenant().getName());
+        replySOAPMessage.getSOAPBody().addNamespaceDeclaration("xyz",
+                workflowNamespace);
+        log.debug("Added namepsace declaration for xyz: " + workflowNamespace);
         try {
             Node resultNode = XPathAPI
                     .selectSingleNode(replySOAPMessage.getSOAPBody(),
-                            "//tns:pid", replySOAPMessage.getSOAPBody());
+                            "//xyz:pid", replySOAPMessage.getSOAPBody());
             log.debug("pid:" + resultNode.getTextContent());
             return resultNode.getTextContent();
 
@@ -112,15 +121,9 @@ public class InstanceManagerImpl implements InstanceManager {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.decidr.model.workflowmodel.instancemanagement.InstanceManager#stopInstance
-     * (de.decidr.model.entities.WorkflowInstance)
-     */
     @Override
     public void stopInstance(WorkflowInstance instance) throws AxisFault {
+        // FIXME never tested ~dh
         client = new ServiceClientUtil();
 
         // create the terminate message
@@ -144,5 +147,45 @@ public class InstanceManagerImpl implements InstanceManager {
         client.send(deleteMsg, URLGenerator
                 .getOdeInstanceManangementUrl(instance.getServer()));
         log.info("Pid " + instance.getOdePid() + " terminated");
+    }
+
+    @Override
+    public void startInstance(WorkflowInstance preparedInstance) {
+        try {
+            SOAPConnectionFactory soapConnFactory = SOAPConnectionFactory
+                    .newInstance();
+            SOAPConnection connection = soapConnFactory.createConnection();
+
+            MessageFactory messageFactory = MessageFactory.newInstance();
+            SOAPMessage message = messageFactory.createMessage();
+
+            SOAPPart soapPart = message.getSOAPPart();
+            SOAPEnvelope envelope = soapPart.getEnvelope();
+            SOAPBody body = envelope.getBody();
+
+            String namespace = DecidrGlobals.getWorkflowTargetNamespace(
+                    preparedInstance.getDeployedWorkflowModel().getId(),
+                    preparedInstance.getDeployedWorkflowModel().getTenant()
+                            .getName());
+
+            message.getMimeHeaders().setHeader("SOAPAction",
+                    namespace + "/runProcess");
+
+            SOAPElement runProcessMessage = body.addChildElement(new QName(
+                    namespace, "runProcess"));
+            runProcessMessage.addChildElement("pid").setTextContent(
+                    preparedInstance.getOdePid());
+
+            // FIXME use url generator? ~dh
+            connection.call(message, "http://"
+                    + preparedInstance.getServer().getLocation()
+                    + "/ode/processes/"
+                    + preparedInstance.getDeployedWorkflowModel().getId()
+                    + ".DecidrProcess");
+
+            connection.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
