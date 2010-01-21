@@ -107,11 +107,20 @@ public class InstanceManagerImpl implements InstanceManager {
                 .getElementsByTagNameNS(workflowNamespace,
                         "startProcessResponse").item(0);
 
-        String pid = startProcessResponse.getElementsByTagNameNS(
-                workflowNamespace, "pid").item(0).getTextContent();
+        if (startProcessResponse == null) {
+            throw new NullPointerException("Can't find startProcessResponse.");
+        }
 
-        log.debug("pid:" + pid);
-        return pid;
+        Element pid = (Element) startProcessResponse.getElementsByTagNameNS(
+                workflowNamespace, "pid").item(0);
+
+        if (pid == null) {
+            throw new NullPointerException(
+                    "Can't find pid within startProcessResponse.");
+        }
+
+        log.debug("pid:" + pid.getTextContent());
+        return pid.getTextContent();
     }
 
     @Override
