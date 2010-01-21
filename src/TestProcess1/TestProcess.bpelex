@@ -18,7 +18,7 @@
   </extensions>
   <extensions>
     <extendedObject href="TestProcess.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1263576815258"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1264102851359"/>
   </extensions>
   <extensions>
     <extendedObject href="TestProcess.bpel#//@activity/@activities.1"/>
@@ -97,19 +97,19 @@
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0/@copy.1"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0/@copy.1"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.1"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.1"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
@@ -121,35 +121,35 @@
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:VariableExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0/@copy.2"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0/@copy.2"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0/@copy.3"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0/@copy.3"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0/@copy.4"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0/@copy.4"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0/@copy.5"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0/@copy.5"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0/@copy.6"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0/@copy.6"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0/@copy.7"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0/@copy.7"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.0/@copy.0"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.0/@copy.0"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.2"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.2"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
@@ -161,15 +161,35 @@
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:VariableExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.4"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.4"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.3"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.3"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="TestProcess.bpel#//@activity/@activities.5/@activities.3/@copy.0"/>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.7/@activities.3/@copy.0"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.5"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="TestProcess.bpel#//@variables/@children.14"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:VariableExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.6"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="TestProcess.bpel#//@variables/@children.15"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:VariableExtension"/>
+  </extensions>
+  <extensions>
+    <extendedObject href="TestProcess.bpel#//@activity/@activities.1/@copy.2"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
 </extensionmodel:ExtensionMap>

@@ -1,72 +1,130 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wsdl:definitions xmlns:basic="http://decidr.de/wsdl/basicProcess" xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:pdecidr="http://decidr.de/schema/DecidrProcessTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/Default_Tenant/processes/302" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl1="http://decidr.de/webservices/HumanTask" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TestProcess" targetNamespace="http://decidr.de/Default_Tenant/processes/302">
-    <vprop:property name="taskID" type="xsd:long"/>
-    <vprop:propertyAlias messageType="wsdl1:createTaskResponse" part="parameters" propertyName="tns:taskID">
-    <vprop:query><![CDATA[/taskID[1]]]></vprop:query>
-  </vprop:propertyAlias>
-    <vprop:propertyAlias messageType="basic:taskCompletedRequest" part="parameters" propertyName="tns:taskID">
-        <vprop:query><![CDATA[/taskID[1]]]></vprop:query>
-    </vprop:propertyAlias>
-    <wsdl:import location="HumanTask.wsdl" namespace="http://decidr.de/webservices/HumanTask"/>
-    <wsdl:import location="odeprocess.wsdl" namespace="http://decidr.de/wsdl/basicProcess"/>
-    <wsdl:types>
-		<xsd:schema elementFormDefault="qualified" targetNamespace="http://decidr.de/Default_Tenant/processes/302">
+<wsdl:definitions xmlns:basic="http://decidr.de/wsdl/basicProcess"
+	xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:pdecidr="http://decidr.de/schema/DecidrProcessTypes"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://decidr.de/Default_Tenant/processes/302" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl1="http://decidr.de/webservices/HumanTask"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TestProcess"
+	targetNamespace="http://decidr.de/Default_Tenant/processes/302">
+	<wsdl:import location="HumanTask.wsdl"
+		namespace="http://decidr.de/webservices/HumanTask" />
+	<wsdl:import location="odeprocess.wsdl" namespace="http://decidr.de/wsdl/basicProcess" />
+	<wsdl:types>
+		<xsd:schema elementFormDefault="qualified"
+			targetNamespace="http://decidr.de/Default_Tenant/processes/302">
 
-			<xsd:import namespace="http://decidr.de/schema/DecidrTypes" schemaLocation="DecidrTypes.xsd"/>
+			<xsd:import namespace="http://decidr.de/schema/DecidrTypes"
+				schemaLocation="DecidrTypes.xsd" />
 
 			<xsd:complexType name="startMessageType">
 				<xsd:all>
-					<xsd:element name="role" type="decidr:tRole"/>
+					<xsd:element name="role" type="decidr:tRole" />
 				</xsd:all>
 			</xsd:complexType>
 
-			<xsd:element name="startProcess" type="tns:startMessageType"/>
+			<xsd:element name="startProcess" type="tns:startMessageType" />
+
 			<xsd:complexType name="startProcessResponseType">
 				<xsd:sequence>
-					<xsd:element name="pid" type="xsd:long"/>
+					<xsd:element name="pid" type="xsd:long" />
 				</xsd:sequence>
 			</xsd:complexType>
-		
-			<xsd:element name="startProcessresponse" type="tns:startProcessResponseType">
+
+			<xsd:element name="startProcessResponse" type="tns:startProcessResponseType">
+			</xsd:element>
+
+			<xsd:element name="runProcess">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="pid" type="xsd:long" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="runProcessResponse">
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
 			</xsd:element>
 		</xsd:schema>
 	</wsdl:types>
-	<wsdl:message name="startMessageRequest">
-		<wsdl:part element="tns:startProcess" name="payload"/>
-	</wsdl:message>
-	<wsdl:message name="startMessageResponse">
 
-        <wsdl:part element="tns:startProcessresponse" name="payload"/>
+	<wsdl:message name="startMessageRequest">
+		<wsdl:part element="tns:startProcess" name="payload" />
 	</wsdl:message>
+
+	<wsdl:message name="startMessageResponse">
+		<wsdl:part element="tns:startProcessResponse" name="payload" />
+	</wsdl:message>
+
+	<wsdl:message name="runProcessRequest">		<wsdl:part element="tns:runProcess" name="payload" />
+	</wsdl:message>
+
+	<wsdl:message name="runProcessResponse">		<wsdl:part element="tns:runProcessResponse" name="payload" />
+	</wsdl:message>
+
 	<wsdl:portType name="HumanTaskTestPT">
 		<wsdl:operation name="startProcess">
-			<wsdl:input message="tns:startMessageRequest" name="input"/>
-			<wsdl:output message="tns:startMessageResponse" name="output"/>
+			<wsdl:input message="tns:startMessageRequest" name="input" />
+			<wsdl:output message="tns:startMessageResponse" name="output" />
+		</wsdl:operation>
+		<wsdl:operation name="runProcess">
+			<wsdl:input message="tns:runProcessRequest" name="in"></wsdl:input>
+			<wsdl:output message="tns:runProcessResponse" name="out"></wsdl:output>
 		</wsdl:operation>
 	</wsdl:portType>
+
 	<wsdl:binding name="HumanTaskTestSOAPBinding" type="tns:HumanTaskTestPT">
-		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="startProcess">
-			<soap:operation soapAction="http://decidr.de/Default_Tenant/processes/302/startProcess"/>
+			<soap:operation
+				soapAction="http://decidr.de/Default_Tenant/processes/302/startProcess" />
 			<wsdl:input name="input">
-				<soap:body use="literal"/>
+				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:output name="output">
-				<soap:body use="literal"/>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="runProcess">
+			<soap:operation
+				soapAction="http://decidr.de/Default_Tenant/processes/302/runProcess" />
+			<wsdl:input name="in">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="out">
+				<soap:body use="literal" />
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:binding>
 	<wsdl:service name="HumanTaskTest">
 		<wsdl:port binding="tns:HumanTaskTestSOAPBinding" name="HumanTaskTestPort">
-			<soap:address location="http://localhost:8080/ode/processes/302.DecidrProcess"/>
+			<soap:address location="http://localhost:8080/ode/processes/302.DecidrProcess" />
 		</wsdl:port>
 	</wsdl:service>
 	<plnk:partnerLinkType name="ProcessPLT">
-		<plnk:role name="HumanTaskTestProvider" portType="tns:HumanTaskTestPT"/>
+		<plnk:role name="HumanTaskTestProvider" portType="tns:HumanTaskTestPT" />
 	</plnk:partnerLinkType>
-	<!--  <vprop:property name="L1260445515504" type="decidr:tRole" />
-	<vprop:propertyAlias propertyName="tns:L1260445515504"
-		messageType="tns:startMessageRequest" part="payload">
-		<vprop:query>/tns:role</vprop:query>
-	</vprop:propertyAlias>-->
+
+	<vprop:property name="odePID" type="xsd:long" />
+	<vprop:property name="taskID" type="xsd:long" />
+
+	<vprop:propertyAlias messageType="tns:runProcessRequest"
+		part="payload" propertyName="tns:odePID">
+		<vprop:query><![CDATA[/tns:pid[1]]]></vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias messageType="tns:startMessageResponse"
+		part="payload" propertyName="tns:odePID">
+		<vprop:query><![CDATA[/tns:pid[1]]]></vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias messageType="wsdl1:createTaskResponse"
+		part="parameters" propertyName="tns:taskID">
+		<vprop:query><![CDATA[/taskID[1]]]></vprop:query>
+	</vprop:propertyAlias>
+	<vprop:propertyAlias messageType="basic:taskCompletedRequest"
+		part="parameters" propertyName="tns:taskID">
+		<vprop:query><![CDATA[/taskID[1]]]></vprop:query>
+	</vprop:propertyAlias>
 </wsdl:definitions>
