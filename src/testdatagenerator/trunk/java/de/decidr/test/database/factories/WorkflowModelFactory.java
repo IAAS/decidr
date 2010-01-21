@@ -76,8 +76,13 @@ public class WorkflowModelFactory extends EntityFactory {
      *            The Nth deployed version of a workflow model receives version
      *            model.getVersion() - (n-1). If that version would be less than
      *            zero, no deployed version is added.
+     * @throws SAXException
+     *             on sax error
+     * @throws JAXBException
+     *             on jaxb error
      */
-    public void addDeployedWorkflowModels(WorkflowModel model, int n) {
+    public void addDeployedWorkflowModels(WorkflowModel model, int n)
+            throws JAXBException, SAXException {
         if (n < 1) {
             throw new IllegalArgumentException("n must be > 0");
         }
@@ -91,9 +96,9 @@ public class WorkflowModelFactory extends EntityFactory {
         deployed.setOriginalWorkflowModel(model);
         deployed.setDeployDate(DecidrGlobals.getTime().getTime());
         deployed.setDescription(model.getDescription());
-        deployed.setDwdl(model.getDwdl());
+        deployed.setDwdl(new byte[0]);
         deployed.setName(model.getName());
-        deployed.setSoapTemplate(new byte[0]);
+        deployed.setSoapTemplate(getFileBytes("files/soaptemplate.xml"));
         deployed.setWsdl(new byte[0]);
         deployed.setVersion(deployedVersion);
         deployed.setTenant(model.getTenant());
@@ -106,6 +111,15 @@ public class WorkflowModelFactory extends EntityFactory {
         deployedOn.setServer(server);
 
         session.save(deployed);
+
+        // now that an ID has been generated, update DWDL
+        Workflow dwdl = TransformUtil.bytesToWorkflow(model.getDwdl());
+        dwdl.setId(deployed.getId());
+        dwdl.setTargetNamespace(DecidrGlobals.getWorkflowTargetNamespace(
+                deployed.getId(), model.getTenant().getName()));
+        deployed.setDwdl(TransformUtil.workflowToBytes(dwdl));
+        session.update(deployed);
+
         deployedOn.setId(new WorkflowModelIsDeployedOnServerId(
                 deployed.getId(), server.getId()));
         session.save(deployedOn);

@@ -289,10 +289,10 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         return configuration;
     }
 
-    public CommitResult runTransaction(Collection<TransactionalCommand> commands){
+    public CommitResult runTransaction(Collection<TransactionalCommand> commands) {
         return runTransaction(new ArrayList<TransactionalCommand>(commands));
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -321,8 +321,11 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         for (TransactionalCommand c : commands) {
             try {
                 notifiedReceivers.add(c);
-                logger.log(Level.DEBUG, "Attempting to execute "
-                        + c.getClass().getSimpleName());
+                String className = c.getClass().getSimpleName();
+                if (className.isEmpty()) {
+                    className = "<anonymous inner class>";
+                }
+                logger.log(Level.DEBUG, "Attempting to execute " + className);
                 fireTransactionStarted(c);
             } catch (Exception e) {
                 try {

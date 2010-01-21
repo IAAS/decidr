@@ -273,4 +273,18 @@ public class DecidrGlobals {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * TODO document, hacky, doesn't really belong here ~dh
+     * 
+     * @param workflowModelId
+     * @param tenantName
+     * @return
+     */
+    public static String getWorkflowTargetNamespace(long workflowModelId,
+            String tenantName) {
+        tenantName = tenantName.replace(' ', '_');
+        return "http://decidr.de/" + tenantName + "/processes/"
+                + workflowModelId;
+    }
 }

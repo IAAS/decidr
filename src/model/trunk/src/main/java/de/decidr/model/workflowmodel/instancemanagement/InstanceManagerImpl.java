@@ -31,6 +31,7 @@ import org.apache.ode.axis2.service.ServiceClientUtil;
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.Node;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.URLGenerator;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.ServerLoadView;
@@ -83,15 +84,11 @@ public class InstanceManagerImpl implements InstanceManager {
 
     private String getODEPid(SOAPMessage replySOAPMessage,
             DeployedWorkflowModel dwfm) throws SOAPException {
-        // FIXME very very hacky! ~dh
-        String tenantName = dwfm.getTenant().getName().replace(' ', '_');
-        Long workflowModelId = dwfm.getId();
-        String targetNamespace = "http://decidr.de/" + tenantName
-                + "/processes/" + workflowModelId.toString();
 
-        replySOAPMessage.getSOAPBody().addNamespaceDeclaration("xyz",
-                targetNamespace);
-
+        replySOAPMessage.getSOAPBody().addNamespaceDeclaration(
+                "xyz",
+                DecidrGlobals.getWorkflowTargetNamespace(dwfm.getId(), dwfm
+                        .getTenant().getName()));
         try {
             Node resultNode = XPathAPI
                     .selectSingleNode(replySOAPMessage.getSOAPBody(),

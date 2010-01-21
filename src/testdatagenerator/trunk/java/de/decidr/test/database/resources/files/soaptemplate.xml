@@ -1,0 +1,6 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header bodyElementName="startProcess" targetNamespace="http://decidr.de/Default_Tenant/processes/302"/>
+  <SOAP-ENV:Body>
+    <decidr:startProcess xmlns:decidr="http://decidr.de/Default_Tenant/processes/302"/>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

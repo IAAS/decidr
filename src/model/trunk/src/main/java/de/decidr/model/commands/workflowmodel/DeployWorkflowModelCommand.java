@@ -20,7 +20,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.bind.JAXBException;
+
 import org.hibernate.Query;
+import org.xml.sax.SAXException;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
@@ -38,6 +41,8 @@ import de.decidr.model.workflowmodel.deployment.Deployer;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 import de.decidr.model.workflowmodel.deployment.DeploymentResult;
 import de.decidr.model.workflowmodel.deployment.StandardDeploymentStrategy;
+import de.decidr.model.workflowmodel.dwdl.Workflow;
+import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
 /**
  * Deploys the given workflow model on the Apache ODE if it isn't already
@@ -100,14 +105,28 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             dwfm.setTenant(workflowModel.getTenant());
             dwfm.setName(workflowModel.getName());
             dwfm.setDescription(workflowModel.getDescription());
-            dwfm.setDwdl(workflowModel.getDwdl());
+            dwfm.setDwdl(new byte[0]);
             dwfm.setVersion(workflowModel.getVersion());
-            // XXX workflow model wsdl is not used yet.
+            // XXX workflow model wsdl is not used, yet.
             dwfm.setWsdl(new byte[0]);
             dwfm.setSoapTemplate(new byte[0]);
             dwfm.setDeployDate(DecidrGlobals.getTime().getTime());
 
             evt.getSession().save(dwfm);
+            try {
+                // Update DWDL
+                Workflow dwdl = TransformUtil.bytesToWorkflow(workflowModel
+                        .getDwdl());
+                dwdl.setId(dwfm.getId());
+                dwdl.setTargetNamespace(DecidrGlobals
+                        .getWorkflowTargetNamespace(dwfm.getId(), dwfm
+                                .getTenant().getName()));
+                dwfm.setDwdl(TransformUtil.workflowToBytes(dwdl));
+            } catch (JAXBException e) {
+                throw new TransactionException(e);
+            } catch (SAXException e) {
+                throw new TransactionException(e);
+            }
 
             // Create ServerStatistics
             String hqlString = "from ServerLoadView";
@@ -147,26 +166,27 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             } catch (Exception e) {
                 throw new TransactionException(e);
             }
+
+            // write changes to DB
+            evt.getSession().update(dwfm);
         }
     }
 
     @Override
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
-
+        
+        // compensate for already deployed model by undeploying
         Deployer deployer = new DeployerImpl();
 
         for (Long serverId : result.getServers()) {
-
             try {
                 deployer.undeploy(newDeployedWorkflowModel, (Server) evt
                         .getSession().get(Server.class, serverId));
             } catch (Exception e) {
                 throw new TransactionException(e);
             }
-
         }
-
     }
 
     /**

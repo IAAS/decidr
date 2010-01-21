@@ -36,7 +36,6 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.SchemaFactory;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
@@ -62,12 +61,6 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
  * @version 0.1
  */
 public class TransformUtil {
-
-    /**
-     * This boolean decides, whether the {@link #bytesToWorkflow(byte[])}
-     * validates or not.
-     */
-    private static final boolean validate = false;
 
     private static Logger log = DefaultLogger.getLogger(TransformUtil.class);
 
@@ -150,30 +143,9 @@ public class TransformUtil {
     public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException,
             SAXException {
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
-
-        if (validate) {
-            log.debug("creating schema factory");
-            SchemaFactory sf = SchemaFactory
-                    .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            try {
-                log.debug("attempting to make unmarshaller validate");
-                unmarshaller.setSchema(sf.newSchema(new StreamSource(
-                        TransformUtil.class
-                                .getResourceAsStream("/dwdl/dwdl.xsd"))));
-            } catch (SAXException e) {
-                log.error("... failed", e);
-                throw e;
-            }
-        }
-
-        log.trace("unmarshalling:\n" + new String(dwdl));
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
                 Workflow.class);
-        // used to make sure that the output equals the input
-        // log.trace("resulting object:\n"
-        // + new String(workflowToBytes(dwdlElement.getValue())));
-        log.debug("returning Workflow object");
         return dwdlElement.getValue();
     }
 
