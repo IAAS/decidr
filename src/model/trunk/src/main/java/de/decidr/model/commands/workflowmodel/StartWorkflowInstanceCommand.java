@@ -30,7 +30,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPException;
 
 import org.apache.axis2.AxisFault;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -86,6 +85,9 @@ import de.decidr.model.workflowmodel.wsc.TRoles;
  */
 public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
+    private static final Logger logger = DefaultLogger
+            .getLogger(StartWorkflowInstanceCommand.class);
+
     private TConfiguration startConfiguration;
     private WorkflowInstance createdWorkflowInstance = null;
     private boolean startImmediately;
@@ -128,6 +130,17 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         }
         this.startConfiguration = startConfiguration;
         this.startImmediately = startImmediately;
+        logger.debug("Start configuration used for new instance:");
+        try {
+            if (logger.isDebugEnabled()) {
+                logger.debug(new String(TransformUtil
+                        .configurationToBytes(startConfiguration), "UTF-8"));
+            }
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

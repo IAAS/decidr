@@ -24,7 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -126,7 +125,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
      */
     private void logResult() {
 
-        if (result == null || !logger.isEnabledFor(Level.DEBUG)) {
+        if (result == null || !logger.isDebugEnabled()) {
             return;
         }
 
@@ -354,7 +353,6 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
                 unknownUser.setUserProfile(profile);
                 unknownUsers.add(unknownUser);
             }
-
         }
 
         for (Long userId : userIds) {
