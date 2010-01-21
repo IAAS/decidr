@@ -16,11 +16,14 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPException;
@@ -35,6 +38,7 @@ import org.w3c.dom.NodeList;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.soap.types.Actor;
 import de.decidr.model.soap.types.Role;
+import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
@@ -76,6 +80,12 @@ public class SOAPGenerator {
     public SOAPMessage getSOAP(SOAPMessage template,
             TConfiguration startConfiguration) throws SOAPException,
             IOException, JAXBException {
+
+        if (log.isDebugEnabled()) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            template.writeTo(out);
+            log.debug(new String(out.toByteArray(), "UTF-8"));
+        }
 
         soapMessage = template;
 
@@ -124,7 +134,9 @@ public class SOAPGenerator {
         JAXBContext context = JAXBContext
                 .newInstance("de.decidr.model.soap.types");
         Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(role, doc);
+        marshaller.marshal(new JAXBElement<Role>(new QName(
+                Constants.DECIDRTYPES_NAMESPACE, "role"), Role.class, role),
+                doc);
 
         messageRootElement.appendChild(doc.getDocumentElement());
     }
@@ -147,7 +159,9 @@ public class SOAPGenerator {
         JAXBContext context = JAXBContext
                 .newInstance("de.decidr.model.soap.types");
         Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(actor, doc);
+        marshaller.marshal(new JAXBElement<Actor>(new QName(
+                Constants.DECIDRTYPES_NAMESPACE, "actor"), Actor.class, actor),
+                doc);
 
         messageRootElement.appendChild(doc.getDocumentElement());
     }
