@@ -22,7 +22,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -33,6 +36,7 @@ import de.decidr.model.entities.UserProfile;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.enums.UserWorkflowParticipationState;
 import de.decidr.model.exceptions.TransactionException;
+import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.transactions.TransactionEvent;
 
 /**
@@ -51,6 +55,9 @@ import de.decidr.model.transactions.TransactionEvent;
  * @version 0.1
  */
 public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
+
+    private static final Logger logger = DefaultLogger
+            .getLogger(GetWorkflowParticipationStateCommand.class);
 
     private List<String> usernames;
     private List<String> emails;
@@ -110,6 +117,41 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
                 UserWorkflowParticipationState.NeedsTenantMembership);
         putResults(members,
                 UserWorkflowParticipationState.IsAlreadyTenantMember);
+
+        logResult();
+    }
+
+    /**
+     * Logs the result map in a human readable format.
+     */
+    private void logResult() {
+
+        if (result == null || !logger.isEnabledFor(Level.DEBUG)) {
+            return;
+        }
+
+        StringBuilder str = new StringBuilder();
+        str.append("User workflow participation state:\n");
+
+        for (Entry<User, UserWorkflowParticipationState> entry : result
+                .entrySet()) {
+            User user = entry.getKey();
+            UserWorkflowParticipationState state = entry.getValue();
+
+            str.append("(id: ");
+            str.append(user.getId());
+            str.append(" email: ");
+            str.append(user.getEmail());
+            if (user.getUserProfile() != null) {
+                str.append(" username: ");
+                str.append(user.getUserProfile().getUsername());
+            }
+            str.append(")  ===> ");
+            str.append(state.toString());
+            str.append("\n");
+        }
+
+        logger.debug(str.toString());
     }
 
     /**

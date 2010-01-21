@@ -86,9 +86,6 @@ import de.decidr.model.workflowmodel.wsc.TRoles;
  */
 public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
-    private static final Logger logger = DefaultLogger
-            .getLogger(StartWorkflowInstanceCommand.class);
-
     private TConfiguration startConfiguration;
     private WorkflowInstance createdWorkflowInstance = null;
     private boolean startImmediately;
@@ -384,7 +381,6 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
 
         Map<User, UserWorkflowParticipationState> map = cmd.getResult();
-        logWorkflowPartiticpationState(map);
 
         // make sure that we know at least the email address of all "unknown"
         // users, otherwise we cannot create new user accounts for them. Also
@@ -422,37 +418,6 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             // may update the start configuration accordingly
             completeStartConfigEntry(user);
         }
-    }
-
-    /**
-     * @param map
-     *            state map to log
-     */
-    private void logWorkflowPartiticpationState(
-            Map<User, UserWorkflowParticipationState> map) {
-
-        if (!logger.isEnabledFor(Level.DEBUG)) {
-            return;
-        }
-
-        StringBuilder str = new StringBuilder();
-        str.append("User workflow participation state:\n");
-
-        for (Entry<User, UserWorkflowParticipationState> entry : map.entrySet()) {
-            User user = entry.getKey();
-            UserWorkflowParticipationState state = entry.getValue();
-
-            str.append("(email: ");
-            str.append(user.getEmail());
-            if (user.getUserProfile() != null) {
-                str.append(" username: ");
-                str.append(user.getUserProfile().getUsername());
-            }
-            str.append(")  ===> ");
-            str.append(state.toString());
-        }
-
-        logger.debug(str.toString());
     }
 
     /**
