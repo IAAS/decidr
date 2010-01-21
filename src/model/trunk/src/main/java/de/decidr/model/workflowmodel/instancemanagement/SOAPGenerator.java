@@ -17,20 +17,24 @@
 package de.decidr.model.workflowmodel.instancemanagement;
 
 import java.io.IOException;
-import java.util.Iterator;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPElement;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.soap.types.Actor;
 import de.decidr.model.soap.types.Role;
-import de.decidr.model.workflowmodel.dwdl.transformation.Constants;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
@@ -52,7 +56,10 @@ public class SOAPGenerator {
      * this input, the function generates a complete SOAP message which can be
      * used to start a new instance of a deployed workflow model with the
      * information contained in the starting configuration. The generated SOAP
-     * message is returned.
+     * message is returned. <br>
+     * <b>This method makes changes to the given "template", transforming it into
+     * a read-to-send SOAPmessage!</b>
+     * 
      * 
      * @param template
      *            TODO document
@@ -72,18 +79,15 @@ public class SOAPGenerator {
 
         soapMessage = template;
 
-        SOAPElement messageRootElement = getOperationElement();
+        Element messageRootElement = getOperationElement();
+        if (messageRootElement == null) {
+            throw new NullPointerException("Message root element not found!");
+        }
 
         if (startConfiguration.getRoles() != null) {
             if (!startConfiguration.getRoles().getRole().isEmpty()) {
-                SOAPElement roleElement = null;
                 for (Role role : startConfiguration.getRoles().getRole()) {
-                    roleElement = addRole(messageRootElement, role);
-                    if (!role.getActor().isEmpty()) {
-                        for (Actor actor : role.getActor()) {
-                            addActor(roleElement, actor);
-                        }
-                    }
+                    addRole(messageRootElement, role);
                 }
             }
         }
@@ -102,61 +106,81 @@ public class SOAPGenerator {
         return soapMessage;
     }
 
-    private SOAPElement addRole(SOAPElement soapElement, Role role)
-            throws SOAPException {
-        SOAPElement element = soapElement.addChildElement(new QName(
-                Constants.DECIDRTYPES_NAMESPACE, "role", "decidr"));
-        element.addAttribute(new QName("name"), role.getName());
-        return element;
+    private void addRole(Element messageRootElement, Role role)
+            throws JAXBException {
+        /*
+         * Convert JAXB Element to W3C element
+         */
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        Document doc;
+        try {
+            doc = factory.newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException e) {
+            // this is an unexpected error
+            throw new RuntimeException(e);
+        }
+
+        JAXBContext context = JAXBContext
+                .newInstance("de.decidr.model.soap.types");
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.marshal(role, doc);
+
+        messageRootElement.appendChild(doc.getDocumentElement());
     }
 
-    private void addActor(SOAPElement soapElement, Actor actor)
-            throws SOAPException {
-        SOAPElement element = soapElement.addChildElement(new QName(
-                Constants.DECIDRTYPES_NAMESPACE, "actor", "decidr"));
-        element.addAttribute(new QName(Constants.DECIDRTYPES_NAMESPACE, "email", "decidr"),
-                actor.getEmail() == null ? "" : actor.getEmail());
-        element.addAttribute(new QName(Constants.DECIDRTYPES_NAMESPACE, "name", "decidr"),
-                actor.getName() == null ? "" : actor.getName());
-        element.addAttribute(new QName(Constants.DECIDRTYPES_NAMESPACE, "userId", "decidr"), ""+actor.getUserid());
+    private void addActor(Element messageRootElement, Actor actor)
+            throws JAXBException {
+        /*
+         * Convert JAXB Element to W3C element
+         */
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        Document doc;
+        try {
+            doc = factory.newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException e) {
+            // this is an unexpected error
+            throw new RuntimeException(e);
+        }
+
+        JAXBContext context = JAXBContext
+                .newInstance("de.decidr.model.soap.types");
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.marshal(actor, doc);
+
+        messageRootElement.appendChild(doc.getDocumentElement());
     }
 
-    private void setAssignment(SOAPElement bodyElement, TAssignment assignment) {
-        SOAPElement element = findElement(bodyElement, assignment.getKey());
+    private void setAssignment(Element messageRootElement,
+            TAssignment assignment) {
+        Element element = findElement(messageRootElement, assignment.getKey());
         String valuePart = "";
         if (!assignment.getValue().isEmpty()) {
             for (String string : assignment.getValue()) {
                 valuePart += string + " ";
             }
-            element.setValue(valuePart.trim());
+            element.setTextContent(valuePart.trim());
         }
     }
 
-    private SOAPElement getOperationElement() throws SOAPException {
-        Iterator<?> iterator = soapMessage.getSOAPBody().getChildElements();
-        while (iterator.hasNext()) {
-            SOAPElement element = (SOAPElement) iterator.next();
-            if (soapMessage.getSOAPHeader().getAttribute("bodyElementName")
-                    .equals(element.getElementName().getLocalName())) {
-                return element;
-            }
-        }
-        log.warn("Can't find operation "
-                + soapMessage.getSOAPHeader().getAttribute("bodyElementName")
-                + " element in SOAP message");
-        return null;
+    private Element getOperationElement() throws SOAPException {
+        return (Element) soapMessage.getSOAPBody().getChildNodes().item(0);
     }
 
-    private SOAPElement findElement(SOAPElement parent, String elementName) {
-        Iterator<?> iterator = parent.getChildElements();
-        while (iterator.hasNext()) {
-            SOAPElement element = (SOAPElement) iterator.next();
-            if (element.getElementName().getLocalName().equals(elementName)) {
-                return element;
+    private Element findElement(Element messageRootElement, String elementName) {
+        NodeList nodes = messageRootElement.getChildNodes();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Node node = nodes.item(i);
+            if (node instanceof Element) {
+                Element element = (Element) node;
+                if (element.getLocalName().equals(elementName)) {
+                    return element;
+                }
             }
         }
         log.warn("Can't find " + elementName + "elment in "
-                + parent.getNodeName());
+                + messageRootElement.getNodeName());
         return null;
     }
 }
