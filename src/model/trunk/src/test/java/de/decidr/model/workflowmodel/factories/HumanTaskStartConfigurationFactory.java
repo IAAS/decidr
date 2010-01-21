@@ -41,7 +41,7 @@ public class HumanTaskStartConfigurationFactory {
 
         actor.setEmail("test@gmx.de");
         actor.setName("Aleks");
-        actor.setUserid(002);
+        actor.setUserid(2L);
         role.getActor().add(actor);
         roles.getRole().add(role);
         tConfiguration.setRoles(roles);

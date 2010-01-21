@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;complexContent&gt;
  *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
  *       &lt;attribute name=&quot;name&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}NCName&quot; /&gt;
- *       &lt;attribute name=&quot;userid&quot; use=&quot;required&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot; /&gt;
+ *       &lt;attribute name=&quot;userid&quot; type=&quot;{http://decidr.de/schema/DecidrTypes}tID&quot; /&gt;
  *       &lt;attribute name=&quot;email&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot; /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -52,8 +52,8 @@ public class Actor {
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
     protected String name;
-    @XmlAttribute(required = true)
-    protected long userid;
+    @XmlAttribute(required = false)
+    protected Long userid;
     @XmlAttribute
     protected String email;
 
@@ -79,14 +79,14 @@ public class Actor {
     /**
      * Gets the value of the userid property.
      */
-    public long getUserid() {
+    public Long getUserid() {
         return userid;
     }
 
     /**
      * Sets the value of the userid property.
      */
-    public void setUserid(long value) {
+    public void setUserid(Long value) {
         this.userid = value;
     }
 

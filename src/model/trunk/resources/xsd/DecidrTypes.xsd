@@ -22,7 +22,7 @@
 	<xsd:element name="actor" type="tns:tActor" />
 	<xsd:complexType name="tActor">
 		<xsd:attribute name="name" type="xsd:NCName" />
-		<xsd:attribute name="userid" type="tns:tID" use="required" />
+		<xsd:attribute name="userid" type="tns:tID" />
 		<xsd:attribute name="email" type="xsd:string" />
 	</xsd:complexType>
 
