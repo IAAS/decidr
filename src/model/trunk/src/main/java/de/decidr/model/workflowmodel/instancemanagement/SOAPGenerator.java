@@ -72,13 +72,13 @@ public class SOAPGenerator {
 
         soapMessage = template;
 
-        SOAPElement operationElement = getOperationElement();
+        SOAPElement messageRootElement = getOperationElement();
 
         if (startConfiguration.getRoles() != null) {
             if (!startConfiguration.getRoles().getRole().isEmpty()) {
                 SOAPElement roleElement = null;
                 for (Role role : startConfiguration.getRoles().getRole()) {
-                    roleElement = addRole(operationElement, role);
+                    roleElement = addRole(messageRootElement, role);
                     if (!role.getActor().isEmpty()) {
                         for (Actor actor : role.getActor()) {
                             addActor(roleElement, actor);
@@ -90,12 +90,12 @@ public class SOAPGenerator {
 
         if (!startConfiguration.getRoles().getActor().isEmpty()) {
             for (Actor actor : startConfiguration.getRoles().getActor()) {
-                addActor(operationElement, actor);
+                addActor(messageRootElement, actor);
             }
         }
         if (!startConfiguration.getAssignment().isEmpty()) {
             for (TAssignment assignment : startConfiguration.getAssignment()) {
-                setAssignment(operationElement, assignment);
+                setAssignment(messageRootElement, assignment);
             }
         }
         soapMessage.saveChanges();
