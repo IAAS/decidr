@@ -57,8 +57,8 @@ public class SOAPGenerator {
      * used to start a new instance of a deployed workflow model with the
      * information contained in the starting configuration. The generated SOAP
      * message is returned. <br>
-     * <b>This method makes changes to the given "template", transforming it into
-     * a read-to-send SOAPmessage!</b>
+     * <b>This method makes changes to the given "template", transforming it
+     * into a read-to-send SOAPmessage!</b>
      * 
      * 
      * @param template
@@ -165,7 +165,18 @@ public class SOAPGenerator {
     }
 
     private Element getOperationElement() throws SOAPException {
-        return (Element) soapMessage.getSOAPBody().getChildNodes().item(0);
+        /*
+         * Assume the first element is what we're looking for.
+         */
+        Element result = null;
+        NodeList nodes = soapMessage.getSOAPBody().getChildNodes();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            if (nodes.item(i) instanceof Element) {
+                result = (Element) nodes.item(i);
+                break;
+            }
+        }
+        return result;
     }
 
     private Element findElement(Element messageRootElement, String elementName) {
