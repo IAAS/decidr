@@ -102,14 +102,13 @@ public class InstanceManagerImpl implements InstanceManager {
 
         String workflowNamespace = DecidrGlobals.getWorkflowTargetNamespace(
                 dwfm.getId(), dwfm.getTenant().getName());
-        replySOAPMessage.getSOAPBody().addNamespaceDeclaration("xyz",
-                workflowNamespace);
-        log.debug("Added namepsace declaration for xyz: " + workflowNamespace);
-        Element startProcessResponse = (Element) replySOAPMessage.getSOAPBody()
-                .getElementsByTagName("startProcessResponse").item(0);
 
-        String pid = startProcessResponse.getElementsByTagName("pid").item(0)
-                .getTextContent();
+        Element startProcessResponse = (Element) replySOAPMessage.getSOAPBody()
+                .getElementsByTagNameNS(workflowNamespace,
+                        "startProcessResponse").item(0);
+
+        String pid = startProcessResponse.getElementsByTagNameNS(
+                workflowNamespace, "pid").item(0).getTextContent();
 
         log.debug("pid:" + pid);
         return pid;
