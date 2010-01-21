@@ -138,7 +138,8 @@ public class SOAPGenerator {
                 Constants.DECIDRTYPES_NAMESPACE, "role"), Role.class, role),
                 doc);
 
-        messageRootElement.appendChild(doc.getDocumentElement());
+        messageRootElement.appendChild(messageRootElement.getOwnerDocument()
+                .importNode(doc.getDocumentElement(), true));
     }
 
     private void addActor(Element messageRootElement, Actor actor)
@@ -163,7 +164,8 @@ public class SOAPGenerator {
                 Constants.DECIDRTYPES_NAMESPACE, "actor"), Actor.class, actor),
                 doc);
 
-        messageRootElement.appendChild(doc.getDocumentElement());
+        messageRootElement.appendChild(messageRootElement.getOwnerDocument()
+                .importNode(doc.getDocumentElement(), true));
     }
 
     private void setAssignment(Element messageRootElement,
