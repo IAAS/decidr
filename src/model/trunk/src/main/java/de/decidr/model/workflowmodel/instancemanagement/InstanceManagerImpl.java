@@ -31,14 +31,12 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
-import javax.xml.transform.TransformerException;
 
 import org.apache.axiom.om.OMElement;
 import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
 import org.apache.ode.axis2.service.ServiceClientUtil;
-import org.apache.xpath.XPathAPI;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.URLGenerator;
@@ -89,7 +87,7 @@ public class InstanceManagerImpl implements InstanceManager {
         if (log.isDebugEnabled()) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             replySOAPMessage.writeTo(out);
-            log.debug("Reponse to 'start instance' SOAP message:");
+            log.debug("Reponse to 'prepare instance' SOAP message:");
             log.debug(new String(out.toByteArray(), "UTF-8"));
         }
 
@@ -107,18 +105,14 @@ public class InstanceManagerImpl implements InstanceManager {
         replySOAPMessage.getSOAPBody().addNamespaceDeclaration("xyz",
                 workflowNamespace);
         log.debug("Added namepsace declaration for xyz: " + workflowNamespace);
-        try {
-            Node resultNode = XPathAPI
-                    .selectSingleNode(replySOAPMessage.getSOAPBody(),
-                            "//xyz:pid", replySOAPMessage.getSOAPBody());
-            log.debug("pid:" + resultNode.getTextContent());
-            return resultNode.getTextContent();
+        Element startProcessResponse = (Element) replySOAPMessage.getSOAPBody()
+                .getElementsByTagName("startProcessResponse").item(0);
 
-        } catch (TransformerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
+        String pid = startProcessResponse.getElementsByTagName("pid").item(0)
+                .getTextContent();
+
+        log.debug("pid:" + pid);
+        return pid;
     }
 
     @Override
