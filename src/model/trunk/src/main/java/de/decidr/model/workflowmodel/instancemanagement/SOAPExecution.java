@@ -16,6 +16,9 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPException;
@@ -52,8 +55,18 @@ public class SOAPExecution {
         SOAPConnectionFactory soapConnFactory = SOAPConnectionFactory
                 .newInstance();
         SOAPConnection connection = soapConnFactory.createConnection();
-        soapMessage.getMimeHeaders().setHeader("SOAPAction", "startProcess");
-        
+
+        if (log.isDebugEnabled()) {
+            try {
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                soapMessage.writeTo(out);
+                log.debug("Outgoing SOAP message:");
+                log.debug(new String(out.toByteArray(), "UTF-8"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         SOAPMessage reply = connection.call(soapMessage, "http://"
                 + server.getLocation() + "/ode/processes/" + dwfm.getId()
                 + ".DecidrProcess");

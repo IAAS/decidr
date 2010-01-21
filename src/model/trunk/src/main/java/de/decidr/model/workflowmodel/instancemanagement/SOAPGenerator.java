@@ -84,6 +84,7 @@ public class SOAPGenerator {
         if (log.isDebugEnabled()) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             template.writeTo(out);
+            log.debug("Incoming SOAP template");
             log.debug(new String(out.toByteArray(), "UTF-8"));
         }
 

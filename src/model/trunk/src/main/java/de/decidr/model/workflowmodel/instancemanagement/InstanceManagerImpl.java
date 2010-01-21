@@ -16,6 +16,7 @@
 
 package de.decidr.model.workflowmodel.instancemanagement;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -76,6 +77,14 @@ public class InstanceManagerImpl implements InstanceManager {
         SOAPExecution execution = new SOAPExecution();
         SOAPMessage replySOAPMessage = execution.invoke(selectedServer,
                 soapMessage, dwfm);
+
+        if (log.isDebugEnabled()) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            replySOAPMessage.writeTo(out);
+            log.debug("Reponse to 'start instance' SOAP message:");
+            log.debug(new String(out.toByteArray(), "UTF-8"));
+        }
+
         StartInstanceResult result = new StartInstanceResultImpl();
         result.setServer(selectedServer.getId());
         result.setODEPid(getODEPid(replySOAPMessage, dwfm));
@@ -86,13 +95,13 @@ public class InstanceManagerImpl implements InstanceManager {
             DeployedWorkflowModel dwfm) throws SOAPException {
 
         replySOAPMessage.getSOAPBody().addNamespaceDeclaration(
-                "xyz",
+                "tns",
                 DecidrGlobals.getWorkflowTargetNamespace(dwfm.getId(), dwfm
                         .getTenant().getName()));
         try {
             Node resultNode = XPathAPI
                     .selectSingleNode(replySOAPMessage.getSOAPBody(),
-                            "//xyz:pid", replySOAPMessage.getSOAPBody());
+                            "//tns:pid", replySOAPMessage.getSOAPBody());
             log.debug("pid:" + resultNode.getTextContent());
             return resultNode.getTextContent();
 
