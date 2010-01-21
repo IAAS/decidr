@@ -14,7 +14,6 @@
 package de.decidr.model.transactions;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -287,22 +286,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     public Configuration getConfiguration() {
         return configuration;
-    }
-
-    /**
-     * Executes a number of commands within a transaction. If another
-     * transaction is already running, the new transactions become inner
-     * transactions.
-     * 
-     * @param commands
-     *            the commands to execute - must not be null or empty.
-     * @return the result of the committed transaction
-     * @throws TransactionException
-     *             if transaction is not successful or commands are null or
-     *             empty.
-     */
-    public CommitResult runTransaction(Collection<TransactionalCommand> commands) {
-        return runTransaction(new ArrayList<TransactionalCommand>(commands));
     }
 
     /**

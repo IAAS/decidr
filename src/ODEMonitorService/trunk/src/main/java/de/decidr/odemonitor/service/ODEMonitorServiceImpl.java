@@ -171,8 +171,7 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         GetServersCommand cmd1 = new GetServersCommand(ODE_ROLE,
                 ServerTypeEnum.Ode);
 
-        commands.add(cmd1);
-        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd1);
 
         int unlockedServers = 0;
         Date deadTime = new Date(DecidrGlobals.getTime().getTimeInMillis()
@@ -210,7 +209,6 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         int minUnlockedServers = config.getMinUnlockedServers();
         boolean isLocked = server.isLocked();
 
-        commands.clear();
         // don't lock poolInstances
         if ((isLocked && ((minHighInstances > wfInstances) || ((avgLoad > -1)
                 && (avgLoad < minHighSysLoad) && server.isDynamicallyAdded())))
@@ -244,7 +242,8 @@ public class ODEMonitorServiceImpl implements ODEMonitorService {
         // happen in one transaction.
         commands.add(new UpdateServerLoadCommand(ODE_ROLE, odeID,
                 (byte) avgLoad));
-        HibernateTransactionCoordinator.getInstance().runTransaction(commands);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                commands.toArray(new TransactionalCommand[commands.size()]));
 
         try {
             GregorianCalendar date = new GregorianCalendar();
