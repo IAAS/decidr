@@ -5,7 +5,7 @@
     <vprop:query><![CDATA[/taskID[1]]]></vprop:query>
   </vprop:propertyAlias>
     <vprop:propertyAlias messageType="basic:taskCompletedRequest" part="parameters" propertyName="tns:taskID">
-        <vprop:query><![CDATA[/taskID[1]/decidr:taskID[1]]]></vprop:query>
+        <vprop:query><![CDATA[/taskID[1]]]></vprop:query>
     </vprop:propertyAlias>
     <wsdl:import location="HumanTask.wsdl" namespace="http://decidr.de/webservices/HumanTask"/>
     <wsdl:import location="odeprocess.wsdl" namespace="http://decidr.de/wsdl/basicProcess"/>
