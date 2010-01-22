@@ -61,6 +61,10 @@ public class HumanTask implements HumanTaskInterface {
             String taskName, boolean userNotification, String description,
             THumanTaskData taskData) throws TransactionException {
         log.trace("Entering method: createTask");
+        log.debug("wfmID=" + wfmID + ", processID=" + processID + ", userID="
+                + userID + ", taskName=" + taskName + ", userNotification="
+                + userNotification + ", description=" + description
+                + ", taskData=" + taskData);
 
         log.debug("creating work item in database");
         long taskID = new WorkItemFacade(HUMANTASK_ROLE).createWorkItem(userID,
@@ -140,7 +144,8 @@ public class HumanTask implements HumanTaskInterface {
              * TODO OdePID should not be part of a task identifier because the
              * work item ID is globally unique. taskID = work item ID. ~dh
              */
-            // DH this is easy to fix, but it'll require you to adapt the processes ~rr
+            // DH this is easy to fix, but it'll require you to adapt the
+            // processes ~rr
 
             try {
                 log.debug("attempting to parse the data string into an Object");
@@ -150,7 +155,8 @@ public class HumanTask implements HumanTaskInterface {
                 Long deployedWorkflowModelId = workItem.getWorkflowInstance()
                         .getDeployedWorkflowModel().getId();
                 new BasicProcessClient(deployedWorkflowModelId)
-                        .getBPELCallbackInterfacePort().taskCompleted(taskID, data);
+                        .getBPELCallbackInterfacePort().taskCompleted(taskID,
+                                data);
             } catch (Exception e) {
                 throw new TransactionException(e.getMessage(), e);
             }
