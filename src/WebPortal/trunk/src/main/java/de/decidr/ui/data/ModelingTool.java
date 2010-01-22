@@ -122,7 +122,8 @@ public class ModelingTool extends AbstractComponent {
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(
                             "Workflow Model saved successfully.\n\n"
-                                    + "Document:\n" + dwdl, "Success"));
+                                    + "Document:\n" + "<code>" + dwdl
+                                    + "</code>", "Success"));
         } else {
             logger.debug("[Modeling Tool] Client variables did not"
                     + " contain a dwdl key.");
