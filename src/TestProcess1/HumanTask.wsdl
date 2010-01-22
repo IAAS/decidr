@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="HumanTask" targetNamespace="http://decidr.de/webservices/HumanTask" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:dwsdl="http://decidr.de/wsdl/basicProcess" xmlns:sex="http://decidr.de/model/soap/exceptions" xmlns:hut="http://decidr.de/schema/humanTask" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:mex="http://decidr.de/model/exceptions" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:basic="http://decidr.de/schema/DecidrTypes" xmlns:tns="http://decidr.de/webservices/HumanTask" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:decidr="http://decidr.de/schema/DecidrWSTypes">
-  <wsdl:import namespace="http://decidr.de/wsdl/basicProcess" location="HumanTask.HumanTaskSOAP11?wsdl=wsdl/ode_process.wsdl">
+  <wsdl:import namespace="http://decidr.de/wsdl/basicProcess" location="odeprocess.wsdl">
     </wsdl:import>
   <wsdl:types>
     <xsd:schema elementFormDefault="qualified" targetNamespace="http://decidr.de/model/exceptions">
@@ -11,9 +11,9 @@
 		</xsd:schema>
     <xsd:schema elementFormDefault="qualified" targetNamespace="http://decidr.de/webservices/HumanTask">
 			<!-- own type definitions -->
-			<xsd:import namespace="http://decidr.de/schema/humanTask" schemaLocation="HumanTask.HumanTaskSOAP11?xsd=humanTask.xsd"/>
-			<xsd:import namespace="http://decidr.de/schema/DecidrTypes" schemaLocation="HumanTask.HumanTaskSOAP11?xsd=DecidrTypes.xsd"/>
-			<xsd:import namespace="http://decidr.de/schema/DecidrWSTypes" schemaLocation="HumanTask.HumanTaskSOAP11?xsd=DecidrWSTypes.xsd"/>
+			<xsd:import namespace="http://decidr.de/schema/humanTask" schemaLocation="humanTask.xsd"/>
+			<xsd:import namespace="http://decidr.de/schema/DecidrTypes" schemaLocation="DecidrTypes.xsd"/>
+			<xsd:import namespace="http://decidr.de/schema/DecidrWSTypes" schemaLocation="DecidrWSTypes.xsd"/>
 
 			<!-- operations -->
 			<xsd:element name="createTask">
