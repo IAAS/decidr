@@ -353,13 +353,14 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
         } else {
             createdWorkflowInstance.setStartedDate(null);
+            createdWorkflowInstance.setOdePid("");
+            createdWorkflowInstance.setServer(null);
         }
 
         createdWorkflowInstance.setCompletedDate(null);
         createdWorkflowInstance.setDeployedWorkflowModel(deployedModel);
         createdWorkflowInstance.setStartConfiguration(TransformUtil
                 .configurationToBytes(startConfiguration));
-        createdWorkflowInstance.setOdePid("");
 
         session.save(createdWorkflowInstance);
 
@@ -454,12 +455,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         for (de.decidr.model.soap.types.Role configRole : startConfiguration
                 .getRoles().getRole()) {
             for (Actor actor : configRole.getActor()) {
-                Long userId = null;
-                try {
-                    userId = actor.getUserid();
-                } catch (NumberFormatException e) {
-                    // cannot parse to long - nothing needs to be done
-                }
+                Long userId = actor.getUserid();
 
                 // comparing just using string equality is insufficient for
                 // email addresses.
@@ -604,8 +600,13 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
          * Now that the WorkflowInstance has been committed, we may safely start
          * the BPEL process.
          */
-        InstanceManager instanceManager = new InstanceManagerImpl();
-        instanceManager.startInstance(createdWorkflowInstance);
+        try {
+            InstanceManager instanceManager = new InstanceManagerImpl();
+            instanceManager.startInstance(createdWorkflowInstance);
+        } catch (Exception e) {
+            // try to compensate for failure to start instance
+            transactionAborted(null);
+        }
     }
 
     /**

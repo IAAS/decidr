@@ -37,6 +37,11 @@ import de.decidr.model.logging.LogQueue;
  * uses a default configuration which it reads from the first
  * "hibernate.cfg.xml" that it finds in the classpath. You can change the
  * configuration at any time using the <code>setConfiguration</code> method.
+ * 
+ * <p>
+ * FIXME the {@link ThreadLocal} pattern seems to be the cause for memory leaks,
+ * see http://blog.codecentric.de/en/2008/09/threadlocal-memoryleak/ ~dh
+ * 
  * <p>
  * Usage example:
  * 

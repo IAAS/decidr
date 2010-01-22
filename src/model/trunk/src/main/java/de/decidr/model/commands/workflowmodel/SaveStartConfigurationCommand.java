@@ -18,8 +18,6 @@ package de.decidr.model.commands.workflowmodel;
 
 import javax.xml.bind.JAXBException;
 
-import org.hibernate.Query;
-
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.StartConfiguration;
@@ -77,11 +75,11 @@ public class SaveStartConfigurationCommand extends WorkflowModelCommand {
         }
 
         // remove old start configuration(s)
-        Query q = evt.getSession().createQuery(
+        evt.getSession().createQuery(
                 "delete from StartConfiguration "
-                        + "where deployedWorkflowModel = :deployedModel")
-                .setEntity("deployedModel", deployedModel);
-        q.executeUpdate();
+                        + "where deployedWorkflowModel.id = :deployedModelId")
+                .setLong("deployedModelId", deployedModel.getId())
+                .executeUpdate();
 
         // save new start configuration
         StartConfiguration lastStartConfiguration = new StartConfiguration();
