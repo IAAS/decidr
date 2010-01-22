@@ -38,7 +38,7 @@ public class StartInstanceResultImpl implements PrepareInstanceResult {
      * getServer()
      */
     @Override
-    public long getServer() {
+    public long getServerId() {
         return serverId;
     }
 
@@ -62,7 +62,7 @@ public class StartInstanceResultImpl implements PrepareInstanceResult {
      * setServer(long)
      */
     @Override
-    public void setServer(long server) {
+    public void setServerId(long server) {
         serverId = server;
     }
 

@@ -85,8 +85,10 @@ public class InstanceManagerImpl implements InstanceManager {
         }
 
         PrepareInstanceResult result = new StartInstanceResultImpl();
-        result.setServer(selectedServer.getId());
+        result.setServerId(selectedServer.getId());
         result.setODEPid(getODEPid(replySOAPMessage, dwfm));
+        log.debug("PID: " + result.getODEPid() + ", ServerID: "
+                + result.getServerId());
         return result;
     }
 
@@ -111,7 +113,6 @@ public class InstanceManagerImpl implements InstanceManager {
                     "Can't find pid within startProcessResponse.");
         }
 
-        log.debug("pid:" + pid.getTextContent());
         return pid.getTextContent();
     }
 
@@ -165,9 +166,9 @@ public class InstanceManagerImpl implements InstanceManager {
             message.getMimeHeaders().setHeader("SOAPAction",
                     namespace + "/runProcess");
 
-            SOAPElement runProcessMessage = body.addChildElement(new QName(
+            SOAPElement runProcessPart = body.addChildElement(new QName(
                     namespace, "runProcess"));
-            runProcessMessage.addChildElement("pid").setTextContent(
+            runProcessPart.addChildElement("pid").setTextContent(
                     preparedInstance.getOdePid());
 
             // FIXME use url generator? ~dh

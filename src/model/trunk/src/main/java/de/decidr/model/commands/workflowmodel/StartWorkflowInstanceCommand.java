@@ -347,7 +347,7 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
 
             createdWorkflowInstance.setOdePid(startInstanceResult.getODEPid());
             createdWorkflowInstance.setServer((Server) session.get(
-                    Server.class, startInstanceResult.getServer()));
+                    Server.class, startInstanceResult.getServerId()));
             createdWorkflowInstance.setStartedDate(DecidrGlobals.getTime()
                     .getTime());
 

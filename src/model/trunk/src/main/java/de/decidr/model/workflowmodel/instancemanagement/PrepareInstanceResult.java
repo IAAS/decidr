@@ -26,7 +26,7 @@ import java.util.Date;
  */
 public interface PrepareInstanceResult {
 
-    public long getServer();
+    public long getServerId();
 
     public Date getStartDate();
 
@@ -34,7 +34,7 @@ public interface PrepareInstanceResult {
 
     public void setStartDate(Date startDate);
 
-    public void setServer(long server);
+    public void setServerId(long serverId);
 
     public void setODEPid(String pid);
 

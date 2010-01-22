@@ -250,7 +250,7 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
             instance.setOdePid(startInstanceResult.getODEPid());
             instance.setStartedDate(DecidrGlobals.getTime().getTime());
             instance.setServer((Server) session.get(Server.class,
-                    startInstanceResult.getServer()));
+                    startInstanceResult.getServerId()));
             session.save(instance);
         }
     }
