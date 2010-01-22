@@ -27,5 +27,4 @@ public class DateUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         return "'" + sdf.format(cal.getTime()) + "'";
     }
-
 }

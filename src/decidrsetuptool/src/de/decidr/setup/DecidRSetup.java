@@ -27,12 +27,9 @@ import de.decidr.setup.input.InputSystemSettings;
 /**
  * The main class.
  * 
- * FIXME I don't think this setup is up-to-date as far as the generated data
- * model is concerned. There is no maintainer for this project at the moment ~dh
- * 
  * @author Johannes Engelhardt
  */
-@Reviewed(currentReviewState = State.NeedsReview, reviewers = {}, lastRevision = "0")
+@Reviewed(currentReviewState = State.Passed, reviewers = { "RR" }, lastRevision = "2670")
 public class DecidRSetup {
 
     public static void main(String[] args) {
@@ -45,8 +42,6 @@ public class DecidRSetup {
         sql.append(InputServer.getSql(2, "localhost:8080"));
         // esb
         sql.append(InputServer.getSql(3, "localhost:8080"));
-        // storage
-        sql.append(InputServer.getSql(4, "localhost:8080"));
         // ode
         sql.append(InputServer.getSql(1, "localhost:8080"));
 

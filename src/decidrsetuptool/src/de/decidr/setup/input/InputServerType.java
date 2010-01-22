@@ -25,6 +25,6 @@ public class InputServerType {
 
     public static String getSql() {
         return "REPLACE INTO `server_type` (`id`, `name`) VALUES (1, 'Ode'), "
-                + "(2, 'WebPortal'), (3, 'Esb'), (4, 'Storage');\n\n";
+                + "(2, 'WebPortal'), (3, 'Esb');\n\n";
     }
 }

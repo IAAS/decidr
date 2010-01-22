@@ -25,7 +25,6 @@ import de.decidr.setup.model.SuperAdmin;
  * SQL script.
  * 
  * @author Johannes Engelhardt
- * 
  */
 public class InputSuperAdmin {
 

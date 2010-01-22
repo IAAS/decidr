@@ -35,5 +35,4 @@ public class BooleanRequest {
 
         return convertBoolean(bool) ? "'1'" : "'0'";
     }
-
 }

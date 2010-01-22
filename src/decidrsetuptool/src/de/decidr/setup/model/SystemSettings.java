@@ -24,7 +24,7 @@ public class SystemSettings {
     private String modifiedDate;
     private String autoAcceptNewTenants;
     private String systemName;
-    private String domain;
+    private String baseUrl;
     private String systemEmailAddress;
     private String logLevel;
     private String superAdminId = "'1'";
@@ -59,12 +59,12 @@ public class SystemSettings {
         return autoAcceptNewTenants;
     }
 
-    public String getChangeEmailRequestLifetimeSeconds() {
-        return changeEmailRequestLifetimeSeconds;
+    public String getBaseUrl() {
+        return baseUrl;
     }
 
-    public String getDomain() {
-        return domain;
+    public String getChangeEmailRequestLifetimeSeconds() {
+        return changeEmailRequestLifetimeSeconds;
     }
 
     public String getId() {
@@ -175,13 +175,13 @@ public class SystemSettings {
         this.autoAcceptNewTenants = autoAcceptNewTenants;
     }
 
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     public void setChangeEmailRequestLifetimeSeconds(
             String changeEmailRequestLifetimeSeconds) {
         this.changeEmailRequestLifetimeSeconds = changeEmailRequestLifetimeSeconds;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
     }
 
     public void setInvitationLifetimeSeconds(String invitationLifetimeSeconds) {

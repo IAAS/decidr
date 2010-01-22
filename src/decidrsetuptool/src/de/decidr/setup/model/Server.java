@@ -61,5 +61,4 @@ public class Server {
     public void setServerTypeId(String serverTypeId) {
         this.serverTypeId = serverTypeId;
     }
-
 }

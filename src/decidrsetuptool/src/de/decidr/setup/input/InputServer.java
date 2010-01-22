@@ -67,11 +67,8 @@ public class InputServer {
             return "WebPortal";
         case 3:
             return "Esb";
-        case 4:
-            return "Storage";
         default:
             return "";
         }
     }
-
 }

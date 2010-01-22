@@ -34,7 +34,7 @@ public class InputSystemSettings {
     private static String createSql(SystemSettings sys) {
         StringBuilder sql = new StringBuilder();
         sql.append("REPLACE INTO `system_settings` (`id`,`modifiedDate`,"
-                + "`autoAcceptNewTenants`,`systemName`,`domain`,"
+                + "`autoAcceptNewTenants`,`systemName`,`baseUrl`,"
                 + "`systemEmailAddress`,`logLevel`,`superAdminId`,"
                 + "`passwordResetRequestLifetimeSeconds`,"
                 + "`registrationRequestLifetimeSeconds`,"
@@ -53,7 +53,7 @@ public class InputSystemSettings {
 
         sql.append("VALUES (" + sys.getId() + "," + sys.getModifiedDate() + ","
                 + sys.getAutoAcceptNewTenants() + "," + sys.getSystemName()
-                + "," + sys.getDomain() + "," + sys.getSystemEmailAddress()
+                + "," + sys.getBaseUrl() + "," + sys.getSystemEmailAddress()
                 + "," + sys.getLogLevel() + "," + sys.getSuperAdminId() + ","
                 + sys.getPasswordResetRequestLifetimeSeconds() + ","
                 + sys.getRegistrationRequestLifetimeSeconds() + ","
@@ -92,7 +92,8 @@ public class InputSystemSettings {
         sys.setAutoAcceptNewTenants(BooleanRequest.getResult(
                 "Auto accept new tenants", "yes"));
         sys.setSystemName(StringRequest.getResult("System name", "DecidR"));
-        sys.setDomain(StringRequest.getResult("Domain", "decidr.de"));
+        sys.setBaseUrl(StringRequest.getResult("Base URL",
+                "decidr.de:8080/WebPortal"));
         sys.setSystemEmailAddress(EmailRequest
                 .getResult("System email address"));
         sys.setLogLevel(LoglevelRequest.getResult("Loglevel", "WARN"));
@@ -138,5 +139,4 @@ public class InputSystemSettings {
 
         return sys;
     }
-
 }

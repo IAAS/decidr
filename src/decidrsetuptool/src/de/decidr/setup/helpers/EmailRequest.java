@@ -66,5 +66,4 @@ public class EmailRequest {
 
         return matchFound;
     }
-
 }

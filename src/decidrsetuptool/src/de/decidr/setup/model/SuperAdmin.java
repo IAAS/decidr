@@ -154,5 +154,4 @@ public class SuperAdmin {
     public void setUsername(String username) {
         this.username = username;
     }
-
 }
