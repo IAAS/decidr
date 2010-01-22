@@ -37,8 +37,7 @@ import de.decidr.model.workflowmodel.humantask.THumanTaskData;
  * 
  * @author Reinhold
  */
-@WebService(name = HumanTaskInterface.SERVICE_NAME, portName = HumanTaskInterface.PORT_NAME, serviceName = HumanTaskInterface.SERVICE_NAME, targetNamespace = HumanTaskInterface.TARGET_NAMESPACE//, wsdlLocation = "HumanTask.wsdl"
-        )
+@WebService(name = HumanTaskInterface.SERVICE_NAME, portName = HumanTaskInterface.PORT_NAME, serviceName = HumanTaskInterface.SERVICE_NAME, targetNamespace = HumanTaskInterface.TARGET_NAMESPACE, wsdlLocation = "HumanTask.wsdl" )
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.WRAPPED, style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 @XmlSeeAlso( { ObjectFactory.class,
         de.decidr.model.exceptions.ObjectFactory.class,
