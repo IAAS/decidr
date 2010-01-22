@@ -105,7 +105,7 @@ public class InstanceManagerImpl implements InstanceManager {
         String workflowNamespace = DecidrGlobals.getWorkflowTargetNamespace(
                 dwfm.getId(), dwfm.getTenant().getName());
 
-        log.debug("Here's your goddamn soap body:");
+        log.debug("Here's your goddamn soap body, using workflowNamespace " + workflowNamespace);
         logEntireFuckingXmlStructure(replySOAPMessage.getSOAPBody());
 
         Element startProcessResponse = (Element) replySOAPMessage.getSOAPBody()
