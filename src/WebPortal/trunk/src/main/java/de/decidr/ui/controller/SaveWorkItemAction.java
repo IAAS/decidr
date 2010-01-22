@@ -137,7 +137,7 @@ public class SaveWorkItemAction implements ClickListener {
 		}
 
 		try {
-			// Aleks, GH: can't this be done through some kind of action
+			// TODO: can't this be done through some kind of action
 			// assigned to the button (like in AWT/Swing)? ~rr
 			if (event.getButton().getCaption().equals("OK")) {
 				workItemFacade.setData(workItemId, tHumanTaskData);

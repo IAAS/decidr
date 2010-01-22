@@ -125,7 +125,7 @@ public class RegisterTenantComponent extends CustomComponent {
         street.setCaption("Street:");
         postalCode = new TextField();
         postalCode.setCaption("PostalCode:");
-        // Aleks, GH: see previous comment about postal codes ~rr
+        // TODO: see previous comment about postal codes ~rr
         postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
                 "Please enter a valid postal code"));
         city = new TextField();

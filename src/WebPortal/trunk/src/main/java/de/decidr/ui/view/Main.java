@@ -123,8 +123,6 @@ public class Main extends Application implements TransactionListener {
      * @return session TODO document
      */
     public HttpSession getSession() {
-        // Aleks, GH: added lazy loading to get the "clicking on home" error
-        // resolved ~rr
         if (session == null) {
             ApplicationContext ctx = Main.getCurrent().getContext();
             WebApplicationContext webCtx = (WebApplicationContext) ctx;

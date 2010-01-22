@@ -45,7 +45,7 @@ public class SystemSettingsHelpComponent extends VerticalLayout {
                 + "<ul>"
                 + "<li>Whether the super admin must confirm all new tenants or they are accepted automatically.</li>"
                 + "<li>Amount of logic to perform.</li>"
-                //Aleks, GH, TK: complete this list
+                //TODO: complete this list
                 + "</ul></li>"
                 + "</ol><br/>",
                 Label.CONTENT_XHTML);

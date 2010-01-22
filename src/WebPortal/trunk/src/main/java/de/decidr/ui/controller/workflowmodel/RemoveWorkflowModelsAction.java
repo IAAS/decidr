@@ -52,9 +52,7 @@ public class RemoveWorkflowModelsAction implements ClickListener {
     private Table table = null;
 
     /**
-     * Stores the passed table to get the selected item.<br>
-     * Aleks, GH: you *do* know, that this description doesn't actually make any
-     * sense, right? ~rr
+     * COnstructor, requires the table which contains the selected item.
      */
     public RemoveWorkflowModelsAction(Table table) {
         this.table = table;

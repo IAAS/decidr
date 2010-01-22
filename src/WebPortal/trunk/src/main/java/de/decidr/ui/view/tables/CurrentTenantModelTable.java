@@ -38,9 +38,7 @@ public class CurrentTenantModelTable extends Table {
     
     
     /**
-     * Adds this table as an observer to the depending container.<br>
-     * Aleks, GH: obviously incorrect usage of the expression "depending" -
-     * don't know what you're trying to say ~rr
+     * Adds this table as an observer to the related container.<br>
      */
     public CurrentTenantModelTable(Container container) {
         currentTenantContainer = container;

@@ -89,7 +89,7 @@ public class ProfileSettingsComponent extends CustomComponent {
                 tf.setColumns(30);
             } else if ("postalCode".equals(propertyId)) {
                 TextField tf = (TextField) field;
-                // Aleks, GH: this only works for german codes, an example of an
+                // TODO: this only works for german codes, an example of an
                 // english one might be "SS12 9BP" ~rr
                 tf.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
                         "Please enter only numbers"));

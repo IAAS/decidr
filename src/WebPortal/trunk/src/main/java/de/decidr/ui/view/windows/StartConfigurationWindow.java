@@ -361,7 +361,7 @@ public class StartConfigurationWindow extends Window {
      */
     private void addAssignmentToForm(TConfiguration tConfiguration) {
         for (TAssignment assignment : tConfiguration.getAssignment()) {
-            // Aleks, GH: unused variable ~rr
+            // TODO: unused variable ~rr
             String label = getLabel(assignment.getKey());
             if (assignment.getValue().size() > 0) {
                 for (String string : assignment.getValue()) {

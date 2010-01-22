@@ -162,11 +162,11 @@ public class InvitationParameterHandler implements ParameterHandler {
                         // item we get from the facade. Tell me where it can be
                         // retrieved
                         // and i'll add it. ~gh
-                        // GH, Aleks: you have a workflow instance ID - there
+                        // TODO: you have a workflow instance ID - there
                         // has to be some method in a facade (ask DH) ~rr
                         concern = "Participate in a workflow";
                     } else {
-                        // Aleks, GH: which one ~rr
+                        // TODO: which one ~rr
                         concern = " and participate in a workflow";
                     }
                 }

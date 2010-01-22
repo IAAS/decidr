@@ -69,7 +69,7 @@ public class SearchAction implements ClickListener {
         container.removeAllContainerFilters();
         container.addContainerFilter(container.getContainerPropertyIds(),
                 (String)searchField.getValue(), true, false);
-        // Aleks, GH: check refresh method
+        // TODO: check refresh method
         searchTable.getParent().requestRepaint();
     }
 }
