@@ -119,6 +119,10 @@ public class ModelingTool extends AbstractComponent {
                         new TransactionErrorDialogComponent(e));
                 logger.debug("[Modeling Tool] DWDL storing failed.");
             }
+            // Mask HTML characters for display
+            dwdl.replace("&", "&amp;");
+            dwdl.replace("<", "&lt;");
+            dwdl.replace(">", "&gt;");
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(
                             "Workflow Model saved successfully.\n\n"
