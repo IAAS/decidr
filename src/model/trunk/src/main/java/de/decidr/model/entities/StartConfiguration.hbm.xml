@@ -19,7 +19,7 @@
     <class name="de.decidr.model.entities.StartConfiguration" table="start_configuration" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="long">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="deployedWorkflowModel" class="de.decidr.model.entities.DeployedWorkflowModel" fetch="select">
             <column name="`deployedWorkflowModelId`" not-null="true" />

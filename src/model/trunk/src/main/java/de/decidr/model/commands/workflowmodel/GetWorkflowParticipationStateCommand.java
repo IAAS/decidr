@@ -260,7 +260,8 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
                 + "where m.tenant = t and m.id = :modelId))) or "
                 + "exists(from UserIsMemberOfTenant rel "
                 + "where rel.user = u and " + "exists(from WorkflowModel m "
-                + "where m.tenant = rel.tenant and m.id = :modelId)))";
+                + "where m.tenant = rel.tenant and m.id = :modelId))) or "
+                + "(exists(from SystemSettings s where s.superAdmin = u) )";
 
         Query q = session.createQuery(hql).setLong("modelId", model.getId())
                 .setParameterList("knownUsers", knownUsers);
