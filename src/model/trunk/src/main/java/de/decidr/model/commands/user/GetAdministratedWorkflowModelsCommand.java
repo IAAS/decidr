@@ -26,6 +26,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.hibernate.type.Type;
 
+import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.entities.User;
@@ -95,10 +96,11 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
         /*
          * Criteria that represent the following query:
          * 
-         * "from WorkflowModel w where exists(from
-         * UserAdministratesWorkflowModel rel where rel.workflowModel = w and
-         * rel.user.id = :userId) or w.tenant.admin.id = :userId) or exists
-         * (from SystemSettings s where s.admin.id = :userId)"
+         * "from WorkflowModel w where w.tenant.id = DEFAULT_TENANT_ID or
+         * (exists(from UserAdministratesWorkflowModel rel where
+         * rel.workflowModel = w and rel.user.id = :userId) or w.tenant.admin.id
+         * = :userId) or exists (from SystemSettings s where s.admin.id =
+         * :userId))"
          */
         PaginatingCriteria criteria = new PaginatingCriteria(
                 WorkflowModel.class, "m", evt.getSession());
@@ -145,7 +147,13 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
         allAdministrationCriteria.add(Restrictions
                 .eq("t.admin.id", getUserId()));
 
-        criteria.add(allAdministrationCriteria);
+        /*
+         * Everyone is a workflow admin for models within the default tenant.
+         */
+        criteria.add(Restrictions.disjunction().add(allAdministrationCriteria)
+                .add(
+                        Restrictions.eq("m.tenant.id",
+                                DecidrGlobals.DEFAULT_TENANT_ID)));
 
         Filters.apply(criteria, filters, paginator);
 

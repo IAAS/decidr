@@ -40,7 +40,11 @@ import de.decidr.model.logging.LogQueue;
  * 
  * <p>
  * FIXME the {@link ThreadLocal} pattern seems to be the cause for memory leaks,
- * see http://blog.codecentric.de/en/2008/09/threadlocal-memoryleak/ ~dh
+ * see http://blog.codecentric.de/en/2008/09/threadlocal-memoryleak/
+ * 
+ * This behaviour is unacceptable, the HTC getInstance method should be changed
+ * to allow for a more robust "one-instance-per-request" mechanism (dependency
+ * injection? request scope beans?). ~dh
  * 
  * <p>
  * Usage example:
