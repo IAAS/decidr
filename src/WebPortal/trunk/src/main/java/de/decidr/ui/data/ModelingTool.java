@@ -127,7 +127,6 @@ public class ModelingTool extends AbstractComponent {
             logger.debug("[Modeling Tool] Client variables did not"
                     + " contain a dwdl key.");
         }
-        requestRepaint();
     }
 
     /**
