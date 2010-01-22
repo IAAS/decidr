@@ -18,7 +18,7 @@
   </extensions>
   <extensions>
     <extendedObject href="TestProcess.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1264102851359"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1264170455453"/>
   </extensions>
   <extensions>
     <extendedObject href="TestProcess.bpel#//@activity/@activities.1"/>

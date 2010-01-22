@@ -159,13 +159,6 @@
 				</from>
 				<to variable="L1260455400647" />
 			</copy>
-			<!--
-				assign configuration variables <copy> <bpel:from part="payload"
-				variable="processIn"> <bpel:query
-				queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:role]]></bpel:query>
-				</bpel:from> <to variable="L1260445515504"/> </copy>
-			-->
-
 		</assign>
 		<assign name="initRoles">
 			<copy>
@@ -234,7 +227,7 @@
 				</bpel:copy>
 				<bpel:copy>
 					<bpel:from part="payload" variable="processIn">
-						<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:role/decidr:actor/@userid]]></bpel:query>
+						<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[decidr:role/decidr:actor/@userid]]></bpel:query>
 					</bpel:from>
 					<bpel:to part="parameters" variable="createTaskIn">
 						<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
