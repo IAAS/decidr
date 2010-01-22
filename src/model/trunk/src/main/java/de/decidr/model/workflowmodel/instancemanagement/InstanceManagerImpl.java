@@ -37,6 +37,8 @@ import org.apache.axis2.AxisFault;
 import org.apache.log4j.Logger;
 import org.apache.ode.axis2.service.ServiceClientUtil;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.URLGenerator;
@@ -99,9 +101,12 @@ public class InstanceManagerImpl implements InstanceManager {
 
     private String getODEPid(SOAPMessage replySOAPMessage,
             DeployedWorkflowModel dwfm) throws SOAPException {
-
+        // FIXME shit don't work ~dh
         String workflowNamespace = DecidrGlobals.getWorkflowTargetNamespace(
                 dwfm.getId(), dwfm.getTenant().getName());
+
+        log.debug("Here's your goddamn soap body:");
+        logEntireFuckingXmlStructure(replySOAPMessage.getSOAPBody());
 
         Element startProcessResponse = (Element) replySOAPMessage.getSOAPBody()
                 .getElementsByTagNameNS(workflowNamespace,
@@ -121,6 +126,17 @@ public class InstanceManagerImpl implements InstanceManager {
 
         log.debug("pid:" + pid.getTextContent());
         return pid.getTextContent();
+    }
+
+    private void logEntireFuckingXmlStructure(Node node) {
+        log.debug(node.getNodeName() + "[" + node.getNamespaceURI() + "|"
+                + node.getLocalName() + "]" + " => " + node.getNodeValue());
+        log.debug("Children");
+        NodeList children = node.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            log.debug("Child " + i);
+            logEntireFuckingXmlStructure(children.item(i));
+        }
     }
 
     @Override
