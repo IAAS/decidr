@@ -150,6 +150,9 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
                         + (transactionDepth + 1));
         if (transactionDepth == 0) {
             notifiedReceivers.clear();
+            logger
+                    .log(Level.DEBUG,
+                            "HibernateTransactionCoordinator: starting outmost transaction");
             session = sessionFactory.openSession();
             currentTransaction = session.beginTransaction();
         }
@@ -167,7 +170,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     protected CommitResult commitCurrentTransaction()
             throws TransactionException {
-        String logMessage = transactionDepth == 1 ? "Committing transaction."
+        String logMessage = transactionDepth == 1 ? "Committing outmost transaction."
                 : "Delaying commit until the outmost transaction commits.";
 
         logger.log(Level.DEBUG, logMessage + " Current transaction depth: "
