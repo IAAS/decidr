@@ -573,7 +573,7 @@ ENGINE = InnoDB;
 -- Table `decidrdb`.`start_configuration`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `decidrdb`.`start_configuration` (
-  `id` BIGINT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `startConfiguration` LONGBLOB NOT NULL ,
   `deployedWorkflowModelId` BIGINT NOT NULL ,
   PRIMARY KEY (`id`) ,
