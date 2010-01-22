@@ -16,7 +16,8 @@
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://decidr.de/schema/DecidrTypes" xmlns:tns="http://decidr.de/schema/DecidrTypes"
-	elementFormDefault="qualified">
+	elementFormDefault="qualified"
+>
 
 	<xsd:element name="actor" type="tns:tActor" />
 	<xsd:complexType name="tActor">

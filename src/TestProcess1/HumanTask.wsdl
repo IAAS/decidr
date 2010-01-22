@@ -1,341 +1,282 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
-	<!-- The DecidR Development Team licenses this file to you under -->
-	<!-- the Apache License, Version 2.0 (the "License"); you may -->
-	<!-- not use this file except in compliance with the License. -->
-	<!-- You may obtain a copy of the License at -->
-	<!-- -->
-	<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
-	<!-- -->
-	<!-- Unless required by applicable law or agreed to in writing, -->
-	<!-- software distributed under the License is distributed on an -->
-	<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
-	<!-- KIND, either express or implied. See the License for the -->
-	<!-- specific language governing permissions and limitations -->
-	<!-- under the License. -->
-
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/"
-	xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/webservices/HumanTask"
-	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:dwsdl="http://decidr.de/wsdl/basicProcess" xmlns:basic="http://decidr.de/schema/DecidrTypes"
-	xmlns:decidr="http://decidr.de/schema/DecidrWSTypes" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
-	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
-	xmlns:mex="http://decidr.de/model/exceptions" xmlns:sex="http://decidr.de/model/soap/exceptions"
-	xmlns:hut="http://decidr.de/schema/humanTask" name="HumanTask"
-	targetNamespace="http://decidr.de/webservices/HumanTask"
->
-
-	<wsdl:types>
-		<xsd:schema elementFormDefault="qualified"
-			targetNamespace="http://decidr.de/model/exceptions"
-		>
-			<xsd:element name="transactionException" type="xsd:string" />
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="HumanTask" targetNamespace="http://decidr.de/webservices/HumanTask" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:dwsdl="http://decidr.de/wsdl/basicProcess" xmlns:sex="http://decidr.de/model/soap/exceptions" xmlns:hut="http://decidr.de/schema/humanTask" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:mex="http://decidr.de/model/exceptions" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:basic="http://decidr.de/schema/DecidrTypes" xmlns:tns="http://decidr.de/webservices/HumanTask" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:decidr="http://decidr.de/schema/DecidrWSTypes">
+  <wsdl:import namespace="http://decidr.de/wsdl/basicProcess" location="HumanTask.HumanTaskSOAP11?wsdl=wsdl/ode_process.wsdl">
+    </wsdl:import>
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://decidr.de/model/exceptions">
+			<xsd:element name="transactionException" type="xsd:string"/>
 		</xsd:schema>
-		<xsd:schema elementFormDefault="qualified"
-			targetNamespace="http://decidr.de/model/soap/exceptions"
-		>
-			<xsd:element name="reportingException" type="xsd:string" />
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://decidr.de/model/soap/exceptions">
+			<xsd:element name="reportingException" type="xsd:string"/>
 		</xsd:schema>
-		<xsd:schema elementFormDefault="qualified"
-			targetNamespace="http://decidr.de/webservices/HumanTask"
-		>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://decidr.de/webservices/HumanTask">
 			<!-- own type definitions -->
-			<xsd:import schemaLocation="humanTask.xsd"
-				namespace="http://decidr.de/schema/humanTask" />
-			<xsd:import schemaLocation="DecidrTypes.xsd"
-				namespace="http://decidr.de/schema/DecidrTypes" />
-			<xsd:import schemaLocation="DecidrWSTypes.xsd"
-				namespace="http://decidr.de/schema/DecidrWSTypes" />
+			<xsd:import namespace="http://decidr.de/schema/humanTask" schemaLocation="HumanTask.HumanTaskSOAP11?xsd=humanTask.xsd"/>
+			<xsd:import namespace="http://decidr.de/schema/DecidrTypes" schemaLocation="HumanTask.HumanTaskSOAP11?xsd=DecidrTypes.xsd"/>
+			<xsd:import namespace="http://decidr.de/schema/DecidrWSTypes" schemaLocation="HumanTask.HumanTaskSOAP11?xsd=DecidrWSTypes.xsd"/>
 
 			<!-- operations -->
 			<xsd:element name="createTask">
 				<xsd:complexType>
 					<xsd:sequence maxOccurs="1" minOccurs="1">
-						<xsd:element name="wfmID" type="basic:tID" minOccurs="1"
-							maxOccurs="1" nillable="false"
-						>
+						<xsd:element maxOccurs="1" minOccurs="1" name="wfmID" nillable="false" type="basic:tID">
 							<xsd:annotation>
 								<xsd:documentation>Workflow Model ID</xsd:documentation>
 							</xsd:annotation>
 						</xsd:element>
-						<xsd:element name="processID" type="xsd:string"
-							minOccurs="1" maxOccurs="1" nillable="false" />
-						<xsd:element name="userID" type="basic:tID" minOccurs="1"
-							maxOccurs="1" nillable="false" />
-						<xsd:element name="taskName" type="xsd:string"
-							minOccurs="1" maxOccurs="1" nillable="false" />
-						<xsd:element name="userNotification" type="xsd:boolean"
-							minOccurs="0" maxOccurs="1" nillable="false" default="false" />
-						<xsd:element name="description" type="xsd:string"
-							minOccurs="1" maxOccurs="1" nillable="false" />
-						<xsd:element name="taskData" type="hut:tHumanTaskData"
-							minOccurs="0" maxOccurs="1" nillable="false" />
+						<xsd:element maxOccurs="1" minOccurs="1" name="processID" nillable="false" type="xsd:string"/>
+						<xsd:element maxOccurs="1" minOccurs="1" name="userID" nillable="false" type="basic:tID"/>
+						<xsd:element maxOccurs="1" minOccurs="1" name="taskName" nillable="false" type="xsd:string"/>
+						<xsd:element default="false" maxOccurs="1" minOccurs="0" name="userNotification" nillable="false" type="xsd:boolean"/>
+						<xsd:element maxOccurs="1" minOccurs="1" name="description" nillable="false" type="xsd:string"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="taskData" nillable="false" type="hut:tHumanTaskData"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="createTaskResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="taskID" type="xsd:long" minOccurs="1"
-							maxOccurs="1" nillable="false" />
+						<xsd:element maxOccurs="1" minOccurs="1" name="taskID" nillable="false" type="xsd:long"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="taskCompleted">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="taskID" type="basic:tID" minOccurs="1"
-							maxOccurs="1" nillable="false" />
+						<xsd:element maxOccurs="1" minOccurs="1" name="taskID" nillable="false" type="basic:tID"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="taskCompletedResponse">
 				<xsd:complexType>
-					<xsd:sequence />
+					<xsd:sequence/>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="removeTasks">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="wfmID" type="basic:tID" minOccurs="1"
-							maxOccurs="1" nillable="false"
-						>
+						<xsd:element maxOccurs="1" minOccurs="1" name="wfmID" nillable="false" type="basic:tID">
 							<xsd:annotation>
 								<xsd:documentation>Workflow Model ID</xsd:documentation>
 							</xsd:annotation>
 						</xsd:element>
-						<xsd:element name="processID" type="xsd:string"
-							minOccurs="1" maxOccurs="1" nillable="false" />
+						<xsd:element maxOccurs="1" minOccurs="1" name="processID" nillable="false" type="xsd:string"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="removeTasksResponse">
 				<xsd:complexType>
-					<xsd:sequence />
+					<xsd:sequence/>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="removeTask">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="taskIDList" type="decidr:tIDList"
-							minOccurs="1" maxOccurs="1" nillable="false" />
+						<xsd:element maxOccurs="1" minOccurs="1" name="taskIDList" nillable="false" type="decidr:tIDList"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="removeTaskResponse">
 				<xsd:complexType>
-					<xsd:sequence />
+					<xsd:sequence/>
 				</xsd:complexType>
 			</xsd:element>
 		</xsd:schema>
-	</wsdl:types>
-
-	<wsdl:message name="createTaskRequest">
-		<wsdl:part element="tns:createTask" name="parameters" />
-	</wsdl:message>
-	<wsdl:message name="createTaskResponse">
-		<wsdl:part element="tns:createTaskResponse" name="parameters" />
-	</wsdl:message>
-	<wsdl:message name="taskCompletedRequest">
-		<wsdl:part element="tns:taskCompleted" name="parameters" />
-	</wsdl:message>
-	<wsdl:message name="taskCompletedResponse">
-		<wsdl:part element="tns:taskCompletedResponse" name="parameters" />
-	</wsdl:message>
-	<wsdl:message name="removeTasksRequest">
-		<wsdl:part element="tns:removeTasks" name="parameters" />
-	</wsdl:message>
-	<wsdl:message name="removeTasksResponse">
-		<wsdl:part element="tns:removeTasksResponse" name="parameters" />
-	</wsdl:message>
-	<wsdl:message name="removeTaskRequest">
-		<wsdl:part element="tns:removeTask" name="parameters" />
-	</wsdl:message>
-	<wsdl:message name="removeTaskResponse">
-		<wsdl:part element="tns:removeTaskResponse" name="parameters" />
-	</wsdl:message>
-	<wsdl:message name="transactionException">
-		<wsdl:part element="mex:transactionException" name="fault" />
-	</wsdl:message>
-	<wsdl:message name="reportingException">
-		<wsdl:part element="sex:reportingException" name="fault" />
-	</wsdl:message>
-
-	<wsdl:portType name="HumanTaskPT">
-		<wsdl:operation name="createTask">
-			<wsdl:input name="createTaskRequest" message="tns:createTaskRequest"
-				wsaw:Action="urn:createTask" />
-			<wsdl:output name="createTaskResponse" message="tns:createTaskResponse"
-				wsaw:Action="urn:createTaskResponse" />
-			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw:Action="urn:transactionException" />
-		</wsdl:operation>
-		<wsdl:operation name="taskCompleted">
-			<wsdl:input name="taskCompletedRequest" message="tns:taskCompletedRequest"
-				wsaw:Action="urn:taskCompleted" />
-			<wsdl:output name="taskCompletedResponse" message="tns:taskCompletedResponse"
-				wsaw:Action="urn:taskCompletedResponse" />
-			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw:Action="urn:transactionException" />
-			<wsdl:fault name="reportingException" message="tns:reportingException"
-				wsaw:Action="urn:reportingException" />
-		</wsdl:operation>
-		<wsdl:operation name="removeTasks">
-			<wsdl:input name="removeTasksRequest" message="tns:removeTasksRequest"
-				wsaw:Action="urn:removeTasks" />
-			<wsdl:output name="removeTasksResponse" message="tns:removeTasksResponse"
-				wsaw:Action="urn:removeTasksResponse" />
-			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw:Action="urn:transactionException" />
-		</wsdl:operation>
-		<wsdl:operation name="removeTask">
-			<wsdl:input name="removeTaskRequest" message="tns:removeTaskRequest"
-				wsaw:Action="urn:removeTask" />
-			<wsdl:output name="removeTaskResponse" message="tns:removeTaskResponse"
-				wsaw:Action="urn:removeTaskResponse" />
-			<wsdl:fault name="transactionException" message="tns:transactionException"
-				wsaw:Action="urn:transactionException" />
-		</wsdl:operation>
-	</wsdl:portType>
-
-	<wsdl:import location="odeprocess.wsdl" namespace="http://decidr.de/wsdl/basicProcess" />
-
-	<plnk:partnerLinkType name="HumanTaskPLT">
-		<plnk:role name="HumanTaskProvider" portType="tns:HumanTaskPT" />
-		<plnk:role name="HumanTaskClient" portType="dwsdl:basicProcessPT" />
+  </wsdl:types>
+  <wsdl:message name="transactionException">
+    <wsdl:part name="fault" element="mex:transactionException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTaskResponse">
+    <wsdl:part name="parameters" element="tns:createTaskResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="taskCompletedRequest">
+    <wsdl:part name="parameters" element="tns:taskCompleted">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeTaskRequest">
+    <wsdl:part name="parameters" element="tns:removeTask">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeTasksResponse">
+    <wsdl:part name="parameters" element="tns:removeTasksResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeTaskResponse">
+    <wsdl:part name="parameters" element="tns:removeTaskResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="taskCompletedResponse">
+    <wsdl:part name="parameters" element="tns:taskCompletedResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeTasksRequest">
+    <wsdl:part name="parameters" element="tns:removeTasks">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reportingException">
+    <wsdl:part name="fault" element="sex:reportingException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTaskRequest">
+    <wsdl:part name="parameters" element="tns:createTask">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="HumanTaskPT">
+    <wsdl:operation name="createTask">
+      <wsdl:input name="createTaskRequest" message="tns:createTaskRequest" wsaw:Action="urn:createTask">
+    </wsdl:input>
+      <wsdl:output name="createTaskResponse" message="tns:createTaskResponse" wsaw:Action="urn:createTaskResponse">
+    </wsdl:output>
+      <wsdl:fault name="transactionException" message="tns:transactionException" wsaw:Action="urn:transactionException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="taskCompleted">
+      <wsdl:input name="taskCompletedRequest" message="tns:taskCompletedRequest" wsaw:Action="urn:taskCompleted">
+    </wsdl:input>
+      <wsdl:output name="taskCompletedResponse" message="tns:taskCompletedResponse" wsaw:Action="urn:taskCompletedResponse">
+    </wsdl:output>
+      <wsdl:fault name="reportingException" message="tns:reportingException" wsaw:Action="urn:reportingException">
+    </wsdl:fault>
+      <wsdl:fault name="transactionException" message="tns:transactionException" wsaw:Action="urn:transactionException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeTasks">
+      <wsdl:input name="removeTasksRequest" message="tns:removeTasksRequest" wsaw:Action="urn:removeTasks">
+    </wsdl:input>
+      <wsdl:output name="removeTasksResponse" message="tns:removeTasksResponse" wsaw:Action="urn:removeTasksResponse">
+    </wsdl:output>
+      <wsdl:fault name="transactionException" message="tns:transactionException" wsaw:Action="urn:transactionException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeTask">
+      <wsdl:input name="removeTaskRequest" message="tns:removeTaskRequest" wsaw:Action="urn:removeTask">
+    </wsdl:input>
+      <wsdl:output name="removeTaskResponse" message="tns:removeTaskResponse" wsaw:Action="urn:removeTaskResponse">
+    </wsdl:output>
+      <wsdl:fault name="transactionException" message="tns:transactionException" wsaw:Action="urn:transactionException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HumanTaskSOAP" type="tns:HumanTaskPT">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createTask">
+      <soap:operation soapAction="http://decidr.de/webservices/HumanTask/createTask" style="document"/>
+      <wsdl:input name="createTaskRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createTaskResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="transactionException">
+        <soap:fault name="transactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="taskCompleted">
+      <soap:operation soapAction="http://decidr.de/webservices/HumanTask/taskCompleted" style="document"/>
+      <wsdl:input name="taskCompletedRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="taskCompletedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="reportingException">
+        <soap:fault name="reportingException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="transactionException">
+        <soap:fault name="transactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeTasks">
+      <soap:operation soapAction="http://decidr.de/webservices/HumanTask/removeTasks" style="document"/>
+      <wsdl:input name="removeTasksRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeTasksResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="transactionException">
+        <soap:fault name="transactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeTask">
+      <soap:operation soapAction="http://decidr.de/webservices/HumanTask/removeTask" style="document"/>
+      <wsdl:input name="removeTaskRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeTaskResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="transactionException">
+        <soap:fault name="transactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="HumanTaskSOAP11" type="tns:HumanTaskPT">
+    <soap11:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createTask">
+      <soap11:operation soapAction="http://decidr.de/webservices/HumanTask/createTask" style="document"/>
+      <wsdl:input name="createTaskRequest">
+        <soap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createTaskResponse">
+        <soap11:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="transactionException">
+        <soap11:fault name="transactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="taskCompleted">
+      <soap11:operation soapAction="http://decidr.de/webservices/HumanTask/taskCompleted" style="document"/>
+      <wsdl:input name="taskCompletedRequest">
+        <soap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="taskCompletedResponse">
+        <soap11:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="reportingException">
+        <soap11:fault name="reportingException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="transactionException">
+        <soap11:fault name="transactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeTasks">
+      <soap11:operation soapAction="http://decidr.de/webservices/HumanTask/removeTasks" style="document"/>
+      <wsdl:input name="removeTasksRequest">
+        <soap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeTasksResponse">
+        <soap11:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="transactionException">
+        <soap11:fault name="transactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeTask">
+      <soap11:operation soapAction="http://decidr.de/webservices/HumanTask/removeTask" style="document"/>
+      <wsdl:input name="removeTaskRequest">
+        <soap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeTaskResponse">
+        <soap11:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="transactionException">
+        <soap11:fault name="transactionException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HumanTask">
+    <wsdl:port name="HumanTaskSOAP" binding="tns:HumanTaskSOAP">
+      <soap:address location="http://iaassrv4stud:8080/axis2/services/HumanTask.HumanTaskSOAP11/"/>
+    </wsdl:port>
+    <wsdl:port name="HumanTaskSOAP11" binding="tns:HumanTaskSOAP11">
+      <soap11:address location="http://iaassrv4stud:8080/axis2/services/HumanTask.HumanTaskSOAP11/"/>
+    </wsdl:port>
+  </wsdl:service>
+    <plnk:partnerLinkType name="HumanTaskPLT">
+		<plnk:role name="HumanTaskProvider" portType="tns:HumanTaskPT"/>
+		<plnk:role name="HumanTaskClient" portType="dwsdl:basicProcessPT"/>
 	</plnk:partnerLinkType>
-
-	<wsdl:binding name="HumanTaskSOAP" type="tns:HumanTaskPT">
-		<soap:binding style="document"
-			transport="http://schemas.xmlsoap.org/soap/http" />
-		<wsdl:operation name="createTask">
-			<soap:operation soapAction="http://decidr.de/webservices/HumanTask/createTask"
-				style="document" />
-			<wsdl:input name="createTaskRequest">
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output name="createTaskResponse">
-				<soap:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="transactionException">
-				<soap:fault name="transactionException" use="literal" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="taskCompleted">
-			<soap:operation
-				soapAction="http://decidr.de/webservices/HumanTask/taskCompleted"
-				style="document" />
-			<wsdl:input name="taskCompletedRequest">
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output name="taskCompletedResponse">
-				<soap:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="transactionException">
-				<soap:fault name="transactionException" use="literal" />
-			</wsdl:fault>
-			<wsdl:fault name="reportingException">
-				<soap:fault name="reportingException" use="literal" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="removeTasks">
-			<soap:operation soapAction="http://decidr.de/webservices/HumanTask/removeTasks"
-				style="document" />
-			<wsdl:input name="removeTasksRequest">
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output name="removeTasksResponse">
-				<soap:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="transactionException">
-				<soap:fault name="transactionException" use="literal" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="removeTask">
-			<soap:operation soapAction="http://decidr.de/webservices/HumanTask/removeTask"
-				style="document" />
-			<wsdl:input name="removeTaskRequest">
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output name="removeTaskResponse">
-				<soap:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="transactionException">
-				<soap:fault name="transactionException" use="literal" />
-			</wsdl:fault>
-		</wsdl:operation>
-	</wsdl:binding>
-	<wsdl:binding name="HumanTaskSOAP11" type="tns:HumanTaskPT">
-		<soap11:binding style="document"
-			transport="http://schemas.xmlsoap.org/soap/http" />
-		<wsdl:operation name="createTask">
-			<soap11:operation soapAction="http://decidr.de/webservices/HumanTask/createTask"
-				style="document" />
-			<wsdl:input name="createTaskRequest">
-				<soap11:body use="literal" />
-			</wsdl:input>
-			<wsdl:output name="createTaskResponse">
-				<soap11:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="transactionException">
-				<soap11:fault name="transactionException" use="literal" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="taskCompleted">
-			<soap11:operation
-				soapAction="http://decidr.de/webservices/HumanTask/taskCompleted"
-				style="document" />
-			<wsdl:input name="taskCompletedRequest">
-				<soap11:body use="literal" />
-			</wsdl:input>
-			<wsdl:output name="taskCompletedResponse">
-				<soap11:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="transactionException">
-				<soap11:fault name="transactionException" use="literal" />
-			</wsdl:fault>
-			<wsdl:fault name="reportingException">
-				<soap11:fault name="reportingException" use="literal" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="removeTasks">
-			<soap11:operation
-				soapAction="http://decidr.de/webservices/HumanTask/removeTasks"
-				style="document" />
-			<wsdl:input name="removeTasksRequest">
-				<soap11:body use="literal" />
-			</wsdl:input>
-			<wsdl:output name="removeTasksResponse">
-				<soap11:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="transactionException">
-				<soap11:fault name="transactionException" use="literal" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="removeTask">
-			<soap11:operation soapAction="http://decidr.de/webservices/HumanTask/removeTask"
-				style="document" />
-			<wsdl:input name="removeTaskRequest">
-				<soap11:body use="literal" />
-			</wsdl:input>
-			<wsdl:output name="removeTaskResponse">
-				<soap11:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="transactionException">
-				<soap11:fault name="transactionException" use="literal" />
-			</wsdl:fault>
-		</wsdl:operation>
-	</wsdl:binding>
-
-	<!-- needs to be adapted for deployment -->
-	<wsdl:service name="HumanTask">
-		<wsdl:port binding="tns:HumanTaskSOAP" name="HumanTaskSOAP">
-			<soap:address
-				location="http://iaassrv4stud:8080/axis2/services/HumanTask.HumanTaskSOAP11/" />
-		</wsdl:port>
-		<wsdl:port binding="tns:HumanTaskSOAP11" name="HumanTaskSOAP11">
-			<soap11:address
-				location="http://iaassrv4stud:8080/axis2/services/HumanTask.HumanTaskSOAP11/" />
-		</wsdl:port>
-	</wsdl:service>
 </wsdl:definitions>

@@ -16,7 +16,8 @@
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://decidr.de/schema/DecidrProcessTypes" xmlns:tns="http://decidr.de/schema/DecidrProcessTypes"
-	xmlns:basic="http://decidr.de/schema/DecidrTypes" elementFormDefault="qualified">
+	xmlns:basic="http://decidr.de/schema/DecidrTypes" elementFormDefault="qualified"
+>
 
 	<xsd:import namespace="http://decidr.de/schema/DecidrTypes"
 		schemaLocation="DecidrTypes.xsd" />

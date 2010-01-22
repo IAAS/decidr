@@ -227,7 +227,7 @@
 				</bpel:copy>
 				<bpel:copy>
 					<bpel:from part="payload" variable="processIn">
-						<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[decidr:role/decidr:actor/@userid]]></bpel:query>
+						<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[decidr:role[1]/decidr:actor[1]/@userid]]></bpel:query>
 					</bpel:from>
 					<bpel:to part="parameters" variable="createTaskIn">
 						<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
@@ -301,7 +301,7 @@
 
 				</bpel:copy>
 			</bpel:assign>
-			<bpel:invoke name="Invoke" partnerLink="HumanTaskService"
+			<bpel:invoke name="Invoke HT" partnerLink="HumanTaskService"
 				operation="createTask" portType="ws2:HumanTaskPT" inputVariable="createTaskIn"
 				outputVariable="createTaskOut">
 				<bpel:correlations>
@@ -309,7 +309,7 @@
 						pattern="in"></bpel:correlation>
 				</bpel:correlations>
 			</bpel:invoke>
-			<bpel:receive name="Receive" partnerLink="HumanTaskService"
+			<bpel:receive name="Receive HT callback" partnerLink="HumanTaskService"
 				operation="taskCompleted" variable="L1260455377884">
 				<bpel:correlations>
 					<bpel:correlation set="taskCorrelation" initiate="no"></bpel:correlation>

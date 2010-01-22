@@ -16,7 +16,8 @@
 
 <xsd:schema targetNamespace="http://decidr.de/schema/humanTask"
 	xmlns="http://decidr.de/schema/humanTask" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:decidr="http://decidr.de/schema/DecidrTypes" elementFormDefault="qualified">
+	xmlns:decidr="http://decidr.de/schema/DecidrTypes" elementFormDefault="qualified"
+>
 
 	<xsd:element name="humanTaskData" type="tHumanTaskData" />
 	<xsd:complexType name="tHumanTaskData">
