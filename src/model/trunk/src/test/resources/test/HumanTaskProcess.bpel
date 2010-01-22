@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <process name="HumanTaskTest"
-    targetNamespace="http://decidr.de/Default_Tenant/processes/302"
-    xmlns:tns="http://decidr.de/Default_Tenant/processes/302" 
+    targetNamespace="http://decidr.de/DefaultTenant/processes/302"
+    xmlns:tns="http://decidr.de/DefaultTenant/processes/302" 
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:ws1="http://decidr.de/webservices/Email"
     xmlns:ws2="http://decidr.de/webservices/HumanTask"
@@ -18,7 +18,7 @@
   </documentation>
 
   <import location="HumanTaskTest.wsdl"
-     namespace="http://decidr.de/Default_Tenant/processes/302"
+     namespace="http://decidr.de/DefaultTenant/processes/302"
      importType="http://schemas.xmlsoap.org/wsdl/" />
      
   <import location="Email.wsdl"
