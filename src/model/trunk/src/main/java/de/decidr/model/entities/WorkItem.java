@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,28 +31,28 @@ public class WorkItem implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The workflow instance. */
     private WorkflowInstance workflowInstance;
-
+    
     /** The user. */
     private User user;
-
+    
     /** The creation date. */
     private Date creationDate;
-
+    
     /** The status. */
     private String status;
-
+    
     /** The data. */
     private byte[] data;
-
+    
     /** The name. */
     private String name;
-
+    
     /** The description. */
     private String description;
-
+    
     /** The work item contains files. */
     private Set<WorkItemContainsFile> workItemContainsFiles = new HashSet<WorkItemContainsFile>(
             0);

@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,50 +31,50 @@ public class File implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The file name. */
     private String fileName;
-
+    
     /** The mime type. */
     private String mimeType;
-
+    
     /** The may public read. */
     private boolean mayPublicRead;
-
+    
     /** The may public replace. */
     private boolean mayPublicReplace;
-
+    
     /** The may public delete. */
     private boolean mayPublicDelete;
-
+    
     /** The file size bytes. */
     private long fileSizeBytes;
-
+    
     /** The data. */
     private byte[] data;
-
+    
     /** The creation date. */
     private Date creationDate;
-
+    
     /** The temporary. */
     private boolean temporary;
-
+    
     /** The tenants for advanced color scheme id. */
     private Set<Tenant> tenantsForAdvancedColorSchemeId = new HashSet<Tenant>(0);
-
+    
     /** The tenants for simple color scheme id. */
     private Set<Tenant> tenantsForSimpleColorSchemeId = new HashSet<Tenant>(0);
-
+    
     /** The tenants for logo id. */
     private Set<Tenant> tenantsForLogoId = new HashSet<Tenant>(0);
-
+    
     /** The tenants for current color scheme id. */
     private Set<Tenant> tenantsForCurrentColorSchemeId = new HashSet<Tenant>(0);
-
+    
     /** The work item contains files. */
     private Set<WorkItemContainsFile> workItemContainsFiles = new HashSet<WorkItemContainsFile>(
             0);
-
+    
     /** The user has file access. */
     private Set<UserHasFileAccess> userHasFileAccess = new HashSet<UserHasFileAccess>(
             0);

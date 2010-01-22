@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,29 +31,29 @@ public class Server implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The server type. */
     private ServerType serverType;
-
+    
     /** The location. */
     private String location;
-
+    
     /** The load. */
     private byte load;
-
+    
     /** The locked. */
     private boolean locked;
-
+    
     /** The dynamically added. */
     private boolean dynamicallyAdded;
-
+    
     /** The last load update. */
     private Date lastLoadUpdate;
-
+    
     /** The workflow model is deployed on servers. */
     private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
             0);
-
+    
     /** The workflow instances. */
     private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
             0);

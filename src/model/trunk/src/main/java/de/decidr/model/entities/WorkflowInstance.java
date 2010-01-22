@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,35 +31,35 @@ public class WorkflowInstance implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The deployed workflow model. */
     private DeployedWorkflowModel deployedWorkflowModel;
-
+    
     /** The server. */
     private Server server;
-
+    
     /** The ode pid. */
     private String odePid;
-
+    
     /** The start configuration. */
     private byte[] startConfiguration;
-
+    
     /** The started date. */
     private Date startedDate;
-
+    
     /** The completed date. */
     private Date completedDate;
-
+    
     /** The work items. */
     private Set<WorkItem> workItems = new HashSet<WorkItem>(0);
-
+    
     /** The user administrates workflow instances. */
     private Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances = new HashSet<UserAdministratesWorkflowInstance>(
             0);
-
+    
     /** The invitations. */
     private Set<Invitation> invitations = new HashSet<Invitation>(0);
-
+    
     /** The user participates in workflows. */
     private Set<UserParticipatesInWorkflow> userParticipatesInWorkflows = new HashSet<UserParticipatesInWorkflow>(
             0);

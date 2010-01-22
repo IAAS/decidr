@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,28 +29,28 @@ public class ServerLoadView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-
+    
     /** The location. */
     private String location;
-
+    
     /** The load. */
     private byte load;
-
+    
     /** The locked. */
     private boolean locked;
-
+    
     /** The dynamically added. */
     private boolean dynamicallyAdded;
-
+    
     /** The server type id. */
     private long serverTypeId;
-
+    
     /** The last load update. */
     private Date lastLoadUpdate;
-
+    
     /** The server type. */
     private String serverType;
-
+    
     /** The num instances. */
     private long numInstances;
 

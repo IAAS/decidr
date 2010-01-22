@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,28 +29,28 @@ public class TenantSummaryView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-
+    
     /** The tenant name. */
     private String tenantName;
-
+    
     /** The approved since. */
     private Date approvedSince;
-
+    
     /** The admin first name. */
     private String adminFirstName;
-
+    
     /** The admin last name. */
     private String adminLastName;
-
+    
     /** The num workflow models. */
     private Long numWorkflowModels;
-
+    
     /** The num deployed workflow models. */
     private Long numDeployedWorkflowModels;
-
+    
     /** The num workflow instances. */
     private Long numWorkflowInstances;
-
+    
     /** The num members. */
     private Long numMembers;
 

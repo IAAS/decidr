@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,44 +31,44 @@ public class Tenant implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The logo. */
     private File logo;
-
+    
     /** The simple color scheme. */
     private File simpleColorScheme;
-
+    
     /** The advanced color scheme. */
     private File advancedColorScheme;
-
+    
     /** The admin. */
     private User admin;
-
+    
     /** The current color scheme. */
     private File currentColorScheme;
-
+    
     /** The name. */
     private String name;
-
+    
     /** The description. */
     private String description;
-
+    
     /** The approved since. */
     private Date approvedSince;
-
+    
     /** The user is member of tenants. */
     private Set<UserIsMemberOfTenant> userIsMemberOfTenants = new HashSet<UserIsMemberOfTenant>(
             0);
-
+    
     /** The workflow models. */
     private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
-
+    
     /** The invitations. */
     private Set<Invitation> invitations = new HashSet<Invitation>(0);
-
+    
     /** The currently bustling users. */
     private Set<User> currentlyBustlingUsers = new HashSet<User>(0);
-
+    
     /** The deployed workflow models. */
     private Set<DeployedWorkflowModel> deployedWorkflowModels = new HashSet<DeployedWorkflowModel>(
             0);

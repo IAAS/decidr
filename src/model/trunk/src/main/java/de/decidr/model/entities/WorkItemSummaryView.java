@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,22 +29,22 @@ public class WorkItemSummaryView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-
+    
     /** The work item name. */
     private String workItemName;
-
+    
     /** The tenant name. */
     private String tenantName;
-
+    
     /** The creation date. */
     private Date creationDate;
-
+    
     /** The work item status. */
     private String workItemStatus;
-
+    
     /** The user id. */
     private long userId;
-
+    
     /** The workflow instance id. */
     private long workflowInstanceId;
 

@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,42 +31,42 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The original workflow model. */
     private WorkflowModel originalWorkflowModel;
-
+    
     /** The tenant. */
     private Tenant tenant;
-
+    
     /** The name. */
     private String name;
-
+    
     /** The description. */
     private String description;
-
+    
     /** The dwdl. */
     private byte[] dwdl;
-
+    
     /** The wsdl. */
     private byte[] wsdl;
-
+    
     /** The soap template. */
     private byte[] soapTemplate;
-
+    
     /** The deploy date. */
     private Date deployDate;
-
+    
     /** The version. */
     private long version;
-
+    
     /** The workflow model is deployed on servers. */
     private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
             0);
-
+    
     /** The start configurations. */
     private Set<StartConfiguration> startConfigurations = new HashSet<StartConfiguration>(
             0);
-
+    
     /** The workflow instances. */
     private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
             0);

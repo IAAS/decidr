@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,22 +29,22 @@ public class Invitation implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The administrate workflow model. */
     private WorkflowModel administrateWorkflowModel;
-
+    
     /** The sender. */
     private User sender;
-
+    
     /** The receiver. */
     private User receiver;
-
+    
     /** The join tenant. */
     private Tenant joinTenant;
-
+    
     /** The participate in workflow instance. */
     private WorkflowInstance participateInWorkflowInstance;
-
+    
     /** The creation date. */
     private Date creationDate;
 

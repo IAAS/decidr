@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,46 +29,46 @@ public class Log implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The prio. */
     private String prio;
-
+    
     /** The iprio. */
     private Long iprio;
-
+    
     /** The category. */
     private String category;
-
+    
     /** The msg. */
     private String msg;
-
+    
     /** The layout msg. */
     private String layoutMsg;
-
+    
     /** The throwable. */
     private String throwable;
-
+    
     /** The ndc. */
     private String ndc;
-
+    
     /** The mdc. */
     private String mdc;
-
+    
     /** The mdc2. */
     private String mdc2;
-
+    
     /** The info. */
     private String info;
-
+    
     /** The addon. */
     private String addon;
-
+    
     /** The log date. */
     private Date logDate;
-
+    
     /** The created by. */
     private String createdBy;
-
+    
     /** The thread. */
     private String thread;
 

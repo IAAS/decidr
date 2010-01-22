@@ -14,7 +14,7 @@
 <!-- KIND, either express or implied. See the License for the -->
 <!-- specific language governing permissions and limitations -->
 <!-- under the License. -->
-<!-- Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated 22.01.2010 14:51:16 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="de.decidr.model.entities.WorkItemContainsFile" table="work_item_contains_file" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
         <composite-id name="id" class="de.decidr.model.entities.WorkItemContainsFileId">

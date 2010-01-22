@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,37 +29,37 @@ public class TenantWithAdminView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-
+    
     /** The name. */
     private String name;
-
+    
     /** The description. */
     private String description;
-
+    
     /** The logo id. */
     private Long logoId;
-
+    
     /** The simple color scheme id. */
     private Long simpleColorSchemeId;
-
+    
     /** The advanced color scheme id. */
     private Long advancedColorSchemeId;
-
+    
     /** The current color scheme id. */
     private Long currentColorSchemeId;
-
+    
     /** The approved since. */
     private Date approvedSince;
-
+    
     /** The admin id. */
     private long adminId;
-
+    
     /** The admin username. */
     private String adminUsername;
-
+    
     /** The admin first name. */
     private String adminFirstName;
-
+    
     /** The admin last name. */
     private String adminLastName;
 

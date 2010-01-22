@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,78 +31,78 @@ public class User implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The current tenant. */
     private Tenant currentTenant;
-
+    
     /** The auth key. */
     private String authKey;
-
+    
     /** The email. */
     private String email;
-
+    
     /** The disabled since. */
     private Date disabledSince;
-
+    
     /** The unavailable since. */
     private Date unavailableSince;
-
+    
     /** The registered since. */
     private Date registeredSince;
-
+    
     /** The creation date. */
     private Date creationDate;
-
+    
     /** The work items. */
     private Set<WorkItem> workItems = new HashSet<WorkItem>(0);
-
+    
     /** The invitations for sender id. */
     private Set<Invitation> invitationsForSenderId = new HashSet<Invitation>(0);
-
+    
     /** The workflow models. */
     private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
-
+    
     /** The user is member of tenants. */
     private Set<UserIsMemberOfTenant> userIsMemberOfTenants = new HashSet<UserIsMemberOfTenant>(
             0);
-
+    
     /** The user profile. */
     private UserProfile userProfile;
-
+    
     /** The password reset request. */
     private PasswordResetRequest passwordResetRequest;
-
+    
     /** The registration request. */
     private RegistrationRequest registrationRequest;
-
+    
     /** The invitations for receiver id. */
     private Set<Invitation> invitationsForReceiverId = new HashSet<Invitation>(
             0);
-
+    
     /** The user administrates workflow instances. */
     private Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances = new HashSet<UserAdministratesWorkflowInstance>(
             0);
-
+    
     /** The system settings. */
     private Set<SystemSettings> systemSettings = new HashSet<SystemSettings>(0);
-
+    
     /** The user has file access. */
     private Set<UserHasFileAccess> userHasFileAccess = new HashSet<UserHasFileAccess>(
             0);
-
+    
     /** The user participates in workflows. */
     private Set<UserParticipatesInWorkflow> userParticipatesInWorkflows = new HashSet<UserParticipatesInWorkflow>(
             0);
-
+    
     /** The administrated tenants. */
     private Set<Tenant> administratedTenants = new HashSet<Tenant>(0);
-
+    
     /** The logins. */
     private Set<Login> logins = new HashSet<Login>(0);
-
+    
     /** The change email request. */
     private ChangeEmailRequest changeEmailRequest;
-
+    
     /** The user administrates workflow models. */
     private Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels = new HashSet<UserAdministratesWorkflowModel>(
             0);

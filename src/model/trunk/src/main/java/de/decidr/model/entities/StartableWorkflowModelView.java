@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,34 +29,34 @@ public class StartableWorkflowModelView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-
+    
     /** The tenant id. */
     private long tenantId;
-
+    
     /** The name. */
     private String name;
-
+    
     /** The description. */
     private String description;
-
+    
     /** The published. */
     private boolean published;
-
+    
     /** The executable. */
     private boolean executable;
-
+    
     /** The creation date. */
     private Date creationDate;
-
+    
     /** The modified date. */
     private Date modifiedDate;
-
+    
     /** The dwdl. */
     private byte[] dwdl;
-
+    
     /** The version. */
     private long version;
-
+    
     /** The modified by user id. */
     private Long modifiedByUserId;
 

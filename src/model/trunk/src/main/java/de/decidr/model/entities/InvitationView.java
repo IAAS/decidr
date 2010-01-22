@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,49 +29,49 @@ public class InvitationView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-
+    
     /** The sender id. */
     private long senderId;
-
+    
     /** The receiver id. */
     private long receiverId;
-
+    
     /** The participate in workflow instance id. */
     private Long participateInWorkflowInstanceId;
-
+    
     /** The join tenant id. */
     private Long joinTenantId;
-
+    
     /** The administrate workflow model id. */
     private Long administrateWorkflowModelId;
-
+    
     /** The creation date. */
     private Date creationDate;
-
+    
     /** The sender first name. */
     private String senderFirstName;
-
+    
     /** The sender last name. */
     private String senderLastName;
-
+    
     /** The receiver first name. */
     private String receiverFirstName;
-
+    
     /** The receiver last name. */
     private String receiverLastName;
-
+    
     /** The administrated workflow model name. */
     private String administratedWorkflowModelName;
-
+    
     /** The participate worfkwlow model name. */
     private String participateWorfkwlowModelName;
-
+    
     /** The join tenant name. */
     private String joinTenantName;
-
+    
     /** The workflow model owning tenant name. */
     private String workflowModelOwningTenantName;
-
+    
     /** The participate tenant name. */
     private String participateTenantName;
 

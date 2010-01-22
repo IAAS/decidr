@@ -15,7 +15,7 @@
  */
 package de.decidr.model.entities;
 
-// Generated 28.12.2009 10:39:25 by Hibernate Tools 3.2.4.GA
+// Generated 22.01.2010 14:51:15 by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -29,88 +29,88 @@ public class SystemSettings implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-
+    
     /** The super admin. */
     private User superAdmin;
-
+    
     /** The modified date. */
     private Date modifiedDate;
-
+    
     /** The auto accept new tenants. */
     private boolean autoAcceptNewTenants;
-
+    
     /** The system name. */
     private String systemName;
-
+    
     /** The base url. */
     private String baseUrl;
-
+    
     /** The system email address. */
     private String systemEmailAddress;
-
+    
     /** The log level. */
     private String logLevel;
-
+    
     /** The password reset request lifetime seconds. */
     private int passwordResetRequestLifetimeSeconds;
-
+    
     /** The registration request lifetime seconds. */
     private int registrationRequestLifetimeSeconds;
-
+    
     /** The change email request lifetime seconds. */
     private int changeEmailRequestLifetimeSeconds;
-
+    
     /** The invitation lifetime seconds. */
     private int invitationLifetimeSeconds;
-
+    
     /** The mta hostname. */
     private String mtaHostname;
-
+    
     /** The mta port. */
     private int mtaPort;
-
+    
     /** The mta use tls. */
     private boolean mtaUseTls;
-
+    
     /** The mta username. */
     private String mtaUsername;
-
+    
     /** The mta password. */
     private String mtaPassword;
-
+    
     /** The max upload file size bytes. */
     private long maxUploadFileSizeBytes;
-
+    
     /** The max attachments per email. */
     private int maxAttachmentsPerEmail;
-
+    
     /** The monitor update interval seconds. */
     private int monitorUpdateIntervalSeconds;
-
+    
     /** The monitor averaging period seconds. */
     private int monitorAveragingPeriodSeconds;
-
+    
     /** The server pool instances. */
     private int serverPoolInstances;
-
+    
     /** The min server load for lock. */
     private byte minServerLoadForLock;
-
+    
     /** The max server load for unlock. */
     private byte maxServerLoadForUnlock;
-
+    
     /** The max server load for shutdown. */
     private byte maxServerLoadForShutdown;
-
+    
     /** The min unlocked servers. */
     private int minUnlockedServers;
-
+    
     /** The min workflow instances for lock. */
     private int minWorkflowInstancesForLock;
-
+    
     /** The max workflow instances for unlock. */
     private int maxWorkflowInstancesForUnlock;
-
+    
     /** The max workflow instances for shutdown. */
     private int maxWorkflowInstancesForShutdown;
 
