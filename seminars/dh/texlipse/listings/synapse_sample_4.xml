@@ -1,8 +1,0 @@
-<!-- A registry based configuration. Synapse will look for the key "synapse.xml"
-     to retrieve the actual definitions -->
-<definitions xmlns="http://ws.apache.org/ns/synapse">
-	<registry provider="org.apache.synapse.registry.url.SimpleURLRegistry">
-        <parameter name="root">file:./repository/conf/sample/resources/</parameter>
-        <parameter name="cachableDuration">100000</parameter>
-    </registry>
-</definitions> 
