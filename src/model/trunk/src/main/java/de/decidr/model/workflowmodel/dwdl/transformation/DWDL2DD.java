@@ -47,6 +47,20 @@ public class DWDL2DD {
     Process bpel = null;
     Map<String, DecidrWebserviceAdapter> webservices = null;
 
+    private DecidrWebserviceAdapter findWebserviceAdapter(
+            PartnerLink partnerLink,
+            Map<String, DecidrWebserviceAdapter> webservices) {
+        for (DecidrWebserviceAdapter adapter : webservices.values()) {
+            if (adapter.getPartnerLink().getName()
+                    .equals(partnerLink.getName())) {
+                return adapter;
+            }
+        }
+        log.warn("Can't find " + partnerLink.getName()
+                + " in DecidrWebserviceAdapter list");
+        return null;
+    }
+
     public TDeployment getDD(Process bpel,
             Map<String, DecidrWebserviceAdapter> webservices) {
         this.bpel = bpel;
@@ -66,7 +80,7 @@ public class DWDL2DD {
                 TService service = factory.createTService();
                 DecidrWebserviceAdapter webservice = findWebserviceAdapter(
                         partnerLink, webservices);
-                if (webservice != null && webservice.getService() != null) {
+                if ((webservice != null) && (webservice.getService() != null)) {
                     service.setName(webservice.getService().getQName());
                     provide.setService(service);
                     provide.setPartnerLink(partnerLink.getName());
@@ -80,7 +94,7 @@ public class DWDL2DD {
                 TService service = factory.createTService();
                 DecidrWebserviceAdapter webservice = findWebserviceAdapter(
                         partnerLink, webservices);
-                if (webservice != null && webservice.getService() != null) {
+                if ((webservice != null) && (webservice.getService() != null)) {
                     service.setName(webservice.getService().getQName());
                     invoke.setService(service);
                     invoke.setPartnerLink(partnerLink.getName());
@@ -112,20 +126,6 @@ public class DWDL2DD {
         }
         deployment.getProcess().add(process);
         return deployment;
-    }
-
-    private DecidrWebserviceAdapter findWebserviceAdapter(
-            PartnerLink partnerLink,
-            Map<String, DecidrWebserviceAdapter> webservices) {
-        for (DecidrWebserviceAdapter adapter : webservices.values()) {
-            if (adapter.getPartnerLink().getName()
-                    .equals(partnerLink.getName())) {
-                return adapter;
-            }
-        }
-        log.warn("Can't find " + partnerLink.getName()
-                + " in DecidrWebserviceAdapter list");
-        return null;
     }
 
     private PartnerLink getProcessPartnerLink(Process bpel) {

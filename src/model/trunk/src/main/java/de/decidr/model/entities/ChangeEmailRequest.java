@@ -29,16 +29,16 @@ public class ChangeEmailRequest implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The user. */
     private User user;
-    
+
     /** The new email. */
     private String newEmail;
-    
+
     /** The creation date. */
     private Date creationDate;
-    
+
     /** The auth key. */
     private String authKey;
 
@@ -71,41 +71,30 @@ public class ChangeEmailRequest implements java.io.Serializable {
     }
 
     /**
+     * Gets the auth key.
+     * 
+     * @return the auth key
+     */
+    public String getAuthKey() {
+        return this.authKey;
+    }
+
+    /**
+     * Gets the creation date.
+     * 
+     * @return the creation date
+     */
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
      */
     public long getId() {
         return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the user.
-     * 
-     * @return the user
-     */
-    public User getUser() {
-        return this.user;
-    }
-
-    /**
-     * Sets the user.
-     * 
-     * @param user
-     *            the new user
-     */
-    public void setUser(User user) {
-        this.user = user;
     }
 
     /**
@@ -118,22 +107,22 @@ public class ChangeEmailRequest implements java.io.Serializable {
     }
 
     /**
-     * Sets the new email.
+     * Gets the user.
      * 
-     * @param newEmail
-     *            the new new email
+     * @return the user
      */
-    public void setNewEmail(String newEmail) {
-        this.newEmail = newEmail;
+    public User getUser() {
+        return this.user;
     }
 
     /**
-     * Gets the creation date.
+     * Sets the auth key.
      * 
-     * @return the creation date
+     * @param authKey
+     *            the new auth key
      */
-    public Date getCreationDate() {
-        return this.creationDate;
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
     }
 
     /**
@@ -147,22 +136,33 @@ public class ChangeEmailRequest implements java.io.Serializable {
     }
 
     /**
-     * Gets the auth key.
+     * Sets the id.
      * 
-     * @return the auth key
+     * @param id
+     *            the new id
      */
-    public String getAuthKey() {
-        return this.authKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
-     * Sets the auth key.
+     * Sets the new email.
      * 
-     * @param authKey
-     *            the new auth key
+     * @param newEmail
+     *            the new new email
      */
-    public void setAuthKey(String authKey) {
-        this.authKey = authKey;
+    public void setNewEmail(String newEmail) {
+        this.newEmail = newEmail;
+    }
+
+    /**
+     * Sets the user.
+     * 
+     * @param user
+     *            the new user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

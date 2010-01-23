@@ -30,10 +30,10 @@ public class Permission implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The name. */
     private String name;
-    
+
     /** The role has permissions. */
     private Set<RoleHasPermission> roleHasPermissions = new HashSet<RoleHasPermission>(
             0);
@@ -80,6 +80,24 @@ public class Permission implements java.io.Serializable {
     }
 
     /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Gets the role has permissions.
+     * 
+     * @return the role has permissions
+     */
+    public Set<RoleHasPermission> getRoleHasPermissions() {
+        return this.roleHasPermissions;
+    }
+
+    /**
      * Sets the id.
      * 
      * @param id
@@ -90,15 +108,6 @@ public class Permission implements java.io.Serializable {
     }
 
     /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
      * Sets the name.
      * 
      * @param name
@@ -106,15 +115,6 @@ public class Permission implements java.io.Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Gets the role has permissions.
-     * 
-     * @return the role has permissions
-     */
-    public Set<RoleHasPermission> getRoleHasPermissions() {
-        return this.roleHasPermissions;
     }
 
     /**

@@ -26,16 +26,16 @@ import java.util.Date;
  */
 public interface PrepareInstanceResult {
 
+    public String getODEPid();
+
     public long getServerId();
 
     public Date getStartDate();
 
-    public String getODEPid();
-
-    public void setStartDate(Date startDate);
+    public void setODEPid(String pid);
 
     public void setServerId(long serverId);
 
-    public void setODEPid(String pid);
+    public void setStartDate(Date startDate);
 
 }

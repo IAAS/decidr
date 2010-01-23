@@ -47,7 +47,7 @@ public class SetUserProfileCommand extends UserCommand {
      */
     public SetUserProfileCommand(Role role, Long userId, UserProfile newProfile) {
         super(role, userId);
-        if (newProfile == null || userId == null) {
+        if ((newProfile == null) || (userId == null)) {
             throw new IllegalArgumentException(
                     "User ID and new profile must not be null.");
         }

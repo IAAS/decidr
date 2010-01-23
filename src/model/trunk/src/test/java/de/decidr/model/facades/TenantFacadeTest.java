@@ -106,8 +106,9 @@ public class TenantFacadeTest extends LowLevelDatabaseTest {
 
             for (long l = invalidID; session.createQuery(
                     "FROM User WHERE id = :given").setLong("given", l)
-                    .uniqueResult() != null; l++)
+                    .uniqueResult() != null; l++) {
                 invalidID = l + 1;
+            }
 
             invalidTenantID = invalidID;
         }

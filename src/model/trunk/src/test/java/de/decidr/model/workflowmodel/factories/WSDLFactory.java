@@ -35,16 +35,17 @@ public class WSDLFactory {
     static String humanTaskWSDLName = "/test/HumanTaskTest.wsdl";
     static String emailWSDLName = "/test/EmailTest.wsdl";
 
-    public static Definition getHumanTaskDefintion() throws WSDLException,
-            IOException {
-        return TransformUtil
-                .bytesToDefinition(getHumanTaskDefinitionByteArray());
-
-    }
-
     public static Definition getEmailDefinition() throws WSDLException,
             IOException {
         return TransformUtil.bytesToDefinition(getEmailDefinitionByteArray());
+    }
+
+    public static byte[] getEmailDefinitionByteArray() throws IOException {
+        InputStream in = WSDLFactory.class.getResourceAsStream(emailWSDLName);
+        byte[] data = new byte[in.available()];
+        in.read(data, 0, in.available());
+
+        return data;
     }
 
     public static byte[] getHumanTaskDefinitionByteArray() throws IOException {
@@ -56,11 +57,10 @@ public class WSDLFactory {
         return data;
     }
 
-    public static byte[] getEmailDefinitionByteArray() throws IOException {
-        InputStream in = WSDLFactory.class.getResourceAsStream(emailWSDLName);
-        byte[] data = new byte[in.available()];
-        in.read(data, 0, in.available());
+    public static Definition getHumanTaskDefintion() throws WSDLException,
+            IOException {
+        return TransformUtil
+                .bytesToDefinition(getHumanTaskDefinitionByteArray());
 
-        return data;
     }
 }

@@ -57,6 +57,13 @@ public class UserIsTenantAdminAsserterTest extends LowLevelDatabaseTest {
 
     // private static Long wfmId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() {
+        // tenantFacade.deleteTenant(tenantId);
+
+        UserFacadeTest.deleteTestUsers();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
@@ -84,13 +91,6 @@ public class UserIsTenantAdminAsserterTest extends LowLevelDatabaseTest {
         // tenantFacade = new TenantFacade(new SuperAdminRole(superAdminId));
         // tenantId = tenantFacade.createTenant("acl.decidr", "mooomoo",
         // tenantAdminId);
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() {
-        // tenantFacade.deleteTenant(tenantId);
-
-        UserFacadeTest.deleteTestUsers();
     }
 
     /**

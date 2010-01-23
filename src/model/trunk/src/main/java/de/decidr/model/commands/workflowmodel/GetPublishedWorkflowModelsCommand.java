@@ -53,6 +53,13 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
         this.filters = filters;
     }
 
+    /**
+     * @return the result
+     */
+    public List<WorkflowModel> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -76,13 +83,6 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
 
         result = crit.setResultTransformer(CriteriaSpecification.ROOT_ENTITY)
                 .list();
-    }
-
-    /**
-     * @return the result
-     */
-    public List<WorkflowModel> getResult() {
-        return result;
     }
 
 }

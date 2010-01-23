@@ -29,16 +29,16 @@ public class HumanTaskRole extends BasicRole {
     private static HumanTaskRole instance = new HumanTaskRole();
 
     /**
-     * Singleton constructor.
-     */
-    private HumanTaskRole() {
-        super(HUMAN_TASK_ACTOR_ID);
-    }
-
-    /**
      * @return the singleton instance.
      */
     public static HumanTaskRole getInstance() {
         return instance;
+    }
+
+    /**
+     * Singleton constructor.
+     */
+    private HumanTaskRole() {
+        super(HUMAN_TASK_ACTOR_ID);
     }
 }

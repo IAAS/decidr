@@ -72,39 +72,148 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Sets the properties of an existing workflow model, incrementing its
-     * version by one.
+     * Removes the given workflow models, but retains those deployed workflow
+     * models that still have running instances.
      * 
-     * TODO since using the {@link Workflow} pojo turned out to be buggy for
-     * some reason, we temporarily switched to simply passing the XML as a
-     * String. However, since validation would be nice to have, please switch
-     * back to {@link Workflow} as soon as possible. ~dh
+     * @param workflowModelIds
+     *            list of ids of the workflow models to delete
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if workflowModelIds is <code>null</code>.
+     */
+    @AllowedRole(TenantAdminRole.class)
+    public void deleteWorkflowModels(List<Long> workflowModelIds)
+            throws TransactionException {
+        /*
+         * We can't delete all workflow models in a single transaction since a
+         * SOAP communication failure would cause a rollback, possibly leaving
+         * the database in an inconsistent state.
+         */
+        for (Long workflowModelId : workflowModelIds) {
+
+            UndeployWorkflowModelCommand undeployCommand = new UndeployWorkflowModelCommand(
+                    actor, workflowModelId);
+            DeleteWorkflowModelCommand deleteCommand = new DeleteWorkflowModelCommand(
+                    actor, workflowModelId);
+
+            // Delete each model in a separate transaction.
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    undeployCommand, deleteCommand);
+        }
+    }
+
+    /**
+     * Returns a list of all workflow model that have been published. <br>
+     * Preloaded foreign key properties:
+     * <ul>
+     * <li>tenant</li>
+     * </ul>
+     * 
+     * @param filters
+     *            an optional list of filters to apply to the query.
+     * @param paginator
+     *            an optional paginator to split the query into several pages
+     * @return published workflow models.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    @AllowedRole(TenantAdminRole.class)
+    public List<WorkflowModel> getAllPublishedWorkflowModels(
+            List<Filter> filters, Paginator paginator)
+            throws TransactionException {
+        GetPublishedWorkflowModelsCommand cmd = new GetPublishedWorkflowModelsCommand(
+                actor, filters, paginator);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getResult();
+    }
+
+    /**
+     * Returns the raw XML data of the last used start configuration of the
+     * given workflow model. If no applicable start configuration exists, null
+     * is returned.
      * 
      * @param workflowModelId
-     *            ID of workflow model to save
-     * @param name
-     *            workflow model name (since we no longer have access to a
-     *            {@link Workflow} object)
-     * @param description
-     *            workflow model description (since we no longer have access to
-     *            a {@link Workflow} object)
-     * @param dwdl
-     *            XML data
+     *            the id of the workflow model to which the last stat
+     *            configuration should be requested
+     * @return the raw XML data of the last used start configuration or null.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
      * @throws EntityNotFoundException
      *             if the workflow model does not exist.
      * @throws IllegalArgumentException
-     *             if workflowModelId is <code>null</code> or if name is
-     *             <code>null</code> or empty.
+     *             if workflowModelId is <code>null</code>.
+     */
+    @AllowedRole(WorkflowAdminRole.class)
+    public byte[] getLastStartConfiguration(Long workflowModelId)
+            throws TransactionException {
+        GetLastStartConfigurationCommand cmd = new GetLastStartConfigurationCommand(
+                actor, workflowModelId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+
+        StartConfiguration config = cmd.getStartConfiguration();
+        if (config == null) {
+            return null;
+        } else {
+            return config.getStartConfiguration();
+        }
+    }
+
+    /**
+     * Returns a list of all tenant members that administer the given worfklow
+     * model, excluding the tenant admin (who implicitly administrates all
+     * workflow models and instances). <br>
+     * Preloaded foreign key properties:
+     * <ul>
+     * <li>userProfile</li>
+     * </ul>
+     * 
+     * @param workflowModelId
+     *            workflow model of which the administrators should be retrieved
+     * @return List of administrators
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
      */
     @AllowedRole(TenantAdminRole.class)
-    public void saveWorkflowModel(Long workflowModelId, String name,
-            String description, String dwdl) throws TransactionException {
+    public List<User> getWorkflowAdministrators(Long workflowModelId)
+            throws TransactionException {
+        GetWorkflowAdministratorsCommand cmd = new GetWorkflowAdministratorsCommand(
+                actor, workflowModelId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getWorkflowAdmins();
+    }
 
-        HibernateTransactionCoordinator.getInstance().runTransaction(
-                new SaveWorkflowModelCommand(actor, workflowModelId, name,
-                        description, dwdl));
+    /**
+     * Returns a list of all workflow instances of the given workflow model. <br>
+     * Preloaded foreign key properties:
+     * <ul>
+     * <li>deployedWorkflowModel</li>
+     * </ul>
+     * 
+     * @param workflowModelId
+     *            id of workflow model of which all workflow instances should be
+     *            retrieved.
+     * @param paginator
+     *            optional pagination component
+     * @return workflow instances that are associated swith this model.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowModelId is <code>null</code>.
+     */
+    @AllowedRole(WorkflowAdminRole.class)
+    public List<WorkflowInstance> getWorkflowInstances(Long workflowModelId,
+            Paginator paginator) throws TransactionException {
+        GetWorkflowInstancesCommand cmd = new GetWorkflowInstancesCommand(
+                actor, workflowModelId, paginator);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getResult();
     }
 
     /**
@@ -156,24 +265,39 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Makes the given workflow models unavailable for import by other tenants.
-     * No exception will be thrown if one or more of the given workflow models
-     * do not exist.
+     * Sets the properties of an existing workflow model, incrementing its
+     * version by one.
      * 
-     * @param workflowModelIds
-     *            the workflow models to publish.
+     * TODO since using the {@link Workflow} pojo turned out to be buggy for
+     * some reason, we temporarily switched to simply passing the XML as a
+     * String. However, since validation would be nice to have, please switch
+     * back to {@link Workflow} as soon as possible. ~dh
+     * 
+     * @param workflowModelId
+     *            ID of workflow model to save
+     * @param name
+     *            workflow model name (since we no longer have access to a
+     *            {@link Workflow} object)
+     * @param description
+     *            workflow model description (since we no longer have access to
+     *            a {@link Workflow} object)
+     * @param dwdl
+     *            XML data
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow model does not exist.
      * @throws IllegalArgumentException
-     *             if workflowModelIds is <code>null</code>.
+     *             if workflowModelId is <code>null</code> or if name is
+     *             <code>null</code> or empty.
      */
     @AllowedRole(TenantAdminRole.class)
-    public void unpublishWorkflowModels(List<Long> workflowModelIds)
-            throws TransactionException {
-        HibernateTransactionCoordinator.getInstance()
-                .runTransaction(
-                        new PublishWorkflowModelsCommand(actor,
-                                workflowModelIds, false));
+    public void saveWorkflowModel(Long workflowModelId, String name,
+            String description, String dwdl) throws TransactionException {
+
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                new SaveWorkflowModelCommand(actor, workflowModelId, name,
+                        description, dwdl));
     }
 
     /**
@@ -202,34 +326,6 @@ public class WorkflowModelFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new MakeWorkflowModelExecutableCommand(actor, workflowModelId,
                         executable));
-    }
-
-    /**
-     * Returns a list of all tenant members that administer the given worfklow
-     * model, excluding the tenant admin (who implicitly administrates all
-     * workflow models and instances). <br>
-     * Preloaded foreign key properties:
-     * <ul>
-     * <li>userProfile</li>
-     * </ul>
-     * 
-     * @param workflowModelId
-     *            workflow model of which the administrators should be retrieved
-     * @return List of administrators
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     * @throws EntityNotFoundException
-     *             if the workflow model does not exist.
-     * @throws IllegalArgumentException
-     *             if workflowModelId is <code>null</code>.
-     */
-    @AllowedRole(TenantAdminRole.class)
-    public List<User> getWorkflowAdministrators(Long workflowModelId)
-            throws TransactionException {
-        GetWorkflowAdministratorsCommand cmd = new GetWorkflowAdministratorsCommand(
-                actor, workflowModelId);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        return cmd.getWorkflowAdmins();
     }
 
     /**
@@ -278,92 +374,6 @@ public class WorkflowModelFacade extends AbstractFacade {
         SetWorkflowAdministratorsCommand cmd = new SetWorkflowAdministratorsCommand(
                 actor, workflowModelId, newAdminUsernames, newAdminEmails);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-    }
-
-    /**
-     * Removes the given workflow models, but retains those deployed workflow
-     * models that still have running instances.
-     * 
-     * @param workflowModelIds
-     *            list of ids of the workflow models to delete
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     * @throws IllegalArgumentException
-     *             if workflowModelIds is <code>null</code>.
-     */
-    @AllowedRole(TenantAdminRole.class)
-    public void deleteWorkflowModels(List<Long> workflowModelIds)
-            throws TransactionException {
-        /*
-         * We can't delete all workflow models in a single transaction since a
-         * SOAP communication failure would cause a rollback, possibly leaving
-         * the database in an inconsistent state.
-         */
-        for (Long workflowModelId : workflowModelIds) {
-
-            UndeployWorkflowModelCommand undeployCommand = new UndeployWorkflowModelCommand(
-                    actor, workflowModelId);
-            DeleteWorkflowModelCommand deleteCommand = new DeleteWorkflowModelCommand(
-                    actor, workflowModelId);
-
-            // Delete each model in a separate transaction.
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    undeployCommand, deleteCommand);
-        }
-    }
-
-    /**
-     * Returns a list of all workflow instances of the given workflow model. <br>
-     * Preloaded foreign key properties:
-     * <ul>
-     * <li>deployedWorkflowModel</li>
-     * </ul>
-     * 
-     * @param workflowModelId
-     *            id of workflow model of which all workflow instances should be
-     *            retrieved.
-     * @param paginator
-     *            optional pagination component
-     * @return workflow instances that are associated swith this model.
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     * @throws EntityNotFoundException
-     *             if the workflow model does not exist.
-     * @throws IllegalArgumentException
-     *             if workflowModelId is <code>null</code>.
-     */
-    @AllowedRole(WorkflowAdminRole.class)
-    public List<WorkflowInstance> getWorkflowInstances(Long workflowModelId,
-            Paginator paginator) throws TransactionException {
-        GetWorkflowInstancesCommand cmd = new GetWorkflowInstancesCommand(
-                actor, workflowModelId, paginator);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        return cmd.getResult();
-    }
-
-    /**
-     * Returns a list of all workflow model that have been published. <br>
-     * Preloaded foreign key properties:
-     * <ul>
-     * <li>tenant</li>
-     * </ul>
-     * 
-     * @param filters
-     *            an optional list of filters to apply to the query.
-     * @param paginator
-     *            an optional paginator to split the query into several pages
-     * @return published workflow models.
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     */
-    @AllowedRole(TenantAdminRole.class)
-    public List<WorkflowModel> getAllPublishedWorkflowModels(
-            List<Filter> filters, Paginator paginator)
-            throws TransactionException {
-        GetPublishedWorkflowModelsCommand cmd = new GetPublishedWorkflowModelsCommand(
-                actor, filters, paginator);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        return cmd.getResult();
     }
 
     /**
@@ -428,33 +438,23 @@ public class WorkflowModelFacade extends AbstractFacade {
     }
 
     /**
-     * Returns the raw XML data of the last used start configuration of the
-     * given workflow model. If no applicable start configuration exists, null
-     * is returned.
+     * Makes the given workflow models unavailable for import by other tenants.
+     * No exception will be thrown if one or more of the given workflow models
+     * do not exist.
      * 
-     * @param workflowModelId
-     *            the id of the workflow model to which the last stat
-     *            configuration should be requested
-     * @return the raw XML data of the last used start configuration or null.
+     * @param workflowModelIds
+     *            the workflow models to publish.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
-     * @throws EntityNotFoundException
-     *             if the workflow model does not exist.
      * @throws IllegalArgumentException
-     *             if workflowModelId is <code>null</code>.
+     *             if workflowModelIds is <code>null</code>.
      */
-    @AllowedRole(WorkflowAdminRole.class)
-    public byte[] getLastStartConfiguration(Long workflowModelId)
+    @AllowedRole(TenantAdminRole.class)
+    public void unpublishWorkflowModels(List<Long> workflowModelIds)
             throws TransactionException {
-        GetLastStartConfigurationCommand cmd = new GetLastStartConfigurationCommand(
-                actor, workflowModelId);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-
-        StartConfiguration config = cmd.getStartConfiguration();
-        if (config == null) {
-            return null;
-        } else {
-            return config.getStartConfiguration();
-        }
+        HibernateTransactionCoordinator.getInstance()
+                .runTransaction(
+                        new PublishWorkflowModelsCommand(actor,
+                                workflowModelIds, false));
     }
 }

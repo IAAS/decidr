@@ -56,8 +56,8 @@ public class ImplicitFileAccessAsserter extends AbstractTransactionalCommand
 
         boolean result = false;
 
-        if (role instanceof UserRole && role.getActorId() != null
-                && permission instanceof FilePermission) {
+        if ((role instanceof UserRole) && (role.getActorId() != null)
+                && (permission instanceof FilePermission)) {
 
             userId = role.getActorId();
             filePermission = (FilePermission) permission;
@@ -67,22 +67,6 @@ public class ImplicitFileAccessAsserter extends AbstractTransactionalCommand
         }
 
         return result;
-    }
-
-    @Override
-    public void transactionStarted(TransactionEvent evt)
-            throws TransactionException {
-        implicitAccess = false;
-
-        session = evt.getSession();
-
-        file = (File) evt.getSession().get(File.class, filePermission.getId());
-        if (file == null) {
-            // cannot grant access to a non-existing file.
-            return;
-        }
-
-        checkWorkflowAdminAccess();
     }
 
     /**
@@ -116,5 +100,21 @@ public class ImplicitFileAccessAsserter extends AbstractTransactionalCommand
         if (found != null) {
             implicitAccess = true;
         }
+    }
+
+    @Override
+    public void transactionStarted(TransactionEvent evt)
+            throws TransactionException {
+        implicitAccess = false;
+
+        session = evt.getSession();
+
+        file = (File) evt.getSession().get(File.class, filePermission.getId());
+        if (file == null) {
+            // cannot grant access to a non-existing file.
+            return;
+        }
+
+        checkWorkflowAdminAccess();
     }
 }

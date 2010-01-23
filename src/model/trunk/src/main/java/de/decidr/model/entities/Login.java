@@ -29,13 +29,13 @@ public class Login implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The user. */
     private User user;
-    
+
     /** The login date. */
     private Date loginDate;
-    
+
     /** The success. */
     private boolean success;
 
@@ -73,13 +73,12 @@ public class Login implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the login date.
      * 
-     * @param id
-     *            the new id
+     * @return the login date
      */
-    public void setId(Long id) {
-        this.id = id;
+    public Date getLoginDate() {
+        return this.loginDate;
     }
 
     /**
@@ -92,22 +91,22 @@ public class Login implements java.io.Serializable {
     }
 
     /**
-     * Sets the user.
+     * Checks if is success.
      * 
-     * @param user
-     *            the new user
+     * @return true, if is success
      */
-    public void setUser(User user) {
-        this.user = user;
+    public boolean isSuccess() {
+        return this.success;
     }
 
     /**
-     * Gets the login date.
+     * Sets the id.
      * 
-     * @return the login date
+     * @param id
+     *            the new id
      */
-    public Date getLoginDate() {
-        return this.loginDate;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -121,15 +120,6 @@ public class Login implements java.io.Serializable {
     }
 
     /**
-     * Checks if is success.
-     * 
-     * @return true, if is success
-     */
-    public boolean isSuccess() {
-        return this.success;
-    }
-
-    /**
      * Sets the success.
      * 
      * @param success
@@ -137,6 +127,16 @@ public class Login implements java.io.Serializable {
      */
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    /**
+     * Sets the user.
+     * 
+     * @param user
+     *            the new user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

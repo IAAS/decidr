@@ -62,6 +62,30 @@ public class InstanceManagerImpl implements InstanceManager {
 
     private ServiceClientUtil client;
 
+    private String getODEPid(SOAPMessage replySOAPMessage,
+            DeployedWorkflowModel dwfm) throws SOAPException {
+        String workflowNamespace = DecidrGlobals.getWorkflowTargetNamespace(
+                dwfm.getId(), dwfm.getTenant().getName());
+
+        Element startProcessResponse = (Element) replySOAPMessage.getSOAPBody()
+                .getElementsByTagNameNS(workflowNamespace,
+                        "startProcessResponse").item(0);
+
+        if (startProcessResponse == null) {
+            throw new NullPointerException("Can't find startProcessResponse.");
+        }
+
+        Element pid = (Element) startProcessResponse.getElementsByTagNameNS(
+                workflowNamespace, "pid").item(0);
+
+        if (pid == null) {
+            throw new NullPointerException(
+                    "Can't find pid within startProcessResponse.");
+        }
+
+        return pid.getTextContent();
+    }
+
     @Override
     public PrepareInstanceResult prepareInstance(DeployedWorkflowModel dwfm,
             TConfiguration startConfiguration,
@@ -90,58 +114,6 @@ public class InstanceManagerImpl implements InstanceManager {
         log.debug("PID: " + result.getODEPid() + ", ServerID: "
                 + result.getServerId());
         return result;
-    }
-
-    private String getODEPid(SOAPMessage replySOAPMessage,
-            DeployedWorkflowModel dwfm) throws SOAPException {
-        String workflowNamespace = DecidrGlobals.getWorkflowTargetNamespace(
-                dwfm.getId(), dwfm.getTenant().getName());
-
-        Element startProcessResponse = (Element) replySOAPMessage.getSOAPBody()
-                .getElementsByTagNameNS(workflowNamespace,
-                        "startProcessResponse").item(0);
-
-        if (startProcessResponse == null) {
-            throw new NullPointerException("Can't find startProcessResponse.");
-        }
-
-        Element pid = (Element) startProcessResponse.getElementsByTagNameNS(
-                workflowNamespace, "pid").item(0);
-
-        if (pid == null) {
-            throw new NullPointerException(
-                    "Can't find pid within startProcessResponse.");
-        }
-
-        return pid.getTextContent();
-    }
-
-    @Override
-    public void stopInstance(WorkflowInstance instance) throws AxisFault {
-        // FIXME never tested ~dh
-        client = new ServiceClientUtil();
-
-        // create the terminate message
-        OMElement terminateMsg = client.buildMessage("terminate",
-                new String[] { "filter" }, new String[] { "iid="
-                        + instance.getOdePid() });
-
-        // send the message
-        // returns a OMElement that is not used
-        client.send(terminateMsg, URLGenerator
-                .getOdeInstanceManangementUrl(instance.getServer()));
-        log.info("Pid " + instance.getOdePid() + "stopped");
-
-        // create the delete message
-        OMElement deleteMsg = client.buildMessage("delete",
-                new String[] { "filter" }, new String[] { "iid="
-                        + instance.getOdePid() });
-
-        // send the message
-        // returns a OMElement that is not used
-        client.send(deleteMsg, URLGenerator
-                .getOdeInstanceManangementUrl(instance.getServer()));
-        log.info("Pid " + instance.getOdePid() + " terminated");
     }
 
     @Override
@@ -182,5 +154,33 @@ public class InstanceManagerImpl implements InstanceManager {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void stopInstance(WorkflowInstance instance) throws AxisFault {
+        // FIXME never tested ~dh
+        client = new ServiceClientUtil();
+
+        // create the terminate message
+        OMElement terminateMsg = client.buildMessage("terminate",
+                new String[] { "filter" }, new String[] { "iid="
+                        + instance.getOdePid() });
+
+        // send the message
+        // returns a OMElement that is not used
+        client.send(terminateMsg, URLGenerator
+                .getOdeInstanceManangementUrl(instance.getServer()));
+        log.info("Pid " + instance.getOdePid() + "stopped");
+
+        // create the delete message
+        OMElement deleteMsg = client.buildMessage("delete",
+                new String[] { "filter" }, new String[] { "iid="
+                        + instance.getOdePid() });
+
+        // send the message
+        // returns a OMElement that is not used
+        client.send(deleteMsg, URLGenerator
+                .getOdeInstanceManangementUrl(instance.getServer()));
+        log.info("Pid " + instance.getOdePid() + " terminated");
     }
 }

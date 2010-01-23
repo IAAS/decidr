@@ -35,10 +35,9 @@ public abstract class FilePermission extends EntityPermission {
      *            the ID of the accessed file.
      */
     public FilePermission(String prefix, Long fileId) {
-        super(
-                File.class.getName()
-                        + ((prefix != null && !prefix.isEmpty()) ? ("." + prefix)
-                                : ""), fileId);
+        super(File.class.getName()
+                + (((prefix != null) && !prefix.isEmpty()) ? ("." + prefix)
+                        : ""), fileId);
     }
 
 }

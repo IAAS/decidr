@@ -47,6 +47,17 @@ public class UserOwnsWorkflowModelAsserterTest extends LowLevelDatabaseTest {
     // private static Long tenantId;
     // private static Long wfmId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() {
+
+        // List<Long> wfm = new ArrayList<Long>();
+        // wfm.add(wfmId);
+        // wfmFacade.deleteWorkflowModels(wfm);
+        // tenantFacade.deleteTenant(tenantId);
+
+        UserFacadeTest.deleteTestUsers();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() {
         // UserFacadeTest.deleteTestUsers();
@@ -87,17 +98,6 @@ public class UserOwnsWorkflowModelAsserterTest extends LowLevelDatabaseTest {
         // tenantFacade.addTenantMember(tenantId, workflowAdminId);
         // wfmId = tenantFacade.createWorkflowModel(tenantId, "wfm.ACL");
 
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() {
-
-        // List<Long> wfm = new ArrayList<Long>();
-        // wfm.add(wfmId);
-        // wfmFacade.deleteWorkflowModels(wfm);
-        // tenantFacade.deleteTenant(tenantId);
-
-        UserFacadeTest.deleteTestUsers();
     }
 
     /**

@@ -27,10 +27,10 @@ public class WorkflowModelIsDeployedOnServer implements java.io.Serializable {
 
     /** The id. */
     private WorkflowModelIsDeployedOnServerId id;
-    
+
     /** The deployed workflow model. */
     private DeployedWorkflowModel deployedWorkflowModel;
-    
+
     /** The server. */
     private Server server;
 
@@ -61,6 +61,15 @@ public class WorkflowModelIsDeployedOnServer implements java.io.Serializable {
     }
 
     /**
+     * Gets the deployed workflow model.
+     * 
+     * @return the deployed workflow model
+     */
+    public DeployedWorkflowModel getDeployedWorkflowModel() {
+        return this.deployedWorkflowModel;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
@@ -70,22 +79,12 @@ public class WorkflowModelIsDeployedOnServer implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the server.
      * 
-     * @param id
-     *            the new id
+     * @return the server
      */
-    public void setId(WorkflowModelIsDeployedOnServerId id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the deployed workflow model.
-     * 
-     * @return the deployed workflow model
-     */
-    public DeployedWorkflowModel getDeployedWorkflowModel() {
-        return this.deployedWorkflowModel;
+    public Server getServer() {
+        return this.server;
     }
 
     /**
@@ -100,12 +99,13 @@ public class WorkflowModelIsDeployedOnServer implements java.io.Serializable {
     }
 
     /**
-     * Gets the server.
+     * Sets the id.
      * 
-     * @return the server
+     * @param id
+     *            the new id
      */
-    public Server getServer() {
-        return this.server;
+    public void setId(WorkflowModelIsDeployedOnServerId id) {
+        this.id = id;
     }
 
     /**

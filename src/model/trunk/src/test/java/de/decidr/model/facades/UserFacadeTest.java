@@ -129,8 +129,9 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
 
         for (long l = invalidID; session.createQuery(
                 "FROM User WHERE id = :given").setLong("given", l)
-                .uniqueResult() != null; l++)
+                .uniqueResult() != null; l++) {
             invalidID = l + 1;
+        }
         return invalidID;
     }
 
@@ -489,7 +490,7 @@ public class UserFacadeTest extends LowLevelDatabaseTest {
         adminFacade.getAllUsers(null, new Paginator());
         adminFacade.getAllUsers(new ArrayList<Filter>(), new Paginator());
 
-        if (userList == null || userList.isEmpty()) {
+        if ((userList == null) || userList.isEmpty()) {
             fail("No users were retrieved despite there being at least one");
             // fail() throws an error which the java compiler doesn't know
             // about. This means we need to indicate that the method is always

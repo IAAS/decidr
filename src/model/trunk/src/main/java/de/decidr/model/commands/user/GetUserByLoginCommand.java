@@ -64,18 +64,32 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
             String passwordPlaintext) {
         super(role, (Permission) null);
 
-        if (emailOrUsername == null || emailOrUsername.isEmpty()) {
+        if ((emailOrUsername == null) || emailOrUsername.isEmpty()) {
             throw new IllegalArgumentException(
                     "Email/username cannot be null or empty.");
         }
 
-        if (passwordPlaintext == null || passwordPlaintext.isEmpty()) {
+        if ((passwordPlaintext == null) || passwordPlaintext.isEmpty()) {
             throw new IllegalArgumentException(
                     "Password cannot be null or empty.");
         }
 
         this.emailOrUsername = emailOrUsername;
         this.passwordPlaintext = passwordPlaintext;
+    }
+
+    /**
+     * @return whether the given password was correct.
+     */
+    public Boolean getPasswordCorrect() {
+        return passwordCorrect;
+    }
+
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return user;
     }
 
     @Override
@@ -113,19 +127,5 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
         thisLogin.setSuccess(passwordCorrect);
         thisLogin.setUser(existingUser);
         evt.getSession().save(thisLogin);
-    }
-
-    /**
-     * @return the user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * @return whether the given password was correct.
-     */
-    public Boolean getPasswordCorrect() {
-        return passwordCorrect;
     }
 }

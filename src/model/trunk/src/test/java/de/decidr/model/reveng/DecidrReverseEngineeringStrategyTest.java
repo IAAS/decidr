@@ -40,17 +40,6 @@ public class DecidrReverseEngineeringStrategyTest extends DecidrOthersTest {
 
     /**
      * Test method for
-     * {@link DecidrReverseEngineeringStrategy#DecidrReverseEngineeringStrategy(ReverseEngineeringStrategy)}
-     * .
-     */
-    @Test
-    public void testDecidrReverseEngineeringStrategy() {
-        new DecidrReverseEngineeringStrategy(
-                new DecidrReverseEngineeringStrategy(null));
-    }
-
-    /**
-     * Test method for
      * {@link DecidrReverseEngineeringStrategy#convertTableNameToIdentifier(String)}
      * .
      */
@@ -78,6 +67,17 @@ public class DecidrReverseEngineeringStrategyTest extends DecidrOthersTest {
         } catch (IllegalArgumentException e) {
             // this exception is supposed to be thrown
         }
+    }
+
+    /**
+     * Test method for
+     * {@link DecidrReverseEngineeringStrategy#DecidrReverseEngineeringStrategy(ReverseEngineeringStrategy)}
+     * .
+     */
+    @Test
+    public void testDecidrReverseEngineeringStrategy() {
+        new DecidrReverseEngineeringStrategy(
+                new DecidrReverseEngineeringStrategy(null));
     }
 
     /**
@@ -112,16 +112,6 @@ public class DecidrReverseEngineeringStrategyTest extends DecidrOthersTest {
 
     /**
      * Test method for
-     * {@link DecidrReverseEngineeringStrategy#tableToMetaAttributes(TableIdentifier)}
-     * .
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testTableToMetaAttributesTableIdentifier() {
-        dres.tableToMetaAttributes(null);
-    }
-
-    /**
-     * Test method for
      * {@link DecidrReverseEngineeringStrategy#getPrimaryKeyColumnNames(TableIdentifier)}
      * .
      */
@@ -139,5 +129,15 @@ public class DecidrReverseEngineeringStrategyTest extends DecidrOthersTest {
     public void testSetSettingsReverseEngineeringSettings() {
         // null means default settings, so this should not throw an exception.
         dres.setSettings(null);
+    }
+
+    /**
+     * Test method for
+     * {@link DecidrReverseEngineeringStrategy#tableToMetaAttributes(TableIdentifier)}
+     * .
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testTableToMetaAttributesTableIdentifier() {
+        dres.tableToMetaAttributes(null);
     }
 }

@@ -75,88 +75,6 @@ public class Validator {
     }
 
     /**
-     * This methods validates a given DWDL Workflow and returns a list of
-     * {@link IProblem}s. The workflow will be parsed and checked till to the
-     * end.
-     * 
-     * @param dwdl
-     *            The DWDL workflow to validate
-     * @return List of problems found during validation process.
-     */
-    public List<IProblem> validate(Workflow dwdl) {
-        DWDLErrorHandler errHandler = null;
-        List<IProblem> errList = null;
-
-        byte[] wf_bytes = null;
-        StreamSource src = null;
-
-        validator.setErrorHandler(new DWDLErrorHandler());
-
-        try {
-            wf_bytes = TransformUtil.workflowToBytes(dwdl);
-            src = new StreamSource(new ByteArrayInputStream(wf_bytes));
-            validator.setErrorHandler(new DWDLErrorHandler());
-            validator.validate(src);
-
-            errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
-            errList = errHandler.getProblemList();
-
-            errList.addAll(checkVariables(dwdl));
-            errList.addAll(checkUsers(dwdl));
-        } catch (SAXException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-        } catch (IOException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-        } catch (JAXBException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-            e.printStackTrace();
-        }
-
-        return errList;
-    }
-
-    /**
-     * This methods validates a given DWDL Workflow and returns a list of
-     * {@link IProblem}s. The workflow will be parsed and checked till to the
-     * end.
-     * 
-     * @param dwdl
-     *            The DWDL workflow to validate
-     * @return List of problems found during validation process.
-     */
-    public List<IProblem> validate(byte[] dwdl) {
-        Workflow wf = null;
-        StreamSource src = null;
-        DWDLErrorHandler errHandler = null;
-        List<IProblem> errList = null;
-
-        try {
-            wf = TransformUtil.bytesToWorkflow(dwdl);
-            src = new StreamSource(new ByteArrayInputStream(dwdl));
-            validator.setErrorHandler(new DWDLErrorHandler());
-            validator.validate(src);
-
-            errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
-            errList = errHandler.getProblemList();
-            errList.addAll(checkVariables(wf));
-            errList.addAll(checkUsers(wf));
-        } catch (JAXBException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-        } catch (SAXException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-        } catch (IOException e) {
-            errList = new ArrayList<IProblem>();
-            errList.add(new Problem(e.getMessage(), "global"));
-        }
-        return errList;
-    }
-
-    /**
      * Checks for all users, whether they are registered
      * 
      * @param dwdl
@@ -313,44 +231,10 @@ public class Validator {
      *         boolean, <code>false</code> if not
      */
     private boolean isVariableBoolean(Literal var) {
-        if (!(var.toString() == "true" || var.toString() == "false")) {
+        if (!((var.toString() == "true") || (var.toString() == "false"))) {
             return false;
         } else {
             return true;
-        }
-    }
-
-    /**
-     * Checks whether the value of the given variable is from type integer
-     * 
-     * @param var
-     *            the variable to check
-     * @return <code>true</code>, if the value of the variable if of type
-     *         integer, <code>false</code> if not
-     */
-    private boolean isVariableInteger(Literal var) {
-        try {
-            Integer.parseInt(var.toString());
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Checks whether the value of the given variable is from type float
-     * 
-     * @param var
-     *            the variable to check
-     * @return <code>true</code>, if the value of the variable if of type float,
-     *         <code>false</code> if not
-     */
-    private boolean isVariableFloat(Literal var) {
-        try {
-            Float.parseFloat(var.toString());
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
         }
     }
 
@@ -373,6 +257,40 @@ public class Validator {
     }
 
     /**
+     * Checks whether the value of the given variable is from type float
+     * 
+     * @param var
+     *            the variable to check
+     * @return <code>true</code>, if the value of the variable if of type float,
+     *         <code>false</code> if not
+     */
+    private boolean isVariableFloat(Literal var) {
+        try {
+            Float.parseFloat(var.toString());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks whether the value of the given variable is from type integer
+     * 
+     * @param var
+     *            the variable to check
+     * @return <code>true</code>, if the value of the variable if of type
+     *         integer, <code>false</code> if not
+     */
+    private boolean isVariableInteger(Literal var) {
+        try {
+            Integer.parseInt(var.toString());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
      * Checks whether the value of the given variable is from type time (see
      * declaration of sdfT)
      * 
@@ -388,5 +306,87 @@ public class Validator {
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    /**
+     * This methods validates a given DWDL Workflow and returns a list of
+     * {@link IProblem}s. The workflow will be parsed and checked till to the
+     * end.
+     * 
+     * @param dwdl
+     *            The DWDL workflow to validate
+     * @return List of problems found during validation process.
+     */
+    public List<IProblem> validate(byte[] dwdl) {
+        Workflow wf = null;
+        StreamSource src = null;
+        DWDLErrorHandler errHandler = null;
+        List<IProblem> errList = null;
+
+        try {
+            wf = TransformUtil.bytesToWorkflow(dwdl);
+            src = new StreamSource(new ByteArrayInputStream(dwdl));
+            validator.setErrorHandler(new DWDLErrorHandler());
+            validator.validate(src);
+
+            errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
+            errList = errHandler.getProblemList();
+            errList.addAll(checkVariables(wf));
+            errList.addAll(checkUsers(wf));
+        } catch (JAXBException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+        } catch (SAXException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+        } catch (IOException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+        }
+        return errList;
+    }
+
+    /**
+     * This methods validates a given DWDL Workflow and returns a list of
+     * {@link IProblem}s. The workflow will be parsed and checked till to the
+     * end.
+     * 
+     * @param dwdl
+     *            The DWDL workflow to validate
+     * @return List of problems found during validation process.
+     */
+    public List<IProblem> validate(Workflow dwdl) {
+        DWDLErrorHandler errHandler = null;
+        List<IProblem> errList = null;
+
+        byte[] wf_bytes = null;
+        StreamSource src = null;
+
+        validator.setErrorHandler(new DWDLErrorHandler());
+
+        try {
+            wf_bytes = TransformUtil.workflowToBytes(dwdl);
+            src = new StreamSource(new ByteArrayInputStream(wf_bytes));
+            validator.setErrorHandler(new DWDLErrorHandler());
+            validator.validate(src);
+
+            errHandler = (DWDLErrorHandler) (validator.getErrorHandler());
+            errList = errHandler.getProblemList();
+
+            errList.addAll(checkVariables(dwdl));
+            errList.addAll(checkUsers(dwdl));
+        } catch (SAXException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+        } catch (IOException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+        } catch (JAXBException e) {
+            errList = new ArrayList<IProblem>();
+            errList.add(new Problem(e.getMessage(), "global"));
+            e.printStackTrace();
+        }
+
+        return errList;
     }
 }

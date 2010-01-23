@@ -68,7 +68,7 @@ public class AddServerCommand extends SystemCommand {
             byte initialLoad, boolean locked, boolean dynamicallyAdded) {
         super(actor, null);
 
-        if (type == null || location == null || location.isEmpty()) {
+        if ((type == null) || (location == null) || location.isEmpty()) {
             throw new IllegalArgumentException(
                     "Server type and location must not be null or empty.");
         }
@@ -78,6 +78,13 @@ public class AddServerCommand extends SystemCommand {
         this.initialLoad = initialLoad;
         this.locked = locked;
         this.dynamicallyAdded = dynamicallyAdded;
+    }
+
+    /**
+     * @return the new server
+     */
+    public Server getNewServer() {
+        return newServer;
     }
 
     @Override
@@ -102,12 +109,5 @@ public class AddServerCommand extends SystemCommand {
         evt.getSession().save(newServer);
 
         this.newServer = newServer;
-    }
-
-    /**
-     * @return the new server
-     */
-    public Server getNewServer() {
-        return newServer;
     }
 }

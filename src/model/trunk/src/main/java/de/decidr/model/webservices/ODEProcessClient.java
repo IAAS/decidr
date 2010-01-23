@@ -47,16 +47,16 @@ public class ODEProcessClient extends Service {
     public final static QName PROCESS_ENDPOINT = new QName(TARGET_NAMESPACE,
             ENDPOINT_NAME);
 
-    public ODEProcessClient(URL wsdlDocumentLocation, QName serviceName) {
-        super(wsdlDocumentLocation, serviceName);
+    public ODEProcessClient() throws MalformedURLException {
+        this(new URL(WSDL_LOCATION));
     }
 
     public ODEProcessClient(URL wsdlDocumentLocation) {
         this(wsdlDocumentLocation, SERVICE);
     }
 
-    public ODEProcessClient() throws MalformedURLException {
-        this(new URL(WSDL_LOCATION));
+    public ODEProcessClient(URL wsdlDocumentLocation, QName serviceName) {
+        super(wsdlDocumentLocation, serviceName);
     }
 
     @WebEndpoint(name = ENDPOINT_NAME)

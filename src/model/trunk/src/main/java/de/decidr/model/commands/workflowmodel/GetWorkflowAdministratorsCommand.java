@@ -55,6 +55,13 @@ public class GetWorkflowAdministratorsCommand extends WorkflowModelCommand {
         requireWorkflowModelId();
     }
 
+    /**
+     * @return the workflow administrators
+     */
+    public ArrayList<User> getWorkflowAdmins() {
+        return workflowAdmins;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -76,13 +83,6 @@ public class GetWorkflowAdministratorsCommand extends WorkflowModelCommand {
             // Make sure that Hibernate loads the profile if the user has one.
             admin.getUserProfile();
         }
-    }
-
-    /**
-     * @return the workflow administrators
-     */
-    public ArrayList<User> getWorkflowAdmins() {
-        return workflowAdmins;
     }
 
 }

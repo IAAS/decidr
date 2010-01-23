@@ -29,10 +29,23 @@ import java.util.List;
 public class Filters {
 
     /**
-     * Private constructor prevents instantiation
+     * Applies a single filter and a criteria
+     * 
+     * @param criteria
+     *            the Criteria to modify
+     * @param filter
+     *            the filter to apply to the criteria
+     * @param paginator
+     *            optional: the paginator to apply to the criteria. This
+     *            parameter may be null.
      */
-    private Filters() {
-        // prevent instantiation
+    public static void apply(PaginatingCriteria criteria, Filter filter,
+            Paginator paginator) {
+        List<Filter> list = new ArrayList<Filter>(1);
+        if (filter != null) {
+            list.add(filter);
+        }
+        apply(criteria, list, paginator);
     }
 
     /**
@@ -65,22 +78,9 @@ public class Filters {
     }
 
     /**
-     * Applies a single filter and a criteria
-     * 
-     * @param criteria
-     *            the Criteria to modify
-     * @param filter
-     *            the filter to apply to the criteria
-     * @param paginator
-     *            optional: the paginator to apply to the criteria. This
-     *            parameter may be null.
+     * Private constructor prevents instantiation
      */
-    public static void apply(PaginatingCriteria criteria, Filter filter,
-            Paginator paginator) {
-        List<Filter> list = new ArrayList<Filter>(1);
-        if (filter != null) {
-            list.add(filter);
-        }
-        apply(criteria, list, paginator);
+    private Filters() {
+        // prevent instantiation
     }
 }

@@ -86,17 +86,6 @@ public class TranslaterTest {
 
     /**
      * Test method for
-     * {@link de.decidr.model.workflowmodel.dwdl.transformation.Translator#getWSDL(java.lang.String)}
-     * .
-     */
-    @Test
-    public void testGetWSDL() {
-        Definition def = translater.getWSDL(location);
-        assertNotNull(def);
-    }
-
-    /**
-     * Test method for
      * {@link de.decidr.model.workflowmodel.dwdl.transformation.Translator#getSOAPTemplate()}
      * .
      */
@@ -104,6 +93,17 @@ public class TranslaterTest {
     public void testGetSOAPTemplate() {
         SOAPMessage msg = translater.getSOAPTemplate();
         assertNotNull(msg);
+    }
+
+    /**
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.dwdl.transformation.Translator#getWSDL(java.lang.String)}
+     * .
+     */
+    @Test
+    public void testGetWSDL() {
+        Definition def = translater.getWSDL(location);
+        assertNotNull(def);
     }
 
 }

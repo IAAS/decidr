@@ -71,6 +71,15 @@ public class TaskItem {
     protected DWDLSimpleVariableType type;
 
     /**
+     * Gets the value of the hint property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getHint() {
+        return hint;
+    }
+
+    /**
      * Gets the value of the label property.
      * 
      * @return possible object is {@link String }
@@ -80,22 +89,39 @@ public class TaskItem {
     }
 
     /**
-     * Sets the value of the label property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
-     */
-    public void setLabel(String value) {
-        this.label = value;
-    }
-
-    /**
-     * Gets the value of the hint property.
+     * Gets the value of the name property.
      * 
      * @return possible object is {@link String }
      */
-    public String getHint() {
-        return hint;
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Gets the value of the type property.
+     * 
+     * @return possible object is {@link DWDLSimpleVariableType }
+     */
+    public DWDLSimpleVariableType getType() {
+        return type;
+    }
+
+    /**
+     * Gets the value of the value property.
+     * 
+     * @return possible object is {@link Object }
+     */
+    public Object getValue() {
+        return value;
+    }
+
+    /**
+     * Gets the value of the variable property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getVariable() {
+        return variable;
     }
 
     /**
@@ -109,31 +135,13 @@ public class TaskItem {
     }
 
     /**
-     * Gets the value of the value property.
-     * 
-     * @return possible object is {@link Object }
-     */
-    public Object getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the value of the value property.
+     * Sets the value of the label property.
      * 
      * @param value
-     *            allowed object is {@link Object }
+     *            allowed object is {@link String }
      */
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getName() {
-        return name;
+    public void setLabel(String value) {
+        this.label = value;
     }
 
     /**
@@ -147,12 +155,23 @@ public class TaskItem {
     }
 
     /**
-     * Gets the value of the variable property.
+     * Sets the value of the type property.
      * 
-     * @return possible object is {@link String }
+     * @param value
+     *            allowed object is {@link DWDLSimpleVariableType }
      */
-    public String getVariable() {
-        return variable;
+    public void setType(DWDLSimpleVariableType value) {
+        this.type = value;
+    }
+
+    /**
+     * Sets the value of the value property.
+     * 
+     * @param value
+     *            allowed object is {@link Object }
+     */
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     /**
@@ -163,24 +182,5 @@ public class TaskItem {
      */
     public void setVariable(String value) {
         this.variable = value;
-    }
-
-    /**
-     * Gets the value of the type property.
-     * 
-     * @return possible object is {@link DWDLSimpleVariableType }
-     */
-    public DWDLSimpleVariableType getType() {
-        return type;
-    }
-
-    /**
-     * Sets the value of the type property.
-     * 
-     * @param value
-     *            allowed object is {@link DWDLSimpleVariableType }
-     */
-    public void setType(DWDLSimpleVariableType value) {
-        this.type = value;
     }
 }

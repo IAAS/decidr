@@ -47,25 +47,11 @@ public class GetServerCommand extends SystemCommand {
      */
     public GetServerCommand(Role role, Long... serverIds) {
         super(role, null);
-        if (serverIds == null || serverIds.length == 0) {
+        if ((serverIds == null) || (serverIds.length == 0)) {
             throw new IllegalArgumentException(
                     "serverIds must not be null or empty.");
         }
         this.serverIds = serverIds;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException {
-        servers = null;
-        if (serverIds != null && serverIds.length > 0) {
-            servers = evt
-                    .getSession()
-                    .createQuery(
-                            "select s from Server s join fetch s.serverType where s.id in (:serverIds)")
-                    .setParameterList("serverIds", serverIds).list();
-        }
     }
 
     /**
@@ -74,7 +60,7 @@ public class GetServerCommand extends SystemCommand {
      */
     public Server getServer() {
         Server result = null;
-        if (servers != null && !servers.isEmpty()) {
+        if ((servers != null) && !servers.isEmpty()) {
             result = servers.get(0);
         }
         return result;
@@ -86,5 +72,19 @@ public class GetServerCommand extends SystemCommand {
      */
     public List<Server> getServers() {
         return servers;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+        servers = null;
+        if ((serverIds != null) && (serverIds.length > 0)) {
+            servers = evt
+                    .getSession()
+                    .createQuery(
+                            "select s from Server s join fetch s.serverType where s.id in (:serverIds)")
+                    .setParameterList("serverIds", serverIds).list();
+        }
     }
 }

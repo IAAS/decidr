@@ -73,6 +73,12 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
         this.modelIdSet.addAll(workflowModelIds);
     }
 
+    @Override
+    public Long[] getWorkflowModelIds() {
+        Long[] res = new Long[0];
+        return modelIdSet.toArray(res);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -128,11 +134,5 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
                         "Given workflow model is not published.");
             }
         }
-    }
-
-    @Override
-    public Long[] getWorkflowModelIds() {
-        Long[] res = new Long[0];
-        return modelIdSet.toArray(res);
     }
 }

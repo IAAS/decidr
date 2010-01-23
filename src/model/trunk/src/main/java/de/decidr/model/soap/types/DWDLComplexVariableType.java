@@ -56,6 +56,15 @@ public enum DWDLComplexVariableType {
     LIST_DATE("list-date"), @XmlEnumValue("list-file")
     LIST_FILE("list-file"), @XmlEnumValue("form")
     FORM("form");
+    public static DWDLComplexVariableType fromValue(String v) {
+        for (DWDLComplexVariableType c : DWDLComplexVariableType.values()) {
+            if (c.value.equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
+
     private final String value;
 
     DWDLComplexVariableType(String v) {
@@ -64,15 +73,6 @@ public enum DWDLComplexVariableType {
 
     public String value() {
         return value;
-    }
-
-    public static DWDLComplexVariableType fromValue(String v) {
-        for (DWDLComplexVariableType c : DWDLComplexVariableType.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
     }
 
 }

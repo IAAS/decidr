@@ -29,34 +29,34 @@ public class StartableWorkflowModelView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The tenant id. */
     private long tenantId;
-    
+
     /** The name. */
     private String name;
-    
+
     /** The description. */
     private String description;
-    
+
     /** The published. */
     private boolean published;
-    
+
     /** The executable. */
     private boolean executable;
-    
+
     /** The creation date. */
     private Date creationDate;
-    
+
     /** The modified date. */
     private Date modifiedDate;
-    
+
     /** The dwdl. */
     private byte[] dwdl;
-    
+
     /** The version. */
     private long version;
-    
+
     /** The modified by user id. */
     private Long modifiedByUserId;
 
@@ -152,60 +152,12 @@ public class StartableWorkflowModelView implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Gets the creation date.
      * 
-     * @return the id
+     * @return the creation date
      */
-    public long getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the tenant id.
-     * 
-     * @return the tenant id
-     */
-    public long getTenantId() {
-        return this.tenantId;
-    }
-
-    /**
-     * Sets the tenant id.
-     * 
-     * @param tenantId
-     *            the new tenant id
-     */
-    public void setTenantId(long tenantId) {
-        this.tenantId = tenantId;
-    }
-
-    /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Sets the name.
-     * 
-     * @param name
-     *            the new name
-     */
-    public void setName(String name) {
-        this.name = name;
+    public Date getCreationDate() {
+        return this.creationDate;
     }
 
     /**
@@ -218,32 +170,66 @@ public class StartableWorkflowModelView implements java.io.Serializable {
     }
 
     /**
-     * Sets the description.
+     * Gets the dwdl.
      * 
-     * @param description
-     *            the new description
+     * @return the dwdl
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public byte[] getDwdl() {
+        return this.dwdl;
     }
 
     /**
-     * Checks if is published.
+     * Gets the id.
      * 
-     * @return true, if is published
+     * @return the id
      */
-    public boolean isPublished() {
-        return this.published;
+    public long getId() {
+        return this.id;
     }
 
     /**
-     * Sets the published.
+     * Gets the modified by user id.
      * 
-     * @param published
-     *            the new published
+     * @return the modified by user id
      */
-    public void setPublished(boolean published) {
-        this.published = published;
+    public Long getModifiedByUserId() {
+        return this.modifiedByUserId;
+    }
+
+    /**
+     * Gets the modified date.
+     * 
+     * @return the modified date
+     */
+    public Date getModifiedDate() {
+        return this.modifiedDate;
+    }
+
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Gets the tenant id.
+     * 
+     * @return the tenant id
+     */
+    public long getTenantId() {
+        return this.tenantId;
+    }
+
+    /**
+     * Gets the version.
+     * 
+     * @return the version
+     */
+    public long getVersion() {
+        return this.version;
     }
 
     /**
@@ -256,22 +242,12 @@ public class StartableWorkflowModelView implements java.io.Serializable {
     }
 
     /**
-     * Sets the executable.
+     * Checks if is published.
      * 
-     * @param executable
-     *            the new executable
+     * @return true, if is published
      */
-    public void setExecutable(boolean executable) {
-        this.executable = executable;
-    }
-
-    /**
-     * Gets the creation date.
-     * 
-     * @return the creation date
-     */
-    public Date getCreationDate() {
-        return this.creationDate;
+    public boolean isPublished() {
+        return this.published;
     }
 
     /**
@@ -285,31 +261,13 @@ public class StartableWorkflowModelView implements java.io.Serializable {
     }
 
     /**
-     * Gets the modified date.
+     * Sets the description.
      * 
-     * @return the modified date
+     * @param description
+     *            the new description
      */
-    public Date getModifiedDate() {
-        return this.modifiedDate;
-    }
-
-    /**
-     * Sets the modified date.
-     * 
-     * @param modifiedDate
-     *            the new modified date
-     */
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    /**
-     * Gets the dwdl.
-     * 
-     * @return the dwdl
-     */
-    public byte[] getDwdl() {
-        return this.dwdl;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -323,31 +281,23 @@ public class StartableWorkflowModelView implements java.io.Serializable {
     }
 
     /**
-     * Gets the version.
+     * Sets the executable.
      * 
-     * @return the version
+     * @param executable
+     *            the new executable
      */
-    public long getVersion() {
-        return this.version;
+    public void setExecutable(boolean executable) {
+        this.executable = executable;
     }
 
     /**
-     * Sets the version.
+     * Sets the id.
      * 
-     * @param version
-     *            the new version
+     * @param id
+     *            the new id
      */
-    public void setVersion(long version) {
-        this.version = version;
-    }
-
-    /**
-     * Gets the modified by user id.
-     * 
-     * @return the modified by user id
-     */
-    public Long getModifiedByUserId() {
-        return this.modifiedByUserId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
@@ -358,6 +308,56 @@ public class StartableWorkflowModelView implements java.io.Serializable {
      */
     public void setModifiedByUserId(Long modifiedByUserId) {
         this.modifiedByUserId = modifiedByUserId;
+    }
+
+    /**
+     * Sets the modified date.
+     * 
+     * @param modifiedDate
+     *            the new modified date
+     */
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    /**
+     * Sets the name.
+     * 
+     * @param name
+     *            the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the published.
+     * 
+     * @param published
+     *            the new published
+     */
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    /**
+     * Sets the tenant id.
+     * 
+     * @param tenantId
+     *            the new tenant id
+     */
+    public void setTenantId(long tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    /**
+     * Sets the version.
+     * 
+     * @param version
+     *            the new version
+     */
+    public void setVersion(long version) {
+        this.version = version;
     }
 
 }

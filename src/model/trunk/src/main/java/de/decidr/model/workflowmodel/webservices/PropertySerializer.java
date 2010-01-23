@@ -57,6 +57,37 @@ public class PropertySerializer implements ExtensionDeserializer,
     /*
      * (non-Javadoc)
      * 
+     * @see javax.wsdl.extensions.ExtensionSerializer#marshall(java.lang.Class,
+     * javax.xml.namespace.QName, javax.wsdl.extensions.ExtensibilityElement,
+     * java.io.PrintWriter, javax.wsdl.Definition,
+     * javax.wsdl.extensions.ExtensionRegistry)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void marshall(Class parentType, QName elementType,
+            ExtensibilityElement extension, PrintWriter pw, Definition def,
+            ExtensionRegistry extReg) throws WSDLException {
+        try {
+            Property property = (Property) extension;
+            Marshaller m = JAXBContext.newInstance(Property.class)
+                    .createMarshaller();
+            JAXBElement<Property> jaxbElement = new JAXBElement<Property>(
+                    new QName(Constants.VARPROP_NAMESPACE, "property"),
+                    Property.class, property);
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            m.marshal(jaxbElement, pw);
+            pw.println();
+        } catch (JAXBException e) {
+            log.error("Can't marshall the property element in "
+                    + def.getTargetNamespace(), e);
+        }
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see
      * javax.wsdl.extensions.ExtensionDeserializer#unmarshall(java.lang.Class,
      * javax.xml.namespace.QName, org.w3c.dom.Element, javax.wsdl.Definition,
@@ -99,37 +130,6 @@ public class PropertySerializer implements ExtensionDeserializer,
             log.warn("Property is null in " + def.getTargetNamespace());
         }
         return extProperty;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.wsdl.extensions.ExtensionSerializer#marshall(java.lang.Class,
-     * javax.xml.namespace.QName, javax.wsdl.extensions.ExtensibilityElement,
-     * java.io.PrintWriter, javax.wsdl.Definition,
-     * javax.wsdl.extensions.ExtensionRegistry)
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public void marshall(Class parentType, QName elementType,
-            ExtensibilityElement extension, PrintWriter pw, Definition def,
-            ExtensionRegistry extReg) throws WSDLException {
-        try {
-            Property property = (Property) extension;
-            Marshaller m = JAXBContext.newInstance(Property.class)
-                    .createMarshaller();
-            JAXBElement<Property> jaxbElement = new JAXBElement<Property>(
-                    new QName(Constants.VARPROP_NAMESPACE, "property"),
-                    Property.class, property);
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-            m.marshal(jaxbElement, pw);
-            pw.println();
-        } catch (JAXBException e) {
-            log.error("Can't marshall the property element in "
-                    + def.getTargetNamespace(), e);
-        }
-
     }
 
 }

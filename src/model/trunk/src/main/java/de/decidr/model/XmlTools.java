@@ -42,6 +42,84 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 public class XmlTools {
 
     /**
+     * Unmarshalls an object from XML data stored in a byte array.
+     * 
+     * @author Daniel Huss
+     * @deprecated TODO Shit doesn't work (when an object created by this method
+     *             is marshalled again using {@link TransformUtil}, garbage is
+     *             produced). If anyone knew how to fix this, we could use this
+     *             generic method instead of having to create one method for
+     *             each type of XML object in {@link TransformUtil} ~dh
+     * @param clazz
+     *            the expected class of the unmarshalled object.
+     * @param bytes
+     *            the data source for unmarshalling
+     * @return the unmarshalled object
+     * @throws JAXBException
+     *             if the given class is not recognized by JAXB as a valid XML
+     *             entity.
+     */
+    @Deprecated
+    @SuppressWarnings("unchecked")
+    public static <T> T getElement(Class<? extends T> clazz, byte[] bytes)
+            throws JAXBException {
+        if (clazz == null) {
+            throw new IllegalArgumentException("Class must not be null.");
+        }
+        if ((bytes == null) || (bytes.length == 0)) {
+            throw new IllegalArgumentException(
+                    "Source byte array must not be null or empty.");
+        }
+
+        ByteArrayInputStream inStream = new ByteArrayInputStream(bytes);
+        JAXBContext context = JAXBContext.newInstance(clazz);
+        Object result = context.createUnmarshaller().unmarshal(inStream);
+
+        if (clazz.isAssignableFrom(result.getClass())) {
+            return (T) result;
+        } else if (result instanceof JAXBElement) {
+            // this happens if there is no distinct root element for clazz
+            return (T) ((JAXBElement) result).getValue();
+        } else {
+            // Fuck. We don't have a clue what unmarshal() returned.
+            throw new JAXBException(
+                    "Unmarshaller unmarshalled garbage without complaining.");
+        }
+    }
+
+    /**
+     * Extracts all file IDs from the given start configuration element (which
+     * remains unchanged).
+     * 
+     * @param startConfiguration
+     *            start configuration pojo
+     * @return all file IDs found in the given human task data.
+     * @throws IllegalArgumentException
+     *             if startConfiguration is <code>null</code>
+     * @throws NumberFormatException
+     *             if the start configuration contains an unparsable file ID.
+     */
+    public static Set<Long> getFileIds(TConfiguration startConfiguration) {
+        if (startConfiguration == null) {
+            throw new IllegalArgumentException(
+                    "Start configuration must not be null.");
+        }
+        HashSet<Long> result = new HashSet<Long>();
+        for (TAssignment assignment : startConfiguration.getAssignment()) {
+            if (DWDLSimpleVariableType.ANY_URI.toString().equals(
+                    assignment.getValueType())) {
+                try {
+                    result.add(Long.parseLong(assignment.getValue().get(0)));
+                } catch (NumberFormatException e) {
+                    // the value is not a file, which is not a critical error
+                    // and perfectly valid if the user has entered nothing.
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * Extracts all file IDs from the given human task data element (which
      * remains unchanged).
      * 
@@ -82,83 +160,5 @@ public class XmlTools {
             }
         }
         return result;
-    }
-
-    /**
-     * Extracts all file IDs from the given start configuration element (which
-     * remains unchanged).
-     * 
-     * @param startConfiguration
-     *            start configuration pojo
-     * @return all file IDs found in the given human task data.
-     * @throws IllegalArgumentException
-     *             if startConfiguration is <code>null</code>
-     * @throws NumberFormatException
-     *             if the start configuration contains an unparsable file ID.
-     */
-    public static Set<Long> getFileIds(TConfiguration startConfiguration) {
-        if (startConfiguration == null) {
-            throw new IllegalArgumentException(
-                    "Start configuration must not be null.");
-        }
-        HashSet<Long> result = new HashSet<Long>();
-        for (TAssignment assignment : startConfiguration.getAssignment()) {
-            if (DWDLSimpleVariableType.ANY_URI.toString().equals(
-                    assignment.getValueType())) {
-                try {
-                    result.add(Long.parseLong(assignment.getValue().get(0)));
-                } catch (NumberFormatException e) {
-                    // the value is not a file, which is not a critical error
-                    // and perfectly valid if the user has entered nothing.
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Unmarshalls an object from XML data stored in a byte array.
-     * 
-     * @author Daniel Huss
-     * @deprecated TODO Shit doesn't work (when an object created by this method
-     *             is marshalled again using {@link TransformUtil}, garbage is
-     *             produced). If anyone knew how to fix this, we could use this
-     *             generic method instead of having to create one method for
-     *             each type of XML object in {@link TransformUtil} ~dh
-     * @param clazz
-     *            the expected class of the unmarshalled object.
-     * @param bytes
-     *            the data source for unmarshalling
-     * @return the unmarshalled object
-     * @throws JAXBException
-     *             if the given class is not recognized by JAXB as a valid XML
-     *             entity.
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public static <T> T getElement(Class<? extends T> clazz, byte[] bytes)
-            throws JAXBException {
-        if (clazz == null) {
-            throw new IllegalArgumentException("Class must not be null.");
-        }
-        if (bytes == null || bytes.length == 0) {
-            throw new IllegalArgumentException(
-                    "Source byte array must not be null or empty.");
-        }
-
-        ByteArrayInputStream inStream = new ByteArrayInputStream(bytes);
-        JAXBContext context = JAXBContext.newInstance(clazz);
-        Object result = context.createUnmarshaller().unmarshal(inStream);
-
-        if (clazz.isAssignableFrom(result.getClass())) {
-            return (T) result;
-        } else if (result instanceof JAXBElement) {
-            // this happens if there is no distinct root element for clazz
-            return (T) ((JAXBElement) result).getValue();
-        } else {
-            // Fuck. We don't have a clue what unmarshal() returned.
-            throw new JAXBException(
-                    "Unmarshaller unmarshalled garbage without complaining.");
-        }
     }
 }

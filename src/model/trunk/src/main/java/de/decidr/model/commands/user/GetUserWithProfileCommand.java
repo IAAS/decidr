@@ -50,6 +50,13 @@ public class GetUserWithProfileCommand extends UserCommand {
         requireUserId();
     }
 
+    /**
+     * @return the user profile of the given user or null if that user
+     */
+    public User getResult() {
+        return result;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -62,12 +69,5 @@ public class GetUserWithProfileCommand extends UserCommand {
             // loading becomes unavailable.
             result.getUserProfile();
         }
-    }
-
-    /**
-     * @return the user profile of the given user or null if that user
-     */
-    public User getResult() {
-        return result;
     }
 }

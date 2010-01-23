@@ -52,16 +52,6 @@ public class HumanTaskClientStatic extends Service {
     }
 
     /**
-     * @return returns an implementation using SOAP 1.1 to access the
-     *         <code>{@link HumanTaskInterface}</code>.
-     */
-    @WebEndpoint(name = HumanTaskInterface.ENDPOINT_NAME)
-    public HumanTaskInterface getHumanTaskSOAP() {
-        return super.getPort(HumanTaskInterface.ENDPOINT,
-                HumanTaskInterface.class);
-    }
-
-    /**
      * @param features
      *            A list of {@link javax.xml.ws.WebServiceFeature} to configure
      *            on the proxy. Supported features not in the
@@ -74,5 +64,15 @@ public class HumanTaskClientStatic extends Service {
     public HumanTaskInterface getEmailSOAP(WebServiceFeature... features) {
         return super.getPort(HumanTaskInterface.ENDPOINT,
                 HumanTaskInterface.class, features);
+    }
+
+    /**
+     * @return returns an implementation using SOAP 1.1 to access the
+     *         <code>{@link HumanTaskInterface}</code>.
+     */
+    @WebEndpoint(name = HumanTaskInterface.ENDPOINT_NAME)
+    public HumanTaskInterface getHumanTaskSOAP() {
+        return super.getPort(HumanTaskInterface.ENDPOINT,
+                HumanTaskInterface.class);
     }
 }

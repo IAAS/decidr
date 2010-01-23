@@ -32,17 +32,6 @@ public class DecidrAclTest {
     private static AclTestSuite testSuite = new AclTestSuite();
     private static boolean skip = false;
 
-    @BeforeClass
-    public static final void beforeClass() {
-        if (AclTestSuite.isInSuite()) {
-            skip = true;
-            return;
-        }
-
-        TestUtils.executeStaticMethodsWithAnnotation(AclTestSuite.class,
-                BeforeClass.class);
-    }
-
     @AfterClass
     public static final void afterClass() {
         if (skip) {
@@ -54,13 +43,24 @@ public class DecidrAclTest {
                 AfterClass.class);
     }
 
-    @Before
-    public final void beforeTest() {
-        TestUtils.executeMethodsWithAnnotation(testSuite, Before.class);
+    @BeforeClass
+    public static final void beforeClass() {
+        if (AclTestSuite.isInSuite()) {
+            skip = true;
+            return;
+        }
+
+        TestUtils.executeStaticMethodsWithAnnotation(AclTestSuite.class,
+                BeforeClass.class);
     }
 
     @After
     public final void afterTest() {
         TestUtils.executeMethodsWithAnnotation(testSuite, After.class);
+    }
+
+    @Before
+    public final void beforeTest() {
+        TestUtils.executeMethodsWithAnnotation(testSuite, Before.class);
     }
 }

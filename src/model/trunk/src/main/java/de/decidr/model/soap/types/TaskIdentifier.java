@@ -70,22 +70,6 @@ public class TaskIdentifier {
     }
 
     /**
-     * Gets the value of the taskID property.
-     * 
-     */
-    public long getTaskID() {
-        return taskID;
-    }
-
-    /**
-     * Sets the value of the taskID property.
-     * 
-     */
-    public void setTaskID(long value) {
-        this.taskID = value;
-    }
-
-    /**
      * Gets the value of the processID property.
      * 
      * @return possible object is {@link String }
@@ -93,6 +77,14 @@ public class TaskIdentifier {
      */
     public String getProcessID() {
         return pid;
+    }
+
+    /**
+     * Gets the value of the taskID property.
+     * 
+     */
+    public long getTaskID() {
+        return taskID;
     }
 
     /**
@@ -104,5 +96,13 @@ public class TaskIdentifier {
      */
     public void setProcessID(String value) {
         this.pid = value;
+    }
+
+    /**
+     * Sets the value of the taskID property.
+     * 
+     */
+    public void setTaskID(long value) {
+        this.taskID = value;
     }
 }

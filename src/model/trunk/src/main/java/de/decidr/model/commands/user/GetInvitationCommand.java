@@ -55,10 +55,9 @@ public class GetInvitationCommand extends UserCommand implements
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException {
-        result = (InvitationView) evt.getSession().get(InvitationView.class,
-                invitationId);
+    public Long[] getInvitationIds() {
+        Long[] res = { invitationId };
+        return res;
     }
 
     /**
@@ -69,8 +68,9 @@ public class GetInvitationCommand extends UserCommand implements
     }
 
     @Override
-    public Long[] getInvitationIds() {
-        Long[] res = { invitationId };
-        return res;
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+        result = (InvitationView) evt.getSession().get(InvitationView.class,
+                invitationId);
     }
 }

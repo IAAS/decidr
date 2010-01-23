@@ -48,22 +48,22 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
     static FileFacade userFacade;
     static FileFacade nullFacade;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        adminFacade = new FileFacade(new SuperAdminRole(DecidrGlobals
-                .getSettings().getSuperAdmin().getId()));
-        userFacade = new FileFacade(new BasicRole(0L));
-        nullFacade = new FileFacade(null);
-    }
+    public static boolean compareInputStreams(InputStream a, InputStream b)
+            throws IOException {
+        boolean result = true;
 
-    static long getInvalidFileID() {
-        long invalidID = Long.MIN_VALUE;
+        int lastByteA;
+        int lastByteB;
+        while (((lastByteA = a.read()) == (lastByteB = b.read()))
+                && (lastByteA != -1)) {
+            // skip equal bytes
+        }
 
-        for (long l = invalidID; session.createQuery(
-                "FROM File WHERE id = :given").setLong("given", l)
-                .uniqueResult() != null; l++)
-            invalidID = l + 1;
-        return invalidID;
+        if ((lastByteA != -1) || (lastByteB != -1)) {
+            result = false;
+        }
+
+        return result;
     }
 
     /**
@@ -77,27 +77,29 @@ public class FileFacadeTest extends LowLevelDatabaseTest {
         long size = 0;
         assertNotNull(in);
 
-        while (in.read() != -1)
+        while (in.read() != -1) {
             size++;
+        }
         return size;
     }
 
-    public static boolean compareInputStreams(InputStream a, InputStream b)
-            throws IOException {
-        boolean result = true;
+    static long getInvalidFileID() {
+        long invalidID = Long.MIN_VALUE;
 
-        int lastByteA;
-        int lastByteB;
-        while ((lastByteA = a.read()) == (lastByteB = b.read())
-                && lastByteA != -1) {
-            // skip equal bytes
+        for (long l = invalidID; session.createQuery(
+                "FROM File WHERE id = :given").setLong("given", l)
+                .uniqueResult() != null; l++) {
+            invalidID = l + 1;
         }
+        return invalidID;
+    }
 
-        if (lastByteA != -1 || lastByteB != -1) {
-            result = false;
-        }
-
-        return result;
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        adminFacade = new FileFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
+        userFacade = new FileFacade(new BasicRole(0L));
+        nullFacade = new FileFacade(null);
     }
 
     /**

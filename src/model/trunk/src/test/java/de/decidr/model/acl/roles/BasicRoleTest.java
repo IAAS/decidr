@@ -43,6 +43,21 @@ public class BasicRoleTest extends DecidrAclTest {
     }
 
     /**
+     * Test method for {@link BasicRole#equals(Object)}.
+     */
+    @Test
+    public void testEqualsObject() {
+        BasicRole role1 = new BasicRole(1l);
+        BasicRole role2 = new BasicRole(0l);
+        UserRole role3 = new UserRole();
+
+        assertTrue(role1.equals(new BasicRole(1l)));
+        assertTrue(role1.equals(role2));
+        assertFalse(role1.equals(role3));
+        assertFalse(role3.equals(role1));
+    }
+
+    /**
      * Test method for {@link BasicRole#getActorId()}.
      */
     @Test
@@ -58,20 +73,5 @@ public class BasicRoleTest extends DecidrAclTest {
 
         role = new BasicRole(null);
         assertTrue(role.getActorId() == null);
-    }
-
-    /**
-     * Test method for {@link BasicRole#equals(Object)}.
-     */
-    @Test
-    public void testEqualsObject() {
-        BasicRole role1 = new BasicRole(1l);
-        BasicRole role2 = new BasicRole(0l);
-        UserRole role3 = new UserRole();
-
-        assertTrue(role1.equals(new BasicRole(1l)));
-        assertTrue(role1.equals(role2));
-        assertFalse(role1.equals(role3));
-        assertFalse(role3.equals(role1));
     }
 }

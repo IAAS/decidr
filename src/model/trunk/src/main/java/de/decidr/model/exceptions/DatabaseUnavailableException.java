@@ -28,12 +28,12 @@ public class DatabaseUnavailableException extends TransactionException {
         super();
     }
 
-    public DatabaseUnavailableException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public DatabaseUnavailableException(String message) {
         super(message);
+    }
+
+    public DatabaseUnavailableException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     public DatabaseUnavailableException(Throwable cause) {

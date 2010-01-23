@@ -65,6 +65,13 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
         this.paginator = paginator;
     }
 
+    /**
+     * @return List of WorkflowInstances which are part of the given tenant
+     */
+    public List<WorkflowInstance> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -98,12 +105,5 @@ public class GetWorkflowInstancesCommand extends TenantCommand {
         c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 
         result = c.list();
-    }
-
-    /**
-     * @return List of WorkflowInstances which are part of the given tenant
-     */
-    public List<WorkflowInstance> getResult() {
-        return result;
     }
 }

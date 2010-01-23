@@ -29,37 +29,37 @@ public class TenantWithAdminView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The name. */
     private String name;
-    
+
     /** The description. */
     private String description;
-    
+
     /** The logo id. */
     private Long logoId;
-    
+
     /** The simple color scheme id. */
     private Long simpleColorSchemeId;
-    
+
     /** The advanced color scheme id. */
     private Long advancedColorSchemeId;
-    
+
     /** The current color scheme id. */
     private Long currentColorSchemeId;
-    
+
     /** The approved since. */
     private Date approvedSince;
-    
+
     /** The admin id. */
     private long adminId;
-    
+
     /** The admin username. */
     private String adminUsername;
-    
+
     /** The admin first name. */
     private String adminFirstName;
-    
+
     /** The admin last name. */
     private String adminLastName;
 
@@ -139,155 +139,12 @@ public class TenantWithAdminView implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Gets the admin first name.
      * 
-     * @return the id
+     * @return the admin first name
      */
-    public long getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Sets the name.
-     * 
-     * @param name
-     *            the new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Gets the description.
-     * 
-     * @return the description
-     */
-    public String getDescription() {
-        return this.description;
-    }
-
-    /**
-     * Sets the description.
-     * 
-     * @param description
-     *            the new description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Gets the logo id.
-     * 
-     * @return the logo id
-     */
-    public Long getLogoId() {
-        return this.logoId;
-    }
-
-    /**
-     * Sets the logo id.
-     * 
-     * @param logoId
-     *            the new logo id
-     */
-    public void setLogoId(Long logoId) {
-        this.logoId = logoId;
-    }
-
-    /**
-     * Gets the simple color scheme id.
-     * 
-     * @return the simple color scheme id
-     */
-    public Long getSimpleColorSchemeId() {
-        return this.simpleColorSchemeId;
-    }
-
-    /**
-     * Sets the simple color scheme id.
-     * 
-     * @param simpleColorSchemeId
-     *            the new simple color scheme id
-     */
-    public void setSimpleColorSchemeId(Long simpleColorSchemeId) {
-        this.simpleColorSchemeId = simpleColorSchemeId;
-    }
-
-    /**
-     * Gets the advanced color scheme id.
-     * 
-     * @return the advanced color scheme id
-     */
-    public Long getAdvancedColorSchemeId() {
-        return this.advancedColorSchemeId;
-    }
-
-    /**
-     * Sets the advanced color scheme id.
-     * 
-     * @param advancedColorSchemeId
-     *            the new advanced color scheme id
-     */
-    public void setAdvancedColorSchemeId(Long advancedColorSchemeId) {
-        this.advancedColorSchemeId = advancedColorSchemeId;
-    }
-
-    /**
-     * Gets the current color scheme id.
-     * 
-     * @return the current color scheme id
-     */
-    public Long getCurrentColorSchemeId() {
-        return this.currentColorSchemeId;
-    }
-
-    /**
-     * Sets the current color scheme id.
-     * 
-     * @param currentColorSchemeId
-     *            the new current color scheme id
-     */
-    public void setCurrentColorSchemeId(Long currentColorSchemeId) {
-        this.currentColorSchemeId = currentColorSchemeId;
-    }
-
-    /**
-     * Gets the approved since.
-     * 
-     * @return the approved since
-     */
-    public Date getApprovedSince() {
-        return this.approvedSince;
-    }
-
-    /**
-     * Sets the approved since.
-     * 
-     * @param approvedSince
-     *            the new approved since
-     */
-    public void setApprovedSince(Date approvedSince) {
-        this.approvedSince = approvedSince;
+    public String getAdminFirstName() {
+        return this.adminFirstName;
     }
 
     /**
@@ -300,13 +157,12 @@ public class TenantWithAdminView implements java.io.Serializable {
     }
 
     /**
-     * Sets the admin id.
+     * Gets the admin last name.
      * 
-     * @param adminId
-     *            the new admin id
+     * @return the admin last name
      */
-    public void setAdminId(long adminId) {
-        this.adminId = adminId;
+    public String getAdminLastName() {
+        return this.adminLastName;
     }
 
     /**
@@ -319,22 +175,75 @@ public class TenantWithAdminView implements java.io.Serializable {
     }
 
     /**
-     * Sets the admin username.
+     * Gets the advanced color scheme id.
      * 
-     * @param adminUsername
-     *            the new admin username
+     * @return the advanced color scheme id
      */
-    public void setAdminUsername(String adminUsername) {
-        this.adminUsername = adminUsername;
+    public Long getAdvancedColorSchemeId() {
+        return this.advancedColorSchemeId;
     }
 
     /**
-     * Gets the admin first name.
+     * Gets the approved since.
      * 
-     * @return the admin first name
+     * @return the approved since
      */
-    public String getAdminFirstName() {
-        return this.adminFirstName;
+    public Date getApprovedSince() {
+        return this.approvedSince;
+    }
+
+    /**
+     * Gets the current color scheme id.
+     * 
+     * @return the current color scheme id
+     */
+    public Long getCurrentColorSchemeId() {
+        return this.currentColorSchemeId;
+    }
+
+    /**
+     * Gets the description.
+     * 
+     * @return the description
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public long getId() {
+        return this.id;
+    }
+
+    /**
+     * Gets the logo id.
+     * 
+     * @return the logo id
+     */
+    public Long getLogoId() {
+        return this.logoId;
+    }
+
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Gets the simple color scheme id.
+     * 
+     * @return the simple color scheme id
+     */
+    public Long getSimpleColorSchemeId() {
+        return this.simpleColorSchemeId;
     }
 
     /**
@@ -348,12 +257,13 @@ public class TenantWithAdminView implements java.io.Serializable {
     }
 
     /**
-     * Gets the admin last name.
+     * Sets the admin id.
      * 
-     * @return the admin last name
+     * @param adminId
+     *            the new admin id
      */
-    public String getAdminLastName() {
-        return this.adminLastName;
+    public void setAdminId(long adminId) {
+        this.adminId = adminId;
     }
 
     /**
@@ -364,6 +274,96 @@ public class TenantWithAdminView implements java.io.Serializable {
      */
     public void setAdminLastName(String adminLastName) {
         this.adminLastName = adminLastName;
+    }
+
+    /**
+     * Sets the admin username.
+     * 
+     * @param adminUsername
+     *            the new admin username
+     */
+    public void setAdminUsername(String adminUsername) {
+        this.adminUsername = adminUsername;
+    }
+
+    /**
+     * Sets the advanced color scheme id.
+     * 
+     * @param advancedColorSchemeId
+     *            the new advanced color scheme id
+     */
+    public void setAdvancedColorSchemeId(Long advancedColorSchemeId) {
+        this.advancedColorSchemeId = advancedColorSchemeId;
+    }
+
+    /**
+     * Sets the approved since.
+     * 
+     * @param approvedSince
+     *            the new approved since
+     */
+    public void setApprovedSince(Date approvedSince) {
+        this.approvedSince = approvedSince;
+    }
+
+    /**
+     * Sets the current color scheme id.
+     * 
+     * @param currentColorSchemeId
+     *            the new current color scheme id
+     */
+    public void setCurrentColorSchemeId(Long currentColorSchemeId) {
+        this.currentColorSchemeId = currentColorSchemeId;
+    }
+
+    /**
+     * Sets the description.
+     * 
+     * @param description
+     *            the new description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the logo id.
+     * 
+     * @param logoId
+     *            the new logo id
+     */
+    public void setLogoId(Long logoId) {
+        this.logoId = logoId;
+    }
+
+    /**
+     * Sets the name.
+     * 
+     * @param name
+     *            the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the simple color scheme id.
+     * 
+     * @param simpleColorSchemeId
+     *            the new simple color scheme id
+     */
+    public void setSimpleColorSchemeId(Long simpleColorSchemeId) {
+        this.simpleColorSchemeId = simpleColorSchemeId;
     }
 
 }

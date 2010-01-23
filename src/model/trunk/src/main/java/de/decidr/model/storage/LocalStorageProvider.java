@@ -181,7 +181,7 @@ public class LocalStorageProvider implements StorageProvider {
             }
 
             log.debug("checking other default settings compliance");
-            if (!(configAmazon == amazonS3 && configLocal == local && configPersistent == persistent)) {
+            if (!((configAmazon == amazonS3) && (configLocal == local) && (configPersistent == persistent))) {
                 applicable = false;
             }
         }
@@ -202,7 +202,7 @@ public class LocalStorageProvider implements StorageProvider {
             throws StorageException {
         log.trace("Entering " + LocalStorageProvider.class.getSimpleName()
                 + ".putFile(InputStream, Long, Long)");
-        if (data == null || fileId == null || fileSize == null) {
+        if ((data == null) || (fileId == null) || (fileSize == null)) {
             throw new IllegalArgumentException("parameters must not be null.");
         }
 

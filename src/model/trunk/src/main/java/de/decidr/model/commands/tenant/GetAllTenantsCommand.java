@@ -62,6 +62,14 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
         this.paginator = paginator;
     }
 
+    /**
+     * 
+     * @return TenantSummaryView
+     */
+    public List<TenantSummaryView> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -73,13 +81,5 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
 
         result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY)
                 .list();
-    }
-
-    /**
-     * 
-     * @return TenantSummaryView
-     */
-    public List<TenantSummaryView> getResult() {
-        return result;
     }
 }

@@ -30,17 +30,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionEvent;
 
 public class BasicFileCreatorCommand extends AbstractTransactionalCommand {
-    File dataFile;
-    java.io.File basicFile;
-
-    public final File getDataFile() {
-        return dataFile;
-    }
-
-    public final java.io.File getBasicFile() {
-        return basicFile;
-    }
-
     /*
      * converts file into ByteArrayOutputStream
      */
@@ -62,6 +51,18 @@ public class BasicFileCreatorCommand extends AbstractTransactionalCommand {
         fileInputStream.close();
 
         return byteArrayOutputStream;
+    }
+
+    File dataFile;
+
+    java.io.File basicFile;
+
+    public final java.io.File getBasicFile() {
+        return basicFile;
+    }
+
+    public final File getDataFile() {
+        return dataFile;
     }
 
     @Override

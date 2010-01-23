@@ -144,19 +144,6 @@ public class DWDL2WSDL {
         return wsdl;
     }
 
-    private void setDisclaimer() {
-        try {
-            org.jdom.Element documenationElement = new Element("documentation",
-                    "wsdl", Constants.WSDL_NAMESPACE);
-            documenationElement.addContent(new Text(DecidrGlobals.DISCLAIMER));
-            wsdl.setDocumentationElement(TransformUtil
-                    .jdomToW3c(documenationElement));
-        } catch (JDOMException e) {
-            log.error("Can't build documentation element", e);
-        }
-
-    }
-
     private void setBindings() {
         processBinding = new BindingImpl();
         processBinding.setQName(new QName(wsdl.getTargetNamespace(), dwdl
@@ -185,6 +172,19 @@ public class DWDL2WSDL {
         processBinding.addBindingOperation(bindingOperation);
         processBinding.setUndefined(false);
         wsdl.addBinding(processBinding);
+    }
+
+    private void setDisclaimer() {
+        try {
+            org.jdom.Element documenationElement = new Element("documentation",
+                    "wsdl", Constants.WSDL_NAMESPACE);
+            documenationElement.addContent(new Text(DecidrGlobals.DISCLAIMER));
+            wsdl.setDocumentationElement(TransformUtil
+                    .jdomToW3c(documenationElement));
+        } catch (JDOMException e) {
+            log.error("Can't build documentation element", e);
+        }
+
     }
 
     private void setImports() {
@@ -310,7 +310,7 @@ public class DWDL2WSDL {
         servicePort.setName(dwdl.getName() + "Port");
         SOAPAddress soapLocation = new SOAPAddressImpl();
         /*
-         * MA FIXME the server location alone won't do! Please use the
+         * FIXME the server location alone won't do! Please use the
          * URLGenerator. The location URI should look something like this:
          * http://serverlocation:serverport/ode/services/<NUMERIC ID>.service
          * ~dh

@@ -98,6 +98,14 @@ public class PackageBuilder {
 
     }
 
+    private byte[] loadSchema(String location) throws IOException {
+        InputStream in = PackageBuilder.class.getResourceAsStream(location);
+        byte[] data = new byte[in.available()];
+        in.read(data, 0, in.available());
+
+        return data;
+    }
+
     private Map<KnownWebService, Definition> retrieveWSDLs(
             List<KnownWebService> webservices) throws WSDLException {
         Map<KnownWebService, Definition> definitions = new HashMap<KnownWebService, Definition>();
@@ -108,14 +116,6 @@ public class PackageBuilder {
             definitions.put(webservice, webserviceDefinition);
         }
         return definitions;
-    }
-
-    private byte[] loadSchema(String location) throws IOException {
-        InputStream in = PackageBuilder.class.getResourceAsStream(location);
-        byte[] data = new byte[in.available()];
-        in.read(data, 0, in.available());
-
-        return data;
     }
 
 }

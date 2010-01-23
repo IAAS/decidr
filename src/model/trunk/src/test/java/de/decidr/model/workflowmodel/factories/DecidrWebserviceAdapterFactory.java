@@ -39,16 +39,6 @@ public class DecidrWebserviceAdapterFactory {
     static DecidrWebserviceAdapter humanTaskAdapter = null;
     static DecidrWebserviceAdapter emailAdapter = null;
 
-    public static DecidrWebserviceAdapter getHumanTaskWebserviceAdapter()
-            throws WSDLException, IOException {
-        humanTask = WSDLFactory.getHumanTaskDefintion();
-        humanTaskMapping = MappingFactory.getHumanTaskMapping();
-        humanTaskAdapter = new DecidrWebserviceAdapter(humanTaskMapping,
-                humanTask);
-
-        return humanTaskAdapter;
-    }
-
     public static DecidrWebserviceAdapter getEmailWebserviceAdapter()
             throws WSDLException, IOException {
         email = WSDLFactory.getEmailDefinition();
@@ -57,6 +47,16 @@ public class DecidrWebserviceAdapterFactory {
 
         return emailAdapter;
 
+    }
+
+    public static DecidrWebserviceAdapter getHumanTaskWebserviceAdapter()
+            throws WSDLException, IOException {
+        humanTask = WSDLFactory.getHumanTaskDefintion();
+        humanTaskMapping = MappingFactory.getHumanTaskMapping();
+        humanTaskAdapter = new DecidrWebserviceAdapter(humanTaskMapping,
+                humanTask);
+
+        return humanTaskAdapter;
     }
 
 }

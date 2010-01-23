@@ -27,10 +27,10 @@ public class WorkItemContainsFile implements java.io.Serializable {
 
     /** The id. */
     private WorkItemContainsFileId id;
-    
+
     /** The work item. */
     private WorkItem workItem;
-    
+
     /** The file. */
     private File file;
 
@@ -60,12 +60,40 @@ public class WorkItemContainsFile implements java.io.Serializable {
     }
 
     /**
+     * Gets the file.
+     * 
+     * @return the file
+     */
+    public File getFile() {
+        return this.file;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
      */
     public WorkItemContainsFileId getId() {
         return this.id;
+    }
+
+    /**
+     * Gets the work item.
+     * 
+     * @return the work item
+     */
+    public WorkItem getWorkItem() {
+        return this.workItem;
+    }
+
+    /**
+     * Sets the file.
+     * 
+     * @param file
+     *            the new file
+     */
+    public void setFile(File file) {
+        this.file = file;
     }
 
     /**
@@ -79,15 +107,6 @@ public class WorkItemContainsFile implements java.io.Serializable {
     }
 
     /**
-     * Gets the work item.
-     * 
-     * @return the work item
-     */
-    public WorkItem getWorkItem() {
-        return this.workItem;
-    }
-
-    /**
      * Sets the work item.
      * 
      * @param workItem
@@ -95,25 +114,6 @@ public class WorkItemContainsFile implements java.io.Serializable {
      */
     public void setWorkItem(WorkItem workItem) {
         this.workItem = workItem;
-    }
-
-    /**
-     * Gets the file.
-     * 
-     * @return the file
-     */
-    public File getFile() {
-        return this.file;
-    }
-
-    /**
-     * Sets the file.
-     * 
-     * @param file
-     *            the new file
-     */
-    public void setFile(File file) {
-        this.file = file;
     }
 
 }

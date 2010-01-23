@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
+	<!-- The DecidR Development Team licenses this file to you under -->
+	<!-- the Apache License, Version 2.0 (the "License"); you may -->
+	<!-- not use this file except in compliance with the License. -->
+	<!-- You may obtain a copy of the License at -->
+	<!-- -->
+	<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+	<!-- -->
+	<!-- Unless required by applicable law or agreed to in writing, -->
+	<!-- software distributed under the License is distributed on an -->
+	<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+	<!-- KIND, either express or implied. See the License for the -->
+	<!-- specific language governing permissions and limitations -->
+	<!-- under the License. -->
+
 <workflow id="1544" name="PartyOrganization" targetNamespace="http://decidr.de/decidr/party"
-	xmlns="http://decidr.de/schema/dwdl">
+	xmlns="http://decidr.de/schema/dwdl"
+>
 	<variables>
 		<variable name="partydate" type="date" configurationVariable="yes"
-			label="partydate">
+			label="partydate"
+		>
 		</variable>
 		<variable name="faultMessage" type="string"
-			configurationVariable="yes" label="faultMessage">
+			configurationVariable="yes" label="faultMessage"
+		>
 		</variable>
 		<variable name="successOrganizationMessage" type="string"
-			label="successOrganizationMessage">
+			label="successOrganizationMessage"
+		>
 			<initialValue>Party organization successfully finished</initialValue>
 		</variable>
 		<variable name="invitationFormResult" type="form"
@@ -70,7 +88,7 @@
 					You soon will be prompted to fill out a form.
 					Regards,
 					Mr. X
-					</propertyValue>
+				</propertyValue>
 			</setProperty>
 		</invokeNode>
 		<forEachNode id="23419328749" counterName="g" parallel="yes">
@@ -94,7 +112,8 @@
 				<invokeNode id="8934759" activity="Decidr-HumanTask">
 					<description>
 						Task to figure out who will attend the party
-						and what he is going to bring.
+						and what
+						he is going to bring.
 						</description>
 					<graphics x="20" y="30" />
 					<setProperty name="wfmID">
@@ -114,9 +133,11 @@
 					</setProperty>
 					<setProperty name="description">
 						<propertyValue>
-							Please fill in the form. It would be nice if somebody
+							Please fill in the form. It would be nice if
+							somebody
 							can bring a cake and a barbecue. I'm looking forward
-							to meet you.
+							to
+							meet you.
 							</propertyValue>
 					</setProperty>
 					<setProperty name="userNotification">

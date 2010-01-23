@@ -95,6 +95,12 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
         this.invitationId = invitationId;
     }
 
+    @Override
+    public Long[] getInvitationIds() {
+        Long[] result = { invitationId };
+        return result;
+    }
+
     /**
      * Makes the given user a member of the given tenant. This method has no
      * effect if the user is already a tenant member or the tenant admin.
@@ -105,7 +111,7 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
      *            tenant to which the given user should be added
      */
     private void makeMemberOfTenant(User user, Tenant tenant) {
-        if (tenant == null || user == null) {
+        if ((tenant == null) || (user == null)) {
             throw new IllegalArgumentException(
                     "User and tenant must not be null");
         }
@@ -123,41 +129,6 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
             relation.setUser(user);
             relation.setTenant(tenant);
 
-            session.save(relation);
-        }
-    }
-
-    /**
-     * Makes the receiver of the invitation a member of the tenant and allows
-     * him to administrate the workflow model that is specified by the
-     * invitation.
-     * 
-     * @throws AccessDeniedException
-     */
-    private void processWorkflowModelInvitation() throws AccessDeniedException {
-        User user = invitation.getReceiver();
-        Tenant tenant = invitation.getAdministrateWorkflowModel().getTenant();
-        makeMemberOfTenant(user, tenant);
-
-        // only registered users can do this
-        if (user.getUserProfile() == null) {
-            throw new AccessDeniedException(
-                    "You must be registered to become workflow administrator");
-        }
-
-        // add as WorkflowAdmin only if not already a workflow admin
-        Query q = session
-                .createQuery("select count(*) from UserAdministratesWorkflowModel rel "
-                        + "where rel.user = :user and rel.workflowModel = :workflowModel");
-        q.setEntity("user", user).setEntity("workflowModel",
-                invitation.getAdministrateWorkflowModel());
-
-        if (((Number) q.uniqueResult()).intValue() < 1) {
-            // the user is currently not administrating the workflow model
-            UserAdministratesWorkflowModel relation = new UserAdministratesWorkflowModel();
-            relation.setUser(user);
-            relation
-                    .setWorkflowModel(invitation.getAdministrateWorkflowModel());
             session.save(relation);
         }
     }
@@ -255,6 +226,41 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
         }
     }
 
+    /**
+     * Makes the receiver of the invitation a member of the tenant and allows
+     * him to administrate the workflow model that is specified by the
+     * invitation.
+     * 
+     * @throws AccessDeniedException
+     */
+    private void processWorkflowModelInvitation() throws AccessDeniedException {
+        User user = invitation.getReceiver();
+        Tenant tenant = invitation.getAdministrateWorkflowModel().getTenant();
+        makeMemberOfTenant(user, tenant);
+
+        // only registered users can do this
+        if (user.getUserProfile() == null) {
+            throw new AccessDeniedException(
+                    "You must be registered to become workflow administrator");
+        }
+
+        // add as WorkflowAdmin only if not already a workflow admin
+        Query q = session
+                .createQuery("select count(*) from UserAdministratesWorkflowModel rel "
+                        + "where rel.user = :user and rel.workflowModel = :workflowModel");
+        q.setEntity("user", user).setEntity("workflowModel",
+                invitation.getAdministrateWorkflowModel());
+
+        if (((Number) q.uniqueResult()).intValue() < 1) {
+            // the user is currently not administrating the workflow model
+            UserAdministratesWorkflowModel relation = new UserAdministratesWorkflowModel();
+            relation.setUser(user);
+            relation
+                    .setWorkflowModel(invitation.getAdministrateWorkflowModel());
+            session.save(relation);
+        }
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -316,11 +322,5 @@ public class ConfirmInvitationCommand extends AclEnabledCommand implements
             InstanceManager instanceManager = new InstanceManagerImpl();
             instanceManager.startInstance(instanceToStart);
         }
-    }
-
-    @Override
-    public Long[] getInvitationIds() {
-        Long[] result = { invitationId };
-        return result;
     }
 }

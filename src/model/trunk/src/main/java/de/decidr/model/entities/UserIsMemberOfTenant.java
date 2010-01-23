@@ -27,10 +27,10 @@ public class UserIsMemberOfTenant implements java.io.Serializable {
 
     /** The id. */
     private UserIsMemberOfTenantId id;
-    
+
     /** The tenant. */
     private Tenant tenant;
-    
+
     /** The user. */
     private User user;
 
@@ -69,6 +69,24 @@ public class UserIsMemberOfTenant implements java.io.Serializable {
     }
 
     /**
+     * Gets the tenant.
+     * 
+     * @return the tenant
+     */
+    public Tenant getTenant() {
+        return this.tenant;
+    }
+
+    /**
+     * Gets the user.
+     * 
+     * @return the user
+     */
+    public User getUser() {
+        return this.user;
+    }
+
+    /**
      * Sets the id.
      * 
      * @param id
@@ -79,15 +97,6 @@ public class UserIsMemberOfTenant implements java.io.Serializable {
     }
 
     /**
-     * Gets the tenant.
-     * 
-     * @return the tenant
-     */
-    public Tenant getTenant() {
-        return this.tenant;
-    }
-
-    /**
      * Sets the tenant.
      * 
      * @param tenant
@@ -95,15 +104,6 @@ public class UserIsMemberOfTenant implements java.io.Serializable {
      */
     public void setTenant(Tenant tenant) {
         this.tenant = tenant;
-    }
-
-    /**
-     * Gets the user.
-     * 
-     * @return the user
-     */
-    public User getUser() {
-        return this.user;
     }
 
     /**

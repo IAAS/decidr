@@ -33,7 +33,7 @@ import de.decidr.model.workflowmodel.wsc.TRoles;
  * @version 0.1
  */
 public class DWDL2WSC {
-    
+
     private ObjectFactory factory = new ObjectFactory();
 
     public TConfiguration getStartConfiguration(Workflow dwdl) {

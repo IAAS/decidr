@@ -42,6 +42,11 @@ public class UserIsAvailableAsserterTest extends LowLevelDatabaseTest {
 
     // private static Long userId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() {
+        UserFacadeTest.deleteTestUsers();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() {
         // UserFacadeTest.deleteTestUsers();
@@ -60,11 +65,6 @@ public class UserIsAvailableAsserterTest extends LowLevelDatabaseTest {
         // userProfile.setUsername(UserFacadeTest.USERNAME_PREFIX + "User");
         // userId = userFacade.registerUser(UserFacadeTest.getTestEmail(1),
         // "qwertz", userProfile);
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() {
-        UserFacadeTest.deleteTestUsers();
     }
 
     /**

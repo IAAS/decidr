@@ -60,6 +60,13 @@ public class LeaveTenantCommand extends UserCommand {
         this.tenantId = tenantId;
     }
 
+    /**
+     * @return true iff the tenant was successfully left.
+     */
+    public Boolean getLeftTenant() {
+        return leftTenant;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -96,12 +103,5 @@ public class LeaveTenantCommand extends UserCommand {
 
             leftTenant = affectedRows > 0;
         }
-    }
-
-    /**
-     * @return true iff the tenant was successfully left.
-     */
-    public Boolean getLeftTenant() {
-        return leftTenant;
     }
 }

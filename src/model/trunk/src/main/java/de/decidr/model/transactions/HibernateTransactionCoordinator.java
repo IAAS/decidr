@@ -72,6 +72,21 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     private static ThreadLocal<HibernateTransactionCoordinator> instance;
 
     /**
+     * @return the thread-local instance.
+     */
+    public static HibernateTransactionCoordinator getInstance() {
+        if (instance == null) {
+            instance = new ThreadLocal<HibernateTransactionCoordinator>() {
+                @Override
+                protected HibernateTransactionCoordinator initialValue() {
+                    return new HibernateTransactionCoordinator();
+                }
+            };
+        }
+        return instance.get();
+    }
+
+    /**
      * The current Hibernate session.
      */
     private Session session = null;
@@ -109,21 +124,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      * <code>transactionDepth == 0</code>
      */
     List<TransactionalCommand> notifiedReceivers = null;
-
-    /**
-     * @return the thread-local instance.
-     */
-    public static HibernateTransactionCoordinator getInstance() {
-        if (instance == null) {
-            instance = new ThreadLocal<HibernateTransactionCoordinator>() {
-                @Override
-                protected HibernateTransactionCoordinator initialValue() {
-                    return new HibernateTransactionCoordinator();
-                }
-            };
-        }
-        return instance.get();
-    }
 
     /**
      * Creates the HibernateTransactionCoordinator thread-local instance using
@@ -216,6 +216,71 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
+     * Fires transaction aborted event.
+     * 
+     * @param receiver
+     *            the receiver of the "transaction aborted" event
+     * @param caughtException
+     *            the exception that caused the rollback.
+     */
+    private void fireTransactionAborted(TransactionalCommand receiver,
+            Exception caughtException) throws TransactionException {
+        TransactionAbortedEvent event = new TransactionAbortedEvent(session,
+                caughtException, transactionDepth > 1);
+        receiver.transactionAborted(event);
+    }
+
+    /**
+     * Fires transaction committed event.
+     * 
+     * @param receiver
+     *            the receiver of the "transaction committed" event
+     * @throws TransactionException
+     *             the only checked exception that is allowed to occur within
+     *             the "transaction committed" event
+     */
+    private void fireTransactionCommitted(TransactionalCommand receiver)
+            throws TransactionException {
+        TransactionEvent event = new TransactionEvent(session,
+                transactionDepth > 1);
+        receiver.transactionCommitted(event);
+    }
+
+    /**
+     * Fires transaction started event.
+     * 
+     * @param receiver
+     *            the receiver of the "transaction started" event.
+     */
+    private void fireTransactionStarted(TransactionalCommand receiver)
+            throws TransactionException {
+        TransactionEvent event = new TransactionEvent(session,
+                transactionDepth > 1);
+        receiver.transactionStarted(event);
+    }
+
+    /**
+     * Returns the currently used Hibernate configuration. Please note that
+     * changes to the {@link Configuration} object do not affect this
+     * transaction coordinator. To apply new settings, you'll have to use the
+     * setConfiguration method.
+     * 
+     * @return the currently used Hibernate configuration.
+     */
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+    /**
+     * @return the current Hibernate session or <code>null</code> if no session
+     *         has been opened yet. The returned session may have been closed
+     *         using the close() method, and therefore is not necessarily open.<br>
+     */
+    public Session getCurrentSession() {
+        return session;
+    }
+
+    /**
      * Performs a rollback for the current transaction. All enclosing outer
      * transactions are rolled back as well.
      * 
@@ -258,46 +323,6 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
             }
         }
         notifiedReceivers.clear();
-    }
-
-    /**
-     * @return the current Hibernate session or <code>null</code> if no session
-     *         has been opened yet. The returned session may have been closed
-     *         using the close() method, and therefore is not necessarily open.<br>
-     */
-    public Session getCurrentSession() {
-        return session;
-    }
-
-    /**
-     * Updates the session factory using the given configuration. Currently
-     * running transactions are not affected by the new configuration. The new
-     * configuration will be applied the next time a session is opened. A new
-     * session is opened every time a top-level transaction is started.
-     * 
-     * @param config
-     *            the initialized configuration
-     */
-    public void setConfiguration(Configuration config) {
-        logger.log(Level.DEBUG, "Setting new Hibernate configuration.");
-        if (config == null) {
-            throw new IllegalArgumentException(
-                    "Hibernate config cannot be null");
-        }
-        this.sessionFactory = config.buildSessionFactory();
-        configuration = config;
-    }
-
-    /**
-     * Returns the currently used Hibernate configuration. Please note that
-     * changes to the {@link Configuration} object do not affect this
-     * transaction coordinator. To apply new settings, you'll have to use the
-     * setConfiguration method.
-     * 
-     * @return the currently used Hibernate configuration.
-     */
-    public Configuration getConfiguration() {
-        return configuration;
     }
 
     /**
@@ -358,7 +383,7 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
         CommitResult commitResult = commitCurrentTransaction();
 
         if (commitResult.isFinalCommit()
-                && commitResult.getCommittedEventException() == null) {
+                && (commitResult.getCommittedEventException() == null)) {
             logger.log(Level.DEBUG,
                     "Everything OK, no exceptions in transactionCommitted.");
         } else if (commitResult.isFinalCommit()) {
@@ -374,46 +399,21 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
     }
 
     /**
-     * Fires transaction started event.
+     * Updates the session factory using the given configuration. Currently
+     * running transactions are not affected by the new configuration. The new
+     * configuration will be applied the next time a session is opened. A new
+     * session is opened every time a top-level transaction is started.
      * 
-     * @param receiver
-     *            the receiver of the "transaction started" event.
+     * @param config
+     *            the initialized configuration
      */
-    private void fireTransactionStarted(TransactionalCommand receiver)
-            throws TransactionException {
-        TransactionEvent event = new TransactionEvent(session,
-                transactionDepth > 1);
-        receiver.transactionStarted(event);
-    }
-
-    /**
-     * Fires transaction aborted event.
-     * 
-     * @param receiver
-     *            the receiver of the "transaction aborted" event
-     * @param caughtException
-     *            the exception that caused the rollback.
-     */
-    private void fireTransactionAborted(TransactionalCommand receiver,
-            Exception caughtException) throws TransactionException {
-        TransactionAbortedEvent event = new TransactionAbortedEvent(session,
-                caughtException, transactionDepth > 1);
-        receiver.transactionAborted(event);
-    }
-
-    /**
-     * Fires transaction committed event.
-     * 
-     * @param receiver
-     *            the receiver of the "transaction committed" event
-     * @throws TransactionException
-     *             the only checked exception that is allowed to occur within
-     *             the "transaction committed" event
-     */
-    private void fireTransactionCommitted(TransactionalCommand receiver)
-            throws TransactionException {
-        TransactionEvent event = new TransactionEvent(session,
-                transactionDepth > 1);
-        receiver.transactionCommitted(event);
+    public void setConfiguration(Configuration config) {
+        logger.log(Level.DEBUG, "Setting new Hibernate configuration.");
+        if (config == null) {
+            throw new IllegalArgumentException(
+                    "Hibernate config cannot be null");
+        }
+        this.sessionFactory = config.buildSessionFactory();
+        configuration = config;
     }
 }

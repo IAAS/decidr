@@ -31,29 +31,29 @@ public class Server implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The server type. */
     private ServerType serverType;
-    
+
     /** The location. */
     private String location;
-    
+
     /** The load. */
     private byte load;
-    
+
     /** The locked. */
     private boolean locked;
-    
+
     /** The dynamically added. */
     private boolean dynamicallyAdded;
-    
+
     /** The last load update. */
     private Date lastLoadUpdate;
-    
+
     /** The workflow model is deployed on servers. */
     private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
             0);
-    
+
     /** The workflow instances. */
     private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
             0);
@@ -139,51 +139,12 @@ public class Server implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the last load update.
      * 
-     * @param id
-     *            the new id
+     * @return the last load update
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the server type.
-     * 
-     * @return the server type
-     */
-    public ServerType getServerType() {
-        return this.serverType;
-    }
-
-    /**
-     * Sets the server type.
-     * 
-     * @param serverType
-     *            the new server type
-     */
-    public void setServerType(ServerType serverType) {
-        this.serverType = serverType;
-    }
-
-    /**
-     * Gets the location.
-     * 
-     * @return the location
-     */
-    public String getLocation() {
-        return this.location;
-    }
-
-    /**
-     * Sets the location.
-     * 
-     * @param location
-     *            the new location
-     */
-    public void setLocation(String location) {
-        this.location = location;
+    public Date getLastLoadUpdate() {
+        return this.lastLoadUpdate;
     }
 
     /**
@@ -196,32 +157,39 @@ public class Server implements java.io.Serializable {
     }
 
     /**
-     * Sets the load.
+     * Gets the location.
      * 
-     * @param load
-     *            the new load
+     * @return the location
      */
-    public void setLoad(byte load) {
-        this.load = load;
+    public String getLocation() {
+        return this.location;
     }
 
     /**
-     * Checks if is locked.
+     * Gets the server type.
      * 
-     * @return true, if is locked
+     * @return the server type
      */
-    public boolean isLocked() {
-        return this.locked;
+    public ServerType getServerType() {
+        return this.serverType;
     }
 
     /**
-     * Sets the locked.
+     * Gets the workflow instances.
      * 
-     * @param locked
-     *            the new locked
+     * @return the workflow instances
      */
-    public void setLocked(boolean locked) {
-        this.locked = locked;
+    public Set<WorkflowInstance> getWorkflowInstances() {
+        return this.workflowInstances;
+    }
+
+    /**
+     * Gets the workflow model is deployed on servers.
+     * 
+     * @return the workflow model is deployed on servers
+     */
+    public Set<WorkflowModelIsDeployedOnServer> getWorkflowModelIsDeployedOnServers() {
+        return this.workflowModelIsDeployedOnServers;
     }
 
     /**
@@ -231,6 +199,15 @@ public class Server implements java.io.Serializable {
      */
     public boolean isDynamicallyAdded() {
         return this.dynamicallyAdded;
+    }
+
+    /**
+     * Checks if is locked.
+     * 
+     * @return true, if is locked
+     */
+    public boolean isLocked() {
+        return this.locked;
     }
 
     /**
@@ -244,12 +221,13 @@ public class Server implements java.io.Serializable {
     }
 
     /**
-     * Gets the last load update.
+     * Sets the id.
      * 
-     * @return the last load update
+     * @param id
+     *            the new id
      */
-    public Date getLastLoadUpdate() {
-        return this.lastLoadUpdate;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -263,12 +241,53 @@ public class Server implements java.io.Serializable {
     }
 
     /**
-     * Gets the workflow model is deployed on servers.
+     * Sets the load.
      * 
-     * @return the workflow model is deployed on servers
+     * @param load
+     *            the new load
      */
-    public Set<WorkflowModelIsDeployedOnServer> getWorkflowModelIsDeployedOnServers() {
-        return this.workflowModelIsDeployedOnServers;
+    public void setLoad(byte load) {
+        this.load = load;
+    }
+
+    /**
+     * Sets the location.
+     * 
+     * @param location
+     *            the new location
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    /**
+     * Sets the locked.
+     * 
+     * @param locked
+     *            the new locked
+     */
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    /**
+     * Sets the server type.
+     * 
+     * @param serverType
+     *            the new server type
+     */
+    public void setServerType(ServerType serverType) {
+        this.serverType = serverType;
+    }
+
+    /**
+     * Sets the workflow instances.
+     * 
+     * @param workflowInstances
+     *            the new workflow instances
+     */
+    public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
+        this.workflowInstances = workflowInstances;
     }
 
     /**
@@ -280,25 +299,6 @@ public class Server implements java.io.Serializable {
     public void setWorkflowModelIsDeployedOnServers(
             Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers) {
         this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
-    }
-
-    /**
-     * Gets the workflow instances.
-     * 
-     * @return the workflow instances
-     */
-    public Set<WorkflowInstance> getWorkflowInstances() {
-        return this.workflowInstances;
-    }
-
-    /**
-     * Sets the workflow instances.
-     * 
-     * @param workflowInstances
-     *            the new workflow instances
-     */
-    public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
-        this.workflowInstances = workflowInstances;
     }
 
 }

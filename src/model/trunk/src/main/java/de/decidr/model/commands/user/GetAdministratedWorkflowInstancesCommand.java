@@ -59,6 +59,14 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
         requireUserId();
     }
 
+    /**
+     * @return List of WorkflowInstances which are administrated by the given
+     *         user
+     */
+    public List<WorkflowInstance> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -93,13 +101,5 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
 
         result = evt.getSession().createQuery(hql).setLong("userId",
                 getUserId()).list();
-    }
-
-    /**
-     * @return List of WorkflowInstances which are administrated by the given
-     *         user
-     */
-    public List<WorkflowInstance> getResult() {
-        return result;
     }
 }

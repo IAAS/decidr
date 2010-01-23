@@ -81,26 +81,10 @@ public class EqualsFilter implements Filter {
     }
 
     /**
-     * @param propertyValue
-     *            the value to match
+     * @return whether matches are included or excluded
      */
-    public void setPropertyValue(Object propertyValue) {
-        this.propertyValue = propertyValue;
-    }
-
-    /**
-     * @return the value to match
-     */
-    public Object getPropertyValue() {
-        return propertyValue;
-    }
-
-    /**
-     * @param propertyName
-     *            the property to compare
-     */
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
+    public Boolean getInclude() {
+        return include;
     }
 
     /**
@@ -108,6 +92,13 @@ public class EqualsFilter implements Filter {
      */
     public String getPropertyName() {
         return propertyName;
+    }
+
+    /**
+     * @return the value to match
+     */
+    public Object getPropertyValue() {
+        return propertyValue;
     }
 
     /**
@@ -119,9 +110,18 @@ public class EqualsFilter implements Filter {
     }
 
     /**
-     * @return whether matches are included or excluded
+     * @param propertyName
+     *            the property to compare
      */
-    public Boolean getInclude() {
-        return include;
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    /**
+     * @param propertyValue
+     *            the value to match
+     */
+    public void setPropertyValue(Object propertyValue) {
+        this.propertyValue = propertyValue;
     }
 }

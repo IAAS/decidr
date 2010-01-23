@@ -39,74 +39,6 @@ public interface StorageProvider {
     public static final String PERSISTENT_CONFIG_KEY = "persistent";
 
     /**
-     * Creates or replaces the file that is identified by the given ID on the
-     * storage backend.
-     * 
-     * @param data
-     *            the contents of the file
-     * @param fileId
-     *            the file identifier
-     * @param fileSize
-     *            the size of the file
-     * @throws StorageException
-     *             if a problem occurs while storing
-     * @throws IllegalArgumentException
-     *             if any of the parameters are <code>null</code>
-     */
-    public void putFile(InputStream data, Long fileId, Long fileSize)
-            throws StorageException;
-
-    /**
-     * Retrieves the file that is identified by the given ID from the storage
-     * backend.
-     * 
-     * @param fileId
-     *            The file identifier.
-     * @throws IllegalArgumentException
-     *             if any of the parameters are <code>null</code>
-     * @return the file data
-     */
-    public InputStream getFile(Long fileId) throws StorageException;
-
-    /**
-     * Permanently removes the file that is identified by the given ID from the
-     * storage backend.
-     * 
-     * @param fileId
-     *            The file identifier.
-     * @throws IllegalArgumentException
-     *             if any of the parameters are <code>null</code>
-     */
-    public void removeFile(Long fileId) throws StorageException;
-
-    /**
-     * Checks to see if a <code>{@link Properties}</code> can be applied to this
-     * provider. The default properties (see below) have to be checked by every
-     * <code>{@link StorageProvider}</code>. The default properties are
-     * available as {@link String} constants from this interface.
-     * <p>
-     * Default properties:<br>
-     * <ul>
-     * <li>local (<code>boolean</code> - whether files are to be saved locally)</li>
-     * <li>amazons3 (<code>boolean</code> - whether files are to be stored in
-     * the Amazon S3 service)</li>
-     * <li>persistent (<code>boolean</code> - whether files should survive
-     * system reboot/failure)</li>
-     * <li>protocol (<code>{@link String}</code> - what protocol should be used
-     * to access files; e.g. &quot;file&quot;, &quot;http&quot;,
-     * &quot;https&quot;)</li>
-     * </ul>
-     * 
-     * @param config
-     *            The configuration that should be checked.
-     * @throws IllegalArgumentException
-     *             if any of the parameters are <code>null</code>
-     * @return - <code>true</code>, if the configuration can be applied<br>
-     *         - <code>false</code>, if it can't
-     */
-    public boolean isApplicable(Properties config);
-
-    /**
      * Tries to apply a configuration to the provider. The caller needs to make
      * sure all required settings are present.<br>
      * The method <code>{@link #isApplicable(Properties)}</code> can be used to
@@ -141,4 +73,72 @@ public interface StorageProvider {
      */
     public void applyConfig(Properties config)
             throws IncompleteConfigurationException;
+
+    /**
+     * Retrieves the file that is identified by the given ID from the storage
+     * backend.
+     * 
+     * @param fileId
+     *            The file identifier.
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
+     * @return the file data
+     */
+    public InputStream getFile(Long fileId) throws StorageException;
+
+    /**
+     * Checks to see if a <code>{@link Properties}</code> can be applied to this
+     * provider. The default properties (see below) have to be checked by every
+     * <code>{@link StorageProvider}</code>. The default properties are
+     * available as {@link String} constants from this interface.
+     * <p>
+     * Default properties:<br>
+     * <ul>
+     * <li>local (<code>boolean</code> - whether files are to be saved locally)</li>
+     * <li>amazons3 (<code>boolean</code> - whether files are to be stored in
+     * the Amazon S3 service)</li>
+     * <li>persistent (<code>boolean</code> - whether files should survive
+     * system reboot/failure)</li>
+     * <li>protocol (<code>{@link String}</code> - what protocol should be used
+     * to access files; e.g. &quot;file&quot;, &quot;http&quot;,
+     * &quot;https&quot;)</li>
+     * </ul>
+     * 
+     * @param config
+     *            The configuration that should be checked.
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
+     * @return - <code>true</code>, if the configuration can be applied<br>
+     *         - <code>false</code>, if it can't
+     */
+    public boolean isApplicable(Properties config);
+
+    /**
+     * Creates or replaces the file that is identified by the given ID on the
+     * storage backend.
+     * 
+     * @param data
+     *            the contents of the file
+     * @param fileId
+     *            the file identifier
+     * @param fileSize
+     *            the size of the file
+     * @throws StorageException
+     *             if a problem occurs while storing
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
+     */
+    public void putFile(InputStream data, Long fileId, Long fileSize)
+            throws StorageException;
+
+    /**
+     * Permanently removes the file that is identified by the given ID from the
+     * storage backend.
+     * 
+     * @param fileId
+     *            The file identifier.
+     * @throws IllegalArgumentException
+     *             if any of the parameters are <code>null</code>
+     */
+    public void removeFile(Long fileId) throws StorageException;
 }

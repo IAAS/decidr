@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.facades;
 
 import java.util.Set;
@@ -38,7 +53,8 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     }
 
     /**
-     * Stops the given WorkflowInstance.
+     * Stops the WorkflowInstance and deletes the corresponding representation
+     * object at the database.
      * 
      * @param workflowInstanceId
      *            the ID of the WorkflowInstance
@@ -50,11 +66,14 @@ public class WorkflowInstanceFacade extends AbstractFacade {
      *             if workflowInstanceId is <code>null</code>
      */
     @AllowedRole(WorkflowAdminRole.class)
-    public void stopWorkflowInstance(Long workflowInstanceId)
+    public void deleteWorkflowInstance(Long workflowInstanceId)
             throws TransactionException {
         StopWorkflowInstanceCommand command = new StopWorkflowInstanceCommand(
                 actor, workflowInstanceId);
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        DeleteWorkflowInstanceCommand command2 = new DeleteWorkflowInstanceCommand(
+                actor, workflowInstanceId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                new TransactionalCommand[] { command, command2 });
     }
 
     /**
@@ -81,30 +100,6 @@ public class WorkflowInstanceFacade extends AbstractFacade {
     }
 
     /**
-     * Stops the WorkflowInstance and deletes the corresponding representation
-     * object at the database.
-     * 
-     * @param workflowInstanceId
-     *            the ID of the WorkflowInstance
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     * @throws EntityNotFoundException
-     *             if the workflow instance does not exist.
-     * @throws IllegalArgumentException
-     *             if workflowInstanceId is <code>null</code>
-     */
-    @AllowedRole(WorkflowAdminRole.class)
-    public void deleteWorkflowInstance(Long workflowInstanceId)
-            throws TransactionException {
-        StopWorkflowInstanceCommand command = new StopWorkflowInstanceCommand(
-                actor, workflowInstanceId);
-        DeleteWorkflowInstanceCommand command2 = new DeleteWorkflowInstanceCommand(
-                actor, workflowInstanceId);
-        HibernateTransactionCoordinator.getInstance().runTransaction(
-                new TransactionalCommand[] { command, command2 });
-    }
-
-    /**
      * Removes all work items from the workflow instance that is identified by
      * the given ODE process id and the given workflow model id. The workflow
      * instance itself is <b>not</b> deleted from the database.
@@ -124,6 +119,26 @@ public class WorkflowInstanceFacade extends AbstractFacade {
             throws TransactionException {
         RemoveAllWorkItemsCommand command = new RemoveAllWorkItemsCommand(
                 actor, odePid, deployedWorkflowModelId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+    }
+
+    /**
+     * Stops the given WorkflowInstance.
+     * 
+     * @param workflowInstanceId
+     *            the ID of the WorkflowInstance
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     * @throws EntityNotFoundException
+     *             if the workflow instance does not exist.
+     * @throws IllegalArgumentException
+     *             if workflowInstanceId is <code>null</code>
+     */
+    @AllowedRole(WorkflowAdminRole.class)
+    public void stopWorkflowInstance(Long workflowInstanceId)
+            throws TransactionException {
+        StopWorkflowInstanceCommand command = new StopWorkflowInstanceCommand(
+                actor, workflowInstanceId);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 }

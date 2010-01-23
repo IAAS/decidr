@@ -66,6 +66,39 @@ public class WebserviceAdapterTest {
 
     /**
      * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getDefinition()}
+     * .
+     */
+    @Test
+    public void testGetDefinition() {
+        assertNotNull(humanTaskAdapter.getDefinition());
+        assertNotNull(emailAdapter.getDefinition());
+    }
+
+    /**
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getInputMessageType()}
+     * .
+     */
+    @Test
+    public void testGetInputMessageType() {
+        assertNotNull(humanTaskAdapter.getInputMessageType());
+        assertNotNull(emailAdapter.getInputMessageType());
+    }
+
+    /**
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getLocation()}
+     * .
+     */
+    @Test
+    public void testGetLocation() {
+        assertEquals(humanTaskAdapter.getLocation(), HumanTaskURL);
+        assertEquals(emailAdapter.getLocation(), EmailURL);
+    }
+
+    /**
+     * Test method for
      * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getName()}
      * .
      */
@@ -73,6 +106,28 @@ public class WebserviceAdapterTest {
     public void testGetName() {
         assertEquals(humanTaskAdapter.getName(), humanTask.getQName());
         assertEquals(emailAdapter.getName(), email.getQName());
+    }
+
+    /**
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getOpertation()}
+     * .
+     */
+    @Test
+    public void testGetOpertation() {
+        assertNotNull(humanTaskAdapter.getOpertation());
+        assertNotNull(emailAdapter.getOpertation());
+    }
+
+    /**
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getOutputMessageType()}
+     * .
+     */
+    @Test
+    public void testGetOutputMessageType() {
+        assertNotNull(humanTaskAdapter.getOutputMessageType());
+        assertNotNull(emailAdapter.getOutputMessageType());
     }
 
     /**
@@ -107,30 +162,6 @@ public class WebserviceAdapterTest {
 
     /**
      * Test method for
-     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getTargetNamespace()}
-     * .
-     */
-    @Test
-    public void testGetTargetNamespace() {
-        assertEquals(humanTaskAdapter.getTargetNamespace(), humanTask
-                .getTargetNamespace());
-        assertEquals(emailAdapter.getTargetNamespace(), email
-                .getTargetNamespace());
-    }
-
-    /**
-     * Test method for
-     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getLocation()}
-     * .
-     */
-    @Test
-    public void testGetLocation() {
-        assertEquals(humanTaskAdapter.getLocation(), HumanTaskURL);
-        assertEquals(emailAdapter.getLocation(), EmailURL);
-    }
-
-    /**
-     * Test method for
      * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getPortType()}
      * .
      */
@@ -142,50 +173,6 @@ public class WebserviceAdapterTest {
 
     /**
      * Test method for
-     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getOpertation()}
-     * .
-     */
-    @Test
-    public void testGetOpertation() {
-        assertNotNull(humanTaskAdapter.getOpertation());
-        assertNotNull(emailAdapter.getOpertation());
-    }
-
-    /**
-     * Test method for
-     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getDefinition()}
-     * .
-     */
-    @Test
-    public void testGetDefinition() {
-        assertNotNull(humanTaskAdapter.getDefinition());
-        assertNotNull(emailAdapter.getDefinition());
-    }
-
-    /**
-     * Test method for
-     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getInputMessageType()}
-     * .
-     */
-    @Test
-    public void testGetInputMessageType() {
-        assertNotNull(humanTaskAdapter.getInputMessageType());
-        assertNotNull(emailAdapter.getInputMessageType());
-    }
-
-    /**
-     * Test method for
-     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getOutputMessageType()}
-     * .
-     */
-    @Test
-    public void testGetOutputMessageType() {
-        assertNotNull(humanTaskAdapter.getOutputMessageType());
-        assertNotNull(emailAdapter.getOutputMessageType());
-    }
-
-    /**
-     * Test method for
      * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getService()}
      * .
      */
@@ -193,6 +180,19 @@ public class WebserviceAdapterTest {
     public void testGetService() {
         assertNotNull(humanTaskAdapter.getService());
         assertNotNull(emailAdapter.getService());
+    }
+
+    /**
+     * Test method for
+     * {@link de.decidr.model.workflowmodel.webservices.DecidrWebserviceAdapter#getTargetNamespace()}
+     * .
+     */
+    @Test
+    public void testGetTargetNamespace() {
+        assertEquals(humanTaskAdapter.getTargetNamespace(), humanTask
+                .getTargetNamespace());
+        assertEquals(emailAdapter.getTargetNamespace(), email
+                .getTargetNamespace());
     }
 
 }

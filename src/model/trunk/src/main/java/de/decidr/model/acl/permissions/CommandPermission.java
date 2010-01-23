@@ -46,18 +46,6 @@ public class CommandPermission extends
     private Class<? extends TransactionalCommand> commandClass = null;
 
     /**
-     * Creates a new CommandPermission for the class of the given command
-     * instance.
-     * 
-     * @param command
-     *            command instance
-     */
-    public CommandPermission(TransactionalCommand command) {
-        super(command.getClass().getName());
-        this.command = command;
-    }
-
-    /**
      * Creates a new CommandPermission for the given command class.
      * 
      * @param clazz
@@ -70,14 +58,15 @@ public class CommandPermission extends
     }
 
     /**
-     * @return Class of the command to be executed.
+     * Creates a new CommandPermission for the class of the given command
+     * instance.
+     * 
+     * @param command
+     *            command instance
      */
-    public Class<? extends TransactionalCommand> getCommandClass() {
-        if (command != null) {
-            return this.command.getClass();
-        } else {
-            return this.commandClass;
-        }
+    public CommandPermission(TransactionalCommand command) {
+        super(command.getClass().getName());
+        this.command = command;
     }
 
     /**
@@ -87,5 +76,16 @@ public class CommandPermission extends
      */
     public TransactionalCommand getCommand() {
         return this.command;
+    }
+
+    /**
+     * @return Class of the command to be executed.
+     */
+    public Class<? extends TransactionalCommand> getCommandClass() {
+        if (command != null) {
+            return this.command.getClass();
+        } else {
+            return this.commandClass;
+        }
     }
 }

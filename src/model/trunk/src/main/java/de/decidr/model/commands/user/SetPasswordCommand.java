@@ -79,6 +79,14 @@ public class SetPasswordCommand extends UserCommand {
         this.newPassword = newPassword;
     }
 
+    /**
+     * @return true iff oldPassword matched the current password and the
+     *         password has been changed.
+     */
+    public Boolean getPasswordWasChanged() {
+        return passwordWasChanged;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -114,13 +122,5 @@ public class SetPasswordCommand extends UserCommand {
             evt.getSession().update(profile);
             passwordWasChanged = true;
         }
-    }
-
-    /**
-     * @return true iff oldPassword matched the current password and the
-     *         password has been changed.
-     */
-    public Boolean getPasswordWasChanged() {
-        return passwordWasChanged;
     }
 }

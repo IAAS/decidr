@@ -123,6 +123,20 @@ public class DWDL2BPEL {
         assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
+    private void addCopyStatement(Assign assign, Element element,
+            String toVariable) {
+        Copy copy = factory.createCopy();
+        From from = factory.createFrom();
+        To to = factory.createTo();
+        Literal literal = factory.createLiteral();
+        literal.getContent().add(element);
+        from.getContent().add(literal);
+        to.setVariable(toVariable);
+        copy.setFrom(from);
+        copy.setTo(to);
+        assign.getCopyOrExtensionAssignOperation().add(copy);
+    }
+
     private void addCopyStatement(Assign assign, SetProperty property,
             String toVariable) {
         Copy copy = factory.createCopy();
@@ -453,20 +467,6 @@ public class DWDL2BPEL {
             }
         }
         return assign;
-    }
-
-    private void addCopyStatement(Assign assign, Element element,
-            String toVariable) {
-        Copy copy = factory.createCopy();
-        From from = factory.createFrom();
-        To to = factory.createTo();
-        Literal literal = factory.createLiteral();
-        literal.getContent().add(element);
-        from.getContent().add(literal);
-        to.setVariable(toVariable);
-        copy.setFrom(from);
-        copy.setTo(to);
-        assign.getCopyOrExtensionAssignOperation().add(copy);
     }
 
     private Assign initVariables() {

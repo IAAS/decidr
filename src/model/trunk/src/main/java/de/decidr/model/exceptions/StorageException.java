@@ -30,14 +30,12 @@ public class StorageException extends Exception {
     private String serviceDetail = "";
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Implementation of
-     * {@link StorageException#StorageException(String, Throwable)} needed for
-     * {@link WebFault} annotation.
-     */
-    public StorageException(String message, String detail, Throwable cause) {
-        this(message, cause);
-        serviceDetail = detail;
+    public StorageException() {
+        super();
+    }
+
+    public StorageException(String message) {
+        super(message);
     }
 
     /**
@@ -50,26 +48,28 @@ public class StorageException extends Exception {
     }
 
     /**
-     * Method returning {@link TransactionException#getFaultInfo} needed for
+     * Implementation of
+     * {@link StorageException#StorageException(String, Throwable)} needed for
      * {@link WebFault} annotation.
      */
-    public String getFaultInfo() {
-        return serviceDetail;
-    }
-
-    public StorageException() {
-        super();
+    public StorageException(String message, String detail, Throwable cause) {
+        this(message, cause);
+        serviceDetail = detail;
     }
 
     public StorageException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public StorageException(String message) {
-        super(message);
-    }
-
     public StorageException(Throwable cause) {
         super(cause);
+    }
+
+    /**
+     * Method returning {@link TransactionException#getFaultInfo} needed for
+     * {@link WebFault} annotation.
+     */
+    public String getFaultInfo() {
+        return serviceDetail;
     }
 }

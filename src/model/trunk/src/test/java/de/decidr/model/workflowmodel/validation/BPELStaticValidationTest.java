@@ -49,6 +49,16 @@ public class BPELStaticValidationTest {
     static String wsdlFileName = "/test/HumanTaskProcess.wsdl";
     static File bpelFile = null;
 
+    @AfterClass
+    public static void afterTest() throws Exception {
+        // TODO fill with content or delete
+    }
+
+    public static void onMessage(CompilationMessage compilationMessage) {
+        errors.add(compilationMessage);
+        log.debug(compilationMessage.messageText);
+    }
+
     /**
      * Initialize all relevant input objects
      * 
@@ -84,16 +94,6 @@ public class BPELStaticValidationTest {
 
         assertTrue(errors.size() == 0);
         log.debug(errors.size() + " errors found by compiler");
-    }
-
-    public static void onMessage(CompilationMessage compilationMessage) {
-        errors.add(compilationMessage);
-        log.debug(compilationMessage.messageText);
-    }
-
-    @AfterClass
-    public static void afterTest() throws Exception {
-        // TODO fill with content or delete
     }
 
 }

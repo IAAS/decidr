@@ -29,13 +29,13 @@ public class PasswordResetRequest implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The user. */
     private User user;
-    
+
     /** The creation date. */
     private Date creationDate;
-    
+
     /** The auth key. */
     private String authKey;
 
@@ -64,22 +64,30 @@ public class PasswordResetRequest implements java.io.Serializable {
     }
 
     /**
+     * Gets the auth key.
+     * 
+     * @return the auth key
+     */
+    public String getAuthKey() {
+        return this.authKey;
+    }
+
+    /**
+     * Gets the creation date.
+     * 
+     * @return the creation date
+     */
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
      */
     public long getId() {
         return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(long id) {
-        this.id = id;
     }
 
     /**
@@ -92,22 +100,13 @@ public class PasswordResetRequest implements java.io.Serializable {
     }
 
     /**
-     * Sets the user.
+     * Sets the auth key.
      * 
-     * @param user
-     *            the new user
+     * @param authKey
+     *            the new auth key
      */
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    /**
-     * Gets the creation date.
-     * 
-     * @return the creation date
-     */
-    public Date getCreationDate() {
-        return this.creationDate;
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
     }
 
     /**
@@ -121,22 +120,23 @@ public class PasswordResetRequest implements java.io.Serializable {
     }
 
     /**
-     * Gets the auth key.
+     * Sets the id.
      * 
-     * @return the auth key
+     * @param id
+     *            the new id
      */
-    public String getAuthKey() {
-        return this.authKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
-     * Sets the auth key.
+     * Sets the user.
      * 
-     * @param authKey
-     *            the new auth key
+     * @param user
+     *            the new user
      */
-    public void setAuthKey(String authKey) {
-        this.authKey = authKey;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

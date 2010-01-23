@@ -59,6 +59,90 @@ public class DWDL2SOAP {
 
     private Definition definition = null;
 
+    private SOAPMessage buildMessage(List<Element> soapElements,
+            Element jdomBodyElement) throws UnsupportedOperationException,
+            SOAPException {
+
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage message = messageFactory.createMessage();
+
+        SOAPPart soapPart = message.getSOAPPart();
+        SOAPEnvelope envelope = soapPart.getEnvelope();
+        SOAPHeader header = envelope.getHeader();
+        SOAPBody body = envelope.getBody();
+
+        header.addAttribute(envelope.createName("bodyElementName"),
+                jdomBodyElement.getAttributeValue("name"));
+        header.addAttribute(envelope.createName("targetNamespace"), definition
+                .getTargetNamespace());
+
+        SOAPElement bodyElement = body.addChildElement(envelope.createName(
+                jdomBodyElement.getAttributeValue("name"), "tns", definition
+                        .getTargetNamespace()));
+
+        for (Element soapElement : soapElements) {
+            if (!soapElement.getAttributeValue("name").equals("role")) {
+                bodyElement.addChildElement(
+                        soapElement.getAttributeValue("name"), "tns")
+                        .addTextNode("?");
+            }
+        }
+
+        message.saveChanges();
+
+        return message;
+    }
+
+    private Element findElement(String elementName, Element parentElement) {
+        Iterator<?> iterator = parentElement.getChildren("element",
+                Constants.XML_SCHEMA_NS).iterator();
+        while (iterator.hasNext()) {
+            Element element = (Element) iterator.next();
+            if (element.getAttribute("name").getValue().equals(elementName)) {
+                return element;
+            }
+        }
+        log.warn("Element " + elementName + " nicht gefunden in "
+                + parentElement.getName());
+        return null;
+    }
+
+    private Element findElement(String elementName, String typeName,
+            Element parentElement) {
+        Iterator<?> iterator = parentElement.getChildren(elementName,
+                Constants.XML_SCHEMA_NS).iterator();
+        while (iterator.hasNext()) {
+            Element element = (Element) iterator.next();
+            if (element.getAttribute("name").getValue().equals(typeName)) {
+                return element;
+            }
+        }
+        log.warn("Element " + elementName + " nicht gefunden in "
+                + parentElement.getName());
+        return null;
+    }
+
+    private org.jdom.Element getSchemaElement(Definition definition) {
+        final String schema = "schema";
+        org.w3c.dom.Element schemaElement = null;
+        Iterator<?> extElementIter = definition.getTypes()
+                .getExtensibilityElements().iterator();
+        while (extElementIter.hasNext()) {
+            ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
+                    .next();
+            if (extElement.getElementType().getLocalPart().equals(schema)) {
+                if (extElement instanceof SchemaImpl) {
+                    schemaElement = ((SchemaImpl) extElement).getElement();
+                }
+                return new DOMBuilder().build(schemaElement);
+            }
+        }
+        log
+                .warn("Schema element in null in "
+                        + definition.getTargetNamespace());
+        return null;
+    }
+
     public SOAPMessage getSOAP(Definition wsdl, String portName,
             String operationName) throws UnsupportedOperationException,
             SOAPException {
@@ -129,92 +213,8 @@ public class DWDL2SOAP {
         return complexChild.getName().equals("all");
     }
 
-    private SOAPMessage buildMessage(List<Element> soapElements,
-            Element jdomBodyElement) throws UnsupportedOperationException,
-            SOAPException {
-
-        MessageFactory messageFactory = MessageFactory.newInstance();
-        SOAPMessage message = messageFactory.createMessage();
-
-        SOAPPart soapPart = message.getSOAPPart();
-        SOAPEnvelope envelope = soapPart.getEnvelope();
-        SOAPHeader header = envelope.getHeader();
-        SOAPBody body = envelope.getBody();
-
-        header.addAttribute(envelope.createName("bodyElementName"),
-                jdomBodyElement.getAttributeValue("name"));
-        header.addAttribute(envelope.createName("targetNamespace"), definition
-                .getTargetNamespace());
-
-        SOAPElement bodyElement = body.addChildElement(envelope.createName(
-                jdomBodyElement.getAttributeValue("name"), "tns", definition
-                        .getTargetNamespace()));
-
-        for (Element soapElement : soapElements) {
-            if (!soapElement.getAttributeValue("name").equals("role")) {
-                bodyElement.addChildElement(
-                        soapElement.getAttributeValue("name"), "tns")
-                        .addTextNode("?");
-            }
-        }
-
-        message.saveChanges();
-
-        return message;
-    }
-
     private boolean isSequence(Element complexChild) {
         return complexChild.getName().equals("sequence");
-    }
-
-    private Element findElement(String elementName, Element parentElement) {
-        Iterator<?> iterator = parentElement.getChildren("element",
-                Constants.XML_SCHEMA_NS).iterator();
-        while (iterator.hasNext()) {
-            Element element = (Element) iterator.next();
-            if (element.getAttribute("name").getValue().equals(elementName)) {
-                return element;
-            }
-        }
-        log.warn("Element " + elementName + " nicht gefunden in "
-                + parentElement.getName());
-        return null;
-    }
-
-    private Element findElement(String elementName, String typeName,
-            Element parentElement) {
-        Iterator<?> iterator = parentElement.getChildren(elementName,
-                Constants.XML_SCHEMA_NS).iterator();
-        while (iterator.hasNext()) {
-            Element element = (Element) iterator.next();
-            if (element.getAttribute("name").getValue().equals(typeName)) {
-                return element;
-            }
-        }
-        log.warn("Element " + elementName + " nicht gefunden in "
-                + parentElement.getName());
-        return null;
-    }
-
-    private org.jdom.Element getSchemaElement(Definition definition) {
-        final String schema = "schema";
-        org.w3c.dom.Element schemaElement = null;
-        Iterator<?> extElementIter = definition.getTypes()
-                .getExtensibilityElements().iterator();
-        while (extElementIter.hasNext()) {
-            ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
-                    .next();
-            if (extElement.getElementType().getLocalPart().equals(schema)) {
-                if (extElement instanceof SchemaImpl) {
-                    schemaElement = ((SchemaImpl) extElement).getElement();
-                }
-                return new DOMBuilder().build(schemaElement);
-            }
-        }
-        log
-                .warn("Schema element in null in "
-                        + definition.getTargetNamespace());
-        return null;
     }
 
 }

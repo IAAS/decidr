@@ -30,6 +30,17 @@ import de.decidr.model.testing.DecidrAclTest;
 public class UserRoleTest extends DecidrAclTest {
 
     /**
+     * Test method for {@link UserRole#UserRole()}.
+     */
+    @Test
+    public void testUserRole() {
+        UserRole role = new UserRole();
+
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
+    }
+
+    /**
      * Test method for {@link UserRole#UserRole(Long)}.
      */
     @Test
@@ -44,16 +55,5 @@ public class UserRoleTest extends DecidrAclTest {
 
         role = new UserRole(-1l);
         assertTrue(role.getActorId() == -1l);
-    }
-
-    /**
-     * Test method for {@link UserRole#UserRole()}.
-     */
-    @Test
-    public void testUserRole() {
-        UserRole role = new UserRole();
-
-        assertNotNull(role);
-        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
     }
 }

@@ -30,6 +30,17 @@ import de.decidr.model.testing.DecidrAclTest;
 public class TenantAdminRoleTest extends DecidrAclTest {
 
     /**
+     * Test method for {@link TenantAdminRole#TenantAdminRole()}.
+     */
+    @Test
+    public void testTenantAdminRole() {
+        TenantAdminRole role = new TenantAdminRole();
+
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
+    }
+
+    /**
      * Test method for {@link TenantAdminRole#TenantAdminRole(Long)}.
      */
     @Test
@@ -44,16 +55,5 @@ public class TenantAdminRoleTest extends DecidrAclTest {
 
         role = new TenantAdminRole(-1l);
         assertTrue(role.getActorId() == -1l);
-    }
-
-    /**
-     * Test method for {@link TenantAdminRole#TenantAdminRole()}.
-     */
-    @Test
-    public void testTenantAdminRole() {
-        TenantAdminRole role = new TenantAdminRole();
-
-        assertNotNull(role);
-        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
     }
 }

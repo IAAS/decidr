@@ -37,6 +37,13 @@ public class UserRole extends BasicRole {
     public static final Long UNKNOWN_USER_ID = -1L;
 
     /**
+     * Creates a new UserRole with its actor id set to UNKNOWN_USER_ID;
+     */
+    public UserRole() {
+        this(UNKNOWN_USER_ID);
+    }
+
+    /**
      * Creates a new UserRole with the given user ID.
      * 
      * @param userId
@@ -44,12 +51,5 @@ public class UserRole extends BasicRole {
      */
     public UserRole(Long userId) {
         super(userId);
-    }
-
-    /**
-     * Creates a new UserRole with its actor id set to UNKNOWN_USER_ID;
-     */
-    public UserRole() {
-        this(UNKNOWN_USER_ID);
     }
 }

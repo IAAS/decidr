@@ -55,6 +55,89 @@ public class SOAPGenerator {
 
     private SOAPMessage soapMessage = null;
 
+    private void addActor(Element messageRootElement, Actor actor)
+            throws JAXBException {
+        /*
+         * Convert JAXB Element to W3C element
+         */
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        Document doc;
+        try {
+            doc = factory.newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException e) {
+            // this is an unexpected error
+            throw new RuntimeException(e);
+        }
+
+        JAXBContext context = JAXBContext
+                .newInstance("de.decidr.model.soap.types");
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.marshal(new JAXBElement<Actor>(new QName(
+                Constants.DECIDRTYPES_NAMESPACE, "actor"), Actor.class, actor),
+                doc);
+
+        messageRootElement.appendChild(messageRootElement.getOwnerDocument()
+                .importNode(doc.getDocumentElement(), true));
+    }
+
+    private void addRole(Element messageRootElement, Role role)
+            throws JAXBException {
+        /*
+         * Convert JAXB Element to W3C element
+         */
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        Document doc;
+        try {
+            doc = factory.newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException e) {
+            // this is an unexpected error
+            throw new RuntimeException(e);
+        }
+
+        JAXBContext context = JAXBContext
+                .newInstance("de.decidr.model.soap.types");
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.marshal(new JAXBElement<Role>(new QName(
+                Constants.DECIDRTYPES_NAMESPACE, "role"), Role.class, role),
+                doc);
+
+        messageRootElement.appendChild(messageRootElement.getOwnerDocument()
+                .importNode(doc.getDocumentElement(), true));
+    }
+
+    private Element findElement(Element messageRootElement, String elementName) {
+        NodeList nodes = messageRootElement.getChildNodes();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Node node = nodes.item(i);
+            if (node instanceof Element) {
+                Element element = (Element) node;
+                if (element.getLocalName().equals(elementName)) {
+                    return element;
+                }
+            }
+        }
+        log.warn("Can't find " + elementName + "elment in "
+                + messageRootElement.getNodeName());
+        return null;
+    }
+
+    private Element getOperationElement() throws SOAPException {
+        /*
+         * Assume the first element is what we're looking for.
+         */
+        Element result = null;
+        NodeList nodes = soapMessage.getSOAPBody().getChildNodes();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            if (nodes.item(i) instanceof Element) {
+                result = (Element) nodes.item(i);
+                break;
+            }
+        }
+        return result;
+    }
+
     /**
      * The function expects a SOAP template and a start configuration. Using
      * this input, the function generates a complete SOAP message which can be
@@ -117,58 +200,6 @@ public class SOAPGenerator {
         return soapMessage;
     }
 
-    private void addRole(Element messageRootElement, Role role)
-            throws JAXBException {
-        /*
-         * Convert JAXB Element to W3C element
-         */
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        Document doc;
-        try {
-            doc = factory.newDocumentBuilder().newDocument();
-        } catch (ParserConfigurationException e) {
-            // this is an unexpected error
-            throw new RuntimeException(e);
-        }
-
-        JAXBContext context = JAXBContext
-                .newInstance("de.decidr.model.soap.types");
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(new JAXBElement<Role>(new QName(
-                Constants.DECIDRTYPES_NAMESPACE, "role"), Role.class, role),
-                doc);
-
-        messageRootElement.appendChild(messageRootElement.getOwnerDocument()
-                .importNode(doc.getDocumentElement(), true));
-    }
-
-    private void addActor(Element messageRootElement, Actor actor)
-            throws JAXBException {
-        /*
-         * Convert JAXB Element to W3C element
-         */
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        Document doc;
-        try {
-            doc = factory.newDocumentBuilder().newDocument();
-        } catch (ParserConfigurationException e) {
-            // this is an unexpected error
-            throw new RuntimeException(e);
-        }
-
-        JAXBContext context = JAXBContext
-                .newInstance("de.decidr.model.soap.types");
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(new JAXBElement<Actor>(new QName(
-                Constants.DECIDRTYPES_NAMESPACE, "actor"), Actor.class, actor),
-                doc);
-
-        messageRootElement.appendChild(messageRootElement.getOwnerDocument()
-                .importNode(doc.getDocumentElement(), true));
-    }
-
     private void setAssignment(Element messageRootElement,
             TAssignment assignment) {
         Element element = findElement(messageRootElement, assignment.getKey());
@@ -179,36 +210,5 @@ public class SOAPGenerator {
             }
             element.setTextContent(valuePart.trim());
         }
-    }
-
-    private Element getOperationElement() throws SOAPException {
-        /*
-         * Assume the first element is what we're looking for.
-         */
-        Element result = null;
-        NodeList nodes = soapMessage.getSOAPBody().getChildNodes();
-        for (int i = 0; i < nodes.getLength(); i++) {
-            if (nodes.item(i) instanceof Element) {
-                result = (Element) nodes.item(i);
-                break;
-            }
-        }
-        return result;
-    }
-
-    private Element findElement(Element messageRootElement, String elementName) {
-        NodeList nodes = messageRootElement.getChildNodes();
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node node = nodes.item(i);
-            if (node instanceof Element) {
-                Element element = (Element) node;
-                if (element.getLocalName().equals(elementName)) {
-                    return element;
-                }
-            }
-        }
-        log.warn("Can't find " + elementName + "elment in "
-                + messageRootElement.getNodeName());
-        return null;
     }
 }

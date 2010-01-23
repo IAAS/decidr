@@ -26,18 +26,18 @@ package de.decidr.model.acl.roles;
 public class WorkflowAdminRole extends UserRole {
 
     /**
+     * Creates a new WorkflowAdminRole with its actor id set to unknown.
+     */
+    public WorkflowAdminRole() {
+        this(UNKNOWN_USER_ID);
+    }
+
+    /**
      * Constructor.
      * 
      * @param userId
      */
     public WorkflowAdminRole(Long userId) {
         super(userId);
-    }
-
-    /**
-     * Creates a new WorkflowAdminRole with its actor id set to unknown.
-     */
-    public WorkflowAdminRole() {
-        this(UNKNOWN_USER_ID);
     }
 }

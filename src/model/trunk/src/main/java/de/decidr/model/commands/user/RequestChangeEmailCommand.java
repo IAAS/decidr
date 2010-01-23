@@ -60,7 +60,7 @@ public class RequestChangeEmailCommand extends UserCommand {
         super(role, userId);
         requireUserId();
 
-        if (newEmail == null || newEmail.isEmpty()) {
+        if ((newEmail == null) || newEmail.isEmpty()) {
             throw new IllegalArgumentException(
                     "New email address cannot be null or empty.");
         }

@@ -28,7 +28,7 @@ public class UserAdministratesWorkflowInstanceId implements
 
     /** The user id. */
     private long userId;
-    
+
     /** The workflow instance id. */
     private long workflowInstanceId;
 
@@ -54,6 +54,29 @@ public class UserAdministratesWorkflowInstanceId implements
         this.workflowInstanceId = workflowInstanceId;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object other) {
+        if ((this == other)) {
+            return true;
+        }
+        if ((other == null)) {
+            return false;
+        }
+        if (!(other instanceof UserAdministratesWorkflowInstanceId)) {
+            return false;
+        }
+        UserAdministratesWorkflowInstanceId castOther = (UserAdministratesWorkflowInstanceId) other;
+
+        return (this.getUserId() == castOther.getUserId())
+                && (this.getWorkflowInstanceId() == castOther
+                        .getWorkflowInstanceId());
+    }
+
     /**
      * Gets the user id.
      * 
@@ -61,6 +84,29 @@ public class UserAdministratesWorkflowInstanceId implements
      */
     public long getUserId() {
         return this.userId;
+    }
+
+    /**
+     * Gets the workflow instance id.
+     * 
+     * @return the workflow instance id
+     */
+    public long getWorkflowInstanceId() {
+        return this.workflowInstanceId;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int result = 17;
+
+        result = 37 * result + (int) this.getUserId();
+        result = 37 * result + (int) this.getWorkflowInstanceId();
+        return result;
     }
 
     /**
@@ -74,15 +120,6 @@ public class UserAdministratesWorkflowInstanceId implements
     }
 
     /**
-     * Gets the workflow instance id.
-     * 
-     * @return the workflow instance id
-     */
-    public long getWorkflowInstanceId() {
-        return this.workflowInstanceId;
-    }
-
-    /**
      * Sets the workflow instance id.
      * 
      * @param workflowInstanceId
@@ -90,36 +127,6 @@ public class UserAdministratesWorkflowInstanceId implements
      */
     public void setWorkflowInstanceId(long workflowInstanceId) {
         this.workflowInstanceId = workflowInstanceId;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof UserAdministratesWorkflowInstanceId))
-            return false;
-        UserAdministratesWorkflowInstanceId castOther = (UserAdministratesWorkflowInstanceId) other;
-
-        return (this.getUserId() == castOther.getUserId())
-                && (this.getWorkflowInstanceId() == castOther
-                        .getWorkflowInstanceId());
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        int result = 17;
-
-        result = 37 * result + (int) this.getUserId();
-        result = 37 * result + (int) this.getWorkflowInstanceId();
-        return result;
     }
 
 }

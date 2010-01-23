@@ -31,78 +31,78 @@ public class User implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The current tenant. */
     private Tenant currentTenant;
-    
+
     /** The auth key. */
     private String authKey;
-    
+
     /** The email. */
     private String email;
-    
+
     /** The disabled since. */
     private Date disabledSince;
-    
+
     /** The unavailable since. */
     private Date unavailableSince;
-    
+
     /** The registered since. */
     private Date registeredSince;
-    
+
     /** The creation date. */
     private Date creationDate;
-    
+
     /** The work items. */
     private Set<WorkItem> workItems = new HashSet<WorkItem>(0);
-    
+
     /** The invitations for sender id. */
     private Set<Invitation> invitationsForSenderId = new HashSet<Invitation>(0);
-    
+
     /** The workflow models. */
     private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
-    
+
     /** The user is member of tenants. */
     private Set<UserIsMemberOfTenant> userIsMemberOfTenants = new HashSet<UserIsMemberOfTenant>(
             0);
-    
+
     /** The user profile. */
     private UserProfile userProfile;
-    
+
     /** The password reset request. */
     private PasswordResetRequest passwordResetRequest;
-    
+
     /** The registration request. */
     private RegistrationRequest registrationRequest;
-    
+
     /** The invitations for receiver id. */
     private Set<Invitation> invitationsForReceiverId = new HashSet<Invitation>(
             0);
-    
+
     /** The user administrates workflow instances. */
     private Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances = new HashSet<UserAdministratesWorkflowInstance>(
             0);
-    
+
     /** The system settings. */
     private Set<SystemSettings> systemSettings = new HashSet<SystemSettings>(0);
-    
+
     /** The user has file access. */
     private Set<UserHasFileAccess> userHasFileAccess = new HashSet<UserHasFileAccess>(
             0);
-    
+
     /** The user participates in workflows. */
     private Set<UserParticipatesInWorkflow> userParticipatesInWorkflows = new HashSet<UserParticipatesInWorkflow>(
             0);
-    
+
     /** The administrated tenants. */
     private Set<Tenant> administratedTenants = new HashSet<Tenant>(0);
-    
+
     /** The logins. */
     private Set<Login> logins = new HashSet<Login>(0);
-    
+
     /** The change email request. */
     private ChangeEmailRequest changeEmailRequest;
-    
+
     /** The user administrates workflow models. */
     private Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels = new HashSet<UserAdministratesWorkflowModel>(
             0);
@@ -228,22 +228,39 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Gets the administrated tenants.
      * 
-     * @return the id
+     * @return the administrated tenants
      */
-    public Long getId() {
-        return this.id;
+    public Set<Tenant> getAdministratedTenants() {
+        return this.administratedTenants;
     }
 
     /**
-     * Sets the id.
+     * Gets the auth key.
      * 
-     * @param id
-     *            the new id
+     * @return the auth key
      */
-    public void setId(Long id) {
-        this.id = id;
+    public String getAuthKey() {
+        return this.authKey;
+    }
+
+    /**
+     * Gets the change email request.
+     * 
+     * @return the change email request
+     */
+    public ChangeEmailRequest getChangeEmailRequest() {
+        return this.changeEmailRequest;
+    }
+
+    /**
+     * Gets the creation date.
+     * 
+     * @return the creation date
+     */
+    public Date getCreationDate() {
+        return this.creationDate;
     }
 
     /**
@@ -256,22 +273,184 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Sets the current tenant.
+     * Gets the disabled since.
      * 
-     * @param currentTenant
-     *            the new current tenant
+     * @return the disabled since
      */
-    public void setCurrentTenant(Tenant currentTenant) {
-        this.currentTenant = currentTenant;
+    public Date getDisabledSince() {
+        return this.disabledSince;
     }
 
     /**
-     * Gets the auth key.
+     * Gets the email.
      * 
-     * @return the auth key
+     * @return the email
      */
-    public String getAuthKey() {
-        return this.authKey;
+    public String getEmail() {
+        return this.email;
+    }
+
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public Long getId() {
+        return this.id;
+    }
+
+    /**
+     * Gets the invitations for receiver id.
+     * 
+     * @return the invitations for receiver id
+     */
+    public Set<Invitation> getInvitationsForReceiverId() {
+        return this.invitationsForReceiverId;
+    }
+
+    /**
+     * Gets the invitations for sender id.
+     * 
+     * @return the invitations for sender id
+     */
+    public Set<Invitation> getInvitationsForSenderId() {
+        return this.invitationsForSenderId;
+    }
+
+    /**
+     * Gets the logins.
+     * 
+     * @return the logins
+     */
+    public Set<Login> getLogins() {
+        return this.logins;
+    }
+
+    /**
+     * Gets the password reset request.
+     * 
+     * @return the password reset request
+     */
+    public PasswordResetRequest getPasswordResetRequest() {
+        return this.passwordResetRequest;
+    }
+
+    /**
+     * Gets the registered since.
+     * 
+     * @return the registered since
+     */
+    public Date getRegisteredSince() {
+        return this.registeredSince;
+    }
+
+    /**
+     * Gets the registration request.
+     * 
+     * @return the registration request
+     */
+    public RegistrationRequest getRegistrationRequest() {
+        return this.registrationRequest;
+    }
+
+    /**
+     * Gets the system settings.
+     * 
+     * @return the system settings
+     */
+    public Set<SystemSettings> getSystemSettings() {
+        return this.systemSettings;
+    }
+
+    /**
+     * Gets the unavailable since.
+     * 
+     * @return the unavailable since
+     */
+    public Date getUnavailableSince() {
+        return this.unavailableSince;
+    }
+
+    /**
+     * Gets the user administrates workflow instances.
+     * 
+     * @return the user administrates workflow instances
+     */
+    public Set<UserAdministratesWorkflowInstance> getUserAdministratesWorkflowInstances() {
+        return this.userAdministratesWorkflowInstances;
+    }
+
+    /**
+     * Gets the user administrates workflow models.
+     * 
+     * @return the user administrates workflow models
+     */
+    public Set<UserAdministratesWorkflowModel> getUserAdministratesWorkflowModels() {
+        return this.userAdministratesWorkflowModels;
+    }
+
+    /**
+     * Gets the user has file access.
+     * 
+     * @return the user has file access
+     */
+    public Set<UserHasFileAccess> getUserHasFileAccess() {
+        return this.userHasFileAccess;
+    }
+
+    /**
+     * Gets the user is member of tenants.
+     * 
+     * @return the user is member of tenants
+     */
+    public Set<UserIsMemberOfTenant> getUserIsMemberOfTenants() {
+        return this.userIsMemberOfTenants;
+    }
+
+    /**
+     * Gets the user participates in workflows.
+     * 
+     * @return the user participates in workflows
+     */
+    public Set<UserParticipatesInWorkflow> getUserParticipatesInWorkflows() {
+        return this.userParticipatesInWorkflows;
+    }
+
+    /**
+     * Gets the user profile.
+     * 
+     * @return the user profile
+     */
+    public UserProfile getUserProfile() {
+        return this.userProfile;
+    }
+
+    /**
+     * Gets the workflow models.
+     * 
+     * @return the workflow models
+     */
+    public Set<WorkflowModel> getWorkflowModels() {
+        return this.workflowModels;
+    }
+
+    /**
+     * Gets the work items.
+     * 
+     * @return the work items
+     */
+    public Set<WorkItem> getWorkItems() {
+        return this.workItems;
+    }
+
+    /**
+     * Sets the administrated tenants.
+     * 
+     * @param administratedTenants
+     *            the new administrated tenants
+     */
+    public void setAdministratedTenants(Set<Tenant> administratedTenants) {
+        this.administratedTenants = administratedTenants;
     }
 
     /**
@@ -285,88 +464,13 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Gets the email.
+     * Sets the change email request.
      * 
-     * @return the email
+     * @param changeEmailRequest
+     *            the new change email request
      */
-    public String getEmail() {
-        return this.email;
-    }
-
-    /**
-     * Sets the email.
-     * 
-     * @param email
-     *            the new email
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Gets the disabled since.
-     * 
-     * @return the disabled since
-     */
-    public Date getDisabledSince() {
-        return this.disabledSince;
-    }
-
-    /**
-     * Sets the disabled since.
-     * 
-     * @param disabledSince
-     *            the new disabled since
-     */
-    public void setDisabledSince(Date disabledSince) {
-        this.disabledSince = disabledSince;
-    }
-
-    /**
-     * Gets the unavailable since.
-     * 
-     * @return the unavailable since
-     */
-    public Date getUnavailableSince() {
-        return this.unavailableSince;
-    }
-
-    /**
-     * Sets the unavailable since.
-     * 
-     * @param unavailableSince
-     *            the new unavailable since
-     */
-    public void setUnavailableSince(Date unavailableSince) {
-        this.unavailableSince = unavailableSince;
-    }
-
-    /**
-     * Gets the registered since.
-     * 
-     * @return the registered since
-     */
-    public Date getRegisteredSince() {
-        return this.registeredSince;
-    }
-
-    /**
-     * Sets the registered since.
-     * 
-     * @param registeredSince
-     *            the new registered since
-     */
-    public void setRegisteredSince(Date registeredSince) {
-        this.registeredSince = registeredSince;
-    }
-
-    /**
-     * Gets the creation date.
-     * 
-     * @return the creation date
-     */
-    public Date getCreationDate() {
-        return this.creationDate;
+    public void setChangeEmailRequest(ChangeEmailRequest changeEmailRequest) {
+        this.changeEmailRequest = changeEmailRequest;
     }
 
     /**
@@ -380,147 +484,43 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Gets the work items.
+     * Sets the current tenant.
      * 
-     * @return the work items
+     * @param currentTenant
+     *            the new current tenant
      */
-    public Set<WorkItem> getWorkItems() {
-        return this.workItems;
+    public void setCurrentTenant(Tenant currentTenant) {
+        this.currentTenant = currentTenant;
     }
 
     /**
-     * Sets the work items.
+     * Sets the disabled since.
      * 
-     * @param workItems
-     *            the new work items
+     * @param disabledSince
+     *            the new disabled since
      */
-    public void setWorkItems(Set<WorkItem> workItems) {
-        this.workItems = workItems;
+    public void setDisabledSince(Date disabledSince) {
+        this.disabledSince = disabledSince;
     }
 
     /**
-     * Gets the invitations for sender id.
+     * Sets the email.
      * 
-     * @return the invitations for sender id
+     * @param email
+     *            the new email
      */
-    public Set<Invitation> getInvitationsForSenderId() {
-        return this.invitationsForSenderId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
-     * Sets the invitations for sender id.
+     * Sets the id.
      * 
-     * @param invitationsForSenderId
-     *            the new invitations for sender id
+     * @param id
+     *            the new id
      */
-    public void setInvitationsForSenderId(Set<Invitation> invitationsForSenderId) {
-        this.invitationsForSenderId = invitationsForSenderId;
-    }
-
-    /**
-     * Gets the workflow models.
-     * 
-     * @return the workflow models
-     */
-    public Set<WorkflowModel> getWorkflowModels() {
-        return this.workflowModels;
-    }
-
-    /**
-     * Sets the workflow models.
-     * 
-     * @param workflowModels
-     *            the new workflow models
-     */
-    public void setWorkflowModels(Set<WorkflowModel> workflowModels) {
-        this.workflowModels = workflowModels;
-    }
-
-    /**
-     * Gets the user is member of tenants.
-     * 
-     * @return the user is member of tenants
-     */
-    public Set<UserIsMemberOfTenant> getUserIsMemberOfTenants() {
-        return this.userIsMemberOfTenants;
-    }
-
-    /**
-     * Sets the user is member of tenants.
-     * 
-     * @param userIsMemberOfTenants
-     *            the new user is member of tenants
-     */
-    public void setUserIsMemberOfTenants(
-            Set<UserIsMemberOfTenant> userIsMemberOfTenants) {
-        this.userIsMemberOfTenants = userIsMemberOfTenants;
-    }
-
-    /**
-     * Gets the user profile.
-     * 
-     * @return the user profile
-     */
-    public UserProfile getUserProfile() {
-        return this.userProfile;
-    }
-
-    /**
-     * Sets the user profile.
-     * 
-     * @param userProfile
-     *            the new user profile
-     */
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
-
-    /**
-     * Gets the password reset request.
-     * 
-     * @return the password reset request
-     */
-    public PasswordResetRequest getPasswordResetRequest() {
-        return this.passwordResetRequest;
-    }
-
-    /**
-     * Sets the password reset request.
-     * 
-     * @param passwordResetRequest
-     *            the new password reset request
-     */
-    public void setPasswordResetRequest(
-            PasswordResetRequest passwordResetRequest) {
-        this.passwordResetRequest = passwordResetRequest;
-    }
-
-    /**
-     * Gets the registration request.
-     * 
-     * @return the registration request
-     */
-    public RegistrationRequest getRegistrationRequest() {
-        return this.registrationRequest;
-    }
-
-    /**
-     * Sets the registration request.
-     * 
-     * @param registrationRequest
-     *            the new registration request
-     */
-    public void setRegistrationRequest(RegistrationRequest registrationRequest) {
-        this.registrationRequest = registrationRequest;
-    }
-
-    /**
-     * Gets the invitations for receiver id.
-     * 
-     * @return the invitations for receiver id
-     */
-    public Set<Invitation> getInvitationsForReceiverId() {
-        return this.invitationsForReceiverId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -535,12 +535,74 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Gets the user administrates workflow instances.
+     * Sets the invitations for sender id.
      * 
-     * @return the user administrates workflow instances
+     * @param invitationsForSenderId
+     *            the new invitations for sender id
      */
-    public Set<UserAdministratesWorkflowInstance> getUserAdministratesWorkflowInstances() {
-        return this.userAdministratesWorkflowInstances;
+    public void setInvitationsForSenderId(Set<Invitation> invitationsForSenderId) {
+        this.invitationsForSenderId = invitationsForSenderId;
+    }
+
+    /**
+     * Sets the logins.
+     * 
+     * @param logins
+     *            the new logins
+     */
+    public void setLogins(Set<Login> logins) {
+        this.logins = logins;
+    }
+
+    /**
+     * Sets the password reset request.
+     * 
+     * @param passwordResetRequest
+     *            the new password reset request
+     */
+    public void setPasswordResetRequest(
+            PasswordResetRequest passwordResetRequest) {
+        this.passwordResetRequest = passwordResetRequest;
+    }
+
+    /**
+     * Sets the registered since.
+     * 
+     * @param registeredSince
+     *            the new registered since
+     */
+    public void setRegisteredSince(Date registeredSince) {
+        this.registeredSince = registeredSince;
+    }
+
+    /**
+     * Sets the registration request.
+     * 
+     * @param registrationRequest
+     *            the new registration request
+     */
+    public void setRegistrationRequest(RegistrationRequest registrationRequest) {
+        this.registrationRequest = registrationRequest;
+    }
+
+    /**
+     * Sets the system settings.
+     * 
+     * @param systemSettings
+     *            the new system settings
+     */
+    public void setSystemSettings(Set<SystemSettings> systemSettings) {
+        this.systemSettings = systemSettings;
+    }
+
+    /**
+     * Sets the unavailable since.
+     * 
+     * @param unavailableSince
+     *            the new unavailable since
+     */
+    public void setUnavailableSince(Date unavailableSince) {
+        this.unavailableSince = unavailableSince;
     }
 
     /**
@@ -555,31 +617,14 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Gets the system settings.
+     * Sets the user administrates workflow models.
      * 
-     * @return the system settings
+     * @param userAdministratesWorkflowModels
+     *            the new user administrates workflow models
      */
-    public Set<SystemSettings> getSystemSettings() {
-        return this.systemSettings;
-    }
-
-    /**
-     * Sets the system settings.
-     * 
-     * @param systemSettings
-     *            the new system settings
-     */
-    public void setSystemSettings(Set<SystemSettings> systemSettings) {
-        this.systemSettings = systemSettings;
-    }
-
-    /**
-     * Gets the user has file access.
-     * 
-     * @return the user has file access
-     */
-    public Set<UserHasFileAccess> getUserHasFileAccess() {
-        return this.userHasFileAccess;
+    public void setUserAdministratesWorkflowModels(
+            Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
+        this.userAdministratesWorkflowModels = userAdministratesWorkflowModels;
     }
 
     /**
@@ -593,12 +638,14 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Gets the user participates in workflows.
+     * Sets the user is member of tenants.
      * 
-     * @return the user participates in workflows
+     * @param userIsMemberOfTenants
+     *            the new user is member of tenants
      */
-    public Set<UserParticipatesInWorkflow> getUserParticipatesInWorkflows() {
-        return this.userParticipatesInWorkflows;
+    public void setUserIsMemberOfTenants(
+            Set<UserIsMemberOfTenant> userIsMemberOfTenants) {
+        this.userIsMemberOfTenants = userIsMemberOfTenants;
     }
 
     /**
@@ -613,80 +660,33 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Gets the administrated tenants.
+     * Sets the user profile.
      * 
-     * @return the administrated tenants
+     * @param userProfile
+     *            the new user profile
      */
-    public Set<Tenant> getAdministratedTenants() {
-        return this.administratedTenants;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     /**
-     * Sets the administrated tenants.
+     * Sets the workflow models.
      * 
-     * @param administratedTenants
-     *            the new administrated tenants
+     * @param workflowModels
+     *            the new workflow models
      */
-    public void setAdministratedTenants(Set<Tenant> administratedTenants) {
-        this.administratedTenants = administratedTenants;
+    public void setWorkflowModels(Set<WorkflowModel> workflowModels) {
+        this.workflowModels = workflowModels;
     }
 
     /**
-     * Gets the logins.
+     * Sets the work items.
      * 
-     * @return the logins
+     * @param workItems
+     *            the new work items
      */
-    public Set<Login> getLogins() {
-        return this.logins;
-    }
-
-    /**
-     * Sets the logins.
-     * 
-     * @param logins
-     *            the new logins
-     */
-    public void setLogins(Set<Login> logins) {
-        this.logins = logins;
-    }
-
-    /**
-     * Gets the change email request.
-     * 
-     * @return the change email request
-     */
-    public ChangeEmailRequest getChangeEmailRequest() {
-        return this.changeEmailRequest;
-    }
-
-    /**
-     * Sets the change email request.
-     * 
-     * @param changeEmailRequest
-     *            the new change email request
-     */
-    public void setChangeEmailRequest(ChangeEmailRequest changeEmailRequest) {
-        this.changeEmailRequest = changeEmailRequest;
-    }
-
-    /**
-     * Gets the user administrates workflow models.
-     * 
-     * @return the user administrates workflow models
-     */
-    public Set<UserAdministratesWorkflowModel> getUserAdministratesWorkflowModels() {
-        return this.userAdministratesWorkflowModels;
-    }
-
-    /**
-     * Sets the user administrates workflow models.
-     * 
-     * @param userAdministratesWorkflowModels
-     *            the new user administrates workflow models
-     */
-    public void setUserAdministratesWorkflowModels(
-            Set<UserAdministratesWorkflowModel> userAdministratesWorkflowModels) {
-        this.userAdministratesWorkflowModels = userAdministratesWorkflowModels;
+    public void setWorkItems(Set<WorkItem> workItems) {
+        this.workItems = workItems;
     }
 
 }

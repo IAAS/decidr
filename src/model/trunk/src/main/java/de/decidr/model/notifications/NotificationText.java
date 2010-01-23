@@ -59,6 +59,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getActivatedUserAccountSubject() {
+        String message = bundle.getString("ActivatedUserAccount_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, whose account has been
      * (re-)activated by a super admin.
      * 
@@ -76,16 +86,6 @@ public class NotificationText {
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getActivatedUserAccountSubject() {
-        String message = bundle.getString("ActivatedUserAccount_Subject");
         return message;
     }
 
@@ -125,6 +125,17 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getAppointedWorkflowModelAdminSubject() {
+        String message = bundle
+                .getString("AppointedWorkflowModelAdmin_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a registered user, who is already
      * member of a tenant and has been appointed to a workflowmodel admin of
      * this tenant.
@@ -160,17 +171,6 @@ public class NotificationText {
     }
 
     /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getAppointedWorkflowModelAdminSubject() {
-        String message = bundle
-                .getString("AppointedWorkflowModelAdmin_Subject");
-        return message;
-    }
-
-    /**
      * Returns the email text which is sent to a user, whose attempt to create a
      * new tenant has been approved.
      * 
@@ -195,6 +195,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getApprovedTenantSubject() {
+        String message = bundle.getString("ApprovedTenant_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, whose attempt to create a
      * new tenant has been approved.
      * 
@@ -215,16 +225,6 @@ public class NotificationText {
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getApprovedTenantSubject() {
-        String message = bundle.getString("ApprovedTenant_Subject");
         return message;
     }
 
@@ -257,6 +257,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getChangeEmailRequestSubject() {
+        String message = bundle.getString("ChangeEmailRequest_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, who has requested to
      * change his accounts email address.
      * 
@@ -280,16 +290,6 @@ public class NotificationText {
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getChangeEmailRequestSubject() {
-        String message = bundle.getString("ChangeEmailRequest_Subject");
         return message;
     }
 
@@ -322,6 +322,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getConfirmRegistrationSubject() {
+        String message = bundle.getString("ConfirmRegistration_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a newly registered user to
      * confirm and activate his account.
      * 
@@ -349,16 +359,6 @@ public class NotificationText {
     }
 
     /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getConfirmRegistrationSubject() {
-        String message = bundle.getString("ConfirmRegistration_Subject");
-        return message;
-    }
-
-    /**
      * Returns the email text which is sent to a user, whose account has been
      * deactivated by a super admin.
      * 
@@ -380,6 +380,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getDeactivatedUserAccountSubject() {
+        String message = bundle.getString("DeactivatedUserAccount_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, whose account has been
      * deactivated by a super admin.
      * 
@@ -397,74 +407,6 @@ public class NotificationText {
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getDeactivatedUserAccountSubject() {
-        String message = bundle.getString("DeactivatedUserAccount_Subject");
-        return message;
-    }
-
-    /**
-     * Returns the email text which is sent to a user, whose attempt to create a
-     * new tenant has been rejected.
-     * 
-     * @param userName
-     *            user name of the recipient
-     * @param tenantName
-     *            name of the tenant that has been rejected
-     * @param signature
-     *            signature of the email
-     * @return complete email message with HTML tags
-     */
-    public static String getRejectedTenantHTML(String userName,
-            String tenantName, String signature) {
-
-        String message = bundle.getString("RejectedTenant_Message");
-        message = message.replaceAll("<userName>", userName);
-        message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<signature>", signature);
-        message = "<html>" + message + "</html>";
-
-        return message;
-    }
-
-    /**
-     * Returns the email text which is sent to a user, whose attempt to create a
-     * new tenant has been rejected.
-     * 
-     * @param userName
-     *            user name of the recipient
-     * @param tenantName
-     *            name of the tenant that has been rejected
-     * @param signature
-     *            signature of the email
-     * @return complete email message
-     */
-    public static String getRejectedTenantText(String userName,
-            String tenantName, String signature) {
-
-        String message = bundle.getString("RejectedTenant_Message");
-        message = message.replaceAll("<userName>", userName);
-        message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<signature>", signature);
-        message = message.replaceAll("<br>", crlf);
-
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getRejectedTenantSubject() {
-        String message = bundle.getString("RejectedTenant_Subject");
         return message;
     }
 
@@ -493,6 +435,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getGeneratedNewPasswordSubject() {
+        String message = bundle.getString("GeneratedNewPassword_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, who successfully
      * generated a new password.
      * 
@@ -517,12 +469,222 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email text which is sent to a registered user, who has been
+     * invited to the role of a workflow admin
+     * 
+     * @param userName
+     *            username of the recipient
+     * @param invitationUrl
+     *            invitation link
+     * @param expireDate
+     *            date when the inviationUrl expires
+     * @param tenantName
+     *            name of the tenant that owns the workflow
+     * @param signature
+     *            signature of the email
+     * @return complete email text with html tags
+     */
+    public static String getInvitedRegisteredUserAsWorkflowAdminHTML(
+            String userName, String invitationUrl, String expireDate,
+            String tenantName, String signature) {
+
+        String message = bundle
+                .getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<invitationUrl>", "<a href=\""
+                + invitationUrl + "\">" + invitationUrl + "</a>");
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = "<html>" + message + "</html>";
+
+        return message;
+    }
+
+    /**
      * Returns the email subject of the corresponding email text.
      * 
      * @return subject of the email
      */
-    public static String getGeneratedNewPasswordSubject() {
-        String message = bundle.getString("GeneratedNewPassword_Subject");
+    public static String getInvitedRegisteredUserAsWorkflowAdminSubject() {
+        String message = bundle
+                .getString("InvitedRegisteredUserAsWorkflowAdmin_Subject");
+        return message;
+    }
+
+    /**
+     * Returns the email text which is sent to a registered user, who has been
+     * invited to the role of a workflow admin
+     * 
+     * @param userName
+     *            username of the recipient
+     * @param invitationUrl
+     *            invitation link
+     * @param expireDate
+     *            date when the inviationUrl expires
+     * @param tenantName
+     *            name of the tenant that owns the workflow
+     * @param signature
+     *            signature of the email
+     * @return complete email text
+     */
+    public static String getInvitedRegisteredUserAsWorkflowAdminText(
+            String userName, String invitationUrl, String expireDate,
+            String tenantName, String signature) {
+
+        String message = bundle
+                .getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+
+        return message;
+    }
+
+    /**
+     * Returns the email text which is sent to a unregistered user, who has been
+     * invited to the role of a workflow admin
+     * 
+     * @param tenantName
+     *            name of the tenant that owns the workflow
+     * @param invitationUrl
+     *            invitation link
+     * @param expireDate
+     *            date when the inviationUrl expires
+     * @param signature
+     *            signature of the email
+     * @return complete email text with html tags
+     */
+    public static String getInvitedUnregisteredUserAsWorkflowAdminHTML(
+            String tenantName, String invitationUrl, String expireDate,
+            String signature) {
+        String message = bundle
+                .getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<invitationUrl>", "<a href=\""
+                + invitationUrl + "\">" + invitationUrl + "</a>");
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<signature>", signature);
+        message = "<html>" + message + "</html>";
+
+        return message;
+    }
+
+    /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getInvitedUnregisteredUserAsWorkflowAdminSubject() {
+        String message = bundle
+                .getString("InvitedUnregisteredUserAsWorkflowAdmin_Subject");
+        return message;
+    }
+
+    /**
+     * Returns the email text which is sent to a unregistered user, who has been
+     * invited to the role of a workflow admin
+     * 
+     * @param tenantName
+     *            name of the tenant that owns the workflow
+     * @param invitationUrl
+     *            invitation link
+     * @param expireDate
+     *            date when the inviationUrl expires
+     * @param signature
+     *            signature of the email
+     * @return complete email text
+     */
+    public static String getInvitedUnregisteredUserAsWorkflowAdminText(
+            String tenantName, String invitationUrl, String expireDate,
+            String signature) {
+        String message = bundle
+                .getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+
+        return message;
+    }
+
+    /**
+     * Returns the email text which is sent to a user (registered or
+     * unregistered) who has been invited to participate in a workflow
+     * 
+     * @param tenantName
+     *            name of the tenant which owns the workflow
+     * @param invitationUrl
+     *            invitation link
+     * @param expireDate
+     *            date when the inviationUrl expires
+     * @param workflowName
+     *            name of the workflow
+     * @param signature
+     *            signature of the email
+     * @return complete email text with html tags
+     */
+    public static String getInvitedUserAsWorkflowParticipantHTML(
+            String tenantName, String invitationUrl, String expireDate,
+            String workflowName, String signature) {
+
+        String message = bundle
+                .getString("InvitedUserAsWorkflowParticipant_Message");
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<invitationUrl>", "<a href=\""
+                + invitationUrl + "\">" + invitationUrl + "</a>");
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<workflowName>", workflowName);
+        message = message.replaceAll("<signature>", signature);
+        message = "<html>" + message + "</html>";
+
+        return message;
+    }
+
+    /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getInvitedUserAsWorkflowParticipantSubject() {
+        String message = bundle
+                .getString("InvitedUserAsWorkflowParticipant_Subject");
+        return message;
+    }
+
+    /**
+     * Returns the email text which is sent to a user (registered or
+     * unregistered) who has been invited to participate in a workflow
+     * 
+     * @param tenantName
+     *            name of the tenant which owns the workflow
+     * @param invitationUrl
+     *            invitation link
+     * @param expireDate
+     *            date when the inviationUrl expires
+     * @param workflowName
+     *            name of the workflow
+     * @param signature
+     *            signature of the email
+     * @return complete email text with html tags
+     */
+    public static String getInvitedUserAsWorkflowParticipantText(
+            String tenantName, String invitationUrl, String expireDate,
+            String workflowName, String signature) {
+
+        String message = bundle
+                .getString("InvitedUserAsWorkflowParticipant_Message");
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<invitationUrl>", invitationUrl);
+        message = message.replaceAll("<expireDate>", expireDate);
+        message = message.replaceAll("<workflowName>", workflowName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+
         return message;
     }
 
@@ -568,6 +730,18 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getInviteRegisteredUserAsTenantMemberSubject(
+            String tenantName) {
+        String message = bundle.getString("InviteRegisteredUserAsTenantMember");
+        message = message.replaceAll("<tenantName>", tenantName);
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, who has been invited to
      * join a tenant and is already registered.
      * 
@@ -603,18 +777,6 @@ public class NotificationText {
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getInviteRegisteredUserAsTenantMemberSubject(
-            String tenantName) {
-        String message = bundle.getString("InviteRegisteredUserAsTenantMember");
-        message = message.replaceAll("<tenantName>", tenantName);
         return message;
     }
 
@@ -656,6 +818,17 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getInviteUnregisteredUserAsTenantMemberSubject() {
+        String message = bundle
+                .getString("InviteUnregisteredUserAsTenantMember_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, who has been invited to
      * join a tenant and is not yet registered.
      * 
@@ -691,17 +864,6 @@ public class NotificationText {
     }
 
     /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getInviteUnregisteredUserAsTenantMemberSubject() {
-        String message = bundle
-                .getString("InviteUnregisteredUserAsTenantMember_Subject");
-        return message;
-    }
-
-    /**
      * Returns the email text which is sent to a user, who has received a new
      * work item.
      * 
@@ -729,6 +891,17 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getNewWorkItemSubject(String tenantName) {
+        String message = bundle.getString("NewWorkItem_Subject");
+        message = message.replaceAll("<tenantName>", tenantName);
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, who has received a new
      * work item.
      * 
@@ -752,17 +925,6 @@ public class NotificationText {
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getNewWorkItemSubject(String tenantName) {
-        String message = bundle.getString("NewWorkItem_Subject");
-        message = message.replaceAll("<tenantName>", tenantName);
         return message;
     }
 
@@ -795,6 +957,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getPasswordResetRequestSubject() {
+        String message = bundle.getString("PasswordResetRequest_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, who has requested to
      * reset his password.
      * 
@@ -818,16 +990,6 @@ public class NotificationText {
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getPasswordResetRequestSubject() {
-        String message = bundle.getString("PasswordResetRequest_Subject");
         return message;
     }
 
@@ -859,6 +1021,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getRefusedInvitationSubject() {
+        String message = bundle.getString("RefusedInvitation_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, whose invitation has been
      * rejected by another user.
      * 
@@ -886,12 +1058,60 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email text which is sent to a user, whose attempt to create a
+     * new tenant has been rejected.
+     * 
+     * @param userName
+     *            user name of the recipient
+     * @param tenantName
+     *            name of the tenant that has been rejected
+     * @param signature
+     *            signature of the email
+     * @return complete email message with HTML tags
+     */
+    public static String getRejectedTenantHTML(String userName,
+            String tenantName, String signature) {
+
+        String message = bundle.getString("RejectedTenant_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = "<html>" + message + "</html>";
+
+        return message;
+    }
+
+    /**
      * Returns the email subject of the corresponding email text.
      * 
      * @return subject of the email
      */
-    public static String getRefusedInvitationSubject() {
-        String message = bundle.getString("RefusedInvitation_Subject");
+    public static String getRejectedTenantSubject() {
+        String message = bundle.getString("RejectedTenant_Subject");
+        return message;
+    }
+
+    /**
+     * Returns the email text which is sent to a user, whose attempt to create a
+     * new tenant has been rejected.
+     * 
+     * @param userName
+     *            user name of the recipient
+     * @param tenantName
+     *            name of the tenant that has been rejected
+     * @param signature
+     *            signature of the email
+     * @return complete email message
+     */
+    public static String getRejectedTenantText(String userName,
+            String tenantName, String signature) {
+
+        String message = bundle.getString("RejectedTenant_Message");
+        message = message.replaceAll("<userName>", userName);
+        message = message.replaceAll("<tenantName>", tenantName);
+        message = message.replaceAll("<signature>", signature);
+        message = message.replaceAll("<br>", crlf);
+
         return message;
     }
 
@@ -920,6 +1140,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getRemovedFromTenantSubject() {
+        String message = bundle.getString("RemovedFromTenant_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to a user, who has been removed from
      * a tenant.
      * 
@@ -940,16 +1170,6 @@ public class NotificationText {
         message = message.replaceAll("<signature>", signature);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getRemovedFromTenantSubject() {
-        String message = bundle.getString("RemovedFromTenant_Subject");
         return message;
     }
 
@@ -975,6 +1195,16 @@ public class NotificationText {
     }
 
     /**
+     * Returns the email subject of the corresponding email text.
+     * 
+     * @return subject of the email
+     */
+    public static String getRequestNewODEInstanceSubject() {
+        String message = bundle.getString("RequestNewODEInstance_Subject");
+        return message;
+    }
+
+    /**
      * Returns the email text which is sent to the super admin if a new ODE
      * instance is required
      * 
@@ -992,236 +1222,6 @@ public class NotificationText {
         message.replaceAll("<location>", crlf);
         message = message.replaceAll("<br>", crlf);
 
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getRequestNewODEInstanceSubject() {
-        String message = bundle.getString("RequestNewODEInstance_Subject");
-        return message;
-    }
-
-    /**
-     * Returns the email text which is sent to a unregistered user, who has been
-     * invited to the role of a workflow admin
-     * 
-     * @param tenantName
-     *            name of the tenant that owns the workflow
-     * @param invitationUrl
-     *            invitation link
-     * @param expireDate
-     *            date when the inviationUrl expires
-     * @param signature
-     *            signature of the email
-     * @return complete email text with html tags
-     */
-    public static String getInvitedUnregisteredUserAsWorkflowAdminHTML(
-            String tenantName, String invitationUrl, String expireDate,
-            String signature) {
-        String message = bundle
-                .getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
-        message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<invitationUrl>", "<a href=\""
-                + invitationUrl + "\">" + invitationUrl + "</a>");
-        message = message.replaceAll("<expireDate>", expireDate);
-        message = message.replaceAll("<signature>", signature);
-        message = "<html>" + message + "</html>";
-
-        return message;
-    }
-
-    /**
-     * Returns the email text which is sent to a unregistered user, who has been
-     * invited to the role of a workflow admin
-     * 
-     * @param tenantName
-     *            name of the tenant that owns the workflow
-     * @param invitationUrl
-     *            invitation link
-     * @param expireDate
-     *            date when the inviationUrl expires
-     * @param signature
-     *            signature of the email
-     * @return complete email text
-     */
-    public static String getInvitedUnregisteredUserAsWorkflowAdminText(
-            String tenantName, String invitationUrl, String expireDate,
-            String signature) {
-        String message = bundle
-                .getString("InvitedUnregisteredUserAsWorkflowAdmin_Message");
-        message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<invitationUrl>", invitationUrl);
-        message = message.replaceAll("<expireDate>", expireDate);
-        message = message.replaceAll("<signature>", signature);
-        message = message.replaceAll("<br>", crlf);
-
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getInvitedUnregisteredUserAsWorkflowAdminSubject() {
-        String message = bundle
-                .getString("InvitedUnregisteredUserAsWorkflowAdmin_Subject");
-        return message;
-    }
-
-    /**
-     * Returns the email text which is sent to a registered user, who has been
-     * invited to the role of a workflow admin
-     * 
-     * @param userName
-     *            username of the recipient
-     * @param invitationUrl
-     *            invitation link
-     * @param expireDate
-     *            date when the inviationUrl expires
-     * @param tenantName
-     *            name of the tenant that owns the workflow
-     * @param signature
-     *            signature of the email
-     * @return complete email text with html tags
-     */
-    public static String getInvitedRegisteredUserAsWorkflowAdminHTML(
-            String userName, String invitationUrl, String expireDate,
-            String tenantName, String signature) {
-
-        String message = bundle
-                .getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
-        message = message.replaceAll("<userName>", userName);
-        message = message.replaceAll("<invitationUrl>", "<a href=\""
-                + invitationUrl + "\">" + invitationUrl + "</a>");
-        message = message.replaceAll("<expireDate>", expireDate);
-        message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<signature>", signature);
-        message = "<html>" + message + "</html>";
-
-        return message;
-    }
-
-    /**
-     * Returns the email text which is sent to a registered user, who has been
-     * invited to the role of a workflow admin
-     * 
-     * @param userName
-     *            username of the recipient
-     * @param invitationUrl
-     *            invitation link
-     * @param expireDate
-     *            date when the inviationUrl expires
-     * @param tenantName
-     *            name of the tenant that owns the workflow
-     * @param signature
-     *            signature of the email
-     * @return complete email text
-     */
-    public static String getInvitedRegisteredUserAsWorkflowAdminText(
-            String userName, String invitationUrl, String expireDate,
-            String tenantName, String signature) {
-
-        String message = bundle
-                .getString("InvitedRegisteredUserAsWorkflowAdmin_Message");
-        message = message.replaceAll("<userName>", userName);
-        message = message.replaceAll("<invitationUrl>", invitationUrl);
-        message = message.replaceAll("<expireDate>", expireDate);
-        message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<signature>", signature);
-        message = message.replaceAll("<br>", crlf);
-
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getInvitedRegisteredUserAsWorkflowAdminSubject() {
-        String message = bundle
-                .getString("InvitedRegisteredUserAsWorkflowAdmin_Subject");
-        return message;
-    }
-
-    /**
-     * Returns the email text which is sent to a user (registered or
-     * unregistered) who has been invited to participate in a workflow
-     * 
-     * @param tenantName
-     *            name of the tenant which owns the workflow
-     * @param invitationUrl
-     *            invitation link
-     * @param expireDate
-     *            date when the inviationUrl expires
-     * @param workflowName
-     *            name of the workflow
-     * @param signature
-     *            signature of the email
-     * @return complete email text with html tags
-     */
-    public static String getInvitedUserAsWorkflowParticipantHTML(
-            String tenantName, String invitationUrl, String expireDate,
-            String workflowName, String signature) {
-
-        String message = bundle
-                .getString("InvitedUserAsWorkflowParticipant_Message");
-        message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<invitationUrl>", "<a href=\""
-                + invitationUrl + "\">" + invitationUrl + "</a>");
-        message = message.replaceAll("<expireDate>", expireDate);
-        message = message.replaceAll("<workflowName>", workflowName);
-        message = message.replaceAll("<signature>", signature);
-        message = "<html>" + message + "</html>";
-
-        return message;
-    }
-
-    /**
-     * Returns the email text which is sent to a user (registered or
-     * unregistered) who has been invited to participate in a workflow
-     * 
-     * @param tenantName
-     *            name of the tenant which owns the workflow
-     * @param invitationUrl
-     *            invitation link
-     * @param expireDate
-     *            date when the inviationUrl expires
-     * @param workflowName
-     *            name of the workflow
-     * @param signature
-     *            signature of the email
-     * @return complete email text with html tags
-     */
-    public static String getInvitedUserAsWorkflowParticipantText(
-            String tenantName, String invitationUrl, String expireDate,
-            String workflowName, String signature) {
-
-        String message = bundle
-                .getString("InvitedUserAsWorkflowParticipant_Message");
-        message = message.replaceAll("<tenantName>", tenantName);
-        message = message.replaceAll("<invitationUrl>", invitationUrl);
-        message = message.replaceAll("<expireDate>", expireDate);
-        message = message.replaceAll("<workflowName>", workflowName);
-        message = message.replaceAll("<signature>", signature);
-        message = message.replaceAll("<br>", crlf);
-
-        return message;
-    }
-
-    /**
-     * Returns the email subject of the corresponding email text.
-     * 
-     * @return subject of the email
-     */
-    public static String getInvitedUserAsWorkflowParticipantSubject() {
-        String message = bundle
-                .getString("InvitedUserAsWorkflowParticipant_Subject");
         return message;
     }
 }

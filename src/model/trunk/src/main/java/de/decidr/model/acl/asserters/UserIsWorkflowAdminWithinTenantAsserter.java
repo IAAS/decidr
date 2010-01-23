@@ -45,10 +45,10 @@ public class UserIsWorkflowAdminWithinTenantAsserter extends
             throws TransactionException {
         boolean result = false;
 
-        if (permission instanceof CommandPermission
-                && role instanceof WorkflowAdminRole
-                && role.getActorId() != null
-                && ((CommandPermission) permission).getCommand() instanceof TenantAccess) {
+        if ((permission instanceof CommandPermission)
+                && (role instanceof WorkflowAdminRole)
+                && (role.getActorId() != null)
+                && (((CommandPermission) permission).getCommand() instanceof TenantAccess)) {
             this.role = (WorkflowAdminRole) role;
             this.accessedTenantIds = ((TenantAccess) ((CommandPermission) permission)
                     .getCommand()).getTenantIds();
@@ -63,7 +63,7 @@ public class UserIsWorkflowAdminWithinTenantAsserter extends
     public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
         isWorkflowAdmin = false;
-        if (accessedTenantIds == null || accessedTenantIds.length == 0) {
+        if ((accessedTenantIds == null) || (accessedTenantIds.length == 0)) {
             /*
              * Since there are no tenants to check against we can leave early.
              */

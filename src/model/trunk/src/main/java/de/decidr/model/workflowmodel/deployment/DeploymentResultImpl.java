@@ -42,13 +42,13 @@ public class DeploymentResultImpl implements DeploymentResult {
     }
 
     @Override
-    public void setDeploymentDate(Date deploymentDate) {
-        deployDate = deploymentDate;
+    public byte[] getSOAPTemplate() {
+        return soapMessage;
     }
 
     @Override
-    public void setSOAPTemplate(byte[] soap) {
-        soapMessage = soap;
+    public void setDeploymentDate(Date deploymentDate) {
+        deployDate = deploymentDate;
     }
 
     @Override
@@ -57,8 +57,8 @@ public class DeploymentResultImpl implements DeploymentResult {
     }
 
     @Override
-    public byte[] getSOAPTemplate() {
-        return soapMessage;
+    public void setSOAPTemplate(byte[] soap) {
+        soapMessage = soap;
     }
 
 }

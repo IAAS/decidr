@@ -88,86 +88,6 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
         this.userIds = userIds;
     }
 
-    @Override
-    public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException {
-
-        result = new HashMap<User, UserWorkflowParticipationState>();
-        WorkflowModel model = fetchWorkflowModel(evt.getSession());
-        /*
-         * First get a list of all known users so we can sort out those that are
-         * unknown.
-         */
-        List<User> knownUsers = getKnownUsers(evt.getSession());
-        List<User> unknownUsers = getUnknownUsers(knownUsers);
-        /*
-         * The found tenant members are removed from the list of known users as
-         * a side-effect.
-         */
-        List<User> members = getMembers(knownUsers, model, evt.getSession());
-        /*
-         * The remaining users are assumed to be known to the system, but not
-         * members of the tenant that owns the workflow model.
-         */
-        List<User> nonMembers = knownUsers;
-
-        putResults(unknownUsers, UserWorkflowParticipationState.IsUnknownUser);
-        putResults(nonMembers,
-                UserWorkflowParticipationState.NeedsTenantMembership);
-        putResults(members,
-                UserWorkflowParticipationState.IsAlreadyTenantMember);
-
-        logResult();
-    }
-
-    /**
-     * Logs the result map in a human readable format.
-     */
-    private void logResult() {
-
-        if (result == null || !logger.isDebugEnabled()) {
-            return;
-        }
-
-        StringBuilder str = new StringBuilder();
-        str.append("User workflow participation state:\n");
-
-        for (Entry<User, UserWorkflowParticipationState> entry : result
-                .entrySet()) {
-            User user = entry.getKey();
-            UserWorkflowParticipationState state = entry.getValue();
-
-            str.append("(id: ");
-            str.append(user.getId());
-            str.append(" email: ");
-            str.append(user.getEmail());
-            if (user.getUserProfile() != null) {
-                str.append(" username: ");
-                str.append(user.getUserProfile().getUsername());
-            }
-            str.append(")  ===> ");
-            str.append(state.toString());
-            str.append("\n");
-        }
-
-        logger.debug(str.toString());
-    }
-
-    /**
-     * Puts all given users in the result map.
-     * 
-     * @param users
-     *            keys in the result map
-     * @param state
-     *            value in the result map
-     */
-    private void putResults(List<User> users,
-            UserWorkflowParticipationState state) {
-        for (User key : users) {
-            result.put(key, state);
-        }
-    }
-
     /**
      * Returns all users that are known to the system using the current set of
      * usernames and emails.
@@ -185,7 +105,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
          * a QuerySyntaxException.
          */
         List<String> nonEmptyEmails;
-        if (emails == null || emails.isEmpty()) {
+        if ((emails == null) || emails.isEmpty()) {
             nonEmptyEmails = new LinkedList<String>();
             // this must not be a valid email address
             nonEmptyEmails.add("");
@@ -194,7 +114,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
         }
 
         List<String> nonEmptyUsernames;
-        if (usernames == null || usernames.isEmpty()) {
+        if ((usernames == null) || usernames.isEmpty()) {
             nonEmptyUsernames = new LinkedList<String>();
             // this must not be a valid username
             nonEmptyUsernames.add("");
@@ -203,7 +123,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
         }
 
         List<Long> nonEmptyUserIds;
-        if (userIds == null || userIds.isEmpty()) {
+        if ((userIds == null) || userIds.isEmpty()) {
             nonEmptyUserIds = new LinkedList<Long>();
             // this must not be a valid user ID
             nonEmptyUserIds.add(UserRole.UNKNOWN_USER_ID);
@@ -243,7 +163,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
     private List<User> getMembers(List<User> knownUsers, WorkflowModel model,
             Session session) {
 
-        if (knownUsers == null || knownUsers.isEmpty()) {
+        if ((knownUsers == null) || knownUsers.isEmpty()) {
             return new ArrayList<User>();
         }
 
@@ -287,6 +207,13 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
         knownUsers.removeAll(knownUsersToRemove);
 
         return knownUsersToRemove;
+    }
+
+    /**
+     * @return the result
+     */
+    public Map<User, UserWorkflowParticipationState> getResult() {
+        return result;
     }
 
     /**
@@ -378,9 +305,82 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
     }
 
     /**
-     * @return the result
+     * Logs the result map in a human readable format.
      */
-    public Map<User, UserWorkflowParticipationState> getResult() {
-        return result;
+    private void logResult() {
+
+        if ((result == null) || !logger.isDebugEnabled()) {
+            return;
+        }
+
+        StringBuilder str = new StringBuilder();
+        str.append("User workflow participation state:\n");
+
+        for (Entry<User, UserWorkflowParticipationState> entry : result
+                .entrySet()) {
+            User user = entry.getKey();
+            UserWorkflowParticipationState state = entry.getValue();
+
+            str.append("(id: ");
+            str.append(user.getId());
+            str.append(" email: ");
+            str.append(user.getEmail());
+            if (user.getUserProfile() != null) {
+                str.append(" username: ");
+                str.append(user.getUserProfile().getUsername());
+            }
+            str.append(")  ===> ");
+            str.append(state.toString());
+            str.append("\n");
+        }
+
+        logger.debug(str.toString());
+    }
+
+    /**
+     * Puts all given users in the result map.
+     * 
+     * @param users
+     *            keys in the result map
+     * @param state
+     *            value in the result map
+     */
+    private void putResults(List<User> users,
+            UserWorkflowParticipationState state) {
+        for (User key : users) {
+            result.put(key, state);
+        }
+    }
+
+    @Override
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+
+        result = new HashMap<User, UserWorkflowParticipationState>();
+        WorkflowModel model = fetchWorkflowModel(evt.getSession());
+        /*
+         * First get a list of all known users so we can sort out those that are
+         * unknown.
+         */
+        List<User> knownUsers = getKnownUsers(evt.getSession());
+        List<User> unknownUsers = getUnknownUsers(knownUsers);
+        /*
+         * The found tenant members are removed from the list of known users as
+         * a side-effect.
+         */
+        List<User> members = getMembers(knownUsers, model, evt.getSession());
+        /*
+         * The remaining users are assumed to be known to the system, but not
+         * members of the tenant that owns the workflow model.
+         */
+        List<User> nonMembers = knownUsers;
+
+        putResults(unknownUsers, UserWorkflowParticipationState.IsUnknownUser);
+        putResults(nonMembers,
+                UserWorkflowParticipationState.NeedsTenantMembership);
+        putResults(members,
+                UserWorkflowParticipationState.IsAlreadyTenantMember);
+
+        logResult();
     }
 }

@@ -53,7 +53,7 @@ public class AssociateFileWithWorkItemCommand extends FileCommand {
     public AssociateFileWithWorkItemCommand(Role role, Long fileId,
             Long workItemId) {
         super(role, fileId);
-        if (fileId == null || workItemId == null) {
+        if ((fileId == null) || (workItemId == null)) {
             throw new IllegalArgumentException(
                     "File ID and work item ID must not be null.");
         }

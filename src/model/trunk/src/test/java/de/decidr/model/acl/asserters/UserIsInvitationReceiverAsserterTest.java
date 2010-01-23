@@ -56,6 +56,13 @@ public class UserIsInvitationReceiverAsserterTest extends LowLevelDatabaseTest {
 
     // private static Long tenantId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() {
+        // tenantFacade.deleteTenant(tenantId);
+
+        UserFacadeTest.deleteTestUsers();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
@@ -98,13 +105,6 @@ public class UserIsInvitationReceiverAsserterTest extends LowLevelDatabaseTest {
         // List<String> userMails = new ArrayList<String>();
         // userNames.add("user78626");
         // tenantFacade.inviteUsersAsMembers(tenantId, userMails, userNames);
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() {
-        // tenantFacade.deleteTenant(tenantId);
-
-        UserFacadeTest.deleteTestUsers();
     }
 
     /**

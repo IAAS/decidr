@@ -27,7 +27,7 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
 
     /** The user id. */
     private long userId;
-    
+
     /** The workflow model id. */
     private long workflowModelId;
 
@@ -52,6 +52,28 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
         this.workflowModelId = workflowModelId;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object other) {
+        if ((this == other)) {
+            return true;
+        }
+        if ((other == null)) {
+            return false;
+        }
+        if (!(other instanceof UserAdministratesWorkflowModelId)) {
+            return false;
+        }
+        UserAdministratesWorkflowModelId castOther = (UserAdministratesWorkflowModelId) other;
+
+        return (this.getUserId() == castOther.getUserId())
+                && (this.getWorkflowModelId() == castOther.getWorkflowModelId());
+    }
+
     /**
      * Gets the user id.
      * 
@@ -59,6 +81,29 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
      */
     public long getUserId() {
         return this.userId;
+    }
+
+    /**
+     * Gets the workflow model id.
+     * 
+     * @return the workflow model id
+     */
+    public long getWorkflowModelId() {
+        return this.workflowModelId;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int result = 17;
+
+        result = 37 * result + (int) this.getUserId();
+        result = 37 * result + (int) this.getWorkflowModelId();
+        return result;
     }
 
     /**
@@ -72,15 +117,6 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
     }
 
     /**
-     * Gets the workflow model id.
-     * 
-     * @return the workflow model id
-     */
-    public long getWorkflowModelId() {
-        return this.workflowModelId;
-    }
-
-    /**
      * Sets the workflow model id.
      * 
      * @param workflowModelId
@@ -88,35 +124,6 @@ public class UserAdministratesWorkflowModelId implements java.io.Serializable {
      */
     public void setWorkflowModelId(long workflowModelId) {
         this.workflowModelId = workflowModelId;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof UserAdministratesWorkflowModelId))
-            return false;
-        UserAdministratesWorkflowModelId castOther = (UserAdministratesWorkflowModelId) other;
-
-        return (this.getUserId() == castOther.getUserId())
-                && (this.getWorkflowModelId() == castOther.getWorkflowModelId());
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        int result = 17;
-
-        result = 37 * result + (int) this.getUserId();
-        result = 37 * result + (int) this.getWorkflowModelId();
-        return result;
     }
 
 }

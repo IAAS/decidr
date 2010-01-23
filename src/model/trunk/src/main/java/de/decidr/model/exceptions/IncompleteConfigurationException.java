@@ -31,15 +31,12 @@ public class IncompleteConfigurationException extends Exception {
 
     private String serviceDetail = "";
 
-    /**
-     * Implementation of
-     * {@link #IncompleteConfigurationException(String, Throwable)} needed for
-     * {@link WebFault} annotation.
-     */
-    public IncompleteConfigurationException(String message, String detail,
-            Throwable cause) {
-        this(message, cause);
-        serviceDetail = detail;
+    public IncompleteConfigurationException() {
+        super();
+    }
+
+    public IncompleteConfigurationException(String message) {
+        super(message);
     }
 
     /**
@@ -52,26 +49,29 @@ public class IncompleteConfigurationException extends Exception {
     }
 
     /**
-     * Method returning {@link TransactionException#getFaultInfo} needed for
+     * Implementation of
+     * {@link #IncompleteConfigurationException(String, Throwable)} needed for
      * {@link WebFault} annotation.
      */
-    public String getFaultInfo() {
-        return serviceDetail;
-    }
-
-    public IncompleteConfigurationException() {
-        super();
+    public IncompleteConfigurationException(String message, String detail,
+            Throwable cause) {
+        this(message, cause);
+        serviceDetail = detail;
     }
 
     public IncompleteConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public IncompleteConfigurationException(String message) {
-        super(message);
-    }
-
     public IncompleteConfigurationException(Throwable cause) {
         super(cause);
+    }
+
+    /**
+     * Method returning {@link TransactionException#getFaultInfo} needed for
+     * {@link WebFault} annotation.
+     */
+    public String getFaultInfo() {
+        return serviceDetail;
     }
 }

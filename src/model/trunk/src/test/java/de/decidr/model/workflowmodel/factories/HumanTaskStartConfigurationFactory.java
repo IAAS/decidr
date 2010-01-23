@@ -23,14 +23,14 @@ import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.model.workflowmodel.wsc.TRoles;
 
 /**
- * Aleks: add comment
+ * TODO: add comment
  * 
  * @author AT
  */
 public class HumanTaskStartConfigurationFactory {
 
     /**
-     * Aleks: add comment
+     * TODO: add comment
      */
     public static TConfiguration getHumanTaskStartConfiguration() {
         TConfiguration tConfiguration = new TConfiguration();

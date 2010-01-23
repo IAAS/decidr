@@ -27,10 +27,10 @@ public class UserAdministratesWorkflowModel implements java.io.Serializable {
 
     /** The id. */
     private UserAdministratesWorkflowModelId id;
-    
+
     /** The workflow model. */
     private WorkflowModel workflowModel;
-    
+
     /** The user. */
     private User user;
 
@@ -69,13 +69,12 @@ public class UserAdministratesWorkflowModel implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the user.
      * 
-     * @param id
-     *            the new id
+     * @return the user
      */
-    public void setId(UserAdministratesWorkflowModelId id) {
-        this.id = id;
+    public User getUser() {
+        return this.user;
     }
 
     /**
@@ -88,22 +87,13 @@ public class UserAdministratesWorkflowModel implements java.io.Serializable {
     }
 
     /**
-     * Sets the workflow model.
+     * Sets the id.
      * 
-     * @param workflowModel
-     *            the new workflow model
+     * @param id
+     *            the new id
      */
-    public void setWorkflowModel(WorkflowModel workflowModel) {
-        this.workflowModel = workflowModel;
-    }
-
-    /**
-     * Gets the user.
-     * 
-     * @return the user
-     */
-    public User getUser() {
-        return this.user;
+    public void setId(UserAdministratesWorkflowModelId id) {
+        this.id = id;
     }
 
     /**
@@ -114,6 +104,16 @@ public class UserAdministratesWorkflowModel implements java.io.Serializable {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * Sets the workflow model.
+     * 
+     * @param workflowModel
+     *            the new workflow model
+     */
+    public void setWorkflowModel(WorkflowModel workflowModel) {
+        this.workflowModel = workflowModel;
     }
 
 }

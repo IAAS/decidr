@@ -27,7 +27,7 @@ public class UserHasFileAccessId implements java.io.Serializable {
 
     /** The user id. */
     private long userId;
-    
+
     /** The file id. */
     private long fileId;
 
@@ -52,23 +52,26 @@ public class UserHasFileAccessId implements java.io.Serializable {
         this.fileId = fileId;
     }
 
-    /**
-     * Gets the user id.
+    /*
+     * (non-Javadoc)
      * 
-     * @return the user id
+     * @see java.lang.Object#equals(java.lang.Object)
      */
-    public long getUserId() {
-        return this.userId;
-    }
+    @Override
+    public boolean equals(Object other) {
+        if ((this == other)) {
+            return true;
+        }
+        if ((other == null)) {
+            return false;
+        }
+        if (!(other instanceof UserHasFileAccessId)) {
+            return false;
+        }
+        UserHasFileAccessId castOther = (UserHasFileAccessId) other;
 
-    /**
-     * Sets the user id.
-     * 
-     * @param userId
-     *            the new user id
-     */
-    public void setUserId(long userId) {
-        this.userId = userId;
+        return (this.getUserId() == castOther.getUserId())
+                && (this.getFileId() == castOther.getFileId());
     }
 
     /**
@@ -81,33 +84,17 @@ public class UserHasFileAccessId implements java.io.Serializable {
     }
 
     /**
-     * Sets the file id.
+     * Gets the user id.
      * 
-     * @param fileId
-     *            the new file id
+     * @return the user id
      */
-    public void setFileId(long fileId) {
-        this.fileId = fileId;
+    public long getUserId() {
+        return this.userId;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof UserHasFileAccessId))
-            return false;
-        UserHasFileAccessId castOther = (UserHasFileAccessId) other;
-
-        return (this.getUserId() == castOther.getUserId())
-                && (this.getFileId() == castOther.getFileId());
-    }
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -117,6 +104,26 @@ public class UserHasFileAccessId implements java.io.Serializable {
         result = 37 * result + (int) this.getUserId();
         result = 37 * result + (int) this.getFileId();
         return result;
+    }
+
+    /**
+     * Sets the file id.
+     * 
+     * @param fileId
+     *            the new file id
+     */
+    public void setFileId(long fileId) {
+        this.fileId = fileId;
+    }
+
+    /**
+     * Sets the user id.
+     * 
+     * @param userId
+     *            the new user id
+     */
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
 }

@@ -23,6 +23,14 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
  */
 public final class BPELConstants {
 
+    public static class Email {
+        public static final String NAME = "Decidr-Email";
+    }
+
+    public static class Humantask {
+        public static final String NAME = "Decidr-HumanTask";
+    }
+
     public static class Process {
 
         public static final String NS_PREFIX = "tns";
@@ -32,20 +40,12 @@ public final class BPELConstants {
         public static final String[] CORRELATION_PROPERTIES = { "taskID" };
     }
 
-    public static class Humantask {
-        public static final String NAME = "Decidr-HumanTask";
-    }
-
-    public static class Email {
-        public static final String NAME = "Decidr-Email";
+    public static class Processtypes {
+        public static final String NS_PREFIX = "pdecidr";
     }
 
     public static class Types {
         public static final String NS_PREFIX = "decidr";
-    }
-
-    public static class Processtypes {
-        public static final String NS_PREFIX = "pdecidr";
     }
 
     public static class Variables {

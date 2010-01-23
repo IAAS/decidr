@@ -27,7 +27,7 @@ public class WorkItemContainsFileId implements java.io.Serializable {
 
     /** The work item id. */
     private long workItemId;
-    
+
     /** The file id. */
     private long fileId;
 
@@ -52,23 +52,26 @@ public class WorkItemContainsFileId implements java.io.Serializable {
         this.fileId = fileId;
     }
 
-    /**
-     * Gets the work item id.
+    /*
+     * (non-Javadoc)
      * 
-     * @return the work item id
+     * @see java.lang.Object#equals(java.lang.Object)
      */
-    public long getWorkItemId() {
-        return this.workItemId;
-    }
+    @Override
+    public boolean equals(Object other) {
+        if ((this == other)) {
+            return true;
+        }
+        if ((other == null)) {
+            return false;
+        }
+        if (!(other instanceof WorkItemContainsFileId)) {
+            return false;
+        }
+        WorkItemContainsFileId castOther = (WorkItemContainsFileId) other;
 
-    /**
-     * Sets the work item id.
-     * 
-     * @param workItemId
-     *            the new work item id
-     */
-    public void setWorkItemId(long workItemId) {
-        this.workItemId = workItemId;
+        return (this.getWorkItemId() == castOther.getWorkItemId())
+                && (this.getFileId() == castOther.getFileId());
     }
 
     /**
@@ -81,33 +84,17 @@ public class WorkItemContainsFileId implements java.io.Serializable {
     }
 
     /**
-     * Sets the file id.
+     * Gets the work item id.
      * 
-     * @param fileId
-     *            the new file id
+     * @return the work item id
      */
-    public void setFileId(long fileId) {
-        this.fileId = fileId;
+    public long getWorkItemId() {
+        return this.workItemId;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof WorkItemContainsFileId))
-            return false;
-        WorkItemContainsFileId castOther = (WorkItemContainsFileId) other;
-
-        return (this.getWorkItemId() == castOther.getWorkItemId())
-                && (this.getFileId() == castOther.getFileId());
-    }
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -117,6 +104,26 @@ public class WorkItemContainsFileId implements java.io.Serializable {
         result = 37 * result + (int) this.getWorkItemId();
         result = 37 * result + (int) this.getFileId();
         return result;
+    }
+
+    /**
+     * Sets the file id.
+     * 
+     * @param fileId
+     *            the new file id
+     */
+    public void setFileId(long fileId) {
+        this.fileId = fileId;
+    }
+
+    /**
+     * Sets the work item id.
+     * 
+     * @param workItemId
+     *            the new work item id
+     */
+    public void setWorkItemId(long workItemId) {
+        this.workItemId = workItemId;
     }
 
 }

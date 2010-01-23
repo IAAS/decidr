@@ -54,6 +54,14 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
         requireTenantId();
     }
 
+    /**
+     * @return The current color scheme. You must close this stream once you're
+     *         done reading from it.
+     */
+    public InputStream getCurrentColorScheme() {
+        return currentColorScheme;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -77,13 +85,5 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
                 throw new TransactionException(e);
             }
         }
-    }
-
-    /**
-     * @return The current color scheme. You must close this stream once you're
-     *         done reading from it.
-     */
-    public InputStream getCurrentColorScheme() {
-        return currentColorScheme;
     }
 }

@@ -53,6 +53,13 @@ public class GetParticipatingUsersCommand extends WorkflowInstanceCommand {
         requireWorkflowInstance();
     }
 
+    /**
+     * @return the result
+     */
+    public Set<User> getResult() {
+        return result;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws EntityNotFoundException {
@@ -66,13 +73,6 @@ public class GetParticipatingUsersCommand extends WorkflowInstanceCommand {
         for (UserParticipatesInWorkflow partuser : partUsers) {
             result.add(partuser.getUser());
         }
-    }
-
-    /**
-     * @return the result
-     */
-    public Set<User> getResult() {
-        return result;
     }
 
 }

@@ -67,6 +67,15 @@ public class Information {
     }
 
     /**
+     * Gets the value of the name property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Sets the value of the content property.
      * 
      * @param value
@@ -74,15 +83,6 @@ public class Information {
      */
     public void setContent(Content value) {
         this.content = value;
-    }
-
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getName() {
-        return name;
     }
 
     /**

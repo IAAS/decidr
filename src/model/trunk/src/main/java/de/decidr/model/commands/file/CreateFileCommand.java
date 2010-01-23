@@ -124,6 +124,13 @@ public class CreateFileCommand extends AclEnabledCommand {
         this.newFile = null;
     }
 
+    /**
+     * @return the newly persisted file entity or null if no file was created.
+     */
+    public File getFile() {
+        return this.newFile;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -175,13 +182,6 @@ public class CreateFileCommand extends AclEnabledCommand {
                 throw new TransactionException(e);
             }
         }
-    }
-
-    /**
-     * @return the newly persisted file entity or null if no file was created.
-     */
-    public File getFile() {
-        return this.newFile;
     }
 
 }

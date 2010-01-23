@@ -52,11 +52,33 @@ public class SetUserPropertyCommand extends UserCommand {
     public SetUserPropertyCommand(Role role, Long userId,
             Map<String, ? extends Serializable> properties) {
         super(role, userId);
-        if (properties == null || userId == null) {
+        if ((properties == null) || (userId == null)) {
             throw new IllegalArgumentException(
                     "User ID and properties must not be null.");
         }
         this.properties = properties;
+    }
+
+    /**
+     * Finds the setter method of the given property in the given set of
+     * property descriptors
+     * 
+     * @param propertyName
+     *            name of the property which should be set
+     * @param descriptors
+     *            property descriptors to search
+     * @return the setter method or <code>null</code> if the property is not
+     *         writable/does not exist.
+     */
+    private Method findSetter(String propertyName,
+            PropertyDescriptor[] descriptors) {
+        for (PropertyDescriptor descriptor : descriptors) {
+            if (propertyName.equals(descriptor.getName())) {
+                return descriptor.getWriteMethod();
+            }
+        }
+        // the property wasn't found.
+        return null;
     }
 
     @Override
@@ -82,27 +104,5 @@ public class SetUserPropertyCommand extends UserCommand {
         } catch (Exception e) {
             throw new TransactionException(e);
         }
-    }
-
-    /**
-     * Finds the setter method of the given property in the given set of
-     * property descriptors
-     * 
-     * @param propertyName
-     *            name of the property which should be set
-     * @param descriptors
-     *            property descriptors to search
-     * @return the setter method or <code>null</code> if the property is not
-     *         writable/does not exist.
-     */
-    private Method findSetter(String propertyName,
-            PropertyDescriptor[] descriptors) {
-        for (PropertyDescriptor descriptor : descriptors) {
-            if (propertyName.equals(descriptor.getName())) {
-                return descriptor.getWriteMethod();
-            }
-        }
-        // the property wasn't found.
-        return null;
     }
 }

@@ -55,7 +55,7 @@ public class UpdateServerLoadCommand extends SystemCommand {
         }
         this.serverId = serverId;
 
-        if (load < -1 || load > 100) {
+        if ((load < -1) || (load > 100)) {
             throw new IllegalArgumentException(
                     "Server load out of range (-1 to 100).");
         }

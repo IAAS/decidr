@@ -60,7 +60,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
             String name, String description, String dwdl) {
         super(role, workflowModelId);
         requireWorkflowModelId();
-        if (name == null || name.isEmpty()) {
+        if ((name == null) || name.isEmpty()) {
             throw new IllegalArgumentException(
                     "Name must not be null or empty.");
         }

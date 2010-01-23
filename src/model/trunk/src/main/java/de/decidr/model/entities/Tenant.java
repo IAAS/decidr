@@ -31,44 +31,44 @@ public class Tenant implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The logo. */
     private File logo;
-    
+
     /** The simple color scheme. */
     private File simpleColorScheme;
-    
+
     /** The advanced color scheme. */
     private File advancedColorScheme;
-    
+
     /** The admin. */
     private User admin;
-    
+
     /** The current color scheme. */
     private File currentColorScheme;
-    
+
     /** The name. */
     private String name;
-    
+
     /** The description. */
     private String description;
-    
+
     /** The approved since. */
     private Date approvedSince;
-    
+
     /** The user is member of tenants. */
     private Set<UserIsMemberOfTenant> userIsMemberOfTenants = new HashSet<UserIsMemberOfTenant>(
             0);
-    
+
     /** The workflow models. */
     private Set<WorkflowModel> workflowModels = new HashSet<WorkflowModel>(0);
-    
+
     /** The invitations. */
     private Set<Invitation> invitations = new HashSet<Invitation>(0);
-    
+
     /** The currently bustling users. */
     private Set<User> currentlyBustlingUsers = new HashSet<User>(0);
-    
+
     /** The deployed workflow models. */
     private Set<DeployedWorkflowModel> deployedWorkflowModels = new HashSet<DeployedWorkflowModel>(
             0);
@@ -78,23 +78,6 @@ public class Tenant implements java.io.Serializable {
      */
     public Tenant() {
         // default empty JavaBean constructor
-    }
-
-    /**
-     * Instantiates a new tenant.
-     * 
-     * @param admin
-     *            the admin
-     * @param name
-     *            the name
-     * @param description
-     *            the description
-     */
-    public Tenant(User admin, String name, String description) {
-        // generated minimal constructor
-        this.admin = admin;
-        this.name = name;
-        this.description = description;
     }
 
     /**
@@ -151,60 +134,29 @@ public class Tenant implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Instantiates a new tenant.
      * 
-     * @return the id
+     * @param admin
+     *            the admin
+     * @param name
+     *            the name
+     * @param description
+     *            the description
      */
-    public Long getId() {
-        return this.id;
+    public Tenant(User admin, String name, String description) {
+        // generated minimal constructor
+        this.admin = admin;
+        this.name = name;
+        this.description = description;
     }
 
     /**
-     * Sets the id.
+     * Gets the admin.
      * 
-     * @param id
-     *            the new id
+     * @return the admin
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the logo.
-     * 
-     * @return the logo
-     */
-    public File getLogo() {
-        return this.logo;
-    }
-
-    /**
-     * Sets the logo.
-     * 
-     * @param logo
-     *            the new logo
-     */
-    public void setLogo(File logo) {
-        this.logo = logo;
-    }
-
-    /**
-     * Gets the simple color scheme.
-     * 
-     * @return the simple color scheme
-     */
-    public File getSimpleColorScheme() {
-        return this.simpleColorScheme;
-    }
-
-    /**
-     * Sets the simple color scheme.
-     * 
-     * @param simpleColorScheme
-     *            the new simple color scheme
-     */
-    public void setSimpleColorScheme(File simpleColorScheme) {
-        this.simpleColorScheme = simpleColorScheme;
+    public User getAdmin() {
+        return this.admin;
     }
 
     /**
@@ -217,22 +169,111 @@ public class Tenant implements java.io.Serializable {
     }
 
     /**
-     * Sets the advanced color scheme.
+     * Gets the approved since.
      * 
-     * @param advancedColorScheme
-     *            the new advanced color scheme
+     * @return the approved since
      */
-    public void setAdvancedColorScheme(File advancedColorScheme) {
-        this.advancedColorScheme = advancedColorScheme;
+    public Date getApprovedSince() {
+        return this.approvedSince;
     }
 
     /**
-     * Gets the admin.
+     * Gets the current color scheme.
      * 
-     * @return the admin
+     * @return the current color scheme
      */
-    public User getAdmin() {
-        return this.admin;
+    public File getCurrentColorScheme() {
+        return this.currentColorScheme;
+    }
+
+    /**
+     * Gets the currently bustling users.
+     * 
+     * @return the currently bustling users
+     */
+    public Set<User> getCurrentlyBustlingUsers() {
+        return this.currentlyBustlingUsers;
+    }
+
+    /**
+     * Gets the deployed workflow models.
+     * 
+     * @return the deployed workflow models
+     */
+    public Set<DeployedWorkflowModel> getDeployedWorkflowModels() {
+        return this.deployedWorkflowModels;
+    }
+
+    /**
+     * Gets the description.
+     * 
+     * @return the description
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public Long getId() {
+        return this.id;
+    }
+
+    /**
+     * Gets the invitations.
+     * 
+     * @return the invitations
+     */
+    public Set<Invitation> getInvitations() {
+        return this.invitations;
+    }
+
+    /**
+     * Gets the logo.
+     * 
+     * @return the logo
+     */
+    public File getLogo() {
+        return this.logo;
+    }
+
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Gets the simple color scheme.
+     * 
+     * @return the simple color scheme
+     */
+    public File getSimpleColorScheme() {
+        return this.simpleColorScheme;
+    }
+
+    /**
+     * Gets the user is member of tenants.
+     * 
+     * @return the user is member of tenants
+     */
+    public Set<UserIsMemberOfTenant> getUserIsMemberOfTenants() {
+        return this.userIsMemberOfTenants;
+    }
+
+    /**
+     * Gets the workflow models.
+     * 
+     * @return the workflow models
+     */
+    public Set<WorkflowModel> getWorkflowModels() {
+        return this.workflowModels;
     }
 
     /**
@@ -246,69 +287,13 @@ public class Tenant implements java.io.Serializable {
     }
 
     /**
-     * Gets the current color scheme.
+     * Sets the advanced color scheme.
      * 
-     * @return the current color scheme
+     * @param advancedColorScheme
+     *            the new advanced color scheme
      */
-    public File getCurrentColorScheme() {
-        return this.currentColorScheme;
-    }
-
-    /**
-     * Sets the current color scheme.
-     * 
-     * @param currentColorScheme
-     *            the new current color scheme
-     */
-    public void setCurrentColorScheme(File currentColorScheme) {
-        this.currentColorScheme = currentColorScheme;
-    }
-
-    /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Sets the name.
-     * 
-     * @param name
-     *            the new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Gets the description.
-     * 
-     * @return the description
-     */
-    public String getDescription() {
-        return this.description;
-    }
-
-    /**
-     * Sets the description.
-     * 
-     * @param description
-     *            the new description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Gets the approved since.
-     * 
-     * @return the approved since
-     */
-    public Date getApprovedSince() {
-        return this.approvedSince;
+    public void setAdvancedColorScheme(File advancedColorScheme) {
+        this.advancedColorScheme = advancedColorScheme;
     }
 
     /**
@@ -322,12 +307,94 @@ public class Tenant implements java.io.Serializable {
     }
 
     /**
-     * Gets the user is member of tenants.
+     * Sets the current color scheme.
      * 
-     * @return the user is member of tenants
+     * @param currentColorScheme
+     *            the new current color scheme
      */
-    public Set<UserIsMemberOfTenant> getUserIsMemberOfTenants() {
-        return this.userIsMemberOfTenants;
+    public void setCurrentColorScheme(File currentColorScheme) {
+        this.currentColorScheme = currentColorScheme;
+    }
+
+    /**
+     * Sets the currently bustling users.
+     * 
+     * @param currentlyBustlingUsers
+     *            the new currently bustling users
+     */
+    public void setCurrentlyBustlingUsers(Set<User> currentlyBustlingUsers) {
+        this.currentlyBustlingUsers = currentlyBustlingUsers;
+    }
+
+    /**
+     * Sets the deployed workflow models.
+     * 
+     * @param deployedWorkflowModels
+     *            the new deployed workflow models
+     */
+    public void setDeployedWorkflowModels(
+            Set<DeployedWorkflowModel> deployedWorkflowModels) {
+        this.deployedWorkflowModels = deployedWorkflowModels;
+    }
+
+    /**
+     * Sets the description.
+     * 
+     * @param description
+     *            the new description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the invitations.
+     * 
+     * @param invitations
+     *            the new invitations
+     */
+    public void setInvitations(Set<Invitation> invitations) {
+        this.invitations = invitations;
+    }
+
+    /**
+     * Sets the logo.
+     * 
+     * @param logo
+     *            the new logo
+     */
+    public void setLogo(File logo) {
+        this.logo = logo;
+    }
+
+    /**
+     * Sets the name.
+     * 
+     * @param name
+     *            the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the simple color scheme.
+     * 
+     * @param simpleColorScheme
+     *            the new simple color scheme
+     */
+    public void setSimpleColorScheme(File simpleColorScheme) {
+        this.simpleColorScheme = simpleColorScheme;
     }
 
     /**
@@ -342,15 +409,6 @@ public class Tenant implements java.io.Serializable {
     }
 
     /**
-     * Gets the workflow models.
-     * 
-     * @return the workflow models
-     */
-    public Set<WorkflowModel> getWorkflowModels() {
-        return this.workflowModels;
-    }
-
-    /**
      * Sets the workflow models.
      * 
      * @param workflowModels
@@ -358,64 +416,6 @@ public class Tenant implements java.io.Serializable {
      */
     public void setWorkflowModels(Set<WorkflowModel> workflowModels) {
         this.workflowModels = workflowModels;
-    }
-
-    /**
-     * Gets the invitations.
-     * 
-     * @return the invitations
-     */
-    public Set<Invitation> getInvitations() {
-        return this.invitations;
-    }
-
-    /**
-     * Sets the invitations.
-     * 
-     * @param invitations
-     *            the new invitations
-     */
-    public void setInvitations(Set<Invitation> invitations) {
-        this.invitations = invitations;
-    }
-
-    /**
-     * Gets the currently bustling users.
-     * 
-     * @return the currently bustling users
-     */
-    public Set<User> getCurrentlyBustlingUsers() {
-        return this.currentlyBustlingUsers;
-    }
-
-    /**
-     * Sets the currently bustling users.
-     * 
-     * @param currentlyBustlingUsers
-     *            the new currently bustling users
-     */
-    public void setCurrentlyBustlingUsers(Set<User> currentlyBustlingUsers) {
-        this.currentlyBustlingUsers = currentlyBustlingUsers;
-    }
-
-    /**
-     * Gets the deployed workflow models.
-     * 
-     * @return the deployed workflow models
-     */
-    public Set<DeployedWorkflowModel> getDeployedWorkflowModels() {
-        return this.deployedWorkflowModels;
-    }
-
-    /**
-     * Sets the deployed workflow models.
-     * 
-     * @param deployedWorkflowModels
-     *            the new deployed workflow models
-     */
-    public void setDeployedWorkflowModels(
-            Set<DeployedWorkflowModel> deployedWorkflowModels) {
-        this.deployedWorkflowModels = deployedWorkflowModels;
     }
 
 }

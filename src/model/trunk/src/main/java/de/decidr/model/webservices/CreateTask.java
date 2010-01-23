@@ -72,17 +72,12 @@ public class CreateTask {
     protected THumanTaskData taskData;
 
     /**
-     * Gets the value of the wfmID property.
+     * Gets the value of the description property.
+     * 
+     * @return possible object is {@link String }
      */
-    public long getWfmID() {
-        return wfmID;
-    }
-
-    /**
-     * Sets the value of the wfmID property.
-     */
-    public void setWfmID(long value) {
-        this.wfmID = value;
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -95,27 +90,12 @@ public class CreateTask {
     }
 
     /**
-     * Sets the value of the processID property.
+     * Gets the value of the taskData property.
      * 
-     * @param value
-     *            allowed object is {@link String }
+     * @return possible object is {@link THumanTaskData }
      */
-    public void setProcessID(String value) {
-        this.processID = value;
-    }
-
-    /**
-     * Gets the value of the userID property.
-     */
-    public long getUserID() {
-        return userID;
-    }
-
-    /**
-     * Sets the value of the userID property.
-     */
-    public void setUserID(long value) {
-        this.userID = value;
+    public THumanTaskData getTaskData() {
+        return taskData;
     }
 
     /**
@@ -128,13 +108,17 @@ public class CreateTask {
     }
 
     /**
-     * Sets the value of the taskName property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
+     * Gets the value of the userID property.
      */
-    public void setTaskName(String value) {
-        this.taskName = value;
+    public long getUserID() {
+        return userID;
+    }
+
+    /**
+     * Gets the value of the wfmID property.
+     */
+    public long getWfmID() {
+        return wfmID;
     }
 
     /**
@@ -144,25 +128,6 @@ public class CreateTask {
      */
     public Boolean isUserNotification() {
         return userNotification;
-    }
-
-    /**
-     * Sets the value of the userNotification property.
-     * 
-     * @param value
-     *            allowed object is {@link Boolean }
-     */
-    public void setUserNotification(Boolean value) {
-        this.userNotification = value;
-    }
-
-    /**
-     * Gets the value of the description property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getDescription() {
-        return description;
     }
 
     /**
@@ -176,12 +141,13 @@ public class CreateTask {
     }
 
     /**
-     * Gets the value of the taskData property.
+     * Sets the value of the processID property.
      * 
-     * @return possible object is {@link THumanTaskData }
+     * @param value
+     *            allowed object is {@link String }
      */
-    public THumanTaskData getTaskData() {
-        return taskData;
+    public void setProcessID(String value) {
+        this.processID = value;
     }
 
     /**
@@ -192,5 +158,39 @@ public class CreateTask {
      */
     public void setTaskData(THumanTaskData value) {
         this.taskData = value;
+    }
+
+    /**
+     * Sets the value of the taskName property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     */
+    public void setTaskName(String value) {
+        this.taskName = value;
+    }
+
+    /**
+     * Sets the value of the userID property.
+     */
+    public void setUserID(long value) {
+        this.userID = value;
+    }
+
+    /**
+     * Sets the value of the userNotification property.
+     * 
+     * @param value
+     *            allowed object is {@link Boolean }
+     */
+    public void setUserNotification(Boolean value) {
+        this.userNotification = value;
+    }
+
+    /**
+     * Sets the value of the wfmID property.
+     */
+    public void setWfmID(long value) {
+        this.wfmID = value;
     }
 }

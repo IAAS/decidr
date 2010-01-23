@@ -32,6 +32,19 @@ public class DWDLErrorHandler implements ErrorHandler {
 
     private List<IProblem> errorList = new ArrayList<IProblem>();
 
+    /**
+     * Adds a new Problem to the errorList.
+     * 
+     * @param e
+     *            The exception object
+     */
+    private void addProblemToList(SAXParseException e) {
+        String msg = e.getMessage();
+        String loc = "line: " + e.getLineNumber();
+        Problem p = new Problem(msg, loc);
+        errorList.add(p);
+    }
+
     @Override
     public void error(SAXParseException e) throws SAXException {
         addProblemToList(e);
@@ -39,11 +52,6 @@ public class DWDLErrorHandler implements ErrorHandler {
 
     @Override
     public void fatalError(SAXParseException e) throws SAXException {
-        addProblemToList(e);
-    }
-
-    @Override
-    public void warning(SAXParseException e) throws SAXException {
         addProblemToList(e);
     }
 
@@ -56,16 +64,8 @@ public class DWDLErrorHandler implements ErrorHandler {
         return errorList;
     }
 
-    /**
-     * Adds a new Problem to the errorList.
-     * 
-     * @param e
-     *            The exception object
-     */
-    private void addProblemToList(SAXParseException e) {
-        String msg = e.getMessage();
-        String loc = "line: " + e.getLineNumber();
-        Problem p = new Problem(msg, loc);
-        errorList.add(p);
+    @Override
+    public void warning(SAXParseException e) throws SAXException {
+        addProblemToList(e);
     }
 }

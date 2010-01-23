@@ -67,6 +67,122 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
     /**
      * Test method for
+     * {@link HibernateEntityStorageProvider#applyConfig(Properties)}.
+     */
+    @Test
+    public void testApplyConfig() throws IncompleteConfigurationException {
+
+        Properties props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
+                "File");
+        props
+                .setProperty(
+                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
+                        "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME,
+                "id");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
+                "data");
+
+        storageProvider.applyConfig(props);
+
+        props = new Properties();
+
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
+                "File");
+        props
+                .setProperty(
+                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
+                        "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
+                "data");
+
+        try {
+            storageProvider.applyConfig(props);
+            fail("This conf shouldn't work.");
+        } catch (IncompleteConfigurationException e1) {
+            // nothing to do
+        }
+
+        props = null;
+
+        try {
+            storageProvider.applyConfig(props);
+            fail("IncompleteConfigurationException expected");
+        } catch (IncompleteConfigurationException e) {
+            // nothing to do
+        }
+    }
+
+    /**
+     * Test method for
+     * {@link HibernateEntityStorageProvider#isApplicable(Properties)}.
+     */
+    @Test
+    public void testIsApplicable() {
+
+        Properties props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
+                "File");
+        props
+                .setProperty(
+                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
+                        "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME,
+                "id");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
+                "data");
+
+        assertTrue(storageProvider.isApplicable(props));
+
+        props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "http");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
+                "File");
+        props
+                .setProperty(
+                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
+                        "true");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME,
+                "id");
+        props.setProperty(
+                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
+                "data");
+
+        assertFalse(storageProvider.isApplicable(props));
+
+        props = new Properties();
+        props = null;
+
+        assertFalse(storageProvider.isApplicable(props));
+    }
+
+    /**
+     * Test method for
      * {@link HibernateEntityStorageProvider#putFile(InputStream, Long, Long)},
      * {@link HibernateEntityStorageProvider#getFile(Long)} and
      * {@link HibernateEntityStorageProvider#removeFile(Long)}.
@@ -159,122 +275,6 @@ public class HibernateEntityStorageProviderTest extends LowLevelDatabaseTest {
 
         if (cmd6.getResult() == false) {
             fail("IllegalArgumentException expected");
-        }
-    }
-
-    /**
-     * Test method for
-     * {@link HibernateEntityStorageProvider#isApplicable(Properties)}.
-     */
-    @Test
-    public void testIsApplicable() {
-
-        Properties props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
-                "File");
-        props
-                .setProperty(
-                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
-                        "true");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME,
-                "id");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
-                "data");
-
-        assertTrue(storageProvider.isApplicable(props));
-
-        props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "http");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
-                "File");
-        props
-                .setProperty(
-                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
-                        "true");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME,
-                "id");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
-                "data");
-
-        assertFalse(storageProvider.isApplicable(props));
-
-        props = new Properties();
-        props = null;
-
-        assertFalse(storageProvider.isApplicable(props));
-    }
-
-    /**
-     * Test method for
-     * {@link HibernateEntityStorageProvider#applyConfig(Properties)}.
-     */
-    @Test
-    public void testApplyConfig() throws IncompleteConfigurationException {
-
-        Properties props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
-                "File");
-        props
-                .setProperty(
-                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
-                        "true");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_ID_PROPERTY_NAME,
-                "id");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
-                "data");
-
-        storageProvider.applyConfig(props);
-
-        props = new Properties();
-
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_ENTITY_TYPE_NAME,
-                "File");
-        props
-                .setProperty(
-                        HibernateEntityStorageProvider.CONFIG_KEY_DELETE_ENTITY,
-                        "true");
-        props.setProperty(
-                HibernateEntityStorageProvider.CONFIG_KEY_DATA_PROPERTY_NAME,
-                "data");
-
-        try {
-            storageProvider.applyConfig(props);
-            fail("This conf shouldn't work.");
-        } catch (IncompleteConfigurationException e1) {
-            // nothing to do
-        }
-
-        props = null;
-
-        try {
-            storageProvider.applyConfig(props);
-            fail("IncompleteConfigurationException expected");
-        } catch (IncompleteConfigurationException e) {
-            // nothing to do
         }
     }
 }

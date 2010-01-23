@@ -25,7 +25,6 @@ import de.decidr.model.exceptions.TransactionException;
  */
 public interface TransactionCoordinator {
 
-
     /**
      * Executes a number of commands within a transaction. If another
      * transaction is already running, the new transactions become inner

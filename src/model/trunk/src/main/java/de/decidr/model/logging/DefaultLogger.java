@@ -69,13 +69,6 @@ public class DefaultLogger {
     }
 
     /**
-     * @return whether the default logger has been initialized.
-     */
-    public static boolean isInitialized() {
-        return initialized;
-    }
-
-    /**
      * Retrieve a logger named according to the full class name of the clazz
      * parameter. If the named logger already exists, then the existing instance
      * will be returned. Otherwise, a new instance is created.
@@ -100,5 +93,12 @@ public class DefaultLogger {
      */
     public static Logger getLogger(String name) {
         return Logger.getLogger(name);
+    }
+
+    /**
+     * @return whether the default logger has been initialized.
+     */
+    public static boolean isInitialized() {
+        return initialized;
     }
 }

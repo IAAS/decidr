@@ -56,6 +56,16 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "illegalArgumentException")
+    public JAXBElement<String> createIllegalArgumentExceptionWrapper(
+            String value) {
+        return new JAXBElement<String>(_IllegalArgumentExceptionWrapper_QNAME,
+                String.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
     @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "ioException")
     public JAXBElement<String> createIoExceptionWrapper(String value) {
         return new JAXBElement<String>(_IoException_QNAME, String.class, null,
@@ -87,15 +97,5 @@ public class ObjectFactory {
     public JAXBElement<String> createReportingExceptionWrapper(String value) {
         return new JAXBElement<String>(_ReportingException_QNAME, String.class,
                 null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "illegalArgumentException")
-    public JAXBElement<String> createIllegalArgumentExceptionWrapper(
-            String value) {
-        return new JAXBElement<String>(_IllegalArgumentExceptionWrapper_QNAME,
-                String.class, null, value);
     }
 }

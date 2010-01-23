@@ -23,7 +23,6 @@ import java.util.Set;
 import javax.xml.bind.JAXBException;
 
 import org.hibernate.Query;
-import org.xml.sax.SAXException;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.acl.roles.Role;
@@ -69,6 +68,30 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
      */
     public DeployWorkflowModelCommand(Role role, Long workflowModelId) {
         super(role, workflowModelId);
+    }
+
+    /**
+     * @return the deployed workflow model
+     */
+    public DeployedWorkflowModel getDeployedWorkflowModel() {
+        return deployedWorkflowModel;
+    }
+
+    @Override
+    public void transactionAborted(TransactionAbortedEvent evt)
+            throws TransactionException {
+
+        // compensate for already deployed model by undeploying
+        Deployer deployer = new DeployerImpl();
+
+        for (Long serverId : result.getServers()) {
+            try {
+                deployer.undeploy(newDeployedWorkflowModel, (Server) evt
+                        .getSession().get(Server.class, serverId));
+            } catch (Exception e) {
+                throw new TransactionException(e);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -124,8 +147,6 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
                 dwfm.setDwdl(TransformUtil.workflowToBytes(dwdl));
             } catch (JAXBException e) {
                 throw new TransactionException(e);
-            } catch (SAXException e) {
-                throw new TransactionException(e);
             }
 
             // Create ServerStatistics
@@ -170,30 +191,6 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             // write changes to DB
             evt.getSession().update(dwfm);
         }
-    }
-
-    @Override
-    public void transactionAborted(TransactionAbortedEvent evt)
-            throws TransactionException {
-        
-        // compensate for already deployed model by undeploying
-        Deployer deployer = new DeployerImpl();
-
-        for (Long serverId : result.getServers()) {
-            try {
-                deployer.undeploy(newDeployedWorkflowModel, (Server) evt
-                        .getSession().get(Server.class, serverId));
-            } catch (Exception e) {
-                throw new TransactionException(e);
-            }
-        }
-    }
-
-    /**
-     * @return the deployed workflow model
-     */
-    public DeployedWorkflowModel getDeployedWorkflowModel() {
-        return deployedWorkflowModel;
     }
 
 }

@@ -58,12 +58,38 @@ public class Actor {
     protected String email;
 
     /**
+     * Gets the value of the email property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
      * Gets the value of the name property.
      * 
      * @return possible object is {@link String }
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the value of the userid property.
+     */
+    public Long getUserid() {
+        return userid;
+    }
+
+    /**
+     * Sets the value of the email property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     */
+    public void setEmail(String value) {
+        this.email = value;
     }
 
     /**
@@ -77,35 +103,9 @@ public class Actor {
     }
 
     /**
-     * Gets the value of the userid property.
-     */
-    public Long getUserid() {
-        return userid;
-    }
-
-    /**
      * Sets the value of the userid property.
      */
     public void setUserid(Long value) {
         this.userid = value;
-    }
-
-    /**
-     * Gets the value of the email property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Sets the value of the email property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
-     */
-    public void setEmail(String value) {
-        this.email = value;
     }
 }

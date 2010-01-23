@@ -170,6 +170,24 @@ public class PaginatingCriteria implements Criteria {
         return criteria.list();
     }
 
+    /**
+     * Returns the row count for this Criteria.
+     * 
+     * @return the row count
+     * @throws HibernateException
+     *             iff the row count cannot be retrieved.
+     */
+    public Integer rowCount() throws HibernateException {
+        Number result = (Number) clone.uniqueResult();
+
+        if (result != null) {
+            return result.intValue();
+        } else {
+            throw new HibernateException(
+                    "The row count query did not return a number.");
+        }
+    }
+
     @Override
     public ScrollableResults scroll() throws HibernateException {
         return criteria.scroll();
@@ -182,6 +200,12 @@ public class PaginatingCriteria implements Criteria {
     }
 
     @Override
+    public Criteria setCacheable(boolean cacheable) {
+        criteria.setCacheable(cacheable);
+        return this;
+    }
+
+    @Override
     public Criteria setCacheMode(CacheMode cacheMode) {
         criteria.setCacheMode(cacheMode);
         return this;
@@ -190,12 +214,6 @@ public class PaginatingCriteria implements Criteria {
     @Override
     public Criteria setCacheRegion(String cacheRegion) {
         criteria.setCacheRegion(cacheRegion);
-        return this;
-    }
-
-    @Override
-    public Criteria setCacheable(boolean cacheable) {
-        criteria.setCacheable(cacheable);
         return this;
     }
 
@@ -275,23 +293,5 @@ public class PaginatingCriteria implements Criteria {
     @Override
     public Object uniqueResult() throws HibernateException {
         return criteria.uniqueResult();
-    }
-
-    /**
-     * Returns the row count for this Criteria.
-     * 
-     * @return the row count
-     * @throws HibernateException
-     *             iff the row count cannot be retrieved.
-     */
-    public Integer rowCount() throws HibernateException {
-        Number result = (Number) clone.uniqueResult();
-
-        if (result != null) {
-            return result.intValue();
-        } else {
-            throw new HibernateException(
-                    "The row count query did not return a number.");
-        }
     }
 }

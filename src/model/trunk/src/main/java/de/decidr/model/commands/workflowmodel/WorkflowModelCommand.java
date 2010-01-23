@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.commands.workflowmodel;
 
 import org.hibernate.Criteria;
@@ -37,30 +52,48 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
     }
 
     /**
-     * Throws an {@link IllegalArgumentException} if the current workflow model
-     * ID is <code>null</code>
+     * Fetches the current deployed version of the workflow model.
      * 
-     * @throws IllegalArgumentException
+     * @param session
+     *            current Hibernate Session
+     * @return the current deployed version of the workflow model or null if
+     *         there is no current deplyoed version.
      */
-    protected void requireWorkflowModelId() {
-        if (workflowModelId == null) {
-            throw new IllegalArgumentException(
-                    "Workflow model ID must not be null.");
+    public DeployedWorkflowModel fetchCurrentDeployedWorkflowModel(
+            Session session) {
+        Criteria crit = session.createCriteria(DeployedWorkflowModel.class,
+                "dwm");
+
+        crit.createCriteria("originalWorkflowModel", "owm").add(
+                Restrictions.eqProperty("owm.version", "dwm.version"));
+
+        crit.add(Restrictions.eq("originalWorkflowModel.id",
+                getWorkflowModelId()));
+
+        return (DeployedWorkflowModel) crit.setResultTransformer(
+                CriteriaSpecification.ROOT_ENTITY).uniqueResult();
+    }
+
+    /**
+     * Fetches a deployed workflow model from the database, assuming that
+     * {@link #workflowModelId} is the ID of a deployed workflow model.
+     * 
+     * @param session
+     *            current Hibernate session.
+     * @return the deployed workflow model
+     * @throws EntityNotFoundException
+     *             if the deployed workflow model does not exist.
+     */
+    public DeployedWorkflowModel fetchDeployedWorkflowModel(Session session)
+            throws EntityNotFoundException {
+        DeployedWorkflowModel result = (DeployedWorkflowModel) session.get(
+                DeployedWorkflowModel.class, workflowModelId);
+
+        if (result == null) {
+            throw new EntityNotFoundException(DeployedWorkflowModel.class,
+                    workflowModelId);
         }
-    }
 
-    /**
-     * @return the workflowModelId
-     */
-    public Long getWorkflowModelId() {
-        return workflowModelId;
-    }
-
-    /**
-     * @return the workflowModelIds
-     */
-    public Long[] getWorkflowModelIds() {
-        Long[] result = { workflowModelId };
         return result;
     }
 
@@ -90,48 +123,30 @@ public abstract class WorkflowModelCommand extends AclEnabledCommand implements
     }
 
     /**
-     * Fetches a deployed workflow model from the database, assuming that
-     * {@link #workflowModelId} is the ID of a deployed workflow model.
-     * 
-     * @param session
-     *            current Hibernate session.
-     * @return the deployed workflow model
-     * @throws EntityNotFoundException
-     *             if the deployed workflow model does not exist.
+     * @return the workflowModelId
      */
-    public DeployedWorkflowModel fetchDeployedWorkflowModel(Session session)
-            throws EntityNotFoundException {
-        DeployedWorkflowModel result = (DeployedWorkflowModel) session.get(
-                DeployedWorkflowModel.class, workflowModelId);
+    public Long getWorkflowModelId() {
+        return workflowModelId;
+    }
 
-        if (result == null) {
-            throw new EntityNotFoundException(DeployedWorkflowModel.class,
-                    workflowModelId);
-        }
-
+    /**
+     * @return the workflowModelIds
+     */
+    public Long[] getWorkflowModelIds() {
+        Long[] result = { workflowModelId };
         return result;
     }
 
     /**
-     * Fetches the current deployed version of the workflow model.
+     * Throws an {@link IllegalArgumentException} if the current workflow model
+     * ID is <code>null</code>
      * 
-     * @param session
-     *            current Hibernate Session
-     * @return the current deployed version of the workflow model or null if
-     *         there is no current deplyoed version.
+     * @throws IllegalArgumentException
      */
-    public DeployedWorkflowModel fetchCurrentDeployedWorkflowModel(
-            Session session) {
-        Criteria crit = session.createCriteria(DeployedWorkflowModel.class,
-                "dwm");
-
-        crit.createCriteria("originalWorkflowModel", "owm").add(
-                Restrictions.eqProperty("owm.version", "dwm.version"));
-
-        crit.add(Restrictions.eq("originalWorkflowModel.id",
-                getWorkflowModelId()));
-
-        return (DeployedWorkflowModel) crit.setResultTransformer(
-                CriteriaSpecification.ROOT_ENTITY).uniqueResult();
+    protected void requireWorkflowModelId() {
+        if (workflowModelId == null) {
+            throw new IllegalArgumentException(
+                    "Workflow model ID must not be null.");
+        }
     }
 }

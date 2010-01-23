@@ -71,11 +71,18 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
             String requestAuthKey) {
         super(actor, userId);
         requireUserId();
-        if (requestAuthKey == null || requestAuthKey.isEmpty()) {
+        if ((requestAuthKey == null) || requestAuthKey.isEmpty()) {
             throw new IllegalArgumentException(
                     "Authentication key must not be null or empty.");
         }
         this.requestAuthKey = requestAuthKey;
+    }
+
+    /**
+     * @return whether the change email request has expired
+     */
+    public boolean isRequestExpired() {
+        return requestExpired;
     }
 
     @Override
@@ -107,12 +114,5 @@ public class ConfirmChangeEmailRequestCommand extends UserCommand {
             requestExpired = true;
             evt.getSession().delete(request);
         }
-    }
-
-    /**
-     * @return whether the change email request has expired
-     */
-    public boolean isRequestExpired() {
-        return requestExpired;
     }
 }

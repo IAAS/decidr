@@ -78,6 +78,13 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
         this.paginator = paginator;
     }
 
+    /**
+     * @return List of workflow models which are administrated by the given user
+     */
+    public List<WorkflowModel> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -160,12 +167,5 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
         criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 
         result = criteria.list();
-    }
-
-    /**
-     * @return List of workflow models which are administrated by the given user
-     */
-    public List<WorkflowModel> getResult() {
-        return result;
     }
 }

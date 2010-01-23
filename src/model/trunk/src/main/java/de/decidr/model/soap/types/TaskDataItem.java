@@ -62,31 +62,30 @@ public class TaskDataItem {
     protected String type;
 
     /**
-     * Gets the value of the value property.
-     * 
-     * @return possible object is {@link Object }
-     */
-    public Object getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the value of the value property.
-     * 
-     * @param value
-     *            allowed object is {@link Object }
-     */
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    /**
      * Gets the value of the name property.
      * 
      * @return possible object is {@link String }
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the value of the type property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Gets the value of the value property.
+     * 
+     * @return possible object is {@link Object }
+     */
+    public Object getValue() {
+        return value;
     }
 
     /**
@@ -100,15 +99,6 @@ public class TaskDataItem {
     }
 
     /**
-     * Gets the value of the type property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
      * Sets the value of the type property.
      * 
      * @param value
@@ -116,5 +106,15 @@ public class TaskDataItem {
      */
     public void setType(String value) {
         this.type = value;
+    }
+
+    /**
+     * Sets the value of the value property.
+     * 
+     * @param value
+     *            allowed object is {@link Object }
+     */
+    public void setValue(Object value) {
+        this.value = value;
     }
 }

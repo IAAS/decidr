@@ -61,6 +61,14 @@ public class GetAllUsersCommand extends UserCommand {
         this.paginator = paginator;
     }
 
+    /**
+     * @return List of all users of the system expect of them which has been
+     *         rejected
+     */
+    public List<User> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -74,13 +82,5 @@ public class GetAllUsersCommand extends UserCommand {
         Filters.apply(c, filters, paginator);
 
         result = c.list();
-    }
-
-    /**
-     * @return List of all users of the system expect of them which has been
-     *         rejected
-     */
-    public List<User> getResult() {
-        return result;
     }
 }

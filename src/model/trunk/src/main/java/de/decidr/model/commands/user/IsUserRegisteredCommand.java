@@ -55,22 +55,22 @@ public class IsUserRegisteredCommand extends UserCommand {
         requireUserId();
     }
 
-    @Override
-    public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException {
-        // set to false in case fetchUser throws an exception.
-        result = false;
-        User user = fetchUser(evt.getSession());
-        result = user.getRegisteredSince() != null
-                && user.getRegistrationRequest() == null
-                && user.getDisabledSince() == null;
-    }
-
     /**
      * @return <code>true</code> if the given user is registered,
      *         <code>false</code> otherwise.
      */
     public boolean getResult() {
         return result;
+    }
+
+    @Override
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+        // set to false in case fetchUser throws an exception.
+        result = false;
+        User user = fetchUser(evt.getSession());
+        result = (user.getRegisteredSince() != null)
+                && (user.getRegistrationRequest() == null)
+                && (user.getDisabledSince() == null);
     }
 }

@@ -27,7 +27,7 @@ public class RoleHasPermissionId implements java.io.Serializable {
 
     /** The role id. */
     private long roleId;
-    
+
     /** The permission id. */
     private long permissionId;
 
@@ -52,23 +52,26 @@ public class RoleHasPermissionId implements java.io.Serializable {
         this.permissionId = permissionId;
     }
 
-    /**
-     * Gets the role id.
+    /*
+     * (non-Javadoc)
      * 
-     * @return the role id
+     * @see java.lang.Object#equals(java.lang.Object)
      */
-    public long getRoleId() {
-        return this.roleId;
-    }
+    @Override
+    public boolean equals(Object other) {
+        if ((this == other)) {
+            return true;
+        }
+        if ((other == null)) {
+            return false;
+        }
+        if (!(other instanceof RoleHasPermissionId)) {
+            return false;
+        }
+        RoleHasPermissionId castOther = (RoleHasPermissionId) other;
 
-    /**
-     * Sets the role id.
-     * 
-     * @param roleId
-     *            the new role id
-     */
-    public void setRoleId(long roleId) {
-        this.roleId = roleId;
+        return (this.getRoleId() == castOther.getRoleId())
+                && (this.getPermissionId() == castOther.getPermissionId());
     }
 
     /**
@@ -81,33 +84,17 @@ public class RoleHasPermissionId implements java.io.Serializable {
     }
 
     /**
-     * Sets the permission id.
+     * Gets the role id.
      * 
-     * @param permissionId
-     *            the new permission id
+     * @return the role id
      */
-    public void setPermissionId(long permissionId) {
-        this.permissionId = permissionId;
+    public long getRoleId() {
+        return this.roleId;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof RoleHasPermissionId))
-            return false;
-        RoleHasPermissionId castOther = (RoleHasPermissionId) other;
-
-        return (this.getRoleId() == castOther.getRoleId())
-                && (this.getPermissionId() == castOther.getPermissionId());
-    }
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -117,6 +104,26 @@ public class RoleHasPermissionId implements java.io.Serializable {
         result = 37 * result + (int) this.getRoleId();
         result = 37 * result + (int) this.getPermissionId();
         return result;
+    }
+
+    /**
+     * Sets the permission id.
+     * 
+     * @param permissionId
+     *            the new permission id
+     */
+    public void setPermissionId(long permissionId) {
+        this.permissionId = permissionId;
+    }
+
+    /**
+     * Sets the role id.
+     * 
+     * @param roleId
+     *            the new role id
+     */
+    public void setRoleId(long roleId) {
+        this.roleId = roleId;
     }
 
 }

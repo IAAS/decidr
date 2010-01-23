@@ -30,6 +30,17 @@ import de.decidr.model.testing.DecidrAclTest;
 public class SuperAdminRoleTest extends DecidrAclTest {
 
     /**
+     * Test method for {@link SuperAdminRole#SuperAdminRole()}.
+     */
+    @Test
+    public void testSuperAdminRole() {
+        SuperAdminRole role = new SuperAdminRole();
+
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
+    }
+
+    /**
      * Test method for {@link SuperAdminRole#SuperAdminRole(Long)}.
      */
     @Test
@@ -44,16 +55,5 @@ public class SuperAdminRoleTest extends DecidrAclTest {
 
         role = new SuperAdminRole(-1l);
         assertTrue(role.getActorId() == -1l);
-    }
-
-    /**
-     * Test method for {@link SuperAdminRole#SuperAdminRole()}.
-     */
-    @Test
-    public void testSuperAdminRole() {
-        SuperAdminRole role = new SuperAdminRole();
-
-        assertNotNull(role);
-        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
     }
 }

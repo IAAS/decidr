@@ -68,6 +68,24 @@ public class Parameter {
     }
 
     /**
+     * Gets the value of the type property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Gets the value of the variable property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getVariable() {
+        return variable;
+    }
+
+    /**
      * Sets the value of the name property.
      * 
      * @param value
@@ -78,15 +96,6 @@ public class Parameter {
     }
 
     /**
-     * Gets the value of the type property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
      * Sets the value of the type property.
      * 
      * @param value
@@ -94,15 +103,6 @@ public class Parameter {
      */
     public void setType(String value) {
         this.type = value;
-    }
-
-    /**
-     * Gets the value of the variable property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getVariable() {
-        return variable;
     }
 
     /**

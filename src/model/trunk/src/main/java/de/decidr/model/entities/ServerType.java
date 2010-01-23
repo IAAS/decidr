@@ -30,10 +30,10 @@ public class ServerType implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The name. */
     private String name;
-    
+
     /** The servers. */
     private Set<Server> servers = new HashSet<Server>(0);
 
@@ -79,6 +79,24 @@ public class ServerType implements java.io.Serializable {
     }
 
     /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Gets the servers.
+     * 
+     * @return the servers
+     */
+    public Set<Server> getServers() {
+        return this.servers;
+    }
+
+    /**
      * Sets the id.
      * 
      * @param id
@@ -89,15 +107,6 @@ public class ServerType implements java.io.Serializable {
     }
 
     /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
      * Sets the name.
      * 
      * @param name
@@ -105,15 +114,6 @@ public class ServerType implements java.io.Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Gets the servers.
-     * 
-     * @return the servers
-     */
-    public Set<Server> getServers() {
-        return this.servers;
     }
 
     /**

@@ -54,12 +54,21 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
     public RequestPasswordResetCommand(Role role, String emailOrUsername) {
         super(role, (Permission) null);
 
-        if (emailOrUsername == null || emailOrUsername.isEmpty()) {
+        if ((emailOrUsername == null) || emailOrUsername.isEmpty()) {
             throw new IllegalArgumentException(
                     "Email/username must not be null or empty.");
         }
 
         this.emailOrUsername = emailOrUsername;
+    }
+
+    /**
+     * @return <code>true</code> if the password request has been created and a
+     *         notification email has been sent. <code>false</code> if the user
+     *         with the given email address or username or doesn't exist.
+     */
+    public Boolean getRequestWasCreated() {
+        return requestWasCreated;
     }
 
     @Override
@@ -94,15 +103,6 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
             NotificationEvents.createdPasswordResetRequest(request);
             requestWasCreated = true;
         }
-    }
-
-    /**
-     * @return <code>true</code> if the password request has been created and a
-     *         notification email has been sent. <code>false</code> if the user
-     *         with the given email address or username or doesn't exist.
-     */
-    public Boolean getRequestWasCreated() {
-        return requestWasCreated;
     }
 
 }

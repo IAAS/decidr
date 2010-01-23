@@ -40,19 +40,6 @@ import de.decidr.model.transactions.TransactionEvent;
  */
 public interface TransactionalCommand {
     /**
-     * Called right after the transaction has been started by the transaction
-     * coordinator, this is where the command may manipulate the database. To do
-     * so, the event object provides the current Hibernate Session object. If
-     * this method throws an exception, the transaction is rolled back.
-     * 
-     * @param evt
-     *            started event data
-     * 
-     */
-    public void transactionStarted(TransactionEvent evt)
-            throws TransactionException;
-
-    /**
      * Called after the transaction has been rolled back, the command may use
      * this method to react to a rollback (e.g. by logging the exception that
      * occurred).
@@ -74,5 +61,18 @@ public interface TransactionalCommand {
      * 
      */
     public void transactionCommitted(TransactionEvent evt)
+            throws TransactionException;
+
+    /**
+     * Called right after the transaction has been started by the transaction
+     * coordinator, this is where the command may manipulate the database. To do
+     * so, the event object provides the current Hibernate Session object. If
+     * this method throws an exception, the transaction is rolled back.
+     * 
+     * @param evt
+     *            started event data
+     * 
+     */
+    public void transactionStarted(TransactionEvent evt)
             throws TransactionException;
 }

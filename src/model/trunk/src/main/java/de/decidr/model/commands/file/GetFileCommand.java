@@ -50,16 +50,16 @@ public class GetFileCommand extends FileCommand {
         this.additionalPermissions.add(new FileReadPermission(fileId));
     }
 
-    @Override
-    public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException {
-        file = fetchFile(evt.getSession());
-    }
-
     /**
      * @return the file
      */
     public File getFile() {
         return file;
+    }
+
+    @Override
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+        file = fetchFile(evt.getSession());
     }
 }

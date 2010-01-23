@@ -27,31 +27,31 @@ public class UserProfile implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The user. */
     private User user;
-    
+
     /** The username. */
     private String username;
-    
+
     /** The password hash. */
     private String passwordHash;
-    
+
     /** The password salt. */
     private String passwordSalt;
-    
+
     /** The first name. */
     private String firstName;
-    
+
     /** The last name. */
     private String lastName;
-    
+
     /** The street. */
     private String street;
-    
+
     /** The postal code. */
     private String postalCode;
-    
+
     /** The city. */
     private String city;
 
@@ -121,6 +121,24 @@ public class UserProfile implements java.io.Serializable {
     }
 
     /**
+     * Gets the city.
+     * 
+     * @return the city
+     */
+    public String getCity() {
+        return this.city;
+    }
+
+    /**
+     * Gets the first name.
+     * 
+     * @return the first name
+     */
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
@@ -130,51 +148,12 @@ public class UserProfile implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the last name.
      * 
-     * @param id
-     *            the new id
+     * @return the last name
      */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the user.
-     * 
-     * @return the user
-     */
-    public User getUser() {
-        return this.user;
-    }
-
-    /**
-     * Sets the user.
-     * 
-     * @param user
-     *            the new user
-     */
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    /**
-     * Gets the username.
-     * 
-     * @return the username
-     */
-    public String getUsername() {
-        return this.username;
-    }
-
-    /**
-     * Sets the username.
-     * 
-     * @param username
-     *            the new username
-     */
-    public void setUsername(String username) {
-        this.username = username;
+    public String getLastName() {
+        return this.lastName;
     }
 
     /**
@@ -187,16 +166,6 @@ public class UserProfile implements java.io.Serializable {
     }
 
     /**
-     * Sets the password hash.
-     * 
-     * @param passwordHash
-     *            the new password hash
-     */
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    /**
      * Gets the password salt.
      * 
      * @return the password salt
@@ -206,22 +175,49 @@ public class UserProfile implements java.io.Serializable {
     }
 
     /**
-     * Sets the password salt.
+     * Gets the postal code.
      * 
-     * @param passwordSalt
-     *            the new password salt
+     * @return the postal code
      */
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
+    public String getPostalCode() {
+        return this.postalCode;
     }
 
     /**
-     * Gets the first name.
+     * Gets the street.
      * 
-     * @return the first name
+     * @return the street
      */
-    public String getFirstName() {
-        return this.firstName;
+    public String getStreet() {
+        return this.street;
+    }
+
+    /**
+     * Gets the user.
+     * 
+     * @return the user
+     */
+    public User getUser() {
+        return this.user;
+    }
+
+    /**
+     * Gets the username.
+     * 
+     * @return the username
+     */
+    public String getUsername() {
+        return this.username;
+    }
+
+    /**
+     * Sets the city.
+     * 
+     * @param city
+     *            the new city
+     */
+    public void setCity(String city) {
+        this.city = city;
     }
 
     /**
@@ -235,12 +231,13 @@ public class UserProfile implements java.io.Serializable {
     }
 
     /**
-     * Gets the last name.
+     * Sets the id.
      * 
-     * @return the last name
+     * @param id
+     *            the new id
      */
-    public String getLastName() {
-        return this.lastName;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
@@ -254,31 +251,23 @@ public class UserProfile implements java.io.Serializable {
     }
 
     /**
-     * Gets the street.
+     * Sets the password hash.
      * 
-     * @return the street
+     * @param passwordHash
+     *            the new password hash
      */
-    public String getStreet() {
-        return this.street;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     /**
-     * Sets the street.
+     * Sets the password salt.
      * 
-     * @param street
-     *            the new street
+     * @param passwordSalt
+     *            the new password salt
      */
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    /**
-     * Gets the postal code.
-     * 
-     * @return the postal code
-     */
-    public String getPostalCode() {
-        return this.postalCode;
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 
     /**
@@ -292,22 +281,33 @@ public class UserProfile implements java.io.Serializable {
     }
 
     /**
-     * Gets the city.
+     * Sets the street.
      * 
-     * @return the city
+     * @param street
+     *            the new street
      */
-    public String getCity() {
-        return this.city;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     /**
-     * Sets the city.
+     * Sets the user.
      * 
-     * @param city
-     *            the new city
+     * @param user
+     *            the new user
      */
-    public void setCity(String city) {
-        this.city = city;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    /**
+     * Sets the username.
+     * 
+     * @param username
+     *            the new username
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

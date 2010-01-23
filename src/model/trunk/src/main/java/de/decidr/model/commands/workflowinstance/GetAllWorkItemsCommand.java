@@ -52,15 +52,15 @@ public class GetAllWorkItemsCommand extends WorkflowInstanceCommand {
         requireWorkflowInstance();
     }
 
+    public Set<WorkItem> getResult() {
+        return result;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws EntityNotFoundException {
 
         WorkflowInstance instance = fetchWorkflowInstance(evt.getSession());
         result = instance.getWorkItems();
-    }
-
-    public Set<WorkItem> getResult() {
-        return result;
     }
 }

@@ -31,28 +31,28 @@ public class WorkItem implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The workflow instance. */
     private WorkflowInstance workflowInstance;
-    
+
     /** The user. */
     private User user;
-    
+
     /** The creation date. */
     private Date creationDate;
-    
+
     /** The status. */
     private String status;
-    
+
     /** The data. */
     private byte[] data;
-    
+
     /** The name. */
     private String name;
-    
+
     /** The description. */
     private String description;
-    
+
     /** The work item contains files. */
     private Set<WorkItemContainsFile> workItemContainsFiles = new HashSet<WorkItemContainsFile>(
             0);
@@ -130,6 +130,33 @@ public class WorkItem implements java.io.Serializable {
     }
 
     /**
+     * Gets the creation date.
+     * 
+     * @return the creation date
+     */
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+    /**
+     * Gets the data.
+     * 
+     * @return the data
+     */
+    public byte[] getData() {
+        return this.data;
+    }
+
+    /**
+     * Gets the description.
+     * 
+     * @return the description
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
@@ -139,32 +166,21 @@ public class WorkItem implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the name.
      * 
-     * @param id
-     *            the new id
+     * @return the name
      */
-    public void setId(Long id) {
-        this.id = id;
+    public String getName() {
+        return this.name;
     }
 
     /**
-     * Gets the workflow instance.
+     * Gets the status.
      * 
-     * @return the workflow instance
+     * @return the status
      */
-    public WorkflowInstance getWorkflowInstance() {
-        return this.workflowInstance;
-    }
-
-    /**
-     * Sets the workflow instance.
-     * 
-     * @param workflowInstance
-     *            the new workflow instance
-     */
-    public void setWorkflowInstance(WorkflowInstance workflowInstance) {
-        this.workflowInstance = workflowInstance;
+    public String getStatus() {
+        return this.status;
     }
 
     /**
@@ -177,22 +193,21 @@ public class WorkItem implements java.io.Serializable {
     }
 
     /**
-     * Sets the user.
+     * Gets the workflow instance.
      * 
-     * @param user
-     *            the new user
+     * @return the workflow instance
      */
-    public void setUser(User user) {
-        this.user = user;
+    public WorkflowInstance getWorkflowInstance() {
+        return this.workflowInstance;
     }
 
     /**
-     * Gets the creation date.
+     * Gets the work item contains files.
      * 
-     * @return the creation date
+     * @return the work item contains files
      */
-    public Date getCreationDate() {
-        return this.creationDate;
+    public Set<WorkItemContainsFile> getWorkItemContainsFiles() {
+        return this.workItemContainsFiles;
     }
 
     /**
@@ -206,34 +221,6 @@ public class WorkItem implements java.io.Serializable {
     }
 
     /**
-     * Gets the status.
-     * 
-     * @return the status
-     */
-    public String getStatus() {
-        return this.status;
-    }
-
-    /**
-     * Sets the status.
-     * 
-     * @param status
-     *            the new status
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    /**
-     * Gets the data.
-     * 
-     * @return the data
-     */
-    public byte[] getData() {
-        return this.data;
-    }
-
-    /**
      * Sets the data.
      * 
      * @param data
@@ -241,34 +228,6 @@ public class WorkItem implements java.io.Serializable {
      */
     public void setData(byte[] data) {
         this.data = data;
-    }
-
-    /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Sets the name.
-     * 
-     * @param name
-     *            the new name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Gets the description.
-     * 
-     * @return the description
-     */
-    public String getDescription() {
-        return this.description;
     }
 
     /**
@@ -282,12 +241,53 @@ public class WorkItem implements java.io.Serializable {
     }
 
     /**
-     * Gets the work item contains files.
+     * Sets the id.
      * 
-     * @return the work item contains files
+     * @param id
+     *            the new id
      */
-    public Set<WorkItemContainsFile> getWorkItemContainsFiles() {
-        return this.workItemContainsFiles;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the name.
+     * 
+     * @param name
+     *            the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the status.
+     * 
+     * @param status
+     *            the new status
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * Sets the user.
+     * 
+     * @param user
+     *            the new user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    /**
+     * Sets the workflow instance.
+     * 
+     * @param workflowInstance
+     *            the new workflow instance
+     */
+    public void setWorkflowInstance(WorkflowInstance workflowInstance) {
+        this.workflowInstance = workflowInstance;
     }
 
     /**

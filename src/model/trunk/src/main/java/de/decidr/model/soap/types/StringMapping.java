@@ -62,6 +62,15 @@ public class StringMapping {
     }
 
     /**
+     * Gets the value of the value property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
      * Sets the value of the name property.
      * 
      * @param value
@@ -69,15 +78,6 @@ public class StringMapping {
      */
     public void setName(String value) {
         this.name = value;
-    }
-
-    /**
-     * Gets the value of the value property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getValue() {
-        return value;
     }
 
     /**

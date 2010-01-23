@@ -15,8 +15,7 @@
  */
 package de.decidr.model.acl;
 
-import static de.decidr.model.acl.asserters.AssertMode.SatisfyAll;
-import static de.decidr.model.acl.asserters.AssertMode.SatisfyAny;
+import static de.decidr.model.acl.asserters.AssertMode.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -231,7 +230,59 @@ import de.decidr.model.logging.DefaultLogger;
  */
 public class DefaultAccessControlList implements AccessControlList {
 
-    Logger logger = DefaultLogger.getLogger(DefaultAccessControlList.class);
+    /**
+     * The compound value of the ruleset which maps one role and one permission
+     * to a set of asserters and an assert mode.
+     * 
+     * @author Markus Fischer
+     * @author Daniel Huss
+     * 
+     * @version 0.1
+     */
+    class RuleConditions {
+        Set<Asserter> asserters;
+        AssertMode assertMode;
+
+        /**
+         * Constructor of the compound value.
+         * 
+         * @param asserters
+         * @param assertMode
+         */
+        public RuleConditions(Asserter[] asserters, AssertMode assertMode) {
+            super();
+            this.assertMode = assertMode;
+            this.asserters = asserters == null ? null : new HashSet<Asserter>(
+                    Arrays.asList(asserters));
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+
+            Boolean equal = false;
+
+            if (obj instanceof RuleConditions) {
+                RuleConditions value = (RuleConditions) obj;
+
+                Boolean assertEqual = asserters == null ? value.asserters == null
+                        : asserters.equals(value.asserters);
+
+                Boolean modeEqual = assertMode == null ? value.assertMode == null
+                        : assertMode.equals(value.assertMode);
+
+                equal = assertEqual && modeEqual;
+            }
+
+            return equal;
+        }
+
+        @Override
+        public int hashCode() {
+            int assertersHash = asserters == null ? 0 : asserters.hashCode();
+            int modeHash = assertMode == null ? 0 : assertMode.hashCode();
+            return assertersHash ^ modeHash; // bitwise exclusive or
+        }
+    }
 
     /**
      * The compound key of the ruleset which maps one role and one permission to
@@ -309,59 +360,7 @@ public class DefaultAccessControlList implements AccessControlList {
         }
     }
 
-    /**
-     * The compound value of the ruleset which maps one role and one permission
-     * to a set of asserters and an assert mode.
-     * 
-     * @author Markus Fischer
-     * @author Daniel Huss
-     * 
-     * @version 0.1
-     */
-    class RuleConditions {
-        Set<Asserter> asserters;
-        AssertMode assertMode;
-
-        /**
-         * Constructor of the compound value.
-         * 
-         * @param asserters
-         * @param assertMode
-         */
-        public RuleConditions(Asserter[] asserters, AssertMode assertMode) {
-            super();
-            this.assertMode = assertMode;
-            this.asserters = asserters == null ? null : new HashSet<Asserter>(
-                    Arrays.asList(asserters));
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-
-            Boolean equal = false;
-
-            if (obj instanceof RuleConditions) {
-                RuleConditions value = (RuleConditions) obj;
-
-                Boolean assertEqual = asserters == null ? value.asserters == null
-                        : asserters.equals(value.asserters);
-
-                Boolean modeEqual = assertMode == null ? value.assertMode == null
-                        : assertMode.equals(value.assertMode);
-
-                equal = assertEqual && modeEqual;
-            }
-
-            return equal;
-        }
-
-        @Override
-        public int hashCode() {
-            int assertersHash = asserters == null ? 0 : asserters.hashCode();
-            int modeHash = assertMode == null ? 0 : assertMode.hashCode();
-            return assertersHash ^ modeHash; // bitwise exclusive or
-        }
-    }
+    Logger logger = DefaultLogger.getLogger(DefaultAccessControlList.class);
 
     /**
      * A long-lived reusable instance of the stateless asserter that always
@@ -375,11 +374,6 @@ public class DefaultAccessControlList implements AccessControlList {
     private static DefaultAccessControlList instance = new DefaultAccessControlList();
 
     /**
-     * Map containing all rules.
-     */
-    protected Map<RuleKey, RuleConditions> ruleMap;
-
-    /**
      * Singleton getter.
      * 
      * @return the ACL
@@ -389,12 +383,138 @@ public class DefaultAccessControlList implements AccessControlList {
     }
 
     /**
+     * Map containing all rules.
+     */
+    protected Map<RuleKey, RuleConditions> ruleMap;
+
+    /**
      * Constructor, also initializes the ACL.
      */
     private DefaultAccessControlList() {
         super();
         this.ruleMap = new HashMap<RuleKey, RuleConditions>();
         this.init();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void allow(Role role, Permission permission) {
+        setRule(role, permission, AssertMode.SatisfyAll,
+                DefaultAccessControlList.alwaysTrueAsserter);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void clearRules() {
+        ruleMap.clear();
+    }
+
+    /**
+     * Finds an entry in the rule map that applies to the given {@link RuleKey}
+     * by looking for implying roles / permissions if necessary. If no entry if
+     * found, this method returns null.
+     * <p>
+     * <strong>Example: </strong>
+     * <p>
+     * The rule map contains a single rule whose rule key shall be callled
+     * "key1":<br>
+     * <code>RuleKey(SuperadminRole.class, new
+     * Permission("WorkflowModel.*")) -> RuleConditions({alwaysTrueAsserter},
+     * satisfyAll)</code>.
+     * <p>
+     * <ul>
+     * <li>findRule(new RuleKey(SuperadminRole.class, new
+     * Permission("WorkflowModel.1003")) returns key1.</li>
+     * <li>findRule(new RuleKey(UserRole.class, new Permission("WorkflowModel.*)
+     * returns null.</li>
+     * <li>findRule(new RuleKey(SuperadminRole.class, new
+     * Permission("WorkflowModel.*")) returns key1.
+     * <li>findRule(new RuleKey(SuperadminRole.class, new
+     * Permission("WorkflowModel.1003.someProperty") returns key1.</li>
+     * </ul>
+     * 
+     * @param key
+     *            rule key to search for.
+     * @return the rule key that implies
+     */
+    protected RuleKey findRule(RuleKey key) {
+        if (key == null) {
+            throw new IllegalArgumentException("Rule key must not be null.");
+        }
+
+        if (ruleMap.containsKey(key)) {
+            // since the rule map contains given key, we don't have to traverse
+            // the hierarchy at all.
+            return key;
+        }
+
+        // traverse the hierarchy from bottom to top.
+        ArrayList<Permission> permissionHierarchy = new ArrayList<Permission>();
+        ArrayList<Class<?>> roleHierarchy = new ArrayList<Class<?>>();
+
+        // build permission hierarchy
+        Permission permission;
+        Permission nextPermission = key.permission;
+        do {
+            permission = nextPermission;
+            permissionHierarchy.add(permission);
+            nextPermission = permission.getNextImplyingPermission();
+        } while (nextPermission != permission);
+
+        // build role hierarchy
+        Class<?> roleClass;
+        Class<?> nextRoleClass = key.role.getClass();
+        do {
+            roleClass = nextRoleClass;
+            roleHierarchy.add(roleClass);
+            nextRoleClass = roleClass.getSuperclass();
+        } while ((nextRoleClass != null)
+                && Role.class.isAssignableFrom(nextRoleClass)
+                && !nextRoleClass.getName().equals(roleClass.getName()));
+
+        RuleKey result = null;
+        RuleKey currentKey;
+        for (Class<?> currentRoleClass : roleHierarchy) {
+            for (Permission currentPermission : permissionHierarchy) {
+                try {
+                    currentKey = new RuleKey((Role) currentRoleClass
+                            .newInstance(), currentPermission);
+                    if (ruleMap.containsKey(currentKey)) {
+                        result = currentKey;
+                        // we do not break the for loops because there might be
+                        // an implying key even higher up the permission
+                        // hierarchy.
+                    }
+                } catch (InstantiationException e) {
+                    // If the role is abstract or private we cannot instanciate
+                    // it, but we also cannot define rules for abstract roles
+                    // so this is ok.
+                } catch (IllegalAccessException e) {
+                    // see above
+                }
+            }
+            /*
+             * The role hierarchy is only traversed if no rule exists for the
+             * current role and any permission.
+             */
+            if (result != null) {
+                break;
+            }
+        }
+
+        if (result == null) {
+            logger.debug("No rule found for " + key.role.getClass().getName()
+                    + ", " + key.permission.getName());
+        }
+
+        return result;
+    }
+
+    @Override
+    public Boolean hasRule(Role role, Permission permission) {
+        return findRule(new RuleKey(role, permission)) != null;
     }
 
     /**
@@ -809,41 +929,6 @@ public class DefaultAccessControlList implements AccessControlList {
     /**
      * {@inheritDoc}
      */
-    public void clearRules() {
-        ruleMap.clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Boolean setRule(Role role, Permission permission, AssertMode mode,
-            Asserter... asserters) {
-
-        ruleMap.put(new RuleKey(role, permission), new RuleConditions(
-                asserters, mode));
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Boolean setRule(Role role, Permission permission, AssertMode mode,
-            Asserter asserter) {
-        Asserter[] asserters = { asserter };
-        return setRule(role, permission, mode, asserters);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void allow(Role role, Permission permission) {
-        setRule(role, permission, AssertMode.SatisfyAll,
-                DefaultAccessControlList.alwaysTrueAsserter);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public Boolean isAllowed(Role role, Permission permission)
             throws TransactionException {
         Boolean allowed = true;
@@ -901,109 +986,23 @@ public class DefaultAccessControlList implements AccessControlList {
     }
 
     /**
-     * Finds an entry in the rule map that applies to the given {@link RuleKey}
-     * by looking for implying roles / permissions if necessary. If no entry if
-     * found, this method returns null.
-     * <p>
-     * <strong>Example: </strong>
-     * <p>
-     * The rule map contains a single rule whose rule key shall be callled
-     * "key1":<br>
-     * <code>RuleKey(SuperadminRole.class, new
-     * Permission("WorkflowModel.*")) -> RuleConditions({alwaysTrueAsserter},
-     * satisfyAll)</code>.
-     * <p>
-     * <ul>
-     * <li>findRule(new RuleKey(SuperadminRole.class, new
-     * Permission("WorkflowModel.1003")) returns key1.</li>
-     * <li>findRule(new RuleKey(UserRole.class, new Permission("WorkflowModel.*)
-     * returns null.</li>
-     * <li>findRule(new RuleKey(SuperadminRole.class, new
-     * Permission("WorkflowModel.*")) returns key1.
-     * <li>findRule(new RuleKey(SuperadminRole.class, new
-     * Permission("WorkflowModel.1003.someProperty") returns key1.</li>
-     * </ul>
-     * 
-     * @param key
-     *            rule key to search for.
-     * @return the rule key that implies
+     * {@inheritDoc}
      */
-    protected RuleKey findRule(RuleKey key) {
-        if (key == null) {
-            throw new IllegalArgumentException("Rule key must not be null.");
-        }
+    public Boolean setRule(Role role, Permission permission, AssertMode mode,
+            Asserter... asserters) {
 
-        if (ruleMap.containsKey(key)) {
-            // since the rule map contains given key, we don't have to traverse
-            // the hierarchy at all.
-            return key;
-        }
-
-        // traverse the hierarchy from bottom to top.
-        ArrayList<Permission> permissionHierarchy = new ArrayList<Permission>();
-        ArrayList<Class<?>> roleHierarchy = new ArrayList<Class<?>>();
-
-        // build permission hierarchy
-        Permission permission;
-        Permission nextPermission = key.permission;
-        do {
-            permission = nextPermission;
-            permissionHierarchy.add(permission);
-            nextPermission = permission.getNextImplyingPermission();
-        } while (nextPermission != permission);
-
-        // build role hierarchy
-        Class<?> roleClass;
-        Class<?> nextRoleClass = key.role.getClass();
-        do {
-            roleClass = nextRoleClass;
-            roleHierarchy.add(roleClass);
-            nextRoleClass = roleClass.getSuperclass();
-        } while (nextRoleClass != null
-                && Role.class.isAssignableFrom(nextRoleClass)
-                && !nextRoleClass.getName().equals(roleClass.getName()));
-
-        RuleKey result = null;
-        RuleKey currentKey;
-        for (Class<?> currentRoleClass : roleHierarchy) {
-            for (Permission currentPermission : permissionHierarchy) {
-                try {
-                    currentKey = new RuleKey((Role) currentRoleClass
-                            .newInstance(), currentPermission);
-                    if (ruleMap.containsKey(currentKey)) {
-                        result = currentKey;
-                        // we do not break the for loops because there might be
-                        // an implying key even higher up the permission
-                        // hierarchy.
-                    }
-                } catch (InstantiationException e) {
-                    // If the role is abstract or private we cannot instanciate
-                    // it, but we also cannot define rules for abstract roles
-                    // so this is ok.
-                } catch (IllegalAccessException e) {
-                    // see above
-                }
-            }
-            /*
-             * The role hierarchy is only traversed if no rule exists for the
-             * current role and any permission.
-             */
-            if (result != null) {
-                break;
-            }
-        }
-
-        if (result == null) {
-            logger.debug("No rule found for " + key.role.getClass().getName()
-                    + ", " + key.permission.getName());
-        }
-
-        return result;
+        ruleMap.put(new RuleKey(role, permission), new RuleConditions(
+                asserters, mode));
+        return true;
     }
 
-    @Override
-    public Boolean hasRule(Role role, Permission permission) {
-        return findRule(new RuleKey(role, permission)) != null;
+    /**
+     * {@inheritDoc}
+     */
+    public Boolean setRule(Role role, Permission permission, AssertMode mode,
+            Asserter asserter) {
+        Asserter[] asserters = { asserter };
+        return setRule(role, permission, mode, asserters);
     }
 
 }

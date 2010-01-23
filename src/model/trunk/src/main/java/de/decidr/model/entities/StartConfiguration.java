@@ -27,10 +27,10 @@ public class StartConfiguration implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The deployed workflow model. */
     private DeployedWorkflowModel deployedWorkflowModel;
-    
+
     /** The start configuration. */
     private byte[] startConfiguration;
 
@@ -57,6 +57,15 @@ public class StartConfiguration implements java.io.Serializable {
     }
 
     /**
+     * Gets the deployed workflow model.
+     * 
+     * @return the deployed workflow model
+     */
+    public DeployedWorkflowModel getDeployedWorkflowModel() {
+        return this.deployedWorkflowModel;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
@@ -66,22 +75,12 @@ public class StartConfiguration implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the start configuration.
      * 
-     * @param id
-     *            the new id
+     * @return the start configuration
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the deployed workflow model.
-     * 
-     * @return the deployed workflow model
-     */
-    public DeployedWorkflowModel getDeployedWorkflowModel() {
-        return this.deployedWorkflowModel;
+    public byte[] getStartConfiguration() {
+        return this.startConfiguration;
     }
 
     /**
@@ -96,12 +95,13 @@ public class StartConfiguration implements java.io.Serializable {
     }
 
     /**
-     * Gets the start configuration.
+     * Sets the id.
      * 
-     * @return the start configuration
+     * @param id
+     *            the new id
      */
-    public byte[] getStartConfiguration() {
-        return this.startConfiguration;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**

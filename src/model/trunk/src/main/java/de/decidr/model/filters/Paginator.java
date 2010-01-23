@@ -1,3 +1,18 @@
+/*
+ * The DecidR Development Team licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.decidr.model.filters;
 
 /**
@@ -51,6 +66,34 @@ public class Paginator {
     }
 
     /**
+     * @return the current page.
+     */
+    public Integer getCurrentPage() {
+        return (startIndex / itemsPerPage) + 1;
+    }
+
+    /**
+     * @return the end index
+     */
+    public Integer getEndIndex() {
+        return this.endIndex;
+    }
+
+    /**
+     * @return the number of items per page, at least 1.
+     */
+    public Integer getItemsPerPage() {
+        return this.itemsPerPage;
+    }
+
+    /**
+     * @return the start index
+     */
+    public Integer getStartIndex() {
+        return this.startIndex;
+    }
+
+    /**
      * @return the total number of items.
      */
     public Integer getTotalNumberOfItems() {
@@ -79,10 +122,11 @@ public class Paginator {
     }
 
     /**
-     * @return the current page.
+     * @param endIndex
+     *            the new end index
      */
-    public Integer getCurrentPage() {
-        return (startIndex / itemsPerPage) + 1;
+    public void setEndIndex(Integer endIndex) {
+        this.endIndex = endIndex;
     }
 
     /**
@@ -102,13 +146,6 @@ public class Paginator {
     }
 
     /**
-     * @return the number of items per page, at least 1.
-     */
-    public Integer getItemsPerPage() {
-        return this.itemsPerPage;
-    }
-
-    /**
      * Sets the start index. EndIndex is updated using itemsPerPage.
      * 
      * @param startIndex
@@ -117,27 +154,5 @@ public class Paginator {
     public void setStartIndex(Integer startIndex) {
         this.startIndex = startIndex;
         this.endIndex = this.startIndex + this.itemsPerPage - 1;
-    }
-
-    /**
-     * @return the start index
-     */
-    public Integer getStartIndex() {
-        return this.startIndex;
-    }
-
-    /**
-     * @param endIndex
-     *            the new end index
-     */
-    public void setEndIndex(Integer endIndex) {
-        this.endIndex = endIndex;
-    }
-
-    /**
-     * @return the end index
-     */
-    public Integer getEndIndex() {
-        return this.endIndex;
     }
 }

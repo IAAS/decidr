@@ -30,6 +30,11 @@ public class StartInstanceResultImpl implements PrepareInstanceResult {
     private Date startDate = null;
     private String pid = null;
 
+    @Override
+    public String getODEPid() {
+        return pid;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -54,6 +59,11 @@ public class StartInstanceResultImpl implements PrepareInstanceResult {
         return startDate;
     }
 
+    @Override
+    public void setODEPid(String pid) {
+        this.pid = pid;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -76,15 +86,5 @@ public class StartInstanceResultImpl implements PrepareInstanceResult {
     @Override
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-    }
-
-    @Override
-    public String getODEPid() {
-        return pid;
-    }
-
-    @Override
-    public void setODEPid(String pid) {
-        this.pid = pid;
     }
 }

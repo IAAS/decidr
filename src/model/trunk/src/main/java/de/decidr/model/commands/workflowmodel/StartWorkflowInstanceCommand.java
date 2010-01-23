@@ -143,64 +143,47 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         }
     }
 
-    @Override
-    public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException, WorkflowModelNotStartableException,
-            UserDisabledException, UserUnavailableException,
+    /**
+     * Makes sure that the given user state map contains no unknown usernames,
+     * disabled or unavailable users by throwing the corresponding exception if
+     * one of these is detected.
+     * 
+     * @param map
+     *            user state map to search
+     * @throws UserDisabledException
+     *             if a disabled user is found
+     * @throws UserUnavailableException
+     *             if an unavailable user is found
+     * @throws UsernameNotFoundException
+     *             if an unknown username is detected
+     */
+    private void assertOnlyValidUsers(
+            Map<User, UserWorkflowParticipationState> map)
+            throws UserDisabledException, UserUnavailableException,
             UsernameNotFoundException {
 
-        // make sure the workflow model is actually startable by finding its
-        // corresponding deployed workflow model
-        WorkflowModel model = fetchWorkflowModel(evt.getSession());
-        DeployedWorkflowModel deployedWorkflowModel = fetchCurrentDeployedWorkflowModel(evt
-                .getSession());
+        for (User user : map.keySet()) {
+            UserWorkflowParticipationState state = map.get(user);
+            if (UserWorkflowParticipationState.IsUnknownUser.equals(state)) {
 
-        if ((!model.isExecutable()) || (deployedWorkflowModel == null)) {
-            throw new WorkflowModelNotStartableException(workflowModelId);
-        }
-
-        extractParticipantsFromStartConfiguration();
-        // the lists of usernames and emails are now filled
-
-        processUserWorkflowParticipationState();
-        // usersThatNeedInvitations and usersThatAreAlreadyTenantMembers are now
-        // filled.
-
-        persistUploadedFiles(evt.getSession());
-
-        // create the new workflow instance in the database
-        try {
-            createWorkflowInstance(deployedWorkflowModel, evt.getSession());
-        } catch (JAXBException e) {
-            throw new TransactionException(e);
-        } catch (SOAPException e) {
-            throw new TransactionException(e);
-        } catch (IOException e) {
-            throw new TransactionException(e);
-        }
-
-        // create invitations
-        Set<Invitation> invitations = createInvitations(
-                usersThatNeedInvitations, evt.getSession());
-
-        // associate users with the new workflow instance
-        associateWithNewWorkflowInstance(usersThatAreAlreadyTenantMembers, evt
-                .getSession());
-        if (startImmediately) {
-            // also associate invited users
-            associateWithNewWorkflowInstance(usersThatNeedInvitations, evt
-                    .getSession());
-        }
-
-        // send notification emails
-        for (Invitation invitation : invitations) {
-            if (invitation.getReceiver().getUserProfile() != null) {
-                NotificationEvents.invitedRegisteredUserAsWorkflowParticipant(
-                        invitation, createdWorkflowInstance);
-            } else {
-                NotificationEvents
-                        .invitedUnregisteredUserAsWorkflowParticipant(
-                                invitation, createdWorkflowInstance);
+                if ((user.getUserProfile() != null)
+                        && (user.getUserProfile().getUsername() != null)) {
+                    // the user is unknown but has a username, whoops!
+                    throw new UsernameNotFoundException(user.getUserProfile()
+                            .getUsername());
+                } else if (user.getEmail() == null) {
+                    throw new IllegalArgumentException(
+                            "An unknown user is missing an email address: cannot send invitation.");
+                }
+                if (user.getId() != null) {
+                    // user is known to the system
+                    if (user.getDisabledSince() != null) {
+                        throw new UserDisabledException(user);
+                    }
+                    if (user.getUnavailableSince() != null) {
+                        throw new UserUnavailableException(user);
+                    }
+                }
             }
         }
     }
@@ -226,47 +209,80 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
     }
 
     /**
-     * Fills the lists <code>participantIds</code>,
-     * <code>participantEmails</code> and <code>participantUsernames</code>
-     * using the current start configuration.
+     * Finds all actor entries in the start configuration that can be completed
+     * using the given user object.
+     * <ul>
+     * <li>If a start config entry has a user id, the rest is deduced from the
+     * user object if the two IDs match</li>
+     * <li>If a start config entry has no user id, but the email or username
+     * field matches the one of the user object, the id , email and username
+     * will be deduced from the user obect as well.</li>
+     * </ul>
+     * 
+     * @param user
      */
-    private void extractParticipantsFromStartConfiguration() {
-        participantEmails = new ArrayList<String>();
-        participantUsernames = new ArrayList<String>();
-        participantIds = new ArrayList<Long>();
+    private void completeStartConfigEntry(User user) {
+        for (de.decidr.model.soap.types.Role configRole : startConfiguration
+                .getRoles().getRole()) {
+            for (Actor actor : configRole.getActor()) {
+                Long userId = actor.getUserid();
 
-        TRoles roles = startConfiguration.getRoles();
-        for (de.decidr.model.soap.types.Role role : roles.getRole()) {
-            for (Actor actor : role.getActor()) {
-                Long userId = null;
+                // comparing just using string equality is insufficient for
+                // email addresses.
+                InternetAddress userEmail = new InternetAddress();
+                InternetAddress actorEmail = new InternetAddress();
+
                 try {
-                    userId = actor.getUserid();
-                } catch (NumberFormatException e) {
-                    // the user ID is not set
+                    userEmail.setAddress(user.getEmail());
+                    userEmail.setPersonal("");
+                    actorEmail.setAddress(actor.getEmail());
+                    actorEmail.setPersonal("");
+                } catch (UnsupportedEncodingException e) {
+                    // this exception will not be thrown as long as the empty
+                    // string is passed to setPersonal()
                 }
 
-                if (userId == null
-                        || userId.longValue() < UserRole.MIN_VALID_USER_ID) {
-                    // the user ID is not set or invalid.
-                    if (actor.getEmail() != null && !actor.getEmail().isEmpty()) {
-                        // we can identify the user by his email address
-                        participantEmails.add(actor.getEmail());
-                    } else if (actor.getName() != null
-                            && !actor.getName().isEmpty()) {
-                        // we can identify the user by his username (or conclude
-                        // that no such user is known to the system)
-                        participantUsernames.add(actor.getName());
-                    } else {
-                        // this is bad, we cannot identify this actor at all!
-                        throw new IllegalArgumentException(
-                                "The start configuration contains an actor entry which has no user ID, username or e-mail address.");
-                    }
-                } else {
-                    // the user id has already been set - less work for us!
-                    participantIds.add(userId);
+                // both usernames are converted to lowercase for comparison
+                String actorUsername = actor.getName();
+                if (actorUsername != null) {
+                    actorUsername = actorUsername.toLowerCase();
+                }
+                String username = user.getUserProfile() != null ? user
+                        .getUserProfile().getUsername() : null;
+                if (username != null) {
+                    username = username.toLowerCase();
+                }
+
+                if ((userId != null) && userId.equals(user.getId())) {
+                    // the user id of the actor has been set and matches.
+                    copyUserToActor(user, actor);
+                } else if ((actor.getEmail() != null)
+                        && !actor.getEmail().isEmpty()
+                        && actorEmail.equals(userEmail)) {
+                    // the email has been set and matches
+                    copyUserToActor(user, actor);
+                } else if ((actorUsername != null)
+                        && actorUsername.equals(username)) {
+                    // the username has been set and matches
+                    copyUserToActor(user, actor);
                 }
             }
         }
+    }
+
+    /**
+     * Copies the given user's properties to the given actor
+     * 
+     * @param user
+     *            source user (must not be null)
+     * @param actor
+     *            target actor (must not be null)
+     */
+    private void copyUserToActor(User user, Actor actor) {
+        actor.setUserid(user.getId());
+        actor.setName(user.getUserProfile() != null ? user.getUserProfile()
+                .getUsername() : "");
+        actor.setEmail(user.getEmail());
     }
 
     /**
@@ -373,6 +389,75 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
     }
 
     /**
+     * Fills the lists <code>participantIds</code>,
+     * <code>participantEmails</code> and <code>participantUsernames</code>
+     * using the current start configuration.
+     */
+    private void extractParticipantsFromStartConfiguration() {
+        participantEmails = new ArrayList<String>();
+        participantUsernames = new ArrayList<String>();
+        participantIds = new ArrayList<Long>();
+
+        TRoles roles = startConfiguration.getRoles();
+        for (de.decidr.model.soap.types.Role role : roles.getRole()) {
+            for (Actor actor : role.getActor()) {
+                Long userId = null;
+                try {
+                    userId = actor.getUserid();
+                } catch (NumberFormatException e) {
+                    // the user ID is not set
+                }
+
+                if ((userId == null)
+                        || (userId.longValue() < UserRole.MIN_VALID_USER_ID)) {
+                    // the user ID is not set or invalid.
+                    if ((actor.getEmail() != null)
+                            && !actor.getEmail().isEmpty()) {
+                        // we can identify the user by his email address
+                        participantEmails.add(actor.getEmail());
+                    } else if ((actor.getName() != null)
+                            && !actor.getName().isEmpty()) {
+                        // we can identify the user by his username (or conclude
+                        // that no such user is known to the system)
+                        participantUsernames.add(actor.getName());
+                    } else {
+                        // this is bad, we cannot identify this actor at all!
+                        throw new IllegalArgumentException(
+                                "The start configuration contains an actor entry which has no user ID, username or e-mail address.");
+                    }
+                } else {
+                    // the user id has already been set - less work for us!
+                    participantIds.add(userId);
+                }
+            }
+        }
+    }
+
+    /**
+     * @return the new workflow instance
+     */
+    public WorkflowInstance getCreatedWorkflowInstance() {
+        return createdWorkflowInstance;
+    }
+
+    /**
+     * Persists all uploaded files in the start configuration by setting the
+     * temporary flag to false.
+     * 
+     * @param session
+     *            current Hibernate session.
+     */
+    private void persistUploadedFiles(Session session) {
+        Set<Long> fileIds = XmlTools.getFileIds(startConfiguration);
+        if (!fileIds.isEmpty()) {
+            String hql = "update File set temporary = false "
+                    + "where id in (:fileIds)";
+            session.createQuery(hql).setParameterList("fileIds", fileIds)
+                    .executeUpdate();
+        }
+    }
+
+    /**
      * Decides which users must be added to the system as new users, which users
      * must be sent an invitation and which users can be added as workflow
      * participants immediately. <br>
@@ -438,145 +523,6 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
         }
     }
 
-    /**
-     * Finds all actor entries in the start configuration that can be completed
-     * using the given user object.
-     * <ul>
-     * <li>If a start config entry has a user id, the rest is deduced from the
-     * user object if the two IDs match</li>
-     * <li>If a start config entry has no user id, but the email or username
-     * field matches the one of the user object, the id , email and username
-     * will be deduced from the user obect as well.</li>
-     * </ul>
-     * 
-     * @param user
-     */
-    private void completeStartConfigEntry(User user) {
-        for (de.decidr.model.soap.types.Role configRole : startConfiguration
-                .getRoles().getRole()) {
-            for (Actor actor : configRole.getActor()) {
-                Long userId = actor.getUserid();
-
-                // comparing just using string equality is insufficient for
-                // email addresses.
-                InternetAddress userEmail = new InternetAddress();
-                InternetAddress actorEmail = new InternetAddress();
-
-                try {
-                    userEmail.setAddress(user.getEmail());
-                    userEmail.setPersonal("");
-                    actorEmail.setAddress(actor.getEmail());
-                    actorEmail.setPersonal("");
-                } catch (UnsupportedEncodingException e) {
-                    // this exception will not be thrown as long as the empty
-                    // string is passed to setPersonal()
-                }
-
-                // both usernames are converted to lowercase for comparison
-                String actorUsername = actor.getName();
-                if (actorUsername != null) {
-                    actorUsername = actorUsername.toLowerCase();
-                }
-                String username = user.getUserProfile() != null ? user
-                        .getUserProfile().getUsername() : null;
-                if (username != null) {
-                    username = username.toLowerCase();
-                }
-
-                if (userId != null && userId.equals(user.getId())) {
-                    // the user id of the actor has been set and matches.
-                    copyUserToActor(user, actor);
-                } else if (actor.getEmail() != null
-                        && !actor.getEmail().isEmpty()
-                        && actorEmail.equals(userEmail)) {
-                    // the email has been set and matches
-                    copyUserToActor(user, actor);
-                } else if (actorUsername != null
-                        && actorUsername.equals(username)) {
-                    // the username has been set and matches
-                    copyUserToActor(user, actor);
-                }
-            }
-        }
-    }
-
-    /**
-     * Copies the given user's properties to the given actor
-     * 
-     * @param user
-     *            source user (must not be null)
-     * @param actor
-     *            target actor (must not be null)
-     */
-    private void copyUserToActor(User user, Actor actor) {
-        actor.setUserid(user.getId());
-        actor.setName(user.getUserProfile() != null ? user.getUserProfile()
-                .getUsername() : "");
-        actor.setEmail(user.getEmail());
-    }
-
-    /**
-     * Makes sure that the given user state map contains no unknown usernames,
-     * disabled or unavailable users by throwing the corresponding exception if
-     * one of these is detected.
-     * 
-     * @param map
-     *            user state map to search
-     * @throws UserDisabledException
-     *             if a disabled user is found
-     * @throws UserUnavailableException
-     *             if an unavailable user is found
-     * @throws UsernameNotFoundException
-     *             if an unknown username is detected
-     */
-    private void assertOnlyValidUsers(
-            Map<User, UserWorkflowParticipationState> map)
-            throws UserDisabledException, UserUnavailableException,
-            UsernameNotFoundException {
-
-        for (User user : map.keySet()) {
-            UserWorkflowParticipationState state = map.get(user);
-            if (UserWorkflowParticipationState.IsUnknownUser.equals(state)) {
-
-                if ((user.getUserProfile() != null)
-                        && (user.getUserProfile().getUsername() != null)) {
-                    // the user is unknown but has a username, whoops!
-                    throw new UsernameNotFoundException(user.getUserProfile()
-                            .getUsername());
-                } else if (user.getEmail() == null) {
-                    throw new IllegalArgumentException(
-                            "An unknown user is missing an email address: cannot send invitation.");
-                }
-                if (user.getId() != null) {
-                    // user is known to the system
-                    if (user.getDisabledSince() != null) {
-                        throw new UserDisabledException(user);
-                    }
-                    if (user.getUnavailableSince() != null) {
-                        throw new UserUnavailableException(user);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Persists all uploaded files in the start configuration by setting the
-     * temporary flag to false.
-     * 
-     * @param session
-     *            current Hibernate session.
-     */
-    private void persistUploadedFiles(Session session) {
-        Set<Long> fileIds = XmlTools.getFileIds(startConfiguration);
-        if (!fileIds.isEmpty()) {
-            String hql = "update File set temporary = false "
-                    + "where id in (:fileIds)";
-            session.createQuery(hql).setParameterList("fileIds", fileIds)
-                    .executeUpdate();
-        }
-    }
-
     @Override
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
@@ -594,6 +540,68 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
     }
 
     @Override
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException, WorkflowModelNotStartableException,
+            UserDisabledException, UserUnavailableException,
+            UsernameNotFoundException {
+
+        // make sure the workflow model is actually startable by finding its
+        // corresponding deployed workflow model
+        WorkflowModel model = fetchWorkflowModel(evt.getSession());
+        DeployedWorkflowModel deployedWorkflowModel = fetchCurrentDeployedWorkflowModel(evt
+                .getSession());
+
+        if ((!model.isExecutable()) || (deployedWorkflowModel == null)) {
+            throw new WorkflowModelNotStartableException(workflowModelId);
+        }
+
+        extractParticipantsFromStartConfiguration();
+        // the lists of usernames and emails are now filled
+
+        processUserWorkflowParticipationState();
+        // usersThatNeedInvitations and usersThatAreAlreadyTenantMembers are now
+        // filled.
+
+        persistUploadedFiles(evt.getSession());
+
+        // create the new workflow instance in the database
+        try {
+            createWorkflowInstance(deployedWorkflowModel, evt.getSession());
+        } catch (JAXBException e) {
+            throw new TransactionException(e);
+        } catch (SOAPException e) {
+            throw new TransactionException(e);
+        } catch (IOException e) {
+            throw new TransactionException(e);
+        }
+
+        // create invitations
+        Set<Invitation> invitations = createInvitations(
+                usersThatNeedInvitations, evt.getSession());
+
+        // associate users with the new workflow instance
+        associateWithNewWorkflowInstance(usersThatAreAlreadyTenantMembers, evt
+                .getSession());
+        if (startImmediately) {
+            // also associate invited users
+            associateWithNewWorkflowInstance(usersThatNeedInvitations, evt
+                    .getSession());
+        }
+
+        // send notification emails
+        for (Invitation invitation : invitations) {
+            if (invitation.getReceiver().getUserProfile() != null) {
+                NotificationEvents.invitedRegisteredUserAsWorkflowParticipant(
+                        invitation, createdWorkflowInstance);
+            } else {
+                NotificationEvents
+                        .invitedUnregisteredUserAsWorkflowParticipant(
+                                invitation, createdWorkflowInstance);
+            }
+        }
+    }
+
+    @Override
     public void transactionCommitted(TransactionEvent evt)
             throws TransactionException {
         /*
@@ -607,13 +615,6 @@ public class StartWorkflowInstanceCommand extends WorkflowModelCommand {
             // try to compensate for failure to start instance
             transactionAborted(null);
         }
-    }
-
-    /**
-     * @return the new workflow instance
-     */
-    public WorkflowInstance getCreatedWorkflowInstance() {
-        return createdWorkflowInstance;
     }
 
 }

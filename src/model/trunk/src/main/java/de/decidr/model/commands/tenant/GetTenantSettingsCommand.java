@@ -47,6 +47,13 @@ public class GetTenantSettingsCommand extends TenantCommand {
         requireTenantId();
     }
 
+    /**
+     * @return the tenantSettings
+     */
+    public Tenant getTenantSettings() {
+        return tenantSettings;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -56,13 +63,6 @@ public class GetTenantSettingsCommand extends TenantCommand {
         tenantSettings.getCurrentColorScheme();
         tenantSettings.getAdvancedColorScheme();
         tenantSettings.getSimpleColorScheme();
-    }
-
-    /**
-     * @return the tenantSettings
-     */
-    public Tenant getTenantSettings() {
-        return tenantSettings;
     }
 
 }

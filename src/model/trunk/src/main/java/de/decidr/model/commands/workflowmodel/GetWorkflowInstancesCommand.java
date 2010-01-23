@@ -59,6 +59,13 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
         this.paginator = paginator;
     }
 
+    /**
+     * @return the result
+     */
+    public List<WorkflowInstance> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -92,13 +99,6 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
         }
 
         result = instances;
-    }
-
-    /**
-     * @return the result
-     */
-    public List<WorkflowInstance> getResult() {
-        return result;
     }
 
 }

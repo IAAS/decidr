@@ -60,6 +60,17 @@ public class UserNotParticipatingInAnyWorkflowAsserterTest extends
 
     // private static Long wfmId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() {
+
+        // List<Long> wfm = new ArrayList<Long>();
+        // wfm.add(wfmId);
+        // wfmFacade.deleteWorkflowModels(wfm);
+        // tenantFacade.deleteTenant(tenantId);
+
+        UserFacadeTest.deleteTestUsers();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
@@ -104,17 +115,6 @@ public class UserNotParticipatingInAnyWorkflowAsserterTest extends
         // wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail,
         // wfmAdmins);
 
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() {
-
-        // List<Long> wfm = new ArrayList<Long>();
-        // wfm.add(wfmId);
-        // wfmFacade.deleteWorkflowModels(wfm);
-        // tenantFacade.deleteTenant(tenantId);
-
-        UserFacadeTest.deleteTestUsers();
     }
 
     /**

@@ -67,16 +67,16 @@ public class RegisterUserCommand extends AclEnabledCommand {
             String passwordPlaintext, UserProfile profile) {
         super(role, (Permission) null);
 
-        if (email == null || email.isEmpty()) {
+        if ((email == null) || email.isEmpty()) {
             throw new IllegalArgumentException("Email cannot be null or empty");
         }
 
-        if (passwordPlaintext == null || passwordPlaintext.isEmpty()) {
+        if ((passwordPlaintext == null) || passwordPlaintext.isEmpty()) {
             throw new IllegalArgumentException(
                     "Password cannot be null or empty");
         }
 
-        if (profile == null || profile.getUsername() == null
+        if ((profile == null) || (profile.getUsername() == null)
                 || profile.getUsername().isEmpty()) {
             throw new IllegalArgumentException(
                     "Username cannot be null or empty");
@@ -94,6 +94,13 @@ public class RegisterUserCommand extends AclEnabledCommand {
         } catch (InvocationTargetException e) {
             throw new IllegalArgumentException(e);
         }
+    }
+
+    /**
+     * @return the registered user
+     */
+    public User getRegisteredUser() {
+        return registeredUser;
     }
 
     @Override
@@ -159,12 +166,5 @@ public class RegisterUserCommand extends AclEnabledCommand {
         NotificationEvents.createdRegistrationRequest(request);
 
         registeredUser = existingUser;
-    }
-
-    /**
-     * @return the registered user
-     */
-    public User getRegisteredUser() {
-        return registeredUser;
     }
 }

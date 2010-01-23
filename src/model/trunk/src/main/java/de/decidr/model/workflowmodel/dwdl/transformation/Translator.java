@@ -28,7 +28,6 @@ import javax.xml.soap.SOAPMessage;
 
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
-import org.xml.sax.SAXException;
 
 import de.decidr.model.DecidrGlobals;
 import de.decidr.model.entities.Activity;
@@ -115,7 +114,7 @@ public class Translator {
 
     public void load(byte[] dwdl, String tenantName,
             List<KnownWebService> knownWebservices) throws JAXBException,
-            WSDLException, SAXException {
+            WSDLException {
 
         this.dwdlWorkflow = parseDWDLWorkflow(dwdl);
         this.tenantName = tenantName;
@@ -128,8 +127,7 @@ public class Translator {
                 .getWebServiceWsdl(knownWebservice.getName()));
     }
 
-    private Workflow parseDWDLWorkflow(byte[] dwdl) throws JAXBException,
-            SAXException {
+    private Workflow parseDWDLWorkflow(byte[] dwdl) throws JAXBException {
         return TransformUtil.bytesToWorkflow(dwdl);
     }
 

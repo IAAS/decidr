@@ -62,6 +62,15 @@ public class Content {
     }
 
     /**
+     * Gets the value of the contentType property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getContentType() {
+        return contentType;
+    }
+
+    /**
      * Sets the value of the any property.
      * 
      * @param value
@@ -69,15 +78,6 @@ public class Content {
      */
     public void setAny(Object value) {
         this.any = value;
-    }
-
-    /**
-     * Gets the value of the contentType property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getContentType() {
-        return contentType;
     }
 
     /**

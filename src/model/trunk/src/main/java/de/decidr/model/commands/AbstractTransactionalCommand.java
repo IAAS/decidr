@@ -35,14 +35,6 @@ public abstract class AbstractTransactionalCommand implements
     /**
      * {@inheritDoc}
      */
-    public void transactionStarted(TransactionEvent evt)
-            throws TransactionException {
-        // intentionally left empty
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
         // intentionally left empty, the exception object in evt is just fyi.
@@ -54,6 +46,14 @@ public abstract class AbstractTransactionalCommand implements
      * {@inheritDoc}
      */
     public void transactionCommitted(TransactionEvent evt)
+            throws TransactionException {
+        // intentionally left empty
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void transactionStarted(TransactionEvent evt)
             throws TransactionException {
         // intentionally left empty
     }

@@ -58,7 +58,7 @@ public class CreateTenantCommand extends AclEnabledCommand {
             Long adminId) {
         super(role, (Permission) null);
 
-        if (name == null || name.isEmpty()) {
+        if ((name == null) || name.isEmpty()) {
             throw new IllegalArgumentException(
                     "Tenant name must not be null or empty.");
         }
@@ -70,6 +70,13 @@ public class CreateTenantCommand extends AclEnabledCommand {
         this.adminId = adminId;
         this.name = name;
         this.description = description;
+    }
+
+    /**
+     * @return The ID of the new tenant
+     */
+    public Long getTenantId() {
+        return tenantId;
     }
 
     @Override
@@ -104,13 +111,6 @@ public class CreateTenantCommand extends AclEnabledCommand {
         } else {
             throw new TransactionException("Tenant name already exists.");
         }
-    }
-
-    /**
-     * @return The ID of the new tenant
-     */
-    public Long getTenantId() {
-        return tenantId;
     }
 
 }

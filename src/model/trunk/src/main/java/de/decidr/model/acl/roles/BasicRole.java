@@ -32,6 +32,13 @@ public class BasicRole implements Role {
     private Long actorId;
 
     /**
+     * Creates a new BasicRole using <code>null</code> as actor ID.
+     */
+    public BasicRole() {
+        this(null);
+    }
+
+    /**
      * Creates a new BasicRole with the given actor
      * 
      * @param actorId
@@ -43,21 +50,14 @@ public class BasicRole implements Role {
         this.actorId = actorId;
     }
 
-    /**
-     * Creates a new BasicRole using <code>null</code> as actor ID.
-     */
-    public BasicRole() {
-        this(null);
+    @Override
+    public boolean equals(Object obj) {
+        return (obj != null) && this.getClass().equals(obj.getClass());
     }
 
     @Override
     public Long getActorId() {
         return this.actorId;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return (obj != null) && this.getClass().equals(obj.getClass());
     }
 
     @Override

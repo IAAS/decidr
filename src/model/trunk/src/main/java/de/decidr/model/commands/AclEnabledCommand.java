@@ -91,6 +91,32 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
     }
 
     /**
+     * @return the additional permissions
+     */
+    public ArrayList<Permission> getAdditionalPermissions() {
+        return additionalPermissions;
+    }
+
+    /**
+     * @param additionalPermissions
+     *            the additional permissions to set
+     */
+    public void setAdditionalPermissions(
+            ArrayList<Permission> additionalPermissions) {
+        this.additionalPermissions = additionalPermissions;
+    }
+
+    /**
+     * Event fired iff the transaction has been allowed by the ACL. Place your
+     * database access code here.
+     * 
+     * @param evt
+     *            forwarded transaction event
+     */
+    public abstract void transactionAllowed(TransactionEvent evt)
+            throws TransactionException;
+
+    /**
      * Performs the necessary permission checks, then forwards to
      * transactionAllowed iff the ACL grants access to this command and all
      * specified additional permissions.
@@ -133,31 +159,5 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
                     "Permission check failed for actor %1$s, permissions %2$s",
                     roleName, permissions.toString()));
         }
-    }
-
-    /**
-     * Event fired iff the transaction has been allowed by the ACL. Place your
-     * database access code here.
-     * 
-     * @param evt
-     *            forwarded transaction event
-     */
-    public abstract void transactionAllowed(TransactionEvent evt)
-            throws TransactionException;
-
-    /**
-     * @return the additional permissions
-     */
-    public ArrayList<Permission> getAdditionalPermissions() {
-        return additionalPermissions;
-    }
-
-    /**
-     * @param additionalPermissions
-     *            the additional permissions to set
-     */
-    public void setAdditionalPermissions(
-            ArrayList<Permission> additionalPermissions) {
-        this.additionalPermissions = additionalPermissions;
     }
 }

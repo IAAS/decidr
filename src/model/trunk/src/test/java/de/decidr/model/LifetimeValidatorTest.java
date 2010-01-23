@@ -37,6 +37,44 @@ public class LifetimeValidatorTest extends DecidrOthersTest {
 
     /**
      * Test method for
+     * {@link LifetimeValidator#isChangeEmailRequestValid(ChangeEmailRequest)}.
+     */
+    @Test
+    public void testIsChangeEmailRequestValid() {
+        ChangeEmailRequest validRequest = new ChangeEmailRequest(null, null,
+                DecidrGlobals.getTime().getTime(), null);
+        ChangeEmailRequest invalidRequest = new ChangeEmailRequest(null, null,
+                new Date(DecidrGlobals.getTime().getTimeInMillis()
+                        - (DecidrGlobals.getSettings()
+                                .getChangeEmailRequestLifetimeSeconds() * 1000)
+                        - 1000), null);
+        ChangeEmailRequest emptyRequest = new ChangeEmailRequest();
+
+        assertTrue(LifetimeValidator.isChangeEmailRequestValid(validRequest));
+        assertFalse(LifetimeValidator.isChangeEmailRequestValid(invalidRequest));
+        assertFalse(LifetimeValidator.isChangeEmailRequestValid(emptyRequest));
+    }
+
+    /**
+     * Test method for {@link LifetimeValidator#isInvitationValid(Invitation)}.
+     */
+    @Test
+    public void testIsInvitationValid() {
+        Invitation validRequest = new Invitation(null, null, DecidrGlobals
+                .getTime().getTime());
+        Invitation invalidRequest = new Invitation(null, null, new Date(
+                DecidrGlobals.getTime().getTimeInMillis()
+                        - (DecidrGlobals.getSettings()
+                                .getInvitationLifetimeSeconds() * 1000) + 1));
+        Invitation emptyRequest = new Invitation();
+
+        assertTrue(LifetimeValidator.isInvitationValid(validRequest));
+        assertFalse(LifetimeValidator.isInvitationValid(invalidRequest));
+        assertFalse(LifetimeValidator.isInvitationValid(emptyRequest));
+    }
+
+    /**
+     * Test method for
      * {@link LifetimeValidator#isPasswordResetRequestValid(PasswordResetRequest)}
      * .
      */
@@ -58,24 +96,6 @@ public class LifetimeValidatorTest extends DecidrOthersTest {
         assertFalse(LifetimeValidator
                 .isPasswordResetRequestValid(invalidRequest));
         assertFalse(LifetimeValidator.isPasswordResetRequestValid(emptyRequest));
-    }
-
-    /**
-     * Test method for {@link LifetimeValidator#isInvitationValid(Invitation)}.
-     */
-    @Test
-    public void testIsInvitationValid() {
-        Invitation validRequest = new Invitation(null, null, DecidrGlobals
-                .getTime().getTime());
-        Invitation invalidRequest = new Invitation(null, null, new Date(
-                DecidrGlobals.getTime().getTimeInMillis()
-                        - (DecidrGlobals.getSettings()
-                                .getInvitationLifetimeSeconds() * 1000) + 1));
-        Invitation emptyRequest = new Invitation();
-
-        assertTrue(LifetimeValidator.isInvitationValid(validRequest));
-        assertFalse(LifetimeValidator.isInvitationValid(invalidRequest));
-        assertFalse(LifetimeValidator.isInvitationValid(emptyRequest));
     }
 
     /**
@@ -101,25 +121,5 @@ public class LifetimeValidatorTest extends DecidrOthersTest {
         assertFalse(LifetimeValidator
                 .isRegistrationRequestValid(invalidRequest));
         assertFalse(LifetimeValidator.isRegistrationRequestValid(emptyRequest));
-    }
-
-    /**
-     * Test method for
-     * {@link LifetimeValidator#isChangeEmailRequestValid(ChangeEmailRequest)}.
-     */
-    @Test
-    public void testIsChangeEmailRequestValid() {
-        ChangeEmailRequest validRequest = new ChangeEmailRequest(null, null,
-                DecidrGlobals.getTime().getTime(), null);
-        ChangeEmailRequest invalidRequest = new ChangeEmailRequest(null, null,
-                new Date(DecidrGlobals.getTime().getTimeInMillis()
-                        - (DecidrGlobals.getSettings()
-                                .getChangeEmailRequestLifetimeSeconds() * 1000)
-                        - 1000), null);
-        ChangeEmailRequest emptyRequest = new ChangeEmailRequest();
-
-        assertTrue(LifetimeValidator.isChangeEmailRequestValid(validRequest));
-        assertFalse(LifetimeValidator.isChangeEmailRequestValid(invalidRequest));
-        assertFalse(LifetimeValidator.isChangeEmailRequestValid(emptyRequest));
     }
 }

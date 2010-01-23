@@ -88,165 +88,6 @@ public class URLGenerator {
     public static final String URL_PARAM_USER_ID = "user";
 
     /**
-     * May be used for caching the system settings in the future.
-     * 
-     * @return the system settings
-     */
-    private static SystemSettings getSettings() {
-        return DecidrGlobals.getSettings();
-    }
-
-    /**
-     * Trims whitespaces and slashes from the given {@link String}.
-     * 
-     * @param s
-     *            string to trim
-     * @return empty string if s is <code>null</code>, otherwise returns the
-     *         trimmed string
-     */
-    private static String trim(String s) {
-        if (s == null) {
-            return "";
-        }
-
-        Matcher m = trimmer.matcher(s);
-        if (!m.matches()) {
-            return "";
-        }
-
-        String result = m.group(1);
-
-        return result == null ? "" : result;
-    }
-
-    /**
-     * Builds an URL string using http as the proctocol, a base location/domain,
-     * an optional path and a number of optional GET parameters.
-     * 
-     * @param location
-     *            base location/domain (does not get URL encoded, must contain
-     *            hostname and optionally a port number)
-     * @param path
-     *            gets appended to the base location/domain. Slashes at the
-     *            beginning and the end of this string will be trimmed. Does not
-     *            get URL encoded and may contain slashes. Must not contain GET
-     *            params, use the getParams parameter instead! Can be
-     *            <code>null</code>.
-     * @param getParams
-     *            HTTP GET parameters to add to the url (will be url-encoded).
-     *            Can be <code>null</code>.
-     * @return base url to the decidr domain including protocol and a trailing
-     *         slash, if params is not null the urlencoded parameters are added.
-     * @throws IllegalArgumentException
-     *             if location is <code>null</code> or empty
-     */
-    public static String getHttpUrl(String location, String path,
-            Map<String, String> getParams) {
-        if (location == null || location.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Location cannot be null or empty");
-        }
-
-        try {
-            StringBuilder result = new StringBuilder();
-            result.append("http://");
-            // trim all slashes and whitespaces from the given path and location
-            result.append(trim(location));
-            // make sure the string ends with a slash
-            if (result.lastIndexOf("/") != result.length() - 1) {
-                result.append("/");
-            }
-            result.append(trim(path));
-            // add HTTP GET params as key=value pairs
-            if (getParams != null && !getParams.isEmpty()) {
-                result.append("?");
-                int entryCount = 0;
-                for (Entry<String, String> entry : getParams.entrySet()) {
-                    entryCount++;
-                    result.append(URLEncoder.encode(entry.getKey(), encoding));
-                    if (!entry.getValue().isEmpty()) {
-                        result.append("=");
-                        result.append(URLEncoder.encode(entry.getValue(),
-                                encoding));
-                    }
-                    if (entryCount < getParams.size()) {
-                        result.append("&");
-                    }
-                }
-            }
-            return result.toString();
-        } catch (UnsupportedEncodingException e) {
-            // we expect UTF-8 to be supported on all platforms
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Builds an URL string using http as the proctocol, the base url provided
-     * by the system settings, an optional path and a number of optional GET
-     * parameters.
-     * 
-     * @param path
-     *            gets appended to the base location/domain. Slashes at the
-     *            beginning and the end of this string will be trimmed. Can be
-     *            <code>null</code>.
-     * @param getParams
-     *            HTTP GET parameters to add to the url (will be url-encoded).
-     *            Can be <code>null</code>.
-     * @return base url to the decidr domain including protocol and a trailing
-     *         slash, if params is not null the urlencoded parameters are added.
-     */
-    public static String getHttpUrl(String path, Map<String, String> getParams) {
-        return getHttpUrl(getSettings().getBaseUrl(), path, getParams);
-    }
-
-    /**
-     * Returns the URL for invitations, where it is not required that the user
-     * is registered
-     * 
-     * @param userId
-     *            ID of the recipient of the invitation
-     * @param invitationId
-     *            ID of the invitation
-     * @param authKey
-     *            authentication Key. If the user is registered, the key is
-     *            empty, for unregistered users the key allows confirm the
-     *            invitation.
-     * @return complete url with required parameters
-     */
-    public static String getInvitationUrl(String userId, String invitationId,
-            String authKey) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(URLGenerator.URL_PARAM_USER_ID, userId);
-        params.put(URLGenerator.URL_PARAM_INVITATION_ID, invitationId);
-        if (authKey != null) {
-            params.put(URLGenerator.URL_PARAM_AUTHENTICATION_KEY, authKey);
-        }
-
-        return getHttpUrl("", params);
-    }
-
-    /**
-     * Returns the URL for invitations, where it is required that the user is
-     * registered
-     * 
-     * @param userId
-     *            ID of the recipient of the invitation
-     * @param invitationId
-     *            ID of the invitation
-     * @return complete url with required parameters
-     */
-    public static String getInvitationRegistrationRequiredUrl(String userId,
-            String invitationId) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(URLGenerator.URL_PARAM_USER_ID, userId);
-        params.put(URLGenerator.URL_PARAM_INVITATION_ID, invitationId);
-        params.put(DecidrGlobals.URL_PARAM_REGISTRATION_REQUIRED, "");
-
-        return getHttpUrl("", params);
-    }
-
-    /**
      * Returns the URL to confirm a change email request
      * 
      * @param userId
@@ -280,6 +121,240 @@ public class URLGenerator {
     }
 
     /**
+     * Builds an URL string using http as the proctocol, the base url provided
+     * by the system settings, an optional path and a number of optional GET
+     * parameters.
+     * 
+     * @param path
+     *            gets appended to the base location/domain. Slashes at the
+     *            beginning and the end of this string will be trimmed. Can be
+     *            <code>null</code>.
+     * @param getParams
+     *            HTTP GET parameters to add to the url (will be url-encoded).
+     *            Can be <code>null</code>.
+     * @return base url to the decidr domain including protocol and a trailing
+     *         slash, if params is not null the urlencoded parameters are added.
+     */
+    public static String getHttpUrl(String path, Map<String, String> getParams) {
+        return getHttpUrl(getSettings().getBaseUrl(), path, getParams);
+    }
+
+    /**
+     * Builds an URL string using http as the proctocol, a base location/domain,
+     * an optional path and a number of optional GET parameters.
+     * 
+     * @param location
+     *            base location/domain (does not get URL encoded, must contain
+     *            hostname and optionally a port number)
+     * @param path
+     *            gets appended to the base location/domain. Slashes at the
+     *            beginning and the end of this string will be trimmed. Does not
+     *            get URL encoded and may contain slashes. Must not contain GET
+     *            params, use the getParams parameter instead! Can be
+     *            <code>null</code>.
+     * @param getParams
+     *            HTTP GET parameters to add to the url (will be url-encoded).
+     *            Can be <code>null</code>.
+     * @return base url to the decidr domain including protocol and a trailing
+     *         slash, if params is not null the urlencoded parameters are added.
+     * @throws IllegalArgumentException
+     *             if location is <code>null</code> or empty
+     */
+    public static String getHttpUrl(String location, String path,
+            Map<String, String> getParams) {
+        if ((location == null) || location.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Location cannot be null or empty");
+        }
+
+        try {
+            StringBuilder result = new StringBuilder();
+            result.append("http://");
+            // trim all slashes and whitespaces from the given path and location
+            result.append(trim(location));
+            // make sure the string ends with a slash
+            if (result.lastIndexOf("/") != result.length() - 1) {
+                result.append("/");
+            }
+            result.append(trim(path));
+            // add HTTP GET params as key=value pairs
+            if ((getParams != null) && !getParams.isEmpty()) {
+                result.append("?");
+                int entryCount = 0;
+                for (Entry<String, String> entry : getParams.entrySet()) {
+                    entryCount++;
+                    result.append(URLEncoder.encode(entry.getKey(), encoding));
+                    if (!entry.getValue().isEmpty()) {
+                        result.append("=");
+                        result.append(URLEncoder.encode(entry.getValue(),
+                                encoding));
+                    }
+                    if (entryCount < getParams.size()) {
+                        result.append("&");
+                    }
+                }
+            }
+            return result.toString();
+        } catch (UnsupportedEncodingException e) {
+            // we expect UTF-8 to be supported on all platforms
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns the URL for invitations, where it is required that the user is
+     * registered
+     * 
+     * @param userId
+     *            ID of the recipient of the invitation
+     * @param invitationId
+     *            ID of the invitation
+     * @return complete url with required parameters
+     */
+    public static String getInvitationRegistrationRequiredUrl(String userId,
+            String invitationId) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(URLGenerator.URL_PARAM_USER_ID, userId);
+        params.put(URLGenerator.URL_PARAM_INVITATION_ID, invitationId);
+        params.put(DecidrGlobals.URL_PARAM_REGISTRATION_REQUIRED, "");
+
+        return getHttpUrl("", params);
+    }
+
+    /**
+     * Returns the URL for invitations, where it is not required that the user
+     * is registered
+     * 
+     * @param userId
+     *            ID of the recipient of the invitation
+     * @param invitationId
+     *            ID of the invitation
+     * @param authKey
+     *            authentication Key. If the user is registered, the key is
+     *            empty, for unregistered users the key allows confirm the
+     *            invitation.
+     * @return complete url with required parameters
+     */
+    public static String getInvitationUrl(String userId, String invitationId,
+            String authKey) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(URLGenerator.URL_PARAM_USER_ID, userId);
+        params.put(URLGenerator.URL_PARAM_INVITATION_ID, invitationId);
+        if (authKey != null) {
+            params.put(URLGenerator.URL_PARAM_AUTHENTICATION_KEY, authKey);
+        }
+
+        return getHttpUrl("", params);
+    }
+
+    /**
+     * Returns the URL to the Apache ODE deployment service for the given Apache
+     * ODE server location.
+     * 
+     * @param server
+     *            server on which the Apache ODE is running.
+     * @return URL to Apache ODE deployment service
+     * @throws IllegalArgumentException
+     *             if server is <code>null</code>
+     */
+    public static String getOdeDeploymentServiceUrl(Server server) {
+        if (server == null) {
+            throw new IllegalArgumentException("Server must not be null.");
+        }
+        return getOdeDeploymentServiceUrl(server.getLocation());
+    }
+
+    /**
+     * Returns the URL to the Apache ODE deployment service for the given Apache
+     * ODE server location.
+     * 
+     * @param server
+     *            server on which the Apache ODE is running.
+     * @return URL to Apache ODE deployment service
+     * @throws IllegalArgumentException
+     *             if server is <code>null</code>
+     */
+    public static String getOdeDeploymentServiceUrl(ServerLoadView server) {
+        if (server == null) {
+            throw new IllegalArgumentException("Server must not be null.");
+        }
+        return getOdeDeploymentServiceUrl(server.getLocation());
+    }
+
+    /**
+     * Returns the URL to the Apache ODE deployment service for the given Apache
+     * ODE server location.
+     * 
+     * @param serverLocation
+     *            hostname and port of the server on which the ODE process is
+     *            running.
+     * @return URL to Apache ODE deployment service
+     * @throws IllegalArgumentException
+     *             if serverLocation is <code>null</code> or empty
+     */
+    public static String getOdeDeploymentServiceUrl(String serverLocation) {
+        if ((serverLocation == null) || serverLocation.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Server location must not be null or empty.");
+        }
+        return getHttpUrl(serverLocation, "ode/processes/DeploymentService",
+                null);
+    }
+
+    /**
+     * Returns the URL to the Apache ODE instance management service for the
+     * given Apache ODE server location.
+     * 
+     * @param server
+     *            server on which the Apache ODE is running.
+     * @return URL to Apache ODE instance management service
+     * @throws IllegalArgumentException
+     *             if server is <code>null</code>
+     */
+    public static String getOdeInstanceManangementUrl(Server server) {
+        if (server == null) {
+            throw new IllegalArgumentException("Server must not be null.");
+        }
+        return getOdeInstanceManangementUrl(server.getLocation());
+    }
+
+    /**
+     * Returns the URL to the Apache ODE instance management service for the
+     * given Apache ODE server location.
+     * 
+     * @param server
+     *            server on which the Apache ODE is running.
+     * @return URL to Apache ODE instance management service
+     * @throws IllegalArgumentException
+     *             if server is <code>null</code>
+     */
+    public static String getOdeInstanceManangementUrl(ServerLoadView server) {
+        if (server == null) {
+            throw new IllegalArgumentException("Server must not be null.");
+        }
+        return getOdeInstanceManangementUrl(server.getLocation());
+    }
+
+    /**
+     * Returns the URL to the Apache ODE instance management service for the
+     * given Apache ODE server location.
+     * 
+     * @param serverLocation
+     *            server on which the Apache ODE is running.
+     * @return URL to Apache ODE instance management service
+     * @throws IllegalArgumentException
+     *             if serverLocation is <code>null</code> or empty
+     */
+    public static String getOdeInstanceManangementUrl(String serverLocation) {
+        if (serverLocation == null) {
+            throw new IllegalArgumentException(
+                    "Server location must not be null or empty.");
+        }
+        return getHttpUrl(serverLocation, "ode/processes/InstanceManagement",
+                null);
+    }
+
+    /**
      * Returns the URL for a password reset request
      * 
      * @param userId
@@ -294,6 +369,15 @@ public class URLGenerator {
         params.put(URLGenerator.URL_PARAM_PASSWORD_RESET_REQUEST_ID, authKey);
 
         return getHttpUrl("", params);
+    }
+
+    /**
+     * May be used for caching the system settings in the future.
+     * 
+     * @return the system settings
+     */
+    private static SystemSettings getSettings() {
+        return DecidrGlobals.getSettings();
     }
 
     /**
@@ -345,7 +429,7 @@ public class URLGenerator {
     public static String getWebServiceWsdlUrl(String webServiceName) {
         // This may change if we switch from Synapse to another ESB that's not
         // based on Axis2
-        if (webServiceName == null || webServiceName.isEmpty()) {
+        if ((webServiceName == null) || webServiceName.isEmpty()) {
             throw new IllegalArgumentException(
                     "Web service name must not be null or empty.");
         }
@@ -353,109 +437,25 @@ public class URLGenerator {
     }
 
     /**
-     * Returns the URL to the Apache ODE deployment service for the given Apache
-     * ODE server location.
+     * Trims whitespaces and slashes from the given {@link String}.
      * 
-     * @param serverLocation
-     *            hostname and port of the server on which the ODE process is
-     *            running.
-     * @return URL to Apache ODE deployment service
-     * @throws IllegalArgumentException
-     *             if serverLocation is <code>null</code> or empty
+     * @param s
+     *            string to trim
+     * @return empty string if s is <code>null</code>, otherwise returns the
+     *         trimmed string
      */
-    public static String getOdeDeploymentServiceUrl(String serverLocation) {
-        if (serverLocation == null || serverLocation.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Server location must not be null or empty.");
+    private static String trim(String s) {
+        if (s == null) {
+            return "";
         }
-        return getHttpUrl(serverLocation, "ode/processes/DeploymentService",
-                null);
-    }
 
-    /**
-     * Returns the URL to the Apache ODE deployment service for the given Apache
-     * ODE server location.
-     * 
-     * @param server
-     *            server on which the Apache ODE is running.
-     * @return URL to Apache ODE deployment service
-     * @throws IllegalArgumentException
-     *             if server is <code>null</code>
-     */
-    public static String getOdeDeploymentServiceUrl(Server server) {
-        if (server == null) {
-            throw new IllegalArgumentException("Server must not be null.");
+        Matcher m = trimmer.matcher(s);
+        if (!m.matches()) {
+            return "";
         }
-        return getOdeDeploymentServiceUrl(server.getLocation());
-    }
 
-    /**
-     * Returns the URL to the Apache ODE deployment service for the given Apache
-     * ODE server location.
-     * 
-     * @param server
-     *            server on which the Apache ODE is running.
-     * @return URL to Apache ODE deployment service
-     * @throws IllegalArgumentException
-     *             if server is <code>null</code>
-     */
-    public static String getOdeDeploymentServiceUrl(ServerLoadView server) {
-        if (server == null) {
-            throw new IllegalArgumentException("Server must not be null.");
-        }
-        return getOdeDeploymentServiceUrl(server.getLocation());
-    }
+        String result = m.group(1);
 
-    /**
-     * Returns the URL to the Apache ODE instance management service for the
-     * given Apache ODE server location.
-     * 
-     * @param serverLocation
-     *            server on which the Apache ODE is running.
-     * @return URL to Apache ODE instance management service
-     * @throws IllegalArgumentException
-     *             if serverLocation is <code>null</code> or empty
-     */
-    public static String getOdeInstanceManangementUrl(String serverLocation) {
-        if (serverLocation == null) {
-            throw new IllegalArgumentException(
-                    "Server location must not be null or empty.");
-        }
-        return getHttpUrl(serverLocation, "ode/processes/InstanceManagement",
-                null);
-    }
-
-    /**
-     * Returns the URL to the Apache ODE instance management service for the
-     * given Apache ODE server location.
-     * 
-     * @param server
-     *            server on which the Apache ODE is running.
-     * @return URL to Apache ODE instance management service
-     * @throws IllegalArgumentException
-     *             if server is <code>null</code>
-     */
-    public static String getOdeInstanceManangementUrl(Server server) {
-        if (server == null) {
-            throw new IllegalArgumentException("Server must not be null.");
-        }
-        return getOdeInstanceManangementUrl(server.getLocation());
-    }
-
-    /**
-     * Returns the URL to the Apache ODE instance management service for the
-     * given Apache ODE server location.
-     * 
-     * @param server
-     *            server on which the Apache ODE is running.
-     * @return URL to Apache ODE instance management service
-     * @throws IllegalArgumentException
-     *             if server is <code>null</code>
-     */
-    public static String getOdeInstanceManangementUrl(ServerLoadView server) {
-        if (server == null) {
-            throw new IllegalArgumentException("Server must not be null.");
-        }
-        return getOdeInstanceManangementUrl(server.getLocation());
+        return result == null ? "" : result;
     }
 }

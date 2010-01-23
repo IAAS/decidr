@@ -64,6 +64,15 @@ public class GetWorkItemsCommand extends UserCommand {
 
     }
 
+    /**
+     * 
+     * @return list of the workitems of the given user
+     */
+    public List<WorkItemSummaryView> getResult() {
+
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -76,14 +85,5 @@ public class GetWorkItemsCommand extends UserCommand {
         Filters.apply(c, filters, paginator);
 
         result = c.list();
-    }
-
-    /**
-     * 
-     * @return list of the workitems of the given user
-     */
-    public List<WorkItemSummaryView> getResult() {
-
-        return result;
     }
 }

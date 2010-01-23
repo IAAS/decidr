@@ -27,16 +27,16 @@ import java.util.List;
  */
 public interface DeploymentResult {
 
+    public Date getDeploymentDate();
+
     public List<Long> getServers();
 
-    public Date getDeploymentDate();
+    public byte[] getSOAPTemplate();
 
     public void setDeploymentDate(Date deploymentDate);
 
     public void setServers(List<Long> servers);
 
     public void setSOAPTemplate(byte[] soap);
-
-    public byte[] getSOAPTemplate();
 
 }

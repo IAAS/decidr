@@ -27,10 +27,10 @@ public class UserParticipatesInWorkflow implements java.io.Serializable {
 
     /** The id. */
     private UserParticipatesInWorkflowId id;
-    
+
     /** The workflow instance. */
     private WorkflowInstance workflowInstance;
-    
+
     /** The user. */
     private User user;
 
@@ -69,13 +69,12 @@ public class UserParticipatesInWorkflow implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the user.
      * 
-     * @param id
-     *            the new id
+     * @return the user
      */
-    public void setId(UserParticipatesInWorkflowId id) {
-        this.id = id;
+    public User getUser() {
+        return this.user;
     }
 
     /**
@@ -88,22 +87,13 @@ public class UserParticipatesInWorkflow implements java.io.Serializable {
     }
 
     /**
-     * Sets the workflow instance.
+     * Sets the id.
      * 
-     * @param workflowInstance
-     *            the new workflow instance
+     * @param id
+     *            the new id
      */
-    public void setWorkflowInstance(WorkflowInstance workflowInstance) {
-        this.workflowInstance = workflowInstance;
-    }
-
-    /**
-     * Gets the user.
-     * 
-     * @return the user
-     */
-    public User getUser() {
-        return this.user;
+    public void setId(UserParticipatesInWorkflowId id) {
+        this.id = id;
     }
 
     /**
@@ -114,6 +104,16 @@ public class UserParticipatesInWorkflow implements java.io.Serializable {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * Sets the workflow instance.
+     * 
+     * @param workflowInstance
+     *            the new workflow instance
+     */
+    public void setWorkflowInstance(WorkflowInstance workflowInstance) {
+        this.workflowInstance = workflowInstance;
     }
 
 }

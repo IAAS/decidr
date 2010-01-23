@@ -42,7 +42,6 @@ import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import com.ibm.wsdl.xml.WSDLWriterImpl;
 
@@ -140,8 +139,24 @@ public class TransformUtil {
         return element.getValue();
     }
 
-    public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException,
-            SAXException {
+    public static SOAPMessage bytesToSOAPMessage(byte[] message)
+            throws SOAPException {
+
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage msg = messageFactory.createMessage();
+
+        SOAPPart soapPart = msg.getSOAPPart();
+
+        StreamSource preppedMsgSrc = new StreamSource(new ByteArrayInputStream(
+                message));
+        soapPart.setContent(preppedMsgSrc);
+
+        msg.saveChanges();
+
+        return msg;
+    }
+
+    public static Workflow bytesToWorkflow(byte[] dwdl) throws JAXBException {
         Unmarshaller unmarshaller = dwdlCntxt.createUnmarshaller();
         JAXBElement<Workflow> dwdlElement = unmarshaller.unmarshal(
                 new StreamSource(new ByteArrayInputStream(dwdl)),
@@ -184,6 +199,33 @@ public class TransformUtil {
         return os.toByteArray();
     }
 
+    /**
+     * Marshalls human task data into a byte array.
+     * 
+     * XXX a generic solution is preferable to one method per XML type. Hard to
+     * achieve with the current XML -> POJO mapping. This is copy&paste
+     * programming :-(
+     * 
+     * @author Daniel Huss
+     * @param data
+     *            human task data to marshal
+     * @return marshalled human task
+     * @throws JAXBException
+     *             if the given human task data cannot be marshalled
+     */
+    public static byte[] humanTaskToByte(THumanTaskData data)
+            throws JAXBException {
+        Marshaller marshaller = htaskCntxt.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        JAXBElement<THumanTaskData> mappingElement = new JAXBElement<THumanTaskData>(
+                new QName(Constants.HUMANTASK_NAMESPACE, "humanTaskData"),
+                THumanTaskData.class, data);
+        marshaller.marshal(mappingElement, os);
+
+        return os.toByteArray();
+    }
+
     public static org.w3c.dom.Element jdomToW3c(org.jdom.Element jdomElement)
             throws JDOMException {
         Document doc = new Document();
@@ -207,35 +249,6 @@ public class TransformUtil {
         return os.toByteArray();
     }
 
-    public static byte[] workflowToBytes(Workflow dwdl) throws JAXBException {
-        Marshaller marshaller = dwdlCntxt.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        JAXBElement<Workflow> mappingElement = new JAXBElement<Workflow>(
-                new QName(Constants.DWDL_NAMESPACE, "workflow"),
-                Workflow.class, dwdl);
-        marshaller.marshal(mappingElement, os);
-
-        return os.toByteArray();
-    }
-
-    public static SOAPMessage bytesToSOAPMessage(byte[] message)
-            throws SOAPException {
-
-        MessageFactory messageFactory = MessageFactory.newInstance();
-        SOAPMessage msg = messageFactory.createMessage();
-
-        SOAPPart soapPart = msg.getSOAPPart();
-
-        StreamSource preppedMsgSrc = new StreamSource(new ByteArrayInputStream(
-                message));
-        soapPart.setContent(preppedMsgSrc);
-
-        msg.saveChanges();
-
-        return msg;
-    }
-
     public static byte[] SOAPMessagetoBytes(SOAPMessage msg)
             throws SOAPException, IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -243,28 +256,13 @@ public class TransformUtil {
         return out.toByteArray();
     }
 
-    /**
-     * Marshalls human task data into a byte array.
-     * 
-     * XXX a generic solution is preferable to one method per XML type. Hard to
-     * achieve with the current XML -> POJO mapping. This is copy&paste
-     * programming :-(
-     * 
-     * @author Daniel Huss
-     * @param data
-     *            human task data to marshal
-     * @return marshalled human task
-     * @throws JAXBException
-     *             if the given human task data cannot be marshalled
-     */
-    public static byte[] humanTaskToByte(THumanTaskData data)
-            throws JAXBException {
-        Marshaller marshaller = htaskCntxt.createMarshaller();
+    public static byte[] workflowToBytes(Workflow dwdl) throws JAXBException {
+        Marshaller marshaller = dwdlCntxt.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        JAXBElement<THumanTaskData> mappingElement = new JAXBElement<THumanTaskData>(
-                new QName(Constants.HUMANTASK_NAMESPACE, "humanTaskData"),
-                THumanTaskData.class, data);
+        JAXBElement<Workflow> mappingElement = new JAXBElement<Workflow>(
+                new QName(Constants.DWDL_NAMESPACE, "workflow"),
+                Workflow.class, dwdl);
         marshaller.marshal(mappingElement, os);
 
         return os.toByteArray();

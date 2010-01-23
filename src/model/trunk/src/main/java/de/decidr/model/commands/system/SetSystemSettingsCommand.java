@@ -59,31 +59,6 @@ public class SetSystemSettingsCommand extends SystemCommand {
         this.newSettings = newSettings;
     }
 
-    /**
-     * @throws TransactionException
-     *             if the settings are invalid.
-     */
-    protected void validateNewSettings() throws TransactionException {
-        // Data consistency *should* be checked by the database, not the
-        // application, but this approach required less effort.
-        if (Level.toLevel(newSettings.getLogLevel(), null) == null) {
-            throw new TransactionException("Invalid log level.");
-        }
-
-        // Very lax email validation
-        String simpleEmailPattern = "^[-\\p{L}_\\.]+@[-a-z0-9\\._]+\\.[a-z]{2,4}$";
-
-        if (newSettings.getSystemEmailAddress() == null
-                || newSettings.getSystemEmailAddress().isEmpty()) {
-            throw new TransactionException(
-                    "System email address must not be null or empty.");
-        }
-
-        if (!newSettings.getSystemEmailAddress().matches(simpleEmailPattern)) {
-            throw new TransactionException("Email doesn't match lax pattern.");
-        }
-    }
-
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -113,5 +88,30 @@ public class SetSystemSettingsCommand extends SystemCommand {
         currentSettings.setModifiedDate(DecidrGlobals.getTime().getTime());
 
         evt.getSession().update(currentSettings);
+    }
+
+    /**
+     * @throws TransactionException
+     *             if the settings are invalid.
+     */
+    protected void validateNewSettings() throws TransactionException {
+        // Data consistency *should* be checked by the database, not the
+        // application, but this approach required less effort.
+        if (Level.toLevel(newSettings.getLogLevel(), null) == null) {
+            throw new TransactionException("Invalid log level.");
+        }
+
+        // Very lax email validation
+        String simpleEmailPattern = "^[-\\p{L}_\\.]+@[-a-z0-9\\._]+\\.[a-z]{2,4}$";
+
+        if ((newSettings.getSystemEmailAddress() == null)
+                || newSettings.getSystemEmailAddress().isEmpty()) {
+            throw new TransactionException(
+                    "System email address must not be null or empty.");
+        }
+
+        if (!newSettings.getSystemEmailAddress().matches(simpleEmailPattern)) {
+            throw new TransactionException("Email doesn't match lax pattern.");
+        }
     }
 }

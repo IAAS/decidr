@@ -54,26 +54,19 @@ public class RemoveTasks {
     protected String processID;
 
     /**
-     * Gets the value of the wfmID property.
-     */
-    public long getWfmID() {
-        return wfmID;
-    }
-
-    /**
-     * Sets the value of the wfmID property.
-     */
-    public void setWfmID(long value) {
-        this.wfmID = value;
-    }
-
-    /**
      * Gets the value of the processID property.
      * 
      * @return possible object is {@link String }
      */
     public String getProcessID() {
         return processID;
+    }
+
+    /**
+     * Gets the value of the wfmID property.
+     */
+    public long getWfmID() {
+        return wfmID;
     }
 
     /**
@@ -84,5 +77,12 @@ public class RemoveTasks {
      */
     public void setProcessID(String value) {
         this.processID = value;
+    }
+
+    /**
+     * Sets the value of the wfmID property.
+     */
+    public void setWfmID(long value) {
+        this.wfmID = value;
     }
 }

@@ -66,6 +66,14 @@ public class GetWorkflowModelsCommand extends TenantCommand {
         this.paginator = paginator;
     }
 
+    /**
+     * @return list of all workflow models for the given tenant which survived
+     *         the filters
+     */
+    public List<WorkflowModel> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -88,13 +96,5 @@ public class GetWorkflowModelsCommand extends TenantCommand {
 
         result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY)
                 .list();
-    }
-
-    /**
-     * @return list of all workflow models for the given tenant which survived
-     *         the filters
-     */
-    public List<WorkflowModel> getResult() {
-        return result;
     }
 }

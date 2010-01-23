@@ -103,13 +103,32 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
         this.userIds.add(userId);
     }
 
+    /**
+     * @return the first user
+     */
+    public User getFirstUser() {
+        return users.isEmpty() ? null : users.get(0);
+    }
+
+    /**
+     * @return the users
+     */
+    public List<User> getUser() {
+        return users;
+    }
+
+    @Override
+    public Long[] getUserIds() {
+        return userIds.toArray(new Long[userIds.size()]);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
         users = new ArrayList<User>(0);
-        if (userIds == null || userIds.isEmpty()) {
+        if ((userIds == null) || userIds.isEmpty()) {
             return;
         }
 
@@ -122,24 +141,5 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
         crit.add(Restrictions.in("id", userIds));
 
         users = crit.list();
-    }
-
-    /**
-     * @return the users
-     */
-    public List<User> getUser() {
-        return users;
-    }
-
-    /**
-     * @return the first user
-     */
-    public User getFirstUser() {
-        return users.isEmpty() ? null : users.get(0);
-    }
-
-    @Override
-    public Long[] getUserIds() {
-        return userIds.toArray(new Long[userIds.size()]);
     }
 }

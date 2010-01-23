@@ -107,6 +107,139 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
     }
 
     /**
+     * Test method for {@link LocalStorageProvider#applyConfig(Properties)}.
+     */
+    @Test
+    public void testApplyConfig() throws IncompleteConfigurationException {
+
+        // set as it should
+
+        Properties props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
+
+        storageProvider.applyConfig(props);
+
+        // set s3
+
+        props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "http");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+
+        try {
+            storageProvider.applyConfig(props);
+            fail("This configuration shouldn't work");
+        } catch (IncompleteConfigurationException e1) {
+            // nothing to do
+        }
+
+        // set all false
+
+        props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
+
+        try {
+            storageProvider.applyConfig(props);
+            fail("This configuration shouldn't work");
+        } catch (IncompleteConfigurationException e1) {
+            // nothing to do
+        }
+
+        // give null
+
+        props = null;
+
+        try {
+            storageProvider.applyConfig(props);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+        }
+
+        // one missing key
+
+        props = new Properties();
+
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
+
+        storageProvider.applyConfig(props);
+    }
+
+    /**
+     * Test method for {@link LocalStorageProvider#isApplicable(Properties)}.
+     */
+    @Test
+    public void testIsApplicable() {
+
+        // set as it should be
+
+        Properties props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
+
+        assertTrue(storageProvider.isApplicable(props));
+
+        // set s3
+
+        props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "http");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
+
+        assertFalse(storageProvider.isApplicable(props));
+
+        // set all false
+
+        props = new Properties();
+
+        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
+
+        assertFalse(storageProvider.isApplicable(props));
+
+        // give null
+
+        props = null;
+
+        try {
+            storageProvider.isApplicable(props);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // nthing to do
+        }
+
+        // one missing key
+
+        props = new Properties();
+
+        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
+        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
+        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
+
+        assertTrue(storageProvider.isApplicable(props));
+
+    }
+
+    /**
      * Test method for
      * {@link LocalStorageProvider#putFile(InputStream, Long, Long)},
      * {@link LocalStorageProvider#getFile(Long)}.
@@ -183,139 +316,6 @@ public class LocalStorageProviderTest extends DecidrOthersTest {
             // nothing to do
         }
 
-    }
-
-    /**
-     * Test method for {@link LocalStorageProvider#isApplicable(Properties)}.
-     */
-    @Test
-    public void testIsApplicable() {
-
-        // set as it should be
-
-        Properties props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
-
-        assertTrue(storageProvider.isApplicable(props));
-
-        // set s3
-
-        props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "http");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
-
-        assertFalse(storageProvider.isApplicable(props));
-
-        // set all false
-
-        props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
-
-        assertFalse(storageProvider.isApplicable(props));
-
-        // give null
-
-        props = null;
-
-        try {
-            storageProvider.isApplicable(props);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException e) {
-            // nthing to do
-        }
-
-        // one missing key
-
-        props = new Properties();
-
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
-
-        assertTrue(storageProvider.isApplicable(props));
-
-    }
-
-    /**
-     * Test method for {@link LocalStorageProvider#applyConfig(Properties)}.
-     */
-    @Test
-    public void testApplyConfig() throws IncompleteConfigurationException {
-
-        // set as it should
-
-        Properties props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
-
-        storageProvider.applyConfig(props);
-
-        // set s3
-
-        props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "http");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "true");
-
-        try {
-            storageProvider.applyConfig(props);
-            fail("This configuration shouldn't work");
-        } catch (IncompleteConfigurationException e1) {
-            // nothing to do
-        }
-
-        // set all false
-
-        props = new Properties();
-
-        props.setProperty(StorageProvider.AMAZON_S3_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "false");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
-
-        try {
-            storageProvider.applyConfig(props);
-            fail("This configuration shouldn't work");
-        } catch (IncompleteConfigurationException e1) {
-            // nothing to do
-        }
-
-        // give null
-
-        props = null;
-
-        try {
-            storageProvider.applyConfig(props);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException e) {
-            // nothing to do
-        }
-
-        // one missing key
-
-        props = new Properties();
-
-        props.setProperty(StorageProvider.PROTOCOL_CONFIG_KEY, "file");
-        props.setProperty(StorageProvider.LOCAL_CONFIG_KEY, "true");
-        props.setProperty(StorageProvider.PERSISTENT_CONFIG_KEY, "false");
-
-        storageProvider.applyConfig(props);
     }
 
 }

@@ -33,17 +33,6 @@ public abstract class DecidrOthersTest {
     private static OtherTestsSuite testSuite = new OtherTestsSuite();
     private static boolean skip = false;
 
-    @BeforeClass
-    public static final void beforeClass() {
-        if (OtherTestsSuite.isInSuite()) {
-            skip = true;
-            return;
-        }
-
-        TestUtils.executeStaticMethodsWithAnnotation(OtherTestsSuite.class,
-                BeforeClass.class);
-    }
-
     @AfterClass
     public static final void afterClass() {
         if (skip) {
@@ -55,13 +44,24 @@ public abstract class DecidrOthersTest {
                 AfterClass.class);
     }
 
-    @Before
-    public final void beforeTest() {
-        TestUtils.executeMethodsWithAnnotation(testSuite, Before.class);
+    @BeforeClass
+    public static final void beforeClass() {
+        if (OtherTestsSuite.isInSuite()) {
+            skip = true;
+            return;
+        }
+
+        TestUtils.executeStaticMethodsWithAnnotation(OtherTestsSuite.class,
+                BeforeClass.class);
     }
 
     @After
     public final void afterTest() {
         TestUtils.executeMethodsWithAnnotation(testSuite, After.class);
+    }
+
+    @Before
+    public final void beforeTest() {
+        TestUtils.executeMethodsWithAnnotation(testSuite, Before.class);
     }
 }

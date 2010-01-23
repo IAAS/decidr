@@ -61,6 +61,12 @@ public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
     }
 
     @Override
+    public Long[] getWorkflowModelIds() {
+        Long[] result = new Long[0];
+        return workflowModelIds.toArray(result);
+    }
+
+    @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
         if (workflowModelIds != null) {
@@ -74,12 +80,6 @@ public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
                 }
             }
         }
-    }
-
-    @Override
-    public Long[] getWorkflowModelIds() {
-        Long[] result = new Long[0];
-        return workflowModelIds.toArray(result);
     }
 
 }

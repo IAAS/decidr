@@ -26,19 +26,19 @@ package de.decidr.model.acl.roles;
 public class TenantAdminRole extends WorkflowAdminRole {
 
     /**
+     * Creates a new TenantAdminRole with its actor id set to unknown;
+     * 
+     */
+    public TenantAdminRole() {
+        this(UNKNOWN_USER_ID);
+    }
+
+    /**
      * Constructor.
      * 
      * @param userId
      */
     public TenantAdminRole(Long userId) {
         super(userId);
-    }
-
-    /**
-     * Creates a new TenantAdminRole with its actor id set to unknown;
-     * 
-     */
-    public TenantAdminRole() {
-        this(UNKNOWN_USER_ID);
     }
 }

@@ -29,46 +29,46 @@ public class Log implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The prio. */
     private String prio;
-    
+
     /** The iprio. */
     private Long iprio;
-    
+
     /** The category. */
     private String category;
-    
+
     /** The msg. */
     private String msg;
-    
+
     /** The layout msg. */
     private String layoutMsg;
-    
+
     /** The throwable. */
     private String throwable;
-    
+
     /** The ndc. */
     private String ndc;
-    
+
     /** The mdc. */
     private String mdc;
-    
+
     /** The mdc2. */
     private String mdc2;
-    
+
     /** The info. */
     private String info;
-    
+
     /** The addon. */
     private String addon;
-    
+
     /** The log date. */
     private Date logDate;
-    
+
     /** The created by. */
     private String createdBy;
-    
+
     /** The thread. */
     private String thread;
 
@@ -144,60 +144,12 @@ public class Log implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Gets the addon.
      * 
-     * @return the id
+     * @return the addon
      */
-    public Long getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the prio.
-     * 
-     * @return the prio
-     */
-    public String getPrio() {
-        return this.prio;
-    }
-
-    /**
-     * Sets the prio.
-     * 
-     * @param prio
-     *            the new prio
-     */
-    public void setPrio(String prio) {
-        this.prio = prio;
-    }
-
-    /**
-     * Gets the iprio.
-     * 
-     * @return the iprio
-     */
-    public Long getIprio() {
-        return this.iprio;
-    }
-
-    /**
-     * Sets the iprio.
-     * 
-     * @param iprio
-     *            the new iprio
-     */
-    public void setIprio(Long iprio) {
-        this.iprio = iprio;
+    public String getAddon() {
+        return this.addon;
     }
 
     /**
@@ -210,127 +162,21 @@ public class Log implements java.io.Serializable {
     }
 
     /**
-     * Sets the category.
+     * Gets the created by.
      * 
-     * @param category
-     *            the new category
+     * @return the created by
      */
-    public void setCategory(String category) {
-        this.category = category;
+    public String getCreatedBy() {
+        return this.createdBy;
     }
 
     /**
-     * Gets the msg.
+     * Gets the id.
      * 
-     * @return the msg
+     * @return the id
      */
-    public String getMsg() {
-        return this.msg;
-    }
-
-    /**
-     * Sets the msg.
-     * 
-     * @param msg
-     *            the new msg
-     */
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    /**
-     * Gets the layout msg.
-     * 
-     * @return the layout msg
-     */
-    public String getLayoutMsg() {
-        return this.layoutMsg;
-    }
-
-    /**
-     * Sets the layout msg.
-     * 
-     * @param layoutMsg
-     *            the new layout msg
-     */
-    public void setLayoutMsg(String layoutMsg) {
-        this.layoutMsg = layoutMsg;
-    }
-
-    /**
-     * Gets the throwable.
-     * 
-     * @return the throwable
-     */
-    public String getThrowable() {
-        return this.throwable;
-    }
-
-    /**
-     * Sets the throwable.
-     * 
-     * @param throwable
-     *            the new throwable
-     */
-    public void setThrowable(String throwable) {
-        this.throwable = throwable;
-    }
-
-    /**
-     * Gets the ndc.
-     * 
-     * @return the ndc
-     */
-    public String getNdc() {
-        return this.ndc;
-    }
-
-    /**
-     * Sets the ndc.
-     * 
-     * @param ndc
-     *            the new ndc
-     */
-    public void setNdc(String ndc) {
-        this.ndc = ndc;
-    }
-
-    /**
-     * Gets the mdc.
-     * 
-     * @return the mdc
-     */
-    public String getMdc() {
-        return this.mdc;
-    }
-
-    /**
-     * Sets the mdc.
-     * 
-     * @param mdc
-     *            the new mdc
-     */
-    public void setMdc(String mdc) {
-        this.mdc = mdc;
-    }
-
-    /**
-     * Gets the mdc2.
-     * 
-     * @return the mdc2
-     */
-    public String getMdc2() {
-        return this.mdc2;
-    }
-
-    /**
-     * Sets the mdc2.
-     * 
-     * @param mdc2
-     *            the new mdc2
-     */
-    public void setMdc2(String mdc2) {
-        this.mdc2 = mdc2;
+    public Long getId() {
+        return this.id;
     }
 
     /**
@@ -343,22 +189,93 @@ public class Log implements java.io.Serializable {
     }
 
     /**
-     * Sets the info.
+     * Gets the iprio.
      * 
-     * @param info
-     *            the new info
+     * @return the iprio
      */
-    public void setInfo(String info) {
-        this.info = info;
+    public Long getIprio() {
+        return this.iprio;
     }
 
     /**
-     * Gets the addon.
+     * Gets the layout msg.
      * 
-     * @return the addon
+     * @return the layout msg
      */
-    public String getAddon() {
-        return this.addon;
+    public String getLayoutMsg() {
+        return this.layoutMsg;
+    }
+
+    /**
+     * Gets the log date.
+     * 
+     * @return the log date
+     */
+    public Date getLogDate() {
+        return this.logDate;
+    }
+
+    /**
+     * Gets the mdc.
+     * 
+     * @return the mdc
+     */
+    public String getMdc() {
+        return this.mdc;
+    }
+
+    /**
+     * Gets the mdc2.
+     * 
+     * @return the mdc2
+     */
+    public String getMdc2() {
+        return this.mdc2;
+    }
+
+    /**
+     * Gets the msg.
+     * 
+     * @return the msg
+     */
+    public String getMsg() {
+        return this.msg;
+    }
+
+    /**
+     * Gets the ndc.
+     * 
+     * @return the ndc
+     */
+    public String getNdc() {
+        return this.ndc;
+    }
+
+    /**
+     * Gets the prio.
+     * 
+     * @return the prio
+     */
+    public String getPrio() {
+        return this.prio;
+    }
+
+    /**
+     * Gets the thread.
+     * 
+     * @return the thread
+     */
+    public String getThread() {
+        return this.thread;
+    }
+
+    /**
+     * Gets the throwable.
+     * 
+     * @return the throwable
+     */
+    public String getThrowable() {
+        return this.throwable;
     }
 
     /**
@@ -372,31 +289,13 @@ public class Log implements java.io.Serializable {
     }
 
     /**
-     * Gets the log date.
+     * Sets the category.
      * 
-     * @return the log date
+     * @param category
+     *            the new category
      */
-    public Date getLogDate() {
-        return this.logDate;
-    }
-
-    /**
-     * Sets the log date.
-     * 
-     * @param logDate
-     *            the new log date
-     */
-    public void setLogDate(Date logDate) {
-        this.logDate = logDate;
-    }
-
-    /**
-     * Gets the created by.
-     * 
-     * @return the created by
-     */
-    public String getCreatedBy() {
-        return this.createdBy;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     /**
@@ -410,12 +309,103 @@ public class Log implements java.io.Serializable {
     }
 
     /**
-     * Gets the thread.
+     * Sets the id.
      * 
-     * @return the thread
+     * @param id
+     *            the new id
      */
-    public String getThread() {
-        return this.thread;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the info.
+     * 
+     * @param info
+     *            the new info
+     */
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    /**
+     * Sets the iprio.
+     * 
+     * @param iprio
+     *            the new iprio
+     */
+    public void setIprio(Long iprio) {
+        this.iprio = iprio;
+    }
+
+    /**
+     * Sets the layout msg.
+     * 
+     * @param layoutMsg
+     *            the new layout msg
+     */
+    public void setLayoutMsg(String layoutMsg) {
+        this.layoutMsg = layoutMsg;
+    }
+
+    /**
+     * Sets the log date.
+     * 
+     * @param logDate
+     *            the new log date
+     */
+    public void setLogDate(Date logDate) {
+        this.logDate = logDate;
+    }
+
+    /**
+     * Sets the mdc.
+     * 
+     * @param mdc
+     *            the new mdc
+     */
+    public void setMdc(String mdc) {
+        this.mdc = mdc;
+    }
+
+    /**
+     * Sets the mdc2.
+     * 
+     * @param mdc2
+     *            the new mdc2
+     */
+    public void setMdc2(String mdc2) {
+        this.mdc2 = mdc2;
+    }
+
+    /**
+     * Sets the msg.
+     * 
+     * @param msg
+     *            the new msg
+     */
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    /**
+     * Sets the ndc.
+     * 
+     * @param ndc
+     *            the new ndc
+     */
+    public void setNdc(String ndc) {
+        this.ndc = ndc;
+    }
+
+    /**
+     * Sets the prio.
+     * 
+     * @param prio
+     *            the new prio
+     */
+    public void setPrio(String prio) {
+        this.prio = prio;
     }
 
     /**
@@ -426,6 +416,16 @@ public class Log implements java.io.Serializable {
      */
     public void setThread(String thread) {
         this.thread = thread;
+    }
+
+    /**
+     * Sets the throwable.
+     * 
+     * @param throwable
+     *            the new throwable
+     */
+    public void setThrowable(String throwable) {
+        this.throwable = throwable;
     }
 
 }

@@ -29,22 +29,22 @@ public class Invitation implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The administrate workflow model. */
     private WorkflowModel administrateWorkflowModel;
-    
+
     /** The sender. */
     private User sender;
-    
+
     /** The receiver. */
     private User receiver;
-    
+
     /** The join tenant. */
     private Tenant joinTenant;
-    
+
     /** The participate in workflow instance. */
     private WorkflowInstance participateInWorkflowInstance;
-    
+
     /** The creation date. */
     private Date creationDate;
 
@@ -101,6 +101,24 @@ public class Invitation implements java.io.Serializable {
     }
 
     /**
+     * Gets the administrate workflow model.
+     * 
+     * @return the administrate workflow model
+     */
+    public WorkflowModel getAdministrateWorkflowModel() {
+        return this.administrateWorkflowModel;
+    }
+
+    /**
+     * Gets the creation date.
+     * 
+     * @return the creation date
+     */
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
@@ -110,22 +128,39 @@ public class Invitation implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the join tenant.
      * 
-     * @param id
-     *            the new id
+     * @return the join tenant
      */
-    public void setId(Long id) {
-        this.id = id;
+    public Tenant getJoinTenant() {
+        return this.joinTenant;
     }
 
     /**
-     * Gets the administrate workflow model.
+     * Gets the participate in workflow instance.
      * 
-     * @return the administrate workflow model
+     * @return the participate in workflow instance
      */
-    public WorkflowModel getAdministrateWorkflowModel() {
-        return this.administrateWorkflowModel;
+    public WorkflowInstance getParticipateInWorkflowInstance() {
+        return this.participateInWorkflowInstance;
+    }
+
+    /**
+     * Gets the receiver.
+     * 
+     * @return the receiver
+     */
+    public User getReceiver() {
+        return this.receiver;
+    }
+
+    /**
+     * Gets the sender.
+     * 
+     * @return the sender
+     */
+    public User getSender() {
+        return this.sender;
     }
 
     /**
@@ -140,50 +175,23 @@ public class Invitation implements java.io.Serializable {
     }
 
     /**
-     * Gets the sender.
+     * Sets the creation date.
      * 
-     * @return the sender
+     * @param creationDate
+     *            the new creation date
      */
-    public User getSender() {
-        return this.sender;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     /**
-     * Sets the sender.
+     * Sets the id.
      * 
-     * @param sender
-     *            the new sender
+     * @param id
+     *            the new id
      */
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
-    /**
-     * Gets the receiver.
-     * 
-     * @return the receiver
-     */
-    public User getReceiver() {
-        return this.receiver;
-    }
-
-    /**
-     * Sets the receiver.
-     * 
-     * @param receiver
-     *            the new receiver
-     */
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
-    }
-
-    /**
-     * Gets the join tenant.
-     * 
-     * @return the join tenant
-     */
-    public Tenant getJoinTenant() {
-        return this.joinTenant;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -194,15 +202,6 @@ public class Invitation implements java.io.Serializable {
      */
     public void setJoinTenant(Tenant joinTenant) {
         this.joinTenant = joinTenant;
-    }
-
-    /**
-     * Gets the participate in workflow instance.
-     * 
-     * @return the participate in workflow instance
-     */
-    public WorkflowInstance getParticipateInWorkflowInstance() {
-        return this.participateInWorkflowInstance;
     }
 
     /**
@@ -217,22 +216,23 @@ public class Invitation implements java.io.Serializable {
     }
 
     /**
-     * Gets the creation date.
+     * Sets the receiver.
      * 
-     * @return the creation date
+     * @param receiver
+     *            the new receiver
      */
-    public Date getCreationDate() {
-        return this.creationDate;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
     /**
-     * Sets the creation date.
+     * Sets the sender.
      * 
-     * @param creationDate
-     *            the new creation date
+     * @param sender
+     *            the new sender
      */
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
 }

@@ -50,19 +50,56 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
     static SystemFacade userFacade;
     static SystemFacade nullFacade;
 
-    /**
-     * Initialises the facade instances.
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        adminFacade = new SystemFacade(new SuperAdminRole(DecidrGlobals
-                .getSettings().getSuperAdmin().getId()));
-        userFacade = new SystemFacade(new BasicRole(0L));
-        nullFacade = new SystemFacade(null);
+    public static String HOSTNAME_PREFIX = "127.0.0.1";
+
+    private static int hostCounter = 0;
+
+    private static void addServerExceptionHelper(String failmsg,
+            SystemFacade facade, ServerTypeEnum type, String location,
+            byte initialLoad, boolean locked, boolean dynamicallyAdded) {
+        try {
+            facade.addServer(type, location, initialLoad, locked,
+                    dynamicallyAdded);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // should be thrown
+        } catch (IllegalArgumentException e) {
+            // should be thrown
+        }
     }
 
-    public static String HOSTNAME_PREFIX = "127.0.0.1";
-    private static int hostCounter = 0;
+    public static String getHostname() {
+        return HOSTNAME_PREFIX + ":" + (hostCounter++);
+    }
+
+    /**
+     * Returns a new instance of the passed <code>{@link Server}</code> with
+     * up-to-date data or <code>null</code> if the server doesn't exist anymore.<br>
+     * <em>USAGE:</em> <code>server = getServer(server)</code>
+     */
+    private static Server getServer(Server testServer)
+            throws TransactionException {
+        List<Server> servers = adminFacade.getServers(ServerTypeEnum
+                .valueOf(testServer.getServerType().getName()));
+        for (Server server : servers) {
+            if (testServer.getId().equals(server.getId())) {
+                return server;
+            }
+        }
+
+        fail("Couldn't find specified server in DB");
+        return null;
+    }
+
+    private static void logExceptionHelper(String failmsg, SystemFacade facade,
+            List<Filter> filters, Paginator paginator) {
+        try {
+            facade.getLog(filters, paginator);
+            fail(failmsg);
+        } catch (TransactionException e) {
+            // should be thrown
+        }
+    }
 
     @BeforeClass
     @AfterClass
@@ -83,290 +120,14 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
         hostCounter = 0;
     }
 
-    /**
-     * Test method for {@link SystemFacade#setSettings(SystemSettings)}.
-     */
-    @Test
-    public void testSettings() throws TransactionException {
-        SystemSettings setterSettings = new SystemSettings();
-        SystemSettings getterSettings;
-        Calendar modDate;
-
-        getterSettings = DecidrGlobals.getSettings();
-        assertNotNull(getterSettings);
-        User admin = getterSettings.getSuperAdmin();
-
-        setterSettings.setSuperAdmin(admin);
-        setterSettings.setAutoAcceptNewTenants(true);
-        setterSettings.setChangeEmailRequestLifetimeSeconds(20);
-        setterSettings.setBaseUrl("decidr.de");
-        setterSettings.setInvitationLifetimeSeconds(10);
-        setterSettings.setLogLevel("DEBUG");
-        setterSettings.setMaxAttachmentsPerEmail(10);
-        setterSettings.setMaxServerLoadForShutdown((byte) 100);
-        setterSettings.setMaxServerLoadForUnlock((byte) 100);
-        setterSettings.setMaxUploadFileSizeBytes(1);
-        setterSettings.setMaxWorkflowInstancesForShutdown(1);
-        setterSettings.setMaxWorkflowInstancesForUnlock(1);
-        setterSettings.setMinServerLoadForLock((byte) 100);
-        setterSettings.setMinUnlockedServers(1);
-        setterSettings.setMinWorkflowInstancesForLock(1);
-        modDate = DecidrGlobals.getTime();
-        modDate.set(Calendar.MILLISECOND, 0);
-        setterSettings.setModifiedDate(modDate.getTime());
-        setterSettings.setMonitorAveragingPeriodSeconds(60);
-        setterSettings.setMonitorUpdateIntervalSeconds(10);
-        setterSettings.setMtaHostname("localhost");
-        setterSettings.setMtaPassword("asdfg");
-        setterSettings.setMtaPort(0);
-        setterSettings.setMtaUsername("asd");
-        setterSettings.setMtaUseTls(true);
-        setterSettings.setPasswordResetRequestLifetimeSeconds(200);
-        setterSettings.setRegistrationRequestLifetimeSeconds(2000);
-        setterSettings.setServerPoolInstances(3);
-        setterSettings.setSystemEmailAddress("decidr@decidr.biz");
-        setterSettings.setSystemName("De Cidr");
-        adminFacade.setSettings(setterSettings);
-
-        getterSettings = DecidrGlobals.getSettings();
-        assertEquals(true, getterSettings.isAutoAcceptNewTenants());
-        assertEquals(true, getterSettings.isMtaUseTls());
-        assertEquals(20, getterSettings.getChangeEmailRequestLifetimeSeconds());
-        assertEquals("decidr.de", getterSettings.getBaseUrl());
-        assertEquals(10, getterSettings.getInvitationLifetimeSeconds());
-        assertEquals("DEBUG", getterSettings.getLogLevel());
-        assertEquals(10, getterSettings.getMaxAttachmentsPerEmail());
-        assertEquals((byte) 100, getterSettings.getMaxServerLoadForShutdown());
-        assertEquals((byte) 100, getterSettings.getMaxServerLoadForUnlock());
-        assertEquals(1L, getterSettings.getMaxUploadFileSizeBytes());
-        assertEquals(1, getterSettings.getMaxWorkflowInstancesForShutdown());
-        assertEquals(1, getterSettings.getMaxWorkflowInstancesForUnlock());
-        assertEquals((byte) 100, getterSettings.getMinServerLoadForLock());
-        assertEquals(1, getterSettings.getMinUnlockedServers());
-        assertEquals(1, getterSettings.getMinWorkflowInstancesForLock());
-        assertEquals(60, getterSettings.getMonitorAveragingPeriodSeconds());
-        assertEquals(10, getterSettings.getMonitorUpdateIntervalSeconds());
-        assertEquals("localhost", getterSettings.getMtaHostname());
-        assertEquals("asdfg", getterSettings.getMtaPassword());
-        assertEquals(0, getterSettings.getMtaPort());
-        assertEquals("asd", getterSettings.getMtaUsername());
-        assertEquals(200, getterSettings
-                .getPasswordResetRequestLifetimeSeconds());
-        assertEquals(2000, getterSettings
-                .getRegistrationRequestLifetimeSeconds());
-        assertEquals(3, getterSettings.getServerPoolInstances());
-        assertEquals("decidr@decidr.biz", getterSettings
-                .getSystemEmailAddress());
-        assertEquals("De Cidr", getterSettings.getSystemName());
-        assertFalse(modDate.getTime().after(getterSettings.getModifiedDate()));
-
-        setterSettings.setAutoAcceptNewTenants(false);
-        setterSettings.setChangeEmailRequestLifetimeSeconds(150);
-        setterSettings.setBaseUrl("decidr.eu");
-        setterSettings.setInvitationLifetimeSeconds(1450);
-        setterSettings.setLogLevel("ERROR");
-        setterSettings.setMaxAttachmentsPerEmail(0);
-        setterSettings.setMaxServerLoadForShutdown((byte) 10);
-        setterSettings.setMaxServerLoadForUnlock((byte) 10);
-        setterSettings.setMaxUploadFileSizeBytes(100);
-        setterSettings.setMaxWorkflowInstancesForShutdown(100);
-        setterSettings.setMaxWorkflowInstancesForUnlock(10);
-        setterSettings.setMinServerLoadForLock((byte) 10);
-        setterSettings.setMinUnlockedServers(10);
-        setterSettings.setMinWorkflowInstancesForLock(10);
-        modDate.add(Calendar.SECOND, -1000);
-        setterSettings.setModifiedDate(modDate.getTime());
-        setterSettings.setMonitorAveragingPeriodSeconds(600);
-        setterSettings.setMonitorUpdateIntervalSeconds(1);
-        setterSettings.setMtaPort(22);
-        setterSettings.setMtaUseTls(false);
-        setterSettings.setPasswordResetRequestLifetimeSeconds(20);
-        setterSettings.setRegistrationRequestLifetimeSeconds(2);
-        setterSettings.setServerPoolInstances(1);
-        setterSettings.setSystemEmailAddress("dumbo@decidr.eu");
-        setterSettings.setSystemName("Darth Vader");
-        adminFacade.setSettings(setterSettings);
-
-        SystemSettings oldSettings = getterSettings;
-        // Notice: due to the way Hibernate works, DecidrGlobals.getSettings
-        // might return the same SystemSettings object every time you call it
-        // from within your current thread.
-        getterSettings = DecidrGlobals.getSettings();
-        assertNotSame(oldSettings, getterSettings);
-        assertEquals(false, getterSettings.isAutoAcceptNewTenants());
-        assertEquals(false, getterSettings.isMtaUseTls());
-        assertEquals(150, getterSettings.getChangeEmailRequestLifetimeSeconds());
-        assertEquals("decidr.eu", getterSettings.getBaseUrl());
-        assertEquals(1450, getterSettings.getInvitationLifetimeSeconds());
-        assertEquals("ERROR", getterSettings.getLogLevel());
-        assertEquals(0, getterSettings.getMaxAttachmentsPerEmail());
-        assertEquals((byte) 10, getterSettings.getMaxServerLoadForShutdown());
-        assertEquals((byte) 10, getterSettings.getMaxServerLoadForUnlock());
-        assertEquals(100L, getterSettings.getMaxUploadFileSizeBytes());
-        assertEquals(100, getterSettings.getMaxWorkflowInstancesForShutdown());
-        assertEquals(10, getterSettings.getMaxWorkflowInstancesForUnlock());
-        assertEquals((byte) 10, getterSettings.getMinServerLoadForLock());
-        assertEquals(10, getterSettings.getMinUnlockedServers());
-        assertEquals(10, getterSettings.getMinWorkflowInstancesForLock());
-        assertEquals(600, getterSettings.getMonitorAveragingPeriodSeconds());
-        assertEquals(1, getterSettings.getMonitorUpdateIntervalSeconds());
-        assertEquals(22, getterSettings.getMtaPort());
-        assertEquals(20, getterSettings
-                .getPasswordResetRequestLifetimeSeconds());
-        assertEquals(2, getterSettings.getRegistrationRequestLifetimeSeconds());
-        assertEquals(1, getterSettings.getServerPoolInstances());
-        assertEquals("dumbo@decidr.eu", getterSettings.getSystemEmailAddress());
-        assertEquals("Darth Vader", getterSettings.getSystemName());
-        assertFalse(modDate.getTime().after(getterSettings.getModifiedDate()));
-
-        setterSettings.setMtaHostname("");
-        setterSettings.setMtaUsername("");
-        setterSettings.setMtaPassword("");
-        setterSettings.setSystemName("");
-        adminFacade.setSettings(setterSettings);
-
-        getterSettings = DecidrGlobals.getSettings();
-        assertEquals("", getterSettings.getMtaHostname());
-        assertEquals("", getterSettings.getMtaPassword());
-        assertEquals("", getterSettings.getMtaUsername());
-        assertEquals("", getterSettings.getSystemName());
-
+    private static void setServerLockExceptionHelper(String failmsg,
+            SystemFacade facade, long serverID, boolean lock) {
         try {
-            adminFacade.setSettings(null);
-            fail("managed to set null settings");
-        } catch (IllegalArgumentException e) {
+            facade.setServerLock(serverID, lock);
+            fail(failmsg);
+        } catch (TransactionException e) {
             // should be thrown
         }
-        setSettingsExceptionHelper("managed to set null settings", adminFacade,
-                new SystemSettings());
-
-        setSettingsExceptionHelper(
-                "setting settings with null facade succeeded", nullFacade,
-                setterSettings);
-        setSettingsExceptionHelper(
-                "setting settings with normal user facade succeeded",
-                userFacade, setterSettings);
-
-        setterSettings.setChangeEmailRequestLifetimeSeconds(-1);
-        setSettingsExceptionHelper(
-                "invalid ChangeEmailRequestLifetimeSeconds succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setChangeEmailRequestLifetimeSeconds(1);
-
-        setterSettings.setBaseUrl(null);
-        setSettingsExceptionHelper("null domain succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setBaseUrl("");
-        setSettingsExceptionHelper("empty domain succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setBaseUrl("decidr.de");
-
-        setterSettings.setInvitationLifetimeSeconds(-1);
-        setSettingsExceptionHelper(
-                "invalid InvitationLifetimeSeconds succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setInvitationLifetimeSeconds(1);
-
-        setterSettings.setLogLevel("INVALID");
-        setSettingsExceptionHelper("invalid loglevel succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setLogLevel("ERROR");
-
-        setterSettings.setMaxAttachmentsPerEmail(-1);
-        setSettingsExceptionHelper("invalid amount of attachments succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setMaxAttachmentsPerEmail(1);
-
-        setterSettings.setMaxServerLoadForShutdown((byte) -1);
-        setSettingsExceptionHelper(
-                "invalid MaxServerLoadForShutdown succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setMaxServerLoadForShutdown((byte) 1);
-
-        setterSettings.setMaxServerLoadForUnlock((byte) -1);
-        setSettingsExceptionHelper("invalid MaxServerLoadForUnlock succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setMaxServerLoadForUnlock((byte) 1);
-
-        setterSettings.setMaxUploadFileSizeBytes(-1);
-        setSettingsExceptionHelper("invalid MaxUploadFileSizeBytes succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setMaxUploadFileSizeBytes(1);
-
-        setterSettings.setMaxWorkflowInstancesForShutdown(-1);
-        setSettingsExceptionHelper(
-                "invalid MaxWorkflowInstancesForShutdown succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setMaxWorkflowInstancesForShutdown(1);
-
-        setterSettings.setMaxWorkflowInstancesForUnlock(-1);
-        setSettingsExceptionHelper(
-                "invalid MaxWorkflowInstancesForUnlock succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setMaxWorkflowInstancesForUnlock(1);
-
-        setterSettings.setMinServerLoadForLock((byte) -1);
-        setSettingsExceptionHelper("invalid MinServerLoadForLock succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setMinServerLoadForLock((byte) 1);
-
-        setterSettings.setMinUnlockedServers(-1);
-        setSettingsExceptionHelper("invalid MinUnlockedServers succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setMinUnlockedServers(1);
-
-        setterSettings.setMinWorkflowInstancesForLock(-1);
-        setSettingsExceptionHelper(
-                "invalid MinWorkflowInstancesForLock succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setMinWorkflowInstancesForLock(1);
-
-        setterSettings.setMonitorAveragingPeriodSeconds(-1);
-        setSettingsExceptionHelper(
-                "invalid MonitorAveragingPeriodSeconds succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setMonitorAveragingPeriodSeconds(1);
-
-        setterSettings.setMonitorUpdateIntervalSeconds(-1);
-        setSettingsExceptionHelper(
-                "invalid MonitorUpdateIntervalSeconds succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setMonitorUpdateIntervalSeconds(1);
-
-        setterSettings.setPasswordResetRequestLifetimeSeconds(-1);
-        setSettingsExceptionHelper(
-                "invalid PasswordResetRequestLifetimeSeconds succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setPasswordResetRequestLifetimeSeconds(1);
-
-        setterSettings.setRegistrationRequestLifetimeSeconds(-1);
-        setSettingsExceptionHelper(
-                "invalid RegistrationRequestLifetimeSeconds succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setRegistrationRequestLifetimeSeconds(1);
-
-        setterSettings.setServerPoolInstances(-1);
-        setSettingsExceptionHelper("invalid ServerPoolInstances succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setServerPoolInstances(1);
-
-        setterSettings.setSystemEmailAddress("in@valid@email");
-        setSettingsExceptionHelper("invalid email address succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setSystemEmailAddress("");
-        setSettingsExceptionHelper("empty email address succeeded",
-                adminFacade, setterSettings);
-        setterSettings.setSystemEmailAddress(null);
-        setSettingsExceptionHelper("null email address succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setSystemEmailAddress("invalid@email.de");
-
-        setterSettings.setSystemName(null);
-        setSettingsExceptionHelper("null system name succeeded", adminFacade,
-                setterSettings);
-        setterSettings.setSystemName("DecidR");
-
-        adminFacade.setSettings(setterSettings);
     }
 
     private static void setSettingsExceptionHelper(String failmsg,
@@ -377,6 +138,68 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
         } catch (TransactionException e) {
             // should be thrown
         }
+    }
+
+    /**
+     * Initialises the facade instances.
+     */
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        adminFacade = new SystemFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
+        userFacade = new SystemFacade(new BasicRole(0L));
+        nullFacade = new SystemFacade(null);
+    }
+
+    private static void updateServerLoadExceptionHelper(String failmsg,
+            SystemFacade facade, long serverID, byte newLoad) {
+        try {
+            facade.updateServerLoad(serverID, newLoad);
+            fail(failmsg);
+        } catch (IllegalArgumentException e) {
+            // should be thrown
+        } catch (TransactionException e) {
+            // should be thrown
+        }
+    }
+
+    /**
+     * Test method for {@link SystemFacade#getLog(List, Paginator)}.
+     */
+    @Test
+    public void testGetLog() throws TransactionException {
+        Paginator emptyPaginator = new Paginator();
+        ArrayList<Filter> emptyList = new ArrayList<Filter>();
+
+        adminFacade.getLog(null, null);
+        adminFacade.getLog(emptyList, null);
+        adminFacade.getLog(null, emptyPaginator);
+        adminFacade.getLog(emptyList, emptyPaginator);
+
+        logExceptionHelper(
+                "getting log (null, null) with null facade succeeded",
+                nullFacade, null, null);
+        logExceptionHelper(
+                "getting log (obj, null) with null facade succeeded",
+                nullFacade, emptyList, null);
+        logExceptionHelper(
+                "getting log (null, obj) with null facade succeeded",
+                nullFacade, null, emptyPaginator);
+        logExceptionHelper("getting log (obj, obj) with null facade succeeded",
+                nullFacade, emptyList, emptyPaginator);
+
+        logExceptionHelper(
+                "getting log (null, null) with normal user facade succeeded",
+                userFacade, null, null);
+        logExceptionHelper(
+                "getting log (obj, null) with normal user facade succeeded",
+                userFacade, emptyList, null);
+        logExceptionHelper(
+                "getting log (null, obj) with normal user facade succeeded",
+                userFacade, null, emptyPaginator);
+        logExceptionHelper(
+                "getting log (obj, obj) with normal user facade succeeded",
+                userFacade, emptyList, emptyPaginator);
     }
 
     /**
@@ -862,110 +685,288 @@ public class SystemFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Returns a new instance of the passed <code>{@link Server}</code> with
-     * up-to-date data or <code>null</code> if the server doesn't exist anymore.<br>
-     * <em>USAGE:</em> <code>server = getServer(server)</code>
-     */
-    private static Server getServer(Server testServer)
-            throws TransactionException {
-        List<Server> servers = adminFacade.getServers(ServerTypeEnum
-                .valueOf(testServer.getServerType().getName()));
-        for (Server server : servers) {
-            if (testServer.getId().equals(server.getId())) {
-                return server;
-            }
-        }
-
-        fail("Couldn't find specified server in DB");
-        return null;
-    }
-
-    private static void setServerLockExceptionHelper(String failmsg,
-            SystemFacade facade, long serverID, boolean lock) {
-        try {
-            facade.setServerLock(serverID, lock);
-            fail(failmsg);
-        } catch (TransactionException e) {
-            // should be thrown
-        }
-    }
-
-    private static void updateServerLoadExceptionHelper(String failmsg,
-            SystemFacade facade, long serverID, byte newLoad) {
-        try {
-            facade.updateServerLoad(serverID, newLoad);
-            fail(failmsg);
-        } catch (IllegalArgumentException e) {
-            // should be thrown
-        } catch (TransactionException e) {
-            // should be thrown
-        }
-    }
-
-    private static void addServerExceptionHelper(String failmsg,
-            SystemFacade facade, ServerTypeEnum type, String location,
-            byte initialLoad, boolean locked, boolean dynamicallyAdded) {
-        try {
-            facade.addServer(type, location, initialLoad, locked,
-                    dynamicallyAdded);
-            fail(failmsg);
-        } catch (TransactionException e) {
-            // should be thrown
-        } catch (IllegalArgumentException e) {
-            // should be thrown
-        }
-    }
-
-    /**
-     * Test method for {@link SystemFacade#getLog(List, Paginator)}.
+     * Test method for {@link SystemFacade#setSettings(SystemSettings)}.
      */
     @Test
-    public void testGetLog() throws TransactionException {
-        Paginator emptyPaginator = new Paginator();
-        ArrayList<Filter> emptyList = new ArrayList<Filter>();
+    public void testSettings() throws TransactionException {
+        SystemSettings setterSettings = new SystemSettings();
+        SystemSettings getterSettings;
+        Calendar modDate;
 
-        adminFacade.getLog(null, null);
-        adminFacade.getLog(emptyList, null);
-        adminFacade.getLog(null, emptyPaginator);
-        adminFacade.getLog(emptyList, emptyPaginator);
+        getterSettings = DecidrGlobals.getSettings();
+        assertNotNull(getterSettings);
+        User admin = getterSettings.getSuperAdmin();
 
-        logExceptionHelper(
-                "getting log (null, null) with null facade succeeded",
-                nullFacade, null, null);
-        logExceptionHelper(
-                "getting log (obj, null) with null facade succeeded",
-                nullFacade, emptyList, null);
-        logExceptionHelper(
-                "getting log (null, obj) with null facade succeeded",
-                nullFacade, null, emptyPaginator);
-        logExceptionHelper("getting log (obj, obj) with null facade succeeded",
-                nullFacade, emptyList, emptyPaginator);
+        setterSettings.setSuperAdmin(admin);
+        setterSettings.setAutoAcceptNewTenants(true);
+        setterSettings.setChangeEmailRequestLifetimeSeconds(20);
+        setterSettings.setBaseUrl("decidr.de");
+        setterSettings.setInvitationLifetimeSeconds(10);
+        setterSettings.setLogLevel("DEBUG");
+        setterSettings.setMaxAttachmentsPerEmail(10);
+        setterSettings.setMaxServerLoadForShutdown((byte) 100);
+        setterSettings.setMaxServerLoadForUnlock((byte) 100);
+        setterSettings.setMaxUploadFileSizeBytes(1);
+        setterSettings.setMaxWorkflowInstancesForShutdown(1);
+        setterSettings.setMaxWorkflowInstancesForUnlock(1);
+        setterSettings.setMinServerLoadForLock((byte) 100);
+        setterSettings.setMinUnlockedServers(1);
+        setterSettings.setMinWorkflowInstancesForLock(1);
+        modDate = DecidrGlobals.getTime();
+        modDate.set(Calendar.MILLISECOND, 0);
+        setterSettings.setModifiedDate(modDate.getTime());
+        setterSettings.setMonitorAveragingPeriodSeconds(60);
+        setterSettings.setMonitorUpdateIntervalSeconds(10);
+        setterSettings.setMtaHostname("localhost");
+        setterSettings.setMtaPassword("asdfg");
+        setterSettings.setMtaPort(0);
+        setterSettings.setMtaUsername("asd");
+        setterSettings.setMtaUseTls(true);
+        setterSettings.setPasswordResetRequestLifetimeSeconds(200);
+        setterSettings.setRegistrationRequestLifetimeSeconds(2000);
+        setterSettings.setServerPoolInstances(3);
+        setterSettings.setSystemEmailAddress("decidr@decidr.biz");
+        setterSettings.setSystemName("De Cidr");
+        adminFacade.setSettings(setterSettings);
 
-        logExceptionHelper(
-                "getting log (null, null) with normal user facade succeeded",
-                userFacade, null, null);
-        logExceptionHelper(
-                "getting log (obj, null) with normal user facade succeeded",
-                userFacade, emptyList, null);
-        logExceptionHelper(
-                "getting log (null, obj) with normal user facade succeeded",
-                userFacade, null, emptyPaginator);
-        logExceptionHelper(
-                "getting log (obj, obj) with normal user facade succeeded",
-                userFacade, emptyList, emptyPaginator);
-    }
+        getterSettings = DecidrGlobals.getSettings();
+        assertEquals(true, getterSettings.isAutoAcceptNewTenants());
+        assertEquals(true, getterSettings.isMtaUseTls());
+        assertEquals(20, getterSettings.getChangeEmailRequestLifetimeSeconds());
+        assertEquals("decidr.de", getterSettings.getBaseUrl());
+        assertEquals(10, getterSettings.getInvitationLifetimeSeconds());
+        assertEquals("DEBUG", getterSettings.getLogLevel());
+        assertEquals(10, getterSettings.getMaxAttachmentsPerEmail());
+        assertEquals((byte) 100, getterSettings.getMaxServerLoadForShutdown());
+        assertEquals((byte) 100, getterSettings.getMaxServerLoadForUnlock());
+        assertEquals(1L, getterSettings.getMaxUploadFileSizeBytes());
+        assertEquals(1, getterSettings.getMaxWorkflowInstancesForShutdown());
+        assertEquals(1, getterSettings.getMaxWorkflowInstancesForUnlock());
+        assertEquals((byte) 100, getterSettings.getMinServerLoadForLock());
+        assertEquals(1, getterSettings.getMinUnlockedServers());
+        assertEquals(1, getterSettings.getMinWorkflowInstancesForLock());
+        assertEquals(60, getterSettings.getMonitorAveragingPeriodSeconds());
+        assertEquals(10, getterSettings.getMonitorUpdateIntervalSeconds());
+        assertEquals("localhost", getterSettings.getMtaHostname());
+        assertEquals("asdfg", getterSettings.getMtaPassword());
+        assertEquals(0, getterSettings.getMtaPort());
+        assertEquals("asd", getterSettings.getMtaUsername());
+        assertEquals(200, getterSettings
+                .getPasswordResetRequestLifetimeSeconds());
+        assertEquals(2000, getterSettings
+                .getRegistrationRequestLifetimeSeconds());
+        assertEquals(3, getterSettings.getServerPoolInstances());
+        assertEquals("decidr@decidr.biz", getterSettings
+                .getSystemEmailAddress());
+        assertEquals("De Cidr", getterSettings.getSystemName());
+        assertFalse(modDate.getTime().after(getterSettings.getModifiedDate()));
 
-    public static String getHostname() {
-        return HOSTNAME_PREFIX + ":" + (hostCounter++);
-    }
+        setterSettings.setAutoAcceptNewTenants(false);
+        setterSettings.setChangeEmailRequestLifetimeSeconds(150);
+        setterSettings.setBaseUrl("decidr.eu");
+        setterSettings.setInvitationLifetimeSeconds(1450);
+        setterSettings.setLogLevel("ERROR");
+        setterSettings.setMaxAttachmentsPerEmail(0);
+        setterSettings.setMaxServerLoadForShutdown((byte) 10);
+        setterSettings.setMaxServerLoadForUnlock((byte) 10);
+        setterSettings.setMaxUploadFileSizeBytes(100);
+        setterSettings.setMaxWorkflowInstancesForShutdown(100);
+        setterSettings.setMaxWorkflowInstancesForUnlock(10);
+        setterSettings.setMinServerLoadForLock((byte) 10);
+        setterSettings.setMinUnlockedServers(10);
+        setterSettings.setMinWorkflowInstancesForLock(10);
+        modDate.add(Calendar.SECOND, -1000);
+        setterSettings.setModifiedDate(modDate.getTime());
+        setterSettings.setMonitorAveragingPeriodSeconds(600);
+        setterSettings.setMonitorUpdateIntervalSeconds(1);
+        setterSettings.setMtaPort(22);
+        setterSettings.setMtaUseTls(false);
+        setterSettings.setPasswordResetRequestLifetimeSeconds(20);
+        setterSettings.setRegistrationRequestLifetimeSeconds(2);
+        setterSettings.setServerPoolInstances(1);
+        setterSettings.setSystemEmailAddress("dumbo@decidr.eu");
+        setterSettings.setSystemName("Darth Vader");
+        adminFacade.setSettings(setterSettings);
 
-    private static void logExceptionHelper(String failmsg, SystemFacade facade,
-            List<Filter> filters, Paginator paginator) {
+        SystemSettings oldSettings = getterSettings;
+        // Notice: due to the way Hibernate works, DecidrGlobals.getSettings
+        // might return the same SystemSettings object every time you call it
+        // from within your current thread.
+        getterSettings = DecidrGlobals.getSettings();
+        assertNotSame(oldSettings, getterSettings);
+        assertEquals(false, getterSettings.isAutoAcceptNewTenants());
+        assertEquals(false, getterSettings.isMtaUseTls());
+        assertEquals(150, getterSettings.getChangeEmailRequestLifetimeSeconds());
+        assertEquals("decidr.eu", getterSettings.getBaseUrl());
+        assertEquals(1450, getterSettings.getInvitationLifetimeSeconds());
+        assertEquals("ERROR", getterSettings.getLogLevel());
+        assertEquals(0, getterSettings.getMaxAttachmentsPerEmail());
+        assertEquals((byte) 10, getterSettings.getMaxServerLoadForShutdown());
+        assertEquals((byte) 10, getterSettings.getMaxServerLoadForUnlock());
+        assertEquals(100L, getterSettings.getMaxUploadFileSizeBytes());
+        assertEquals(100, getterSettings.getMaxWorkflowInstancesForShutdown());
+        assertEquals(10, getterSettings.getMaxWorkflowInstancesForUnlock());
+        assertEquals((byte) 10, getterSettings.getMinServerLoadForLock());
+        assertEquals(10, getterSettings.getMinUnlockedServers());
+        assertEquals(10, getterSettings.getMinWorkflowInstancesForLock());
+        assertEquals(600, getterSettings.getMonitorAveragingPeriodSeconds());
+        assertEquals(1, getterSettings.getMonitorUpdateIntervalSeconds());
+        assertEquals(22, getterSettings.getMtaPort());
+        assertEquals(20, getterSettings
+                .getPasswordResetRequestLifetimeSeconds());
+        assertEquals(2, getterSettings.getRegistrationRequestLifetimeSeconds());
+        assertEquals(1, getterSettings.getServerPoolInstances());
+        assertEquals("dumbo@decidr.eu", getterSettings.getSystemEmailAddress());
+        assertEquals("Darth Vader", getterSettings.getSystemName());
+        assertFalse(modDate.getTime().after(getterSettings.getModifiedDate()));
+
+        setterSettings.setMtaHostname("");
+        setterSettings.setMtaUsername("");
+        setterSettings.setMtaPassword("");
+        setterSettings.setSystemName("");
+        adminFacade.setSettings(setterSettings);
+
+        getterSettings = DecidrGlobals.getSettings();
+        assertEquals("", getterSettings.getMtaHostname());
+        assertEquals("", getterSettings.getMtaPassword());
+        assertEquals("", getterSettings.getMtaUsername());
+        assertEquals("", getterSettings.getSystemName());
+
         try {
-            facade.getLog(filters, paginator);
-            fail(failmsg);
-        } catch (TransactionException e) {
+            adminFacade.setSettings(null);
+            fail("managed to set null settings");
+        } catch (IllegalArgumentException e) {
             // should be thrown
         }
+        setSettingsExceptionHelper("managed to set null settings", adminFacade,
+                new SystemSettings());
+
+        setSettingsExceptionHelper(
+                "setting settings with null facade succeeded", nullFacade,
+                setterSettings);
+        setSettingsExceptionHelper(
+                "setting settings with normal user facade succeeded",
+                userFacade, setterSettings);
+
+        setterSettings.setChangeEmailRequestLifetimeSeconds(-1);
+        setSettingsExceptionHelper(
+                "invalid ChangeEmailRequestLifetimeSeconds succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setChangeEmailRequestLifetimeSeconds(1);
+
+        setterSettings.setBaseUrl(null);
+        setSettingsExceptionHelper("null domain succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setBaseUrl("");
+        setSettingsExceptionHelper("empty domain succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setBaseUrl("decidr.de");
+
+        setterSettings.setInvitationLifetimeSeconds(-1);
+        setSettingsExceptionHelper(
+                "invalid InvitationLifetimeSeconds succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setInvitationLifetimeSeconds(1);
+
+        setterSettings.setLogLevel("INVALID");
+        setSettingsExceptionHelper("invalid loglevel succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setLogLevel("ERROR");
+
+        setterSettings.setMaxAttachmentsPerEmail(-1);
+        setSettingsExceptionHelper("invalid amount of attachments succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setMaxAttachmentsPerEmail(1);
+
+        setterSettings.setMaxServerLoadForShutdown((byte) -1);
+        setSettingsExceptionHelper(
+                "invalid MaxServerLoadForShutdown succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setMaxServerLoadForShutdown((byte) 1);
+
+        setterSettings.setMaxServerLoadForUnlock((byte) -1);
+        setSettingsExceptionHelper("invalid MaxServerLoadForUnlock succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setMaxServerLoadForUnlock((byte) 1);
+
+        setterSettings.setMaxUploadFileSizeBytes(-1);
+        setSettingsExceptionHelper("invalid MaxUploadFileSizeBytes succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setMaxUploadFileSizeBytes(1);
+
+        setterSettings.setMaxWorkflowInstancesForShutdown(-1);
+        setSettingsExceptionHelper(
+                "invalid MaxWorkflowInstancesForShutdown succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setMaxWorkflowInstancesForShutdown(1);
+
+        setterSettings.setMaxWorkflowInstancesForUnlock(-1);
+        setSettingsExceptionHelper(
+                "invalid MaxWorkflowInstancesForUnlock succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setMaxWorkflowInstancesForUnlock(1);
+
+        setterSettings.setMinServerLoadForLock((byte) -1);
+        setSettingsExceptionHelper("invalid MinServerLoadForLock succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setMinServerLoadForLock((byte) 1);
+
+        setterSettings.setMinUnlockedServers(-1);
+        setSettingsExceptionHelper("invalid MinUnlockedServers succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setMinUnlockedServers(1);
+
+        setterSettings.setMinWorkflowInstancesForLock(-1);
+        setSettingsExceptionHelper(
+                "invalid MinWorkflowInstancesForLock succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setMinWorkflowInstancesForLock(1);
+
+        setterSettings.setMonitorAveragingPeriodSeconds(-1);
+        setSettingsExceptionHelper(
+                "invalid MonitorAveragingPeriodSeconds succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setMonitorAveragingPeriodSeconds(1);
+
+        setterSettings.setMonitorUpdateIntervalSeconds(-1);
+        setSettingsExceptionHelper(
+                "invalid MonitorUpdateIntervalSeconds succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setMonitorUpdateIntervalSeconds(1);
+
+        setterSettings.setPasswordResetRequestLifetimeSeconds(-1);
+        setSettingsExceptionHelper(
+                "invalid PasswordResetRequestLifetimeSeconds succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setPasswordResetRequestLifetimeSeconds(1);
+
+        setterSettings.setRegistrationRequestLifetimeSeconds(-1);
+        setSettingsExceptionHelper(
+                "invalid RegistrationRequestLifetimeSeconds succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setRegistrationRequestLifetimeSeconds(1);
+
+        setterSettings.setServerPoolInstances(-1);
+        setSettingsExceptionHelper("invalid ServerPoolInstances succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setServerPoolInstances(1);
+
+        setterSettings.setSystemEmailAddress("in@valid@email");
+        setSettingsExceptionHelper("invalid email address succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setSystemEmailAddress("");
+        setSettingsExceptionHelper("empty email address succeeded",
+                adminFacade, setterSettings);
+        setterSettings.setSystemEmailAddress(null);
+        setSettingsExceptionHelper("null email address succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setSystemEmailAddress("invalid@email.de");
+
+        setterSettings.setSystemName(null);
+        setSettingsExceptionHelper("null system name succeeded", adminFacade,
+                setterSettings);
+        setterSettings.setSystemName("DecidR");
+
+        adminFacade.setSettings(setterSettings);
     }
 }

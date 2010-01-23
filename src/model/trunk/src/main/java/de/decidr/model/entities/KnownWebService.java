@@ -30,10 +30,10 @@ public class KnownWebService implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The name. */
     private String name;
-    
+
     /** The activities. */
     private Set<Activity> activities = new HashSet<Activity>(0);
 
@@ -70,12 +70,40 @@ public class KnownWebService implements java.io.Serializable {
     }
 
     /**
+     * Gets the activities.
+     * 
+     * @return the activities
+     */
+    public Set<Activity> getActivities() {
+        return this.activities;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
      */
     public Long getId() {
         return this.id;
+    }
+
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Sets the activities.
+     * 
+     * @param activities
+     *            the new activities
+     */
+    public void setActivities(Set<Activity> activities) {
+        this.activities = activities;
     }
 
     /**
@@ -89,15 +117,6 @@ public class KnownWebService implements java.io.Serializable {
     }
 
     /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
      * Sets the name.
      * 
      * @param name
@@ -105,25 +124,6 @@ public class KnownWebService implements java.io.Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Gets the activities.
-     * 
-     * @return the activities
-     */
-    public Set<Activity> getActivities() {
-        return this.activities;
-    }
-
-    /**
-     * Sets the activities.
-     * 
-     * @param activities
-     *            the new activities
-     */
-    public void setActivities(Set<Activity> activities) {
-        this.activities = activities;
     }
 
 }

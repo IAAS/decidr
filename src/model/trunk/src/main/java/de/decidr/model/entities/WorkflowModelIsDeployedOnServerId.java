@@ -27,7 +27,7 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
 
     /** The deployed workflow model id. */
     private long deployedWorkflowModelId;
-    
+
     /** The server id. */
     private long serverId;
 
@@ -53,6 +53,29 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
         this.serverId = serverId;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object other) {
+        if ((this == other)) {
+            return true;
+        }
+        if ((other == null)) {
+            return false;
+        }
+        if (!(other instanceof WorkflowModelIsDeployedOnServerId)) {
+            return false;
+        }
+        WorkflowModelIsDeployedOnServerId castOther = (WorkflowModelIsDeployedOnServerId) other;
+
+        return (this.getDeployedWorkflowModelId() == castOther
+                .getDeployedWorkflowModelId())
+                && (this.getServerId() == castOther.getServerId());
+    }
+
     /**
      * Gets the deployed workflow model id.
      * 
@@ -60,6 +83,29 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
      */
     public long getDeployedWorkflowModelId() {
         return this.deployedWorkflowModelId;
+    }
+
+    /**
+     * Gets the server id.
+     * 
+     * @return the server id
+     */
+    public long getServerId() {
+        return this.serverId;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int result = 17;
+
+        result = 37 * result + (int) this.getDeployedWorkflowModelId();
+        result = 37 * result + (int) this.getServerId();
+        return result;
     }
 
     /**
@@ -73,15 +119,6 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
     }
 
     /**
-     * Gets the server id.
-     * 
-     * @return the server id
-     */
-    public long getServerId() {
-        return this.serverId;
-    }
-
-    /**
      * Sets the server id.
      * 
      * @param serverId
@@ -89,36 +126,6 @@ public class WorkflowModelIsDeployedOnServerId implements java.io.Serializable {
      */
     public void setServerId(long serverId) {
         this.serverId = serverId;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof WorkflowModelIsDeployedOnServerId))
-            return false;
-        WorkflowModelIsDeployedOnServerId castOther = (WorkflowModelIsDeployedOnServerId) other;
-
-        return (this.getDeployedWorkflowModelId() == castOther
-                .getDeployedWorkflowModelId())
-                && (this.getServerId() == castOther.getServerId());
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        int result = 17;
-
-        result = 37 * result + (int) this.getDeployedWorkflowModelId();
-        result = 37 * result + (int) this.getServerId();
-        return result;
     }
 
 }

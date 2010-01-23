@@ -29,16 +29,16 @@ public class ServerLoadUpdaterRole extends BasicRole {
     private static ServerLoadUpdaterRole instance = new ServerLoadUpdaterRole();
 
     /**
-     * Singleton constructor.
-     */
-    private ServerLoadUpdaterRole() {
-        super(SERVER_LOAD_UPDATER_ACTOR_ID);
-    }
-
-    /**
      * @return the singleton instance.
      */
     public static ServerLoadUpdaterRole getInstance() {
         return instance;
+    }
+
+    /**
+     * Singleton constructor.
+     */
+    private ServerLoadUpdaterRole() {
+        super(SERVER_LOAD_UPDATER_ACTOR_ID);
     }
 }

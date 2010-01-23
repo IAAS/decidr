@@ -66,7 +66,7 @@ public class InviteUsersAsTenantMembersCommand extends TenantCommand {
         super(role, tenantId);
         requireTenantId();
 
-        if (emails == null && usernames == null) {
+        if ((emails == null) && (usernames == null)) {
             throw new IllegalArgumentException(
                     "Either email address list or username list must not be null.");
         }

@@ -85,22 +85,43 @@ public class SendEmail {
     protected JAXBElement<IDList> attachments;
 
     /**
-     * Gets the value of the to property.
+     * Gets the value of the attachments property.
      * 
-     * @return possible object is {@link AbstractUserList }
+     * @return possible object is {@link JAXBElement }{@code <}{@link IDList }
+     *         {@code >}
      */
-    public AbstractUserList getTo() {
-        return to;
+    public JAXBElement<IDList> getAttachments() {
+        return attachments;
     }
 
     /**
-     * Sets the value of the to property.
+     * Gets the value of the bcc property.
      * 
-     * @param value
-     *            allowed object is {@link AbstractUserList }
+     * @return possible object is {@link JAXBElement }{@code <}
+     *         {@link AbstractUserList }{@code >}
      */
-    public void setTo(AbstractUserList value) {
-        this.to = value;
+    public JAXBElement<AbstractUserList> getBcc() {
+        return bcc;
+    }
+
+    /**
+     * Gets the value of the bodyHTML property.
+     * 
+     * @return possible object is {@link JAXBElement }{@code <}{@link String }
+     *         {@code >}
+     */
+    public JAXBElement<String> getBodyHTML() {
+        return bodyHTML;
+    }
+
+    /**
+     * Gets the value of the bodyTXT property.
+     * 
+     * @return possible object is {@link JAXBElement }{@code <}{@link String }
+     *         {@code >}
+     */
+    public JAXBElement<String> getBodyTXT() {
+        return bodyTXT;
     }
 
     /**
@@ -114,24 +135,61 @@ public class SendEmail {
     }
 
     /**
-     * Sets the value of the cc property.
+     * Gets the value of the fromAddress property.
      * 
-     * @param value
-     *            allowed object is {@link JAXBElement }{@code <}
-     *            {@link AbstractUserList }{@code >}
+     * @return possible object is {@link String }
      */
-    public void setCc(JAXBElement<AbstractUserList> value) {
-        this.cc = value;
+    public String getFromAddress() {
+        return fromAddress;
     }
 
     /**
-     * Gets the value of the bcc property.
+     * Gets the value of the fromName property.
      * 
-     * @return possible object is {@link JAXBElement }{@code <}
-     *         {@link AbstractUserList }{@code >}
+     * @return possible object is {@link JAXBElement }{@code <}{@link String }
+     *         {@code >}
      */
-    public JAXBElement<AbstractUserList> getBcc() {
-        return bcc;
+    public JAXBElement<String> getFromName() {
+        return fromName;
+    }
+
+    /**
+     * Gets the value of the headers property.
+     * 
+     * @return possible object is {@link JAXBElement }{@code <}{@link StringMap }
+     *         {@code >}
+     */
+    public JAXBElement<StringMap> getHeaders() {
+        return headers;
+    }
+
+    /**
+     * Gets the value of the subject property.
+     * 
+     * @return possible object is {@link String }
+     */
+    public String getSubject() {
+        return subject;
+    }
+
+    /**
+     * Gets the value of the to property.
+     * 
+     * @return possible object is {@link AbstractUserList }
+     */
+    public AbstractUserList getTo() {
+        return to;
+    }
+
+    /**
+     * Sets the value of the attachments property.
+     * 
+     * @param value
+     *            allowed object is {@link JAXBElement }{@code <}{@link IDList }
+     *            {@code >}
+     */
+    public void setAttachments(JAXBElement<IDList> value) {
+        this.attachments = value;
     }
 
     /**
@@ -146,93 +204,14 @@ public class SendEmail {
     }
 
     /**
-     * Gets the value of the fromName property.
-     * 
-     * @return possible object is {@link JAXBElement }{@code <}{@link String }
-     *         {@code >}
-     */
-    public JAXBElement<String> getFromName() {
-        return fromName;
-    }
-
-    /**
-     * Sets the value of the fromName property.
+     * Sets the value of the bodyHTML property.
      * 
      * @param value
      *            allowed object is {@link JAXBElement }{@code <}{@link String }
      *            {@code >}
      */
-    public void setFromName(JAXBElement<String> value) {
-        this.fromName = value;
-    }
-
-    /**
-     * Gets the value of the fromAddress property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getFromAddress() {
-        return fromAddress;
-    }
-
-    /**
-     * Sets the value of the fromAddress property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
-     */
-    public void setFromAddress(String value) {
-        this.fromAddress = value;
-    }
-
-    /**
-     * Gets the value of the subject property.
-     * 
-     * @return possible object is {@link String }
-     */
-    public String getSubject() {
-        return subject;
-    }
-
-    /**
-     * Sets the value of the subject property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
-     */
-    public void setSubject(String value) {
-        this.subject = value;
-    }
-
-    /**
-     * Gets the value of the headers property.
-     * 
-     * @return possible object is {@link JAXBElement }{@code <}{@link StringMap }
-     *         {@code >}
-     */
-    public JAXBElement<StringMap> getHeaders() {
-        return headers;
-    }
-
-    /**
-     * Sets the value of the headers property.
-     * 
-     * @param value
-     *            allowed object is {@link JAXBElement }{@code <}
-     *            {@link StringMap }{@code >}
-     */
-    public void setHeaders(JAXBElement<StringMap> value) {
-        this.headers = value;
-    }
-
-    /**
-     * Gets the value of the bodyTXT property.
-     * 
-     * @return possible object is {@link JAXBElement }{@code <}{@link String }
-     *         {@code >}
-     */
-    public JAXBElement<String> getBodyTXT() {
-        return bodyTXT;
+    public void setBodyHTML(JAXBElement<String> value) {
+        this.bodyHTML = value;
     }
 
     /**
@@ -247,44 +226,65 @@ public class SendEmail {
     }
 
     /**
-     * Gets the value of the bodyHTML property.
+     * Sets the value of the cc property.
      * 
-     * @return possible object is {@link JAXBElement }{@code <}{@link String }
-     *         {@code >}
+     * @param value
+     *            allowed object is {@link JAXBElement }{@code <}
+     *            {@link AbstractUserList }{@code >}
      */
-    public JAXBElement<String> getBodyHTML() {
-        return bodyHTML;
+    public void setCc(JAXBElement<AbstractUserList> value) {
+        this.cc = value;
     }
 
     /**
-     * Sets the value of the bodyHTML property.
+     * Sets the value of the fromAddress property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     */
+    public void setFromAddress(String value) {
+        this.fromAddress = value;
+    }
+
+    /**
+     * Sets the value of the fromName property.
      * 
      * @param value
      *            allowed object is {@link JAXBElement }{@code <}{@link String }
      *            {@code >}
      */
-    public void setBodyHTML(JAXBElement<String> value) {
-        this.bodyHTML = value;
+    public void setFromName(JAXBElement<String> value) {
+        this.fromName = value;
     }
 
     /**
-     * Gets the value of the attachments property.
-     * 
-     * @return possible object is {@link JAXBElement }{@code <}{@link IDList }
-     *         {@code >}
-     */
-    public JAXBElement<IDList> getAttachments() {
-        return attachments;
-    }
-
-    /**
-     * Sets the value of the attachments property.
+     * Sets the value of the headers property.
      * 
      * @param value
-     *            allowed object is {@link JAXBElement }{@code <}{@link IDList }
-     *            {@code >}
+     *            allowed object is {@link JAXBElement }{@code <}
+     *            {@link StringMap }{@code >}
      */
-    public void setAttachments(JAXBElement<IDList> value) {
-        this.attachments = value;
+    public void setHeaders(JAXBElement<StringMap> value) {
+        this.headers = value;
+    }
+
+    /**
+     * Sets the value of the subject property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     */
+    public void setSubject(String value) {
+        this.subject = value;
+    }
+
+    /**
+     * Sets the value of the to property.
+     * 
+     * @param value
+     *            allowed object is {@link AbstractUserList }
+     */
+    public void setTo(AbstractUserList value) {
+        this.to = value;
     }
 }

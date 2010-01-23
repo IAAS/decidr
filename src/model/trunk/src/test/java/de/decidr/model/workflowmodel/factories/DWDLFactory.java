@@ -21,8 +21,6 @@ import java.io.InputStream;
 
 import javax.xml.bind.JAXBException;
 
-import org.xml.sax.SAXException;
-
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 
@@ -36,16 +34,15 @@ public class DWDLFactory {
     static String dwdlSimpleName = "/dwdl/verySimpleProcess.xml";
     static String dwdlSampleName = "/test/HumanTaskProcess.xml";
 
+    public static Workflow getDWDLWorkflow() throws JAXBException, IOException {
+        return TransformUtil.bytesToWorkflow(getDWDLWorkflowByteArray());
+    }
+
     public static byte[] getDWDLWorkflowByteArray() throws IOException {
         InputStream in = DWDLFactory.class.getResourceAsStream(dwdlSampleName);
         byte[] bytesDWDL = new byte[in.available()];
         in.read(bytesDWDL, 0, in.available());
         in.close();
         return bytesDWDL;
-    }
-
-    public static Workflow getDWDLWorkflow() throws JAXBException, IOException,
-            SAXException {
-        return TransformUtil.bytesToWorkflow(getDWDLWorkflowByteArray());
     }
 }

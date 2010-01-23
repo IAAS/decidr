@@ -35,16 +35,15 @@ import de.decidr.model.entities.RegistrationRequest;
 public class LifetimeValidator {
 
     /**
-     * Checks whether a password reset request is still valid.
+     * Checks whether a change email request is still valid.
      * 
      * @param request
      *            the request which should be checked
-     * @return true iff the given password reset request is still valid
+     * @return true iff the given request is still valid.
      */
-    public static Boolean isPasswordResetRequestValid(
-            PasswordResetRequest request) {
+    public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request) {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
-                .getSettings().getPasswordResetRequestLifetimeSeconds());
+                .getSettings().getChangeEmailRequestLifetimeSeconds());
     }
 
     /**
@@ -60,6 +59,19 @@ public class LifetimeValidator {
     }
 
     /**
+     * Checks whether a password reset request is still valid.
+     * 
+     * @param request
+     *            the request which should be checked
+     * @return true iff the given password reset request is still valid
+     */
+    public static Boolean isPasswordResetRequestValid(
+            PasswordResetRequest request) {
+        return requestIsAlive(request.getCreationDate(), DecidrGlobals
+                .getSettings().getPasswordResetRequestLifetimeSeconds());
+    }
+
+    /**
      * Checks whether a registration request is still valid.
      * 
      * @param request
@@ -69,18 +81,6 @@ public class LifetimeValidator {
     public static Boolean isRegistrationRequestValid(RegistrationRequest request) {
         return requestIsAlive(request.getCreationDate(), DecidrGlobals
                 .getSettings().getRegistrationRequestLifetimeSeconds());
-    }
-
-    /**
-     * Checks whether a change email request is still valid.
-     * 
-     * @param request
-     *            the request which should be checked
-     * @return true iff the given request is still valid.
-     */
-    public static Boolean isChangeEmailRequestValid(ChangeEmailRequest request) {
-        return requestIsAlive(request.getCreationDate(), DecidrGlobals
-                .getSettings().getChangeEmailRequestLifetimeSeconds());
     }
 
     /**

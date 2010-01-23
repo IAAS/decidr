@@ -69,6 +69,22 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
     // private static Long tenantId;
     // private static Long wfmId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() {
+        dacl.init();
+        dacl = null;
+
+        // if (wfmId != null) {
+        // List<Long> wfm = new ArrayList<Long>();
+        // wfm.add(wfmId);
+        // wfmFacade.deleteWorkflowModels(wfm);
+        // }
+
+        // tenantFacade.deleteTenant(tenantId);
+
+        UserFacadeTest.deleteTestUsers();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() {
         dacl = DefaultAccessControlList.getInstance();
@@ -117,20 +133,61 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
         // wfmAdmins);
     }
 
-    @AfterClass
-    public static void cleanUpAfterClass() {
+    /**
+     * Test method for {@link DefaultAccessControlList#allow(Role, Permission)}
+     * .
+     */
+    @Test
+    public void testAllow() throws TransactionException {
+        dacl.clearRules();
+
+        assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId),
+                new CommandPermission(DeleteWorkflowModelCommand.class)));
+
+        dacl.allow(new SuperAdminRole(superAdminId), new CommandPermission(
+                DeleteWorkflowModelCommand.class));
+
+        assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId),
+                new CommandPermission(DeleteWorkflowModelCommand.class)));
+    }
+
+    /**
+     * Test method for {@link DefaultAccessControlList#clearRules()}.
+     */
+    @Test
+    public void testClearRules() throws TransactionException {
         dacl.init();
-        dacl = null;
 
-        // if (wfmId != null) {
-        // List<Long> wfm = new ArrayList<Long>();
-        // wfm.add(wfmId);
-        // wfmFacade.deleteWorkflowModels(wfm);
-        // }
+        assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId),
+                new Permission("*")));
 
-        // tenantFacade.deleteTenant(tenantId);
+        dacl.clearRules();
 
-        UserFacadeTest.deleteTestUsers();
+        assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId),
+                new Permission("*")));
+    }
+
+    /**
+     * Test method for
+     * {@link DefaultAccessControlList#findRule(DefaultAccessControlList.RuleKey)}
+     * .
+     */
+    @Test
+    public void testFindRule() {
+        dacl.init();
+
+        assertNull(dacl.findRule(dacl.new RuleKey(new TenantAdminRole(),
+                new Permission("*"))));
+        assertNotNull(dacl.findRule(dacl.new RuleKey(new TenantAdminRole(),
+                new CommandPermission(SaveStartConfigurationCommand.class))));
+
+        assertNotNull(dacl.findRule(dacl.new RuleKey(new SuperAdminRole(),
+                new Permission("*"))));
+
+        dacl.clearRules();
+
+        assertNull(dacl.findRule(dacl.new RuleKey(new SuperAdminRole(),
+                new Permission("*"))));
     }
 
     /**
@@ -142,6 +199,33 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
 
         assertNotNull(dacl);
         assertEquals(dacl, dacl2);
+    }
+
+    /**
+     * Test method for
+     * {@link DefaultAccessControlList#hasRule(Role, Permission)} .
+     */
+    @Test
+    public void testHasRule() {
+        dacl.init();
+
+        assertTrue(dacl.hasRule(new SuperAdminRole(), new Permission("*")));
+
+        assertTrue(dacl.hasRule(new TenantAdminRole(), new CommandPermission(
+                GetWorkflowAdministratorsCommand.class)));
+
+        assertTrue(dacl.hasRule(new SuperAdminRole(), new CommandPermission(
+                GetWorkflowAdministratorsCommand.class)));
+
+        assertFalse(dacl.hasRule(new UserRole(), new CommandPermission(
+                GetWorkflowAdministratorsCommand.class)));
+
+        assertFalse(dacl.hasRule(new WorkflowAdminRole(), new Permission("*")));
+
+        dacl.clearRules();
+
+        assertFalse(dacl.hasRule(new TenantAdminRole(), new CommandPermission(
+                GetWorkflowAdministratorsCommand.class)));
     }
 
     /**
@@ -417,18 +501,46 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for {@link DefaultAccessControlList#clearRules()}.
+     * Test method for
+     * {@link DefaultAccessControlList#isAllowed(Role, Permission)} .
      */
     @Test
-    public void testClearRules() throws TransactionException {
+    public void testIsAllowed() throws TransactionException {
         dacl.init();
 
         assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId),
                 new Permission("*")));
+        // assertFalse(dacl.isAllowed(new TenantAdminRole(tenantAdminId),
+        // new Permission("*")));
 
         dacl.clearRules();
 
         assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId),
+                new Permission("*")));
+    }
+
+    /**
+     * Test method for
+     * {@link DefaultAccessControlList#setRule(Role, Permission, AssertMode, Asserter)}
+     * .
+     */
+    @Test
+    public void testSetRuleRolePermissionAssertModeAsserter() {
+        dacl.clearRules();
+        assertFalse(dacl.hasRule(new SuperAdminRole(superAdminId),
+                new Permission("*")));
+
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId),
+                new Permission("*"), AssertMode.SatisfyAll,
+                new UserIsSuperAdminAsserter()));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId),
+                new Permission("*"), AssertMode.SatisfyAll,
+                new UserIsEnabledAsserter()));
+        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId),
+                new Permission("*"), AssertMode.SatisfyAll,
+                new UserIsSuperAdminAsserter()));
+
+        assertTrue(dacl.hasRule(new SuperAdminRole(superAdminId),
                 new Permission("*")));
     }
 
@@ -466,117 +578,5 @@ public class DefaultAccessControlListTest extends LowLevelDatabaseTest {
 
         assertTrue(dacl.hasRule(new SuperAdminRole(superAdminId),
                 new Permission("*")));
-    }
-
-    /**
-     * Test method for
-     * {@link DefaultAccessControlList#setRule(Role, Permission, AssertMode, Asserter)}
-     * .
-     */
-    @Test
-    public void testSetRuleRolePermissionAssertModeAsserter() {
-        dacl.clearRules();
-        assertFalse(dacl.hasRule(new SuperAdminRole(superAdminId),
-                new Permission("*")));
-
-        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId),
-                new Permission("*"), AssertMode.SatisfyAll,
-                new UserIsSuperAdminAsserter()));
-        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId),
-                new Permission("*"), AssertMode.SatisfyAll,
-                new UserIsEnabledAsserter()));
-        assertTrue(dacl.setRule(new SuperAdminRole(superAdminId),
-                new Permission("*"), AssertMode.SatisfyAll,
-                new UserIsSuperAdminAsserter()));
-
-        assertTrue(dacl.hasRule(new SuperAdminRole(superAdminId),
-                new Permission("*")));
-    }
-
-    /**
-     * Test method for {@link DefaultAccessControlList#allow(Role, Permission)}
-     * .
-     */
-    @Test
-    public void testAllow() throws TransactionException {
-        dacl.clearRules();
-
-        assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId),
-                new CommandPermission(DeleteWorkflowModelCommand.class)));
-
-        dacl.allow(new SuperAdminRole(superAdminId), new CommandPermission(
-                DeleteWorkflowModelCommand.class));
-
-        assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId),
-                new CommandPermission(DeleteWorkflowModelCommand.class)));
-    }
-
-    /**
-     * Test method for
-     * {@link DefaultAccessControlList#isAllowed(Role, Permission)} .
-     */
-    @Test
-    public void testIsAllowed() throws TransactionException {
-        dacl.init();
-
-        assertTrue(dacl.isAllowed(new SuperAdminRole(superAdminId),
-                new Permission("*")));
-        // assertFalse(dacl.isAllowed(new TenantAdminRole(tenantAdminId),
-        // new Permission("*")));
-
-        dacl.clearRules();
-
-        assertFalse(dacl.isAllowed(new SuperAdminRole(superAdminId),
-                new Permission("*")));
-    }
-
-    /**
-     * Test method for
-     * {@link DefaultAccessControlList#findRule(DefaultAccessControlList.RuleKey)}
-     * .
-     */
-    @Test
-    public void testFindRule() {
-        dacl.init();
-
-        assertNull(dacl.findRule(dacl.new RuleKey(new TenantAdminRole(),
-                new Permission("*"))));
-        assertNotNull(dacl.findRule(dacl.new RuleKey(new TenantAdminRole(),
-                new CommandPermission(SaveStartConfigurationCommand.class))));
-
-        assertNotNull(dacl.findRule(dacl.new RuleKey(new SuperAdminRole(),
-                new Permission("*"))));
-
-        dacl.clearRules();
-
-        assertNull(dacl.findRule(dacl.new RuleKey(new SuperAdminRole(),
-                new Permission("*"))));
-    }
-
-    /**
-     * Test method for
-     * {@link DefaultAccessControlList#hasRule(Role, Permission)} .
-     */
-    @Test
-    public void testHasRule() {
-        dacl.init();
-
-        assertTrue(dacl.hasRule(new SuperAdminRole(), new Permission("*")));
-
-        assertTrue(dacl.hasRule(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowAdministratorsCommand.class)));
-
-        assertTrue(dacl.hasRule(new SuperAdminRole(), new CommandPermission(
-                GetWorkflowAdministratorsCommand.class)));
-
-        assertFalse(dacl.hasRule(new UserRole(), new CommandPermission(
-                GetWorkflowAdministratorsCommand.class)));
-
-        assertFalse(dacl.hasRule(new WorkflowAdminRole(), new Permission("*")));
-
-        dacl.clearRules();
-
-        assertFalse(dacl.hasRule(new TenantAdminRole(), new CommandPermission(
-                GetWorkflowAdministratorsCommand.class)));
     }
 }

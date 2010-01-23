@@ -64,10 +64,11 @@ public class SetColorSchemeCommand extends TenantCommand {
 
         Tenant tenant = fetchTenant(evt.getSession());
         File colorScheme = (File) evt.getSession().get(File.class, fileId);
-        if (advanced)
+        if (advanced) {
             tenant.setAdvancedColorScheme(colorScheme);
-        else
+        } else {
             tenant.setSimpleColorScheme(colorScheme);
+        }
         evt.getSession().save(tenant);
     }
 }

@@ -62,15 +62,6 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "transactionException")
-    public JAXBElement<String> createTransactionException(String value) {
-        return new JAXBElement<String>(_TransactionException_QNAME,
-                String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
     @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "entityNotFoundException")
     public JAXBElement<String> createEntityNotFoundException(String value) {
         return new JAXBElement<String>(_EntityNotFoundException_QNAME,
@@ -80,9 +71,10 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "userDisabledException")
-    public JAXBElement<String> createUserDisabledException(String value) {
-        return new JAXBElement<String>(_UserDisabledException_QNAME,
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "incompleteConfiguratioException")
+    public JAXBElement<String> createIncompleteConfigurationException(
+            String value) {
+        return new JAXBElement<String>(_IncompleteConfigurationException_QNAME,
                 String.class, null, value);
     }
 
@@ -98,10 +90,18 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
      */
-    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "incompleteConfiguratioException")
-    public JAXBElement<String> createIncompleteConfigurationException(
-            String value) {
-        return new JAXBElement<String>(_IncompleteConfigurationException_QNAME,
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "transactionException")
+    public JAXBElement<String> createTransactionException(String value) {
+        return new JAXBElement<String>(_TransactionException_QNAME,
+                String.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "userDisabledException")
+    public JAXBElement<String> createUserDisabledException(String value) {
+        return new JAXBElement<String>(_UserDisabledException_QNAME,
                 String.class, null, value);
     }
 }

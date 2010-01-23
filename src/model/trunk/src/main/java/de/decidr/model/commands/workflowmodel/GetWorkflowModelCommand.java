@@ -47,6 +47,13 @@ public class GetWorkflowModelCommand extends WorkflowModelCommand {
         requireWorkflowModelId();
     }
 
+    /**
+     * @return the result
+     */
+    public WorkflowModel getResult() {
+        return result;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -60,13 +67,6 @@ public class GetWorkflowModelCommand extends WorkflowModelCommand {
         if (result.getModifiedByUser() != null) {
             result.getModifiedByUser().getUserProfile();
         }
-    }
-
-    /**
-     * @return the result
-     */
-    public WorkflowModel getResult() {
-        return result;
     }
 
 }

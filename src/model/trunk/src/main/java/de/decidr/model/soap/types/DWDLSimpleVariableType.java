@@ -56,6 +56,15 @@ public enum DWDLSimpleVariableType {
     DATE("date"), @XmlEnumValue("anyURI")
     ANY_URI("anyURI"), @XmlEnumValue("time")
     TIME("time");
+    public static DWDLSimpleVariableType fromValue(String v) {
+        for (DWDLSimpleVariableType c : DWDLSimpleVariableType.values()) {
+            if (c.value.equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
+
     private final String value;
 
     DWDLSimpleVariableType(String v) {
@@ -64,15 +73,6 @@ public enum DWDLSimpleVariableType {
 
     public String value() {
         return value;
-    }
-
-    public static DWDLSimpleVariableType fromValue(String v) {
-        for (DWDLSimpleVariableType c : DWDLSimpleVariableType.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
     }
 
 }

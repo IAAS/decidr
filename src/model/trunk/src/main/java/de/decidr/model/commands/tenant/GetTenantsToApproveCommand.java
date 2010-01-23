@@ -63,6 +63,13 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
         this.filters = filters;
     }
 
+    /**
+     * @return List of all tenants which have to been approved
+     */
+    public List<TenantWithAdminView> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -78,12 +85,5 @@ public class GetTenantsToApproveCommand extends AclEnabledCommand {
 
         result = c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY)
                 .list();
-    }
-
-    /**
-     * @return List of all tenants which have to been approved
-     */
-    public List<TenantWithAdminView> getResult() {
-        return result;
     }
 }

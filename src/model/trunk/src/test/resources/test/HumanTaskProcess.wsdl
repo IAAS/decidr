@@ -1,43 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wsdl:definitions name="HumanTaskTest" targetNamespace="http://decidr.de/DefaultTenant/processes/302" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/DefaultTenant/processes/302" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:pdecidr="http://decidr.de/schema/DecidrProcessTypes">
-    <wsdl:import namespace="http://decidr.de/schema/DecidrTypes" location="DecidrTypes.xsd"></wsdl:import>
-    <wsdl:types>
-        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        	targetNamespace="http://decidr.de/DefaultTenant/processes/302">
-        
-            <xsd:import schemaLocation="DecidrTypes.xsd" namespace="http://decidr.de/schema/DecidrTypes"></xsd:import>
-            <xsd:complexType name="startMessageType">
-            	<xsd:all>
-            		<xsd:element name="role" type="decidr:tRole"></xsd:element>
-            	</xsd:all>
-            </xsd:complexType>
-        
-            <xsd:element name="startProcess" type="tns:startMessageType"></xsd:element>
-        </xsd:schema>
-    </wsdl:types>
-  <wsdl:message name="startMessageRequest">
-    <wsdl:part element="tns:startProcess" name="payload" />
-  </wsdl:message>
-  <wsdl:portType name="HumanTaskTestPT">
-    <wsdl:operation name="startProcess">
-      <wsdl:input message="tns:startMessageRequest" name="input"/>
-    </wsdl:operation>
-  </wsdl:portType>
-  <wsdl:binding name="HumanTaskTestSOAPBinding"
-  	type="tns:HumanTaskTestPT">
-  	<soap:binding style="document"
-  		transport="http://schemas.xmlsoap.org/soap/http" />
-  	<wsdl:operation name="startProcess">
-  		<soap:operation
-  			soapAction="http://decidr.de/DefaultTenant/processes/302/startProcess" />
-  		<wsdl:input name="input">
-  			<soap:body use="literal" />
-  		</wsdl:input>
-  	</wsdl:operation>
-  </wsdl:binding>
-  <wsdl:service name="HumanTaskTest">
-    <wsdl:port binding="tns:HumanTaskTestSOAPBinding" name="HumanTaskTestPort">
-      <soap:address location="http://localhost:8080/ode/processes/HumanTaskTest"/>
-    </wsdl:port>
-  </wsdl:service>
+	<!-- The DecidR Development Team licenses this file to you under -->
+	<!-- the Apache License, Version 2.0 (the "License"); you may -->
+	<!-- not use this file except in compliance with the License. -->
+	<!-- You may obtain a copy of the License at -->
+	<!-- -->
+	<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+	<!-- -->
+	<!-- Unless required by applicable law or agreed to in writing, -->
+	<!-- software distributed under the License is distributed on an -->
+	<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+	<!-- KIND, either express or implied. See the License for the -->
+	<!-- specific language governing permissions and limitations -->
+	<!-- under the License. -->
+
+<wsdl:definitions name="HumanTaskTest"
+	targetNamespace="http://decidr.de/DefaultTenant/processes/302"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://decidr.de/DefaultTenant/processes/302"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+	xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	xmlns:decidr="http://decidr.de/schema/DecidrTypes" xmlns:pdecidr="http://decidr.de/schema/DecidrProcessTypes"
+>
+	<wsdl:import namespace="http://decidr.de/schema/DecidrTypes"
+		location="DecidrTypes.xsd"
+	></wsdl:import>
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://decidr.de/DefaultTenant/processes/302"
+		>
+
+			<xsd:import schemaLocation="DecidrTypes.xsd"
+				namespace="http://decidr.de/schema/DecidrTypes"
+			></xsd:import>
+			<xsd:complexType name="startMessageType">
+				<xsd:all>
+					<xsd:element name="role" type="decidr:tRole"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+
+			<xsd:element name="startProcess" type="tns:startMessageType"></xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="startMessageRequest">
+		<wsdl:part element="tns:startProcess" name="payload" />
+	</wsdl:message>
+	<wsdl:portType name="HumanTaskTestPT">
+		<wsdl:operation name="startProcess">
+			<wsdl:input message="tns:startMessageRequest" name="input" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="HumanTaskTestSOAPBinding" type="tns:HumanTaskTestPT">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="startProcess">
+			<soap:operation
+				soapAction="http://decidr.de/DefaultTenant/processes/302/startProcess" />
+			<wsdl:input name="input">
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="HumanTaskTest">
+		<wsdl:port binding="tns:HumanTaskTestSOAPBinding" name="HumanTaskTestPort">
+			<soap:address location="http://localhost:8080/ode/processes/HumanTaskTest" />
+		</wsdl:port>
+	</wsdl:service>
 </wsdl:definitions>

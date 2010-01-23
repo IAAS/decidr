@@ -61,6 +61,21 @@ public class UserAdministratesWorkflowInstanceAsserterTest extends
     private static final String WORKFLOW_ADMIN_EMAIL = "test2@acl.decidr.de";
     private static final String USER_EMAIL = "test3@acl.decidr.de";
 
+    @AfterClass
+    public static void cleanUpAfterClass() throws TransactionException {
+
+        List<Long> wfm = new ArrayList<Long>();
+        wfm.add(wfmId);
+        wfmFacade.deleteWorkflowModels(wfm);
+        tenantFacade.deleteTenant(tenantId);
+
+        Transaction trans = session.beginTransaction();
+        session.createQuery(
+                "delete from User WHERE email LIKE 'test%@acl.decidr.de'")
+                .executeUpdate();
+        trans.commit();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         // create test users
@@ -100,21 +115,6 @@ public class UserAdministratesWorkflowInstanceAsserterTest extends
         List<String> wfmAdminsEmail = new ArrayList<String>();
         wfmAdmins.add("wfadmin12377");
         wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail, wfmAdmins);
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() throws TransactionException {
-
-        List<Long> wfm = new ArrayList<Long>();
-        wfm.add(wfmId);
-        wfmFacade.deleteWorkflowModels(wfm);
-        tenantFacade.deleteTenant(tenantId);
-
-        Transaction trans = session.beginTransaction();
-        session.createQuery(
-                "delete from User WHERE email LIKE 'test%@acl.decidr.de'")
-                .executeUpdate();
-        trans.commit();
     }
 
     /**

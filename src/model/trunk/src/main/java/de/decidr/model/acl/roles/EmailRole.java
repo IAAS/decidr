@@ -29,16 +29,16 @@ public class EmailRole extends BasicRole {
     private static EmailRole instance = new EmailRole();
 
     /**
-     * Singleton constructor.
-     */
-    private EmailRole() {
-        super(EMAIL_ACTOR_ID);
-    }
-
-    /**
      * @return the singleton instance.
      */
     public static EmailRole getInstance() {
         return instance;
+    }
+
+    /**
+     * Singleton constructor.
+     */
+    private EmailRole() {
+        super(EMAIL_ACTOR_ID);
     }
 }

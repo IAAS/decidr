@@ -53,6 +53,14 @@ public class GetHighestUserRoleCommand extends UserCommand {
         requireUserId();
     }
 
+    /**
+     * @return highest role of the given user or null if the user not even a
+     *         tenant member (but can still be a registered user).
+     */
+    public Class<? extends UserRole> getResult() {
+        return result;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -98,13 +106,5 @@ public class GetHighestUserRoleCommand extends UserCommand {
 
         // if user isn't member of any tenant
         result = null;
-    }
-
-    /**
-     * @return highest role of the given user or null if the user not even a
-     *         tenant member (but can still be a registered user).
-     */
-    public Class<? extends UserRole> getResult() {
-        return result;
     }
 }

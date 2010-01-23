@@ -60,11 +60,18 @@ public class ConfirmPasswordResetCommand extends UserCommand {
     public ConfirmPasswordResetCommand(Role role, Long userId, String authKey) {
         super(role, userId);
         requireUserId();
-        if (authKey == null || authKey.isEmpty()) {
+        if ((authKey == null) || authKey.isEmpty()) {
             throw new IllegalArgumentException(
                     "Authentication key must not be null or empty.");
         }
         this.authKey = authKey;
+    }
+
+    /**
+     * @return whether the request has expired.
+     */
+    public boolean getRequestExpired() {
+        return requestExpired;
     }
 
     @Override
@@ -118,12 +125,5 @@ public class ConfirmPasswordResetCommand extends UserCommand {
             requestExpired = true;
             evt.getSession().delete(request);
         }
-    }
-
-    /**
-     * @return whether the request has expired.
-     */
-    public boolean getRequestExpired() {
-        return requestExpired;
     }
 }

@@ -29,22 +29,22 @@ public class WorkItemSummaryView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The work item name. */
     private String workItemName;
-    
+
     /** The tenant name. */
     private String tenantName;
-    
+
     /** The creation date. */
     private Date creationDate;
-    
+
     /** The work item status. */
     private String workItemStatus;
-    
+
     /** The user id. */
     private long userId;
-    
+
     /** The workflow instance id. */
     private long workflowInstanceId;
 
@@ -87,41 +87,21 @@ public class WorkItemSummaryView implements java.io.Serializable {
     }
 
     /**
+     * Gets the creation date.
+     * 
+     * @return the creation date
+     */
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
      */
     public long getId() {
         return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the work item name.
-     * 
-     * @return the work item name
-     */
-    public String getWorkItemName() {
-        return this.workItemName;
-    }
-
-    /**
-     * Sets the work item name.
-     * 
-     * @param workItemName
-     *            the new work item name
-     */
-    public void setWorkItemName(String workItemName) {
-        this.workItemName = workItemName;
     }
 
     /**
@@ -134,22 +114,39 @@ public class WorkItemSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Sets the tenant name.
+     * Gets the user id.
      * 
-     * @param tenantName
-     *            the new tenant name
+     * @return the user id
      */
-    public void setTenantName(String tenantName) {
-        this.tenantName = tenantName;
+    public long getUserId() {
+        return this.userId;
     }
 
     /**
-     * Gets the creation date.
+     * Gets the workflow instance id.
      * 
-     * @return the creation date
+     * @return the workflow instance id
      */
-    public Date getCreationDate() {
-        return this.creationDate;
+    public long getWorkflowInstanceId() {
+        return this.workflowInstanceId;
+    }
+
+    /**
+     * Gets the work item name.
+     * 
+     * @return the work item name
+     */
+    public String getWorkItemName() {
+        return this.workItemName;
+    }
+
+    /**
+     * Gets the work item status.
+     * 
+     * @return the work item status
+     */
+    public String getWorkItemStatus() {
+        return this.workItemStatus;
     }
 
     /**
@@ -163,31 +160,23 @@ public class WorkItemSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Gets the work item status.
+     * Sets the id.
      * 
-     * @return the work item status
+     * @param id
+     *            the new id
      */
-    public String getWorkItemStatus() {
-        return this.workItemStatus;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
-     * Sets the work item status.
+     * Sets the tenant name.
      * 
-     * @param workItemStatus
-     *            the new work item status
+     * @param tenantName
+     *            the new tenant name
      */
-    public void setWorkItemStatus(String workItemStatus) {
-        this.workItemStatus = workItemStatus;
-    }
-
-    /**
-     * Gets the user id.
-     * 
-     * @return the user id
-     */
-    public long getUserId() {
-        return this.userId;
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
     }
 
     /**
@@ -201,15 +190,6 @@ public class WorkItemSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Gets the workflow instance id.
-     * 
-     * @return the workflow instance id
-     */
-    public long getWorkflowInstanceId() {
-        return this.workflowInstanceId;
-    }
-
-    /**
      * Sets the workflow instance id.
      * 
      * @param workflowInstanceId
@@ -217,6 +197,26 @@ public class WorkItemSummaryView implements java.io.Serializable {
      */
     public void setWorkflowInstanceId(long workflowInstanceId) {
         this.workflowInstanceId = workflowInstanceId;
+    }
+
+    /**
+     * Sets the work item name.
+     * 
+     * @param workItemName
+     *            the new work item name
+     */
+    public void setWorkItemName(String workItemName) {
+        this.workItemName = workItemName;
+    }
+
+    /**
+     * Sets the work item status.
+     * 
+     * @param workItemStatus
+     *            the new work item status
+     */
+    public void setWorkItemStatus(String workItemStatus) {
+        this.workItemStatus = workItemStatus;
     }
 
 }

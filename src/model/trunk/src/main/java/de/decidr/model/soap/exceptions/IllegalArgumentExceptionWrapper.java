@@ -35,12 +35,14 @@ public class IllegalArgumentExceptionWrapper extends IllegalArgumentException {
         super();
     }
 
-    public IllegalArgumentExceptionWrapper(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public IllegalArgumentExceptionWrapper(String s) {
         super(s);
+    }
+
+    public IllegalArgumentExceptionWrapper(String s,
+            String illegalArgumentException) {
+        super(s);
+        this.faultInfo = illegalArgumentException;
     }
 
     public IllegalArgumentExceptionWrapper(String message,
@@ -49,10 +51,8 @@ public class IllegalArgumentExceptionWrapper extends IllegalArgumentException {
         this.faultInfo = illegalArgumentException;
     }
 
-    public IllegalArgumentExceptionWrapper(String s,
-            String illegalArgumentException) {
-        super(s);
-        this.faultInfo = illegalArgumentException;
+    public IllegalArgumentExceptionWrapper(String message, Throwable cause) {
+        super(message, cause);
     }
 
     public IllegalArgumentExceptionWrapper(Throwable cause) {

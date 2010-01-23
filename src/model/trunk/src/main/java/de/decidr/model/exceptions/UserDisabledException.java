@@ -45,18 +45,18 @@ public class UserDisabledException extends TransactionException {
     }
 
     /**
-     * @return the disabled user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
      * Method returning {@link TransactionException#getFaultInfo} needed for
      * {@link WebFault} annotation.
      */
     @Override
     public String getFaultInfo() {
         return serviceDetail;
+    }
+
+    /**
+     * @return the disabled user
+     */
+    public User getUser() {
+        return user;
     }
 }

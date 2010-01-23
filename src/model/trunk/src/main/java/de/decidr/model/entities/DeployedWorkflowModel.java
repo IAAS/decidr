@@ -31,42 +31,42 @@ public class DeployedWorkflowModel implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The original workflow model. */
     private WorkflowModel originalWorkflowModel;
-    
+
     /** The tenant. */
     private Tenant tenant;
-    
+
     /** The name. */
     private String name;
-    
+
     /** The description. */
     private String description;
-    
+
     /** The dwdl. */
     private byte[] dwdl;
-    
+
     /** The wsdl. */
     private byte[] wsdl;
-    
+
     /** The soap template. */
     private byte[] soapTemplate;
-    
+
     /** The deploy date. */
     private Date deployDate;
-    
+
     /** The version. */
     private long version;
-    
+
     /** The workflow model is deployed on servers. */
     private Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers = new HashSet<WorkflowModelIsDeployedOnServer>(
             0);
-    
+
     /** The start configurations. */
     private Set<StartConfiguration> startConfigurations = new HashSet<StartConfiguration>(
             0);
-    
+
     /** The workflow instances. */
     private Set<WorkflowInstance> workflowInstances = new HashSet<WorkflowInstance>(
             0);
@@ -169,79 +169,12 @@ public class DeployedWorkflowModel implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Gets the deploy date.
      * 
-     * @return the id
+     * @return the deploy date
      */
-    public Long getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the original workflow model.
-     * 
-     * @return the original workflow model
-     */
-    public WorkflowModel getOriginalWorkflowModel() {
-        return this.originalWorkflowModel;
-    }
-
-    /**
-     * Sets the original workflow model.
-     * 
-     * @param originalWorkflowModel
-     *            the new original workflow model
-     */
-    public void setOriginalWorkflowModel(WorkflowModel originalWorkflowModel) {
-        this.originalWorkflowModel = originalWorkflowModel;
-    }
-
-    /**
-     * Gets the tenant.
-     * 
-     * @return the tenant
-     */
-    public Tenant getTenant() {
-        return this.tenant;
-    }
-
-    /**
-     * Sets the tenant.
-     * 
-     * @param tenant
-     *            the new tenant
-     */
-    public void setTenant(Tenant tenant) {
-        this.tenant = tenant;
-    }
-
-    /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Sets the name.
-     * 
-     * @param name
-     *            the new name
-     */
-    public void setName(String name) {
-        this.name = name;
+    public Date getDeployDate() {
+        return this.deployDate;
     }
 
     /**
@@ -254,16 +187,6 @@ public class DeployedWorkflowModel implements java.io.Serializable {
     }
 
     /**
-     * Sets the description.
-     * 
-     * @param description
-     *            the new description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
      * Gets the dwdl.
      * 
      * @return the dwdl
@@ -273,32 +196,30 @@ public class DeployedWorkflowModel implements java.io.Serializable {
     }
 
     /**
-     * Sets the dwdl.
+     * Gets the id.
      * 
-     * @param dwdl
-     *            the new dwdl
+     * @return the id
      */
-    public void setDwdl(byte[] dwdl) {
-        this.dwdl = dwdl;
+    public Long getId() {
+        return this.id;
     }
 
     /**
-     * Gets the wsdl.
+     * Gets the name.
      * 
-     * @return the wsdl
+     * @return the name
      */
-    public byte[] getWsdl() {
-        return this.wsdl;
+    public String getName() {
+        return this.name;
     }
 
     /**
-     * Sets the wsdl.
+     * Gets the original workflow model.
      * 
-     * @param wsdl
-     *            the new wsdl
+     * @return the original workflow model
      */
-    public void setWsdl(byte[] wsdl) {
-        this.wsdl = wsdl;
+    public WorkflowModel getOriginalWorkflowModel() {
+        return this.originalWorkflowModel;
     }
 
     /**
@@ -311,22 +232,57 @@ public class DeployedWorkflowModel implements java.io.Serializable {
     }
 
     /**
-     * Sets the soap template.
+     * Gets the start configurations.
      * 
-     * @param soapTemplate
-     *            the new soap template
+     * @return the start configurations
      */
-    public void setSoapTemplate(byte[] soapTemplate) {
-        this.soapTemplate = soapTemplate;
+    public Set<StartConfiguration> getStartConfigurations() {
+        return this.startConfigurations;
     }
 
     /**
-     * Gets the deploy date.
+     * Gets the tenant.
      * 
-     * @return the deploy date
+     * @return the tenant
      */
-    public Date getDeployDate() {
-        return this.deployDate;
+    public Tenant getTenant() {
+        return this.tenant;
+    }
+
+    /**
+     * Gets the version.
+     * 
+     * @return the version
+     */
+    public long getVersion() {
+        return this.version;
+    }
+
+    /**
+     * Gets the workflow instances.
+     * 
+     * @return the workflow instances
+     */
+    public Set<WorkflowInstance> getWorkflowInstances() {
+        return this.workflowInstances;
+    }
+
+    /**
+     * Gets the workflow model is deployed on servers.
+     * 
+     * @return the workflow model is deployed on servers
+     */
+    public Set<WorkflowModelIsDeployedOnServer> getWorkflowModelIsDeployedOnServers() {
+        return this.workflowModelIsDeployedOnServers;
+    }
+
+    /**
+     * Gets the wsdl.
+     * 
+     * @return the wsdl
+     */
+    public byte[] getWsdl() {
+        return this.wsdl;
     }
 
     /**
@@ -340,51 +296,63 @@ public class DeployedWorkflowModel implements java.io.Serializable {
     }
 
     /**
-     * Gets the version.
+     * Sets the description.
      * 
-     * @return the version
+     * @param description
+     *            the new description
      */
-    public long getVersion() {
-        return this.version;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
-     * Sets the version.
+     * Sets the dwdl.
      * 
-     * @param version
-     *            the new version
+     * @param dwdl
+     *            the new dwdl
      */
-    public void setVersion(long version) {
-        this.version = version;
+    public void setDwdl(byte[] dwdl) {
+        this.dwdl = dwdl;
     }
 
     /**
-     * Gets the workflow model is deployed on servers.
+     * Sets the id.
      * 
-     * @return the workflow model is deployed on servers
+     * @param id
+     *            the new id
      */
-    public Set<WorkflowModelIsDeployedOnServer> getWorkflowModelIsDeployedOnServers() {
-        return this.workflowModelIsDeployedOnServers;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
-     * Sets the workflow model is deployed on servers.
+     * Sets the name.
      * 
-     * @param workflowModelIsDeployedOnServers
-     *            the new workflow model is deployed on servers
+     * @param name
+     *            the new name
      */
-    public void setWorkflowModelIsDeployedOnServers(
-            Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers) {
-        this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
-     * Gets the start configurations.
+     * Sets the original workflow model.
      * 
-     * @return the start configurations
+     * @param originalWorkflowModel
+     *            the new original workflow model
      */
-    public Set<StartConfiguration> getStartConfigurations() {
-        return this.startConfigurations;
+    public void setOriginalWorkflowModel(WorkflowModel originalWorkflowModel) {
+        this.originalWorkflowModel = originalWorkflowModel;
+    }
+
+    /**
+     * Sets the soap template.
+     * 
+     * @param soapTemplate
+     *            the new soap template
+     */
+    public void setSoapTemplate(byte[] soapTemplate) {
+        this.soapTemplate = soapTemplate;
     }
 
     /**
@@ -399,12 +367,23 @@ public class DeployedWorkflowModel implements java.io.Serializable {
     }
 
     /**
-     * Gets the workflow instances.
+     * Sets the tenant.
      * 
-     * @return the workflow instances
+     * @param tenant
+     *            the new tenant
      */
-    public Set<WorkflowInstance> getWorkflowInstances() {
-        return this.workflowInstances;
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
+    }
+
+    /**
+     * Sets the version.
+     * 
+     * @param version
+     *            the new version
+     */
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     /**
@@ -415,6 +394,27 @@ public class DeployedWorkflowModel implements java.io.Serializable {
      */
     public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
         this.workflowInstances = workflowInstances;
+    }
+
+    /**
+     * Sets the workflow model is deployed on servers.
+     * 
+     * @param workflowModelIsDeployedOnServers
+     *            the new workflow model is deployed on servers
+     */
+    public void setWorkflowModelIsDeployedOnServers(
+            Set<WorkflowModelIsDeployedOnServer> workflowModelIsDeployedOnServers) {
+        this.workflowModelIsDeployedOnServers = workflowModelIsDeployedOnServers;
+    }
+
+    /**
+     * Sets the wsdl.
+     * 
+     * @param wsdl
+     *            the new wsdl
+     */
+    public void setWsdl(byte[] wsdl) {
+        this.wsdl = wsdl;
     }
 
 }

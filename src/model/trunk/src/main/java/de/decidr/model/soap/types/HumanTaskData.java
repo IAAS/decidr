@@ -71,16 +71,6 @@ public class HumanTaskData {
     }
 
     /**
-     * Sets the value of the parameters property.
-     * 
-     * @param value
-     *            allowed object is {@link Parameters }
-     */
-    public void setParameters(Parameters value) {
-        this.parameters = value;
-    }
-
-    /**
      * Gets the value of the taskItemOrInformation property.
      * 
      * <p>
@@ -106,5 +96,15 @@ public class HumanTaskData {
             taskItemOrInformation = new ArrayList<Object>();
         }
         return this.taskItemOrInformation;
+    }
+
+    /**
+     * Sets the value of the parameters property.
+     * 
+     * @param value
+     *            allowed object is {@link Parameters }
+     */
+    public void setParameters(Parameters value) {
+        this.parameters = value;
     }
 }

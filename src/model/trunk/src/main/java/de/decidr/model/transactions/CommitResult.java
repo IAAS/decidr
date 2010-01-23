@@ -23,9 +23,16 @@ package de.decidr.model.transactions;
  * @version 0.1
  */
 public class CommitResult {
-    
+
     private boolean finalCommit = false;
     private Exception committedEventException = null;
+
+    /**
+     * Creates a new {@link CommitResult} using default values.
+     */
+    public CommitResult() {
+        this(false, null);
+    }
 
     /**
      * Creates a new {@link CommitResult}
@@ -43,10 +50,11 @@ public class CommitResult {
     }
 
     /**
-     * Creates a new {@link CommitResult} using default values.
+     * @return the exception that broke the transactionCommited event chain (can
+     *         be <code>null</code> if everything was OK)
      */
-    public CommitResult() {
-        this(false, null);
+    public Exception getCommittedEventException() {
+        return committedEventException;
     }
 
     /**
@@ -57,11 +65,12 @@ public class CommitResult {
     }
 
     /**
-     * @return the exception that broke the transactionCommited event chain (can
-     *         be <code>null</code> if everything was OK)
+     * @param committedEventException
+     *            the exception that broke the transactionCommited event chain
+     *            (can be <code>null</code> if everything was OK)
      */
-    public Exception getCommittedEventException() {
-        return committedEventException;
+    final void setCommittedEventException(Exception committedEventException) {
+        this.committedEventException = committedEventException;
     }
 
     /**
@@ -70,15 +79,6 @@ public class CommitResult {
      */
     final void setFinalCommit(boolean finalCommit) {
         this.finalCommit = finalCommit;
-    }
-
-    /**
-     * @param committedEventException
-     *            the exception that broke the transactionCommited event chain
-     *            (can be <code>null</code> if everything was OK)
-     */
-    final void setCommittedEventException(Exception committedEventException) {
-        this.committedEventException = committedEventException;
     }
 
 }

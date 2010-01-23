@@ -87,9 +87,9 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
             String description, THumanTaskData data, Boolean notifyUser) {
         super(role, (Permission) null);
 
-        if (userId == null || deployedWorkflowModelId == null || odePid == null
-                || name == null || description == null || data == null
-                || notifyUser == null) {
+        if ((userId == null) || (deployedWorkflowModelId == null)
+                || (odePid == null) || (name == null) || (description == null)
+                || (data == null) || (notifyUser == null)) {
             throw new IllegalArgumentException("No parameter can be null.");
         }
 
@@ -100,6 +100,29 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
         this.description = description;
         this.data = data;
         this.notifyUser = notifyUser;
+    }
+
+    /**
+     * @return the id of the new work item.
+     */
+    public Long getWorkItemId() {
+        return workItemId;
+    }
+
+    /**
+     * @param newWorkItem
+     *            newly created workitem to associate files with.
+     * @throws TransactionException
+     *             if the transaction is aborted for any reason.
+     */
+    private void persistAndAssociateFiles(WorkItem newWorkItem)
+            throws TransactionException {
+        Set<Long> fileIds = XmlTools.getFileIds(data);
+        for (Long fileId : fileIds) {
+            HibernateTransactionCoordinator.getInstance().runTransaction(
+                    new AssociateFileWithWorkItemCommand(role, fileId,
+                            newWorkItem.getId()));
+        }
     }
 
     @Override
@@ -154,28 +177,5 @@ public class CreateWorkItemCommand extends AclEnabledCommand {
         if (notifyUser) {
             NotificationEvents.createdWorkItem(newWorkItem);
         }
-    }
-
-    /**
-     * @param newWorkItem
-     *            newly created workitem to associate files with.
-     * @throws TransactionException
-     *             if the transaction is aborted for any reason.
-     */
-    private void persistAndAssociateFiles(WorkItem newWorkItem)
-            throws TransactionException {
-        Set<Long> fileIds = XmlTools.getFileIds(data);
-        for (Long fileId : fileIds) {
-            HibernateTransactionCoordinator.getInstance().runTransaction(
-                    new AssociateFileWithWorkItemCommand(role, fileId,
-                            newWorkItem.getId()));
-        }
-    }
-
-    /**
-     * @return the id of the new work item.
-     */
-    public Long getWorkItemId() {
-        return workItemId;
     }
 }

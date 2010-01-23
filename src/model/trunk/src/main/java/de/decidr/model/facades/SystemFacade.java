@@ -63,27 +63,6 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Sets the given system settings. The "modified date" is set to the current
-     * time, ignoring the modifiedDate property of the given SystemSettings
-     * object.
-     * 
-     * @param newSettings
-     *            a transient entity containing the new system settings. The id
-     *            and modifiedDate properties of this entity will be ignored.
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     * @throws IllegalArgumentException
-     *             if newSettings is <code>null</code>
-     */
-    @AllowedRole(SuperAdminRole.class)
-    public void setSettings(SystemSettings newSettings)
-            throws TransactionException {
-        SetSystemSettingsCommand command = new SetSystemSettingsCommand(actor,
-                newSettings);
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-    }
-
-    /**
      * Adds a server to the database. This command does not actually set up a
      * new server, it only adds a reference to the server to the database.
      * 
@@ -116,6 +95,61 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
+     * Returns a list of system log entries (only relevant when logging to the
+     * database using {@link DefaultLogger}.
+     * 
+     * @param filters
+     *            filters the result by the given criteria
+     * @param paginator
+     *            splits the result in several pages
+     * @return system log entries
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    @AllowedRole(SuperAdminRole.class)
+    public List<Log> getLog(List<Filter> filters, Paginator paginator)
+            throws TransactionException {
+        GetLogCommand command = new GetLogCommand(actor, filters, paginator);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        return command.getResult();
+    }
+
+    /**
+     * Retrieves server metainformation from the database. You can specify which
+     * types of servers the result should include.
+     * 
+     * @param serverTypes
+     *            server types to include. If <code>null</code> or empty, all
+     *            server types are included
+     * @return list of servers that match one of the given server types.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    @AllowedRole(ServerLoadUpdaterRole.class)
+    public List<Server> getServers(ServerTypeEnum... serverTypes)
+            throws TransactionException {
+        GetServersCommand cmd = new GetServersCommand(actor, serverTypes);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getResult();
+    }
+
+    /**
+     * Returns a list of servers that are known to the system.
+     * 
+     * @return list of servers including load information.
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason.
+     */
+    @AllowedRole(SuperAdminRole.class)
+    public List<ServerLoadView> getServerStatistics()
+            throws TransactionException {
+        GetServerStatisticsCommand command = new GetServerStatisticsCommand(
+                actor);
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
+        return command.getResult();
+    }
+
+    /**
      * Removes the server from the database. This command will not shut down the
      * server. If the server doesn't exist no exception is thrown. <br>
      * Please note that removing a server causes all workflow instances that
@@ -132,28 +166,6 @@ public class SystemFacade extends AbstractFacade {
     @AllowedRole(SuperAdminRole.class)
     public void removeServer(Long serverId) throws TransactionException {
         RemoveServerCommand command = new RemoveServerCommand(actor, serverId);
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-    }
-
-    /**
-     * Updates the load of a server entity. The load must be in the range of -1
-     * to 100. If given server does not exist no exception will be raised.
-     * 
-     * @param serverId
-     *            id of the server to update
-     * @param load
-     *            new load server load as byte
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     * @throws IllegalArgumentException
-     *             if serverId is null or if the load is out of range.
-     */
-    @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
-    public void updateServerLoad(Long serverId, byte load)
-            throws TransactionException {
-        UpdateServerLoadCommand command = new UpdateServerLoadCommand(actor,
-                serverId, load);
-
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 
@@ -179,57 +191,45 @@ public class SystemFacade extends AbstractFacade {
     }
 
     /**
-     * Returns a list of system log entries (only relevant when logging to the
-     * database using {@link DefaultLogger}.
+     * Sets the given system settings. The "modified date" is set to the current
+     * time, ignoring the modifiedDate property of the given SystemSettings
+     * object.
      * 
-     * @param filters
-     *            filters the result by the given criteria
-     * @param paginator
-     *            splits the result in several pages
-     * @return system log entries
+     * @param newSettings
+     *            a transient entity containing the new system settings. The id
+     *            and modifiedDate properties of this entity will be ignored.
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if newSettings is <code>null</code>
      */
     @AllowedRole(SuperAdminRole.class)
-    public List<Log> getLog(List<Filter> filters, Paginator paginator)
+    public void setSettings(SystemSettings newSettings)
             throws TransactionException {
-        GetLogCommand command = new GetLogCommand(actor, filters, paginator);
+        SetSystemSettingsCommand command = new SetSystemSettingsCommand(actor,
+                newSettings);
         HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        return command.getResult();
     }
 
     /**
-     * Returns a list of servers that are known to the system.
+     * Updates the load of a server entity. The load must be in the range of -1
+     * to 100. If given server does not exist no exception will be raised.
      * 
-     * @return list of servers including load information.
+     * @param serverId
+     *            id of the server to update
+     * @param load
+     *            new load server load as byte
      * @throws TransactionException
      *             iff the transaction is aborted for any reason.
+     * @throws IllegalArgumentException
+     *             if serverId is null or if the load is out of range.
      */
-    @AllowedRole(SuperAdminRole.class)
-    public List<ServerLoadView> getServerStatistics()
+    @AllowedRole( { SuperAdminRole.class, ServerLoadUpdaterRole.class })
+    public void updateServerLoad(Long serverId, byte load)
             throws TransactionException {
-        GetServerStatisticsCommand command = new GetServerStatisticsCommand(
-                actor);
-        HibernateTransactionCoordinator.getInstance().runTransaction(command);
-        return command.getResult();
-    }
+        UpdateServerLoadCommand command = new UpdateServerLoadCommand(actor,
+                serverId, load);
 
-    /**
-     * Retrieves server metainformation from the database. You can specify which
-     * types of servers the result should include.
-     * 
-     * @param serverTypes
-     *            server types to include. If <code>null</code> or empty, all
-     *            server types are included
-     * @return list of servers that match one of the given server types.
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason.
-     */
-    @AllowedRole(ServerLoadUpdaterRole.class)
-    public List<Server> getServers(ServerTypeEnum... serverTypes)
-            throws TransactionException {
-        GetServersCommand cmd = new GetServersCommand(actor, serverTypes);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        return cmd.getResult();
+        HibernateTransactionCoordinator.getInstance().runTransaction(command);
     }
 }

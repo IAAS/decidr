@@ -27,13 +27,13 @@ public class Activity implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The known web service. */
     private KnownWebService knownWebService;
-    
+
     /** The mapping. */
     private byte[] mapping;
-    
+
     /** The name. */
     private String name;
 
@@ -71,6 +71,33 @@ public class Activity implements java.io.Serializable {
     }
 
     /**
+     * Gets the known web service.
+     * 
+     * @return the known web service
+     */
+    public KnownWebService getKnownWebService() {
+        return this.knownWebService;
+    }
+
+    /**
+     * Gets the mapping.
+     * 
+     * @return the mapping
+     */
+    public byte[] getMapping() {
+        return this.mapping;
+    }
+
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
      * Sets the id.
      * 
      * @param id
@@ -78,15 +105,6 @@ public class Activity implements java.io.Serializable {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * Gets the known web service.
-     * 
-     * @return the known web service
-     */
-    public KnownWebService getKnownWebService() {
-        return this.knownWebService;
     }
 
     /**
@@ -100,15 +118,6 @@ public class Activity implements java.io.Serializable {
     }
 
     /**
-     * Gets the mapping.
-     * 
-     * @return the mapping
-     */
-    public byte[] getMapping() {
-        return this.mapping;
-    }
-
-    /**
      * Sets the mapping.
      * 
      * @param mapping
@@ -116,15 +125,6 @@ public class Activity implements java.io.Serializable {
      */
     public void setMapping(byte[] mapping) {
         this.mapping = mapping;
-    }
-
-    /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
     }
 
     /**

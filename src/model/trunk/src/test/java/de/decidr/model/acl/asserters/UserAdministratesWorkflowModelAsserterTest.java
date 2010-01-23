@@ -58,6 +58,16 @@ public class UserAdministratesWorkflowModelAsserterTest extends
     // private static Long tenantId;
     private static Long wfmId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() {
+        // List<Long> wfm = new ArrayList<Long>();
+        // wfm.add(wfmId);
+        // wfmFacade.deleteWorkflowModels(wfm);
+        // tenantFacade.deleteTenant(tenantId);
+
+        UserFacadeTest.deleteTestUsers();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
@@ -103,16 +113,6 @@ public class UserAdministratesWorkflowModelAsserterTest extends
         // wfmAdmins.add("wfadmin12377");
         // wfmFacade.setWorkflowAdministrators(wfmId, wfmAdminsEmail,
         // wfmAdmins);
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() {
-        // List<Long> wfm = new ArrayList<Long>();
-        // wfm.add(wfmId);
-        // wfmFacade.deleteWorkflowModels(wfm);
-        // tenantFacade.deleteTenant(tenantId);
-
-        UserFacadeTest.deleteTestUsers();
     }
 
     /**

@@ -56,6 +56,12 @@ public class RefuseInvitationCommand extends UserCommand implements
     }
 
     @Override
+    public Long[] getInvitationIds() {
+        Long[] res = { invitationId };
+        return res;
+    }
+
+    @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
 
@@ -69,11 +75,5 @@ public class RefuseInvitationCommand extends UserCommand implements
         evt.getSession().delete(invitationId);
 
         NotificationEvents.refusedInvitation(invitation);
-    }
-
-    @Override
-    public Long[] getInvitationIds() {
-        Long[] res = { invitationId };
-        return res;
     }
 }

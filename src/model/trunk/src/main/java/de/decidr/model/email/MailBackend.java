@@ -81,7 +81,7 @@ public class MailBackend {
     public static boolean validateAddresses(Set<String> addressSet) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".validateAddresses(List<String>)");
-        if (addressSet == null || addressSet.isEmpty()) {
+        if ((addressSet == null) || addressSet.isEmpty()) {
             log.debug("empty parameter => invalid addresses");
             log.trace("Leaving " + MailBackend.class.getSimpleName()
                     + ".validateAddresses(List<String>)");
@@ -119,7 +119,7 @@ public class MailBackend {
     public static boolean validateAddresses(String addressList) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".validateAddresses(String)");
-        if (addressList == null || addressList.trim().isEmpty()) {
+        if ((addressList == null) || addressList.trim().isEmpty()) {
             log.debug("Passed address list is empty => invalid");
             log.trace("Leaving " + MailBackend.class.getSimpleName()
                     + ".validateAddresses(String)");
@@ -189,31 +189,6 @@ public class MailBackend {
     /**
      * @param to
      *            The recipients of the Email. See
-     *            <code>{@link #setReceiver(String)}</code>.
-     * @param fromName
-     *            The name of the sender of the Email. See
-     *            <code>{@link #setSender(String, String)}</code>.
-     * @param fromMail
-     *            The email address of the sender of the Email. See
-     *            <code>{@link #setSender(String, String)}</code>.
-     * @param subject
-     *            The subject of the Email. See
-     *            <code>{@link #setSubject(String)}</code>.
-     */
-    public MailBackend(String to, String fromName, String fromMail,
-            String subject) {
-        log.trace("Entering " + MailBackend.class.getSimpleName()
-                + " constructor");
-        setReceiver(to);
-        setSender(fromName, fromMail);
-        setSubject(subject);
-        log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + " constructor");
-    }
-
-    /**
-     * @param to
-     *            The recipients of the Email. See
      *            <code>{@link #setReceiver(Set)}</code>.
      * @param fromName
      *            The name of the sender of the Email. See
@@ -237,6 +212,31 @@ public class MailBackend {
     }
 
     /**
+     * @param to
+     *            The recipients of the Email. See
+     *            <code>{@link #setReceiver(String)}</code>.
+     * @param fromName
+     *            The name of the sender of the Email. See
+     *            <code>{@link #setSender(String, String)}</code>.
+     * @param fromMail
+     *            The email address of the sender of the Email. See
+     *            <code>{@link #setSender(String, String)}</code>.
+     * @param subject
+     *            The subject of the Email. See
+     *            <code>{@link #setSubject(String)}</code>.
+     */
+    public MailBackend(String to, String fromName, String fromMail,
+            String subject) {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + " constructor");
+        setReceiver(to);
+        setSender(fromName, fromMail);
+        setSubject(subject);
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + " constructor");
+    }
+
+    /**
      * Adds a list of receivers to the current list of secret receivers of
      * carbon copies.
      * 
@@ -246,7 +246,7 @@ public class MailBackend {
     public void addBCC(String bcc) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addBCC(String)");
-        if (bcc == null || bcc.trim().isEmpty()) {
+        if ((bcc == null) || bcc.trim().isEmpty()) {
             log.debug("Empty or null string => nothing to append");
             log.trace("Leaving " + MailBackend.class.getSimpleName()
                     + ".addBCC(String)");
@@ -275,7 +275,7 @@ public class MailBackend {
     public void addCC(String cc) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addCC(String)");
-        if (cc == null || cc.trim().isEmpty()) {
+        if ((cc == null) || cc.trim().isEmpty()) {
             log.debug("Empty or null string => nothing to append");
             log.trace("Leaving " + MailBackend.class.getSimpleName()
                     + ".addCC(String)");
@@ -326,6 +326,49 @@ public class MailBackend {
         addMimePart(result);
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".addFile(File)");
+        return result;
+    }
+
+    /**
+     * Attaches the file specified by the <code>{@link InputStream}</code>
+     * parameter.
+     * 
+     * @param file
+     *            A <code>{@link InputStream}</code> containing the file to
+     *            attach.
+     * @param type
+     *            The {@link String content type} of the {@link InputStream}.
+     * @param fileName
+     *            The name of the attachment.
+     * @return The <code>{@link MimeBodyPart}</code> containing the file
+     * @throws MessagingException
+     *             see
+     *             <code>{@link MimeBodyPart#MimeBodyPart(InputStream)}</code>
+     * @throws IOException
+     *             see
+     *             <code>{@link ByteArrayDataSource#ByteArrayDataSource(InputStream, String)}</code>
+     * @throws IllegalArgumentException
+     *             if <code>file</code> is null.
+     */
+    public MimeBodyPart addFile(InputStream file, String type, String fileName)
+            throws MessagingException, IOException {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".addFile(InputStream)");
+        if (file == null) {
+            log.error("Parameter file mustn't be null");
+            throw new IllegalArgumentException("file must not be null");
+        }
+
+        log.debug("Adding stream to message's body");
+        MimeBodyPart result = new MimeBodyPart();
+        ByteArrayDataSource dataSource = new ByteArrayDataSource(file, type);
+        result.setDataHandler(new DataHandler(dataSource));
+        result.setFileName(fileName);
+        result.setHeader("Content-Type", type);
+        addMimePart(result);
+
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".addFile(InputStream)");
         return result;
     }
 
@@ -389,49 +432,6 @@ public class MailBackend {
     }
 
     /**
-     * Attaches the file specified by the <code>{@link InputStream}</code>
-     * parameter.
-     * 
-     * @param file
-     *            A <code>{@link InputStream}</code> containing the file to
-     *            attach.
-     * @param type
-     *            The {@link String content type} of the {@link InputStream}.
-     * @param fileName
-     *            The name of the attachment.
-     * @return The <code>{@link MimeBodyPart}</code> containing the file
-     * @throws MessagingException
-     *             see
-     *             <code>{@link MimeBodyPart#MimeBodyPart(InputStream)}</code>
-     * @throws IOException
-     *             see
-     *             <code>{@link ByteArrayDataSource#ByteArrayDataSource(InputStream, String)}</code>
-     * @throws IllegalArgumentException
-     *             if <code>file</code> is null.
-     */
-    public MimeBodyPart addFile(InputStream file, String type, String fileName)
-            throws MessagingException, IOException {
-        log.trace("Entering " + MailBackend.class.getSimpleName()
-                + ".addFile(InputStream)");
-        if (file == null) {
-            log.error("Parameter file mustn't be null");
-            throw new IllegalArgumentException("file must not be null");
-        }
-
-        log.debug("Adding stream to message's body");
-        MimeBodyPart result = new MimeBodyPart();
-        ByteArrayDataSource dataSource = new ByteArrayDataSource(file, type);
-        result.setDataHandler(new DataHandler(dataSource));
-        result.setFileName(fileName);
-        result.setHeader("Content-Type", type);
-        addMimePart(result);
-
-        log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + ".addFile(InputStream)");
-        return result;
-    }
-
-    /**
      * Adds an arbitrary header name-value tuple to the headers of the message.
      * Overwrites any existing existing header of the same name, if necessary.
      * The header may be ignored or overwritten by the mail transport agent.<br>
@@ -448,8 +448,8 @@ public class MailBackend {
     public void addHeader(String headerName, String headerContent) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addHeader(String, String)");
-        if (headerName == null || headerContent == null || headerName.isEmpty()
-                || headerContent.isEmpty()) {
+        if ((headerName == null) || (headerContent == null)
+                || headerName.isEmpty() || headerContent.isEmpty()) {
             log.error("headerName or headerContent was null or empty");
             throw new IllegalArgumentException(
                     "neither header name nor header value may be empty");
@@ -585,7 +585,7 @@ public class MailBackend {
     public void addReceiver(String to) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".addReceiver(String)");
-        if (to == null || to.trim().isEmpty()) {
+        if ((to == null) || to.trim().isEmpty()) {
             log.debug("Empty or null string => nothing to append");
             log.trace("Leaving " + MailBackend.class.getSimpleName()
                     + ".addReceiver(String)");
@@ -636,21 +636,21 @@ public class MailBackend {
     /**
      * To be used for testing.
      * 
-     * @return the headerFromName
-     */
-    final String getHeaderFromName() {
-        log.warn(WARNING_TESTING);
-        return headerFromName;
-    }
-
-    /**
-     * To be used for testing.
-     * 
      * @return the headerFromMail
      */
     final String getHeaderFromMail() {
         log.warn(WARNING_TESTING);
         return headerFromMail;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the headerFromName
+     */
+    final String getHeaderFromName() {
+        log.warn(WARNING_TESTING);
+        return headerFromName;
     }
 
     /**
@@ -681,6 +681,16 @@ public class MailBackend {
     final String getHeaderXMailer() {
         log.warn(WARNING_TESTING);
         return headerXMailer;
+    }
+
+    /**
+     * To be used for testing.
+     * 
+     * @return the htmlPart
+     */
+    final MimeBodyPart getHtmlPart() {
+        log.warn(WARNING_TESTING);
+        return htmlPart;
     }
 
     /**
@@ -726,16 +736,6 @@ public class MailBackend {
     /**
      * To be used for testing.
      * 
-     * @return the username
-     */
-    final String getUsername() {
-        log.warn(WARNING_TESTING);
-        return username;
-    }
-
-    /**
-     * To be used for testing.
-     * 
      * @return the textPart
      */
     final MimeBodyPart getTextPart() {
@@ -746,11 +746,11 @@ public class MailBackend {
     /**
      * To be used for testing.
      * 
-     * @return the htmlPart
+     * @return the username
      */
-    final MimeBodyPart getHtmlPart() {
+    final String getUsername() {
         log.warn(WARNING_TESTING);
-        return htmlPart;
+        return username;
     }
 
     /**
@@ -854,7 +854,7 @@ public class MailBackend {
     public void sendMessage() throws MessagingException, IOException {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".sendMessage()");
-        if (SMTPServerHost == null || SMTPServerHost.isEmpty()) {
+        if ((SMTPServerHost == null) || SMTPServerHost.isEmpty()) {
             log.debug("detected empty hostname => setting to localhost");
             SMTPServerHost = "localhost";
         }
@@ -869,7 +869,7 @@ public class MailBackend {
 
         Properties sysProps = System.getProperties();
         sysProps.setProperty("mail." + protocol + ".host", SMTPServerHost);
-        if (username != null && !username.isEmpty()) {
+        if ((username != null) && !username.isEmpty()) {
             log.debug("using username \"" + username
                     + "\" for authentification");
             sysProps.setProperty("mail." + protocol + ".auth", "true");
@@ -884,12 +884,12 @@ public class MailBackend {
 
         MimeMessage message = new MimeMessage(session);
 
-        if (messageParts.isEmpty() && textPart == null && htmlPart == null) {
+        if (messageParts.isEmpty() && (textPart == null) && (htmlPart == null)) {
             log.error("Can't send a message without a body!");
             throw new IllegalArgumentException(
                     "You need to add some content to your message.");
         } else if (messageParts.isEmpty()
-                && (textPart == null || htmlPart == null)) {
+                && ((textPart == null) || (htmlPart == null))) {
             log.debug("constructing message with simple body");
             MimeBodyPart usedPart;
             if (textPart != null) {
@@ -927,16 +927,16 @@ public class MailBackend {
             }
         }
 
-        if (headerTo == null || headerTo.isEmpty()) {
+        if ((headerTo == null) || headerTo.isEmpty()) {
             log.error("Can't send a message without recipient.");
             throw new IllegalArgumentException(
                     "You need to specify a receiver!");
         }
-        if (headerFromMail == null || headerFromMail.isEmpty()) {
+        if ((headerFromMail == null) || headerFromMail.isEmpty()) {
             log.error("Can't send a message from nobody.");
             throw new IllegalArgumentException("You need to specify a sender!");
         }
-        if (headerSubject == null || headerSubject.trim().isEmpty()) {
+        if ((headerSubject == null) || headerSubject.trim().isEmpty()) {
             log.debug("detected null subject");
             headerSubject = EMPTY_SUBJECT;
         }
@@ -944,10 +944,12 @@ public class MailBackend {
                 + "headers, if necessary");
         message.setFrom(new InternetAddress(headerFromMail, headerFromName));
         message.setRecipients(Message.RecipientType.TO, headerTo);
-        if (!(headerCC == null || headerCC.isEmpty()))
+        if (!((headerCC == null) || headerCC.isEmpty())) {
             message.setRecipients(Message.RecipientType.CC, headerCC);
-        if (!(headerBCC == null || headerBCC.isEmpty()))
+        }
+        if (!((headerBCC == null) || headerBCC.isEmpty())) {
             message.setRecipients(Message.RecipientType.BCC, headerBCC);
+        }
         message.setSubject(headerSubject);
         message.setSentDate(DecidrGlobals.getTime().getTime());
 
@@ -955,7 +957,7 @@ public class MailBackend {
         SMTPTransport transport = (SMTPTransport) session
                 .getTransport(protocol);
         try {
-            if (username != null && username.isEmpty()) {
+            if ((username != null) && username.isEmpty()) {
                 username = null;
                 password = null;
             }
@@ -1032,7 +1034,7 @@ public class MailBackend {
     public void setBCC(String bcc) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setBCC(String)");
-        if (bcc == null || bcc.trim().isEmpty()) {
+        if ((bcc == null) || bcc.trim().isEmpty()) {
             log.debug("detected empty parameter");
             headerBCC = "";
             log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -1051,30 +1053,6 @@ public class MailBackend {
         headerBCC = bcc;
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setBCC(String)");
-    }
-
-    /**
-     * Set the string content of the main body part.
-     * 
-     * @param message
-     *            The primary text message of the Email.
-     * @throws MessagingException
-     *             May be thrown while setting message contents.
-     */
-    public void setBodyText(String message) throws MessagingException {
-        log.trace("Entering " + MailBackend.class.getSimpleName()
-                + ".setBodyText(String)");
-        if (message == null) {
-            log.debug("removing text part");
-            textPart = null;
-        } else {
-            log.debug("setting body text");
-            textPart = new MimeBodyPart();
-            textPart.setContent(message, "text/plain; charset=UTF-8");
-            textPart.setFileName("Plaintext Body");
-        }
-        log.trace("Leaving " + MailBackend.class.getSimpleName()
-                + ".setBodyText(String)");
     }
 
     /**
@@ -1100,6 +1078,30 @@ public class MailBackend {
         }
         log.trace("Leaving " + MailBackend.class.getSimpleName()
                 + ".setBodyHTML(String)");
+    }
+
+    /**
+     * Set the string content of the main body part.
+     * 
+     * @param message
+     *            The primary text message of the Email.
+     * @throws MessagingException
+     *             May be thrown while setting message contents.
+     */
+    public void setBodyText(String message) throws MessagingException {
+        log.trace("Entering " + MailBackend.class.getSimpleName()
+                + ".setBodyText(String)");
+        if (message == null) {
+            log.debug("removing text part");
+            textPart = null;
+        } else {
+            log.debug("setting body text");
+            textPart = new MimeBodyPart();
+            textPart.setContent(message, "text/plain; charset=UTF-8");
+            textPart.setFileName("Plaintext Body");
+        }
+        log.trace("Leaving " + MailBackend.class.getSimpleName()
+                + ".setBodyText(String)");
     }
 
     /**
@@ -1146,7 +1148,7 @@ public class MailBackend {
     public void setCC(String cc) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setCC(String)");
-        if (cc == null || cc.trim().isEmpty()) {
+        if ((cc == null) || cc.trim().isEmpty()) {
             log.debug("detected empty parameter");
             headerCC = "";
             log.trace("Leaving " + MailBackend.class.getSimpleName()
@@ -1178,7 +1180,7 @@ public class MailBackend {
     public void setHostname(String hostname) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setHostname(String)");
-        if (hostname == null || hostname.isEmpty()) {
+        if ((hostname == null) || hostname.isEmpty()) {
             log.debug("detected empty hostname => setting to localhost");
             SMTPServerHost = "localhost";
         } else {
@@ -1215,7 +1217,7 @@ public class MailBackend {
     public void setPortNum(int portNum) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setProtNum(int)");
-        if (portNum < -1 || portNum == 0) {
+        if ((portNum < -1) || (portNum == 0)) {
             portNum = -1;
         }
 
@@ -1268,7 +1270,7 @@ public class MailBackend {
     public void setReceiver(String to) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setReceiver(String)");
-        if (to == null || to.trim().isEmpty()) {
+        if ((to == null) || to.trim().isEmpty()) {
             log.error("Can't use empty To: header.");
             throw new IllegalArgumentException(
                     "Please specify some recipients!");
@@ -1298,7 +1300,7 @@ public class MailBackend {
     public void setSender(String fromName, String fromMail) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setSender(String)");
-        if (fromMail == null || fromMail.trim().isEmpty()
+        if ((fromMail == null) || fromMail.trim().isEmpty()
                 || !validateAddresses(fromMail)) {
             log.error("The sender can't be empty or invalid.");
             throw new IllegalArgumentException("Please specify a valid sender!");
@@ -1306,7 +1308,7 @@ public class MailBackend {
 
         log.debug("setting From");
         headerFromMail = fromMail;
-        if (fromName == null || fromName.trim().isEmpty()) {
+        if ((fromName == null) || fromName.trim().isEmpty()) {
             log.debug("sender name is empty");
             headerFromName = null;
         } else {
@@ -1344,7 +1346,7 @@ public class MailBackend {
     public void setSubject(String subject) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setSubject(String)");
-        if (subject == null || subject.trim().isEmpty()) {
+        if ((subject == null) || subject.trim().isEmpty()) {
             log.debug("null parameter => setting to default");
             headerSubject = EMPTY_SUBJECT;
         } else {
@@ -1365,7 +1367,7 @@ public class MailBackend {
     public void setUsername(String username) {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setUsername(String)");
-        if (username != null && username.isEmpty()) {
+        if ((username != null) && username.isEmpty()) {
             username = null;
         }
         log.debug("setting username");
@@ -1386,7 +1388,7 @@ public class MailBackend {
         log.trace("Entering " + MailBackend.class.getSimpleName()
                 + ".setXMailer(String)");
         log.debug("setting user agent");
-        if (newXMailer != null && newXMailer.isEmpty()) {
+        if ((newXMailer != null) && newXMailer.isEmpty()) {
             newXMailer = null;
         }
         headerXMailer = newXMailer;

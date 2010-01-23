@@ -58,8 +58,47 @@ public class DecidrWebserviceAdapter {
         this.definition = definition;
     }
 
+    public Definition getDefinition() {
+        return definition;
+    }
+
+    public QName getInputMessageType() {
+        return getOpertation().getInput().getMessage().getQName();
+    }
+
+    public String getLocation() {
+        Iterator<?> iter = getService().getPort(mapping.getServicePort())
+                .getExtensibilityElements().iterator();
+        while (iter.hasNext()) {
+            ExtensibilityElement element = (ExtensibilityElement) iter.next();
+            if (element instanceof SOAP12Address) {
+                SOAP12Address adress = (SOAP12Address) element;
+                return adress.getLocationURI();
+            } else if (element instanceof SOAPAddress) {
+                SOAPAddress adress = (SOAPAddress) element;
+                return adress.getLocationURI();
+            }
+        }
+        log.warn("Location in " + definition.getTargetNamespace()
+                + " DecidrWebserviceAdapter is null");
+        return null;
+
+    }
+
+    public WebserviceMapping getMapping() {
+        return mapping;
+    }
+
     public QName getName() {
         return definition.getQName();
+    }
+
+    public Operation getOpertation() {
+        return getPortType().getOperation(mapping.operation, null, null);
+    }
+
+    public QName getOutputMessageType() {
+        return getOpertation().getOutput().getMessage().getQName();
     }
 
     public PartnerLink getPartnerLink() {
@@ -75,6 +114,19 @@ public class DecidrWebserviceAdapter {
         partnerLink.setPartnerLinkType(new QName(definition
                 .getTargetNamespace(), getPartnerLinkType().getName()));
         return partnerLink;
+    }
+
+    private List<PartnerLinkType> getPartnerLinksElements(Definition def) {
+        List<PartnerLinkType> list = new ArrayList<PartnerLinkType>();
+        Iterator<?> extElementIter = def.getExtensibilityElements().iterator();
+        while (extElementIter.hasNext()) {
+            ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
+                    .next();
+            if (extElement instanceof PartnerLinkType) {
+                list.add((PartnerLinkType) extElement);
+            }
+        }
+        return list;
     }
 
     public PartnerLinkType getPartnerLinkType() {
@@ -102,52 +154,9 @@ public class DecidrWebserviceAdapter {
         return null;
     }
 
-    public String getTargetNamespace() {
-        return definition.getTargetNamespace();
-    }
-
-    public String getLocation() {
-        Iterator<?> iter = getService().getPort(mapping.getServicePort())
-                .getExtensibilityElements().iterator();
-        while (iter.hasNext()) {
-            ExtensibilityElement element = (ExtensibilityElement) iter.next();
-            if (element instanceof SOAP12Address) {
-                SOAP12Address adress = (SOAP12Address) element;
-                return adress.getLocationURI();
-            } else if (element instanceof SOAPAddress) {
-                SOAPAddress adress = (SOAPAddress) element;
-                return adress.getLocationURI();
-            }
-        }
-        log.warn("Location in " + definition.getTargetNamespace()
-                + " DecidrWebserviceAdapter is null");
-        return null;
-
-    }
-
     public PortType getPortType() {
         return definition.getPortType(new QName(
                 definition.getTargetNamespace(), mapping.portType));
-    }
-
-    public Operation getOpertation() {
-        return getPortType().getOperation(mapping.operation, null, null);
-    }
-
-    public Definition getDefinition() {
-        return definition;
-    }
-
-    public WebserviceMapping getMapping() {
-        return mapping;
-    }
-
-    public QName getInputMessageType() {
-        return getOpertation().getInput().getMessage().getQName();
-    }
-
-    public QName getOutputMessageType() {
-        return getOpertation().getOutput().getMessage().getQName();
     }
 
     public Service getService() {
@@ -155,17 +164,8 @@ public class DecidrWebserviceAdapter {
                 mapping.getService()));
     }
 
-    private List<PartnerLinkType> getPartnerLinksElements(Definition def) {
-        List<PartnerLinkType> list = new ArrayList<PartnerLinkType>();
-        Iterator<?> extElementIter = def.getExtensibilityElements().iterator();
-        while (extElementIter.hasNext()) {
-            ExtensibilityElement extElement = (ExtensibilityElement) extElementIter
-                    .next();
-            if (extElement instanceof PartnerLinkType) {
-                list.add((PartnerLinkType) extElement);
-            }
-        }
-        return list;
+    public String getTargetNamespace() {
+        return definition.getTargetNamespace();
     }
 
 }

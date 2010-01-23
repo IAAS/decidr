@@ -27,19 +27,19 @@ public class UserHasFileAccess implements java.io.Serializable {
 
     /** The id. */
     private UserHasFileAccessId id;
-    
+
     /** The user. */
     private User user;
-    
+
     /** The file. */
     private File file;
-    
+
     /** The may read. */
     private boolean mayRead;
-    
+
     /** The may delete. */
     private boolean mayDelete;
-    
+
     /** The may replace. */
     private boolean mayReplace;
 
@@ -78,22 +78,21 @@ public class UserHasFileAccess implements java.io.Serializable {
     }
 
     /**
+     * Gets the file.
+     * 
+     * @return the file
+     */
+    public File getFile() {
+        return this.file;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
      */
     public UserHasFileAccessId getId() {
         return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(UserHasFileAccessId id) {
-        this.id = id;
     }
 
     /**
@@ -106,22 +105,30 @@ public class UserHasFileAccess implements java.io.Serializable {
     }
 
     /**
-     * Sets the user.
+     * Checks if is may delete.
      * 
-     * @param user
-     *            the new user
+     * @return true, if is may delete
      */
-    public void setUser(User user) {
-        this.user = user;
+    public boolean isMayDelete() {
+        return this.mayDelete;
     }
 
     /**
-     * Gets the file.
+     * Checks if is may read.
      * 
-     * @return the file
+     * @return true, if is may read
      */
-    public File getFile() {
-        return this.file;
+    public boolean isMayRead() {
+        return this.mayRead;
+    }
+
+    /**
+     * Checks if is may replace.
+     * 
+     * @return true, if is may replace
+     */
+    public boolean isMayReplace() {
+        return this.mayReplace;
     }
 
     /**
@@ -135,31 +142,13 @@ public class UserHasFileAccess implements java.io.Serializable {
     }
 
     /**
-     * Checks if is may read.
+     * Sets the id.
      * 
-     * @return true, if is may read
+     * @param id
+     *            the new id
      */
-    public boolean isMayRead() {
-        return this.mayRead;
-    }
-
-    /**
-     * Sets the may read.
-     * 
-     * @param mayRead
-     *            the new may read
-     */
-    public void setMayRead(boolean mayRead) {
-        this.mayRead = mayRead;
-    }
-
-    /**
-     * Checks if is may delete.
-     * 
-     * @return true, if is may delete
-     */
-    public boolean isMayDelete() {
-        return this.mayDelete;
+    public void setId(UserHasFileAccessId id) {
+        this.id = id;
     }
 
     /**
@@ -173,12 +162,13 @@ public class UserHasFileAccess implements java.io.Serializable {
     }
 
     /**
-     * Checks if is may replace.
+     * Sets the may read.
      * 
-     * @return true, if is may replace
+     * @param mayRead
+     *            the new may read
      */
-    public boolean isMayReplace() {
-        return this.mayReplace;
+    public void setMayRead(boolean mayRead) {
+        this.mayRead = mayRead;
     }
 
     /**
@@ -189,6 +179,16 @@ public class UserHasFileAccess implements java.io.Serializable {
      */
     public void setMayReplace(boolean mayReplace) {
         this.mayReplace = mayReplace;
+    }
+
+    /**
+     * Sets the user.
+     * 
+     * @param user
+     *            the new user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

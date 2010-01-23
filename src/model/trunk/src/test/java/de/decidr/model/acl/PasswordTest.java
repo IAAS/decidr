@@ -40,50 +40,6 @@ import de.decidr.model.testing.DecidrAclTest;
  */
 public class PasswordTest extends DecidrAclTest {
 
-    /**
-     * Test method for {@link Password#getHash(String, String)}.
-     */
-    @Test
-    public void testGetHash() throws NoSuchAlgorithmException {
-        final List<String> testPWDs = new ArrayList<String>();
-        final List<String> testSalts = new ArrayList<String>();
-        fillTestPWDs(testPWDs);
-
-        final Map<String, String> evilPWDs = new HashMap<String, String>();
-        evilPWDs.put(null, null);
-        evilPWDs.put("", null);
-        evilPWDs.put(null, "");
-
-        String resultHash1;
-        String resultHash2;
-        for (String pwd : testPWDs) {
-            for (String salt : testSalts) {
-                DefaultLogger.getLogger(PasswordTest.class).info(
-                        "Testing password \"" + pwd + "\" with salt \"" + salt
-                                + "\"");
-                resultHash1 = Password.getHash(pwd, salt);
-                resultHash2 = Password.getHash(pwd, salt);
-
-                assertNotNull(resultHash1);
-                assertNotNull(resultHash2);
-
-                assertEquals(resultHash1, resultHash2);
-                assertEquals(hashHelper(pwd, salt), resultHash1);
-            }
-        }
-
-        for (String pwd : evilPWDs.keySet()) {
-            try {
-                Password.getHash(pwd, evilPWDs.get(pwd));
-                fail("Hashing \"" + pwd + "\" with salt \"" + evilPWDs.get(pwd)
-                        + "\" succeeded!");
-            } catch (RuntimeException e) {
-                // needs to be thrown
-            }
-        }
-
-    }
-
     private void fillTestPWDs(final List<String> testPWDs) {
         testPWDs.add("");
         testPWDs.add("!");
@@ -288,6 +244,16 @@ public class PasswordTest extends DecidrAclTest {
         testPWDs.add("ФаИл");
     }
 
+    /**
+     * @param i
+     *            the size of the random byte array returned.
+     */
+    private byte[] getRandomBytes(int i) {
+        byte[] result = new byte[i];
+        new Random().nextBytes(result);
+        return result;
+    }
+
     private String hashHelper(String passwd, String salt)
             throws NoSuchAlgorithmException {
         String result = null;
@@ -304,55 +270,6 @@ public class PasswordTest extends DecidrAclTest {
         }
 
         return result;
-    }
-
-    /**
-     * Test method for {@link Password#getRandomAuthKey()}.
-     */
-    @Test
-    public void testGetRandomAuthKey() {
-        String authKey = Password.getRandomAuthKey();
-        String compareKey;
-
-        assertNotNull(authKey);
-        assertEquals(64, authKey.length());
-        assertEquals(authKey.toLowerCase(), authKey);
-        assertTrue(authKey.matches("\\p{Alnum}*"));
-
-        for (int i = 0; i < 1000; i++) {
-            compareKey = Password.getRandomAuthKey();
-
-            assertNotNull(compareKey);
-            assertEquals(64, compareKey.length());
-            assertEquals(compareKey.toLowerCase(), compareKey);
-            assertTrue(compareKey.matches("\\p{Alnum}*"));
-            assertFalse(compareKey.equals(authKey));
-        }
-    }
-
-    /**
-     * Test method for {@link Password#getRandomSalt()}.
-     */
-    @Test
-    public void testGetRandomSalt() {
-        String salt = Password.getRandomSalt();
-        String compareSalt;
-
-        assertNotNull(salt);
-        assertEquals(128, salt.length());
-        assertEquals(salt.toLowerCase(), salt);
-        assertTrue(salt.matches("\\p{Alnum}*"));
-
-        // generating salts takes too long, so only test this method 300 times
-        for (int i = 0; i < 300; i++) {
-            compareSalt = Password.getRandomSalt();
-
-            assertNotNull(compareSalt);
-            assertEquals(128, compareSalt.length());
-            assertEquals(compareSalt.toLowerCase(), compareSalt);
-            assertTrue(compareSalt.matches("\\p{Alnum}*"));
-            assertFalse(compareSalt.equals(salt));
-        }
     }
 
     /**
@@ -395,16 +312,6 @@ public class PasswordTest extends DecidrAclTest {
 
             assertTrue(digestNotation.matches("[\\p{Alnum},-]*"));
         }
-    }
-
-    /**
-     * @param i
-     *            the size of the random byte array returned.
-     */
-    private byte[] getRandomBytes(int i) {
-        byte[] result = new byte[i];
-        new Random().nextBytes(result);
-        return result;
     }
 
     /**
@@ -456,6 +363,99 @@ public class PasswordTest extends DecidrAclTest {
             assertTrue(Password.getDigestNotation(randomBytes, 1,
                     testChars.toString().toCharArray()).matches(
                     "[" + Pattern.quote(testChars.toString()) + "]*"));
+        }
+    }
+
+    /**
+     * Test method for {@link Password#getHash(String, String)}.
+     */
+    @Test
+    public void testGetHash() throws NoSuchAlgorithmException {
+        final List<String> testPWDs = new ArrayList<String>();
+        final List<String> testSalts = new ArrayList<String>();
+        fillTestPWDs(testPWDs);
+
+        final Map<String, String> evilPWDs = new HashMap<String, String>();
+        evilPWDs.put(null, null);
+        evilPWDs.put("", null);
+        evilPWDs.put(null, "");
+
+        String resultHash1;
+        String resultHash2;
+        for (String pwd : testPWDs) {
+            for (String salt : testSalts) {
+                DefaultLogger.getLogger(PasswordTest.class).info(
+                        "Testing password \"" + pwd + "\" with salt \"" + salt
+                                + "\"");
+                resultHash1 = Password.getHash(pwd, salt);
+                resultHash2 = Password.getHash(pwd, salt);
+
+                assertNotNull(resultHash1);
+                assertNotNull(resultHash2);
+
+                assertEquals(resultHash1, resultHash2);
+                assertEquals(hashHelper(pwd, salt), resultHash1);
+            }
+        }
+
+        for (String pwd : evilPWDs.keySet()) {
+            try {
+                Password.getHash(pwd, evilPWDs.get(pwd));
+                fail("Hashing \"" + pwd + "\" with salt \"" + evilPWDs.get(pwd)
+                        + "\" succeeded!");
+            } catch (RuntimeException e) {
+                // needs to be thrown
+            }
+        }
+
+    }
+
+    /**
+     * Test method for {@link Password#getRandomAuthKey()}.
+     */
+    @Test
+    public void testGetRandomAuthKey() {
+        String authKey = Password.getRandomAuthKey();
+        String compareKey;
+
+        assertNotNull(authKey);
+        assertEquals(64, authKey.length());
+        assertEquals(authKey.toLowerCase(), authKey);
+        assertTrue(authKey.matches("\\p{Alnum}*"));
+
+        for (int i = 0; i < 1000; i++) {
+            compareKey = Password.getRandomAuthKey();
+
+            assertNotNull(compareKey);
+            assertEquals(64, compareKey.length());
+            assertEquals(compareKey.toLowerCase(), compareKey);
+            assertTrue(compareKey.matches("\\p{Alnum}*"));
+            assertFalse(compareKey.equals(authKey));
+        }
+    }
+
+    /**
+     * Test method for {@link Password#getRandomSalt()}.
+     */
+    @Test
+    public void testGetRandomSalt() {
+        String salt = Password.getRandomSalt();
+        String compareSalt;
+
+        assertNotNull(salt);
+        assertEquals(128, salt.length());
+        assertEquals(salt.toLowerCase(), salt);
+        assertTrue(salt.matches("\\p{Alnum}*"));
+
+        // generating salts takes too long, so only test this method 300 times
+        for (int i = 0; i < 300; i++) {
+            compareSalt = Password.getRandomSalt();
+
+            assertNotNull(compareSalt);
+            assertEquals(128, compareSalt.length());
+            assertEquals(compareSalt.toLowerCase(), compareSalt);
+            assertTrue(compareSalt.matches("\\p{Alnum}*"));
+            assertFalse(compareSalt.equals(salt));
         }
     }
 }

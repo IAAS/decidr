@@ -35,50 +35,9 @@ import de.decidr.model.testing.DecidrAclTest;
 public class PermissionTest extends DecidrAclTest {
     private static List<String> strings = new ArrayList<String>();
 
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        fillStringList();
-    }
-
     @AfterClass
     public static void cleanUpAfterClass() {
         strings = null;
-    }
-
-    /**
-     * Test method for {@link Permission#Permission(String)}.
-     */
-    @Test
-    public void testPermissionString() {
-        Permission perm = null;
-
-        for (String s : strings) {
-            perm = new Permission(s);
-            assertNotNull(perm);
-            assertTrue(perm.getName().equals(s));
-        }
-
-        try {
-            perm = new Permission("");
-            fail("Name cannot be empty");
-        } catch (Exception e) {
-            // needs to be thrown
-        }
-    }
-
-    /**
-     * Test method for {@link Permission#equals(Object)}.
-     */
-    @Test
-    public void testEqualsObject() {
-        FileDeletePermission filePerm = new FileDeletePermission(1l);
-        FileDeletePermission filePerm2 = filePerm;
-        FileReadPermission filePermRead = new FileReadPermission(1l);
-
-        assertTrue(filePerm.equals(filePerm2));
-        assertFalse(filePerm.equals(filePermRead));
-        assertFalse(filePermRead.equals(filePerm));
-        assertFalse(filePerm.equals(null));
     }
 
     private static void fillStringList() {
@@ -282,5 +241,46 @@ public class PermissionTest extends DecidrAclTest {
         strings.add("aDF3Fg%43&fDDeg!}");
         strings.add("фаил");
         strings.add("ФаИл");
+    }
+
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        fillStringList();
+    }
+
+    /**
+     * Test method for {@link Permission#equals(Object)}.
+     */
+    @Test
+    public void testEqualsObject() {
+        FileDeletePermission filePerm = new FileDeletePermission(1l);
+        FileDeletePermission filePerm2 = filePerm;
+        FileReadPermission filePermRead = new FileReadPermission(1l);
+
+        assertTrue(filePerm.equals(filePerm2));
+        assertFalse(filePerm.equals(filePermRead));
+        assertFalse(filePermRead.equals(filePerm));
+        assertFalse(filePerm.equals(null));
+    }
+
+    /**
+     * Test method for {@link Permission#Permission(String)}.
+     */
+    @Test
+    public void testPermissionString() {
+        Permission perm = null;
+
+        for (String s : strings) {
+            perm = new Permission(s);
+            assertNotNull(perm);
+            assertTrue(perm.getName().equals(s));
+        }
+
+        try {
+            perm = new Permission("");
+            fail("Name cannot be empty");
+        } catch (Exception e) {
+            // needs to be thrown
+        }
     }
 }

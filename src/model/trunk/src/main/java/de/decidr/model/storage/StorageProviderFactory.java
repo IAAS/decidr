@@ -53,6 +53,32 @@ public class StorageProviderFactory {
 
     static Logger log = DefaultLogger.getLogger(StorageProviderFactory.class);
 
+    /**
+     * Applies the default configuration.
+     * 
+     * @throws IOException
+     *             see <code>{@link #configure(InputStream)}</code>
+     * @throws InvalidPropertiesFormatException
+     *             see <code>{@link #configure(InputStream)}</code>
+     * @throws IncompleteConfigurationException
+     *             thrown when the default config file can't be located/accessed
+     *             on the file system.
+     * @return this object for method chaining.
+     */
+    public static StorageProviderFactory getDefaultFactory()
+            throws InvalidPropertiesFormatException, IOException,
+            IncompleteConfigurationException {
+        try {
+            return new StorageProviderFactory(StorageProviderFactory.class
+                    .getResourceAsStream(DEFAULT_CONFIG_FILE_LOCATION));
+        } catch (IllegalArgumentException e) {
+            log.error("couldnt find \"" + DEFAULT_CONFIG_FILE_LOCATION
+                    + "\" in classpath");
+            throw new IncompleteConfigurationException(
+                    "The default config file could not be found", e);
+        }
+    }
+
     private List<Class<? extends StorageProvider>> knownProviders = new ArrayList<Class<? extends StorageProvider>>();
 
     /**
@@ -221,32 +247,6 @@ public class StorageProviderFactory {
         log.trace("Leaving " + StorageProviderFactory.class.getSimpleName()
                 + ".configure(Properties)");
         return configure();
-    }
-
-    /**
-     * Applies the default configuration.
-     * 
-     * @throws IOException
-     *             see <code>{@link #configure(InputStream)}</code>
-     * @throws InvalidPropertiesFormatException
-     *             see <code>{@link #configure(InputStream)}</code>
-     * @throws IncompleteConfigurationException
-     *             thrown when the default config file can't be located/accessed
-     *             on the file system.
-     * @return this object for method chaining.
-     */
-    public static StorageProviderFactory getDefaultFactory()
-            throws InvalidPropertiesFormatException, IOException,
-            IncompleteConfigurationException {
-        try {
-            return new StorageProviderFactory(StorageProviderFactory.class
-                    .getResourceAsStream(DEFAULT_CONFIG_FILE_LOCATION));
-        } catch (IllegalArgumentException e) {
-            log.error("couldnt find \"" + DEFAULT_CONFIG_FILE_LOCATION
-                    + "\" in classpath");
-            throw new IncompleteConfigurationException(
-                    "The default config file could not be found", e);
-        }
     }
 
     /**

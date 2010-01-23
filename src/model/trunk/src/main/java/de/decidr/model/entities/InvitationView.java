@@ -29,49 +29,49 @@ public class InvitationView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The sender id. */
     private long senderId;
-    
+
     /** The receiver id. */
     private long receiverId;
-    
+
     /** The participate in workflow instance id. */
     private Long participateInWorkflowInstanceId;
-    
+
     /** The join tenant id. */
     private Long joinTenantId;
-    
+
     /** The administrate workflow model id. */
     private Long administrateWorkflowModelId;
-    
+
     /** The creation date. */
     private Date creationDate;
-    
+
     /** The sender first name. */
     private String senderFirstName;
-    
+
     /** The sender last name. */
     private String senderLastName;
-    
+
     /** The receiver first name. */
     private String receiverFirstName;
-    
+
     /** The receiver last name. */
     private String receiverLastName;
-    
+
     /** The administrated workflow model name. */
     private String administratedWorkflowModelName;
-    
+
     /** The participate worfkwlow model name. */
     private String participateWorfkwlowModelName;
-    
+
     /** The join tenant name. */
     private String joinTenantName;
-    
+
     /** The workflow model owning tenant name. */
     private String workflowModelOwningTenantName;
-    
+
     /** The participate tenant name. */
     private String participateTenantName;
 
@@ -167,99 +167,12 @@ public class InvitationView implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Gets the administrated workflow model name.
      * 
-     * @return the id
+     * @return the administrated workflow model name
      */
-    public long getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets the id.
-     * 
-     * @param id
-     *            the new id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the sender id.
-     * 
-     * @return the sender id
-     */
-    public long getSenderId() {
-        return this.senderId;
-    }
-
-    /**
-     * Sets the sender id.
-     * 
-     * @param senderId
-     *            the new sender id
-     */
-    public void setSenderId(long senderId) {
-        this.senderId = senderId;
-    }
-
-    /**
-     * Gets the receiver id.
-     * 
-     * @return the receiver id
-     */
-    public long getReceiverId() {
-        return this.receiverId;
-    }
-
-    /**
-     * Sets the receiver id.
-     * 
-     * @param receiverId
-     *            the new receiver id
-     */
-    public void setReceiverId(long receiverId) {
-        this.receiverId = receiverId;
-    }
-
-    /**
-     * Gets the participate in workflow instance id.
-     * 
-     * @return the participate in workflow instance id
-     */
-    public Long getParticipateInWorkflowInstanceId() {
-        return this.participateInWorkflowInstanceId;
-    }
-
-    /**
-     * Sets the participate in workflow instance id.
-     * 
-     * @param participateInWorkflowInstanceId
-     *            the new participate in workflow instance id
-     */
-    public void setParticipateInWorkflowInstanceId(
-            Long participateInWorkflowInstanceId) {
-        this.participateInWorkflowInstanceId = participateInWorkflowInstanceId;
-    }
-
-    /**
-     * Gets the join tenant id.
-     * 
-     * @return the join tenant id
-     */
-    public Long getJoinTenantId() {
-        return this.joinTenantId;
-    }
-
-    /**
-     * Sets the join tenant id.
-     * 
-     * @param joinTenantId
-     *            the new join tenant id
-     */
-    public void setJoinTenantId(Long joinTenantId) {
-        this.joinTenantId = joinTenantId;
+    public String getAdministratedWorkflowModelName() {
+        return this.administratedWorkflowModelName;
     }
 
     /**
@@ -272,16 +185,6 @@ public class InvitationView implements java.io.Serializable {
     }
 
     /**
-     * Sets the administrate workflow model id.
-     * 
-     * @param administrateWorkflowModelId
-     *            the new administrate workflow model id
-     */
-    public void setAdministrateWorkflowModelId(Long administrateWorkflowModelId) {
-        this.administrateWorkflowModelId = administrateWorkflowModelId;
-    }
-
-    /**
      * Gets the creation date.
      * 
      * @return the creation date
@@ -291,51 +194,57 @@ public class InvitationView implements java.io.Serializable {
     }
 
     /**
-     * Sets the creation date.
+     * Gets the id.
      * 
-     * @param creationDate
-     *            the new creation date
+     * @return the id
      */
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public long getId() {
+        return this.id;
     }
 
     /**
-     * Gets the sender first name.
+     * Gets the join tenant id.
      * 
-     * @return the sender first name
+     * @return the join tenant id
      */
-    public String getSenderFirstName() {
-        return this.senderFirstName;
+    public Long getJoinTenantId() {
+        return this.joinTenantId;
     }
 
     /**
-     * Sets the sender first name.
+     * Gets the join tenant name.
      * 
-     * @param senderFirstName
-     *            the new sender first name
+     * @return the join tenant name
      */
-    public void setSenderFirstName(String senderFirstName) {
-        this.senderFirstName = senderFirstName;
+    public String getJoinTenantName() {
+        return this.joinTenantName;
     }
 
     /**
-     * Gets the sender last name.
+     * Gets the participate in workflow instance id.
      * 
-     * @return the sender last name
+     * @return the participate in workflow instance id
      */
-    public String getSenderLastName() {
-        return this.senderLastName;
+    public Long getParticipateInWorkflowInstanceId() {
+        return this.participateInWorkflowInstanceId;
     }
 
     /**
-     * Sets the sender last name.
+     * Gets the participate tenant name.
      * 
-     * @param senderLastName
-     *            the new sender last name
+     * @return the participate tenant name
      */
-    public void setSenderLastName(String senderLastName) {
-        this.senderLastName = senderLastName;
+    public String getParticipateTenantName() {
+        return this.participateTenantName;
+    }
+
+    /**
+     * Gets the participate worfkwlow model name.
+     * 
+     * @return the participate worfkwlow model name
+     */
+    public String getParticipateWorfkwlowModelName() {
+        return this.participateWorfkwlowModelName;
     }
 
     /**
@@ -348,13 +257,12 @@ public class InvitationView implements java.io.Serializable {
     }
 
     /**
-     * Sets the receiver first name.
+     * Gets the receiver id.
      * 
-     * @param receiverFirstName
-     *            the new receiver first name
+     * @return the receiver id
      */
-    public void setReceiverFirstName(String receiverFirstName) {
-        this.receiverFirstName = receiverFirstName;
+    public long getReceiverId() {
+        return this.receiverId;
     }
 
     /**
@@ -367,22 +275,39 @@ public class InvitationView implements java.io.Serializable {
     }
 
     /**
-     * Sets the receiver last name.
+     * Gets the sender first name.
      * 
-     * @param receiverLastName
-     *            the new receiver last name
+     * @return the sender first name
      */
-    public void setReceiverLastName(String receiverLastName) {
-        this.receiverLastName = receiverLastName;
+    public String getSenderFirstName() {
+        return this.senderFirstName;
     }
 
     /**
-     * Gets the administrated workflow model name.
+     * Gets the sender id.
      * 
-     * @return the administrated workflow model name
+     * @return the sender id
      */
-    public String getAdministratedWorkflowModelName() {
-        return this.administratedWorkflowModelName;
+    public long getSenderId() {
+        return this.senderId;
+    }
+
+    /**
+     * Gets the sender last name.
+     * 
+     * @return the sender last name
+     */
+    public String getSenderLastName() {
+        return this.senderLastName;
+    }
+
+    /**
+     * Gets the workflow model owning tenant name.
+     * 
+     * @return the workflow model owning tenant name
+     */
+    public String getWorkflowModelOwningTenantName() {
+        return this.workflowModelOwningTenantName;
     }
 
     /**
@@ -397,12 +322,74 @@ public class InvitationView implements java.io.Serializable {
     }
 
     /**
-     * Gets the participate worfkwlow model name.
+     * Sets the administrate workflow model id.
      * 
-     * @return the participate worfkwlow model name
+     * @param administrateWorkflowModelId
+     *            the new administrate workflow model id
      */
-    public String getParticipateWorfkwlowModelName() {
-        return this.participateWorfkwlowModelName;
+    public void setAdministrateWorkflowModelId(Long administrateWorkflowModelId) {
+        this.administrateWorkflowModelId = administrateWorkflowModelId;
+    }
+
+    /**
+     * Sets the creation date.
+     * 
+     * @param creationDate
+     *            the new creation date
+     */
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the join tenant id.
+     * 
+     * @param joinTenantId
+     *            the new join tenant id
+     */
+    public void setJoinTenantId(Long joinTenantId) {
+        this.joinTenantId = joinTenantId;
+    }
+
+    /**
+     * Sets the join tenant name.
+     * 
+     * @param joinTenantName
+     *            the new join tenant name
+     */
+    public void setJoinTenantName(String joinTenantName) {
+        this.joinTenantName = joinTenantName;
+    }
+
+    /**
+     * Sets the participate in workflow instance id.
+     * 
+     * @param participateInWorkflowInstanceId
+     *            the new participate in workflow instance id
+     */
+    public void setParticipateInWorkflowInstanceId(
+            Long participateInWorkflowInstanceId) {
+        this.participateInWorkflowInstanceId = participateInWorkflowInstanceId;
+    }
+
+    /**
+     * Sets the participate tenant name.
+     * 
+     * @param participateTenantName
+     *            the new participate tenant name
+     */
+    public void setParticipateTenantName(String participateTenantName) {
+        this.participateTenantName = participateTenantName;
     }
 
     /**
@@ -417,31 +404,63 @@ public class InvitationView implements java.io.Serializable {
     }
 
     /**
-     * Gets the join tenant name.
+     * Sets the receiver first name.
      * 
-     * @return the join tenant name
+     * @param receiverFirstName
+     *            the new receiver first name
      */
-    public String getJoinTenantName() {
-        return this.joinTenantName;
+    public void setReceiverFirstName(String receiverFirstName) {
+        this.receiverFirstName = receiverFirstName;
     }
 
     /**
-     * Sets the join tenant name.
+     * Sets the receiver id.
      * 
-     * @param joinTenantName
-     *            the new join tenant name
+     * @param receiverId
+     *            the new receiver id
      */
-    public void setJoinTenantName(String joinTenantName) {
-        this.joinTenantName = joinTenantName;
+    public void setReceiverId(long receiverId) {
+        this.receiverId = receiverId;
     }
 
     /**
-     * Gets the workflow model owning tenant name.
+     * Sets the receiver last name.
      * 
-     * @return the workflow model owning tenant name
+     * @param receiverLastName
+     *            the new receiver last name
      */
-    public String getWorkflowModelOwningTenantName() {
-        return this.workflowModelOwningTenantName;
+    public void setReceiverLastName(String receiverLastName) {
+        this.receiverLastName = receiverLastName;
+    }
+
+    /**
+     * Sets the sender first name.
+     * 
+     * @param senderFirstName
+     *            the new sender first name
+     */
+    public void setSenderFirstName(String senderFirstName) {
+        this.senderFirstName = senderFirstName;
+    }
+
+    /**
+     * Sets the sender id.
+     * 
+     * @param senderId
+     *            the new sender id
+     */
+    public void setSenderId(long senderId) {
+        this.senderId = senderId;
+    }
+
+    /**
+     * Sets the sender last name.
+     * 
+     * @param senderLastName
+     *            the new sender last name
+     */
+    public void setSenderLastName(String senderLastName) {
+        this.senderLastName = senderLastName;
     }
 
     /**
@@ -453,25 +472,6 @@ public class InvitationView implements java.io.Serializable {
     public void setWorkflowModelOwningTenantName(
             String workflowModelOwningTenantName) {
         this.workflowModelOwningTenantName = workflowModelOwningTenantName;
-    }
-
-    /**
-     * Gets the participate tenant name.
-     * 
-     * @return the participate tenant name
-     */
-    public String getParticipateTenantName() {
-        return this.participateTenantName;
-    }
-
-    /**
-     * Sets the participate tenant name.
-     * 
-     * @param participateTenantName
-     *            the new participate tenant name
-     */
-    public void setParticipateTenantName(String participateTenantName) {
-        this.participateTenantName = participateTenantName;
     }
 
 }

@@ -52,6 +52,13 @@ public class GetWorkItemCommand extends WorkItemCommand {
         requireWorkItemId();
     }
 
+    /**
+     * @return the corresponding workitem to the given ID
+     */
+    public WorkItem getResult() {
+        return result;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -60,12 +67,5 @@ public class GetWorkItemCommand extends WorkItemCommand {
         // make sure the required properties are loaded.
         result.getData();
         result.getWorkflowInstance().getDeployedWorkflowModel();
-    }
-
-    /**
-     * @return the corresponding workitem to the given ID
-     */
-    public WorkItem getResult() {
-        return result;
     }
 }

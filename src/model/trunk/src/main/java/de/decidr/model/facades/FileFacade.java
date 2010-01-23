@@ -105,46 +105,6 @@ public class FileFacade extends AbstractFacade {
     }
 
     /**
-     * Replaces an existing file with new contents, filename and mime type.
-     * 
-     * @param fileId
-     *            the file to replace
-     * @param newContents
-     *            new contents of the file
-     * @param fileSize
-     *            number of bytes to read from the given input stream.
-     * @param newFileName
-     *            new file name as reported by the user agent (browser)
-     * @param newMimeType
-     *            new mime type as reported by the user agent (browser)
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason
-     * @throws AccessDeniedException
-     *             iff the current actor does not have permission to replace the
-     *             given file.
-     * @throws EntityNotFoundException
-     *             iff the given file ID is unknown to the system.
-     * @throws IllegalArgumentException
-     *             if the file size is negative of if one one of the following
-     *             parameters is <code>null</code>:
-     *             <ul>
-     *             <li>fileId</li>
-     *             <li>newContents</li>
-     *             <li>fileSize</li>
-     *             <li>newFileName</li>
-     *             <li>newMimeType</li>
-     *             </ul>
-     */
-    @AllowedRole(BasicRole.class)
-    public void replaceFile(Long fileId, InputStream newContents,
-            Long fileSize, String newFileName, String newMimeType)
-            throws TransactionException {
-        ReplaceFileCommand cmd = new ReplaceFileCommand(actor, fileId,
-                newContents, fileSize, newFileName, newMimeType);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-    }
-
-    /**
      * Deletes a file and its contents. If the file does not exist, no exception
      * is thrown.
      * 
@@ -210,5 +170,45 @@ public class FileFacade extends AbstractFacade {
         GetFileCommand cmd = new GetFileCommand(actor, fileId);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         return cmd.getFile();
+    }
+
+    /**
+     * Replaces an existing file with new contents, filename and mime type.
+     * 
+     * @param fileId
+     *            the file to replace
+     * @param newContents
+     *            new contents of the file
+     * @param fileSize
+     *            number of bytes to read from the given input stream.
+     * @param newFileName
+     *            new file name as reported by the user agent (browser)
+     * @param newMimeType
+     *            new mime type as reported by the user agent (browser)
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason
+     * @throws AccessDeniedException
+     *             iff the current actor does not have permission to replace the
+     *             given file.
+     * @throws EntityNotFoundException
+     *             iff the given file ID is unknown to the system.
+     * @throws IllegalArgumentException
+     *             if the file size is negative of if one one of the following
+     *             parameters is <code>null</code>:
+     *             <ul>
+     *             <li>fileId</li>
+     *             <li>newContents</li>
+     *             <li>fileSize</li>
+     *             <li>newFileName</li>
+     *             <li>newMimeType</li>
+     *             </ul>
+     */
+    @AllowedRole(BasicRole.class)
+    public void replaceFile(Long fileId, InputStream newContents,
+            Long fileSize, String newFileName, String newMimeType)
+            throws TransactionException {
+        ReplaceFileCommand cmd = new ReplaceFileCommand(actor, fileId,
+                newContents, fileSize, newFileName, newMimeType);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
     }
 }

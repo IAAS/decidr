@@ -27,10 +27,10 @@ public class RoleHasPermission implements java.io.Serializable {
 
     /** The id. */
     private RoleHasPermissionId id;
-    
+
     /** The role. */
     private Role role;
-    
+
     /** The permission. */
     private Permission permission;
 
@@ -69,13 +69,12 @@ public class RoleHasPermission implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the permission.
      * 
-     * @param id
-     *            the new id
+     * @return the permission
      */
-    public void setId(RoleHasPermissionId id) {
-        this.id = id;
+    public Permission getPermission() {
+        return this.permission;
     }
 
     /**
@@ -88,22 +87,13 @@ public class RoleHasPermission implements java.io.Serializable {
     }
 
     /**
-     * Sets the role.
+     * Sets the id.
      * 
-     * @param role
-     *            the new role
+     * @param id
+     *            the new id
      */
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    /**
-     * Gets the permission.
-     * 
-     * @return the permission
-     */
-    public Permission getPermission() {
-        return this.permission;
+    public void setId(RoleHasPermissionId id) {
+        this.id = id;
     }
 
     /**
@@ -114,6 +104,16 @@ public class RoleHasPermission implements java.io.Serializable {
      */
     public void setPermission(Permission permission) {
         this.permission = permission;
+    }
+
+    /**
+     * Sets the role.
+     * 
+     * @param role
+     *            the new role
+     */
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

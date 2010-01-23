@@ -41,10 +41,6 @@ public class IoExceptionWrapper extends IOException {
         super(message);
     }
 
-    public IoExceptionWrapper(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public IoExceptionWrapper(String message, String ioException) {
         super(message);
         this.ioException = ioException;
@@ -54,6 +50,10 @@ public class IoExceptionWrapper extends IOException {
             Throwable cause) {
         super(message, cause);
         this.ioException = ioException;
+    }
+
+    public IoExceptionWrapper(String message, Throwable cause) {
+        super(message, cause);
     }
 
     public String getFaultInfo() {

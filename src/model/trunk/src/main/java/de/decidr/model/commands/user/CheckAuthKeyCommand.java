@@ -55,19 +55,19 @@ public class CheckAuthKeyCommand extends UserCommand {
         this.authKey = authKey;
     }
 
-    @Override
-    public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException {
-        User user = fetchUser(evt.getSession());
-
-        authKeyMatches = authKey.equals(user.getAuthKey());
-    }
-
     /**
      * @return <code>true</code> iff the auth key matched the auth key in the
      *         database.
      */
     public Boolean getAuthKeyMatches() {
         return authKeyMatches;
+    }
+
+    @Override
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+        User user = fetchUser(evt.getSession());
+
+        authKeyMatches = authKey.equals(user.getAuthKey());
     }
 }

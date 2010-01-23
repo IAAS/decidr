@@ -62,17 +62,6 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
 
     static UserFacade adminUserFacade;
 
-    /**
-     * Initialises the facade instances.
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        adminFacade = new WorkflowModelFacade(new SuperAdminRole(DecidrGlobals
-                .getSettings().getSuperAdmin().getId()));
-        userFacade = new WorkflowModelFacade(new BasicRole(0L));
-        nullFacade = new WorkflowModelFacade(null);
-    }
-
     @BeforeClass
     public static void createWorkflowModel() throws TransactionException {
         // create test tenant
@@ -109,60 +98,20 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         // "ads", userProfile);
     }
 
+    /**
+     * Initialises the facade instances.
+     */
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        adminFacade = new WorkflowModelFacade(new SuperAdminRole(DecidrGlobals
+                .getSettings().getSuperAdmin().getId()));
+        userFacade = new WorkflowModelFacade(new BasicRole(0L));
+        nullFacade = new WorkflowModelFacade(null);
+    }
+
     @AfterClass
     public static void tearDownTestCase() {
         UserFacadeTest.deleteTestUsers();
-    }
-
-    /**
-     * Test method for
-     * {@link WorkflowModelFacade#saveWorkflowModel(Long, String, String, String)}
-     * {@link WorkflowModelFacade#getWorkflowModel(Long)}
-     */
-    @Test
-    public void testSaveWorkflowModel() throws TransactionException {
-        final String NAME = "WorkflowModelFacadeTestWorkflowModel";
-        final String DESCRIPTION = "UnitTest Model for WorkflowModelFacade UnitTest";
-        final String DWDL = "<workflow>DWDLBLA</workflow>";
-
-        adminFacade.saveWorkflowModel(wfmId, NAME, DESCRIPTION, DWDL);
-        WorkflowModel wfm = adminFacade.getWorkflowModel(wfmId);
-
-        long id = wfm.getId();
-        String name = wfm.getName();
-        String description = wfm.getDescription();
-        byte[] dwdl = wfm.getDwdl();
-
-        assertEquals(id, wfmId);
-        assertEquals(name, NAME);
-        assertEquals(description, DESCRIPTION);
-        assertEquals(dwdl, DWDL);
-    }
-
-    /**
-     * Test method for {@link WorkflowModelFacade#publishWorkflowModels(List)}
-     * {@link WorkflowModelFacade#unpublishWorkflowModels(List)}
-     * {@link WorkflowModelFacade#getAllPublishedWorkflowModels(List, Paginator)}
-     */
-    @Test
-    public void testPublishWorkflowModels() throws TransactionException {
-        List<Long> wfmIds = new ArrayList<Long>();
-        wfmIds.add(wfmId);
-
-        adminFacade.publishWorkflowModels(wfmIds);
-        Object po = adminFacade.getWorkflowModel(wfmId).isPublished();
-        assertTrue((Boolean) po);
-
-        List<WorkflowModel> pwfms = adminFacade.getAllPublishedWorkflowModels(
-                null, null);
-        assertTrue(itemListContainsWfmId(pwfms, wfmId));
-
-        adminFacade.unpublishWorkflowModels(wfmIds);
-        po = adminFacade.getWorkflowModel(wfmId).isPublished();
-        assertFalse((Boolean) po);
-
-        pwfms = adminFacade.getAllPublishedWorkflowModels(null, null);
-        assertFalse(itemListContainsWfmId(pwfms, wfmId));
     }
 
     private boolean itemListContainsWfmId(List<? extends Object> items,
@@ -184,6 +133,32 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
         }
 
         return false;
+    }
+
+    /**
+     * Test method for {@link WorkflowModelFacade#deleteWorkflowModels(List)}.
+     */
+    @Test
+    public void testDeleteWorkflowModels() throws TransactionException {
+        List<Long> wfmIds = new ArrayList<Long>();
+        wfmIds.add(wfmId);
+        adminFacade.deleteWorkflowModels(wfmIds);
+
+        try {
+            adminFacade.getWorkflowModel(wfmId);
+            fail("Model to be deleted is still in the database.");
+        } catch (EntityNotFoundException e) {
+            // expected
+        }
+    }
+
+    /**
+     * Test method for
+     * {@link WorkflowModelFacade#getLastStartConfiguration(Long)}.
+     */
+    @Test
+    public void testGetLastStartConfiguration() throws TransactionException {
+        adminFacade.getLastStartConfiguration(wfmId);
     }
 
     /**
@@ -248,28 +223,53 @@ public class WorkflowModelFacadeTest extends LowLevelDatabaseTest {
     }
 
     /**
-     * Test method for
-     * {@link WorkflowModelFacade#getLastStartConfiguration(Long)}.
+     * Test method for {@link WorkflowModelFacade#publishWorkflowModels(List)}
+     * {@link WorkflowModelFacade#unpublishWorkflowModels(List)}
+     * {@link WorkflowModelFacade#getAllPublishedWorkflowModels(List, Paginator)}
      */
     @Test
-    public void testGetLastStartConfiguration() throws TransactionException {
-        adminFacade.getLastStartConfiguration(wfmId);
+    public void testPublishWorkflowModels() throws TransactionException {
+        List<Long> wfmIds = new ArrayList<Long>();
+        wfmIds.add(wfmId);
+
+        adminFacade.publishWorkflowModels(wfmIds);
+        Object po = adminFacade.getWorkflowModel(wfmId).isPublished();
+        assertTrue((Boolean) po);
+
+        List<WorkflowModel> pwfms = adminFacade.getAllPublishedWorkflowModels(
+                null, null);
+        assertTrue(itemListContainsWfmId(pwfms, wfmId));
+
+        adminFacade.unpublishWorkflowModels(wfmIds);
+        po = adminFacade.getWorkflowModel(wfmId).isPublished();
+        assertFalse((Boolean) po);
+
+        pwfms = adminFacade.getAllPublishedWorkflowModels(null, null);
+        assertFalse(itemListContainsWfmId(pwfms, wfmId));
     }
 
     /**
-     * Test method for {@link WorkflowModelFacade#deleteWorkflowModels(List)}.
+     * Test method for
+     * {@link WorkflowModelFacade#saveWorkflowModel(Long, String, String, String)}
+     * {@link WorkflowModelFacade#getWorkflowModel(Long)}
      */
     @Test
-    public void testDeleteWorkflowModels() throws TransactionException {
-        List<Long> wfmIds = new ArrayList<Long>();
-        wfmIds.add(wfmId);
-        adminFacade.deleteWorkflowModels(wfmIds);
+    public void testSaveWorkflowModel() throws TransactionException {
+        final String NAME = "WorkflowModelFacadeTestWorkflowModel";
+        final String DESCRIPTION = "UnitTest Model for WorkflowModelFacade UnitTest";
+        final String DWDL = "<workflow>DWDLBLA</workflow>";
 
-        try {
-            adminFacade.getWorkflowModel(wfmId);
-            fail("Model to be deleted is still in the database.");
-        } catch (EntityNotFoundException e) {
-            // expected
-        }
+        adminFacade.saveWorkflowModel(wfmId, NAME, DESCRIPTION, DWDL);
+        WorkflowModel wfm = adminFacade.getWorkflowModel(wfmId);
+
+        long id = wfm.getId();
+        String name = wfm.getName();
+        String description = wfm.getDescription();
+        byte[] dwdl = wfm.getDwdl();
+
+        assertEquals(id, wfmId);
+        assertEquals(name, NAME);
+        assertEquals(description, DESCRIPTION);
+        assertEquals(dwdl, DWDL);
     }
 }

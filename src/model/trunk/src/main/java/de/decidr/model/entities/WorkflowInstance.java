@@ -31,35 +31,35 @@ public class WorkflowInstance implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The deployed workflow model. */
     private DeployedWorkflowModel deployedWorkflowModel;
-    
+
     /** The server. */
     private Server server;
-    
+
     /** The ode pid. */
     private String odePid;
-    
+
     /** The start configuration. */
     private byte[] startConfiguration;
-    
+
     /** The started date. */
     private Date startedDate;
-    
+
     /** The completed date. */
     private Date completedDate;
-    
+
     /** The work items. */
     private Set<WorkItem> workItems = new HashSet<WorkItem>(0);
-    
+
     /** The user administrates workflow instances. */
     private Set<UserAdministratesWorkflowInstance> userAdministratesWorkflowInstances = new HashSet<UserAdministratesWorkflowInstance>(
             0);
-    
+
     /** The invitations. */
     private Set<Invitation> invitations = new HashSet<Invitation>(0);
-    
+
     /** The user participates in workflows. */
     private Set<UserParticipatesInWorkflow> userParticipatesInWorkflows = new HashSet<UserParticipatesInWorkflow>(
             0);
@@ -69,24 +69,6 @@ public class WorkflowInstance implements java.io.Serializable {
      */
     public WorkflowInstance() {
         // default empty JavaBean constructor
-    }
-
-    /**
-     * Instantiates a new workflow instance.
-     * 
-     * @param deployedWorkflowModel
-     *            the deployed workflow model
-     * @param odePid
-     *            the ode pid
-     * @param startConfiguration
-     *            the start configuration
-     */
-    public WorkflowInstance(DeployedWorkflowModel deployedWorkflowModel,
-            String odePid, byte[] startConfiguration) {
-        // generated minimal constructor
-        this.deployedWorkflowModel = deployedWorkflowModel;
-        this.odePid = odePid;
-        this.startConfiguration = startConfiguration;
     }
 
     /**
@@ -138,22 +120,30 @@ public class WorkflowInstance implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Instantiates a new workflow instance.
      * 
-     * @return the id
+     * @param deployedWorkflowModel
+     *            the deployed workflow model
+     * @param odePid
+     *            the ode pid
+     * @param startConfiguration
+     *            the start configuration
      */
-    public Long getId() {
-        return this.id;
+    public WorkflowInstance(DeployedWorkflowModel deployedWorkflowModel,
+            String odePid, byte[] startConfiguration) {
+        // generated minimal constructor
+        this.deployedWorkflowModel = deployedWorkflowModel;
+        this.odePid = odePid;
+        this.startConfiguration = startConfiguration;
     }
 
     /**
-     * Sets the id.
+     * Gets the completed date.
      * 
-     * @param id
-     *            the new id
+     * @return the completed date
      */
-    public void setId(Long id) {
-        this.id = id;
+    public Date getCompletedDate() {
+        return this.completedDate;
     }
 
     /**
@@ -163,6 +153,97 @@ public class WorkflowInstance implements java.io.Serializable {
      */
     public DeployedWorkflowModel getDeployedWorkflowModel() {
         return this.deployedWorkflowModel;
+    }
+
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public Long getId() {
+        return this.id;
+    }
+
+    /**
+     * Gets the invitations.
+     * 
+     * @return the invitations
+     */
+    public Set<Invitation> getInvitations() {
+        return this.invitations;
+    }
+
+    /**
+     * Gets the ode pid.
+     * 
+     * @return the ode pid
+     */
+    public String getOdePid() {
+        return this.odePid;
+    }
+
+    /**
+     * Gets the server.
+     * 
+     * @return the server
+     */
+    public Server getServer() {
+        return this.server;
+    }
+
+    /**
+     * Gets the start configuration.
+     * 
+     * @return the start configuration
+     */
+    public byte[] getStartConfiguration() {
+        return this.startConfiguration;
+    }
+
+    /**
+     * Gets the started date.
+     * 
+     * @return the started date
+     */
+    public Date getStartedDate() {
+        return this.startedDate;
+    }
+
+    /**
+     * Gets the user administrates workflow instances.
+     * 
+     * @return the user administrates workflow instances
+     */
+    public Set<UserAdministratesWorkflowInstance> getUserAdministratesWorkflowInstances() {
+        return this.userAdministratesWorkflowInstances;
+    }
+
+    /**
+     * Gets the user participates in workflows.
+     * 
+     * @return the user participates in workflows
+     */
+    public Set<UserParticipatesInWorkflow> getUserParticipatesInWorkflows() {
+        return this.userParticipatesInWorkflows;
+    }
+
+    /**
+     * Gets the work items.
+     * 
+     * @return the work items
+     */
+    public Set<WorkItem> getWorkItems() {
+        return this.workItems;
+    }
+
+    /**
+     * Sets the completed date.
+     * 
+     * @param completedDate
+     *            the new completed date
+     */
+    public void setCompletedDate(Date completedDate) {
+        this.completedDate = completedDate;
     }
 
     /**
@@ -177,31 +258,23 @@ public class WorkflowInstance implements java.io.Serializable {
     }
 
     /**
-     * Gets the server.
+     * Sets the id.
      * 
-     * @return the server
+     * @param id
+     *            the new id
      */
-    public Server getServer() {
-        return this.server;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
-     * Sets the server.
+     * Sets the invitations.
      * 
-     * @param server
-     *            the new server
+     * @param invitations
+     *            the new invitations
      */
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
-    /**
-     * Gets the ode pid.
-     * 
-     * @return the ode pid
-     */
-    public String getOdePid() {
-        return this.odePid;
+    public void setInvitations(Set<Invitation> invitations) {
+        this.invitations = invitations;
     }
 
     /**
@@ -215,12 +288,13 @@ public class WorkflowInstance implements java.io.Serializable {
     }
 
     /**
-     * Gets the start configuration.
+     * Sets the server.
      * 
-     * @return the start configuration
+     * @param server
+     *            the new server
      */
-    public byte[] getStartConfiguration() {
-        return this.startConfiguration;
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     /**
@@ -234,15 +308,6 @@ public class WorkflowInstance implements java.io.Serializable {
     }
 
     /**
-     * Gets the started date.
-     * 
-     * @return the started date
-     */
-    public Date getStartedDate() {
-        return this.startedDate;
-    }
-
-    /**
      * Sets the started date.
      * 
      * @param startedDate
@@ -250,53 +315,6 @@ public class WorkflowInstance implements java.io.Serializable {
      */
     public void setStartedDate(Date startedDate) {
         this.startedDate = startedDate;
-    }
-
-    /**
-     * Gets the completed date.
-     * 
-     * @return the completed date
-     */
-    public Date getCompletedDate() {
-        return this.completedDate;
-    }
-
-    /**
-     * Sets the completed date.
-     * 
-     * @param completedDate
-     *            the new completed date
-     */
-    public void setCompletedDate(Date completedDate) {
-        this.completedDate = completedDate;
-    }
-
-    /**
-     * Gets the work items.
-     * 
-     * @return the work items
-     */
-    public Set<WorkItem> getWorkItems() {
-        return this.workItems;
-    }
-
-    /**
-     * Sets the work items.
-     * 
-     * @param workItems
-     *            the new work items
-     */
-    public void setWorkItems(Set<WorkItem> workItems) {
-        this.workItems = workItems;
-    }
-
-    /**
-     * Gets the user administrates workflow instances.
-     * 
-     * @return the user administrates workflow instances
-     */
-    public Set<UserAdministratesWorkflowInstance> getUserAdministratesWorkflowInstances() {
-        return this.userAdministratesWorkflowInstances;
     }
 
     /**
@@ -311,34 +329,6 @@ public class WorkflowInstance implements java.io.Serializable {
     }
 
     /**
-     * Gets the invitations.
-     * 
-     * @return the invitations
-     */
-    public Set<Invitation> getInvitations() {
-        return this.invitations;
-    }
-
-    /**
-     * Sets the invitations.
-     * 
-     * @param invitations
-     *            the new invitations
-     */
-    public void setInvitations(Set<Invitation> invitations) {
-        this.invitations = invitations;
-    }
-
-    /**
-     * Gets the user participates in workflows.
-     * 
-     * @return the user participates in workflows
-     */
-    public Set<UserParticipatesInWorkflow> getUserParticipatesInWorkflows() {
-        return this.userParticipatesInWorkflows;
-    }
-
-    /**
      * Sets the user participates in workflows.
      * 
      * @param userParticipatesInWorkflows
@@ -347,6 +337,16 @@ public class WorkflowInstance implements java.io.Serializable {
     public void setUserParticipatesInWorkflows(
             Set<UserParticipatesInWorkflow> userParticipatesInWorkflows) {
         this.userParticipatesInWorkflows = userParticipatesInWorkflows;
+    }
+
+    /**
+     * Sets the work items.
+     * 
+     * @param workItems
+     *            the new work items
+     */
+    public void setWorkItems(Set<WorkItem> workItems) {
+        this.workItems = workItems;
     }
 
 }

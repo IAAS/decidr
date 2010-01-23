@@ -22,7 +22,8 @@ package de.decidr.model.workflowmodel.dwdl.transformation;
  * 
  * @author Modood Alvi
  */
-// MA: You've used that outdated definition of the email an HT WS' again. Please
+// TODO: You've used that outdated definition of the email an HT WS' again.
+// Please
 // update both them and the contents of this file!
 public final class PropertyConstants {
 
@@ -84,6 +85,14 @@ public final class PropertyConstants {
         public static final String ATTACHEMENT = "attachment";
     }
 
+    public static class FaultHandler {
+
+        /**
+         * This property sets the message, which will be sent to the recipient.
+         */
+        public static final String MESSAGE = "message";
+    }
+
     public static class Humantask {
         /**
          * The ID of the workflow. Usually this property refers to a variable
@@ -142,20 +151,12 @@ public final class PropertyConstants {
         public static final String TASKDATA = "taskData";
     }
 
-    public static class FaultHandler {
+    public static class Notification {
 
         /**
-         * This property sets the message, which will be sent to the recipient.
+         * The message sent when the workflow completes successfully.
          */
         public static final String MESSAGE = "message";
-    }
-
-    public static class Recipient {
-
-        /**
-         * The name of the recipient. This property is optional.
-         */
-        public static final String NAME = "name";
 
         /**
          * This property accepts an actor, a role or an email addresses. The
@@ -164,12 +165,12 @@ public final class PropertyConstants {
         public static final String TO = "to";
     }
 
-    public static class Notification {
+    public static class Recipient {
 
         /**
-         * The message sent when the workflow completes successfully.
+         * The name of the recipient. This property is optional.
          */
-        public static final String MESSAGE = "message";
+        public static final String NAME = "name";
 
         /**
          * This property accepts an actor, a role or an email addresses. The

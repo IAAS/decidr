@@ -50,13 +50,9 @@ import de.decidr.model.testing.GlobalPreconditionsSuite;
 public class AclTestSuite extends GlobalPreconditionsSuite {
     private static boolean inSuite;
 
-    /**
-     * @return - <code>true</code>, if a {@link OtherTestsSuite} is currently
-     *         running<br>
-     *         - <code>false</code> if not
-     */
-    public static final boolean isInSuite() {
-        return inSuite;
+    @BeforeClass
+    public static void activateSuite() {
+        inSuite = true;
     }
 
     @AfterClass
@@ -64,8 +60,12 @@ public class AclTestSuite extends GlobalPreconditionsSuite {
         inSuite = false;
     }
 
-    @BeforeClass
-    public static void activateSuite() {
-        inSuite = true;
+    /**
+     * @return - <code>true</code>, if a {@link OtherTestsSuite} is currently
+     *         running<br>
+     *         - <code>false</code> if not
+     */
+    public static final boolean isInSuite() {
+        return inSuite;
     }
 }

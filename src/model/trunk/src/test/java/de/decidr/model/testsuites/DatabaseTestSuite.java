@@ -82,6 +82,20 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
     static Calendar nextAttempt;
     private static boolean inSuite;
 
+    @AfterClass
+    public static void deactivateSuite() {
+        inSuite = false;
+    }
+
+    /**
+     * @return - <code>true</code>, if a {@link DatabaseTestSuite} is currently
+     *         running<br>
+     *         - <code>false</code> if not
+     */
+    public static final boolean isInSuite() {
+        return inSuite;
+    }
+
     /**
      * Fails if hibernate is not working properly and no working environment can
      * be produced.
@@ -92,7 +106,7 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
     @BeforeClass
     public static void setUpBeforeClass() {
         if (!inSuite
-                && (nextAttempt == null || Calendar.getInstance().after(
+                && ((nextAttempt == null) || Calendar.getInstance().after(
                         nextAttempt))) {
             Session session = null;
             // force initialisation of logging subsystem
@@ -122,19 +136,5 @@ public class DatabaseTestSuite extends GlobalPreconditionsSuite {
 
             inSuite = true;
         }
-    }
-
-    /**
-     * @return - <code>true</code>, if a {@link DatabaseTestSuite} is currently
-     *         running<br>
-     *         - <code>false</code> if not
-     */
-    public static final boolean isInSuite() {
-        return inSuite;
-    }
-
-    @AfterClass
-    public static void deactivateSuite() {
-        inSuite = false;
     }
 }

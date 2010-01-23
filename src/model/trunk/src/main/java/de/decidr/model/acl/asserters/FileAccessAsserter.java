@@ -52,39 +52,6 @@ public class FileAccessAsserter implements Asserter, TransactionalCommand {
 
     private boolean hasFileAccess = false;
 
-    @Override
-    public boolean assertRule(Role role, Permission permission)
-            throws TransactionException {
-        boolean result = false;
-        this.role = role;
-
-        if (permission instanceof FilePermission) {
-            this.permission = (FilePermission) permission;
-            HibernateTransactionCoordinator.getInstance().runTransaction(this);
-            result = hasFileAccess;
-        }
-
-        return result;
-    }
-
-    @Override
-    public void transactionStarted(TransactionEvent evt) {
-        session = evt.getSession();
-        hasFileAccess = false;
-
-        file = (File) session.get(File.class, permission.getId());
-        if (file == null || file.getId() == null) {
-            // Nobody has access to non-existing files.
-            return;
-        }
-
-        if (role instanceof UserRole) {
-            assertUserHasAccess();
-        } else {
-            assertAnyoneHasAccess();
-        }
-    }
-
     /**
      * Checks whether the file is publicy accessible.
      */
@@ -98,6 +65,21 @@ public class FileAccessAsserter implements Asserter, TransactionalCommand {
         } else {
             hasFileAccess = false;
         }
+    }
+
+    @Override
+    public boolean assertRule(Role role, Permission permission)
+            throws TransactionException {
+        boolean result = false;
+        this.role = role;
+
+        if (permission instanceof FilePermission) {
+            this.permission = (FilePermission) permission;
+            HibernateTransactionCoordinator.getInstance().runTransaction(this);
+            result = hasFileAccess;
+        }
+
+        return result;
     }
 
     /**
@@ -115,17 +97,17 @@ public class FileAccessAsserter implements Asserter, TransactionalCommand {
 
         if (permission instanceof FileReadPermission) {
             hasFileAccess = file.isMayPublicRead();
-            if (!hasFileAccess && access != null) {
+            if (!hasFileAccess && (access != null)) {
                 hasFileAccess = access.isMayRead();
             }
         } else if (permission instanceof FileReplacePermission) {
             hasFileAccess = file.isMayPublicReplace();
-            if (!hasFileAccess && access != null) {
+            if (!hasFileAccess && (access != null)) {
                 hasFileAccess = access.isMayReplace();
             }
         } else if (permission instanceof FileDeletePermission) {
             hasFileAccess = file.isMayPublicDelete();
-            if (!hasFileAccess && access != null) {
+            if (!hasFileAccess && (access != null)) {
                 hasFileAccess = access.isMayDelete();
             }
         } else {
@@ -141,6 +123,24 @@ public class FileAccessAsserter implements Asserter, TransactionalCommand {
     @Override
     public void transactionCommitted(TransactionEvent evt) {
         // nothing to do
+    }
+
+    @Override
+    public void transactionStarted(TransactionEvent evt) {
+        session = evt.getSession();
+        hasFileAccess = false;
+
+        file = (File) session.get(File.class, permission.getId());
+        if ((file == null) || (file.getId() == null)) {
+            // Nobody has access to non-existing files.
+            return;
+        }
+
+        if (role instanceof UserRole) {
+            assertUserHasAccess();
+        } else {
+            assertAnyoneHasAccess();
+        }
     }
 
 }

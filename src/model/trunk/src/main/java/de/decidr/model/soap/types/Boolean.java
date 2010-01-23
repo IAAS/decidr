@@ -45,6 +45,15 @@ public enum Boolean {
     @XmlEnumValue("yes")
     YES("yes"), @XmlEnumValue("no")
     NO("no");
+    public static Boolean fromValue(String v) {
+        for (Boolean c : Boolean.values()) {
+            if (c.value.equals(v)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException(v);
+    }
+
     private final String value;
 
     Boolean(String v) {
@@ -53,14 +62,5 @@ public enum Boolean {
 
     public String value() {
         return value;
-    }
-
-    public static Boolean fromValue(String v) {
-        for (Boolean c : Boolean.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
     }
 }

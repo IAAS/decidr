@@ -93,6 +93,102 @@ public class SetWorkflowAdministratorsCommand extends WorkflowModelCommand
         this.newAdminUsernames = newAdminUsernames;
     }
 
+    /**
+     * Searches the given map for users that have an unknown username, are
+     * unavailable or have been disabled by the superadmin. If found, this
+     * method will throw an appropriate exception.
+     * 
+     * @param map
+     *            map to search
+     */
+    private void assertOnlyValidUsers(Map<User, UserWorkflowAdminState> map)
+            throws UsernameNotFoundException, UserDisabledException,
+            UserUnavailableException {
+        for (User user : map.keySet()) {
+            if (UserWorkflowAdminState.IsUnknownUser.equals(map.get(user))) {
+                if ((user.getUserProfile() != null)
+                        && (user.getUserProfile().getUsername() != null)) {
+                    // unknown but has a username -> system does not recognize
+                    // the username
+                    throw new UsernameNotFoundException(user.getUserProfile()
+                            .getUsername());
+                } else if (user.getEmail() == null) {
+                    throw new IllegalArgumentException(
+                            "An unknown user is missing an email address: cannot send invitation.");
+                }
+            }
+            if (user.getId() != null) {
+                // user is known to the system
+                if (user.getDisabledSince() != null) {
+                    throw new UserDisabledException(user);
+                }
+                if (user.getUnavailableSince() != null) {
+                    throw new UserUnavailableException(user);
+                }
+            }
+        }
+    }
+
+    /**
+     * Creates new workflow admin invitations in the database.
+     * 
+     * @param users
+     *            users to invite as workflow admin
+     * @param model
+     *            workflow model to administrate
+     * @param session
+     *            current Hibernate sesion
+     */
+    private Set<Invitation> inviteAsWorkflowAdmin(List<User> users,
+            WorkflowModel model, Session session) {
+
+        Set<Invitation> invis = new HashSet<Invitation>();
+
+        for (User invitedUser : users) {
+            Invitation invitation = new Invitation();
+            invitation.setCreationDate(DecidrGlobals.getTime().getTime());
+            invitation.setAdministrateWorkflowModel(model);
+            invitation.setJoinTenant(null);
+            invitation.setParticipateInWorkflowInstance(null);
+            invitation.setReceiver(invitedUser);
+
+            User sender;
+            if (role instanceof UserRole) {
+                sender = (User) session.get(User.class, role.getActorId());
+            } else {
+                sender = DecidrGlobals.getSettings().getSuperAdmin();
+            }
+
+            invitation.setSender(sender);
+            session.save(invitation);
+            invis.add(invitation);
+        }
+
+        return invis;
+    }
+
+    /**
+     * Makes the given users workflow administrators of the given workflow model
+     * 
+     * @param users
+     *            users to make workflow admin
+     * @param model
+     *            workflow model to update
+     * @param session
+     *            current hibernate session
+     */
+    private void makeWorkflowAdmin(List<User> users, WorkflowModel model,
+            Session session) {
+        for (User user : users) {
+            UserAdministratesWorkflowModel relation = new UserAdministratesWorkflowModel();
+            relation.setId(new UserAdministratesWorkflowModelId(user.getId(),
+                    model.getId()));
+            relation.setUser(user);
+            relation.setWorkflowModel(model);
+            session.save(relation);
+        }
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException, UserDisabledException,
@@ -174,102 +270,6 @@ public class SetWorkflowAdministratorsCommand extends WorkflowModelCommand
         for (Invitation invi : unregistered) {
             NotificationEvents
                     .invitedRegisteredUserAsWorkflowAdmin(invi, model);
-        }
-    }
-
-    /**
-     * Creates new workflow admin invitations in the database.
-     * 
-     * @param users
-     *            users to invite as workflow admin
-     * @param model
-     *            workflow model to administrate
-     * @param session
-     *            current Hibernate sesion
-     */
-    private Set<Invitation> inviteAsWorkflowAdmin(List<User> users,
-            WorkflowModel model, Session session) {
-
-        Set<Invitation> invis = new HashSet<Invitation>();
-
-        for (User invitedUser : users) {
-            Invitation invitation = new Invitation();
-            invitation.setCreationDate(DecidrGlobals.getTime().getTime());
-            invitation.setAdministrateWorkflowModel(model);
-            invitation.setJoinTenant(null);
-            invitation.setParticipateInWorkflowInstance(null);
-            invitation.setReceiver(invitedUser);
-
-            User sender;
-            if (role instanceof UserRole) {
-                sender = (User) session.get(User.class, role.getActorId());
-            } else {
-                sender = DecidrGlobals.getSettings().getSuperAdmin();
-            }
-
-            invitation.setSender(sender);
-            session.save(invitation);
-            invis.add(invitation);
-        }
-
-        return invis;
-    }
-
-    /**
-     * Makes the given users workflow administrators of the given workflow model
-     * 
-     * @param users
-     *            users to make workflow admin
-     * @param model
-     *            workflow model to update
-     * @param session
-     *            current hibernate session
-     */
-    private void makeWorkflowAdmin(List<User> users, WorkflowModel model,
-            Session session) {
-        for (User user : users) {
-            UserAdministratesWorkflowModel relation = new UserAdministratesWorkflowModel();
-            relation.setId(new UserAdministratesWorkflowModelId(user.getId(),
-                    model.getId()));
-            relation.setUser(user);
-            relation.setWorkflowModel(model);
-            session.save(relation);
-        }
-    }
-
-    /**
-     * Searches the given map for users that have an unknown username, are
-     * unavailable or have been disabled by the superadmin. If found, this
-     * method will throw an appropriate exception.
-     * 
-     * @param map
-     *            map to search
-     */
-    private void assertOnlyValidUsers(Map<User, UserWorkflowAdminState> map)
-            throws UsernameNotFoundException, UserDisabledException,
-            UserUnavailableException {
-        for (User user : map.keySet()) {
-            if (UserWorkflowAdminState.IsUnknownUser.equals(map.get(user))) {
-                if (user.getUserProfile() != null
-                        && user.getUserProfile().getUsername() != null) {
-                    // unknown but has a username -> system does not recognize
-                    // the username
-                    throw new UsernameNotFoundException(user.getUserProfile()
-                            .getUsername());
-                } else if (user.getEmail() == null) {
-                    throw new IllegalArgumentException(
-                            "An unknown user is missing an email address: cannot send invitation.");
-                }
-            }
-            if (user.getId() != null) {
-                // user is known to the system
-                if (user.getDisabledSince() != null) {
-                    throw new UserDisabledException(user);
-                }
-                if (user.getUnavailableSince() != null) {
-                    throw new UserUnavailableException(user);
-                }
-            }
         }
     }
 }

@@ -95,17 +95,6 @@ public class LogQueue {
     private boolean initializeAsap = false;
 
     /**
-     * Creates a new LogQueue that uses the given string as the logger's name.
-     * 
-     * @param loggerName
-     *            name of the logger.
-     */
-    public LogQueue(String loggerName) {
-        this.loggerName = loggerName;
-        this.logQueue = new LinkedList<LogEntry>();
-    }
-
-    /**
      * Creates a new LogQueue that uses the name of the given class as the
      * logger's name.
      * 
@@ -117,18 +106,55 @@ public class LogQueue {
     }
 
     /**
-     * Writes the given log message to the internal logger (assuming it has been
-     * initialized)
+     * Creates a new LogQueue that uses the given string as the logger's name.
+     * 
+     * @param loggerName
+     *            name of the logger.
+     */
+    public LogQueue(String loggerName) {
+        this.loggerName = loggerName;
+        this.logQueue = new LinkedList<LogEntry>();
+    }
+
+    /**
+     * Initializes the logging system and flushes any log messages.
+     */
+    private void graspLogOpportunity() {
+        if (initializeAsap && !isReady() && DefaultLogger.isInitialized()) {
+            initializeAsap = false;
+            logger = DefaultLogger.getLogger(loggerName);
+        }
+
+        if (isReady()) {
+            // use this opportunity to flush any queued messages
+            LogEntry queued = logQueue.poll();
+            while (queued != null) {
+                writeToLogger(queued.level, queued.message, queued.t);
+                queued = logQueue.poll();
+            }
+        }
+    }
+
+    /**
+     * @return whether the internal logger has been initialized by calling
+     *         makeReady.
+     */
+    public boolean isReady() {
+        return logger != null;
+    }
+
+    /**
+     * Uses the default logger to log the given message. If the logger hasn't
+     * been initialized, yet, the message is put into a queue and will be
+     * written to the logger as soon as it's been initialized.
      * 
      * @param level
      *            log level
      * @param message
      *            message to log (such as a string)
-     * @param t
-     *            optional throwable to log, can be null
      */
-    private void writeToLogger(Level level, Object message, Throwable t) {
-        logger.log(level, message, t);
+    public void log(Level level, Object message) {
+        log(level, message, null);
     }
 
     /**
@@ -154,28 +180,6 @@ public class LogQueue {
     }
 
     /**
-     * Uses the default logger to log the given message. If the logger hasn't
-     * been initialized, yet, the message is put into a queue and will be
-     * written to the logger as soon as it's been initialized.
-     * 
-     * @param level
-     *            log level
-     * @param message
-     *            message to log (such as a string)
-     */
-    public void log(Level level, Object message) {
-        log(level, message, null);
-    }
-
-    /**
-     * @return whether the internal logger has been initialized by calling
-     *         makeReady.
-     */
-    public boolean isReady() {
-        return logger != null;
-    }
-
-    /**
      * At the next opportunity (but not in this method), the logger will be
      * initialized and any queued log messages will be flushed.
      */
@@ -186,21 +190,17 @@ public class LogQueue {
     }
 
     /**
-     * Initializes the logging system and flushes any log messages.
+     * Writes the given log message to the internal logger (assuming it has been
+     * initialized)
+     * 
+     * @param level
+     *            log level
+     * @param message
+     *            message to log (such as a string)
+     * @param t
+     *            optional throwable to log, can be null
      */
-    private void graspLogOpportunity() {
-        if (initializeAsap && !isReady() && DefaultLogger.isInitialized()) {
-            initializeAsap = false;
-            logger = DefaultLogger.getLogger(loggerName);
-        }
-
-        if (isReady()) {
-            // use this opportunity to flush any queued messages
-            LogEntry queued = logQueue.poll();
-            while (queued != null) {
-                writeToLogger(queued.level, queued.message, queued.t);
-                queued = logQueue.poll();
-            }
-        }
+    private void writeToLogger(Level level, Object message, Throwable t) {
+        logger.log(level, message, t);
     }
 }

@@ -61,6 +61,13 @@ public class GetServersCommand extends SystemCommand {
         this.serverTypes.remove(null);
     }
 
+    /**
+     * @return the server metainformation
+     */
+    public List<Server> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -83,12 +90,5 @@ public class GetServersCommand extends SystemCommand {
             result = evt.getSession().createQuery(hql).setParameterList(
                     "allowedTypes", allowedTypes).list();
         }
-    }
-
-    /**
-     * @return the server metainformation
-     */
-    public List<Server> getResult() {
-        return result;
     }
 }

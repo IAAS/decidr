@@ -61,12 +61,19 @@ public class ConfirmRegistrationCommand extends UserCommand {
         super(role, userId);
 
         requireUserId();
-        if (authKey == null || authKey.isEmpty()) {
+        if ((authKey == null) || authKey.isEmpty()) {
             throw new IllegalArgumentException(
                     "Authentication key must not be null or empty.");
         }
 
         this.authKey = authKey;
+    }
+
+    /**
+     * @return whether the request has expired.
+     */
+    public boolean isRequestExpired() {
+        return requestExpired;
     }
 
     @Override
@@ -107,12 +114,5 @@ public class ConfirmRegistrationCommand extends UserCommand {
             evt.getSession().delete(request);
             requestExpired = true;
         }
-    }
-
-    /**
-     * @return whether the request has expired.
-     */
-    public boolean isRequestExpired() {
-        return requestExpired;
     }
 }

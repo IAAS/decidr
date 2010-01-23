@@ -38,9 +38,46 @@ import de.decidr.model.exceptions.TransactionException;
 public interface AccessControlList {
 
     /**
+     * Grants access to the given role and permission.
+     * 
+     * @param role
+     *            the role to which access is granted
+     * @param permission
+     *            the resource to which access is granted
+     */
+    public void allow(Role role, Permission permission);
+
+    /**
      * Removes all rules from the access control list.
      */
     public void clearRules();
+
+    /**
+     * Returns true iff a rule exists for the given role and permission,
+     * including rules that imply the given role and permission.
+     * 
+     * @param role
+     *            the role requesting accesss
+     * @param permission
+     *            the resource to which access is granted or denied
+     * @return whether a rule already exists for the given role and permission.
+     */
+    public Boolean hasRule(Role role, Permission permission);
+
+    /**
+     * Checks whether the given role has access to the given permission. If no
+     * rule has been set, access is denied.
+     * 
+     * @param role
+     *            the role requesting access
+     * @param permission
+     *            the permission to which access is requested
+     * @return true if access is granted, false otherwise.
+     * @throws TransactionException
+     *             if an asserter that accesses the database fails
+     */
+    public Boolean isAllowed(Role role, Permission permission)
+            throws TransactionException;
 
     /**
      * Adds a new rule to the access control list. There can only be one rule
@@ -79,41 +116,4 @@ public interface AccessControlList {
      */
     public Boolean setRule(Role role, Permission permission, AssertMode mode,
             Asserter asserter);
-
-    /**
-     * Returns true iff a rule exists for the given role and permission,
-     * including rules that imply the given role and permission.
-     * 
-     * @param role
-     *            the role requesting accesss
-     * @param permission
-     *            the resource to which access is granted or denied
-     * @return whether a rule already exists for the given role and permission.
-     */
-    public Boolean hasRule(Role role, Permission permission);
-
-    /**
-     * Grants access to the given role and permission.
-     * 
-     * @param role
-     *            the role to which access is granted
-     * @param permission
-     *            the resource to which access is granted
-     */
-    public void allow(Role role, Permission permission);
-
-    /**
-     * Checks whether the given role has access to the given permission. If no
-     * rule has been set, access is denied.
-     * 
-     * @param role
-     *            the role requesting access
-     * @param permission
-     *            the permission to which access is requested
-     * @return true if access is granted, false otherwise.
-     * @throws TransactionException
-     *             if an asserter that accesses the database fails
-     */
-    public Boolean isAllowed(Role role, Permission permission)
-            throws TransactionException;
 }

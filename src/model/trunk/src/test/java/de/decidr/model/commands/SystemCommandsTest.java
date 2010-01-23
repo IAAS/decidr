@@ -255,7 +255,7 @@ public class SystemCommandsTest extends CommandsTest {
                 superAdminRole);
         HibernateTransactionCoordinator.getInstance().runTransaction(stats);
         for (ServerLoadView serverLoadView : stats.getResult()) {
-            assertTrue(serverLoadView.getLastLoadUpdate() == null
+            assertTrue((serverLoadView.getLastLoadUpdate() == null)
                     || serverLoadView.getLastLoadUpdate().before(
                             DecidrGlobals.getTime().getTime()));
             assertTrue(serverLoadView.getNumInstances() >= 0);

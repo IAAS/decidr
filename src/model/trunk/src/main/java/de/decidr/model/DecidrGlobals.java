@@ -44,6 +44,63 @@ import de.decidr.model.transactions.TransactionEvent;
 public class DecidrGlobals {
 
     /**
+     * Internal command that fetches the default tenant from the database.
+     */
+    static class FetchDefaultTenantCommand extends AbstractTransactionalCommand {
+        Tenant defaultTenant;
+
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            defaultTenant = (Tenant) evt.getSession().get(Tenant.class,
+                    DEFAULT_TENANT_ID);
+            if (defaultTenant == null) {
+                throw new EntityNotFoundException(Tenant.class,
+                        DEFAULT_TENANT_ID);
+            }
+        }
+    }
+
+    /**
+     * Internal command that fetches the ESB data from the database.
+     */
+    static class FetchEsbCommand extends AbstractTransactionalCommand {
+        public Server esb = null;
+
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            esb = (Server) evt.getSession().createQuery(
+                    "select s from Server s join fetch s.serverType where "
+                            + "s.serverType.name = :serverType").setMaxResults(
+                    1).setString("serverType", ServerTypeEnum.Esb.toString())
+                    .uniqueResult();
+            if (esb == null) {
+                throw new EntityNotFoundException(Server.class);
+            }
+        }
+    }
+
+    /**
+     * Internal command that fetches the settings from the database.
+     */
+    static class FetchSettingsCommand extends AbstractTransactionalCommand {
+        SystemSettings settings = null;
+
+        @Override
+        public void transactionStarted(TransactionEvent evt)
+                throws TransactionException {
+            settings = (SystemSettings) evt.getSession().createQuery(
+                    "select s from SystemSettings s join fetch s.superAdmin")
+                    .setMaxResults(1).uniqueResult();
+
+            if (settings == null) {
+                throw new EntityNotFoundException(SystemSettings.class);
+            }
+        }
+    }
+
+    /**
      * The official DecidR disclaimer
      */
     public static String DISCLAIMER = "The DecidR Development Team licenses "
@@ -79,43 +136,6 @@ public class DecidrGlobals {
     private static Server esb = null;
 
     /**
-     * For scalability, the entire application should use the same time zone
-     * (UTC). Please use this method instead of
-     * <code>Calendar.getInstance()</code>.
-     * 
-     * @param removeMilliseconds
-     *            whether the milliseconds field should be set to zero (useful
-     *            when working with Hibernate dates where milliseconds get
-     *            truncated anyway)
-     * @return the current system time and date (UTC)
-     */
-    public static Calendar getTime(boolean removeMilliseconds) {
-        Calendar result = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        if (removeMilliseconds) {
-            result.set(Calendar.MILLISECOND, 0);
-        }
-        return result;
-    }
-
-    /**
-     * For scalability, the entire application should use the same time zone
-     * (UTC). Please use this method instead of
-     * <code>Calendar.getInstance()</code>.
-     * 
-     * @return the current system time and date (UTC)
-     */
-    public static Calendar getTime() {
-        return getTime(false);
-    }
-
-    /**
-     * @return the global DecidR version <code>{@link String}</code>.
-     */
-    public static String getVersion() {
-        return "0.0.1";
-    }
-
-    /**
      * @return the default tenant entity. Properties that are lazily loaded are
      *         not available outside a Hibernate {@link Session}. This includes
      *         all properties that are enties themselves.
@@ -128,81 +148,6 @@ public class DecidrGlobals {
             throw new RuntimeException(e);
         }
         return cmd.defaultTenant;
-    }
-
-    /**
-     * Internal command that fetches the default tenant from the database.
-     */
-    static class FetchDefaultTenantCommand extends AbstractTransactionalCommand {
-        Tenant defaultTenant;
-
-        @Override
-        public void transactionStarted(TransactionEvent evt)
-                throws TransactionException {
-            defaultTenant = (Tenant) evt.getSession().get(Tenant.class,
-                    DEFAULT_TENANT_ID);
-            if (defaultTenant == null) {
-                throw new EntityNotFoundException(Tenant.class,
-                        DEFAULT_TENANT_ID);
-            }
-        }
-    }
-
-    /**
-     * Fetches the current system settings from the database.
-     * 
-     * @return the current system settings.
-     */
-    public static SystemSettings getSettings() {
-        /**
-         * Inline command that fetches the settings from the DB.
-         */
-        FetchSettingsCommand cmd = new FetchSettingsCommand();
-        try {
-            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        } catch (TransactionException e) {
-            throw new RuntimeException(e);
-        }
-        return cmd.settings;
-    }
-
-    /**
-     * Internal command that fetches the settings from the database.
-     */
-    static class FetchSettingsCommand extends AbstractTransactionalCommand {
-        SystemSettings settings = null;
-
-        @Override
-        public void transactionStarted(TransactionEvent evt)
-                throws TransactionException {
-            settings = (SystemSettings) evt.getSession().createQuery(
-                    "select s from SystemSettings s join fetch s.superAdmin")
-                    .setMaxResults(1).uniqueResult();
-
-            if (settings == null) {
-                throw new EntityNotFoundException(SystemSettings.class);
-            }
-        }
-    }
-
-    /**
-     * Internal command that fetches the ESB data from the database.
-     */
-    static class FetchEsbCommand extends AbstractTransactionalCommand {
-        public Server esb = null;
-
-        @Override
-        public void transactionStarted(TransactionEvent evt)
-                throws TransactionException {
-            esb = (Server) evt.getSession().createQuery(
-                    "select s from Server s join fetch s.serverType where "
-                            + "s.serverType.name = :serverType").setMaxResults(
-                    1).setString("serverType", ServerTypeEnum.Esb.toString())
-                    .uniqueResult();
-            if (esb == null) {
-                throw new EntityNotFoundException(Server.class);
-            }
-        }
     }
 
     /**
@@ -242,6 +187,61 @@ public class DecidrGlobals {
         }
 
         return esb;
+    }
+
+    /**
+     * Fetches the current system settings from the database.
+     * 
+     * @return the current system settings.
+     */
+    public static SystemSettings getSettings() {
+        /**
+         * Inline command that fetches the settings from the DB.
+         */
+        FetchSettingsCommand cmd = new FetchSettingsCommand();
+        try {
+            HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        } catch (TransactionException e) {
+            throw new RuntimeException(e);
+        }
+        return cmd.settings;
+    }
+
+    /**
+     * For scalability, the entire application should use the same time zone
+     * (UTC). Please use this method instead of
+     * <code>Calendar.getInstance()</code>.
+     * 
+     * @return the current system time and date (UTC)
+     */
+    public static Calendar getTime() {
+        return getTime(false);
+    }
+
+    /**
+     * For scalability, the entire application should use the same time zone
+     * (UTC). Please use this method instead of
+     * <code>Calendar.getInstance()</code>.
+     * 
+     * @param removeMilliseconds
+     *            whether the milliseconds field should be set to zero (useful
+     *            when working with Hibernate dates where milliseconds get
+     *            truncated anyway)
+     * @return the current system time and date (UTC)
+     */
+    public static Calendar getTime(boolean removeMilliseconds) {
+        Calendar result = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        if (removeMilliseconds) {
+            result.set(Calendar.MILLISECOND, 0);
+        }
+        return result;
+    }
+
+    /**
+     * @return the global DecidR version <code>{@link String}</code>.
+     */
+    public static String getVersion() {
+        return "0.0.1";
     }
 
     /**

@@ -52,15 +52,21 @@ public abstract class TenantCommand extends AclEnabledCommand implements
     }
 
     /**
-     * Throws an {@link IllegalArgumentException} if the current tenant ID is
-     * <code>null</code>.
-     * 
-     * @throws IllegalArgumentException
+     * @param session
+     *            the current Hibernate session
+     * @return the {@link Tenant} entity that correlates with the tenant ID.
+     * @throws EntityNotFoundException
+     *             iff the tenant does not exist
      */
-    protected void requireTenantId() {
-        if (tenantId == null) {
-            throw new IllegalArgumentException("Tenant ID must not be null.");
+    protected Tenant fetchTenant(Session session)
+            throws EntityNotFoundException {
+        Tenant result = (Tenant) session.get(Tenant.class, tenantId);
+
+        if (result == null) {
+            throw new EntityNotFoundException(Tenant.class, tenantId);
         }
+
+        return result;
     }
 
     /**
@@ -79,20 +85,14 @@ public abstract class TenantCommand extends AclEnabledCommand implements
     }
 
     /**
-     * @param session
-     *            the current Hibernate session
-     * @return the {@link Tenant} entity that correlates with the tenant ID.
-     * @throws EntityNotFoundException
-     *             iff the tenant does not exist
+     * Throws an {@link IllegalArgumentException} if the current tenant ID is
+     * <code>null</code>.
+     * 
+     * @throws IllegalArgumentException
      */
-    protected Tenant fetchTenant(Session session)
-            throws EntityNotFoundException {
-        Tenant result = (Tenant) session.get(Tenant.class, tenantId);
-
-        if (result == null) {
-            throw new EntityNotFoundException(Tenant.class, tenantId);
+    protected void requireTenantId() {
+        if (tenantId == null) {
+            throw new IllegalArgumentException("Tenant ID must not be null.");
         }
-
-        return result;
     }
 }

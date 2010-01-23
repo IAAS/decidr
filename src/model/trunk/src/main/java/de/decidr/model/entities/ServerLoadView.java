@@ -29,28 +29,28 @@ public class ServerLoadView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The location. */
     private String location;
-    
+
     /** The load. */
     private byte load;
-    
+
     /** The locked. */
     private boolean locked;
-    
+
     /** The dynamically added. */
     private boolean dynamicallyAdded;
-    
+
     /** The server type id. */
     private long serverTypeId;
-    
+
     /** The last load update. */
     private Date lastLoadUpdate;
-    
+
     /** The server type. */
     private String serverType;
-    
+
     /** The num instances. */
     private long numInstances;
 
@@ -59,40 +59,6 @@ public class ServerLoadView implements java.io.Serializable {
      */
     public ServerLoadView() {
         // default empty JavaBean constructor
-    }
-
-    /**
-     * Instantiates a new server load view.
-     * 
-     * @param id
-     *            the id
-     * @param location
-     *            the location
-     * @param load
-     *            the load
-     * @param locked
-     *            the locked
-     * @param dynamicallyAdded
-     *            the dynamically added
-     * @param serverTypeId
-     *            the server type id
-     * @param serverType
-     *            the server type
-     * @param numInstances
-     *            the num instances
-     */
-    public ServerLoadView(long id, String location, byte load, boolean locked,
-            boolean dynamicallyAdded, long serverTypeId, String serverType,
-            long numInstances) {
-        // generated minimal constructor
-        this.id = id;
-        this.location = location;
-        this.load = load;
-        this.locked = locked;
-        this.dynamicallyAdded = dynamicallyAdded;
-        this.serverTypeId = serverTypeId;
-        this.serverType = serverType;
-        this.numInstances = numInstances;
     }
 
     /**
@@ -133,6 +99,40 @@ public class ServerLoadView implements java.io.Serializable {
     }
 
     /**
+     * Instantiates a new server load view.
+     * 
+     * @param id
+     *            the id
+     * @param location
+     *            the location
+     * @param load
+     *            the load
+     * @param locked
+     *            the locked
+     * @param dynamicallyAdded
+     *            the dynamically added
+     * @param serverTypeId
+     *            the server type id
+     * @param serverType
+     *            the server type
+     * @param numInstances
+     *            the num instances
+     */
+    public ServerLoadView(long id, String location, byte load, boolean locked,
+            boolean dynamicallyAdded, long serverTypeId, String serverType,
+            long numInstances) {
+        // generated minimal constructor
+        this.id = id;
+        this.location = location;
+        this.load = load;
+        this.locked = locked;
+        this.dynamicallyAdded = dynamicallyAdded;
+        this.serverTypeId = serverTypeId;
+        this.serverType = serverType;
+        this.numInstances = numInstances;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
@@ -142,32 +142,12 @@ public class ServerLoadView implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the last load update.
      * 
-     * @param id
-     *            the new id
+     * @return the last load update
      */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the location.
-     * 
-     * @return the location
-     */
-    public String getLocation() {
-        return this.location;
-    }
-
-    /**
-     * Sets the location.
-     * 
-     * @param location
-     *            the new location
-     */
-    public void setLocation(String location) {
-        this.location = location;
+    public Date getLastLoadUpdate() {
+        return this.lastLoadUpdate;
     }
 
     /**
@@ -180,32 +160,39 @@ public class ServerLoadView implements java.io.Serializable {
     }
 
     /**
-     * Sets the load.
+     * Gets the location.
      * 
-     * @param load
-     *            the new load
+     * @return the location
      */
-    public void setLoad(byte load) {
-        this.load = load;
+    public String getLocation() {
+        return this.location;
     }
 
     /**
-     * Checks if is locked.
+     * Gets the num instances.
      * 
-     * @return true, if is locked
+     * @return the num instances
      */
-    public boolean isLocked() {
-        return this.locked;
+    public long getNumInstances() {
+        return this.numInstances;
     }
 
     /**
-     * Sets the locked.
+     * Gets the server type.
      * 
-     * @param locked
-     *            the new locked
+     * @return the server type
      */
-    public void setLocked(boolean locked) {
-        this.locked = locked;
+    public String getServerType() {
+        return this.serverType;
+    }
+
+    /**
+     * Gets the server type id.
+     * 
+     * @return the server type id
+     */
+    public long getServerTypeId() {
+        return this.serverTypeId;
     }
 
     /**
@@ -215,6 +202,15 @@ public class ServerLoadView implements java.io.Serializable {
      */
     public boolean isDynamicallyAdded() {
         return this.dynamicallyAdded;
+    }
+
+    /**
+     * Checks if is locked.
+     * 
+     * @return true, if is locked
+     */
+    public boolean isLocked() {
+        return this.locked;
     }
 
     /**
@@ -228,31 +224,13 @@ public class ServerLoadView implements java.io.Serializable {
     }
 
     /**
-     * Gets the server type id.
+     * Sets the id.
      * 
-     * @return the server type id
+     * @param id
+     *            the new id
      */
-    public long getServerTypeId() {
-        return this.serverTypeId;
-    }
-
-    /**
-     * Sets the server type id.
-     * 
-     * @param serverTypeId
-     *            the new server type id
-     */
-    public void setServerTypeId(long serverTypeId) {
-        this.serverTypeId = serverTypeId;
-    }
-
-    /**
-     * Gets the last load update.
-     * 
-     * @return the last load update
-     */
-    public Date getLastLoadUpdate() {
-        return this.lastLoadUpdate;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
@@ -266,12 +244,43 @@ public class ServerLoadView implements java.io.Serializable {
     }
 
     /**
-     * Gets the server type.
+     * Sets the load.
      * 
-     * @return the server type
+     * @param load
+     *            the new load
      */
-    public String getServerType() {
-        return this.serverType;
+    public void setLoad(byte load) {
+        this.load = load;
+    }
+
+    /**
+     * Sets the location.
+     * 
+     * @param location
+     *            the new location
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    /**
+     * Sets the locked.
+     * 
+     * @param locked
+     *            the new locked
+     */
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    /**
+     * Sets the num instances.
+     * 
+     * @param numInstances
+     *            the new num instances
+     */
+    public void setNumInstances(long numInstances) {
+        this.numInstances = numInstances;
     }
 
     /**
@@ -285,22 +294,13 @@ public class ServerLoadView implements java.io.Serializable {
     }
 
     /**
-     * Gets the num instances.
+     * Sets the server type id.
      * 
-     * @return the num instances
+     * @param serverTypeId
+     *            the new server type id
      */
-    public long getNumInstances() {
-        return this.numInstances;
-    }
-
-    /**
-     * Sets the num instances.
-     * 
-     * @param numInstances
-     *            the new num instances
-     */
-    public void setNumInstances(long numInstances) {
-        this.numInstances = numInstances;
+    public void setServerTypeId(long serverTypeId) {
+        this.serverTypeId = serverTypeId;
     }
 
 }

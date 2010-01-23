@@ -61,6 +61,17 @@ public class UserIsTenantMemberAsserterTest extends LowLevelDatabaseTest {
 
     // private static Long wfmId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() throws TransactionException {
+        tenantFacade.deleteTenant(tenantId);
+
+        Transaction trans = session.beginTransaction();
+        session.createQuery(
+                "delete from User WHERE email LIKE 'test%@acl.decidr.de'")
+                .executeUpdate();
+        trans.commit();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
@@ -95,17 +106,6 @@ public class UserIsTenantMemberAsserterTest extends LowLevelDatabaseTest {
         //
         // // add tenant member
         // tenantFacade.addTenantMember(tenantId, workflowAdminId);
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() throws TransactionException {
-        tenantFacade.deleteTenant(tenantId);
-
-        Transaction trans = session.beginTransaction();
-        session.createQuery(
-                "delete from User WHERE email LIKE 'test%@acl.decidr.de'")
-                .executeUpdate();
-        trans.commit();
     }
 
     /**

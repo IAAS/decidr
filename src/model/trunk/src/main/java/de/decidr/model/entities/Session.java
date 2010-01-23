@@ -27,19 +27,19 @@ public class Session implements java.io.Serializable {
 
     /** The session id. */
     private String sessionId;
-    
+
     /** The app. */
     private String app;
-    
+
     /** The data. */
     private byte[] data;
-    
+
     /** The last accessed. */
     private long lastAccessed;
-    
+
     /** The max inactive. */
     private int maxInactive;
-    
+
     /** The valid. */
     private boolean valid;
 
@@ -99,6 +99,42 @@ public class Session implements java.io.Serializable {
     }
 
     /**
+     * Gets the app.
+     * 
+     * @return the app
+     */
+    public String getApp() {
+        return this.app;
+    }
+
+    /**
+     * Gets the data.
+     * 
+     * @return the data
+     */
+    public byte[] getData() {
+        return this.data;
+    }
+
+    /**
+     * Gets the last accessed.
+     * 
+     * @return the last accessed
+     */
+    public long getLastAccessed() {
+        return this.lastAccessed;
+    }
+
+    /**
+     * Gets the max inactive.
+     * 
+     * @return the max inactive
+     */
+    public int getMaxInactive() {
+        return this.maxInactive;
+    }
+
+    /**
      * Gets the session id.
      * 
      * @return the session id
@@ -108,22 +144,12 @@ public class Session implements java.io.Serializable {
     }
 
     /**
-     * Sets the session id.
+     * Checks if is valid.
      * 
-     * @param sessionId
-     *            the new session id
+     * @return true, if is valid
      */
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    /**
-     * Gets the app.
-     * 
-     * @return the app
-     */
-    public String getApp() {
-        return this.app;
+    public boolean isValid() {
+        return this.valid;
     }
 
     /**
@@ -137,15 +163,6 @@ public class Session implements java.io.Serializable {
     }
 
     /**
-     * Gets the data.
-     * 
-     * @return the data
-     */
-    public byte[] getData() {
-        return this.data;
-    }
-
-    /**
      * Sets the data.
      * 
      * @param data
@@ -153,15 +170,6 @@ public class Session implements java.io.Serializable {
      */
     public void setData(byte[] data) {
         this.data = data;
-    }
-
-    /**
-     * Gets the last accessed.
-     * 
-     * @return the last accessed
-     */
-    public long getLastAccessed() {
-        return this.lastAccessed;
     }
 
     /**
@@ -175,15 +183,6 @@ public class Session implements java.io.Serializable {
     }
 
     /**
-     * Gets the max inactive.
-     * 
-     * @return the max inactive
-     */
-    public int getMaxInactive() {
-        return this.maxInactive;
-    }
-
-    /**
      * Sets the max inactive.
      * 
      * @param maxInactive
@@ -194,12 +193,13 @@ public class Session implements java.io.Serializable {
     }
 
     /**
-     * Checks if is valid.
+     * Sets the session id.
      * 
-     * @return true, if is valid
+     * @param sessionId
+     *            the new session id
      */
-    public boolean isValid() {
-        return this.valid;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     /**

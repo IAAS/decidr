@@ -26,18 +26,18 @@ package de.decidr.model.acl.roles;
 public class SuperAdminRole extends TenantAdminRole {
 
     /**
+     * Creates a new SuperAdminRole with its actor ID set to unknown;
+     */
+    public SuperAdminRole() {
+        this(UNKNOWN_USER_ID);
+    }
+
+    /**
      * Constructor.
      * 
      * @param userId
      */
     public SuperAdminRole(Long userId) {
         super(userId);
-    }
-
-    /**
-     * Creates a new SuperAdminRole with its actor ID set to unknown;
-     */
-    public SuperAdminRole() {
-        this(UNKNOWN_USER_ID);
     }
 }

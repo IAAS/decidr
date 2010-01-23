@@ -56,6 +56,13 @@ public class GetJoinedTenantsCommand extends UserCommand {
         }
     }
 
+    /**
+     * @return the joined tenants.
+     */
+    public List<Tenant> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -90,12 +97,5 @@ public class GetJoinedTenantsCommand extends UserCommand {
             result = evt.getSession().createQuery(hql).setParameterList(
                     "tenantIds", tenantIds).list();
         }
-    }
-
-    /**
-     * @return the joined tenants.
-     */
-    public List<Tenant> getResult() {
-        return result;
     }
 }

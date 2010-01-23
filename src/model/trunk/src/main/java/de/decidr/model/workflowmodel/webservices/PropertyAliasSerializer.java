@@ -57,6 +57,37 @@ public class PropertyAliasSerializer implements ExtensionDeserializer,
     /*
      * (non-Javadoc)
      * 
+     * @see javax.wsdl.extensions.ExtensionSerializer#marshall(java.lang.Class,
+     * javax.xml.namespace.QName, javax.wsdl.extensions.ExtensibilityElement,
+     * java.io.PrintWriter, javax.wsdl.Definition,
+     * javax.wsdl.extensions.ExtensionRegistry)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void marshall(Class parentType, QName elementType,
+            ExtensibilityElement extension, PrintWriter pw, Definition def,
+            ExtensionRegistry extReg) throws WSDLException {
+        try {
+            PropertyAlias PropertyAlias = (PropertyAlias) extension;
+            Marshaller m = JAXBContext.newInstance(PropertyAlias.class)
+                    .createMarshaller();
+            JAXBElement<PropertyAlias> jaxbElement = new JAXBElement<PropertyAlias>(
+                    new QName(Constants.VARPROP_NAMESPACE, "propertyAlias"),
+                    PropertyAlias.class, PropertyAlias);
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            m.marshal(jaxbElement, pw);
+            pw.println();
+        } catch (JAXBException e) {
+            log.error("Can't marshall the PropertyAlias element in "
+                    + def.getTargetNamespace(), e);
+        }
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see
      * javax.wsdl.extensions.ExtensionDeserializer#unmarshall(java.lang.Class,
      * javax.xml.namespace.QName, org.w3c.dom.Element, javax.wsdl.Definition,
@@ -112,37 +143,6 @@ public class PropertyAliasSerializer implements ExtensionDeserializer,
             log.warn("PropertyAlias is null in " + def.getTargetNamespace());
         }
         return extPropertyAlias;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.wsdl.extensions.ExtensionSerializer#marshall(java.lang.Class,
-     * javax.xml.namespace.QName, javax.wsdl.extensions.ExtensibilityElement,
-     * java.io.PrintWriter, javax.wsdl.Definition,
-     * javax.wsdl.extensions.ExtensionRegistry)
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public void marshall(Class parentType, QName elementType,
-            ExtensibilityElement extension, PrintWriter pw, Definition def,
-            ExtensionRegistry extReg) throws WSDLException {
-        try {
-            PropertyAlias PropertyAlias = (PropertyAlias) extension;
-            Marshaller m = JAXBContext.newInstance(PropertyAlias.class)
-                    .createMarshaller();
-            JAXBElement<PropertyAlias> jaxbElement = new JAXBElement<PropertyAlias>(
-                    new QName(Constants.VARPROP_NAMESPACE, "propertyAlias"),
-                    PropertyAlias.class, PropertyAlias);
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-            m.marshal(jaxbElement, pw);
-            pw.println();
-        } catch (JAXBException e) {
-            log.error("Can't marshall the PropertyAlias element in "
-                    + def.getTargetNamespace(), e);
-        }
-
     }
 
 }

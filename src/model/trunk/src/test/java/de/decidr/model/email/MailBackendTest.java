@@ -47,14 +47,15 @@ import de.decidr.model.testing.DecidrOthersTest;
  */
 public class MailBackendTest extends DecidrOthersTest {
 
+    @AfterClass
+    public static void tearDownAfterClass() {
+        testfile.delete();
+    }
+
     MailBackend testMail;
     static File testfile;
-    static File nonExistingFile;
 
-    @Before
-    public void setUpBeforeEachTest() {
-        testMail = new MailBackend("new@new.de", null, "new@new.de", null);
-    }
+    static File nonExistingFile;
 
     @BeforeClass
     public static void setUpBeforeClass() throws IOException {
@@ -77,9 +78,105 @@ public class MailBackendTest extends DecidrOthersTest {
         assertFalse(nonExistingFile.exists());
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
-        testfile.delete();
+    @Before
+    public void setUpBeforeEachTest() {
+        testMail = new MailBackend("new@new.de", null, "new@new.de", null);
+    }
+
+    /**
+     * Test method for {@link MailBackend#addBCC(String)}.
+     */
+    @Test
+    public void testAddBCC() {
+        final String bcc = "new@new.de";
+        String ccBefore, toBefore, fromBefore;
+        testMail.setBCC(bcc);
+        assertEquals("please test setBCC(String) - it seems to fail", bcc,
+                testMail.getHeaderBCC());
+
+        ccBefore = testMail.getHeaderCC();
+        toBefore = testMail.getHeaderTo();
+        fromBefore = testMail.getHeaderFromMail();
+        testMail.addBCC("ab@c.de");
+        assertEquals(bcc + ", ab@c.de", testMail.getHeaderBCC());
+        assertEquals(ccBefore, testMail.getHeaderCC());
+        assertEquals(toBefore, testMail.getHeaderTo());
+        assertEquals(fromBefore, testMail.getHeaderFromMail());
+
+        testMail.addBCC("ab@c.de");
+        assertEquals(bcc + ", ab@c.de, ab@c.de", testMail.getHeaderBCC());
+        assertEquals(ccBefore, testMail.getHeaderCC());
+        assertEquals(toBefore, testMail.getHeaderTo());
+        assertEquals(fromBefore, testMail.getHeaderFromMail());
+
+        try {
+            testMail.addBCC("invalid@email@address");
+            fail("Didn't catch invalid email address.");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+
+        testMail.setBCC("");
+        assertEquals("please test setBCC(String) - it seems to fail", "",
+                testMail.getHeaderBCC());
+        testMail.addBCC(null);
+        assertNotNull(testMail.getHeaderBCC());
+        assertEquals("", testMail.getHeaderBCC());
+
+        testMail.setBCC("");
+        assertEquals("please test setBCC(String) - it seems to fail", "",
+                testMail.getHeaderBCC());
+        testMail.addBCC("");
+        assertNotNull(testMail.getHeaderBCC());
+        assertEquals("", testMail.getHeaderBCC());
+    }
+
+    /**
+     * Test method for {@link MailBackend#addCC(String)}.
+     */
+    @Test
+    public void testAddCC() {
+        final String cc = "new@new.de";
+        String bccBefore, toBefore, fromBefore;
+        testMail.setCC(cc);
+        assertEquals("please test setCC(String) - it seems to fail", cc,
+                testMail.getHeaderCC());
+
+        bccBefore = testMail.getHeaderBCC();
+        toBefore = testMail.getHeaderTo();
+        fromBefore = testMail.getHeaderFromMail();
+        testMail.addCC("ab@c.de");
+        assertEquals(cc + ", ab@c.de", testMail.getHeaderCC());
+        assertEquals(bccBefore, testMail.getHeaderBCC());
+        assertEquals(toBefore, testMail.getHeaderTo());
+        assertEquals(fromBefore, testMail.getHeaderFromMail());
+
+        testMail.addCC("ab@c.de");
+        assertEquals(cc + ", ab@c.de, ab@c.de", testMail.getHeaderCC());
+        assertEquals(bccBefore, testMail.getHeaderBCC());
+        assertEquals(toBefore, testMail.getHeaderTo());
+        assertEquals(fromBefore, testMail.getHeaderFromMail());
+
+        try {
+            testMail.addCC("invalid@email@address");
+            fail("Didn't catch invalid email address.");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+
+        testMail.setCC("");
+        assertEquals("please test setCC(String) - it seems to fail", "",
+                testMail.getHeaderCC());
+        testMail.addCC(null);
+        assertNotNull(testMail.getHeaderCC());
+        assertEquals("", testMail.getHeaderCC());
+
+        testMail.setCC("");
+        assertEquals("please test setCC(String) - it seems to fail", "",
+                testMail.getHeaderCC());
+        testMail.addCC("");
+        assertNotNull(testMail.getHeaderCC());
+        assertEquals("", testMail.getHeaderCC());
     }
 
     /**
@@ -183,269 +280,6 @@ public class MailBackendTest extends DecidrOthersTest {
 
         Set<MimeBodyPart> parts = testMail.getMessageParts();
         assertFalse(parts.isEmpty());
-    }
-
-    /**
-     * Test method for {@link MailBackend#validateAddresses(String)}.
-     */
-    @Test
-    public void testValidateAddressesString() {
-
-        assertTrue(MailBackend.validateAddresses("hallo123@c.de"));
-        assertTrue(MailBackend.validateAddresses("a.b@c.de"));
-        assertTrue(MailBackend.validateAddresses("a_b@c.de"));
-        assertTrue(MailBackend.validateAddresses("ab@cde"));
-        assertTrue(MailBackend.validateAddresses("ab@[127.0.0.1]"));
-        assertTrue(MailBackend.validateAddresses("ab@c.de"));
-        assertTrue(MailBackend.validateAddresses("a@b.c.de"));
-        assertTrue(MailBackend.validateAddresses("<a.b@c.de>"));
-        assertTrue(MailBackend.validateAddresses("\"aaabbb\" <a.b@c.de>"));
-        assertTrue(MailBackend.validateAddresses("asdfg"));
-
-        assertFalse(MailBackend.validateAddresses((String) null));
-        assertFalse(MailBackend.validateAddresses(""));
-        assertFalse(MailBackend.validateAddresses("a@b@c.de"));
-        assertFalse(MailBackend.validateAddresses("a b@c.de"));
-
-        // XXX These seem to be JavaMail implementation bugs
-        // assertFalse(MailBackend.validateAddresses("<aaabbb> \"a.b@c.de\""));
-        // assertFalse(MailBackend.validateAddresses("ab@[127.0.1]"));
-        // assertFalse(MailBackend.validateAddresses("ab@[example.com]"));
-        // assertFalse(MailBackend.validateAddresses("ab@c.de, "));
-
-        assertTrue(MailBackend.validateAddresses("a.b@c.de, abc@ddd.de"));
-        assertTrue(MailBackend
-                .validateAddresses("\"aaabbb\" <a.b@c.de>, \"aaabbb\" <a.b@c.de>"));
-
-        assertFalse(MailBackend.validateAddresses("a.b@c.de abc@ddd.de"));
-        // XXX These seem to be JavaMail implementation bugs
-        // assertFalse(MailBackend.validateAddresses("ab@c.de, , a@bc.de"));
-        // assertFalse(MailBackend.validateAddresses(", "));
-        // assertFalse(MailBackend.validateAddresses(", , "));
-    }
-
-    /**
-     * Test method for {@link MailBackend#validateAddresses(Set)}.
-     */
-    @Test
-    public void testValidateAddressesSetOfString() {
-        Set<String> strList = new HashSet<String>(1001);
-        for (int i = 0; i <= 1000; i++) {
-            strList.add("ab" + i + "@c.de");
-        }
-        assertTrue("1000 addresses test", MailBackend
-                .validateAddresses(strList));
-
-        assertFalse(MailBackend.validateAddresses((Set<String>) null));
-        strList.add("");
-
-        // XXX This seems to be a JavaMail implementation bug
-        // assertFalse(MailBackend.validateAddresses(strList));
-        strList.add("abc@d.de");
-
-        // XXX This seems to be a JavaMail implementation bug
-        // assertFalse(MailBackend.validateAddresses(strList));
-
-        strList.clear();
-        strList.add("");
-        strList.add("");
-
-        // XXX This seems to be a JavaMail implementation bug
-        // assertFalse(MailBackend.validateAddresses(strList));
-    }
-
-    /**
-     * Test method for {@link MailBackend#addBCC(String)}.
-     */
-    @Test
-    public void testAddBCC() {
-        final String bcc = "new@new.de";
-        String ccBefore, toBefore, fromBefore;
-        testMail.setBCC(bcc);
-        assertEquals("please test setBCC(String) - it seems to fail", bcc,
-                testMail.getHeaderBCC());
-
-        ccBefore = testMail.getHeaderCC();
-        toBefore = testMail.getHeaderTo();
-        fromBefore = testMail.getHeaderFromMail();
-        testMail.addBCC("ab@c.de");
-        assertEquals(bcc + ", ab@c.de", testMail.getHeaderBCC());
-        assertEquals(ccBefore, testMail.getHeaderCC());
-        assertEquals(toBefore, testMail.getHeaderTo());
-        assertEquals(fromBefore, testMail.getHeaderFromMail());
-
-        testMail.addBCC("ab@c.de");
-        assertEquals(bcc + ", ab@c.de, ab@c.de", testMail.getHeaderBCC());
-        assertEquals(ccBefore, testMail.getHeaderCC());
-        assertEquals(toBefore, testMail.getHeaderTo());
-        assertEquals(fromBefore, testMail.getHeaderFromMail());
-
-        try {
-            testMail.addBCC("invalid@email@address");
-            fail("Didn't catch invalid email address.");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-
-        testMail.setBCC("");
-        assertEquals("please test setBCC(String) - it seems to fail", "",
-                testMail.getHeaderBCC());
-        testMail.addBCC(null);
-        assertNotNull(testMail.getHeaderBCC());
-        assertEquals("", testMail.getHeaderBCC());
-
-        testMail.setBCC("");
-        assertEquals("please test setBCC(String) - it seems to fail", "",
-                testMail.getHeaderBCC());
-        testMail.addBCC("");
-        assertNotNull(testMail.getHeaderBCC());
-        assertEquals("", testMail.getHeaderBCC());
-    }
-
-    /**
-     * Test method for
-     * {@link MailBackend#MailBackend(String, String, String, String)}.
-     */
-    @Test
-    public void testMailBackendStringStringStringString() {
-        // should *not* throw exceptions
-        new MailBackend("a@bc.de", "AAA", "a@bc.de", "");
-        new MailBackend("a@bc.de", "AAA", "a@bc.de", null);
-        new MailBackend("a@bc.de", "", "a@bc.de", "");
-        new MailBackend("a@bc.de", null, "a@bc.de", null);
-
-        // should throw exceptions
-        try {
-            new MailBackend("", "", "", "");
-            fail("all parameters empty should fail");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-        try {
-            new MailBackend((String) null, "AAA", "a@bc.de", "sub");
-            fail("To: null should be invalid");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-        try {
-            new MailBackend("", "AAA", "a@bc.de", "sub");
-            fail("Empty To: should be invalid");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-        try {
-            new MailBackend("a@bc.de", "AAA", "", "sub");
-            fail("Empty From: should be invalid");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-        try {
-            new MailBackend("a@bc.de", "AAA", null, "sub");
-            fail("From: null should be invalid");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-    }
-
-    /**
-     * Test method for
-     * {@link MailBackend#MailBackend(Set, String, String, String)}.
-     */
-    @Test
-    public void testMailBackendSetOfStringStringStringString() {
-        // construct a list of valid email adresses
-        Set<String> validEmails = new HashSet<String>();
-        validEmails.add("abc@de.uk");
-        validEmails.add("ab.c@de.uk");
-        validEmails.add("ab@de.co.uk");
-        validEmails.add("ab_c@de.uk");
-        validEmails.add("abc@[127.0.0.1]");
-
-        // should *not* throw exceptions
-        new MailBackend(validEmails, "AAA", "a@bc.de", "");
-        new MailBackend(validEmails, "AAA", "a@bc.de", null);
-        new MailBackend(validEmails, "", "a@bc.de", "");
-        new MailBackend(validEmails, null, "a@bc.de", null);
-
-        // should throw exceptions
-        try {
-            new MailBackend(new HashSet<String>(), "", "", "");
-            fail("all parameters empty should fail");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-        try {
-            new MailBackend((HashSet<String>) null, "AAA", "a@bc.de", "sub");
-            fail("To: null should be invalid");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-        try {
-            new MailBackend(new HashSet<String>(), "AAA", "a@bc.de", "sub");
-            fail("Empty To: should be invalid");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-        try {
-            new MailBackend(validEmails, "AAA", "", "sub");
-            fail("Empty From: should be invalid");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-        try {
-            new MailBackend(validEmails, "AAA", null, "sub");
-            fail("From: null should be invalid");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-    }
-
-    /**
-     * Test method for {@link MailBackend#addCC(String)}.
-     */
-    @Test
-    public void testAddCC() {
-        final String cc = "new@new.de";
-        String bccBefore, toBefore, fromBefore;
-        testMail.setCC(cc);
-        assertEquals("please test setCC(String) - it seems to fail", cc,
-                testMail.getHeaderCC());
-
-        bccBefore = testMail.getHeaderBCC();
-        toBefore = testMail.getHeaderTo();
-        fromBefore = testMail.getHeaderFromMail();
-        testMail.addCC("ab@c.de");
-        assertEquals(cc + ", ab@c.de", testMail.getHeaderCC());
-        assertEquals(bccBefore, testMail.getHeaderBCC());
-        assertEquals(toBefore, testMail.getHeaderTo());
-        assertEquals(fromBefore, testMail.getHeaderFromMail());
-
-        testMail.addCC("ab@c.de");
-        assertEquals(cc + ", ab@c.de, ab@c.de", testMail.getHeaderCC());
-        assertEquals(bccBefore, testMail.getHeaderBCC());
-        assertEquals(toBefore, testMail.getHeaderTo());
-        assertEquals(fromBefore, testMail.getHeaderFromMail());
-
-        try {
-            testMail.addCC("invalid@email@address");
-            fail("Didn't catch invalid email address.");
-        } catch (IllegalArgumentException e) {
-            // This test is supposed to fail
-        }
-
-        testMail.setCC("");
-        assertEquals("please test setCC(String) - it seems to fail", "",
-                testMail.getHeaderCC());
-        testMail.addCC(null);
-        assertNotNull(testMail.getHeaderCC());
-        assertEquals("", testMail.getHeaderCC());
-
-        testMail.setCC("");
-        assertEquals("please test setCC(String) - it seems to fail", "",
-                testMail.getHeaderCC());
-        testMail.addCC("");
-        assertNotNull(testMail.getHeaderCC());
-        assertEquals("", testMail.getHeaderCC());
     }
 
     /**
@@ -608,6 +442,104 @@ public class MailBackendTest extends DecidrOthersTest {
         assertEquals(recA + ", " + recB, testMail.getHeaderTo());
         testMail.addReceiver(recC);
         assertEquals(recA + ", " + recB + ", " + recC, testMail.getHeaderTo());
+    }
+
+    /**
+     * Test method for
+     * {@link MailBackend#MailBackend(Set, String, String, String)}.
+     */
+    @Test
+    public void testMailBackendSetOfStringStringStringString() {
+        // construct a list of valid email adresses
+        Set<String> validEmails = new HashSet<String>();
+        validEmails.add("abc@de.uk");
+        validEmails.add("ab.c@de.uk");
+        validEmails.add("ab@de.co.uk");
+        validEmails.add("ab_c@de.uk");
+        validEmails.add("abc@[127.0.0.1]");
+
+        // should *not* throw exceptions
+        new MailBackend(validEmails, "AAA", "a@bc.de", "");
+        new MailBackend(validEmails, "AAA", "a@bc.de", null);
+        new MailBackend(validEmails, "", "a@bc.de", "");
+        new MailBackend(validEmails, null, "a@bc.de", null);
+
+        // should throw exceptions
+        try {
+            new MailBackend(new HashSet<String>(), "", "", "");
+            fail("all parameters empty should fail");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend((HashSet<String>) null, "AAA", "a@bc.de", "sub");
+            fail("To: null should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend(new HashSet<String>(), "AAA", "a@bc.de", "sub");
+            fail("Empty To: should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend(validEmails, "AAA", "", "sub");
+            fail("Empty From: should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend(validEmails, "AAA", null, "sub");
+            fail("From: null should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+    }
+
+    /**
+     * Test method for
+     * {@link MailBackend#MailBackend(String, String, String, String)}.
+     */
+    @Test
+    public void testMailBackendStringStringStringString() {
+        // should *not* throw exceptions
+        new MailBackend("a@bc.de", "AAA", "a@bc.de", "");
+        new MailBackend("a@bc.de", "AAA", "a@bc.de", null);
+        new MailBackend("a@bc.de", "", "a@bc.de", "");
+        new MailBackend("a@bc.de", null, "a@bc.de", null);
+
+        // should throw exceptions
+        try {
+            new MailBackend("", "", "", "");
+            fail("all parameters empty should fail");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend((String) null, "AAA", "a@bc.de", "sub");
+            fail("To: null should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("", "AAA", "a@bc.de", "sub");
+            fail("Empty To: should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("a@bc.de", "AAA", "", "sub");
+            fail("Empty From: should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
+        try {
+            new MailBackend("a@bc.de", "AAA", null, "sub");
+            fail("From: null should be invalid");
+        } catch (IllegalArgumentException e) {
+            // This test is supposed to fail
+        }
     }
 
     /**
@@ -869,22 +801,6 @@ public class MailBackendTest extends DecidrOthersTest {
     }
 
     /**
-     * Test method for {@link MailBackend#setBodyText(String)}.
-     */
-    @Test
-    public void testSetBodyText() throws MessagingException, IOException {
-        testMail.setBodyText("Testbody");
-        assertEquals("text/plain", testMail.getTextPart().getContentType());
-        assertEquals("Testbody", testMail.getTextPart().getContent());
-        testMail.setBodyText("");
-        assertEquals("text/plain", testMail.getTextPart().getContentType());
-        assertEquals("", testMail.getTextPart().getContent());
-
-        testMail.setBodyText(null);
-        assertNull(testMail.getTextPart());
-    }
-
-    /**
      * Test method for {@link MailBackend#setBodyHTML(String)}.
      */
     @Test
@@ -901,6 +817,22 @@ public class MailBackendTest extends DecidrOthersTest {
 
         testMail.setBodyHTML(null);
         assertNull(testMail.getHtmlPart());
+    }
+
+    /**
+     * Test method for {@link MailBackend#setBodyText(String)}.
+     */
+    @Test
+    public void testSetBodyText() throws MessagingException, IOException {
+        testMail.setBodyText("Testbody");
+        assertEquals("text/plain", testMail.getTextPart().getContentType());
+        assertEquals("Testbody", testMail.getTextPart().getContent());
+        testMail.setBodyText("");
+        assertEquals("text/plain", testMail.getTextPart().getContentType());
+        assertEquals("", testMail.getTextPart().getContent());
+
+        testMail.setBodyText(null);
+        assertNull(testMail.getTextPart());
     }
 
     /**
@@ -1187,5 +1119,74 @@ public class MailBackendTest extends DecidrOthersTest {
         assertTrue(testMail.isUseTLS());
         testMail.useTLS(false);
         assertFalse(testMail.isUseTLS());
+    }
+
+    /**
+     * Test method for {@link MailBackend#validateAddresses(Set)}.
+     */
+    @Test
+    public void testValidateAddressesSetOfString() {
+        Set<String> strList = new HashSet<String>(1001);
+        for (int i = 0; i <= 1000; i++) {
+            strList.add("ab" + i + "@c.de");
+        }
+        assertTrue("1000 addresses test", MailBackend
+                .validateAddresses(strList));
+
+        assertFalse(MailBackend.validateAddresses((Set<String>) null));
+        strList.add("");
+
+        // XXX This seems to be a JavaMail implementation bug
+        // assertFalse(MailBackend.validateAddresses(strList));
+        strList.add("abc@d.de");
+
+        // XXX This seems to be a JavaMail implementation bug
+        // assertFalse(MailBackend.validateAddresses(strList));
+
+        strList.clear();
+        strList.add("");
+        strList.add("");
+
+        // XXX This seems to be a JavaMail implementation bug
+        // assertFalse(MailBackend.validateAddresses(strList));
+    }
+
+    /**
+     * Test method for {@link MailBackend#validateAddresses(String)}.
+     */
+    @Test
+    public void testValidateAddressesString() {
+
+        assertTrue(MailBackend.validateAddresses("hallo123@c.de"));
+        assertTrue(MailBackend.validateAddresses("a.b@c.de"));
+        assertTrue(MailBackend.validateAddresses("a_b@c.de"));
+        assertTrue(MailBackend.validateAddresses("ab@cde"));
+        assertTrue(MailBackend.validateAddresses("ab@[127.0.0.1]"));
+        assertTrue(MailBackend.validateAddresses("ab@c.de"));
+        assertTrue(MailBackend.validateAddresses("a@b.c.de"));
+        assertTrue(MailBackend.validateAddresses("<a.b@c.de>"));
+        assertTrue(MailBackend.validateAddresses("\"aaabbb\" <a.b@c.de>"));
+        assertTrue(MailBackend.validateAddresses("asdfg"));
+
+        assertFalse(MailBackend.validateAddresses((String) null));
+        assertFalse(MailBackend.validateAddresses(""));
+        assertFalse(MailBackend.validateAddresses("a@b@c.de"));
+        assertFalse(MailBackend.validateAddresses("a b@c.de"));
+
+        // XXX These seem to be JavaMail implementation bugs
+        // assertFalse(MailBackend.validateAddresses("<aaabbb> \"a.b@c.de\""));
+        // assertFalse(MailBackend.validateAddresses("ab@[127.0.1]"));
+        // assertFalse(MailBackend.validateAddresses("ab@[example.com]"));
+        // assertFalse(MailBackend.validateAddresses("ab@c.de, "));
+
+        assertTrue(MailBackend.validateAddresses("a.b@c.de, abc@ddd.de"));
+        assertTrue(MailBackend
+                .validateAddresses("\"aaabbb\" <a.b@c.de>, \"aaabbb\" <a.b@c.de>"));
+
+        assertFalse(MailBackend.validateAddresses("a.b@c.de abc@ddd.de"));
+        // XXX These seem to be JavaMail implementation bugs
+        // assertFalse(MailBackend.validateAddresses("ab@c.de, , a@bc.de"));
+        // assertFalse(MailBackend.validateAddresses(", "));
+        // assertFalse(MailBackend.validateAddresses(", , "));
     }
 }

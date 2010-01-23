@@ -53,6 +53,13 @@ public class GetFileDataCommand extends FileCommand {
         this.additionalPermissions.add(new FileReadPermission(fileId));
     }
 
+    /**
+     * @return the stream containing the file data.
+     */
+    public InputStream getStream() {
+        return stream;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -72,13 +79,6 @@ public class GetFileDataCommand extends FileCommand {
                 throw new TransactionException(e);
             }
         }
-    }
-
-    /**
-     * @return the stream containing the file data.
-     */
-    public InputStream getStream() {
-        return stream;
     }
 
 }

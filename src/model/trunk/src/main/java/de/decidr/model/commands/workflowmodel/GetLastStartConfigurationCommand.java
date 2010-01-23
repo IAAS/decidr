@@ -55,6 +55,13 @@ public class GetLastStartConfigurationCommand extends WorkflowModelCommand {
         requireWorkflowModelId();
     }
 
+    /**
+     * @return the startConfiguration or null if none has been created.
+     */
+    public StartConfiguration getStartConfiguration() {
+        return startConfiguration;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -75,13 +82,6 @@ public class GetLastStartConfigurationCommand extends WorkflowModelCommand {
                 break;
             }
         }
-    }
-
-    /**
-     * @return the startConfiguration or null if none has been created.
-     */
-    public StartConfiguration getStartConfiguration() {
-        return startConfiguration;
     }
 
 }

@@ -29,88 +29,88 @@ public class SystemSettings implements java.io.Serializable {
 
     /** The id. */
     private Long id;
-    
+
     /** The super admin. */
     private User superAdmin;
-    
+
     /** The modified date. */
     private Date modifiedDate;
-    
+
     /** The auto accept new tenants. */
     private boolean autoAcceptNewTenants;
-    
+
     /** The system name. */
     private String systemName;
-    
+
     /** The base url. */
     private String baseUrl;
-    
+
     /** The system email address. */
     private String systemEmailAddress;
-    
+
     /** The log level. */
     private String logLevel;
-    
+
     /** The password reset request lifetime seconds. */
     private int passwordResetRequestLifetimeSeconds;
-    
+
     /** The registration request lifetime seconds. */
     private int registrationRequestLifetimeSeconds;
-    
+
     /** The change email request lifetime seconds. */
     private int changeEmailRequestLifetimeSeconds;
-    
+
     /** The invitation lifetime seconds. */
     private int invitationLifetimeSeconds;
-    
+
     /** The mta hostname. */
     private String mtaHostname;
-    
+
     /** The mta port. */
     private int mtaPort;
-    
+
     /** The mta use tls. */
     private boolean mtaUseTls;
-    
+
     /** The mta username. */
     private String mtaUsername;
-    
+
     /** The mta password. */
     private String mtaPassword;
-    
+
     /** The max upload file size bytes. */
     private long maxUploadFileSizeBytes;
-    
+
     /** The max attachments per email. */
     private int maxAttachmentsPerEmail;
-    
+
     /** The monitor update interval seconds. */
     private int monitorUpdateIntervalSeconds;
-    
+
     /** The monitor averaging period seconds. */
     private int monitorAveragingPeriodSeconds;
-    
+
     /** The server pool instances. */
     private int serverPoolInstances;
-    
+
     /** The min server load for lock. */
     private byte minServerLoadForLock;
-    
+
     /** The max server load for unlock. */
     private byte maxServerLoadForUnlock;
-    
+
     /** The max server load for shutdown. */
     private byte maxServerLoadForShutdown;
-    
+
     /** The min unlocked servers. */
     private int minUnlockedServers;
-    
+
     /** The min workflow instances for lock. */
     private int minWorkflowInstancesForLock;
-    
+
     /** The max workflow instances for unlock. */
     private int maxWorkflowInstancesForUnlock;
-    
+
     /** The max workflow instances for shutdown. */
     private int maxWorkflowInstancesForShutdown;
 
@@ -228,6 +228,24 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
+     * Gets the base url.
+     * 
+     * @return the base url
+     */
+    public String getBaseUrl() {
+        return this.baseUrl;
+    }
+
+    /**
+     * Gets the change email request lifetime seconds.
+     * 
+     * @return the change email request lifetime seconds
+     */
+    public int getChangeEmailRequestLifetimeSeconds() {
+        return this.changeEmailRequestLifetimeSeconds;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
@@ -237,32 +255,102 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
-     * Sets the id.
+     * Gets the invitation lifetime seconds.
      * 
-     * @param id
-     *            the new id
+     * @return the invitation lifetime seconds
      */
-    public void setId(Long id) {
-        this.id = id;
+    public int getInvitationLifetimeSeconds() {
+        return this.invitationLifetimeSeconds;
     }
 
     /**
-     * Gets the super admin.
+     * Gets the log level.
      * 
-     * @return the super admin
+     * @return the log level
      */
-    public User getSuperAdmin() {
-        return this.superAdmin;
+    public String getLogLevel() {
+        return this.logLevel;
     }
 
     /**
-     * Sets the super admin.
+     * Gets the max attachments per email.
      * 
-     * @param superAdmin
-     *            the new super admin
+     * @return the max attachments per email
      */
-    public void setSuperAdmin(User superAdmin) {
-        this.superAdmin = superAdmin;
+    public int getMaxAttachmentsPerEmail() {
+        return this.maxAttachmentsPerEmail;
+    }
+
+    /**
+     * Gets the max server load for shutdown.
+     * 
+     * @return the max server load for shutdown
+     */
+    public byte getMaxServerLoadForShutdown() {
+        return this.maxServerLoadForShutdown;
+    }
+
+    /**
+     * Gets the max server load for unlock.
+     * 
+     * @return the max server load for unlock
+     */
+    public byte getMaxServerLoadForUnlock() {
+        return this.maxServerLoadForUnlock;
+    }
+
+    /**
+     * Gets the max upload file size bytes.
+     * 
+     * @return the max upload file size bytes
+     */
+    public long getMaxUploadFileSizeBytes() {
+        return this.maxUploadFileSizeBytes;
+    }
+
+    /**
+     * Gets the max workflow instances for shutdown.
+     * 
+     * @return the max workflow instances for shutdown
+     */
+    public int getMaxWorkflowInstancesForShutdown() {
+        return this.maxWorkflowInstancesForShutdown;
+    }
+
+    /**
+     * Gets the max workflow instances for unlock.
+     * 
+     * @return the max workflow instances for unlock
+     */
+    public int getMaxWorkflowInstancesForUnlock() {
+        return this.maxWorkflowInstancesForUnlock;
+    }
+
+    /**
+     * Gets the min server load for lock.
+     * 
+     * @return the min server load for lock
+     */
+    public byte getMinServerLoadForLock() {
+        return this.minServerLoadForLock;
+    }
+
+    /**
+     * Gets the min unlocked servers.
+     * 
+     * @return the min unlocked servers
+     */
+    public int getMinUnlockedServers() {
+        return this.minUnlockedServers;
+    }
+
+    /**
+     * Gets the min workflow instances for lock.
+     * 
+     * @return the min workflow instances for lock
+     */
+    public int getMinWorkflowInstancesForLock() {
+        return this.minWorkflowInstancesForLock;
     }
 
     /**
@@ -275,13 +363,111 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
-     * Sets the modified date.
+     * Gets the monitor averaging period seconds.
      * 
-     * @param modifiedDate
-     *            the new modified date
+     * @return the monitor averaging period seconds
      */
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public int getMonitorAveragingPeriodSeconds() {
+        return this.monitorAveragingPeriodSeconds;
+    }
+
+    /**
+     * Gets the monitor update interval seconds.
+     * 
+     * @return the monitor update interval seconds
+     */
+    public int getMonitorUpdateIntervalSeconds() {
+        return this.monitorUpdateIntervalSeconds;
+    }
+
+    /**
+     * Gets the mta hostname.
+     * 
+     * @return the mta hostname
+     */
+    public String getMtaHostname() {
+        return this.mtaHostname;
+    }
+
+    /**
+     * Gets the mta password.
+     * 
+     * @return the mta password
+     */
+    public String getMtaPassword() {
+        return this.mtaPassword;
+    }
+
+    /**
+     * Gets the mta port.
+     * 
+     * @return the mta port
+     */
+    public int getMtaPort() {
+        return this.mtaPort;
+    }
+
+    /**
+     * Gets the mta username.
+     * 
+     * @return the mta username
+     */
+    public String getMtaUsername() {
+        return this.mtaUsername;
+    }
+
+    /**
+     * Gets the password reset request lifetime seconds.
+     * 
+     * @return the password reset request lifetime seconds
+     */
+    public int getPasswordResetRequestLifetimeSeconds() {
+        return this.passwordResetRequestLifetimeSeconds;
+    }
+
+    /**
+     * Gets the registration request lifetime seconds.
+     * 
+     * @return the registration request lifetime seconds
+     */
+    public int getRegistrationRequestLifetimeSeconds() {
+        return this.registrationRequestLifetimeSeconds;
+    }
+
+    /**
+     * Gets the server pool instances.
+     * 
+     * @return the server pool instances
+     */
+    public int getServerPoolInstances() {
+        return this.serverPoolInstances;
+    }
+
+    /**
+     * Gets the super admin.
+     * 
+     * @return the super admin
+     */
+    public User getSuperAdmin() {
+        return this.superAdmin;
+    }
+
+    /**
+     * Gets the system email address.
+     * 
+     * @return the system email address
+     */
+    public String getSystemEmailAddress() {
+        return this.systemEmailAddress;
+    }
+
+    /**
+     * Gets the system name.
+     * 
+     * @return the system name
+     */
+    public String getSystemName() {
+        return this.systemName;
     }
 
     /**
@@ -291,6 +477,15 @@ public class SystemSettings implements java.io.Serializable {
      */
     public boolean isAutoAcceptNewTenants() {
         return this.autoAcceptNewTenants;
+    }
+
+    /**
+     * Checks if is mta use tls.
+     * 
+     * @return true, if is mta use tls
+     */
+    public boolean isMtaUseTls() {
+        return this.mtaUseTls;
     }
 
     /**
@@ -304,34 +499,6 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
-     * Gets the system name.
-     * 
-     * @return the system name
-     */
-    public String getSystemName() {
-        return this.systemName;
-    }
-
-    /**
-     * Sets the system name.
-     * 
-     * @param systemName
-     *            the new system name
-     */
-    public void setSystemName(String systemName) {
-        this.systemName = systemName;
-    }
-
-    /**
-     * Gets the base url.
-     * 
-     * @return the base url
-     */
-    public String getBaseUrl() {
-        return this.baseUrl;
-    }
-
-    /**
      * Sets the base url.
      * 
      * @param baseUrl
@@ -339,93 +506,6 @@ public class SystemSettings implements java.io.Serializable {
      */
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
-    }
-
-    /**
-     * Gets the system email address.
-     * 
-     * @return the system email address
-     */
-    public String getSystemEmailAddress() {
-        return this.systemEmailAddress;
-    }
-
-    /**
-     * Sets the system email address.
-     * 
-     * @param systemEmailAddress
-     *            the new system email address
-     */
-    public void setSystemEmailAddress(String systemEmailAddress) {
-        this.systemEmailAddress = systemEmailAddress;
-    }
-
-    /**
-     * Gets the log level.
-     * 
-     * @return the log level
-     */
-    public String getLogLevel() {
-        return this.logLevel;
-    }
-
-    /**
-     * Sets the log level.
-     * 
-     * @param logLevel
-     *            the new log level
-     */
-    public void setLogLevel(String logLevel) {
-        this.logLevel = logLevel;
-    }
-
-    /**
-     * Gets the password reset request lifetime seconds.
-     * 
-     * @return the password reset request lifetime seconds
-     */
-    public int getPasswordResetRequestLifetimeSeconds() {
-        return this.passwordResetRequestLifetimeSeconds;
-    }
-
-    /**
-     * Sets the password reset request lifetime seconds.
-     * 
-     * @param passwordResetRequestLifetimeSeconds
-     *            the new password reset request lifetime seconds
-     */
-    public void setPasswordResetRequestLifetimeSeconds(
-            int passwordResetRequestLifetimeSeconds) {
-        this.passwordResetRequestLifetimeSeconds = passwordResetRequestLifetimeSeconds;
-    }
-
-    /**
-     * Gets the registration request lifetime seconds.
-     * 
-     * @return the registration request lifetime seconds
-     */
-    public int getRegistrationRequestLifetimeSeconds() {
-        return this.registrationRequestLifetimeSeconds;
-    }
-
-    /**
-     * Sets the registration request lifetime seconds.
-     * 
-     * @param registrationRequestLifetimeSeconds
-     *            the new registration request lifetime seconds
-     */
-    public void setRegistrationRequestLifetimeSeconds(
-            int registrationRequestLifetimeSeconds) {
-        this.registrationRequestLifetimeSeconds = registrationRequestLifetimeSeconds;
-    }
-
-    /**
-     * Gets the change email request lifetime seconds.
-     * 
-     * @return the change email request lifetime seconds
-     */
-    public int getChangeEmailRequestLifetimeSeconds() {
-        return this.changeEmailRequestLifetimeSeconds;
     }
 
     /**
@@ -440,12 +520,13 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
-     * Gets the invitation lifetime seconds.
+     * Sets the id.
      * 
-     * @return the invitation lifetime seconds
+     * @param id
+     *            the new id
      */
-    public int getInvitationLifetimeSeconds() {
-        return this.invitationLifetimeSeconds;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -459,126 +540,13 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
-     * Gets the mta hostname.
+     * Sets the log level.
      * 
-     * @return the mta hostname
+     * @param logLevel
+     *            the new log level
      */
-    public String getMtaHostname() {
-        return this.mtaHostname;
-    }
-
-    /**
-     * Sets the mta hostname.
-     * 
-     * @param mtaHostname
-     *            the new mta hostname
-     */
-    public void setMtaHostname(String mtaHostname) {
-        this.mtaHostname = mtaHostname;
-    }
-
-    /**
-     * Gets the mta port.
-     * 
-     * @return the mta port
-     */
-    public int getMtaPort() {
-        return this.mtaPort;
-    }
-
-    /**
-     * Sets the mta port.
-     * 
-     * @param mtaPort
-     *            the new mta port
-     */
-    public void setMtaPort(int mtaPort) {
-        this.mtaPort = mtaPort;
-    }
-
-    /**
-     * Checks if is mta use tls.
-     * 
-     * @return true, if is mta use tls
-     */
-    public boolean isMtaUseTls() {
-        return this.mtaUseTls;
-    }
-
-    /**
-     * Sets the mta use tls.
-     * 
-     * @param mtaUseTls
-     *            the new mta use tls
-     */
-    public void setMtaUseTls(boolean mtaUseTls) {
-        this.mtaUseTls = mtaUseTls;
-    }
-
-    /**
-     * Gets the mta username.
-     * 
-     * @return the mta username
-     */
-    public String getMtaUsername() {
-        return this.mtaUsername;
-    }
-
-    /**
-     * Sets the mta username.
-     * 
-     * @param mtaUsername
-     *            the new mta username
-     */
-    public void setMtaUsername(String mtaUsername) {
-        this.mtaUsername = mtaUsername;
-    }
-
-    /**
-     * Gets the mta password.
-     * 
-     * @return the mta password
-     */
-    public String getMtaPassword() {
-        return this.mtaPassword;
-    }
-
-    /**
-     * Sets the mta password.
-     * 
-     * @param mtaPassword
-     *            the new mta password
-     */
-    public void setMtaPassword(String mtaPassword) {
-        this.mtaPassword = mtaPassword;
-    }
-
-    /**
-     * Gets the max upload file size bytes.
-     * 
-     * @return the max upload file size bytes
-     */
-    public long getMaxUploadFileSizeBytes() {
-        return this.maxUploadFileSizeBytes;
-    }
-
-    /**
-     * Sets the max upload file size bytes.
-     * 
-     * @param maxUploadFileSizeBytes
-     *            the new max upload file size bytes
-     */
-    public void setMaxUploadFileSizeBytes(long maxUploadFileSizeBytes) {
-        this.maxUploadFileSizeBytes = maxUploadFileSizeBytes;
-    }
-
-    /**
-     * Gets the max attachments per email.
-     * 
-     * @return the max attachments per email
-     */
-    public int getMaxAttachmentsPerEmail() {
-        return this.maxAttachmentsPerEmail;
+    public void setLogLevel(String logLevel) {
+        this.logLevel = logLevel;
     }
 
     /**
@@ -592,89 +560,13 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
-     * Gets the monitor update interval seconds.
+     * Sets the max server load for shutdown.
      * 
-     * @return the monitor update interval seconds
+     * @param maxServerLoadForShutdown
+     *            the new max server load for shutdown
      */
-    public int getMonitorUpdateIntervalSeconds() {
-        return this.monitorUpdateIntervalSeconds;
-    }
-
-    /**
-     * Sets the monitor update interval seconds.
-     * 
-     * @param monitorUpdateIntervalSeconds
-     *            the new monitor update interval seconds
-     */
-    public void setMonitorUpdateIntervalSeconds(int monitorUpdateIntervalSeconds) {
-        this.monitorUpdateIntervalSeconds = monitorUpdateIntervalSeconds;
-    }
-
-    /**
-     * Gets the monitor averaging period seconds.
-     * 
-     * @return the monitor averaging period seconds
-     */
-    public int getMonitorAveragingPeriodSeconds() {
-        return this.monitorAveragingPeriodSeconds;
-    }
-
-    /**
-     * Sets the monitor averaging period seconds.
-     * 
-     * @param monitorAveragingPeriodSeconds
-     *            the new monitor averaging period seconds
-     */
-    public void setMonitorAveragingPeriodSeconds(
-            int monitorAveragingPeriodSeconds) {
-        this.monitorAveragingPeriodSeconds = monitorAveragingPeriodSeconds;
-    }
-
-    /**
-     * Gets the server pool instances.
-     * 
-     * @return the server pool instances
-     */
-    public int getServerPoolInstances() {
-        return this.serverPoolInstances;
-    }
-
-    /**
-     * Sets the server pool instances.
-     * 
-     * @param serverPoolInstances
-     *            the new server pool instances
-     */
-    public void setServerPoolInstances(int serverPoolInstances) {
-        this.serverPoolInstances = serverPoolInstances;
-    }
-
-    /**
-     * Gets the min server load for lock.
-     * 
-     * @return the min server load for lock
-     */
-    public byte getMinServerLoadForLock() {
-        return this.minServerLoadForLock;
-    }
-
-    /**
-     * Sets the min server load for lock.
-     * 
-     * @param minServerLoadForLock
-     *            the new min server load for lock
-     */
-    public void setMinServerLoadForLock(byte minServerLoadForLock) {
-        this.minServerLoadForLock = minServerLoadForLock;
-    }
-
-    /**
-     * Gets the max server load for unlock.
-     * 
-     * @return the max server load for unlock
-     */
-    public byte getMaxServerLoadForUnlock() {
-        return this.maxServerLoadForUnlock;
+    public void setMaxServerLoadForShutdown(byte maxServerLoadForShutdown) {
+        this.maxServerLoadForShutdown = maxServerLoadForShutdown;
     }
 
     /**
@@ -688,69 +580,24 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
-     * Gets the max server load for shutdown.
+     * Sets the max upload file size bytes.
      * 
-     * @return the max server load for shutdown
+     * @param maxUploadFileSizeBytes
+     *            the new max upload file size bytes
      */
-    public byte getMaxServerLoadForShutdown() {
-        return this.maxServerLoadForShutdown;
+    public void setMaxUploadFileSizeBytes(long maxUploadFileSizeBytes) {
+        this.maxUploadFileSizeBytes = maxUploadFileSizeBytes;
     }
 
     /**
-     * Sets the max server load for shutdown.
+     * Sets the max workflow instances for shutdown.
      * 
-     * @param maxServerLoadForShutdown
-     *            the new max server load for shutdown
+     * @param maxWorkflowInstancesForShutdown
+     *            the new max workflow instances for shutdown
      */
-    public void setMaxServerLoadForShutdown(byte maxServerLoadForShutdown) {
-        this.maxServerLoadForShutdown = maxServerLoadForShutdown;
-    }
-
-    /**
-     * Gets the min unlocked servers.
-     * 
-     * @return the min unlocked servers
-     */
-    public int getMinUnlockedServers() {
-        return this.minUnlockedServers;
-    }
-
-    /**
-     * Sets the min unlocked servers.
-     * 
-     * @param minUnlockedServers
-     *            the new min unlocked servers
-     */
-    public void setMinUnlockedServers(int minUnlockedServers) {
-        this.minUnlockedServers = minUnlockedServers;
-    }
-
-    /**
-     * Gets the min workflow instances for lock.
-     * 
-     * @return the min workflow instances for lock
-     */
-    public int getMinWorkflowInstancesForLock() {
-        return this.minWorkflowInstancesForLock;
-    }
-
-    /**
-     * Sets the min workflow instances for lock.
-     * 
-     * @param minWorkflowInstancesForLock
-     *            the new min workflow instances for lock
-     */
-    public void setMinWorkflowInstancesForLock(int minWorkflowInstancesForLock) {
-        this.minWorkflowInstancesForLock = minWorkflowInstancesForLock;
-    }
-
-    /**
-     * Gets the max workflow instances for unlock.
-     * 
-     * @return the max workflow instances for unlock
-     */
-    public int getMaxWorkflowInstancesForUnlock() {
-        return this.maxWorkflowInstancesForUnlock;
+    public void setMaxWorkflowInstancesForShutdown(
+            int maxWorkflowInstancesForShutdown) {
+        this.maxWorkflowInstancesForShutdown = maxWorkflowInstancesForShutdown;
     }
 
     /**
@@ -765,23 +612,176 @@ public class SystemSettings implements java.io.Serializable {
     }
 
     /**
-     * Gets the max workflow instances for shutdown.
+     * Sets the min server load for lock.
      * 
-     * @return the max workflow instances for shutdown
+     * @param minServerLoadForLock
+     *            the new min server load for lock
      */
-    public int getMaxWorkflowInstancesForShutdown() {
-        return this.maxWorkflowInstancesForShutdown;
+    public void setMinServerLoadForLock(byte minServerLoadForLock) {
+        this.minServerLoadForLock = minServerLoadForLock;
     }
 
     /**
-     * Sets the max workflow instances for shutdown.
+     * Sets the min unlocked servers.
      * 
-     * @param maxWorkflowInstancesForShutdown
-     *            the new max workflow instances for shutdown
+     * @param minUnlockedServers
+     *            the new min unlocked servers
      */
-    public void setMaxWorkflowInstancesForShutdown(
-            int maxWorkflowInstancesForShutdown) {
-        this.maxWorkflowInstancesForShutdown = maxWorkflowInstancesForShutdown;
+    public void setMinUnlockedServers(int minUnlockedServers) {
+        this.minUnlockedServers = minUnlockedServers;
+    }
+
+    /**
+     * Sets the min workflow instances for lock.
+     * 
+     * @param minWorkflowInstancesForLock
+     *            the new min workflow instances for lock
+     */
+    public void setMinWorkflowInstancesForLock(int minWorkflowInstancesForLock) {
+        this.minWorkflowInstancesForLock = minWorkflowInstancesForLock;
+    }
+
+    /**
+     * Sets the modified date.
+     * 
+     * @param modifiedDate
+     *            the new modified date
+     */
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    /**
+     * Sets the monitor averaging period seconds.
+     * 
+     * @param monitorAveragingPeriodSeconds
+     *            the new monitor averaging period seconds
+     */
+    public void setMonitorAveragingPeriodSeconds(
+            int monitorAveragingPeriodSeconds) {
+        this.monitorAveragingPeriodSeconds = monitorAveragingPeriodSeconds;
+    }
+
+    /**
+     * Sets the monitor update interval seconds.
+     * 
+     * @param monitorUpdateIntervalSeconds
+     *            the new monitor update interval seconds
+     */
+    public void setMonitorUpdateIntervalSeconds(int monitorUpdateIntervalSeconds) {
+        this.monitorUpdateIntervalSeconds = monitorUpdateIntervalSeconds;
+    }
+
+    /**
+     * Sets the mta hostname.
+     * 
+     * @param mtaHostname
+     *            the new mta hostname
+     */
+    public void setMtaHostname(String mtaHostname) {
+        this.mtaHostname = mtaHostname;
+    }
+
+    /**
+     * Sets the mta password.
+     * 
+     * @param mtaPassword
+     *            the new mta password
+     */
+    public void setMtaPassword(String mtaPassword) {
+        this.mtaPassword = mtaPassword;
+    }
+
+    /**
+     * Sets the mta port.
+     * 
+     * @param mtaPort
+     *            the new mta port
+     */
+    public void setMtaPort(int mtaPort) {
+        this.mtaPort = mtaPort;
+    }
+
+    /**
+     * Sets the mta username.
+     * 
+     * @param mtaUsername
+     *            the new mta username
+     */
+    public void setMtaUsername(String mtaUsername) {
+        this.mtaUsername = mtaUsername;
+    }
+
+    /**
+     * Sets the mta use tls.
+     * 
+     * @param mtaUseTls
+     *            the new mta use tls
+     */
+    public void setMtaUseTls(boolean mtaUseTls) {
+        this.mtaUseTls = mtaUseTls;
+    }
+
+    /**
+     * Sets the password reset request lifetime seconds.
+     * 
+     * @param passwordResetRequestLifetimeSeconds
+     *            the new password reset request lifetime seconds
+     */
+    public void setPasswordResetRequestLifetimeSeconds(
+            int passwordResetRequestLifetimeSeconds) {
+        this.passwordResetRequestLifetimeSeconds = passwordResetRequestLifetimeSeconds;
+    }
+
+    /**
+     * Sets the registration request lifetime seconds.
+     * 
+     * @param registrationRequestLifetimeSeconds
+     *            the new registration request lifetime seconds
+     */
+    public void setRegistrationRequestLifetimeSeconds(
+            int registrationRequestLifetimeSeconds) {
+        this.registrationRequestLifetimeSeconds = registrationRequestLifetimeSeconds;
+    }
+
+    /**
+     * Sets the server pool instances.
+     * 
+     * @param serverPoolInstances
+     *            the new server pool instances
+     */
+    public void setServerPoolInstances(int serverPoolInstances) {
+        this.serverPoolInstances = serverPoolInstances;
+    }
+
+    /**
+     * Sets the super admin.
+     * 
+     * @param superAdmin
+     *            the new super admin
+     */
+    public void setSuperAdmin(User superAdmin) {
+        this.superAdmin = superAdmin;
+    }
+
+    /**
+     * Sets the system email address.
+     * 
+     * @param systemEmailAddress
+     *            the new system email address
+     */
+    public void setSystemEmailAddress(String systemEmailAddress) {
+        this.systemEmailAddress = systemEmailAddress;
+    }
+
+    /**
+     * Sets the system name.
+     * 
+     * @param systemName
+     *            the new system name
+     */
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
     }
 
 }

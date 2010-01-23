@@ -48,6 +48,13 @@ public class DeleteFileCommand extends FileCommand {
         }
     }
 
+    /**
+     * @return the number of deleted file entities (0 or 1).
+     */
+    public Integer getDeletedEntities() {
+        return deletedEntities;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -57,13 +64,6 @@ public class DeleteFileCommand extends FileCommand {
 
         deletedEntities = evt.getSession().createQuery(hql).setLong("fileId",
                 getFileId()).executeUpdate();
-    }
-
-    /**
-     * @return the number of deleted file entities (0 or 1).
-     */
-    public Integer getDeletedEntities() {
-        return deletedEntities;
     }
 
 }

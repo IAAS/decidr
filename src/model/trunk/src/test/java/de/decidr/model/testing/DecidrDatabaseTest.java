@@ -33,17 +33,6 @@ public abstract class DecidrDatabaseTest {
     private static DatabaseTestSuite testSuite = new DatabaseTestSuite();
     private static boolean skip = false;
 
-    @BeforeClass
-    public static final void beforeClass() {
-        if (DatabaseTestSuite.isInSuite()) {
-            skip = true;
-            return;
-        }
-
-        TestUtils.executeStaticMethodsWithAnnotation(DatabaseTestSuite.class,
-                BeforeClass.class);
-    }
-
     @AfterClass
     public static final void afterClass() {
         if (skip) {
@@ -55,13 +44,24 @@ public abstract class DecidrDatabaseTest {
                 AfterClass.class);
     }
 
-    @Before
-    public final void beforeTest() {
-        TestUtils.executeMethodsWithAnnotation(testSuite, Before.class);
+    @BeforeClass
+    public static final void beforeClass() {
+        if (DatabaseTestSuite.isInSuite()) {
+            skip = true;
+            return;
+        }
+
+        TestUtils.executeStaticMethodsWithAnnotation(DatabaseTestSuite.class,
+                BeforeClass.class);
     }
 
     @After
     public final void afterTest() {
         TestUtils.executeMethodsWithAnnotation(testSuite, After.class);
+    }
+
+    @Before
+    public final void beforeTest() {
+        TestUtils.executeMethodsWithAnnotation(testSuite, Before.class);
     }
 }

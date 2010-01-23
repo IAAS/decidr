@@ -58,10 +58,44 @@ public final class Password {
             'v', 'w', 'x', 'y', 'z' };
 
     /**
-     * Returns the used <code>{@link #hashAlgorithm}</code>.
+     * Creates a random password string consisting of alphanumerical characters.<br>
+     * Properties of the generated password:
+     * <ul>
+     * <li>Minimum length: 8 characters</li>
+     * <li>Maximum length: 12 characters</li>
+     * <li>Charset: [a-zA-Z0-9]</li>
+     * </ul>
+     * 
+     * @return a randomly generated password
      */
-    public static final String getHashAlgorithm() {
-        return hashAlgorithm;
+    public static String generateRandomPassword() {
+        int minPasswordLength = 8;
+        Random rnd = new Random();
+        int passwordLength = minPasswordLength + rnd.nextInt(5);
+
+        StringBuffer buf = new StringBuffer(minPasswordLength);
+        for (int i = 1; i <= passwordLength; i++) {
+            char c = alnumCharTable[rnd.nextInt(alnumCharTable.length)];
+            if (rnd.nextBoolean()) {
+                c = Character.toUpperCase(c);
+            }
+            buf.append(c);
+        }
+
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the given raw message digest using all
+     * alphanumeric characters (upper and lowercase), the minus sign and the
+     * comma.
+     * 
+     * @param bytes
+     *            raw message digest
+     * @return string the string representation of the given message digest
+     */
+    public static String getDigestNotation(byte[] bytes) {
+        return getDigestNotation(bytes, 6, null);
     }
 
     /**
@@ -90,7 +124,7 @@ public final class Password {
     public static String getDigestNotation(byte[] bytes, int bitsPerCharacter,
             char[] chars) {
 
-        if (chars == null || chars.length < 2) {
+        if ((chars == null) || (chars.length < 2)) {
             chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-,"
                     .toCharArray();
         }
@@ -169,19 +203,6 @@ public final class Password {
     }
 
     /**
-     * Returns a string representation of the given raw message digest using all
-     * alphanumeric characters (upper and lowercase), the minus sign and the
-     * comma.
-     * 
-     * @param bytes
-     *            raw message digest
-     * @return string the string representation of the given message digest
-     */
-    public static String getDigestNotation(byte[] bytes) {
-        return getDigestNotation(bytes, 6, null);
-    }
-
-    /**
      * Returns a hash string of the given plaintext password using the given
      * salt using the following algorithm:
      * <ul>
@@ -214,7 +235,7 @@ public final class Password {
      *             </ul>
      */
     public static String getHash(String plaintext, String salt) {
-        if (plaintext == null || salt == null) {
+        if ((plaintext == null) || (salt == null)) {
             throw new IllegalArgumentException(
                     "Password and salt must not be null.");
         }
@@ -247,6 +268,13 @@ public final class Password {
 
         // the hex char table can store 4 bits in a single character.
         return getDigestNotation(result, 4, hexCharTable);
+    }
+
+    /**
+     * Returns the used <code>{@link #hashAlgorithm}</code>.
+     */
+    public static final String getHashAlgorithm() {
+        return hashAlgorithm;
     }
 
     /**
@@ -302,33 +330,5 @@ public final class Password {
     public static String getRandomSalt() {
         return getHash(UUID.randomUUID().toString(), Double.toString(Math
                 .random()));
-    }
-
-    /**
-     * Creates a random password string consisting of alphanumerical characters.<br>
-     * Properties of the generated password:
-     * <ul>
-     * <li>Minimum length: 8 characters</li>
-     * <li>Maximum length: 12 characters</li>
-     * <li>Charset: [a-zA-Z0-9]</li>
-     * </ul>
-     * 
-     * @return a randomly generated password
-     */
-    public static String generateRandomPassword() {
-        int minPasswordLength = 8;
-        Random rnd = new Random();
-        int passwordLength = minPasswordLength + rnd.nextInt(5);
-
-        StringBuffer buf = new StringBuffer(minPasswordLength);
-        for (int i = 1; i <= passwordLength; i++) {
-            char c = alnumCharTable[rnd.nextInt(alnumCharTable.length)];
-            if (rnd.nextBoolean()) {
-                c = Character.toUpperCase(c);
-            }
-            buf.append(c);
-        }
-
-        return buf.toString();
     }
 }

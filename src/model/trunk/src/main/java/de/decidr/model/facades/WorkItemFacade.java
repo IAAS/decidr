@@ -58,32 +58,6 @@ public class WorkItemFacade extends AbstractFacade {
     }
 
     /**
-     * Fetches a workitem from the database.
-     * 
-     * Preloaded foreign key properties:
-     * <ul>
-     * <li>workflowInstance</li>
-     * <li>workflowInstance.deployedWorkflowModel</li>
-     * </ul>
-     * 
-     * @param workItemId
-     *            the ID of the workitem which should be requested
-     * @return workitem
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason
-     * @throws EntityNotFoundException
-     *             if the workitem does not exist.
-     * @throws IllegalArgumentException
-     *             if workItemId is <code>null</code>
-     */
-    @AllowedRole(UserRole.class)
-    public WorkItem getWorkItem(Long workItemId) throws TransactionException {
-        GetWorkItemCommand cmd = new GetWorkItemCommand(actor, workItemId);
-        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
-        return cmd.getResult();
-    }
-
-    /**
      * Creates a new workitem in the database, making it available to the user.
      * 
      * @param userId
@@ -117,6 +91,101 @@ public class WorkItemFacade extends AbstractFacade {
                 notifyUser);
         HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
         return cmd.getWorkItemId();
+    }
+
+    /**
+     * Deletes the given workitem from the database.
+     * 
+     * @param workItemId
+     *            ID of the workitem which should be deleted
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason
+     * @throws IllegalArgumentException
+     *             if workItemId is <code>null</code>.
+     */
+    @AllowedRole( { WorkflowAdminRole.class, HumanTaskRole.class })
+    public void deleteWorkItem(Long workItemId) throws TransactionException {
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                new DeleteWorkItemCommand(actor, workItemId));
+    }
+
+    /**
+     * Fetches a workitem from the database.
+     * 
+     * Preloaded foreign key properties:
+     * <ul>
+     * <li>workflowInstance</li>
+     * <li>workflowInstance.deployedWorkflowModel</li>
+     * </ul>
+     * 
+     * @param workItemId
+     *            the ID of the workitem which should be requested
+     * @return workitem
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the workitem does not exist.
+     * @throws IllegalArgumentException
+     *             if workItemId is <code>null</code>
+     */
+    @AllowedRole(UserRole.class)
+    public WorkItem getWorkItem(Long workItemId) throws TransactionException {
+        GetWorkItemCommand cmd = new GetWorkItemCommand(actor, workItemId);
+        HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
+        return cmd.getResult();
+    }
+
+    /**
+     * Fetches a workitem from the database and sets the status of the given
+     * workitem to "in progress".
+     * 
+     * @param workItemId
+     *            the workitem to retrieve
+     * @return workitem
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the workitem does not exist
+     * @throws IllegalArgumentException
+     *             if workItemId is <code>null</code>
+     */
+    @AllowedRole(UserRole.class)
+    public WorkItem getWorkItemAndMarkAsInProgress(Long workItemId)
+            throws TransactionException {
+        GetWorkItemCommand getCommand = new GetWorkItemCommand(actor,
+                workItemId);
+        SetStatusCommand statusCommand = new SetStatusCommand(actor,
+                workItemId, WorkItemStatus.InProgress);
+        HibernateTransactionCoordinator.getInstance().runTransaction(
+                getCommand, statusCommand);
+        return getCommand.getResult();
+    }
+
+    /**
+     * Sets the status of the given workitem to "done" by invoking the HumanTask
+     * WS.
+     * 
+     * @param workItemId
+     *            ID of the workitem which should be marked as done
+     * @throws TransactionException
+     *             iff the transaction is aborted for any reason
+     * @throws EntityNotFoundException
+     *             if the workitem does not exist.
+     * @throws IllegalArgumentException
+     *             if workItemId is <code>null</code>.
+     */
+    @AllowedRole(BasicRole.class)
+    public void markWorkItemAsDone(Long workItemId) throws TransactionException {
+        // XXX no acl check ~dh
+        try {
+            HumanTaskInterface humanTask = new HumanTaskClientStatic()
+                    .getHumanTaskSOAP();
+            humanTask.taskCompleted(workItemId);
+        } catch (ReportingException e) {
+            throw new TransactionException(e);
+        } catch (MalformedURLException e) {
+            throw new TransactionException(e);
+        }
     }
 
     /**
@@ -161,74 +230,5 @@ public class WorkItemFacade extends AbstractFacade {
         HibernateTransactionCoordinator.getInstance().runTransaction(
                 new SetDataCommand(actor, workItemId, data));
         markWorkItemAsDone(workItemId);
-    }
-
-    /**
-     * Sets the status of the given workitem to "done" by invoking the HumanTask
-     * WS.
-     * 
-     * @param workItemId
-     *            ID of the workitem which should be marked as done
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason
-     * @throws EntityNotFoundException
-     *             if the workitem does not exist.
-     * @throws IllegalArgumentException
-     *             if workItemId is <code>null</code>.
-     */
-    @AllowedRole(BasicRole.class)
-    public void markWorkItemAsDone(Long workItemId) throws TransactionException {
-        // XXX no acl check ~dh
-        try {
-            HumanTaskInterface humanTask = new HumanTaskClientStatic()
-                    .getHumanTaskSOAP();
-            humanTask.taskCompleted(workItemId);
-        } catch (ReportingException e) {
-            throw new TransactionException(e);
-        } catch (MalformedURLException e) {
-            throw new TransactionException(e);
-        }
-    }
-
-    /**
-     * Deletes the given workitem from the database.
-     * 
-     * @param workItemId
-     *            ID of the workitem which should be deleted
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason
-     * @throws IllegalArgumentException
-     *             if workItemId is <code>null</code>.
-     */
-    @AllowedRole( { WorkflowAdminRole.class, HumanTaskRole.class })
-    public void deleteWorkItem(Long workItemId) throws TransactionException {
-        HibernateTransactionCoordinator.getInstance().runTransaction(
-                new DeleteWorkItemCommand(actor, workItemId));
-    }
-
-    /**
-     * Fetches a workitem from the database and sets the status of the given
-     * workitem to "in progress".
-     * 
-     * @param workItemId
-     *            the workitem to retrieve
-     * @return workitem
-     * @throws TransactionException
-     *             iff the transaction is aborted for any reason
-     * @throws EntityNotFoundException
-     *             if the workitem does not exist
-     * @throws IllegalArgumentException
-     *             if workItemId is <code>null</code>
-     */
-    @AllowedRole(UserRole.class)
-    public WorkItem getWorkItemAndMarkAsInProgress(Long workItemId)
-            throws TransactionException {
-        GetWorkItemCommand getCommand = new GetWorkItemCommand(actor,
-                workItemId);
-        SetStatusCommand statusCommand = new SetStatusCommand(actor,
-                workItemId, WorkItemStatus.InProgress);
-        HibernateTransactionCoordinator.getInstance().runTransaction(
-                getCommand, statusCommand);
-        return getCommand.getResult();
     }
 }

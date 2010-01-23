@@ -50,14 +50,6 @@ public class DecidrReverseEngineeringStrategy extends
         DelegatingReverseEngineeringStrategy {
 
     /**
-     * @param delegate
-     *            Fallback strategy
-     */
-    public DecidrReverseEngineeringStrategy(ReverseEngineeringStrategy delegate) {
-        super(delegate);
-    }
-
-    /**
      * Turns MySQL underscored table_names into camelCased identifiers.<br>
      * Leading and trailing underscores are removed.
      * 
@@ -79,6 +71,37 @@ public class DecidrReverseEngineeringStrategy extends
             result += split[i].substring(0, 1).toUpperCase() + rest;
         }
         return result;
+    }
+
+    /**
+     * @param delegate
+     *            Fallback strategy
+     */
+    public DecidrReverseEngineeringStrategy(ReverseEngineeringStrategy delegate) {
+        super(delegate);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map columnToMetaAttributes(TableIdentifier identifier, String column) {
+        /*
+         * XXX All primary key columns should be tagged with use-in-equals, but
+         * how do we know which column is part of the primary key? :-(
+         */
+        Map attribs = super.columnToMetaAttributes(identifier, column);
+        if (attribs == null) {
+            attribs = new HashMap();
+        }
+
+        // Uncommenting the following lines would result in all columns being
+        // used in equals (which is terribly wrong, only primary key columns
+        // should be included)
+        //
+        // MetaAttribute attrib = new MetaAttribute("use-in-equals");
+        // attrib.addValue("true");
+        // attribs.put("use-in-equals", attrib);
+
+        return attribs;
     }
 
     @SuppressWarnings("unchecked")
@@ -157,52 +180,6 @@ public class DecidrReverseEngineeringStrategy extends
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map tableToMetaAttributes(TableIdentifier tableIdentifier) {
-        Map<String, MetaAttribute> metaAttributes = super
-                .tableToMetaAttributes(tableIdentifier);
-
-        if (tableIdentifier == null) {
-            throw new IllegalArgumentException(
-                    "table identifier must not be null.");
-        }
-
-        if (metaAttributes == null) {
-            metaAttributes = new HashMap<String, MetaAttribute>();
-        }
-
-        /*
-         * Unfortunately we cannot use this to enable dynamic-update and
-         * dynamic-insert, a modified FreeMarker template (*.ftl) has been used
-         * instead.
-         */
-        return metaAttributes;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map columnToMetaAttributes(TableIdentifier identifier, String column) {
-        /*
-         * XXX All primary key columns should be tagged with use-in-equals, but
-         * how do we know which column is part of the primary key? :-(
-         */
-        Map attribs = super.columnToMetaAttributes(identifier, column);
-        if (attribs == null) {
-            attribs = new HashMap();
-        }
-
-        // Uncommenting the following lines would result in all columns being
-        // used in equals (which is terribly wrong, only primary key columns
-        // should be included)
-        //
-        // MetaAttribute attrib = new MetaAttribute("use-in-equals");
-        // attrib.addValue("true");
-        // attribs.put("use-in-equals", attrib);
-
-        return attribs;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public List getPrimaryKeyColumnNames(TableIdentifier identifier) {
         ArrayList<String> columns = new ArrayList<String>();
 
@@ -229,19 +206,42 @@ public class DecidrReverseEngineeringStrategy extends
     }
 
     @Override
-    public boolean useColumnForOptimisticLock(TableIdentifier identifier,
-            String column) {
-        // prevent columns named "version" from becoming managed by Hibernate -
-        // our application does that!
-        return false;
-    }
-
-    @Override
     public void setSettings(ReverseEngineeringSettings settings) {
         super.setSettings(settings);
         // We rely on the "many-to-many-entities" being present.
         if (settings != null) {
             settings.setDetectManyToMany(false);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map tableToMetaAttributes(TableIdentifier tableIdentifier) {
+        Map<String, MetaAttribute> metaAttributes = super
+                .tableToMetaAttributes(tableIdentifier);
+
+        if (tableIdentifier == null) {
+            throw new IllegalArgumentException(
+                    "table identifier must not be null.");
+        }
+
+        if (metaAttributes == null) {
+            metaAttributes = new HashMap<String, MetaAttribute>();
+        }
+
+        /*
+         * Unfortunately we cannot use this to enable dynamic-update and
+         * dynamic-insert, a modified FreeMarker template (*.ftl) has been used
+         * instead.
+         */
+        return metaAttributes;
+    }
+
+    @Override
+    public boolean useColumnForOptimisticLock(TableIdentifier identifier,
+            String column) {
+        // prevent columns named "version" from becoming managed by Hibernate -
+        // our application does that!
+        return false;
     }
 }

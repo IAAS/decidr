@@ -29,28 +29,28 @@ public class TenantSummaryView implements java.io.Serializable {
 
     /** The id. */
     private long id;
-    
+
     /** The tenant name. */
     private String tenantName;
-    
+
     /** The approved since. */
     private Date approvedSince;
-    
+
     /** The admin first name. */
     private String adminFirstName;
-    
+
     /** The admin last name. */
     private String adminLastName;
-    
+
     /** The num workflow models. */
     private Long numWorkflowModels;
-    
+
     /** The num deployed workflow models. */
     private Long numDeployedWorkflowModels;
-    
+
     /** The num workflow instances. */
     private Long numWorkflowInstances;
-    
+
     /** The num members. */
     private Long numMembers;
 
@@ -114,41 +114,21 @@ public class TenantSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Gets the id.
+     * Gets the admin first name.
      * 
-     * @return the id
+     * @return the admin first name
      */
-    public long getId() {
-        return this.id;
+    public String getAdminFirstName() {
+        return this.adminFirstName;
     }
 
     /**
-     * Sets the id.
+     * Gets the admin last name.
      * 
-     * @param id
-     *            the new id
+     * @return the admin last name
      */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the tenant name.
-     * 
-     * @return the tenant name
-     */
-    public String getTenantName() {
-        return this.tenantName;
-    }
-
-    /**
-     * Sets the tenant name.
-     * 
-     * @param tenantName
-     *            the new tenant name
-     */
-    public void setTenantName(String tenantName) {
-        this.tenantName = tenantName;
+    public String getAdminLastName() {
+        return this.adminLastName;
     }
 
     /**
@@ -161,22 +141,57 @@ public class TenantSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Sets the approved since.
+     * Gets the id.
      * 
-     * @param approvedSince
-     *            the new approved since
+     * @return the id
      */
-    public void setApprovedSince(Date approvedSince) {
-        this.approvedSince = approvedSince;
+    public long getId() {
+        return this.id;
     }
 
     /**
-     * Gets the admin first name.
+     * Gets the num deployed workflow models.
      * 
-     * @return the admin first name
+     * @return the num deployed workflow models
      */
-    public String getAdminFirstName() {
-        return this.adminFirstName;
+    public Long getNumDeployedWorkflowModels() {
+        return this.numDeployedWorkflowModels;
+    }
+
+    /**
+     * Gets the num members.
+     * 
+     * @return the num members
+     */
+    public Long getNumMembers() {
+        return this.numMembers;
+    }
+
+    /**
+     * Gets the num workflow instances.
+     * 
+     * @return the num workflow instances
+     */
+    public Long getNumWorkflowInstances() {
+        return this.numWorkflowInstances;
+    }
+
+    /**
+     * Gets the num workflow models.
+     * 
+     * @return the num workflow models
+     */
+    public Long getNumWorkflowModels() {
+        return this.numWorkflowModels;
+    }
+
+    /**
+     * Gets the tenant name.
+     * 
+     * @return the tenant name
+     */
+    public String getTenantName() {
+        return this.tenantName;
     }
 
     /**
@@ -190,15 +205,6 @@ public class TenantSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Gets the admin last name.
-     * 
-     * @return the admin last name
-     */
-    public String getAdminLastName() {
-        return this.adminLastName;
-    }
-
-    /**
      * Sets the admin last name.
      * 
      * @param adminLastName
@@ -209,31 +215,23 @@ public class TenantSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Gets the num workflow models.
+     * Sets the approved since.
      * 
-     * @return the num workflow models
+     * @param approvedSince
+     *            the new approved since
      */
-    public Long getNumWorkflowModels() {
-        return this.numWorkflowModels;
+    public void setApprovedSince(Date approvedSince) {
+        this.approvedSince = approvedSince;
     }
 
     /**
-     * Sets the num workflow models.
+     * Sets the id.
      * 
-     * @param numWorkflowModels
-     *            the new num workflow models
+     * @param id
+     *            the new id
      */
-    public void setNumWorkflowModels(Long numWorkflowModels) {
-        this.numWorkflowModels = numWorkflowModels;
-    }
-
-    /**
-     * Gets the num deployed workflow models.
-     * 
-     * @return the num deployed workflow models
-     */
-    public Long getNumDeployedWorkflowModels() {
-        return this.numDeployedWorkflowModels;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
@@ -247,12 +245,13 @@ public class TenantSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Gets the num workflow instances.
+     * Sets the num members.
      * 
-     * @return the num workflow instances
+     * @param numMembers
+     *            the new num members
      */
-    public Long getNumWorkflowInstances() {
-        return this.numWorkflowInstances;
+    public void setNumMembers(Long numMembers) {
+        this.numMembers = numMembers;
     }
 
     /**
@@ -266,22 +265,23 @@ public class TenantSummaryView implements java.io.Serializable {
     }
 
     /**
-     * Gets the num members.
+     * Sets the num workflow models.
      * 
-     * @return the num members
+     * @param numWorkflowModels
+     *            the new num workflow models
      */
-    public Long getNumMembers() {
-        return this.numMembers;
+    public void setNumWorkflowModels(Long numWorkflowModels) {
+        this.numWorkflowModels = numWorkflowModels;
     }
 
     /**
-     * Sets the num members.
+     * Sets the tenant name.
      * 
-     * @param numMembers
-     *            the new num members
+     * @param tenantName
+     *            the new tenant name
      */
-    public void setNumMembers(Long numMembers) {
-        this.numMembers = numMembers;
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
     }
 
 }

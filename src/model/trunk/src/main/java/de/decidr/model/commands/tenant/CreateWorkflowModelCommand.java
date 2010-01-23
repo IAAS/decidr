@@ -69,45 +69,12 @@ public class CreateWorkflowModelCommand extends TenantCommand {
         super(role, tenantId);
         requireTenantId();
 
-        if (workflowModelName == null || workflowModelName.isEmpty()) {
+        if ((workflowModelName == null) || workflowModelName.isEmpty()) {
             throw new IllegalArgumentException(
                     "Workflow model name must not be null or empty.");
         }
 
         this.workflowModelName = workflowModelName;
-    }
-
-    @Override
-    public void transactionAllowed(TransactionEvent evt)
-            throws TransactionException {
-
-        workflowModelId = null;
-
-        Tenant tenant = fetchTenant(evt.getSession());
-
-        WorkflowModel model = new WorkflowModel();
-        model.setName(workflowModelName);
-        model.setDescription("");
-        model.setCreationDate(DecidrGlobals.getTime().getTime());
-        model.setModifiedByUser(tenant.getAdmin());
-        model.setModifiedDate(DecidrGlobals.getTime().getTime());
-        model.setVersion(0);
-        model.setDwdl(new byte[0]);
-        model.setExecutable(false);
-        model.setPublished(false);
-        model.setTenant(tenant);
-
-        evt.getSession().save(model);
-
-        try {
-            model.setDwdl(createNewWorkflowModelXml(tenant.getName(), model
-                    .getId(), model.getName()));
-        } catch (JAXBException e) {
-            throw new TransactionException(e);
-        }
-        evt.getSession().update(model);
-
-        workflowModelId = model.getId();
     }
 
     /**
@@ -173,5 +140,38 @@ public class CreateWorkflowModelCommand extends TenantCommand {
      */
     public Long getWorkflowModelId() {
         return workflowModelId;
+    }
+
+    @Override
+    public void transactionAllowed(TransactionEvent evt)
+            throws TransactionException {
+
+        workflowModelId = null;
+
+        Tenant tenant = fetchTenant(evt.getSession());
+
+        WorkflowModel model = new WorkflowModel();
+        model.setName(workflowModelName);
+        model.setDescription("");
+        model.setCreationDate(DecidrGlobals.getTime().getTime());
+        model.setModifiedByUser(tenant.getAdmin());
+        model.setModifiedDate(DecidrGlobals.getTime().getTime());
+        model.setVersion(0);
+        model.setDwdl(new byte[0]);
+        model.setExecutable(false);
+        model.setPublished(false);
+        model.setTenant(tenant);
+
+        evt.getSession().save(model);
+
+        try {
+            model.setDwdl(createNewWorkflowModelXml(tenant.getName(), model
+                    .getId(), model.getName()));
+        } catch (JAXBException e) {
+            throw new TransactionException(e);
+        }
+        evt.getSession().update(model);
+
+        workflowModelId = model.getId();
     }
 }

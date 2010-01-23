@@ -61,13 +61,14 @@ public class DWDL2WSCTest {
     public void testGetStartConfiguration() throws JAXBException {
         TConfiguration config = translater.getStartConfiguration(dwdl);
         if (config != null) {
-            
+
             String dwdlString = new String(TransformUtil.workflowToBytes(dwdl));
-            String wscString = new String (TransformUtil.configurationToBytes(config));
-            
+            String wscString = new String(TransformUtil
+                    .configurationToBytes(config));
+
             System.out.println(dwdlString);
             System.out.println(wscString);
-            
+
         }
         assertNotNull(config);
     }

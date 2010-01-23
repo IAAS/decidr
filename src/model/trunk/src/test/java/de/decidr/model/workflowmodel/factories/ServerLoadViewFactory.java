@@ -30,10 +30,6 @@ public class ServerLoadViewFactory {
 
     private static String location;
 
-    public static void setLocation(String loc) {
-        location = loc;
-    }
-
     public static List<ServerLoadView> getServerStatistics() {
 
         List<ServerLoadView> statistics = new ArrayList<ServerLoadView>();
@@ -46,6 +42,10 @@ public class ServerLoadViewFactory {
 
         return statistics;
 
+    }
+
+    public static void setLocation(String loc) {
+        location = loc;
     }
 
 }

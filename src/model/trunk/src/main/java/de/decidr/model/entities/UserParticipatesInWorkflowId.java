@@ -27,7 +27,7 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
 
     /** The user id. */
     private long userId;
-    
+
     /** The workflow instance id. */
     private long workflowInstanceId;
 
@@ -52,6 +52,29 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
         this.workflowInstanceId = workflowInstanceId;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object other) {
+        if ((this == other)) {
+            return true;
+        }
+        if ((other == null)) {
+            return false;
+        }
+        if (!(other instanceof UserParticipatesInWorkflowId)) {
+            return false;
+        }
+        UserParticipatesInWorkflowId castOther = (UserParticipatesInWorkflowId) other;
+
+        return (this.getUserId() == castOther.getUserId())
+                && (this.getWorkflowInstanceId() == castOther
+                        .getWorkflowInstanceId());
+    }
+
     /**
      * Gets the user id.
      * 
@@ -59,6 +82,29 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
      */
     public long getUserId() {
         return this.userId;
+    }
+
+    /**
+     * Gets the workflow instance id.
+     * 
+     * @return the workflow instance id
+     */
+    public long getWorkflowInstanceId() {
+        return this.workflowInstanceId;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int result = 17;
+
+        result = 37 * result + (int) this.getUserId();
+        result = 37 * result + (int) this.getWorkflowInstanceId();
+        return result;
     }
 
     /**
@@ -72,15 +118,6 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
     }
 
     /**
-     * Gets the workflow instance id.
-     * 
-     * @return the workflow instance id
-     */
-    public long getWorkflowInstanceId() {
-        return this.workflowInstanceId;
-    }
-
-    /**
      * Sets the workflow instance id.
      * 
      * @param workflowInstanceId
@@ -88,36 +125,6 @@ public class UserParticipatesInWorkflowId implements java.io.Serializable {
      */
     public void setWorkflowInstanceId(long workflowInstanceId) {
         this.workflowInstanceId = workflowInstanceId;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof UserParticipatesInWorkflowId))
-            return false;
-        UserParticipatesInWorkflowId castOther = (UserParticipatesInWorkflowId) other;
-
-        return (this.getUserId() == castOther.getUserId())
-                && (this.getWorkflowInstanceId() == castOther
-                        .getWorkflowInstanceId());
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        int result = 17;
-
-        result = 37 * result + (int) this.getUserId();
-        result = 37 * result + (int) this.getWorkflowInstanceId();
-        return result;
     }
 
 }

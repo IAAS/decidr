@@ -55,28 +55,6 @@ public class GetTenantCommand extends AclEnabledCommand {
      * tenant ID or tenant name. If the tenant does not exist, an
      * {@link EntityNotFoundException} is thrown.
      * 
-     * 
-     * @param role
-     *            user / system executing the command
-     * @param tenantName
-     *            tenant name to search for.
-     * @throws IllegalArgumentException
-     *             if tenantName is <code>null</code> or empty.
-     */
-    public GetTenantCommand(Role role, String tenantName) {
-        super(role, (Permission) null);
-        if (tenantName == null || tenantName.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Tenant name must not be null or empty.");
-        }
-        this.tenantName = tenantName;
-    }
-
-    /**
-     * Creates a new GetTenantCommand which retrieves the tenant for a given
-     * tenant ID or tenant name. If the tenant does not exist, an
-     * {@link EntityNotFoundException} is thrown.
-     * 
      * @param role
      *            user / system executing the command
      * @param tenantId
@@ -90,6 +68,35 @@ public class GetTenantCommand extends AclEnabledCommand {
             throw new IllegalArgumentException("Tenant ID must not be null.");
         }
         this.tenantId = tenantId;
+    }
+
+    /**
+     * Creates a new GetTenantCommand which retrieves the tenant for a given
+     * tenant ID or tenant name. If the tenant does not exist, an
+     * {@link EntityNotFoundException} is thrown.
+     * 
+     * 
+     * @param role
+     *            user / system executing the command
+     * @param tenantName
+     *            tenant name to search for.
+     * @throws IllegalArgumentException
+     *             if tenantName is <code>null</code> or empty.
+     */
+    public GetTenantCommand(Role role, String tenantName) {
+        super(role, (Permission) null);
+        if ((tenantName == null) || tenantName.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Tenant name must not be null or empty.");
+        }
+        this.tenantName = tenantName;
+    }
+
+    /**
+     * @return the found tenant (<code>null</code> if none has been found)
+     */
+    public Tenant getResult() {
+        return result;
     }
 
     @Override
@@ -115,12 +122,5 @@ public class GetTenantCommand extends AclEnabledCommand {
         if (result == null) {
             throw new EntityNotFoundException(Tenant.class, tenantName);
         }
-    }
-
-    /**
-     * @return the found tenant (<code>null</code> if none has been found)
-     */
-    public Tenant getResult() {
-        return result;
     }
 }

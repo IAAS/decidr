@@ -50,6 +50,14 @@ public class GetTenantLogoCommand extends TenantCommand {
         requireTenantId();
     }
 
+    /**
+     * @return the logo image data as an {@link InputStream} or null if the
+     *         tenant hasn't set a logo.
+     */
+    public InputStream getLogoStream() {
+        return logoStream;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -72,13 +80,5 @@ public class GetTenantLogoCommand extends TenantCommand {
                 throw new TransactionException(e);
             }
         }
-    }
-
-    /**
-     * @return the logo image data as an {@link InputStream} or null if the
-     *         tenant hasn't set a logo.
-     */
-    public InputStream getLogoStream() {
-        return logoStream;
     }
 }

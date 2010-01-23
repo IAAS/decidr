@@ -62,106 +62,10 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SendEmailResponse }
+     * Create an instance of {@link CreateTask }
      */
-    public SendEmailResponse createSendEmailResponse() {
-        return new SendEmailResponse();
-    }
-
-    /**
-     * Create an instance of {@link SendEmail }
-     */
-    public SendEmail createSendEmail() {
-        return new SendEmail();
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "bodyTXT", scope = SendEmail.class)
-    public JAXBElement<String> createSendEmailBodyTXT(String value) {
-        return new JAXBElement<String>(_SendEmailBodyTXT_QNAME, String.class,
-                SendEmail.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link StringMap }
-     * {@code >}
-     */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "headers", scope = SendEmail.class)
-    public JAXBElement<StringMap> createSendEmailHeaders(StringMap value) {
-        return new JAXBElement<StringMap>(_SendEmailHeaders_QNAME,
-                StringMap.class, SendEmail.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "bodyHTML", scope = SendEmail.class)
-    public JAXBElement<String> createSendEmailBodyHTML(String value) {
-        return new JAXBElement<String>(_SendEmailBodyHTML_QNAME, String.class,
-                SendEmail.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link IDList }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "attachments", scope = SendEmail.class)
-    public JAXBElement<IDList> createSendEmailAttachments(IDList value) {
-        return new JAXBElement<IDList>(_SendEmailAttachments_QNAME,
-                IDList.class, SendEmail.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "fromName", scope = SendEmail.class)
-    public JAXBElement<String> createSendEmailFromName(String value) {
-        return new JAXBElement<String>(_SendEmailFromName_QNAME, String.class,
-                SendEmail.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}
-     * {@link AbstractUserList }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "bcc", scope = SendEmail.class)
-    public JAXBElement<AbstractUserList> createSendEmailBcc(
-            AbstractUserList value) {
-        return new JAXBElement<AbstractUserList>(_SendEmailBcc_QNAME,
-                AbstractUserList.class, SendEmail.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}
-     * {@link AbstractUserList }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "cc", scope = SendEmail.class)
-    public JAXBElement<AbstractUserList> createSendEmailCc(
-            AbstractUserList value) {
-        return new JAXBElement<AbstractUserList>(_SendEmailCc_QNAME,
-                AbstractUserList.class, SendEmail.class, value);
-    }
-
-    /**
-     * Create an instance of {@link TaskCompleted }
-     */
-    public TaskCompleted createTaskCompleted() {
-        return new TaskCompleted();
-    }
-
-    /**
-     * Create an instance of {@link RemoveTask }
-     */
-    public RemoveTask createRemoveTask() {
-        return new RemoveTask();
-    }
-
-    /**
-     * Create an instance of {@link TaskCompletedResponse }
-     */
-    public TaskCompletedResponse createTaskCompletedResponse() {
-        return new TaskCompletedResponse();
+    public CreateTask createCreateTask() {
+        return new CreateTask();
     }
 
     /**
@@ -172,17 +76,17 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RemoveTask }
+     */
+    public RemoveTask createRemoveTask() {
+        return new RemoveTask();
+    }
+
+    /**
      * Create an instance of {@link RemoveTaskResponse }
      */
     public RemoveTaskResponse createRemoveTaskResponse() {
         return new RemoveTaskResponse();
-    }
-
-    /**
-     * Create an instance of {@link CreateTask }
-     */
-    public CreateTask createCreateTask() {
-        return new CreateTask();
     }
 
     /**
@@ -197,5 +101,101 @@ public class ObjectFactory {
      */
     public RemoveTasksResponse createRemoveTasksResponse() {
         return new RemoveTasksResponse();
+    }
+
+    /**
+     * Create an instance of {@link SendEmail }
+     */
+    public SendEmail createSendEmail() {
+        return new SendEmail();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link IDList }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "attachments", scope = SendEmail.class)
+    public JAXBElement<IDList> createSendEmailAttachments(IDList value) {
+        return new JAXBElement<IDList>(_SendEmailAttachments_QNAME,
+                IDList.class, SendEmail.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link AbstractUserList }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "bcc", scope = SendEmail.class)
+    public JAXBElement<AbstractUserList> createSendEmailBcc(
+            AbstractUserList value) {
+        return new JAXBElement<AbstractUserList>(_SendEmailBcc_QNAME,
+                AbstractUserList.class, SendEmail.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "bodyHTML", scope = SendEmail.class)
+    public JAXBElement<String> createSendEmailBodyHTML(String value) {
+        return new JAXBElement<String>(_SendEmailBodyHTML_QNAME, String.class,
+                SendEmail.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "bodyTXT", scope = SendEmail.class)
+    public JAXBElement<String> createSendEmailBodyTXT(String value) {
+        return new JAXBElement<String>(_SendEmailBodyTXT_QNAME, String.class,
+                SendEmail.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link AbstractUserList }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "cc", scope = SendEmail.class)
+    public JAXBElement<AbstractUserList> createSendEmailCc(
+            AbstractUserList value) {
+        return new JAXBElement<AbstractUserList>(_SendEmailCc_QNAME,
+                AbstractUserList.class, SendEmail.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "fromName", scope = SendEmail.class)
+    public JAXBElement<String> createSendEmailFromName(String value) {
+        return new JAXBElement<String>(_SendEmailFromName_QNAME, String.class,
+                SendEmail.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link StringMap }
+     * {@code >}
+     */
+    @XmlElementDecl(namespace = "http://decidr.de/webservices/Email", name = "headers", scope = SendEmail.class)
+    public JAXBElement<StringMap> createSendEmailHeaders(StringMap value) {
+        return new JAXBElement<StringMap>(_SendEmailHeaders_QNAME,
+                StringMap.class, SendEmail.class, value);
+    }
+
+    /**
+     * Create an instance of {@link SendEmailResponse }
+     */
+    public SendEmailResponse createSendEmailResponse() {
+        return new SendEmailResponse();
+    }
+
+    /**
+     * Create an instance of {@link TaskCompleted }
+     */
+    public TaskCompleted createTaskCompleted() {
+        return new TaskCompleted();
+    }
+
+    /**
+     * Create an instance of {@link TaskCompletedResponse }
+     */
+    public TaskCompletedResponse createTaskCompletedResponse() {
+        return new TaskCompletedResponse();
     }
 }

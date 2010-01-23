@@ -57,19 +57,6 @@ public abstract class WorkflowInstanceCommand extends AclEnabledCommand
     }
 
     /**
-     * Throws an {@link IllegalArgumentException} if the current workflow
-     * instance ID is <code>null</code>.
-     * 
-     * @throws IllegalArgumentException
-     */
-    protected void requireWorkflowInstance() {
-        if (workflowInstanceId == null) {
-            throw new IllegalArgumentException(
-                    "Workflow instance ID must not be null.");
-        }
-    }
-
-    /**
      * Fetches the workflow instance that is accessed by this command from the
      * database.
      * 
@@ -99,5 +86,18 @@ public abstract class WorkflowInstanceCommand extends AclEnabledCommand
     public Long[] getWorkflowInstanceIds() {
         Long[] result = { workflowInstanceId };
         return result;
+    }
+
+    /**
+     * Throws an {@link IllegalArgumentException} if the current workflow
+     * instance ID is <code>null</code>.
+     * 
+     * @throws IllegalArgumentException
+     */
+    protected void requireWorkflowInstance() {
+        if (workflowInstanceId == null) {
+            throw new IllegalArgumentException(
+                    "Workflow instance ID must not be null.");
+        }
     }
 }

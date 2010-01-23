@@ -68,6 +68,13 @@ public class GetUsersOfTenantCommand extends TenantCommand {
         this.paginator = paginator;
     }
 
+    /**
+     * @return the tenant members including the tenant admin
+     */
+    public List<User> getResult() {
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void transactionAllowed(TransactionEvent evt)
@@ -116,12 +123,5 @@ public class GetUsersOfTenantCommand extends TenantCommand {
             paginator.apply(c);
         }
         result = c.list();
-    }
-
-    /**
-     * @return the tenant members including the tenant admin
-     */
-    public List<User> getResult() {
-        return result;
     }
 }

@@ -27,7 +27,7 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
 
     /** The user id. */
     private long userId;
-    
+
     /** The tenant id. */
     private long tenantId;
 
@@ -52,23 +52,26 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
         this.tenantId = tenantId;
     }
 
-    /**
-     * Gets the user id.
+    /*
+     * (non-Javadoc)
      * 
-     * @return the user id
+     * @see java.lang.Object#equals(java.lang.Object)
      */
-    public long getUserId() {
-        return this.userId;
-    }
+    @Override
+    public boolean equals(Object other) {
+        if ((this == other)) {
+            return true;
+        }
+        if ((other == null)) {
+            return false;
+        }
+        if (!(other instanceof UserIsMemberOfTenantId)) {
+            return false;
+        }
+        UserIsMemberOfTenantId castOther = (UserIsMemberOfTenantId) other;
 
-    /**
-     * Sets the user id.
-     * 
-     * @param userId
-     *            the new user id
-     */
-    public void setUserId(long userId) {
-        this.userId = userId;
+        return (this.getUserId() == castOther.getUserId())
+                && (this.getTenantId() == castOther.getTenantId());
     }
 
     /**
@@ -81,33 +84,17 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
     }
 
     /**
-     * Sets the tenant id.
+     * Gets the user id.
      * 
-     * @param tenantId
-     *            the new tenant id
+     * @return the user id
      */
-    public void setTenantId(long tenantId) {
-        this.tenantId = tenantId;
+    public long getUserId() {
+        return this.userId;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof UserIsMemberOfTenantId))
-            return false;
-        UserIsMemberOfTenantId castOther = (UserIsMemberOfTenantId) other;
-
-        return (this.getUserId() == castOther.getUserId())
-                && (this.getTenantId() == castOther.getTenantId());
-    }
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -117,6 +104,26 @@ public class UserIsMemberOfTenantId implements java.io.Serializable {
         result = 37 * result + (int) this.getUserId();
         result = 37 * result + (int) this.getTenantId();
         return result;
+    }
+
+    /**
+     * Sets the tenant id.
+     * 
+     * @param tenantId
+     *            the new tenant id
+     */
+    public void setTenantId(long tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    /**
+     * Sets the user id.
+     * 
+     * @param userId
+     *            the new user id
+     */
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
 }

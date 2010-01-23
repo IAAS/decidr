@@ -36,10 +36,6 @@ public class ReportingException extends Exception {
         super(message);
     }
 
-    public ReportingException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public ReportingException(String message, String reportingException) {
         super(message);
         this.serviceDetail = reportingException;
@@ -49,6 +45,10 @@ public class ReportingException extends Exception {
             Throwable cause) {
         super(message, cause);
         this.serviceDetail = reportingException;
+    }
+
+    public ReportingException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     public String getFaultInfo() {

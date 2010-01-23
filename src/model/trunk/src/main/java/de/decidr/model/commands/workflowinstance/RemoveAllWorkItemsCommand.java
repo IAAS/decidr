@@ -49,13 +49,24 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
             Long deployedWorkflowModelId) {
         super(role, null, null);
 
-        if (odePid == null || deployedWorkflowModelId == null) {
+        if ((odePid == null) || (deployedWorkflowModelId == null)) {
             throw new IllegalArgumentException(
                     "ODE PID and deployed workflow model ID must not be null.");
         }
 
         this.odePid = odePid;
         this.deployedWorkflowModelId = deployedWorkflowModelId;
+    }
+
+    @Override
+    public Long getDeployedWorkflowModelId() {
+        return deployedWorkflowModelId;
+    }
+
+    @Override
+    public Long[] getDeployedWorkflowModelIds() {
+        Long[] result = { deployedWorkflowModelId };
+        return result;
     }
 
     @Override
@@ -69,16 +80,5 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
                         + "and wi.deployedWorkflowModel.id = :wid)").setString(
                 "pid", odePid).setLong("wid", deployedWorkflowModelId)
                 .executeUpdate();
-    }
-
-    @Override
-    public Long getDeployedWorkflowModelId() {
-        return deployedWorkflowModelId;
-    }
-
-    @Override
-    public Long[] getDeployedWorkflowModelIds() {
-        Long[] result = { deployedWorkflowModelId };
-        return result;
     }
 }

@@ -30,6 +30,17 @@ import de.decidr.model.testing.DecidrAclTest;
 public class WorkflowAdminRoleTest extends DecidrAclTest {
 
     /**
+     * Test method for {@link WorkflowAdminRole#WorkflowAdminRole()}.
+     */
+    @Test
+    public void testWorkflowAdminRole() {
+        WorkflowAdminRole role = new WorkflowAdminRole();
+
+        assertNotNull(role);
+        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
+    }
+
+    /**
      * Test method for {@link WorkflowAdminRole#WorkflowAdminRole(Long)}.
      */
     @Test
@@ -44,16 +55,5 @@ public class WorkflowAdminRoleTest extends DecidrAclTest {
 
         role = new WorkflowAdminRole(-1l);
         assertTrue(role.getActorId() == -1l);
-    }
-
-    /**
-     * Test method for {@link WorkflowAdminRole#WorkflowAdminRole()}.
-     */
-    @Test
-    public void testWorkflowAdminRole() {
-        WorkflowAdminRole role = new WorkflowAdminRole();
-
-        assertNotNull(role);
-        assertTrue(role.getActorId() == UserRole.UNKNOWN_USER_ID);
     }
 }

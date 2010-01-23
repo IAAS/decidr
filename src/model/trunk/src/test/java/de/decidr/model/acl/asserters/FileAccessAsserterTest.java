@@ -54,6 +54,14 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
     // private static Long userId;
     private static Long fileId;
 
+    @AfterClass
+    public static void cleanUpAfterClass() throws TransactionException {
+        if (fileId != null) {
+            fileFacade.deleteFile(fileId);
+        }
+        UserFacadeTest.deleteTestUsers();
+    }
+
     @BeforeClass
     public static void setUpBeforeClass() throws TransactionException {
         UserFacadeTest.deleteTestUsers();
@@ -89,14 +97,6 @@ public class FileAccessAsserterTest extends LowLevelDatabaseTest {
         permissions.add(FileDeletePermission.class);
         fileId = fileFacade.createFile(inStream, new Long(outStream.size()),
                 "decidr.jpg", "application/octet-stream", true, permissions);
-    }
-
-    @AfterClass
-    public static void cleanUpAfterClass() throws TransactionException {
-        if (fileId != null) {
-            fileFacade.deleteFile(fileId);
-        }
-        UserFacadeTest.deleteTestUsers();
     }
 
     /**

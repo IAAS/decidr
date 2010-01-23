@@ -79,6 +79,13 @@ public class GetUserRoleForTenantCommand extends UserCommand {
         this.tenantId = tenantId;
     }
 
+    /**
+     * @return the highest UserRole of the user for the given tenant
+     */
+    public Class<? extends UserRole> getResult() {
+        return result;
+    }
+
     @Override
     public void transactionAllowed(TransactionEvent evt)
             throws TransactionException {
@@ -151,12 +158,5 @@ public class GetUserRoleForTenantCommand extends UserCommand {
 
         // user is not a tenant member
         result = null;
-    }
-
-    /**
-     * @return the highest UserRole of the user for the given tenant
-     */
-    public Class<? extends UserRole> getResult() {
-        return result;
     }
 }

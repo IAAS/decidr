@@ -43,16 +43,16 @@ public class GetServerStatisticsCommand extends SystemCommand {
         super(role, null);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void transactionAllowed(TransactionEvent evt) {
-        result = evt.getSession().createQuery("from ServerLoadView").list();
-    }
-
     /**
      * @return the result
      */
     public List<ServerLoadView> getResult() {
         return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void transactionAllowed(TransactionEvent evt) {
+        result = evt.getSession().createQuery("from ServerLoadView").list();
     }
 }
