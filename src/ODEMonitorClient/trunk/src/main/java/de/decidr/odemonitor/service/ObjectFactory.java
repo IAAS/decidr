@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlRegistry;
  * content can consist of schema derived interfaces and classes representing the
  * binding of schema type definitions, element declarations and model groups.
  * Factory methods for each of these are provided in this class.
- * 
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -35,7 +34,6 @@ public class ObjectFactory {
     /**
      * Create a new ObjectFactory that can be used to create new instances of
      * schema derived classes for package: de.decidr.webservices.odemonitor
-     * 
      */
     public ObjectFactory() {
         // needed by JAXB
@@ -43,7 +41,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link GetConfig }
-     * 
      */
     public GetConfig createGetConfig() {
         return new GetConfig();
@@ -51,7 +48,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link GetConfigResponse }
-     * 
      */
     public GetConfigResponse createGetConfigResponse() {
         return new GetConfigResponse();
@@ -59,7 +55,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RegisterODE }
-     * 
      */
     public RegisterODE createRegisterODE() {
         return new RegisterODE();
@@ -67,7 +62,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RegisterODEResponse }
-     * 
      */
     public RegisterODEResponse createRegisterODEResponse() {
         return new RegisterODEResponse();
@@ -89,7 +83,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UpdateStats }
-     * 
      */
     public UpdateStats createUpdateStats() {
         return new UpdateStats();
@@ -97,7 +90,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UpdateStatsResponse }
-     * 
      */
     public UpdateStatsResponse createUpdateStatsResponse() {
         return new UpdateStatsResponse();

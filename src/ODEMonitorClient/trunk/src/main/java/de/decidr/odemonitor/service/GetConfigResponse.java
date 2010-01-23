@@ -73,7 +73,6 @@ public class GetConfigResponse {
      * Gets the value of the configChanged property.
      * 
      * @return possible object is {@link XMLGregorianCalendar }
-     * 
      */
     public XMLGregorianCalendar getConfigChanged() {
         return configChanged;
@@ -118,5 +117,4 @@ public class GetConfigResponse {
     public void setUpdateInterval(Integer value) {
         this.updateInterval = value;
     }
-
 }

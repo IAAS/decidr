@@ -91,13 +91,15 @@
 						<xsd:element name="updateInterval" type="xsd:int">
 							<xsd:annotation>
 								<xsd:documentation>Amount of time to wait between updates
-									(in seconds).</xsd:documentation>
+									(in
+									seconds).</xsd:documentation>
 							</xsd:annotation>
 						</xsd:element>
 						<xsd:element name="averagePeriod" type="xsd:int">
 							<xsd:annotation>
 								<xsd:documentation>Amount of time to average the load
-									average over (in seconds).</xsd:documentation>
+									average
+									over (in seconds).</xsd:documentation>
 							</xsd:annotation>
 						</xsd:element>
 						<xsd:element name="configChanged" type="xsd:dateTime" />
