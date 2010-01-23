@@ -38,5 +38,4 @@ public class CreateEmailInvokeNodeMenuItem implements Command {
         CommandStack.getInstance().executeCommand(
                 new CreateInvokeNodeCommand(node));
     }
-
 }

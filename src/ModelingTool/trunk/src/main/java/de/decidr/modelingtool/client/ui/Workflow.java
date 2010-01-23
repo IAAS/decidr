@@ -186,6 +186,10 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         }
     }
 
+    public int getHeight() {
+        return this.height;
+    }
+
     @Override
     public int getLeft() {
         return 0;
@@ -203,6 +207,20 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     @Override
     public int getTop() {
         return 0;
+    }
+
+    /**
+     * Returns the tenant users (of the tenant admin who is currently modeling
+     * this workflow) as a hash map with user id and display username.
+     * 
+     * @return the user hash map
+     */
+    public HashMap<Long, String> getUsers() {
+        return users;
+    }
+
+    public int getWidth() {
+        return this.width;
     }
 
     @Override
@@ -244,39 +262,6 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
         this.model = model;
     }
 
-    public void showPropertyWindow() {
-        WorkflowPropertyWindowInvoker.invoke(Workflow.getInstance().getModel());
-    }
-
-    /**
-     *Sets the List of tenant users.
-     * 
-     * @param users
-     *            the user hash map
-     */
-    public void setUsers(HashMap<Long, String> users) {
-        this.users = users;
-
-    }
-
-    /**
-     * Returns the tenant users (of the tenant admin who is currently modeling
-     * this workflow) as a hash map with user id and display username.
-     * 
-     * @return the user hash map
-     */
-    public HashMap<Long, String> getUsers() {
-        return users;
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-
-    public int getWidth() {
-        return this.width;
-    }
-
     /**
      * Sets the size of the workflow canvas
      * 
@@ -297,5 +282,20 @@ public class Workflow extends AbsolutePanel implements ModelChangeListener,
     @Override
     public void setSize(String width, String height) {
         super.setSize(width, height);
+    }
+
+    /**
+     *Sets the List of tenant users.
+     * 
+     * @param users
+     *            the user hash map
+     */
+    public void setUsers(HashMap<Long, String> users) {
+        this.users = users;
+
+    }
+
+    public void showPropertyWindow() {
+        WorkflowPropertyWindowInvoker.invoke(Workflow.getInstance().getModel());
     }
 }

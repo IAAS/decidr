@@ -72,7 +72,5 @@ public class Menu extends MenuBar {
         Messages msg = GWT.create(Messages.class);
         addItem(msg.variablesMenuItem(), new VariablesMenuItem());
         addItem(msg.propertiesMenuItem(), new PropertiesMenuItem());
-
     }
-
 }

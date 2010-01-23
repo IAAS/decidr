@@ -54,41 +54,46 @@ public class RegisterUserAction implements ClickListener {
 
     @Override
     public void buttonClick(ClickEvent event) {
-        
+
         content = (RegisterUserComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
 
         Form form = content.getRegistrationForm();
-        
+
         if (form.isValid()) {
             content.saveRegistrationForm();
 
             try {
                 userFacade = new UserFacade(new UserRole());
-                Long userId = userFacade.registerUser(content.getRegistrationForm()
-                        .getItemProperty("email").getValue().toString(),
-                        content.getRegistrationForm().getItemProperty(
-                                "password").getValue().toString(),
+                Long userId = userFacade.registerUser(content
+                        .getRegistrationForm().getItemProperty("email")
+                        .getValue().toString(), content.getRegistrationForm()
+                        .getItemProperty("password").getValue().toString(),
                         fillUserProfile());
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "User successfully registered!",
                                 "Registration successful"));
-                
-                
+
                 Role roleInstance = new UserRole(userId);
-                Main.getCurrent().getSession().setAttribute("tenantId", DecidrGlobals.getDefaultTenant().getId());
+                Main.getCurrent().getSession().setAttribute("tenantId",
+                        DecidrGlobals.getDefaultTenant().getId());
                 Main.getCurrent().getSession().setAttribute("userId", userId);
-                Main.getCurrent().getSession().setAttribute("role", roleInstance);
-                
+                Main.getCurrent().getSession().setAttribute("role",
+                        roleInstance);
+
                 uiDirector.switchView(new UserViewBuilder());
             } catch (NullPointerException e) {
-                Main.getCurrent().getMainWindow().addWindow(
-                        new InformationDialogComponent(
-                                "An error occured while performing your registration.<br/>"
-                                +"If this error occurs repeatedly please inform the systems' administrator.<br/><br/>"
-                                +"Error Description:<br/>" + e.getMessage(),
-                                "Registration Error"));
+                Main
+                        .getCurrent()
+                        .getMainWindow()
+                        .addWindow(
+                                new InformationDialogComponent(
+                                        "An error occured while performing your registration.<br/>"
+                                                + "If this error occurs repeatedly please inform the systems' administrator.<br/><br/>"
+                                                + "Error Description:<br/>"
+                                                + e.getMessage(),
+                                        "Registration Error"));
             } catch (TransactionException e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));

@@ -93,37 +93,12 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * Sets the id of the variable. The uniqueness of the id will not be tested,
-     * i.e. the caller of this method has to be sure that the id given to this
-     * method is not assigned elsewhere.
-     * 
-     * @param id
-     *            the id to set
-     */
-    public void setId(Long id) {
-        set(ID, id);
-        if (id > IdGenerator.generateId()) {
-            IdGenerator.setHighestId(id);
-        }
-    }
-
-    /**
      * Returns the label of the variable.
      * 
      * @return the label
      */
     public String getLabel() {
         return get(LABEL);
-    }
-
-    /**
-     * Sets the label of the variable
-     * 
-     * @param label
-     *            the label to set
-     */
-    public void setLabel(String label) {
-        set(LABEL, label);
     }
 
     /**
@@ -136,33 +111,12 @@ public class Variable extends BaseModelData {
     }
 
     /**
-     * Sets the type of the variable.
-     * 
-     * @param type
-     *            the type to set
-     */
-    public void setType(VariableType type) {
-        set(TYPE, type);
-        set(TYPELOCALNAME, type.getLocalName());
-    }
-
-    /**
      * Returns the values of the variable as list of strings.
      * 
      * @return the values
      */
     public List<String> getValues() {
         return get(VALUE);
-    }
-
-    /**
-     * Sets the values of the variable.
-     * 
-     * @param values
-     *            the values to set
-     */
-    public void setValues(List<String> values) {
-        set(VALUE, values);
     }
 
     /**
@@ -196,6 +150,52 @@ public class Variable extends BaseModelData {
      */
     public void setConfig(boolean config) {
         set(CONFIGVAR, config);
+    }
+
+    /**
+     * Sets the id of the variable. The uniqueness of the id will not be tested,
+     * i.e. the caller of this method has to be sure that the id given to this
+     * method is not assigned elsewhere.
+     * 
+     * @param id
+     *            the id to set
+     */
+    public void setId(Long id) {
+        set(ID, id);
+        if (id > IdGenerator.generateId()) {
+            IdGenerator.setHighestId(id);
+        }
+    }
+
+    /**
+     * Sets the label of the variable
+     * 
+     * @param label
+     *            the label to set
+     */
+    public void setLabel(String label) {
+        set(LABEL, label);
+    }
+
+    /**
+     * Sets the type of the variable.
+     * 
+     * @param type
+     *            the type to set
+     */
+    public void setType(VariableType type) {
+        set(TYPE, type);
+        set(TYPELOCALNAME, type.getLocalName());
+    }
+
+    /**
+     * Sets the values of the variable.
+     * 
+     * @param values
+     *            the values to set
+     */
+    public void setValues(List<String> values) {
+        set(VALUE, values);
     }
 
 }

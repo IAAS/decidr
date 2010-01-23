@@ -39,5 +39,4 @@ public class CreateHumanTaskInvokeNodeMenuItem implements Command {
         CommandStack.getInstance().executeCommand(
                 new CreateInvokeNodeCommand(node));
     }
-
 }

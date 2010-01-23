@@ -55,24 +55,6 @@ public class ResizeDragController extends AbstractDragController {
     }
 
     @Override
-    public void dragStart() {
-        // make sure that selected item is a node
-        assert SelectionHandler.getInstance().getSelectedItem() instanceof Node;
-        node = (Node) SelectionHandler.getInstance().getSelectedItem();
-
-        // get parent panel of node
-        oldParentPanel = node.getParentPanel();
-        // get graphic size of the node
-        oldWidth = node.getGraphicWidth();
-        oldHeight = node.getGraphicHeight();
-        // get node position
-        oldLeft = node.getLeft();
-        oldTop = node.getTop();
-
-        super.dragStart();
-    }
-
-    @Override
     public void dragMove() {
         if (context.draggable instanceof DragBox) {
             DragBox dragBox = (DragBox) context.draggable;
@@ -108,7 +90,7 @@ public class ResizeDragController extends AbstractDragController {
                     break;
 
                 case NORTHEAST:
-                    if (deltaX != 0 || deltaY != 0) {
+                    if ((deltaX != 0) || (deltaY != 0)) {
                         node.setPosition(left, top + deltaY);
                         node.setGraphicPixelSize(width + deltaX, height
                                 - deltaY);
@@ -122,7 +104,7 @@ public class ResizeDragController extends AbstractDragController {
                     break;
 
                 case SOUTHEAST:
-                    if (deltaX != 0 || deltaY != 0) {
+                    if ((deltaX != 0) || (deltaY != 0)) {
                         node.setGraphicPixelSize(width + deltaX, height
                                 + deltaY);
                     }
@@ -135,7 +117,7 @@ public class ResizeDragController extends AbstractDragController {
                     break;
 
                 case SOUTHWEST:
-                    if (deltaX != 0 || deltaY != 0) {
+                    if ((deltaX != 0) || (deltaY != 0)) {
                         // node.setPosition(left + deltaX, top);
                         node.setPosition(left + deltaX, top);
                         node.setGraphicPixelSize(width - deltaX, height
@@ -151,7 +133,7 @@ public class ResizeDragController extends AbstractDragController {
                     break;
 
                 case NORTHWEST:
-                    if (deltaX != 0 || deltaY != 0) {
+                    if ((deltaX != 0) || (deltaY != 0)) {
                         node.setPosition(left + deltaX, top + deltaY);
                         node.setGraphicPixelSize(width - deltaX, height
                                 - deltaY);
@@ -162,6 +144,24 @@ public class ResizeDragController extends AbstractDragController {
             // refresh selection
             SelectionHandler.getInstance().refreshSelection();
         }
+    }
+
+    @Override
+    public void dragStart() {
+        // make sure that selected item is a node
+        assert SelectionHandler.getInstance().getSelectedItem() instanceof Node;
+        node = (Node) SelectionHandler.getInstance().getSelectedItem();
+
+        // get parent panel of node
+        oldParentPanel = node.getParentPanel();
+        // get graphic size of the node
+        oldWidth = node.getGraphicWidth();
+        oldHeight = node.getGraphicHeight();
+        // get node position
+        oldLeft = node.getLeft();
+        oldTop = node.getTop();
+
+        super.dragStart();
     }
 
 }

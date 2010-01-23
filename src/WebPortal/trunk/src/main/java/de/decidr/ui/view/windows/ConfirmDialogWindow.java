@@ -49,10 +49,10 @@ public class ConfirmDialogWindow extends Window {
      * Constructor
      * 
      * @param text
-     *          This text is displayed in the dialog window
+     *            This text is displayed in the dialog window
      * @param listener
-     *          This listener is set as the ClickListener of the
-     *          OK button of the dialog window.
+     *            This listener is set as the ClickListener of the OK button of
+     *            the dialog window.
      */
     public ConfirmDialogWindow(String text, ClickListener listener) {
         init(text, listener);

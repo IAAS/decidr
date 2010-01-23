@@ -33,5 +33,4 @@ public class RedoMenuItem implements Command {
     public void execute() {
         CommandStack.getInstance().redo();
     }
-
 }

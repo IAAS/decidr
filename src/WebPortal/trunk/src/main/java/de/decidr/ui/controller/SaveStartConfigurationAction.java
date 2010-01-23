@@ -36,7 +36,7 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.exceptions.WorkflowModelNotStartableException;
 import de.decidr.model.facades.WorkflowModelFacade;
-import de.decidr.model.soap.types.*;
+import de.decidr.model.soap.types.Actor;
 import de.decidr.model.workflowmodel.wsc.TAssignment;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 import de.decidr.ui.view.Main;
@@ -71,7 +71,7 @@ public class SaveStartConfigurationAction implements ClickListener {
             role);
 
     /**
-     * Aleks the constructor does not actually perform the save action ~dh
+     * TODO the constructor does not actually perform the save action
      * 
      * Constructor which saves the role tree, the form of the start
      * configuration window. Also the start configuration object,
@@ -119,7 +119,8 @@ public class SaveStartConfigurationAction implements ClickListener {
         }
         if (form.isValid() && notEmptyRoles) {
             for (Object id : itemIds) {
-                for (de.decidr.model.soap.types.Role role : tConfiguration.getRoles().getRole()) {
+                for (de.decidr.model.soap.types.Role role : tConfiguration
+                        .getRoles().getRole()) {
                     Collection<Object> collect = tree.getChildren(id);
                     if (collect != null) {
                         for (Object childId : collect) {
@@ -222,6 +223,5 @@ public class SaveStartConfigurationAction implements ClickListener {
                                     "Information"));
         }
 
-        
     }
 }

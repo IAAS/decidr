@@ -67,5 +67,4 @@ public class ChangeNodePropertiesCommand implements UndoableCommand {
     public void undo() {
         node.getModel().setProperties(oldProperties);
     }
-
 }

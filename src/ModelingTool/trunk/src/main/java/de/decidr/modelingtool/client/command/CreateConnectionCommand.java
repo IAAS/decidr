@@ -63,7 +63,7 @@ public class CreateConnectionCommand implements UndoableCommand {
         Port startPort = connection.getStartDragBox().getGluedPort();
         Port endPort = connection.getEndDragBox().getGluedPort();
 
-        if (!(startPort instanceof OutputPort || startPort instanceof ContainerStartPort)) {
+        if (!((startPort instanceof OutputPort) || (startPort instanceof ContainerStartPort))) {
             // swap drag box pointers, so startDragBox is on the output port
             ConnectionDragBox endDragBox = connection.getEndDragBox();
             connection.setEndDragBox(connection.getStartDragBox());
@@ -76,23 +76,23 @@ public class CreateConnectionCommand implements UndoableCommand {
 
         // check if connection is a container start connection in an if
         // container
-        if ((startPort instanceof ContainerStartPort && startPort
-                .getParentNode() instanceof IfContainer)
-                || (endPort instanceof ContainerStartPort && endPort
-                        .getParentNode() instanceof IfContainer)) {
+        if (((startPort instanceof ContainerStartPort) && (startPort
+                .getParentNode() instanceof IfContainer))
+                || ((endPort instanceof ContainerStartPort) && (endPort
+                        .getParentNode() instanceof IfContainer))) {
             // create condition
             model = new Condition();
             // set the label
             connection.setLabel(model.getName());
 
             // check if connection is another container start connection
-        } else if (startPort instanceof ContainerStartPort
-                || endPort instanceof ContainerStartPort) {
+        } else if ((startPort instanceof ContainerStartPort)
+                || (endPort instanceof ContainerStartPort)) {
             // create container start connection model
             model = new ContainerStartConnectionModel();
 
-        } else if (startPort instanceof ContainerExitPort
-                || endPort instanceof ContainerExitPort) {
+        } else if ((startPort instanceof ContainerExitPort)
+                || (endPort instanceof ContainerExitPort)) {
             // create container exit condition model
             model = new ContainerExitConnectionModel();
         } else {
@@ -114,8 +114,8 @@ public class CreateConnectionCommand implements UndoableCommand {
         }
 
         // link connection model to node models
-        if (startPort instanceof OutputPort
-                || startPort instanceof ContainerStartPort) {
+        if ((startPort instanceof OutputPort)
+                || (startPort instanceof ContainerStartPort)) {
             model.setSource(startPort.getParentNode().getModel());
             model.setTarget(endPort.getParentNode().getModel());
         } else {
@@ -204,23 +204,31 @@ public class CreateConnectionCommand implements UndoableCommand {
 
     }
 
-    @Override
-    public void undo() {
-        // remove start drag box
-        ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
+    /**
+     * Checks the connection model if it consists all required data for drawing
+     * the connection: its parent model, target and source node.
+     * 
+     * @return True, if all required data is not null.
+     * @throws IncompleteModelDataException
+     *             if any relevant data is null.
+     */
+    private boolean checkModelData() throws IncompleteModelDataException {
+        if (model.getSource() == null) {
+            throw new IncompleteModelDataException(
+                    "ConnectionModel.source is null.");
+        }
 
-        // remove end drag box
-        ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
+        if (model.getTarget() == null) {
+            throw new IncompleteModelDataException(
+                    "ConnectionModel.target is null.");
+        }
 
-        // remove connection from parent panel
-        connection.getParentPanel().removeConnection(connection);
+        if (model.getParentModel() == null) {
+            throw new IncompleteModelDataException(
+                    "ConnectionModel.parentModel is null.");
+        }
 
-        // unlink model
-        model.getParentModel().removeConnectionModel(model);
-        model.getSource().setOutput(null);
-        model.getTarget().setInput(null);
+        return true;
     }
 
     @Override
@@ -253,31 +261,23 @@ public class CreateConnectionCommand implements UndoableCommand {
 
     }
 
-    /**
-     * Checks the connection model if it consists all required data for drawing
-     * the connection: its parent model, target and source node.
-     * 
-     * @return True, if all required data is not null.
-     * @throws IncompleteModelDataException
-     *             if any relevant data is null.
-     */
-    private boolean checkModelData() throws IncompleteModelDataException {
-        if (model.getSource() == null) {
-            throw new IncompleteModelDataException(
-                    "ConnectionModel.source is null.");
-        }
+    @Override
+    public void undo() {
+        // remove start drag box
+        ConnectionDragBox startDragBox = connection.getStartDragBox();
+        startDragBox.getGluedPort().removeConnectionDragBox(startDragBox, true);
 
-        if (model.getTarget() == null) {
-            throw new IncompleteModelDataException(
-                    "ConnectionModel.target is null.");
-        }
+        // remove end drag box
+        ConnectionDragBox endDragBox = connection.getEndDragBox();
+        endDragBox.getGluedPort().removeConnectionDragBox(endDragBox, true);
 
-        if (model.getParentModel() == null) {
-            throw new IncompleteModelDataException(
-                    "ConnectionModel.parentModel is null.");
-        }
+        // remove connection from parent panel
+        connection.getParentPanel().removeConnection(connection);
 
-        return true;
+        // unlink model
+        model.getParentModel().removeConnectionModel(model);
+        model.getSource().setOutput(null);
+        model.getTarget().setInput(null);
     }
 
 }

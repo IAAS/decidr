@@ -27,5 +27,4 @@ public class NodeNotDeletableException extends OperationNotAllowedException {
     public NodeNotDeletableException(String msg) {
         super(msg);
     }
-
 }

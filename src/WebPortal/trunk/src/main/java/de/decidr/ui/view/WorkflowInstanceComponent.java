@@ -77,7 +77,8 @@ public class WorkflowInstanceComponent extends CustomComponent {
     }
 
     /**
-     * This method initializes the components of the workflow instance component.
+     * This method initializes the components of the workflow instance
+     * component.
      */
     private void init() {
         runningInstanceContainer = new RunningInstanceContainer();

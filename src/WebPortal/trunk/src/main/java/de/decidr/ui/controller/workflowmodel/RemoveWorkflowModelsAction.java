@@ -68,11 +68,14 @@ public class RemoveWorkflowModelsAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new LinkedList<Long>();
-        Set<WorkflowModelsBean> value = (Set<WorkflowModelsBean>) table.getValue();
-        List<WorkflowModelsBean> items = new ArrayList<WorkflowModelsBean>(value);
+        Set<WorkflowModelsBean> value = (Set<WorkflowModelsBean>) table
+                .getValue();
+        List<WorkflowModelsBean> items = new ArrayList<WorkflowModelsBean>(
+                value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                WorkflowModelsBean workflowModel = (WorkflowModelsBean) iter.next();
+                WorkflowModelsBean workflowModel = (WorkflowModelsBean) iter
+                        .next();
                 wfms.add(workflowModel.getId());
             }
             try {

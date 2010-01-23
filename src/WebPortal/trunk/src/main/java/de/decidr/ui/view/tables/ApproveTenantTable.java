@@ -34,7 +34,7 @@ public class ApproveTenantTable extends Table {
     private static final long serialVersionUID = 1L;
 
     Container container = null;
-    
+
     private final int TABLE_PAGE_LENGTH = 10;
 
     /**

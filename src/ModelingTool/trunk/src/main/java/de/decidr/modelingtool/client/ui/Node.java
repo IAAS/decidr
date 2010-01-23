@@ -245,7 +245,7 @@ public abstract class Node extends AbsolutePanel implements
         HasChildren parentPanel = getParentPanel();
 
         // if position parameters in model have changed
-        if (modelLeft != left || modelTop != top) {
+        if ((modelLeft != left) || (modelTop != top)) {
             // set node to new position
             setPosition(modelLeft, modelTop);
             // and new parent, if changed
@@ -266,10 +266,10 @@ public abstract class Node extends AbsolutePanel implements
         this.parentPanel = parentPanel;
 
         // register port drop controllers
-        if (inputPort != null && !inputPort.isDropControllerRegistered()) {
+        if ((inputPort != null) && !inputPort.isDropControllerRegistered()) {
             inputPort.registerDropController();
         }
-        if (outputPort != null && !outputPort.isDropControllerRegistered()) {
+        if ((outputPort != null) && !outputPort.isDropControllerRegistered()) {
             outputPort.registerDropController();
         }
 
@@ -283,10 +283,10 @@ public abstract class Node extends AbsolutePanel implements
      */
     public void onPanelRemove() {
         // unregister port drop controllers
-        if (inputPort != null && inputPort.isDropControllerRegistered()) {
+        if ((inputPort != null) && inputPort.isDropControllerRegistered()) {
             inputPort.unregisterDropController();
         }
-        if (outputPort != null && outputPort.isDropControllerRegistered()) {
+        if ((outputPort != null) && outputPort.isDropControllerRegistered()) {
             outputPort.unregisterDropController();
         }
     }

@@ -62,8 +62,8 @@ public class ChangePasswordWindow extends Window {
      * Return the password form item, which contains the new and the old
      * password if the user filled the related input fields.<br>
      * 
-     * @return passwordForm
-     *          The item of the form, containing the value of its input fields
+     * @return passwordForm The item of the form, containing the value of its
+     *         input fields
      */
     public Item getPasswords() {
         return passwordForm;

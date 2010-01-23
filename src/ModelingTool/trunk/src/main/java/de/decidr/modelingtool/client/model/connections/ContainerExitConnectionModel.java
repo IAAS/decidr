@@ -27,5 +27,4 @@ public class ContainerExitConnectionModel extends ConnectionModel {
     public ContainerExitConnectionModel() {
         super();
     }
-
 }

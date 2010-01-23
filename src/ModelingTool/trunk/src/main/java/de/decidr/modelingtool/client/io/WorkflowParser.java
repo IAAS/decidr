@@ -34,5 +34,4 @@ public interface WorkflowParser {
      * @return the model as XML string
      */
     public String parse(WorkflowModel model);
-
 }

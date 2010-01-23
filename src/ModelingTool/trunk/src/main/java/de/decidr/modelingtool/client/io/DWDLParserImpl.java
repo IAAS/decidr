@@ -61,225 +61,6 @@ public class DWDLParserImpl implements DWDLParser {
 
     private HashMap<Long, ConnectionModel> connectionModels;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.io.DWDLParser#parse(java.lang.String)
-     */
-    @Override
-    public WorkflowModel parse(String dwdl) {
-        Document doc;
-        doc = XMLParser.createDocument();
-        doc = XMLParser.parse(dwdl);
-
-        WorkflowModel workflow = new WorkflowModel();
-
-        Element root = (Element) doc.getElementsByTagName(DWDLNames.root).item(
-                0);
-
-        createXmlProperties(root, workflow);
-        createWorkflowProperties(root, workflow);
-
-        /* Create variables and roles */
-        List<Variable> variables = new ArrayList<Variable>();
-        createVariables(root, variables);
-        createRoles(root, variables);
-        workflow.setVariables(variables);
-
-        /* Create nodes */
-        createChildNodeModels(root, workflow, workflow);
-
-        return workflow;
-    }
-
-    private void createXmlProperties(Element root, WorkflowModel workflow) {
-        XmlProperties xmlProperties = new XmlProperties();
-
-        /* namespace and schema */
-        xmlProperties.setNamespace(root.getAttribute(DWDLNames.namespace));
-        xmlProperties.setSchema(root.getAttribute(DWDLNames.schema));
-
-        workflow.setXmlProperties(xmlProperties);
-    }
-
-    private void createWorkflowProperties(Element root, WorkflowModel workflow) {
-
-        /* Set workflow name, id and description */
-        workflow.setName(root.getAttribute(DWDLNames.name));
-        workflow.setId(new Long(root.getAttribute(DWDLNames.id)));
-        for (int i = 0; i < root.getChildNodes().getLength(); i++) {
-            /*
-             * Go through all child nodes until node with name "description" is
-             * found
-             */
-            Node childNode = root.getChildNodes().item(i);
-            if (childNode.getNodeName().equals(DWDLNames.description)
-                    && childNode.getFirstChild() != null) {
-                workflow.setDescription(childNode.getFirstChild()
-                        .getNodeValue());
-            }
-        }
-        WorkflowProperties properties = new WorkflowProperties();
-
-        /* parse faultHandlerElement and set fault message id and recipient */
-        Element faultHandler = getChildNodesByTagName(root,
-                DWDLNames.faultHandler).get(0);
-        properties.setFaultMessageVariableId(getVariableIdFromPropertyElement(
-                faultHandler, DWDLNames.message));
-        Element recipient = getChildNodesByTagName(faultHandler,
-                DWDLNames.recipient).get(0);
-        properties.setRecipientVariableId(getVariableIdFromPropertyElement(
-                recipient, DWDLNames.name));
-
-        /*
-         * parse endNode and set success message and notification. endNode is a
-         * child of the nodes element.
-         */
-        if (getChildNodesByTagName(
-                getChildNodesByTagName(root, DWDLNames.nodes).get(0),
-                DWDLNames.endNode) != null) {
-            Element endNode = getChildNodesByTagName(
-                    getChildNodesByTagName(root, DWDLNames.nodes).get(0),
-                    DWDLNames.endNode).get(0);
-            // notification of success is optional
-            if (getChildNodesByTagName(endNode, DWDLNames.notificationOfSuccess)
-                    .isEmpty() == false) {
-                // if notification is existent, this attribute is always true
-                properties.setNotifyOnSuccess(true);
-
-                Element notification = getChildNodesByTagName(endNode,
-                        DWDLNames.notificationOfSuccess).get(0);
-                properties
-                        .setSuccessMessageVariableId(getVariableIdFromPropertyElement(
-                                notification, DWDLNames.successMsg));
-            } else {
-                properties.setNotifyOnSuccess(false);
-            }
-        }
-        workflow.setProperties(properties);
-    }
-
-    private void createVariables(Element root, List<Variable> variables) {
-
-        /* Get the variables element */
-        Element variablesElement = (Element) root.getElementsByTagName(
-                DWDLNames.variables).item(0);
-
-        /* Go through all child elements with tag name variable */
-        for (Element variableElement : getChildNodesByTagName(variablesElement,
-                DWDLNames.variable)) {
-            Variable variable = new Variable();
-
-            /* Set id and label, get rid of the ncname prefix */
-            variable.setId(NCNameFactory.createIdFromNCName(variableElement
-                    .getAttribute(DWDLNames.name)));
-            variable.setLabel(variableElement.getAttribute(DWDLNames.label));
-
-            /* Set configuration */
-            if (variableElement.getAttribute(DWDLNames.configVar).equals(
-                    DWDLNames.yes)) {
-                variable.setConfig(true);
-            } else {
-                variable.setConfig(false);
-            }
-
-            /* Set type, get rid of the list prefix */
-            String typeString = new String(variableElement
-                    .getAttribute(DWDLNames.type));
-            /*
-             * If we have to get rid of the list prefix, that also means the
-             * variables has multiple values
-             */
-            boolean isArray = false;
-            if (typeString.startsWith(DWDLNames.listprefix)) {
-                typeString = typeString
-                        .substring(DWDLNames.listprefix.length());
-                isArray = true;
-            }
-            variable.setType(VariableType.getTypeFromDWDLName(typeString));
-
-            /*
-             * Set the values, if the variable has multiple values (determined
-             * in the previous step), then get rid of the wrapping parent node
-             * "initialValues"
-             */
-            List<Element> valueElements = new ArrayList<Element>();
-            if (isArray) {
-                valueElements = getChildNodesByTagName(
-                        (Element) variableElement.getFirstChild(),
-                        DWDLNames.initValue);
-            } else {
-                valueElements = getChildNodesByTagName(variableElement,
-                        DWDLNames.initValue);
-            }
-            for (Element valueElement : valueElements) {
-                if (valueElement.getFirstChild().getNodeValue() != null) {
-                    variable.getValues().add(
-                            new String(valueElement.getFirstChild()
-                                    .getNodeValue()));
-                }
-            }
-
-            /* Add variable to model */
-            variables.add(variable);
-        }
-    }
-
-    private void createRoles(Element root, List<Variable> variables) {
-
-        /* Get the roles element */
-        Element rolesElement = (Element) root.getElementsByTagName(
-                DWDLNames.roles).item(0);
-
-        /* Go through all child elements */
-        for (Element roleElement : getChildNodesByTagName(rolesElement,
-                DWDLNames.role)) {
-            Variable role = new Variable();
-
-            /* Set id, name and type, get rid of variable ncname prefix */
-            role.setId(NCNameFactory.createIdFromNCName(roleElement
-                    .getAttribute(DWDLNames.name)));
-            role.setLabel(roleElement.getAttribute(DWDLNames.label));
-            role.setType(VariableType.ROLE);
-
-            /* Set configuration */
-            if (roleElement.getAttribute(DWDLNames.configVar) == DWDLNames.yes) {
-                role.setConfig(true);
-            } else {
-                role.setConfig(false);
-            }
-
-            /* Get actors */
-            for (Element actor : getChildNodesByTagName(roleElement,
-                    DWDLNames.actor)) {
-                role.getValues().add(
-                        new String(actor.getAttribute(DWDLNames.userId)));
-            }
-
-            /* Add role to model */
-            variables.add(role);
-        }
-    }
-
-    private Long getVariableIdFromPropertyElement(Element parent,
-            String propertyName) {
-        Long variableId = null;
-        /*
-         * Go through all child nodes which are properties. If the name
-         * attribute of a property matches propertyName, that's the element we
-         * want to get the variableId from.
-         */
-        for (Element property : getChildNodesByTagName(parent,
-                DWDLNames.setProperty)) {
-            if (property.getAttribute(DWDLNames.name).equals(propertyName)
-                    && property.getAttribute(DWDLNames.variable) != null) {
-                variableId = NCNameFactory.createIdFromNCName(property
-                        .getAttribute(DWDLNames.variable));
-            }
-        }
-        return variableId;
-    }
-
     private Collection<NodeModel> createChildNodeModels(Element parentElement,
             WorkflowModel workflow, HasChildModels parentModel) {
         /* This colletion will be returned */
@@ -338,54 +119,6 @@ public class DWDLParserImpl implements DWDLParser {
         return childNodeModels;
     }
 
-    private StartNodeModel createStartModel(Element startElement,
-            WorkflowModel workflow) {
-        StartNodeModel startModel = new StartNodeModel(workflow);
-
-        /* Set name, id and graphics */
-        startModel.setName(startElement.getAttribute(DWDLNames.name));
-        startModel.setId(new Long(startElement.getAttribute(DWDLNames.id)));
-        setGraphics(startElement, startModel);
-
-        /* Set outgoing connection */
-        List<Element> sources = getChildNodesByTagName(startElement,
-                DWDLNames.sources);
-        if (sources.size() > 0) {
-            Element sourcesElement = sources.get(0);
-            Element sourceElement = getChildNodesByTagName(sourcesElement,
-                    DWDLNames.source).get(0);
-            startModel.setOutput(getConnectionForSourceElement(new Long(
-                    sourceElement.getAttribute(DWDLNames.arcId)), startModel,
-                    workflow));
-        }
-
-        return startModel;
-    }
-
-    private EndNodeModel createEndModel(Element endElement,
-            WorkflowModel workflow) {
-        EndNodeModel endModel = new EndNodeModel(workflow);
-
-        /* Set name, id and graphics */
-        endModel.setName(endElement.getAttribute(DWDLNames.name));
-        endModel.setId(new Long(endElement.getAttribute(DWDLNames.id)));
-        setGraphics(endElement, endModel);
-
-        /* Set incoming connection */
-        List<Element> targets = getChildNodesByTagName(endElement,
-                DWDLNames.targets);
-        if (targets.size() > 0) {
-            Element targetsElement = targets.get(0);
-            Element targetElement = getChildNodesByTagName(targetsElement,
-                    DWDLNames.target).get(0);
-            endModel.setInput(getConnectionForTargetElement(new Long(
-                    targetElement.getAttribute(DWDLNames.arcId)), endModel,
-                    workflow));
-        }
-
-        return endModel;
-    }
-
     private EmailInvokeNodeModel createEmailInvokeNode(Element emailElement,
             HasChildModels parentModel) {
         EmailInvokeNodeModel emailModel = new EmailInvokeNodeModel(parentModel);
@@ -432,6 +165,129 @@ public class DWDLParserImpl implements DWDLParser {
         }
 
         return emailModel;
+    }
+
+    private EndNodeModel createEndModel(Element endElement,
+            WorkflowModel workflow) {
+        EndNodeModel endModel = new EndNodeModel(workflow);
+
+        /* Set name, id and graphics */
+        endModel.setName(endElement.getAttribute(DWDLNames.name));
+        endModel.setId(new Long(endElement.getAttribute(DWDLNames.id)));
+        setGraphics(endElement, endModel);
+
+        /* Set incoming connection */
+        List<Element> targets = getChildNodesByTagName(endElement,
+                DWDLNames.targets);
+        if (targets.size() > 0) {
+            Element targetsElement = targets.get(0);
+            Element targetElement = getChildNodesByTagName(targetsElement,
+                    DWDLNames.target).get(0);
+            endModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)), endModel,
+                    workflow));
+        }
+
+        return endModel;
+    }
+
+    private FlowContainerModel createFlowModel(Element flowElement,
+            WorkflowModel workflow, HasChildModels parentModel) {
+        FlowContainerModel flowModel = new FlowContainerModel(parentModel);
+
+        /* Set name id and graphics */
+        flowModel.setName(flowElement.getAttribute(DWDLNames.name));
+        flowModel.setId(new Long(flowElement.getAttribute(DWDLNames.id)));
+        setGraphics(flowElement, flowModel);
+
+        createInnerContainerConnections(flowElement, flowModel);
+
+        createChildNodeModels(flowElement, workflow, flowModel);
+
+        /* Set incoming and outgoing connections */
+        List<Element> targets = getChildNodesByTagName(flowElement,
+                DWDLNames.targets);
+        if (targets.size() > 0) {
+            Element targetsElement = targets.get(0);
+            Element targetElement = getChildNodesByTagName(targetsElement,
+                    DWDLNames.target).get(0);
+            flowModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)), flowModel,
+                    parentModel));
+        }
+        List<Element> sources = getChildNodesByTagName(flowElement,
+                DWDLNames.sources);
+        if (sources.size() > 0) {
+            Element sourcesElement = sources.get(0);
+            Element sourceElement = getChildNodesByTagName(sourcesElement,
+                    DWDLNames.source).get(0);
+            flowModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)), flowModel,
+                    parentModel));
+        }
+
+        return flowModel;
+    }
+
+    private ContainerModel createForEachModel(Element forEachElement,
+            WorkflowModel workflow, HasChildModels parentModel) {
+        ForEachContainerModel forEachModel = new ForEachContainerModel(
+                parentModel);
+
+        /* Set name id and graphics */
+        forEachModel.setName(forEachElement.getAttribute(DWDLNames.name));
+        forEachModel.setId(new Long(forEachElement.getAttribute(DWDLNames.id)));
+        setGraphics(forEachElement, forEachModel);
+
+        createInnerContainerConnections(forEachElement, forEachModel);
+
+        createChildNodeModels(forEachElement, workflow, forEachModel);
+
+        /* Set for each properties, if there are any */
+        List<Element> finalCounterValueElement = getChildNodesByTagName(
+                forEachElement, DWDLNames.finalCounterValue);
+        if (finalCounterValueElement.size() > 0) {
+            forEachModel.setIterationVariableId(NCNameFactory
+                    .createIdFromNCName(finalCounterValueElement.get(0)
+                            .getFirstChild().getNodeValue()));
+        }
+        List<Element> completionConditionElement = getChildNodesByTagName(
+                forEachElement, DWDLNames.completionCon);
+        if (completionConditionElement.size() > 0) {
+            forEachModel.setExitCondition(ExitCondition
+                    .valueOf(completionConditionElement.get(0).getFirstChild()
+                            .getNodeValue()));
+        }
+        if (forEachElement.getAttribute(DWDLNames.parallel).equals(
+                DWDLNames.yes)) {
+            forEachModel.setParallel(true);
+        } else {
+            forEachModel.setParallel(false);
+        }
+
+        /* Set incoming and outgoing connections */
+        List<Element> targets = getChildNodesByTagName(forEachElement,
+                DWDLNames.targets);
+        if (targets.size() > 0) {
+            Element targetsElement = targets.get(0);
+            Element targetElement = getChildNodesByTagName(targetsElement,
+                    DWDLNames.target).get(0);
+            forEachModel.setInput(getConnectionForTargetElement(new Long(
+                    targetElement.getAttribute(DWDLNames.arcId)), forEachModel,
+                    parentModel));
+        }
+        List<Element> sources = getChildNodesByTagName(forEachElement,
+                DWDLNames.sources);
+        if (sources.size() > 0) {
+            Element sourcesElement = sources.get(0);
+            Element sourceElement = getChildNodesByTagName(sourcesElement,
+                    DWDLNames.source).get(0);
+            forEachModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)), forEachModel,
+                    parentModel));
+        }
+
+        return forEachModel;
     }
 
     private HumanTaskInvokeNodeModel createHumanTaskInvokeNode(
@@ -545,44 +401,6 @@ public class DWDLParserImpl implements DWDLParser {
         return humanTaskModel;
     }
 
-    private FlowContainerModel createFlowModel(Element flowElement,
-            WorkflowModel workflow, HasChildModels parentModel) {
-        FlowContainerModel flowModel = new FlowContainerModel(parentModel);
-
-        /* Set name id and graphics */
-        flowModel.setName(flowElement.getAttribute(DWDLNames.name));
-        flowModel.setId(new Long(flowElement.getAttribute(DWDLNames.id)));
-        setGraphics(flowElement, flowModel);
-
-        createInnerContainerConnections(flowElement, flowModel);
-
-        createChildNodeModels(flowElement, workflow, flowModel);
-
-        /* Set incoming and outgoing connections */
-        List<Element> targets = getChildNodesByTagName(flowElement,
-                DWDLNames.targets);
-        if (targets.size() > 0) {
-            Element targetsElement = targets.get(0);
-            Element targetElement = getChildNodesByTagName(targetsElement,
-                    DWDLNames.target).get(0);
-            flowModel.setInput(getConnectionForTargetElement(new Long(
-                    targetElement.getAttribute(DWDLNames.arcId)), flowModel,
-                    parentModel));
-        }
-        List<Element> sources = getChildNodesByTagName(flowElement,
-                DWDLNames.sources);
-        if (sources.size() > 0) {
-            Element sourcesElement = sources.get(0);
-            Element sourceElement = getChildNodesByTagName(sourcesElement,
-                    DWDLNames.source).get(0);
-            flowModel.setOutput(getConnectionForSourceElement(new Long(
-                    sourceElement.getAttribute(DWDLNames.arcId)), flowModel,
-                    parentModel));
-        }
-
-        return flowModel;
-    }
-
     private ContainerModel createIfModel(Element ifElement,
             WorkflowModel workflow, HasChildModels parentModel) {
         IfContainerModel ifModel = new IfContainerModel(parentModel);
@@ -667,86 +485,6 @@ public class DWDLParserImpl implements DWDLParser {
         return ifModel;
     }
 
-    private ContainerModel createForEachModel(Element forEachElement,
-            WorkflowModel workflow, HasChildModels parentModel) {
-        ForEachContainerModel forEachModel = new ForEachContainerModel(
-                parentModel);
-
-        /* Set name id and graphics */
-        forEachModel.setName(forEachElement.getAttribute(DWDLNames.name));
-        forEachModel.setId(new Long(forEachElement.getAttribute(DWDLNames.id)));
-        setGraphics(forEachElement, forEachModel);
-
-        createInnerContainerConnections(forEachElement, forEachModel);
-
-        createChildNodeModels(forEachElement, workflow, forEachModel);
-
-        /* Set for each properties, if there are any */
-        List<Element> finalCounterValueElement = getChildNodesByTagName(
-                forEachElement, DWDLNames.finalCounterValue);
-        if (finalCounterValueElement.size() > 0) {
-            forEachModel.setIterationVariableId(NCNameFactory
-                    .createIdFromNCName(finalCounterValueElement.get(0)
-                            .getFirstChild().getNodeValue()));
-        }
-        List<Element> completionConditionElement = getChildNodesByTagName(
-                forEachElement, DWDLNames.completionCon);
-        if (completionConditionElement.size() > 0) {
-            forEachModel.setExitCondition(ExitCondition
-                    .valueOf(completionConditionElement.get(0).getFirstChild()
-                            .getNodeValue()));
-        }
-        if (forEachElement.getAttribute(DWDLNames.parallel).equals(
-                DWDLNames.yes)) {
-            forEachModel.setParallel(true);
-        } else {
-            forEachModel.setParallel(false);
-        }
-
-        /* Set incoming and outgoing connections */
-        List<Element> targets = getChildNodesByTagName(forEachElement,
-                DWDLNames.targets);
-        if (targets.size() > 0) {
-            Element targetsElement = targets.get(0);
-            Element targetElement = getChildNodesByTagName(targetsElement,
-                    DWDLNames.target).get(0);
-            forEachModel.setInput(getConnectionForTargetElement(new Long(
-                    targetElement.getAttribute(DWDLNames.arcId)), forEachModel,
-                    parentModel));
-        }
-        List<Element> sources = getChildNodesByTagName(forEachElement,
-                DWDLNames.sources);
-        if (sources.size() > 0) {
-            Element sourcesElement = sources.get(0);
-            Element sourceElement = getChildNodesByTagName(sourcesElement,
-                    DWDLNames.source).get(0);
-            forEachModel.setOutput(getConnectionForSourceElement(new Long(
-                    sourceElement.getAttribute(DWDLNames.arcId)), forEachModel,
-                    parentModel));
-        }
-
-        return forEachModel;
-    }
-
-    private void setGraphics(Element node, NodeModel model) {
-        Element graphics = getChildNodesByTagName(node, DWDLNames.graphics)
-                .get(0);
-
-        /* Set position */
-        Integer left = new Integer(graphics.getAttribute(DWDLNames.x));
-        Integer top = new Integer(graphics.getAttribute(DWDLNames.y));
-        model.setChangeListenerPosition(left, top);
-
-        /* If model is a container, it has also a width and height */
-        if (model instanceof ContainerModel) {
-            Integer height = new Integer(graphics
-                    .getAttribute(DWDLNames.height));
-            Integer width = new Integer(graphics.getAttribute(DWDLNames.width));
-            ((ContainerModel) model).setChangeListenerSize(width, height);
-        }
-
-    }
-
     private void createInnerContainerConnections(Element containerElement,
             ContainerModel containerModel) {
         /*
@@ -780,6 +518,239 @@ public class DWDLParserImpl implements DWDLParser {
                 }
             }
         }
+    }
+
+    private void createRoles(Element root, List<Variable> variables) {
+
+        /* Get the roles element */
+        Element rolesElement = (Element) root.getElementsByTagName(
+                DWDLNames.roles).item(0);
+
+        /* Go through all child elements */
+        for (Element roleElement : getChildNodesByTagName(rolesElement,
+                DWDLNames.role)) {
+            Variable role = new Variable();
+
+            /* Set id, name and type, get rid of variable ncname prefix */
+            role.setId(NCNameFactory.createIdFromNCName(roleElement
+                    .getAttribute(DWDLNames.name)));
+            role.setLabel(roleElement.getAttribute(DWDLNames.label));
+            role.setType(VariableType.ROLE);
+
+            /* Set configuration */
+            if (roleElement.getAttribute(DWDLNames.configVar) == DWDLNames.yes) {
+                role.setConfig(true);
+            } else {
+                role.setConfig(false);
+            }
+
+            /* Get actors */
+            for (Element actor : getChildNodesByTagName(roleElement,
+                    DWDLNames.actor)) {
+                role.getValues().add(
+                        new String(actor.getAttribute(DWDLNames.userId)));
+            }
+
+            /* Add role to model */
+            variables.add(role);
+        }
+    }
+
+    private StartNodeModel createStartModel(Element startElement,
+            WorkflowModel workflow) {
+        StartNodeModel startModel = new StartNodeModel(workflow);
+
+        /* Set name, id and graphics */
+        startModel.setName(startElement.getAttribute(DWDLNames.name));
+        startModel.setId(new Long(startElement.getAttribute(DWDLNames.id)));
+        setGraphics(startElement, startModel);
+
+        /* Set outgoing connection */
+        List<Element> sources = getChildNodesByTagName(startElement,
+                DWDLNames.sources);
+        if (sources.size() > 0) {
+            Element sourcesElement = sources.get(0);
+            Element sourceElement = getChildNodesByTagName(sourcesElement,
+                    DWDLNames.source).get(0);
+            startModel.setOutput(getConnectionForSourceElement(new Long(
+                    sourceElement.getAttribute(DWDLNames.arcId)), startModel,
+                    workflow));
+        }
+
+        return startModel;
+    }
+
+    private void createVariables(Element root, List<Variable> variables) {
+
+        /* Get the variables element */
+        Element variablesElement = (Element) root.getElementsByTagName(
+                DWDLNames.variables).item(0);
+
+        /* Go through all child elements with tag name variable */
+        for (Element variableElement : getChildNodesByTagName(variablesElement,
+                DWDLNames.variable)) {
+            Variable variable = new Variable();
+
+            /* Set id and label, get rid of the ncname prefix */
+            variable.setId(NCNameFactory.createIdFromNCName(variableElement
+                    .getAttribute(DWDLNames.name)));
+            variable.setLabel(variableElement.getAttribute(DWDLNames.label));
+
+            /* Set configuration */
+            if (variableElement.getAttribute(DWDLNames.configVar).equals(
+                    DWDLNames.yes)) {
+                variable.setConfig(true);
+            } else {
+                variable.setConfig(false);
+            }
+
+            /* Set type, get rid of the list prefix */
+            String typeString = new String(variableElement
+                    .getAttribute(DWDLNames.type));
+            /*
+             * If we have to get rid of the list prefix, that also means the
+             * variables has multiple values
+             */
+            boolean isArray = false;
+            if (typeString.startsWith(DWDLNames.listprefix)) {
+                typeString = typeString
+                        .substring(DWDLNames.listprefix.length());
+                isArray = true;
+            }
+            variable.setType(VariableType.getTypeFromDWDLName(typeString));
+
+            /*
+             * Set the values, if the variable has multiple values (determined
+             * in the previous step), then get rid of the wrapping parent node
+             * "initialValues"
+             */
+            List<Element> valueElements = new ArrayList<Element>();
+            if (isArray) {
+                valueElements = getChildNodesByTagName(
+                        (Element) variableElement.getFirstChild(),
+                        DWDLNames.initValue);
+            } else {
+                valueElements = getChildNodesByTagName(variableElement,
+                        DWDLNames.initValue);
+            }
+            for (Element valueElement : valueElements) {
+                if (valueElement.getFirstChild().getNodeValue() != null) {
+                    variable.getValues().add(
+                            new String(valueElement.getFirstChild()
+                                    .getNodeValue()));
+                }
+            }
+
+            /* Add variable to model */
+            variables.add(variable);
+        }
+    }
+
+    private void createWorkflowProperties(Element root, WorkflowModel workflow) {
+
+        /* Set workflow name, id and description */
+        workflow.setName(root.getAttribute(DWDLNames.name));
+        workflow.setId(new Long(root.getAttribute(DWDLNames.id)));
+        for (int i = 0; i < root.getChildNodes().getLength(); i++) {
+            /*
+             * Go through all child nodes until node with name "description" is
+             * found
+             */
+            Node childNode = root.getChildNodes().item(i);
+            if (childNode.getNodeName().equals(DWDLNames.description)
+                    && (childNode.getFirstChild() != null)) {
+                workflow.setDescription(childNode.getFirstChild()
+                        .getNodeValue());
+            }
+        }
+        WorkflowProperties properties = new WorkflowProperties();
+
+        /* parse faultHandlerElement and set fault message id and recipient */
+        Element faultHandler = getChildNodesByTagName(root,
+                DWDLNames.faultHandler).get(0);
+        properties.setFaultMessageVariableId(getVariableIdFromPropertyElement(
+                faultHandler, DWDLNames.message));
+        Element recipient = getChildNodesByTagName(faultHandler,
+                DWDLNames.recipient).get(0);
+        properties.setRecipientVariableId(getVariableIdFromPropertyElement(
+                recipient, DWDLNames.name));
+
+        /*
+         * parse endNode and set success message and notification. endNode is a
+         * child of the nodes element.
+         */
+        if (getChildNodesByTagName(
+                getChildNodesByTagName(root, DWDLNames.nodes).get(0),
+                DWDLNames.endNode) != null) {
+            Element endNode = getChildNodesByTagName(
+                    getChildNodesByTagName(root, DWDLNames.nodes).get(0),
+                    DWDLNames.endNode).get(0);
+            // notification of success is optional
+            if (getChildNodesByTagName(endNode, DWDLNames.notificationOfSuccess)
+                    .isEmpty() == false) {
+                // if notification is existent, this attribute is always true
+                properties.setNotifyOnSuccess(true);
+
+                Element notification = getChildNodesByTagName(endNode,
+                        DWDLNames.notificationOfSuccess).get(0);
+                properties
+                        .setSuccessMessageVariableId(getVariableIdFromPropertyElement(
+                                notification, DWDLNames.successMsg));
+            } else {
+                properties.setNotifyOnSuccess(false);
+            }
+        }
+        workflow.setProperties(properties);
+    }
+
+    private void createXmlProperties(Element root, WorkflowModel workflow) {
+        XmlProperties xmlProperties = new XmlProperties();
+
+        /* namespace and schema */
+        xmlProperties.setNamespace(root.getAttribute(DWDLNames.namespace));
+        xmlProperties.setSchema(root.getAttribute(DWDLNames.schema));
+
+        workflow.setXmlProperties(xmlProperties);
+    }
+
+    /**
+     * Returns a {@link List} of all child elements of a given element.
+     * 
+     * @param parent
+     *            the parent element
+     * @return the list of all children
+     */
+    private List<Element> getChildElementsAsList(Element parent) {
+        List<Element> list = new ArrayList<Element>();
+
+        for (int i = 0; i < parent.getChildNodes().getLength(); i++) {
+            list.add((Element) parent.getChildNodes().item(i));
+        }
+
+        return list;
+    }
+
+    /**
+     * Returns a list of all child elements of a given element that have a
+     * certain tag name.
+     * 
+     * @param parent
+     *            the parent element
+     * @param tagName
+     *            the tag name to search for
+     * @return the list
+     */
+    private List<Element> getChildNodesByTagName(Element parent, String tagName) {
+        List<Element> result = new ArrayList<Element>();
+
+        for (int i = 0; i < parent.getChildNodes().getLength(); i++) {
+            Node child = parent.getChildNodes().item(i);
+            if (child.getNodeName().equals(tagName)) {
+                result.add((Element) child);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -884,44 +855,71 @@ public class DWDLParserImpl implements DWDLParser {
         return resultConnection;
     }
 
-    /**
-     * Returns a list of all child elements of a given element that have a
-     * certain tag name.
-     * 
-     * @param parent
-     *            the parent element
-     * @param tagName
-     *            the tag name to search for
-     * @return the list
-     */
-    private List<Element> getChildNodesByTagName(Element parent, String tagName) {
-        List<Element> result = new ArrayList<Element>();
-
-        for (int i = 0; i < parent.getChildNodes().getLength(); i++) {
-            Node child = parent.getChildNodes().item(i);
-            if (child.getNodeName().equals(tagName)) {
-                result.add((Element) child);
+    private Long getVariableIdFromPropertyElement(Element parent,
+            String propertyName) {
+        Long variableId = null;
+        /*
+         * Go through all child nodes which are properties. If the name
+         * attribute of a property matches propertyName, that's the element we
+         * want to get the variableId from.
+         */
+        for (Element property : getChildNodesByTagName(parent,
+                DWDLNames.setProperty)) {
+            if (property.getAttribute(DWDLNames.name).equals(propertyName)
+                    && (property.getAttribute(DWDLNames.variable) != null)) {
+                variableId = NCNameFactory.createIdFromNCName(property
+                        .getAttribute(DWDLNames.variable));
             }
         }
-
-        return result;
+        return variableId;
     }
 
-    /**
-     * Returns a {@link List} of all child elements of a given element.
+    /*
+     * (non-Javadoc)
      * 
-     * @param parent
-     *            the parent element
-     * @return the list of all children
+     * @see de.decidr.modelingtool.client.io.DWDLParser#parse(java.lang.String)
      */
-    private List<Element> getChildElementsAsList(Element parent) {
-        List<Element> list = new ArrayList<Element>();
+    @Override
+    public WorkflowModel parse(String dwdl) {
+        Document doc;
+        doc = XMLParser.createDocument();
+        doc = XMLParser.parse(dwdl);
 
-        for (int i = 0; i < parent.getChildNodes().getLength(); i++) {
-            list.add((Element) parent.getChildNodes().item(i));
-        }
+        WorkflowModel workflow = new WorkflowModel();
 
-        return list;
+        Element root = (Element) doc.getElementsByTagName(DWDLNames.root).item(
+                0);
+
+        createXmlProperties(root, workflow);
+        createWorkflowProperties(root, workflow);
+
+        /* Create variables and roles */
+        List<Variable> variables = new ArrayList<Variable>();
+        createVariables(root, variables);
+        createRoles(root, variables);
+        workflow.setVariables(variables);
+
+        /* Create nodes */
+        createChildNodeModels(root, workflow, workflow);
+
+        return workflow;
     }
 
+    private void setGraphics(Element node, NodeModel model) {
+        Element graphics = getChildNodesByTagName(node, DWDLNames.graphics)
+                .get(0);
+
+        /* Set position */
+        Integer left = new Integer(graphics.getAttribute(DWDLNames.x));
+        Integer top = new Integer(graphics.getAttribute(DWDLNames.y));
+        model.setChangeListenerPosition(left, top);
+
+        /* If model is a container, it has also a width and height */
+        if (model instanceof ContainerModel) {
+            Integer height = new Integer(graphics
+                    .getAttribute(DWDLNames.height));
+            Integer width = new Integer(graphics.getAttribute(DWDLNames.width));
+            ((ContainerModel) model).setChangeListenerSize(width, height);
+        }
+    }
 }

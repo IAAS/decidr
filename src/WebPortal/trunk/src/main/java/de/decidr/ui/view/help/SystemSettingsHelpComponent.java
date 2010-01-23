@@ -39,16 +39,15 @@ public class SystemSettingsHelpComponent extends VerticalLayout {
     public SystemSettingsHelpComponent() {
         setMargin(false, true, true, true);
 
-        editSettingsLabel = new Label("<ol>"
-                +"<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the &quot;System Settings&quot; navigation link.</li>"
-                + "<li>The system displays the following information:"
-                + "<ul>"
-                + "<li>Whether the super admin must confirm all new tenants or they are accepted automatically.</li>"
-                + "<li>Amount of logic to perform.</li>"
-                //TODO: complete this list
-                + "</ul></li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        editSettingsLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking on the &quot;System Settings&quot; navigation link.</li>"
+                        + "<li>The system displays the following information:"
+                        + "<ul>"
+                        + "<li>Whether the super admin must confirm all new tenants or they are accepted automatically.</li>"
+                        + "<li>Amount of logic to perform.</li>"
+                        // TODO: complete this list
+                        + "</ul></li>" + "</ol><br/>", Label.CONTENT_XHTML);
         editSettingsLabel.setVisible(false);
         editSettingsButton = new Button("How to edit system settings?",
                 new ToggleLabelAction(editSettingsLabel));

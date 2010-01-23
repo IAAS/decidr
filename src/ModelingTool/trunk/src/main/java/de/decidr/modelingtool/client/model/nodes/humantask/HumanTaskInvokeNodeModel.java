@@ -46,18 +46,6 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         this.name = this.getClass().getName();
     }
 
-    public Long getUserVariableId() {
-        return properties.get(userFieldName);
-    }
-
-    public Long getWorkItemNameVariableId() {
-        return properties.get(workItemNameFieldName);
-    }
-
-    public Long getWorkItemDescriptionVariableId() {
-        return properties.get(workItemDescriptionFieldName);
-    }
-
     public Long getFormVariableId() {
         return properties.get(formFieldName);
     }
@@ -70,18 +58,16 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
         return properties.get(taskItemsFieldName);
     }
 
-    public void setUserVariableId(Long userVariableId) {
-        this.properties.set(this.userFieldName, userVariableId);
+    public Long getUserVariableId() {
+        return properties.get(userFieldName);
     }
 
-    public void setWorkItemNameVariableId(Long workItemNameVariableId) {
-        this.properties.set(this.workItemNameFieldName, workItemNameVariableId);
+    public Long getWorkItemDescriptionVariableId() {
+        return properties.get(workItemDescriptionFieldName);
     }
 
-    public void setWorkItemDescriptionVariableId(
-            Long workItemDescriptionVariableId) {
-        this.properties.set(this.workItemDescriptionFieldName,
-                workItemDescriptionVariableId);
+    public Long getWorkItemNameVariableId() {
+        return properties.get(workItemNameFieldName);
     }
 
     public void setFormVariableId(Long formVariableId) {
@@ -94,6 +80,20 @@ public class HumanTaskInvokeNodeModel extends InvokeNodeModel {
 
     public void setTaskItems(List<TaskItem> taskItems) {
         this.properties.set(this.taskItemsFieldName, taskItems);
+    }
+
+    public void setUserVariableId(Long userVariableId) {
+        this.properties.set(this.userFieldName, userVariableId);
+    }
+
+    public void setWorkItemDescriptionVariableId(
+            Long workItemDescriptionVariableId) {
+        this.properties.set(this.workItemDescriptionFieldName,
+                workItemDescriptionVariableId);
+    }
+
+    public void setWorkItemNameVariableId(Long workItemNameVariableId) {
+        this.properties.set(this.workItemNameFieldName, workItemNameVariableId);
     }
 
 }

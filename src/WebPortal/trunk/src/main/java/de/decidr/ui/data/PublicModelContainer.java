@@ -39,7 +39,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * This container holds the public workflow models. The models are represented
  * as {@link Item items} in a table.<br>
- * Aleks: update comment: not an Item
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -68,7 +68,7 @@ public class PublicModelContainer extends BeanItemContainer<WorkflowModelBean> {
 
     /**
      * The public model {@link Item items} are added to the container.<br>
-     * Aleks: update comment: not an Item
+     * TODO: update comment: not an Item
      */
     public PublicModelContainer() {
         super(WorkflowModelBean.class);

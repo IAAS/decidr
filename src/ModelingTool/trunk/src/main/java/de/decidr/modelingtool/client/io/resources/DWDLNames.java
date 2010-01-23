@@ -131,5 +131,4 @@ public class DWDLNames {
     public static String startNode = "startNode";
     public static String successMsg = "successMessage";
     public static String userNotification = "userNotification";
-
 }

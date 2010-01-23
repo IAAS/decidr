@@ -45,26 +45,6 @@ public class RemoveConnectionCommand implements UndoableCommand {
     }
 
     @Override
-    public void undo() {
-        // add start drag box
-        ConnectionDragBox startDragBox = connection.getStartDragBox();
-        startDragBox.getGluedPort().addConnectionDragBox(startDragBox);
-
-        // add end drag box
-        ConnectionDragBox endDragBox = connection.getEndDragBox();
-        endDragBox.getGluedPort().addConnectionDragBox(endDragBox);
-
-        // add connection to parent panel
-        connection.getParentPanel().addConnection(connection);
-        connection.draw();
-
-        // link model
-        model.getParentModel().addConnectionModel(model);
-        model.getSource().setOutput(model);
-        model.getTarget().setInput(model);
-    }
-
-    @Override
     public void execute() {
         // remove start drag box
         ConnectionDragBox startDragBox = connection.getStartDragBox();
@@ -84,4 +64,23 @@ public class RemoveConnectionCommand implements UndoableCommand {
         model.getTarget().setInput(null);
     }
 
+    @Override
+    public void undo() {
+        // add start drag box
+        ConnectionDragBox startDragBox = connection.getStartDragBox();
+        startDragBox.getGluedPort().addConnectionDragBox(startDragBox);
+
+        // add end drag box
+        ConnectionDragBox endDragBox = connection.getEndDragBox();
+        endDragBox.getGluedPort().addConnectionDragBox(endDragBox);
+
+        // add connection to parent panel
+        connection.getParentPanel().addConnection(connection);
+        connection.draw();
+
+        // link model
+        model.getParentModel().addConnectionModel(model);
+        model.getSource().setOutput(model);
+        model.getTarget().setInput(model);
+    }
 }

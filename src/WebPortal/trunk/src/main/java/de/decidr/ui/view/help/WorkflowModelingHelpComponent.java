@@ -60,14 +60,14 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
     public WorkflowModelingHelpComponent() {
         setMargin(false, true, true, true);
 
-        createNewWorkflowModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to the workflow modeling section by clicking"
-                + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
-                + "<li>Click on the &quot;Create new model&quot; button.</li>"
-                + "<li>Fill out the input box named &quot;Create new model&quot; and confirm.</li>"
-                + "<li>Now the new workflow model will be displayed in the workflow model editor for further editing.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        createNewWorkflowModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
+                        + "<li>Click on the &quot;Create new model&quot; button.</li>"
+                        + "<li>Fill out the input box named &quot;Create new model&quot; and confirm.</li>"
+                        + "<li>Now the new workflow model will be displayed in the workflow model editor for further editing.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         createNewWorkflowModelLabel.setVisible(false);
         createNewWorkflowModelButton = new Button(
                 "How do I create a new workflow model?", new ToggleLabelAction(
@@ -77,12 +77,12 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(createNewWorkflowModelButton);
         this.addComponent(createNewWorkflowModelLabel);
 
-        deleteWorkflowModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to the workflow modeling section by clicking"
-                + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
-                + "<li>Select one or more models you want to delete and click on the &quot;Remove&quot; button.</li>"
-                + "<li>Confirm the deletion.</li>"
-                + "</ol><br/>",
+        deleteWorkflowModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
+                        + "<li>Select one or more models you want to delete and click on the &quot;Remove&quot; button.</li>"
+                        + "<li>Confirm the deletion.</li>" + "</ol><br/>",
                 Label.CONTENT_XHTML);
         deleteWorkflowModelLabel.setVisible(false);
         deleteWorkflowModelButton = new Button(
@@ -93,13 +93,13 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(deleteWorkflowModelButton);
         this.addComponent(deleteWorkflowModelLabel);
 
-        lockWorkflowModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to the workflow modeling section by clicking"
-                + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
-                + "<li>Select one or more models you want to lock/unlock and press the &quot;Lock/unlock&quot; button.</li>"
-                + "<li>The system locks/unlock every selected workflow model.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        lockWorkflowModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
+                        + "<li>Select one or more models you want to lock/unlock and press the &quot;Lock/unlock&quot; button.</li>"
+                        + "<li>The system locks/unlock every selected workflow model.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         lockWorkflowModelLabel.setVisible(false);
         lockWorkflowModelButton = new Button(
                 "How do I lock/unlock workflow models?", new ToggleLabelAction(
@@ -109,14 +109,14 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(lockWorkflowModelButton);
         this.addComponent(lockWorkflowModelLabel);
 
-        importWorkflowModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
-                + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
-                + "<li>Click on the &quot;Import from file&quot; link.</li>"
-                + "<li>Choose the file you want to upload.</li>"
-                + "<li>If the uploaded file is a valid workflow model, the system adds the uploaded"
-                + " workflow model to the tenant.</li>"
-                + "</ol><br/>",
+        importWorkflowModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
+                        + "<li>Click on the &quot;Import from file&quot; link.</li>"
+                        + "<li>Choose the file you want to upload.</li>"
+                        + "<li>If the uploaded file is a valid workflow model, the system adds the uploaded"
+                        + " workflow model to the tenant.</li>" + "</ol><br/>",
                 Label.CONTENT_XHTML);
         importWorkflowModelLabel.setVisible(false);
         importWorkflowModelButton = new Button(
@@ -127,12 +127,12 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(importWorkflowModelButton);
         this.addComponent(importWorkflowModelLabel);
 
-        exportWorkflowModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
-                + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
-                + "<li>Select the workflow model you want to download and click on the &quot;Download&quot; link.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        exportWorkflowModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
+                        + "<li>Select the workflow model you want to download and click on the &quot;Download&quot; link.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         exportWorkflowModelLabel.setVisible(false);
         exportWorkflowModelButton = new Button(
                 "How do I export a workflow model to a file?",
@@ -142,12 +142,12 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(exportWorkflowModelButton);
         this.addComponent(exportWorkflowModelLabel);
 
-        publishWorkflowModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
-                + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
-                + "<li>Select the workflow model you want to publish and click on the &quot;Publish&quot; button.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        publishWorkflowModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
+                        + "<li>Select the workflow model you want to publish and click on the &quot;Publish&quot; button.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         publishWorkflowModelLabel.setVisible(false);
         publishWorkflowModelButton = new Button(
                 "How do I publish workflow models?", new ToggleLabelAction(
@@ -157,12 +157,12 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(publishWorkflowModelButton);
         this.addComponent(publishWorkflowModelLabel);
 
-        unpublishWorkflowModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
-                + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
-                + "<li>Remove the &quot;published&quot; flags from workflow models you want to unpublish.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        unpublishWorkflowModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Create/edit workflow models&quot; navigation link.</li>"
+                        + "<li>Remove the &quot;published&quot; flags from workflow models you want to unpublish.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         unpublishWorkflowModelLabel.setVisible(false);
         unpublishWorkflowModelButton = new Button(
                 "How do I unpublish workflow models?", new ToggleLabelAction(
@@ -172,17 +172,17 @@ public class WorkflowModelingHelpComponent extends VerticalLayout {
         this.addComponent(unpublishWorkflowModelButton);
         this.addComponent(unpublishWorkflowModelLabel);
 
-        appointWorkflowAdminLabel = new Label("<ol>"
-                + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
-                + " on the &quot;Models&quot; navigation link.</li>"
-                + "<li>Select a workflow model and then choose &quot;Appoint workflow admins&quot;.</li>"
-                + "<li>Choose one of the following options from the selection field:<ol>"
-                + "<li>Appoint yourself as the workflow admin.</li>"
-                + "<li>Enter the usernames of registered DecidR users.</li>"
-                + "<li>Enter the email addresses of the desired workflow admins.</li></ol><li>"
-                + "<li>Confirm it be pressing the &quot;OK&quot; button.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        appointWorkflowAdminLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR as tenant admin and navigate to the workflow modeling section by clicking"
+                        + " on the &quot;Models&quot; navigation link.</li>"
+                        + "<li>Select a workflow model and then choose &quot;Appoint workflow admins&quot;.</li>"
+                        + "<li>Choose one of the following options from the selection field:<ol>"
+                        + "<li>Appoint yourself as the workflow admin.</li>"
+                        + "<li>Enter the usernames of registered DecidR users.</li>"
+                        + "<li>Enter the email addresses of the desired workflow admins.</li></ol><li>"
+                        + "<li>Confirm it be pressing the &quot;OK&quot; button.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         appointWorkflowAdminLabel.setVisible(false);
         appointWorkflowAdminButton = new Button(
                 "How do I appoint workflow admins?", new ToggleLabelAction(

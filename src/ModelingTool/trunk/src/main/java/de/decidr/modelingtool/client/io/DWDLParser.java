@@ -35,5 +35,4 @@ public interface DWDLParser {
      * @return {@link WorkflowModel}
      */
     public WorkflowModel parse(String dwdl);
-
 }

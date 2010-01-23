@@ -36,7 +36,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * This container holds all completed workflow instances. These {@link Item
  * items} will be shown in a table.<br>
- * Aleks: update comment: not an Item
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -64,7 +64,7 @@ public class CompletedInstancesContainer extends
 
     /**
      * Adds completed instance {@link Item items} to the container.<br>
-     * Aleks: update comment: not an Item
+     * TODO: update comment: not an Item
      */
     public CompletedInstancesContainer() {
         super(WorkflowInstanceBean.class);

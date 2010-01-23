@@ -106,25 +106,22 @@ public class RegisterUserWithInvitationAction implements ClickListener {
                     }
                 }
 
-                
                 String invDescription = "";
-                
+
                 if (concern == null) {
                     invDescription = "You received an invitation.<br/>"
-                        + "Sender: " + invitationItem.getSenderFirstName()
-                        + " " + invitationItem.getSenderLastName()
-                        + "<br/><br/>"
-                        + "Do you want to confirm this invitation?";
-                }else{
+                            + "Sender: " + invitationItem.getSenderFirstName()
+                            + " " + invitationItem.getSenderLastName()
+                            + "<br/><br/>"
+                            + "Do you want to confirm this invitation?";
+                } else {
                     invDescription = "You received an invitation.<br/>"
-                        + "Sender: " + invitationItem.getSenderFirstName()
-                        + " " + invitationItem.getSenderLastName()
-                        + "<br/><br/>" + "You have been invited to: " + concern
-                        + "<br/><br/>"
-                        + "Do you want to confirm this invitation?";
+                            + "Sender: " + invitationItem.getSenderFirstName()
+                            + " " + invitationItem.getSenderLastName()
+                            + "<br/><br/>" + "You have been invited to: "
+                            + concern + "<br/><br/>"
+                            + "Do you want to confirm this invitation?";
                 }
-
-                
 
                 Main.getCurrent().getMainWindow().addWindow(
                         new InvitationDialogComponent(invDescription,

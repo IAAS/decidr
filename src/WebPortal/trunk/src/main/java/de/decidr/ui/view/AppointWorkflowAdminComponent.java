@@ -52,7 +52,7 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     private Label descriptionLabel = null;
     private Button addField = null;
     private Button appointUsers = null;
-    
+
     private UserFacade userFacade = null;
 
     /**
@@ -78,11 +78,12 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
     /**
      * Initializes the components for the {@link AppointWorkflowAdminComponent}.
      */
-    
+
     private void init() {
         TextField appointSelf = null;
-        Long userId = (Long) Main.getCurrent().getSession().getAttribute("userId");
-        userFacade = new UserFacade (new TenantAdminRole(userId));
+        Long userId = (Long) Main.getCurrent().getSession().getAttribute(
+                "userId");
+        userFacade = new UserFacade(new TenantAdminRole(userId));
 
         userCounter = 1;
         verticalLayout = new VerticalLayout();
@@ -104,7 +105,8 @@ public class AppointWorkflowAdminComponent extends CustomComponent {
         appointSelf = new TextField();
         appointSelf.setCaption("Username:");
         try {
-            appointSelf.setValue(userFacade.getUserProfile(userId).getUserProfile().getUsername());
+            appointSelf.setValue(userFacade.getUserProfile(userId)
+                    .getUserProfile().getUsername());
         } catch (ReadOnlyException e) {
             appointSelf.setValue("");
         } catch (ConversionException e) {

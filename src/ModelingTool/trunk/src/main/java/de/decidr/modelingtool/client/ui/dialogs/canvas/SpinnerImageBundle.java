@@ -26,10 +26,10 @@ import com.google.gwt.user.client.ui.ImageBundle;
  */
 public interface SpinnerImageBundle extends ImageBundle {
 
-    @Resource("de/decidr/modelingtool/public/images/icons/up.png")
-    public AbstractImagePrototype up();
-
     @Resource("de/decidr/modelingtool/public/images/icons/down.png")
     public AbstractImagePrototype down();
+
+    @Resource("de/decidr/modelingtool/public/images/icons/up.png")
+    public AbstractImagePrototype up();
 
 }

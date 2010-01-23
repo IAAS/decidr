@@ -32,7 +32,6 @@ import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
-
 import de.decidr.ui.beans.UserBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -40,7 +39,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * The container holds the users. The users are represented as {@link Item
  * items} in a table.<br>
- * Aleks: update comment: not an Item
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -52,7 +51,7 @@ public class UserListContainer extends BeanItemContainer<UserBean> {
     private HttpSession session = Main.getCurrent().getSession();
 
     private Role role = (Role) session.getAttribute("role");
-    private Long tenantId = (Long)session.getAttribute("tenantId");
+    private Long tenantId = (Long) session.getAttribute("tenantId");
 
     UserFacade userFacade = new UserFacade(role);
     TenantFacade tenantFacade = new TenantFacade(role);
@@ -65,19 +64,19 @@ public class UserListContainer extends BeanItemContainer<UserBean> {
 
     public static final String[] COL_HEADERS = new String[] { "Username",
             "First Name", "Surname", "Email",
-            // Aleks: shouldn't this be "Disabled"?
+            // TODO: shouldn't this be "Disabled"?
             "Deactivated", "Unavailable" };
 
     /**
      * The user {@link Item items} are added to the container.<br>
-     * Aleks: update comment: not an Item
+     * TODO: update comment: not an Item
      */
     public UserListContainer() {
         super(UserBean.class);
         try {
-            if(role instanceof SuperAdminRole){
+            if (role instanceof SuperAdminRole) {
                 userList = userFacade.getAllUsers(null, null);
-            }else if(role instanceof TenantAdminRole){
+            } else if (role instanceof TenantAdminRole) {
                 userList = tenantFacade.getUsersOfTenant(tenantId, null);
             }
             UserBean userBean;

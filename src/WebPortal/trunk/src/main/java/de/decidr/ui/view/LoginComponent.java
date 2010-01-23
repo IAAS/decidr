@@ -75,6 +75,17 @@ public class LoginComponent extends CustomComponent implements Handler {
         init(invD);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.vaadin.event.Action.Handler#getActions(java.lang.Object,
+     * java.lang.Object)
+     */
+    @Override
+    public Action[] getActions(Object target, Object sender) {
+        return new Action[] { loginAction };
+    }
+
     /**
      * Returns the password {@link TextField}.
      * 
@@ -91,6 +102,20 @@ public class LoginComponent extends CustomComponent implements Handler {
      */
     public TextField getUsernameTextField() {
         return usernameTextField;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.vaadin.event.Action.Handler#handleAction(com.vaadin.event.Action,
+     * java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public void handleAction(Action action, Object sender, Object target) {
+        if (action == loginAction) {
+            loginListener.buttonClick(loginButton.new ClickEvent(loginButton));
+        }
     }
 
     /**
@@ -142,30 +167,5 @@ public class LoginComponent extends CustomComponent implements Handler {
         verticalLayout.addComponent(loginButton);
         verticalLayout.addComponent(forgotPasswordButton);
         verticalLayout.addComponent(registerButton);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.vaadin.event.Action.Handler#getActions(java.lang.Object,
-     * java.lang.Object)
-     */
-    @Override
-    public Action[] getActions(Object target, Object sender) {
-        return new Action[] { loginAction };
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.event.Action.Handler#handleAction(com.vaadin.event.Action,
-     * java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public void handleAction(Action action, Object sender, Object target) {
-        if (action == loginAction) {
-            loginListener.buttonClick(loginButton.new ClickEvent(loginButton));
-        }
     }
 }

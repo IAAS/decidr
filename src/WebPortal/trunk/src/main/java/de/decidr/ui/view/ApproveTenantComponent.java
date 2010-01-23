@@ -65,6 +65,20 @@ public class ApproveTenantComponent extends CustomComponent {
         init();
     }
 
+    private void fillButtonList() {
+        buttonList = new LinkedList<Button>();
+
+        approveButton = new Button("Approve", new ApproveTenantsAction(
+                approveTenantTable));
+        declineButton = new Button("Decline", new DeclineTenantsAction(
+                approveTenantTable));
+
+        buttonList.add(approveButton);
+        buttonList.add(declineButton);
+
+        buttonPanel = new ButtonPanel(buttonList);
+    }
+
     /**
      * This method initializes the components for the approve tenant component.
      */
@@ -89,19 +103,5 @@ public class ApproveTenantComponent extends CustomComponent {
         verticalLayout.addComponent(approveTenantTable);
         verticalLayout.addComponent(buttonPanel);
 
-    }
-
-    private void fillButtonList() {
-        buttonList = new LinkedList<Button>();
-
-        approveButton = new Button("Approve", new ApproveTenantsAction(
-                approveTenantTable));
-        declineButton = new Button("Decline", new DeclineTenantsAction(
-                approveTenantTable));
-
-        buttonList.add(approveButton);
-        buttonList.add(declineButton);
-
-        buttonPanel = new ButtonPanel(buttonList);
     }
 }

@@ -119,7 +119,7 @@ public class Login {
 
             TenantFacade tenantFacade = new TenantFacade(roleInstance);
             tenantName = tenantFacade.getTenant(tenantId).getName();
-            
+
             session.setAttribute("userId", userId);
             session.setAttribute("tenantId", tenantId);
             session.setAttribute("role", roleInstance);
@@ -138,15 +138,49 @@ public class Login {
     }
 
     /**
-     * Provides the same functionality as authenticate(..) but requires a user id
-     * and an authentification key.
-     * Should be used if login is executed by clicking i.e. an email link.
-     *
+     * Loads the protected resources if and only if the user is logged in.
+     */
+    private void loadProtectedResources() {
+        if (UserRole.class.equals(role) || (role == null)) {
+            uiBuilder = new UserViewBuilder();
+            uiDirector.setUiBuilder(uiBuilder);
+        } else if (WorkflowAdminRole.class.equals(role)) {
+            uiBuilder = new WorkflowAdminViewBuilder();
+            uiDirector.setUiBuilder(uiBuilder);
+        } else if (TenantAdminRole.class.equals(role)) {
+            uiBuilder = new TenantAdminViewBuilder();
+            uiDirector.setUiBuilder(uiBuilder);
+        } else if (SuperAdminRole.class.equals(role)) {
+            uiBuilder = new SuperAdminViewBuilder();
+            uiDirector.setUiBuilder(uiBuilder);
+        } else {
+            Main
+                    .getCurrent()
+                    .getMainWindow()
+                    .addWindow(
+                            new InformationDialogComponent(
+                                    "Failed to load your resources due to a unknown role class.<br/>"
+                                            + "Please inform the systems' administrator if this error occurs repeatedly.",
+                                    "Login Failure"));
+        }
+
+        uiDirector.constructView();
+
+        tenantView = new TenantView();
+        tenantView.synchronize();
+        Main.getCurrent().setTheme(tenantName);
+    }
+
+    /**
+     * Provides the same functionality as authenticate(..) but requires a user
+     * id and an authentification key. Should be used if login is executed by
+     * clicking i.e. an email link.
+     * 
      * @param userId
      *            ID of the user to be logged in
      * @param authentificationKey
-     *          auth key of the user to be logged in. If is not accepted by
-     *          the facade, login fails
+     *            auth key of the user to be logged in. If is not accepted by
+     *            the facade, login fails
      */
     public void loginById(Long userId, String authentificationKey)
             throws EntityNotFoundException, TransactionException {
@@ -176,7 +210,7 @@ public class Login {
             } catch (Exception exception) {
                 throw new RuntimeException(exception);
             }
-            
+
             TenantFacade tenantFacade = new TenantFacade(roleInstance);
             tenantName = tenantFacade.getTenant(tenantId).getName();
 
@@ -186,36 +220,5 @@ public class Login {
 
             loadProtectedResources();
         }
-    }
-
-    /**
-     * Loads the protected resources if and only if the user is logged in.
-     */
-    private void loadProtectedResources() {
-        if (UserRole.class.equals(role) || role == null) {
-            uiBuilder = new UserViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (WorkflowAdminRole.class.equals(role)) {
-            uiBuilder = new WorkflowAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (TenantAdminRole.class.equals(role)) {
-            uiBuilder = new TenantAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else if (SuperAdminRole.class.equals(role)) {
-            uiBuilder = new SuperAdminViewBuilder();
-            uiDirector.setUiBuilder(uiBuilder);
-        } else {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                    "Failed to load your resources due to a unknown role class.<br/>"+
-                    "Please inform the systems' administrator if this error occurs repeatedly.",
-                    "Login Failure"));
-        }
-
-        uiDirector.constructView();
-
-        tenantView = new TenantView();
-        tenantView.synchronize();
-        Main.getCurrent().setTheme(tenantName);
     }
 }

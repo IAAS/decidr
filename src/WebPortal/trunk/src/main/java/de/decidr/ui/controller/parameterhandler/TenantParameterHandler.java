@@ -67,13 +67,16 @@ public class TenantParameterHandler implements ParameterHandler {
             key = it.next();
             value = ((String[]) parameters.get(key))[0];
             try {
-                if (key.equals(URLGenerator.URL_PARAM_TENANT_NAME )) {
-                    if (! tenantName.equals("")) {
-                        Main.getCurrent().getMainWindow().addWindow(
-                                new InformationDialogComponent(
-                                        "Your tenant link contained more "+
-                                        "parameters than expected and might be "+
-                                        "invalid.", "Error"));
+                if (key.equals(URLGenerator.URL_PARAM_TENANT_NAME)) {
+                    if (!tenantName.equals("")) {
+                        Main
+                                .getCurrent()
+                                .getMainWindow()
+                                .addWindow(
+                                        new InformationDialogComponent(
+                                                "Your tenant link contained more "
+                                                        + "parameters than expected and might be "
+                                                        + "invalid.", "Error"));
                     }
                     tenantName = value;
                 }

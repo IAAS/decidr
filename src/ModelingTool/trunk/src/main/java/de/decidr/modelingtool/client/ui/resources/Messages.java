@@ -26,193 +26,193 @@ import com.google.gwt.i18n.client.Constants;
  */
 public interface Messages extends Constants {
 
-    /* Menu */
-    String confirmClearWorkflow();
+    String addTaskItem();
 
-    String variablesMenuItem();
+    String addValue();
 
-    String propertiesMenuItem();
+    String andConLabel();
 
-    String operationNotAllowedMessage();
+    String attachmentFieldLabel();
 
-    /* Workflow */
-    String workflowProperty();
+    String bccFieldLabel();
 
-    String recipientFieldLabel();
+    String cancelButton();
 
-    String faultMessageFieldLabel();
-
-    String successMessageFieldLabel();
-
-    String notifyCheckBox();
+    String ccFieldLabel();
 
     /* Nodes */
     String changePropertyButton();
 
-    String notDeletableMessage();
-
-    String noPropertyWindowMessage();
-
-    /* Email */
-    String emailActivity();
-
-    String toFieldLabel();
-
-    String ccFieldLabel();
-
-    String bccFieldLabel();
-
-    String subjectFieldLabel();
-
-    String messageFieldLabel();
-
-    String attachmentFieldLabel();
-
     String changeValueButton();
-
-    String emailActivityWarning();
-
-    /* Human task */
-    String humanTaskActivity();
-
-    String taskData();
-
-    String userLabel();
-
-    String taskNameLabel();
-
-    String descriptionLabel();
-
-    String formLabel();
-
-    String notifyLabel();
-
-    String editTaskItems();
-
-    String taskItemForm();
-
-    String taskItemLabel();
-
-    String taskItemHint();
-
-    String taskItemInputVar();
-
-    String addTaskItem();
-
-    String delTaskItem();
-
-    String humanTaskActivityWarning();
-
-    String taskItemWarning();
-
-    /* For Each container */
-    String forEachContainer();
-
-    String iterationVarLabel();
-
-    String exitConLabel();
-
-    String andConLabel();
-
-    String xorConLabel();
-
-    String parallelLabel();
-
-    String flowContainerWarning();
-
-    /* If container */
-    String ifContainer();
 
     String condition();
 
-    String defaultCondition();
-
     String conditionFieldsEmpty();
+
+    String conditionOrderWarning();
 
     String conditionTypeMismatch();
 
     String conditionWrongOperator();
 
-    String conditionOrderWarning();
+    String configLabel();
+
+    String configVarColumn();
+
+    /* Menu */
+    String confirmClearWorkflow();
+
+    String dateFormat();
+
+    String defaultCondition();
+
+    String delTaskItem();
+
+    String delValue();
+
+    String delVariable();
+
+    String descriptionLabel();
+
+    /* Canvas Size Editor */
+    String editCanvasSize();
+
+    String editorHeading();
+
+    String editTaskItems();
+
+    String editVariable();
+
+    /* Email */
+    String emailActivity();
+
+    String emailActivityWarning();
 
     /* Variable editor */
     String enterVariableName();
 
-    String newVariable();
+    String exitConLabel();
 
-    String delVariable();
+    String faultMessageFieldLabel();
 
-    String editVariable();
+    String flowContainerWarning();
 
-    String addValue();
+    /* For Each container */
+    String forEachContainer();
 
-    String delValue();
+    String formLabel();
 
-    String newStringValue();
+    String height();
 
-    String editorHeading();
+    /* Human task */
+    String humanTaskActivity();
 
-    String nameColumn();
+    String humanTaskActivityWarning();
 
-    String typeColumn();
-
-    String valueColumn();
-
-    String configVarColumn();
-
-    /* New Variable Window */
-    String nameLabel();
-
-    String typeLabel();
-
-    String configLabel();
-
-    /* ValueEditor */
-    String valueSingular();
-
-    String valuePlural();
-
-    String wrongSingular();
-
-    String wrongPlural();
+    /* If container */
+    String ifContainer();
 
     String invalidFormat();
 
     String invalidUserIds();
 
-    /* Canvas Size Editor */
-    String editCanvasSize();
+    String iterationVarLabel();
 
-    String width();
+    String messageFieldLabel();
 
-    String height();
+    String nameColumn();
 
-    String sizeMax();
+    /* New Variable Window */
+    String nameLabel();
 
-    /* windows common */
-    String warningTitle();
+    String newStringValue();
+
+    String newVariable();
+
+    String noPropertyWindowMessage();
+
+    String notDeletableMessage();
+
+    String notifyCheckBox();
+
+    String notifyLabel();
 
     String okButton();
 
-    String cancelButton();
+    String operationNotAllowedMessage();
+
+    String parallelLabel();
+
+    String propertiesMenuItem();
+
+    String recipientFieldLabel();
+
+    String sizeMax();
+
+    String subjectFieldLabel();
+
+    String successMessageFieldLabel();
+
+    String taskData();
+
+    String taskItemForm();
+
+    String taskItemHint();
+
+    String taskItemInputVar();
+
+    String taskItemLabel();
+
+    String taskItemWarning();
+
+    String taskNameLabel();
+
+    String toFieldLabel();
+
+    String typeBoolean();
+
+    String typeColumn();
+
+    String typeDate();
+
+    String typeFile();
+
+    String typeFloat();
+
+    String typeForm();
+
+    String typeInteger();
+
+    String typeLabel();
+
+    String typeRole();
 
     /* Variable types */
     String typeString();
 
-    String typeInteger();
+    String userLabel();
 
-    String typeFloat();
+    String valueColumn();
 
-    String typeBoolean();
+    String valuePlural();
 
-    String typeFile();
+    /* ValueEditor */
+    String valueSingular();
 
-    String typeDate();
+    String variablesMenuItem();
 
-    String typeRole();
+    /* windows common */
+    String warningTitle();
 
-    String typeForm();
+    String width();
 
-    String dateFormat();
+    /* Workflow */
+    String workflowProperty();
+
+    String wrongPlural();
+
+    String wrongSingular();
+
+    String xorConLabel();
 
 }

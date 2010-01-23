@@ -44,52 +44,52 @@ public class EmailInvokeNodeModel extends InvokeNodeModel {
         this.name = this.getClass().getName();
     }
 
-    public Long getToVariableId() {
-        return properties.get(toFieldName);
-    }
-
-    public Long getCcVariableId() {
-        return properties.get(ccFieldName);
+    public Long getAttachmentVariableId() {
+        return properties.get(attachmentFieldName);
     }
 
     public Long getBccVariableId() {
         return properties.get(bccFieldName);
     }
 
-    public Long getSubjectVariableId() {
-        return properties.get(subjectFieldName);
+    public Long getCcVariableId() {
+        return properties.get(ccFieldName);
     }
 
     public Long getMessageVariableId() {
         return properties.get(messageFieldName);
     }
 
-    public Long getAttachmentVariableId() {
-        return properties.get(attachmentFieldName);
+    public Long getSubjectVariableId() {
+        return properties.get(subjectFieldName);
     }
 
-    public void setToVariableId(Long toVariableId) {
-        this.properties.set(this.toFieldName, toVariableId);
+    public Long getToVariableId() {
+        return properties.get(toFieldName);
     }
 
-    public void setCcVariableId(Long ccVariableId) {
-        this.properties.set(this.ccFieldName, ccVariableId);
+    public void setAttachmentVariableId(Long attachmentVariableId) {
+        this.properties.set(this.attachmentFieldName, attachmentVariableId);
     }
 
     public void setBccVariableId(Long bccVariableId) {
         this.properties.set(this.bccFieldName, bccVariableId);
     }
 
-    public void setSubjectVariableId(Long subjectVariableId) {
-        this.properties.set(this.subjectFieldName, subjectVariableId);
+    public void setCcVariableId(Long ccVariableId) {
+        this.properties.set(this.ccFieldName, ccVariableId);
     }
 
     public void setMessageVariableId(Long messageVariableId) {
         this.properties.set(this.messageFieldName, messageVariableId);
     }
 
-    public void setAttachmentVariableId(Long attachmentVariableId) {
-        this.properties.set(this.attachmentFieldName, attachmentVariableId);
+    public void setSubjectVariableId(Long subjectVariableId) {
+        this.properties.set(this.subjectFieldName, subjectVariableId);
+    }
+
+    public void setToVariableId(Long toVariableId) {
+        this.properties.set(this.toFieldName, toVariableId);
     }
 
 }

@@ -26,11 +26,29 @@ import com.google.gwt.user.client.ui.MenuBar;
  */
 public interface MenuImageBundle extends MenuBar.MenuBarImages {
 
+    @Resource("de/decidr/modelingtool/public/images/menu/canvas.png")
+    public AbstractImagePrototype canvas();
+
     @Resource("de/decidr/modelingtool/public/images/menu/clear.png")
     public AbstractImagePrototype clear();
 
-    @Resource("de/decidr/modelingtool/public/images/menu/undo.png")
-    public AbstractImagePrototype undo();
+    @Resource("de/decidr/modelingtool/public/images/menu/delete.png")
+    public AbstractImagePrototype delete();
+
+    @Resource("de/decidr/modelingtool/public/images/menu/email.png")
+    public AbstractImagePrototype email();
+
+    @Resource("de/decidr/modelingtool/public/images/menu/flow.png")
+    public AbstractImagePrototype flowcontainer();
+
+    @Resource("de/decidr/modelingtool/public/images/menu/foreach.png")
+    public AbstractImagePrototype foreachcontainer();
+
+    @Resource("de/decidr/modelingtool/public/images/menu/humantask.png")
+    public AbstractImagePrototype humantask();
+
+    @Resource("de/decidr/modelingtool/public/images/menu/if.png")
+    public AbstractImagePrototype ifcontainer();
 
     @Resource("de/decidr/modelingtool/public/images/menu/redo.png")
     public AbstractImagePrototype redo();
@@ -38,25 +56,6 @@ public interface MenuImageBundle extends MenuBar.MenuBarImages {
     @Resource("de/decidr/modelingtool/public/images/menu/save.png")
     public AbstractImagePrototype save();
 
-    @Resource("de/decidr/modelingtool/public/images/menu/delete.png")
-    public AbstractImagePrototype delete();
-
-    @Resource("de/decidr/modelingtool/public/images/menu/canvas.png")
-    public AbstractImagePrototype canvas();
-
-    @Resource("de/decidr/modelingtool/public/images/menu/email.png")
-    public AbstractImagePrototype email();
-
-    @Resource("de/decidr/modelingtool/public/images/menu/humantask.png")
-    public AbstractImagePrototype humantask();
-
-    @Resource("de/decidr/modelingtool/public/images/menu/flow.png")
-    public AbstractImagePrototype flowcontainer();
-
-    @Resource("de/decidr/modelingtool/public/images/menu/if.png")
-    public AbstractImagePrototype ifcontainer();
-
-    @Resource("de/decidr/modelingtool/public/images/menu/foreach.png")
-    public AbstractImagePrototype foreachcontainer();
-
+    @Resource("de/decidr/modelingtool/public/images/menu/undo.png")
+    public AbstractImagePrototype undo();
 }

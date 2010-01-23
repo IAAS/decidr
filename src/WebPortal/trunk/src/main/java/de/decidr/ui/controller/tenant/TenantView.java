@@ -118,7 +118,8 @@ public class TenantView {
             }
             if (!cssFile.getParentFile().exists()) {
                 if (!cssFile.getParentFile().mkdirs()) {
-                    throw new IOException("Cannot create your tenants' layout directories.");
+                    throw new IOException(
+                            "Cannot create your tenants' layout directories.");
                 }
             }
             if (logoFile.exists()) {
@@ -126,7 +127,8 @@ public class TenantView {
             }
             if (!logoFile.getParentFile().exists()) {
                 if (!logoFile.getParentFile().mkdirs()) {
-                    throw new IOException("Cannot create your tenants' layout directories.");
+                    throw new IOException(
+                            "Cannot create your tenants' layout directories.");
                 }
             }
 
@@ -150,12 +152,16 @@ public class TenantView {
                 logo.close();
             }
         } catch (IOException exception) {
-            Main.getCurrent().getMainWindow().addWindow(
-                    new InformationDialogComponent(
-                            "An error occured while getting your tenant specific settings.<br/>"
-                            +"If this error occurs repeatedly please inform the systems' administrator.<br/><br/>"
-                            +"Error Description:<br/>" + exception.getMessage(),
-                            "Synchronization Error"));
+            Main
+                    .getCurrent()
+                    .getMainWindow()
+                    .addWindow(
+                            new InformationDialogComponent(
+                                    "An error occured while getting your tenant specific settings.<br/>"
+                                            + "If this error occurs repeatedly please inform the systems' administrator.<br/><br/>"
+                                            + "Error Description:<br/>"
+                                            + exception.getMessage(),
+                                    "Synchronization Error"));
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(e));

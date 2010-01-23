@@ -97,16 +97,16 @@ public class SaveProfileAction implements ClickListener {
         try {
             HibernateTransactionCoordinator.getInstance().runTransaction(cmd);
             userProfile = cmd.getResult().getUserProfile();
-            userProfile.setFirstName((String)content.getSettingsItem().getItemProperty(
-                    "firstName").getValue());
-            userProfile.setLastName((String)content.getSettingsItem().getItemProperty(
-                    "lastName").getValue());
-            userProfile.setCity((String)content.getSettingsItem().getItemProperty(
-                    "city").getValue());
-            userProfile.setPostalCode((String)content.getSettingsItem()
+            userProfile.setFirstName((String) content.getSettingsItem()
+                    .getItemProperty("firstName").getValue());
+            userProfile.setLastName((String) content.getSettingsItem()
+                    .getItemProperty("lastName").getValue());
+            userProfile.setCity((String) content.getSettingsItem()
+                    .getItemProperty("city").getValue());
+            userProfile.setPostalCode((String) content.getSettingsItem()
                     .getItemProperty("postalCode").getValue());
-            userProfile.setStreet((String)content.getSettingsItem().getItemProperty(
-                    "street").getValue());
+            userProfile.setStreet((String) content.getSettingsItem()
+                    .getItemProperty("street").getValue());
             return userProfile;
         } catch (TransactionException e) {
             Main.getCurrent().getMainWindow().addWindow(

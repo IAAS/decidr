@@ -81,7 +81,8 @@ public class LockWorkflowModelAction implements ClickListener {
 
                         Long id = workflowModelBean.getId();
                         wfmFacade.setExecutable(id, false);
-                        table.getItem(workflowModelBean).getItemProperty("executable").setValue(false);
+                        table.getItem(workflowModelBean).getItemProperty(
+                                "executable").setValue(false);
                         workflowModelBean.setExecutable(false);
                         table.requestRepaint();
 

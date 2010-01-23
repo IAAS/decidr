@@ -36,5 +36,4 @@ public class BrowserSpecificTools {
     public int correctBorderOffset(int value) {
         return value;
     }
-
 }

@@ -50,10 +50,9 @@ public class ChangeStatusAction implements ValueChangeListener {
     private UserFacade userFacade = new UserFacade(role);
 
     private ProfileSettingsComponent content = null;
-    
+
     /**
      * TODO: add comment
-     *
      */
     public ChangeStatusAction(Long userId) {
         this.userId = userId;

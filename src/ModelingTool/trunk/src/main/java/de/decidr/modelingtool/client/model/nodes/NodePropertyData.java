@@ -41,39 +41,6 @@ public class NodePropertyData {
     }
 
     /**
-     * Returns the value that has the given key
-     * 
-     * @param key
-     *            the king to find
-     * @return the found value
-     */
-    @SuppressWarnings("unchecked")
-    public <X extends Object> X get(String key) {
-        return (X) properties.get(key);
-    }
-
-    /**
-     * Sets the given key to a given value
-     * 
-     * @param key
-     *            the key to set
-     * @param value
-     *            the value to set
-     */
-    public <X extends Object> void set(String key, X value) {
-        properties.put(key, value);
-    }
-
-    /**
-     * Returns all values of this container
-     * 
-     * @return the values
-     */
-    public Collection<Object> getValues() {
-        return properties.values();
-    }
-
-    /**
      * Compares another container to this container and checks whether they are
      * equal or not. They are equal if they have the exact same keys and the
      * exact same values associated with the keys.
@@ -96,8 +63,8 @@ public class NodePropertyData {
          * if result is still true
          */
         if (result
-                && this.properties.keySet().containsAll(
-                        container.properties.keySet()) == false) {
+                && (this.properties.keySet().containsAll(
+                        container.properties.keySet()) == false)) {
             result = false;
         }
 
@@ -111,5 +78,38 @@ public class NodePropertyData {
         }
 
         return result;
+    }
+
+    /**
+     * Returns the value that has the given key
+     * 
+     * @param key
+     *            the king to find
+     * @return the found value
+     */
+    @SuppressWarnings("unchecked")
+    public <X extends Object> X get(String key) {
+        return (X) properties.get(key);
+    }
+
+    /**
+     * Returns all values of this container
+     * 
+     * @return the values
+     */
+    public Collection<Object> getValues() {
+        return properties.values();
+    }
+
+    /**
+     * Sets the given key to a given value
+     * 
+     * @param key
+     *            the key to set
+     * @param value
+     *            the value to set
+     */
+    public <X extends Object> void set(String key, X value) {
+        properties.put(key, value);
     }
 }

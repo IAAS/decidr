@@ -91,11 +91,6 @@ public class ModelingTool extends AbstractComponent {
                 .getWidth();
     }
 
-    @Override
-    public String getTag() {
-        return "modelingtool";
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -169,6 +164,11 @@ public class ModelingTool extends AbstractComponent {
         }
     }
 
+    @Override
+    public String getTag() {
+        return "modelingtool";
+    }
+
     private String getUsers() {
         userMap = new HashMap<Long, String>();
         try {
@@ -177,7 +177,7 @@ public class ModelingTool extends AbstractComponent {
             List<User> users = tenantFacade.getUsersOfTenant(tenantId, null);
             for (User user : users) {
 
-                if (user.getUserProfile() == null
+                if ((user.getUserProfile() == null)
                         || user.getUserProfile().getUsername().equals("")) {
                     /*
                      * If the username is empty, we want to display the email

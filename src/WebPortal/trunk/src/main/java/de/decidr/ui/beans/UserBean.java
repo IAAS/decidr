@@ -79,92 +79,74 @@ public class UserBean implements Serializable {
         }
     }
 
-   
-    public Long getId() {
-        return id;
-    }
-
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    
-    public String getEmail() {
-        return email;
-    }
-
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    
-    public Date getDisabledSince() {
-        return disabledSince;
-    }
-
-    
-    public void setDisabledSince(Date disabledSince) {
-        this.disabledSince = disabledSince;
-    }
-
-    
-    public Date getUnavailableSince() {
-        return unavailableSince;
-    }
-
-    
-    public void setUnavailableSince(Date unavailableSince) {
-        this.unavailableSince = unavailableSince;
-    }
-
-    
-    public Date getRegisteredSince() {
-        return registeredSince;
-    }
-
-    
-    public void setRegisteredSince(Date registeredSince) {
-        this.registeredSince = registeredSince;
-    }
-
-    
     public Date getCreationDate() {
         return creationDate;
     }
 
-    
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public Date getDisabledSince() {
+        return disabledSince;
     }
 
-    
+    public String getEmail() {
+        return email;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
-    
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public Long getId() {
+        return id;
     }
 
-    
     public String getLastName() {
         return lastName;
     }
 
-    
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public Date getRegisteredSince() {
+        return registeredSince;
     }
 
-    
+    public Date getUnavailableSince() {
+        return unavailableSince;
+    }
+
     public String getUsername() {
         return username;
     }
 
-    
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setDisabledSince(Date disabledSince) {
+        this.disabledSince = disabledSince;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setRegisteredSince(Date registeredSince) {
+        this.registeredSince = registeredSince;
+    }
+
+    public void setUnavailableSince(Date unavailableSince) {
+        this.unavailableSince = unavailableSince;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

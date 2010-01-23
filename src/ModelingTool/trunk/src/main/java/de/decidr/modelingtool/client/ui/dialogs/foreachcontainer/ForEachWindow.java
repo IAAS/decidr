@@ -70,25 +70,34 @@ public class ForEachWindow extends ModelingToolDialog {
     }
 
     /**
-     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
-     * the comboboxes are added.
+     * Retrieves the values from all fields. Creates and executes a
+     * {@link ChangeNodePropertiesCommand} with the new values.
      */
-    private void createContentPanel() {
-        contentPanel = new ContentPanel();
+    private void changeWorkflowModel() {
+        ForEachContainerModel newModel = new ForEachContainerModel(node
+                .getModel().getParentModel());
+        newModel.setIterationVariableId(iterableField.getValue().getId());
+        newModel.setExitCondition(exitConditionGroup.getSelectedValue());
+        newModel.setParallel(parallelField.getValue());
+        /* only push to command stack if changes where made */
+        if (newModel.getProperties().equals(model.getProperties()) == false) {
+            CommandStack.getInstance().executeCommand(
+                    new ChangeNodePropertiesCommand(node, newModel
+                            .getProperties()));
+        }
+    }
 
-        contentPanel.setHeading(ModelingToolWidget.getMessages()
-                .forEachContainer());
-        contentPanel.setLayout(new FitLayout());
-
-        table = new FlexTable();
-        table.setBorderWidth(0);
-        table.setWidth("100%");
-        table.setCellPadding(2);
-        table.setCellSpacing(2);
-        scrollPanel = new ScrollPanel(table);
-        contentPanel.add(scrollPanel);
-
-        this.add(contentPanel);
+    /**
+     * Removes the combobox and other input elements from the table so that they
+     * can be readded on the next call of the ForEachWindow.
+     */
+    private void clearAllEntries() {
+        if (table.getRowCount() > 0) {
+            int start = table.getRowCount();
+            for (int i = start; i > 0; i--) {
+                table.removeRow(i - 1);
+            }
+        }
     }
 
     /**
@@ -128,42 +137,25 @@ public class ForEachWindow extends ModelingToolDialog {
     }
 
     /**
-     * Sets the {@link ForEachContainer} whose properties are to be modeled with
-     * this window.
-     * 
-     * @param node
-     *            the ForEachContainer
+     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
+     * the comboboxes are added.
      */
-    public void setNode(ForEachContainer node) {
-        this.node = node;
-        model = (ForEachContainerModel) node.getModel();
-    }
+    private void createContentPanel() {
+        contentPanel = new ContentPanel();
 
-    private boolean validateInputs() {
-        Boolean result = false;
-        /* iteration variable and an exit condition have to be selected */
-        if (iterableField.getValue() != null && exitConditionGroup.isSelected()) {
-            result = true;
-        }
-        return result;
-    }
+        contentPanel.setHeading(ModelingToolWidget.getMessages()
+                .forEachContainer());
+        contentPanel.setLayout(new FitLayout());
 
-    /**
-     * Retrieves the values from all fields. Creates and executes a
-     * {@link ChangeNodePropertiesCommand} with the new values.
-     */
-    private void changeWorkflowModel() {
-        ForEachContainerModel newModel = new ForEachContainerModel(node
-                .getModel().getParentModel());
-        newModel.setIterationVariableId(iterableField.getValue().getId());
-        newModel.setExitCondition(exitConditionGroup.getSelectedValue());
-        newModel.setParallel(parallelField.getValue());
-        /* only push to command stack if changes where made */
-        if (newModel.getProperties().equals(model.getProperties()) == false) {
-            CommandStack.getInstance().executeCommand(
-                    new ChangeNodePropertiesCommand(node, newModel
-                            .getProperties()));
-        }
+        table = new FlexTable();
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        table.setCellPadding(2);
+        table.setCellSpacing(2);
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
+
+        this.add(contentPanel);
     }
 
     /**
@@ -202,19 +194,6 @@ public class ForEachWindow extends ModelingToolDialog {
         table.setWidget(table.getRowCount() - 1, 1, parallelField);
     }
 
-    /**
-     * Removes the combobox and other input elements from the table so that they
-     * can be readded on the next call of the ForEachWindow.
-     */
-    private void clearAllEntries() {
-        if (table.getRowCount() > 0) {
-            int start = table.getRowCount();
-            for (int i = start; i > 0; i--) {
-                table.removeRow(i - 1);
-            }
-        }
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -235,6 +214,28 @@ public class ForEachWindow extends ModelingToolDialog {
     @Override
     public void reset() {
         clearAllEntries();
+    }
+
+    /**
+     * Sets the {@link ForEachContainer} whose properties are to be modeled with
+     * this window.
+     * 
+     * @param node
+     *            the ForEachContainer
+     */
+    public void setNode(ForEachContainer node) {
+        this.node = node;
+        model = (ForEachContainerModel) node.getModel();
+    }
+
+    private boolean validateInputs() {
+        Boolean result = false;
+        /* iteration variable and an exit condition have to be selected */
+        if ((iterableField.getValue() != null)
+                && exitConditionGroup.isSelected()) {
+            result = true;
+        }
+        return result;
     }
 
 }

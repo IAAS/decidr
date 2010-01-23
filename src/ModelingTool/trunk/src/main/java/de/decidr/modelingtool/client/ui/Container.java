@@ -143,6 +143,20 @@ public abstract class Container extends Node implements HasChildren {
         return dropController;
     }
 
+    @Override
+    public HasChildModels getHasChildModelsModel() throws InvalidTypeException {
+        if (model instanceof HasChildModels) {
+            return (HasChildModels) model;
+        } else {
+            throw new InvalidTypeException("Model does not have children.");
+        }
+    }
+
+    @Override
+    public Collection<Node> getNodes() {
+        return childNodes;
+    }
+
     /**
      * Recursively gets the parent's offset (and all parent's parents' offset)
      * in x direction. Needed for placing child nodes correctly.
@@ -174,20 +188,6 @@ public abstract class Container extends Node implements HasChildren {
     }
 
     @Override
-    public HasChildModels getHasChildModelsModel() throws InvalidTypeException {
-        if (model instanceof HasChildModels) {
-            return (HasChildModels) model;
-        } else {
-            throw new InvalidTypeException("Model does not have children.");
-        }
-    }
-
-    @Override
-    public Collection<Node> getNodes() {
-        return childNodes;
-    }
-
-    @Override
     public UndoableCommand getRemoveDependentItemsCommand() {
         CommandList cmdList = new CommandList();
 
@@ -216,11 +216,11 @@ public abstract class Container extends Node implements HasChildren {
     @Override
     public void onPanelAdd(HasChildren parentPanel) {
         // register port drop controllers
-        if (containerStartPort != null
+        if ((containerStartPort != null)
                 && !containerStartPort.isDropControllerRegistered()) {
             containerStartPort.registerDropController();
         }
-        if (containerExitPort != null
+        if ((containerExitPort != null)
                 && !containerExitPort.isDropControllerRegistered()) {
             containerExitPort.registerDropController();
         }
@@ -236,11 +236,11 @@ public abstract class Container extends Node implements HasChildren {
     @Override
     public void onPanelRemove() {
         // unregister port drop controllers
-        if (containerStartPort != null
+        if ((containerStartPort != null)
                 && containerStartPort.isDropControllerRegistered()) {
             containerStartPort.unregisterDropController();
         }
-        if (containerExitPort != null
+        if ((containerExitPort != null)
                 && containerExitPort.isDropControllerRegistered()) {
             containerExitPort.unregisterDropController();
         }

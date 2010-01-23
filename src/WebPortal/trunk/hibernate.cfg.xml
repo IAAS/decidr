@@ -1,53 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
+	<!-- The DecidR Development Team licenses this file to you under -->
+	<!-- the Apache License, Version 2.0 (the "License"); you may -->
+	<!-- not use this file except in compliance with the License. -->
+	<!-- You may obtain a copy of the License at -->
+	<!-- -->
+	<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+	<!-- -->
+	<!-- Unless required by applicable law or agreed to in writing, -->
+	<!-- software distributed under the License is distributed on an -->
+	<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+	<!-- KIND, either express or implied. See the License for the -->
+	<!-- specific language governing permissions and limitations -->
+	<!-- under the License. -->
+
 <!DOCTYPE hibernate-configuration PUBLIC
 "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-        <session-factory>
-                <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-        <property name="hibernate.connection.characterEncoding">utf8</property>
-                <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-                <property name="hibernate.connection.password">decidr42</property>
-                <property name="hibernate.connection.url">jdbc:mysql://ec2-174-129-25-234.compute-1.amazonaws.com:3306/decidrdb</property>
-        <property name="hibernate.connection.useUnicode">true</property>
-                <property name="hibernate.connection.username">decidr</property>
-                <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
-        <mapping resource="de/decidr/model/entities/StartConfiguration.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/UserAdministratesWorkflowInstance.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/StartableWorkflowModelView.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Log.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/WorkflowInstance.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/User.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/UserHasFileAccess.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/SystemSettings.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Activity.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/UserIsMemberOfTenant.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/ChangeEmailRequest.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/UserParticipatesInWorkflow.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Permission.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/PasswordResetRequest.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Invitation.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/RoleHasPermission.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/ServerType.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/KnownWebService.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/UserProfile.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/InvitationView.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/RegistrationRequest.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Server.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/WorkItem.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Session.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Role.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Tenant.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/WorkflowModel.hbm.xml" />
- 		<mapping resource="de/decidr/model/entities/File.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/ServerLoadView.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/WorkflowModelIsDeployedOnServer.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/TenantSummaryView.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/WorkItemSummaryView.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/TenantWithAdminView.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/DeployedWorkflowModel.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/UserAdministratesWorkflowModel.hbm.xml" />
-        <mapping resource="de/decidr/model/entities/Login.hbm.xml" />
-        </session-factory>
+	<session-factory>
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+		<property name="hibernate.connection.characterEncoding">utf8</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.password">decidr42</property>
+		<property name="hibernate.connection.url">jdbc:mysql://ec2-174-129-25-234.compute-1.amazonaws.com:3306/decidrdb</property>
+		<property name="hibernate.connection.useUnicode">true</property>
+		<property name="hibernate.connection.username">decidr</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		<mapping resource="de/decidr/model/entities/StartConfiguration.hbm.xml" />
+		<mapping
+			resource="de/decidr/model/entities/UserAdministratesWorkflowInstance.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/StartableWorkflowModelView.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Log.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/WorkflowInstance.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/User.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/UserHasFileAccess.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/SystemSettings.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Activity.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/UserIsMemberOfTenant.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/ChangeEmailRequest.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/UserParticipatesInWorkflow.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Permission.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/PasswordResetRequest.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Invitation.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/RoleHasPermission.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/ServerType.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/KnownWebService.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/UserProfile.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/InvitationView.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/RegistrationRequest.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Server.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/WorkItem.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Session.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Role.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Tenant.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/WorkflowModel.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/File.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/ServerLoadView.hbm.xml" />
+		<mapping
+			resource="de/decidr/model/entities/WorkflowModelIsDeployedOnServer.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/TenantSummaryView.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/WorkItemSummaryView.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/TenantWithAdminView.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/DeployedWorkflowModel.hbm.xml" />
+		<mapping
+			resource="de/decidr/model/entities/UserAdministratesWorkflowModel.hbm.xml" />
+		<mapping resource="de/decidr/model/entities/Login.hbm.xml" />
+	</session-factory>
 </hibernate-configuration>
         

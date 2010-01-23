@@ -125,6 +125,16 @@ public abstract class Connection implements Selectable, ModelChangeListener {
         this.endDragBox = endDragBox;
     }
 
+    /**
+     * Sets the label of the connection that will we displayed to the user.
+     * 
+     * @param label
+     *            the text to display
+     */
+    public void setLabel(String label) {
+        this.label.setText(label);
+    }
+
     public void setModel(ConnectionModel model) {
         this.model = model;
     }
@@ -158,16 +168,6 @@ public abstract class Connection implements Selectable, ModelChangeListener {
     @Override
     public void showPropertyWindow() {
         Window.alert("This connection has no properties.");
-    }
-
-    /**
-     * Sets the label of the connection that will we displayed to the user.
-     * 
-     * @param label
-     *            the text to display
-     */
-    public void setLabel(String label) {
-        this.label.setText(label);
     }
 
 }

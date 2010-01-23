@@ -36,7 +36,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * The container holds work items. The work items are represented as
  * {@link Item items} in a table.<br>
- * Aleks: update comment: not an Item; "work item" vs. "workitem"
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -63,7 +63,7 @@ public class WorkItemContainer extends
 
     /**
      * The work item items are added to the container.<br>
-     * Aleks: update comment: not an Item
+     * TODO: update comment: not an Item
      */
     public WorkItemContainer() {
         super(WorkItemSummaryViewBean.class);

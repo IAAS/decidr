@@ -121,19 +121,160 @@ public class StartConfigurationWindow extends Window {
     private Workflow workflow = null;
 
     /**
-     * Default constructor with TConfiguration as parameter.<br>
-     * Aleks: If you want me to tell you what a default constructor is, don't
-     * hesitate to ask ~rr
+     * Constructor with TConfiguration as parameter.<br>
      */
     public StartConfigurationWindow(TConfiguration tConfiguration,
             Long workflowModelId, Workflow workflow) {
         this.tConfiguration = tConfiguration;
         this.workflowModelId = workflowModelId;
         this.workflow = workflow;
-        
-        DefaultLogger.getLogger(StartConfigurationWindow.class).
-            debug("StartConfigurationWindow initialized, setting up ui components");
+
+        DefaultLogger
+                .getLogger(StartConfigurationWindow.class)
+                .debug(
+                        "StartConfigurationWindow initialized, setting up ui components");
         init();
+    }
+
+    /**
+     * Adds a field for every assignment which is in the start configuration XML
+     * file. This allows the user to enter a value for every field.
+     * 
+     * @param tConfiguration
+     *            TODO document
+     */
+    private void addAssignmentToForm(TConfiguration tConfiguration) {
+        for (TAssignment assignment : tConfiguration.getAssignment()) {
+            // TODO: unused variable
+            String label = getLabel(assignment.getKey());
+            if (assignment.getValue().size() > 0) {
+                for (String string : assignment.getValue()) {
+                    if (assignment.getValueType().equals("string")) {
+                        assignmentForm.addField(assignment.getKey(),
+                                new TextField(assignment.getKey()));
+                    } else if (assignment.getValueType().equals("integer")) {
+                        assignmentForm.addField(assignment.getKey(),
+                                new TextField(assignment.getKey()));
+                        assignmentForm
+                                .getField(assignment.getKey())
+                                .addValidator(
+                                        new IntegerValidator(
+                                                "Please enter an integer value!"));
+                    } else if (assignment.getValueType().equals("date")) {
+                        assignmentForm.addField(assignment.getKey(),
+                                new DateField(assignment.getKey()));
+                        assignmentForm.getField(assignment.getKey()).setValue(
+                                new Date());
+                    } else if (assignment.getValueType().equals("float")) {
+                        assignmentForm.addField(assignment.getKey(),
+                                new TextField(assignment.getKey()));
+                        assignmentForm
+                                .getField(assignment.getKey())
+                                .addValidator(
+                                        new FloatValidator(
+                                                "Please enter a floating point value!"));
+                    }
+                    if (assignmentForm.getField(assignment.getKey()) instanceof DateField) {
+                        // Temporary solution. Should be improved.
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                                "yyyy-MM-dd");
+                        Date date;
+                        try {
+                            date = simpleDateFormat.parse(string);
+                        } catch (ParseException e) {
+                            date = new Date();
+                        }
+                        assignmentForm.getField(assignment.getKey()).setValue(
+                                date);
+                    } else if (!string.isEmpty()) {
+                        assignmentForm.getField(assignment.getKey()).setValue(
+                                string);
+                    }
+                    assignmentForm.getField(assignment.getKey()).setRequired(
+                            true);
+                    assignmentForm.setImmediate(true);
+                }
+            } else {
+                if (assignment.getValueType().equals("string")) {
+                    assignmentForm.addField(assignment.getKey(), new TextField(
+                            assignment.getKey()));
+                } else if (assignment.getValueType().equals("integer")) {
+                    assignmentForm.addField(assignment.getKey(), new TextField(
+                            assignment.getKey()));
+                    assignmentForm.getField(assignment.getKey()).addValidator(
+                            new IntegerValidator(
+                                    "Please enter an integer value!"));
+                } else if (assignment.getValueType().equals("date")) {
+                    assignmentForm.addField(assignment.getKey(), new DateField(
+                            assignment.getKey()));
+                    assignmentForm.getField(assignment.getKey()).setValue(
+                            new Date());
+                } else if (assignment.getValueType().equals("float")) {
+                    assignmentForm.addField(assignment.getKey(), new TextField(
+                            assignment.getKey()));
+                    assignmentForm.getField(assignment.getKey()).addValidator(
+                            new FloatValidator(
+                                    "Please enter a floating point value!"));
+                }
+                assignmentForm.getField(assignment.getKey()).setRequired(true);
+                assignmentForm.setImmediate(true);
+            }
+        }
+    }
+
+    /**
+     * Fills the combo box with the usernames currently contained in the tenant,
+     * so that the user can choose from the usernames and add them as actors to
+     * a role.
+     */
+    private void fillContainer() {
+        HttpSession session = Main.getCurrent().getSession();
+        TenantFacade tenantFacade = new TenantFacade((Role) Main.getCurrent()
+                .getSession().getAttribute("role"));
+        try {
+            Long tenantId = (Long) session.getAttribute("tenantId");
+            List<User> users = tenantFacade.getUsersOfTenant(tenantId, null);
+            for (User user : users) {
+                if (user.getUserProfile() != null) {
+                    comboBox.addItem(user.getUserProfile().getUsername());
+                }
+
+            }
+        } catch (TransactionException exception) {
+            Main.getCurrent().addWindow(
+                    new TransactionErrorDialogComponent(exception));
+        }
+    }
+
+    public Form getAssignmentForm() {
+        return assignmentForm;
+    }
+
+    /**
+     * Returns the check box.<br>
+     * TODO: Why? What is it good for? Why would anyone need this method? ~rr
+     * 
+     * @return checkBox TODO document
+     */
+    public CheckBox getCheckBox() {
+        return checkBox;
+    }
+
+    /**
+     * Returns the label from the dwdl to show in the start configuration window
+     * 
+     * @param key
+     *            TODO document
+     * @return label - The label of the specified component, or null, if it
+     *         can't be found.
+     */
+    private String getLabel(String key) {
+        for (Variable variable : workflow.getVariables().getVariable()) {
+            if (variable.equals(key)) {
+                return variable.getLabel();
+            }
+        }
+        return null;
     }
 
     /**
@@ -218,7 +359,6 @@ public class StartConfigurationWindow extends Window {
 
         addAssignmentToForm(tConfiguration);
 
-        
         mainVerticalLayout.addComponent(buttonHorizontalLayout);
 
         buttonHorizontalLayout.setSpacing(true);
@@ -228,7 +368,6 @@ public class StartConfigurationWindow extends Window {
                 Alignment.MIDDLE_RIGHT);
         buttonHorizontalLayout.addComponent(okButton);
         buttonHorizontalLayout.addComponent(cancelButton);
-
 
         initializeHandler();
     }
@@ -268,7 +407,7 @@ public class StartConfigurationWindow extends Window {
             @Override
             public void handleAction(Action action, Object sender, Object target) {
 
-                if (action == ACTION_ADD && rolesTree.isRoot(target)) {
+                if ((action == ACTION_ADD) && rolesTree.isRoot(target)) {
                     RoleBean roleBean = new RoleBean("New Actor " + count);
                     Item newChildItem = new BeanItem(roleBean);
                     Object itemId = rolesTree.addItem(newChildItem);
@@ -279,7 +418,8 @@ public class StartConfigurationWindow extends Window {
                     rolesTree.setChildrenAllowed(itemId, false);
                     rolesTree.expandItem(target);
                     count++;
-                } else if (action == ACTION_DELETE && !rolesTree.isRoot(target)) {
+                } else if ((action == ACTION_DELETE)
+                        && !rolesTree.isRoot(target)) {
                     rolesTree.removeItem(target);
                 } else {
                     Main.getCurrent().getMainWindow().addWindow(
@@ -295,22 +435,22 @@ public class StartConfigurationWindow extends Window {
 
             @Override
             public void valueChange(ValueChangeEvent event) {
-                if (event.getProperty().getValue() != null
+                if ((event.getProperty().getValue() != null)
                         && !rolesTree.isRoot(rolesTree.getValue())) {
                     Item item = rolesTree.getItem(rolesTree.getValue());
                     Property actor = item.getItemProperty("actor");
                     actor.setValue(comboBox.getValue());
                     emailTextField.setValue("");
-                } else if (event.getProperty().getValue() != null
+                } else if ((event.getProperty().getValue() != null)
                         && rolesTree.isRoot(event.getProperty().getValue())) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent(
                                     "You can't modify the role."
                                             + " Add an actor first.",
                                     "Information"));
-                } else if (event.getProperty().getValue() == null
-                        && rolesTree.getValue() == null
-                        && comboBox.getValue() != null) {
+                } else if ((event.getProperty().getValue() == null)
+                        && (rolesTree.getValue() == null)
+                        && (comboBox.getValue() != null)) {
                     Main.getCurrent().getMainWindow().addWindow(
                             new InformationDialogComponent(
                                     "Please select an actor "
@@ -327,7 +467,7 @@ public class StartConfigurationWindow extends Window {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                if (rolesTree.getValue() != null
+                if ((rolesTree.getValue() != null)
                         && !rolesTree.isRoot(rolesTree.getValue())
                         && emailTextField.isValid()) {
                     Item item = rolesTree.getItem(rolesTree.getValue());
@@ -350,145 +490,5 @@ public class StartConfigurationWindow extends Window {
                 }
             }
         });
-    }
-
-    /**
-     * Adds a field for every assignment which is in the start configuration XML
-     * file. This allows the user to enter a value for every field.
-     * 
-     * @param tConfiguration
-     *            TODO document
-     */
-    private void addAssignmentToForm(TConfiguration tConfiguration) {
-        for (TAssignment assignment : tConfiguration.getAssignment()) {
-            // TODO: unused variable ~rr
-            String label = getLabel(assignment.getKey());
-            if (assignment.getValue().size() > 0) {
-                for (String string : assignment.getValue()) {
-                    if (assignment.getValueType().equals("string")) {
-                        assignmentForm.addField(assignment.getKey(),
-                                new TextField(assignment.getKey()));
-                    } else if (assignment.getValueType().equals("integer")) {
-                        assignmentForm.addField(assignment.getKey(),
-                                new TextField(assignment.getKey()));
-                        assignmentForm
-                                .getField(assignment.getKey())
-                                .addValidator(
-                                        new IntegerValidator(
-                                                "Please enter an integer value!"));
-                    } else if (assignment.getValueType().equals("date")) {
-                        assignmentForm.addField(assignment.getKey(),
-                                new DateField(assignment.getKey()));
-                        assignmentForm.getField(assignment.getKey()).setValue(
-                                new Date());
-                    } else if (assignment.getValueType().equals("float")) {
-                        assignmentForm.addField(assignment.getKey(),
-                                new TextField(assignment.getKey()));
-                        assignmentForm
-                                .getField(assignment.getKey())
-                                .addValidator(
-                                        new FloatValidator(
-                                                "Please enter a floating point value!"));
-                    }
-                    if (assignmentForm.getField(assignment.getKey()) instanceof DateField) {
-                        // Temporary solution. Should be improved.
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-                                "yyyy-MM-dd");
-                        Date date;
-                        try {
-                            date = simpleDateFormat.parse(string);
-                        } catch (ParseException e) {
-                            date = new Date();
-                        }
-                        assignmentForm.getField(assignment.getKey()).setValue(
-                                date);
-                    } else if (!string.isEmpty()) {
-                        assignmentForm.getField(assignment.getKey()).setValue(
-                                string);
-                    }
-                    assignmentForm.getField(assignment.getKey()).setRequired(
-                            true);
-                    assignmentForm.setImmediate(true);
-                }
-            } else {
-                if (assignment.getValueType().equals("string")) {
-                    assignmentForm.addField(assignment.getKey(), new TextField(
-                            assignment.getKey()));
-                } else if (assignment.getValueType().equals("integer")) {
-                    assignmentForm.addField(assignment.getKey(), new TextField(
-                            assignment.getKey()));
-                    assignmentForm.getField(assignment.getKey()).addValidator(
-                            new IntegerValidator(
-                                    "Please enter an integer value!"));
-                } else if (assignment.getValueType().equals("date")) {
-                    assignmentForm.addField(assignment.getKey(), new DateField(
-                            assignment.getKey()));
-                    assignmentForm.getField(assignment.getKey()).setValue(
-                            new Date());
-                } else if (assignment.getValueType().equals("float")) {
-                    assignmentForm.addField(assignment.getKey(), new TextField(
-                            assignment.getKey()));
-                    assignmentForm.getField(assignment.getKey()).addValidator(
-                            new FloatValidator(
-                                    "Please enter a floating point value!"));
-                }
-                assignmentForm.getField(assignment.getKey()).setRequired(true);
-                assignmentForm.setImmediate(true);
-            }
-        }
-    }
-
-    /**
-     * Returns the label from the dwdl to show in the start configuration window
-     * 
-     * @param key
-     *            TODO document
-     * @return label - The label of the specified component, or null, if it can't be found.
-     */
-    private String getLabel(String key) {
-        for (Variable variable : workflow.getVariables().getVariable()) {
-            if (variable.equals(key)) {
-                return variable.getLabel();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Fills the combo box with the usernames currently contained in the tenant,
-     * so that the user can choose from the usernames and add them as actors to
-     * a role.
-     */
-    private void fillContainer() {
-        HttpSession session = Main.getCurrent().getSession();
-        TenantFacade tenantFacade = new TenantFacade((Role) Main.getCurrent()
-                .getSession().getAttribute("role"));
-        try {
-            Long tenantId = (Long) session.getAttribute("tenantId");
-            List<User> users = tenantFacade.getUsersOfTenant(tenantId, null);
-            for (User user : users) {
-                if (user.getUserProfile() != null) {
-                    comboBox.addItem(user.getUserProfile().getUsername());
-                }
-
-            }
-        } catch (TransactionException exception) {
-            Main.getCurrent().addWindow(
-                    new TransactionErrorDialogComponent(exception));
-        }
-    }
-
-    public Form getAssignmentForm() {
-        return assignmentForm;
-    }
-
-    /**
-     * Returns the check box.<br>
-     * Aleks: Why? What is it good for? Why would anyone need this method? ~rr
-     * 
-     * @return checkBox TODO document
-     */
-    public CheckBox getCheckBox() {
-        return checkBox;
     }
 }

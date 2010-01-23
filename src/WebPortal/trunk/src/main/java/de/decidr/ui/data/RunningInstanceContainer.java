@@ -39,7 +39,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * This container holds the running worfklow instances. The running instances
  * are represented as {@link Item items} in a table.<br>
- * Aleks: update comment: not an Item
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -79,8 +79,8 @@ public class RunningInstanceContainer extends
                     .getAdministratedWorkflowInstances(userId);
             WorkflowInstanceBean workflowInstanceBean;
             for (WorkflowInstance workflowInstance : runningInstanceList) {
-                if (workflowInstance.getStartedDate() != null
-                        && workflowInstance.getCompletedDate() == null) {
+                if ((workflowInstance.getStartedDate() != null)
+                        && (workflowInstance.getCompletedDate() == null)) {
                     workflowInstanceBean = new WorkflowInstanceBean(
                             workflowInstance);
                     addBean(workflowInstanceBean);

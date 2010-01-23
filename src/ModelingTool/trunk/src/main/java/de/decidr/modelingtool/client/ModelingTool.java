@@ -34,7 +34,7 @@ public class ModelingTool implements EntryPoint {
 
         // A very basic workflow
         String dwdl = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><workflow xmlns=\"http://decidr.de/schema/dwdl\" targetNamespace=\"http://decidr.de/DefaultTenant/processes/328\" id=\"328\" name=\"lfigjdifg\"><description></description><variables/><roles/><faultHandler><setProperty name=\"message\"/><recipient><setProperty name=\"name\"/></recipient></faultHandler><nodes><startNode name=\"de.decidr.modelingtool.client.model.StartNodeModel\" id=\"4815162342\"><description></description><graphics height=\"30\" width=\"50\" y=\"20\" x=\"20\"/></startNode><endNode name=\"de.decidr.modelingtool.client.model.EndNodeModel\" id=\"108\"><description></description><graphics height=\"30\" width=\"50\" y=\"200\" x=\"200\"/><notificationOfSuccess><setProperty name=\"successMessage\"/><setProperty name=\"recipient\"/></notificationOfSuccess></endNode></nodes><arcs/></workflow>";
-        
+
         // Create widget
         ModelingToolWidget modelingToolWidget = new ModelingToolWidget();
         RootPanel.get("panel").add(modelingToolWidget);

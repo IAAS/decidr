@@ -45,24 +45,23 @@ public class ConnectionModel extends AbstractModel {
         return parentModel;
     }
 
-    public void setParentModel(HasChildModels parentModel) {
-        this.parentModel = parentModel;
-    }
-
     public NodeModel getSource() {
         return source;
-    }
-
-    public void setSource(NodeModel source) {
-        this.source = source;
     }
 
     public NodeModel getTarget() {
         return target;
     }
 
+    public void setParentModel(HasChildModels parentModel) {
+        this.parentModel = parentModel;
+    }
+
+    public void setSource(NodeModel source) {
+        this.source = source;
+    }
+
     public void setTarget(NodeModel target) {
         this.target = target;
     }
-
 }

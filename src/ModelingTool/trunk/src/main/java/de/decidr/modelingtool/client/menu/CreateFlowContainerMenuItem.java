@@ -40,5 +40,4 @@ public class CreateFlowContainerMenuItem implements Command {
         CommandStack.getInstance().executeCommand(
                 new CreateContainerCommand(container));
     }
-
 }

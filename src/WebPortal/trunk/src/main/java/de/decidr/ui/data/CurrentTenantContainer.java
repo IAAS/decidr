@@ -38,7 +38,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * This container holds all tenants which belong to the current user. The
  * tenants will be represented as {@link Item items} in a table.<br>
- * Aleks: update comment: not an Item
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -64,7 +64,7 @@ public class CurrentTenantContainer extends BeanItemContainer<TenantBean> {
 
     /**
      * Adds tenant items to the container.<br>
-     * Aleks: update comment: not an Item
+     * TODO: update comment: not an Item
      */
     public CurrentTenantContainer() {
         super(TenantBean.class);

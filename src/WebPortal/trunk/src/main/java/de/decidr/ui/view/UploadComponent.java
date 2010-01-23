@@ -151,8 +151,8 @@ public class UploadComponent extends CustomComponent {
                                             "Success"));
 
                             // Refreshes the header with the new logo
-                            if (siteFrame.getContent() instanceof TenantSettingsComponent
-                                    && siteFrame.getHeader() instanceof Header) {
+                            if ((siteFrame.getContent() instanceof TenantSettingsComponent)
+                                    && (siteFrame.getHeader() instanceof Header)) {
                                 TenantSettingsComponent tsc = (TenantSettingsComponent) siteFrame
                                         .getContent();
                                 Header header = (Header) siteFrame.getHeader();

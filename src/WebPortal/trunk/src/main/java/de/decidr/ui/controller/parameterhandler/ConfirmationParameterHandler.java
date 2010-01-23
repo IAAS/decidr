@@ -69,43 +69,55 @@ public class ConfirmationParameterHandler implements ParameterHandler {
             value = ((String[]) parameters.get(key))[0];
             if (key.equals(URLGenerator.URL_PARAM_USER_ID)) {
                 if (userId != null) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent(
-                                    "Your confirmation link contained more "+
-                                    "parameters than expected and might be "+
-                                    "invalid.", "Error"));
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Your confirmation link contained more "
+                                                    + "parameters than expected and might be "
+                                                    + "invalid.", "Error"));
                 }
                 userId = value;
             } else if (key
                     .equals(URLGenerator.URL_PARAM_CHANGE_EMAIL_REQUEST_ID)) {
                 if (confirmationId != null) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent(
-                                    "Your confirmation link contained more "+
-                                    "parameters than expected and might be "+
-                                    "invalid.", "Error"));
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Your confirmation link contained more "
+                                                    + "parameters than expected and might be "
+                                                    + "invalid.", "Error"));
                 }
                 confirmationId = value;
                 action = "email";
             } else if (key
                     .equals(URLGenerator.URL_PARAM_CONFIRM_REGISTRATION_ID)) {
                 if (confirmationId != null) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent(
-                                    "Your confirmation link contained more "+
-                                    "parameters than expected and might be "+
-                                    "invalid.", "Error"));
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Your confirmation link contained more "
+                                                    + "parameters than expected and might be "
+                                                    + "invalid.", "Error"));
                 }
                 confirmationId = value;
                 action = "reg";
             } else if (key
                     .equals(URLGenerator.URL_PARAM_PASSWORD_RESET_REQUEST_ID)) {
                 if (confirmationId != null) {
-                    Main.getCurrent().getMainWindow().addWindow(
-                            new InformationDialogComponent(
-                                    "Your confirmation link contained more "+
-                                    "parameters than expected and might be "+
-                                    "invalid.", "Error"));
+                    Main
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Your confirmation link contained more "
+                                                    + "parameters than expected and might be "
+                                                    + "invalid.", "Error"));
                 }
                 confirmationId = value;
                 action = "pass";
@@ -134,14 +146,14 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                             new TransactionErrorDialogComponent(e));
                 } catch (TransactionException e) {
                     Main
-                    .getCurrent()
-                    .getMainWindow()
-                    .addWindow(
-                            new InformationDialogComponent(
-                                    "Unfortunately the link you follow seems to be invalid.<br/><br/>"+
-                                    "This can have several reasons. Please make sure the link is not "+
-                                    "outdated and correctly copied from the email you received.",
-                                    "Invalid Link"));
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Unfortunately the link you follow seems to be invalid.<br/><br/>"
+                                                    + "This can have several reasons. Please make sure the link is not "
+                                                    + "outdated and correctly copied from the email you received.",
+                                            "Invalid Link"));
 
                     Main.getCurrent().getMainWindow().open(
                             new ExternalResource(Main.getCurrent().getURL()));
@@ -168,14 +180,14 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                             new TransactionErrorDialogComponent(e));
                 } catch (TransactionException e) {
                     Main
-                    .getCurrent()
-                    .getMainWindow()
-                    .addWindow(
-                            new InformationDialogComponent(
-                                    "Unfortunately the link you follow seems to be invalid.<br/><br/>"+
-                                    "This can have several reasons. Please make sure the link is not "+
-                                    "outdated and correctly copied from the email you received.",
-                                    "Invalid Link"));
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Unfortunately the link you follow seems to be invalid.<br/><br/>"
+                                                    + "This can have several reasons. Please make sure the link is not "
+                                                    + "outdated and correctly copied from the email you received.",
+                                            "Invalid Link"));
 
                     Main.getCurrent().getMainWindow().open(
                             new ExternalResource(Main.getCurrent().getURL()));
@@ -200,14 +212,14 @@ public class ConfirmationParameterHandler implements ParameterHandler {
                             new TransactionErrorDialogComponent(e));
                 } catch (TransactionException e) {
                     Main
-                    .getCurrent()
-                    .getMainWindow()
-                    .addWindow(
-                            new InformationDialogComponent(
-                                    "Unfortunately the link you followed seems to be invalid.<br/><br/>"+
-                                    "This can have several reasons. Please make sure the link is not "+
-                                    "outdated and correctly copied from the email you received.",
-                                    "Invalid Link"));
+                            .getCurrent()
+                            .getMainWindow()
+                            .addWindow(
+                                    new InformationDialogComponent(
+                                            "Unfortunately the link you followed seems to be invalid.<br/><br/>"
+                                                    + "This can have several reasons. Please make sure the link is not "
+                                                    + "outdated and correctly copied from the email you received.",
+                                            "Invalid Link"));
 
                     Main.getCurrent().getMainWindow().open(
                             new ExternalResource(Main.getCurrent().getURL()));

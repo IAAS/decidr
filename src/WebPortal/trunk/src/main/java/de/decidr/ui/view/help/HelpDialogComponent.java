@@ -46,7 +46,7 @@ public class HelpDialogComponent extends Window {
 
     public HelpDialogComponent() {
         super("DecidR Help");
-        
+
         setTheme(Main.getCurrent().getTheme());
 
         VerticalLayout layout = (VerticalLayout) getContent();
@@ -95,14 +95,14 @@ public class HelpDialogComponent extends Window {
         layout.addComponent(acc);
     }
 
+    public void hide() {
+        setVisible(false);
+    }
+
     public void show() {
         setWidth(400, Sizeable.UNITS_PIXELS);
         setHeight(600, Sizeable.UNITS_PIXELS);
         center();
         setVisible(true);
-    }
-
-    public void hide() {
-        setVisible(false);
     }
 }

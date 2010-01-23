@@ -65,21 +65,27 @@ public class LoginParameterHandler implements ParameterHandler {
             try {
                 if (key.equals(URLGenerator.URL_PARAM_LOGIN_ID)) {
                     if (userId != null) {
-                        Main.getCurrent().getMainWindow().addWindow(
-                                new InformationDialogComponent(
-                                        "Your login link contained more "+
-                                        "parameters than expected and might be "+
-                                        "invalid.", "Error"));
+                        Main
+                                .getCurrent()
+                                .getMainWindow()
+                                .addWindow(
+                                        new InformationDialogComponent(
+                                                "Your login link contained more "
+                                                        + "parameters than expected and might be "
+                                                        + "invalid.", "Error"));
                     }
                     userId = Long.getLong(value);
                 } else if (key
                         .equals(URLGenerator.URL_PARAM_AUTHENTICATION_KEY)) {
                     if (authKey != null) {
-                        Main.getCurrent().getMainWindow().addWindow(
-                                new InformationDialogComponent(
-                                        "Your login link contained more "+
-                                        "parameters than expected and might be "+
-                                        "invalid.", "Error"));
+                        Main
+                                .getCurrent()
+                                .getMainWindow()
+                                .addWindow(
+                                        new InformationDialogComponent(
+                                                "Your login link contained more "
+                                                        + "parameters than expected and might be "
+                                                        + "invalid.", "Error"));
                     }
                     authKey = value;
                 }
@@ -90,7 +96,7 @@ public class LoginParameterHandler implements ParameterHandler {
             }
         }
 
-        if (userId != null && authKey != null) {
+        if ((userId != null) && (authKey != null)) {
             // try to login
             userFacade = new UserFacade(new UserRole(userId));
             try {
@@ -109,14 +115,14 @@ public class LoginParameterHandler implements ParameterHandler {
                                 "Invitation Error"));
             } catch (TransactionException e) {
                 Main
-                .getCurrent()
-                .getMainWindow()
-                .addWindow(
-                        new InformationDialogComponent(
-                                "Unfortunately the link you followed seems to be invalid.<br/><br/>"+
-                                "This can have several reasons. Please make sure the link is not "+
-                                "outdated and correctly copied from the email you received.",
-                                "Invalid Link"));
+                        .getCurrent()
+                        .getMainWindow()
+                        .addWindow(
+                                new InformationDialogComponent(
+                                        "Unfortunately the link you followed seems to be invalid.<br/><br/>"
+                                                + "This can have several reasons. Please make sure the link is not "
+                                                + "outdated and correctly copied from the email you received.",
+                                        "Invalid Link"));
 
                 Main.getCurrent().getMainWindow().open(
                         new ExternalResource(Main.getCurrent().getURL()));

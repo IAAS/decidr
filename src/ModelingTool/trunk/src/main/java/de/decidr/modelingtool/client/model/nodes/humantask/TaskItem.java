@@ -51,42 +51,42 @@ public class TaskItem {
         this.variableId = variableId;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
     public String getHint() {
         return hint;
+    }
+
+    public Long getId() {
+        if (id == null) {
+            id = IdGenerator.generateId();
+        }
+        return id;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     public Long getVariableId() {
         return variableId;
     }
 
-    public Long getId(){
-        if (id==null){
-            id = IdGenerator.generateId();
-        }
-        return id;
-    }
-    
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     public void setHint(String hint) {
         this.hint = hint;
     }
 
-    public void setVariableId(Long variableId) {
-        this.variableId = variableId;
-    }
-    
-    public void setId(Long id){
+    public void setId(Long id) {
         this.id = id;
         if (id > IdGenerator.generateId()) {
             IdGenerator.setHighestId(id);
         }
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public void setVariableId(Long variableId) {
+        this.variableId = variableId;
     }
 
 }

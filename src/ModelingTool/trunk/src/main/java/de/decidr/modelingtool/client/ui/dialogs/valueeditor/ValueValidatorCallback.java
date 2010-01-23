@@ -34,6 +34,17 @@ public class ValueValidatorCallback {
     private SortedSet<Integer> values = new TreeSet<Integer>();
 
     /**
+     * Adds the number of a text fields which input has a wrong format to the
+     * callback message.
+     * 
+     * @param valueNumber
+     *            the number of the value that has an incorrect format
+     */
+    public void addValueToMessage(int valueNumber) {
+        values.add(valueNumber);
+    }
+
+    /**
      * Returns the callback message
      * 
      * @return the callback message
@@ -56,17 +67,6 @@ public class ValueValidatorCallback {
                     + ModelingToolWidget.getMessages().wrongPlural();
         }
         return message;
-    }
-
-    /**
-     * Adds the number of a text fields which input has a wrong format to the
-     * callback message.
-     * 
-     * @param valueNumber
-     *            the number of the value that has an incorrect format
-     */
-    public void addValueToMessage(int valueNumber) {
-        values.add(valueNumber);
     }
 
 }

@@ -30,6 +30,23 @@ public enum ExitCondition {
     AND(ModelingToolWidget.getMessages().andConLabel()),
     XOR(ModelingToolWidget.getMessages().xorConLabel());
 
+    /**
+     * Returns the type of exit condition for a given label.
+     * 
+     * @param label
+     *            the label
+     * @return the type of exit condition
+     */
+    public static ExitCondition getTypeFromLabel(String label) {
+        ExitCondition result = null;
+        for (ExitCondition e : ExitCondition.values()) {
+            if (label == e.getLabel()) {
+                result = e;
+            }
+        }
+        return result;
+    }
+
     private String label;
 
     /**
@@ -50,21 +67,5 @@ public enum ExitCondition {
      */
     public String getLabel() {
         return label;
-    }
-
-    /**
-     * Returns the type of exit condition for a given label.
-     * 
-     * @param label
-     *            the label
-     * @return the type of exit condition
-     */
-    public static ExitCondition getTypeFromLabel(String label) {
-        ExitCondition result = null;
-        for (ExitCondition e : ExitCondition.values()) {
-            if (label == e.getLabel())
-                result = e;
-        }
-        return result;
     }
 }

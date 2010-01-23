@@ -171,7 +171,7 @@ public abstract class Port extends AbsolutePanel {
     protected void createSingleDragBox() {
         // create drag box if drag box is not connected to a connection or not
         // present
-        if (!(singleDragBox != null && singleDragBox.getConnection() == null)) {
+        if (!((singleDragBox != null) && (singleDragBox.getConnection() == null))) {
             singleDragBox = new ConnectionDragBox(this);
 
             add(singleDragBox);
@@ -280,7 +280,7 @@ public abstract class Port extends AbsolutePanel {
                 createSingleDragBox();
             }
         } else {
-            if (singleDragBox == null && gluedDragBoxes.isEmpty()) {
+            if ((singleDragBox == null) && gluedDragBoxes.isEmpty()) {
                 createSingleDragBox();
             }
         }
@@ -294,7 +294,7 @@ public abstract class Port extends AbsolutePanel {
      * Removes the single drag box from the port, if present.
      */
     protected void removeSingleDragBox() {
-        if (singleDragBox != null && singleDragBox.getConnection() == null) {
+        if ((singleDragBox != null) && (singleDragBox.getConnection() == null)) {
             super.remove(singleDragBox);
             singleDragBox = null;
         }

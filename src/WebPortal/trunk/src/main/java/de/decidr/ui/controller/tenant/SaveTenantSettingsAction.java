@@ -77,7 +77,7 @@ public class SaveTenantSettingsAction implements ClickListener {
                 tenantFacade.setLogo(tenantId, fileId);
             } else {
                 // no logo uploaded
-                
+
             }
 
             CssHandler cssHandler = new CssHandler(content);

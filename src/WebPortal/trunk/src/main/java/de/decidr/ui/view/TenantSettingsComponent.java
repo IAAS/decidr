@@ -34,6 +34,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
+
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
@@ -52,7 +53,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
  * @author AT
  */
 @Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.PassedWithComments)
-// XXX This should pre-select the current settings ~rr
+// XXX This should pre-select the current settings
 public class TenantSettingsComponent extends CustomComponent {
 
     private static final long serialVersionUID = -7841061147447361631L;
@@ -128,77 +129,6 @@ public class TenantSettingsComponent extends CustomComponent {
                     new TransactionErrorDialogComponent(e));
         }
         init();
-    }
-
-    /**
-     * This method initializes the components for the tenant settings component.
-     */
-    private void init() {
-        verticalLayout = new VerticalLayout();
-        browseHorizontalLayout = new HorizontalLayout();
-        buttonHorizontalLayout = new HorizontalLayout();
-        schemeHorizontalLayout = new HorizontalLayout();
-
-        browsePanel = new Panel();
-        schemePanel = new Panel();
-        schemePanel.setCaption("Color Scheme");
-        buttonPanel = new Panel();
-
-        tenantSettingsLabel = new Label("<h2>Tenant Settings for " + tenantName
-                + "</h2>");
-        tenantSettingsLabel.setContentMode(Label.CONTENT_XHTML);
-
-        textArea = new TextField();
-        textArea.setRows(10);
-        textArea.setColumns(30);
-        textArea.setCaption("Description");
-        textArea.setValue(tenantDescription);
-
-        logoUpload = new UploadComponent(logoId, new UploadAction());
-
-        saveButton = new Button("Save", new SaveTenantSettingsAction());
-        restoreDefaultSettingsButton = new Button("Restore Default Settings",
-                new RestoreDefaultTenantSettingsAction());
-
-        logoEmbedded = new Embedded("",
-                new ThemeResource("img/" + logoFileName));
-        logoEmbedded.setCaption("Logo");
-        logoEmbedded.setImmediate(true);
-
-        setCompositionRoot(verticalLayout);
-
-        verticalLayout.setSpacing(true);
-        verticalLayout.addComponent(tenantSettingsLabel);
-        verticalLayout.addComponent(textArea);
-        verticalLayout.addComponent(logoEmbedded);
-        verticalLayout.addComponent(browsePanel);
-
-        browsePanel.addComponent(browseHorizontalLayout);
-        browseHorizontalLayout.setSpacing(true);
-        browseHorizontalLayout.addComponent(logoUpload);
-
-        verticalLayout.addComponent(schemePanel);
-
-        schemePanel.addComponent(schemeHorizontalLayout);
-        schemeHorizontalLayout.setSpacing(true);
-
-        changeToBasic();
-
-        verticalLayout.addComponent(buttonPanel);
-
-        buttonPanel.addComponent(buttonHorizontalLayout);
-        buttonHorizontalLayout.setSpacing(true);
-        buttonHorizontalLayout.addComponent(saveButton);
-        buttonHorizontalLayout.addComponent(restoreDefaultSettingsButton);
-    }
-
-    /**
-     * Returns the embedded ui object
-     * 
-     * @return the logoEmbedded
-     */
-    public Embedded getLogoEmbedded() {
-        return logoEmbedded;
     }
 
     /**
@@ -320,48 +250,12 @@ public class TenantSettingsComponent extends CustomComponent {
     }
 
     /**
-     * Returns the horizontal layout for the CSS panel.
-     * 
-     * @return schemeHorizontalLayout
-     */
-    public HorizontalLayout getSchemeHorizontalLayout() {
-        return schemeHorizontalLayout;
-    }
-
-    /**
-     * Returns the text area.
-     * 
-     * @return textArea
-     */
-    public TextField getTenantDescription() {
-        return textArea;
-    }
-
-    /**
      * Gets the background select
      * 
      * @return the backgroundSelect
      */
     public NativeSelect getBackgroundSelect() {
         return backgroundSelect;
-    }
-
-    /**
-     * Gets the foreground select
-     * 
-     * @return the foregroundSelect
-     */
-    public NativeSelect getForegroundSelect() {
-        return foregroundSelect;
-    }
-
-    /**
-     * Gets the font select
-     * 
-     * @return the fontSelect
-     */
-    public NativeSelect getFontSelect() {
-        return fontSelect;
     }
 
     /**
@@ -374,12 +268,12 @@ public class TenantSettingsComponent extends CustomComponent {
     }
 
     /**
-     * Gets the scheme panel
+     * Gets the font select
      * 
-     * @return the schemePanel
+     * @return the fontSelect
      */
-    public Panel getSchemePanel() {
-        return schemePanel;
+    public NativeSelect getFontSelect() {
+        return fontSelect;
     }
 
     /**
@@ -392,11 +286,118 @@ public class TenantSettingsComponent extends CustomComponent {
     }
 
     /**
+     * Gets the foreground select
+     * 
+     * @return the foregroundSelect
+     */
+    public NativeSelect getForegroundSelect() {
+        return foregroundSelect;
+    }
+
+    /**
+     * Returns the embedded ui object
+     * 
+     * @return the logoEmbedded
+     */
+    public Embedded getLogoEmbedded() {
+        return logoEmbedded;
+    }
+
+    /**
+     * Returns the horizontal layout for the CSS panel.
+     * 
+     * @return schemeHorizontalLayout
+     */
+    public HorizontalLayout getSchemeHorizontalLayout() {
+        return schemeHorizontalLayout;
+    }
+
+    /**
+     * Gets the scheme panel
+     * 
+     * @return the schemePanel
+     */
+    public Panel getSchemePanel() {
+        return schemePanel;
+    }
+
+    /**
      * Gets the show advanced options button
      * 
      * @return the showAdvancedOptionsButton
      */
     public Button getShowAdvancedOptionsButton() {
         return showAdvancedOptionsButton;
+    }
+
+    /**
+     * Returns the text area.
+     * 
+     * @return textArea
+     */
+    public TextField getTenantDescription() {
+        return textArea;
+    }
+
+    /**
+     * This method initializes the components for the tenant settings component.
+     */
+    private void init() {
+        verticalLayout = new VerticalLayout();
+        browseHorizontalLayout = new HorizontalLayout();
+        buttonHorizontalLayout = new HorizontalLayout();
+        schemeHorizontalLayout = new HorizontalLayout();
+
+        browsePanel = new Panel();
+        schemePanel = new Panel();
+        schemePanel.setCaption("Color Scheme");
+        buttonPanel = new Panel();
+
+        tenantSettingsLabel = new Label("<h2>Tenant Settings for " + tenantName
+                + "</h2>");
+        tenantSettingsLabel.setContentMode(Label.CONTENT_XHTML);
+
+        textArea = new TextField();
+        textArea.setRows(10);
+        textArea.setColumns(30);
+        textArea.setCaption("Description");
+        textArea.setValue(tenantDescription);
+
+        logoUpload = new UploadComponent(logoId, new UploadAction());
+
+        saveButton = new Button("Save", new SaveTenantSettingsAction());
+        restoreDefaultSettingsButton = new Button("Restore Default Settings",
+                new RestoreDefaultTenantSettingsAction());
+
+        logoEmbedded = new Embedded("",
+                new ThemeResource("img/" + logoFileName));
+        logoEmbedded.setCaption("Logo");
+        logoEmbedded.setImmediate(true);
+
+        setCompositionRoot(verticalLayout);
+
+        verticalLayout.setSpacing(true);
+        verticalLayout.addComponent(tenantSettingsLabel);
+        verticalLayout.addComponent(textArea);
+        verticalLayout.addComponent(logoEmbedded);
+        verticalLayout.addComponent(browsePanel);
+
+        browsePanel.addComponent(browseHorizontalLayout);
+        browseHorizontalLayout.setSpacing(true);
+        browseHorizontalLayout.addComponent(logoUpload);
+
+        verticalLayout.addComponent(schemePanel);
+
+        schemePanel.addComponent(schemeHorizontalLayout);
+        schemeHorizontalLayout.setSpacing(true);
+
+        changeToBasic();
+
+        verticalLayout.addComponent(buttonPanel);
+
+        buttonPanel.addComponent(buttonHorizontalLayout);
+        buttonHorizontalLayout.setSpacing(true);
+        buttonHorizontalLayout.addComponent(saveButton);
+        buttonHorizontalLayout.addComponent(restoreDefaultSettingsButton);
     }
 }

@@ -56,7 +56,7 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
     /**
      * Constructor which gets a work item id as a parameter to know which work
      * item is to be marked as done.<br>
-     * Aleks: description incorrect, there is no id parameter ~dh, ~tk
+     * TODO: description incorrect, there is no id parameter
      */
     public MarkWorkItemAsDoneAction(Table table) {
         this.table = table;
@@ -73,10 +73,9 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
         Set<?> value = (Set<?>) table.getValue();
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                WorkItemSummaryViewBean workItemSummaryViewBean = (WorkItemSummaryViewBean) iter.next();
+                WorkItemSummaryViewBean workItemSummaryViewBean = (WorkItemSummaryViewBean) iter
+                        .next();
                 Long workItemId = workItemSummaryViewBean.getId();
-                // Aleks use enumeration instead of magic string ~dh, ~tk
-                // Aleks I've done this for you ~rr
                 if (workItemSummaryViewBean.getWorkItemStatus().equals(
                         WorkItemStatus.Done.toString())) {
                     Main.getCurrent().getMainWindow().addWindow(
@@ -86,8 +85,8 @@ public class MarkWorkItemAsDoneAction implements ClickListener {
                 } else {
                     try {
                         workItemFacade.markWorkItemAsDone(workItemId);
-                        workItemSummaryViewBean.setWorkItemStatus(
-                                WorkItemStatus.Done.name());
+                        workItemSummaryViewBean
+                                .setWorkItemStatus(WorkItemStatus.Done.name());
                         table.requestRepaint();
                         Main.getCurrent().getMainWindow().addWindow(
                                 new InformationDialogComponent(

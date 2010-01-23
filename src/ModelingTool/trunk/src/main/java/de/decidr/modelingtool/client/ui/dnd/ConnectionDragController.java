@@ -68,15 +68,6 @@ public class ConnectionDragController extends PickupDragController {
     }
 
     @Override
-    public void dragMove() {
-        super.dragMove();
-
-        if (connection != null) {
-            connection.draw();
-        }
-    }
-
-    @Override
     public void dragEnd() {
         super.dragEnd();
 
@@ -143,6 +134,15 @@ public class ConnectionDragController extends PickupDragController {
     }
 
     @Override
+    public void dragMove() {
+        super.dragMove();
+
+        if (connection != null) {
+            connection.draw();
+        }
+    }
+
+    @Override
     public void dragStart() {
         if (context.draggable instanceof ConnectionDragBox) {
             ConnectionDragBox draggedDragBox = (ConnectionDragBox) context.draggable;
@@ -159,7 +159,7 @@ public class ConnectionDragController extends PickupDragController {
 
                 // check if connection is within an inner container connection
                 if (draggedPort.isContainerPort()
-                        && draggedPort.getParentNode() instanceof HasChildren) {
+                        && (draggedPort.getParentNode() instanceof HasChildren)) {
                     // create connection on container
                     connection = new OrthogonalConnection(
                             (HasChildren) draggedPort.getParentNode());

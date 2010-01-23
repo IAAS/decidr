@@ -28,5 +28,4 @@ public class ModelingToolException extends Exception {
     public ModelingToolException(String msg) {
         super(msg);
     }
-
 }

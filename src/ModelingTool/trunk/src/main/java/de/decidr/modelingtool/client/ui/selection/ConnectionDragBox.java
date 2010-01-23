@@ -70,21 +70,12 @@ public class ConnectionDragBox extends DragBox {
         setVisibleStyle(false);
     }
 
-    public Port getGluedPort() {
-        return gluedPort;
-    }
-
-    public void setGluedPort(Port gluedPort) {
-        // unglue if glued
-        if (this.gluedPort != null) {
-            this.gluedPort.remove(this);
-        }
-
-        this.gluedPort = gluedPort;
-    }
-
     public Connection getConnection() {
         return connection;
+    }
+
+    public Port getGluedPort() {
+        return gluedPort;
     }
 
     /**
@@ -111,8 +102,50 @@ public class ConnectionDragBox extends DragBox {
         return visibleStyle;
     }
 
+    /**
+     * Gets the right drag controller from the dnd registry and makes this
+     * draggable, if gluedPort is not null.
+     */
+    public void makeDraggable(boolean isOnTargetPort) {
+        Port port = getGluedPort();
+        DragController dc = null;
+
+        if ((port instanceof InputPort) || (port instanceof ContainerExitPort)) {
+            if (isOnTargetPort) {
+                dc = DndRegistry.getInstance().getDragController(
+                        "OutputPortDragController");
+            } else {
+                dc = DndRegistry.getInstance().getDragController(
+                        "InputPortDragController");
+            }
+        } else if ((port instanceof OutputPort)
+                || (port instanceof ContainerStartPort)) {
+            if (isOnTargetPort) {
+                dc = DndRegistry.getInstance().getDragController(
+                        "InputPortDragController");
+            } else {
+                dc = DndRegistry.getInstance().getDragController(
+                        "OutputPortDragController");
+            }
+        } else {
+            GWT.log("Could not make port draggable", null);
+            return;
+        }
+
+        dc.makeDraggable(this);
+    }
+
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public void setGluedPort(Port gluedPort) {
+        // unglue if glued
+        if (this.gluedPort != null) {
+            this.gluedPort.remove(this);
+        }
+
+        this.gluedPort = gluedPort;
     }
 
     /**
@@ -129,38 +162,5 @@ public class ConnectionDragBox extends DragBox {
         } else {
             setStyleName("dragbox-invisible");
         }
-    }
-
-    /**
-     * Gets the right drag controller from the dnd registry and makes this
-     * draggable, if gluedPort is not null.
-     */
-    public void makeDraggable(boolean isOnTargetPort) {
-        Port port = getGluedPort();
-        DragController dc = null;
-
-        if (port instanceof InputPort || port instanceof ContainerExitPort) {
-            if (isOnTargetPort) {
-                dc = DndRegistry.getInstance().getDragController(
-                        "OutputPortDragController");
-            } else {
-                dc = DndRegistry.getInstance().getDragController(
-                        "InputPortDragController");
-            }
-        } else if (port instanceof OutputPort
-                || port instanceof ContainerStartPort) {
-            if (isOnTargetPort) {
-                dc = DndRegistry.getInstance().getDragController(
-                        "InputPortDragController");
-            } else {
-                dc = DndRegistry.getInstance().getDragController(
-                        "OutputPortDragController");
-            }
-        } else {
-            GWT.log("Could not make port draggable", null);
-            return;
-        }
-
-        dc.makeDraggable(this);
     }
 }

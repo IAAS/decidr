@@ -64,5 +64,4 @@ public class DeleteMenuItem implements Command {
             }
         }
     }
-
 }

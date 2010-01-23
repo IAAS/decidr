@@ -32,8 +32,7 @@ public class RoleBean {
     private String actor;
 
     /**
-     * Constructor of the bean, with given parameter actor and email.<br>
-     * Aleks: wrong ;-) ~rr
+     * Constructor of the bean, with given parameter actor.
      * 
      * @param actor
      *            TODO document

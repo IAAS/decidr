@@ -71,8 +71,7 @@ public class LoginWithInvitationAction implements ClickListener {
                     .getHNavigation()).getLogoutButton().setVisible(true);
             Main.getCurrent().getMainWindow().addWindow(invitationDialog);
         } catch (TransactionException exception) {
-            Main.getCurrent().getMainWindow().showNotification(
-                    "Login failed!");
+            Main.getCurrent().getMainWindow().showNotification("Login failed!");
         }
     }
 }

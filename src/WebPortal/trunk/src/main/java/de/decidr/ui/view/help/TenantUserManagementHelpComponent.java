@@ -45,13 +45,13 @@ public class TenantUserManagementHelpComponent extends VerticalLayout {
     public TenantUserManagementHelpComponent() {
         setMargin(false, true, true, true);
 
-        inviteUserLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to &quot;Edit user list&quot; in the navigation bar.</li>"
-                + "<li>Navigate to the invitation sub-page.</li>"
-                + "<li>Select &quot;invite user&quot; and enter a number of email addresses and/or user names.</li>"
-                + "<li>If you are done, click on the &quot;Send&quot; button.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        inviteUserLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to &quot;Edit user list&quot; in the navigation bar.</li>"
+                        + "<li>Navigate to the invitation sub-page.</li>"
+                        + "<li>Select &quot;invite user&quot; and enter a number of email addresses and/or user names.</li>"
+                        + "<li>If you are done, click on the &quot;Send&quot; button.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         inviteUserLabel.setVisible(false);
         inviteUserButton = new Button("How do I invite users to a tenant?",
                 new ToggleLabelAction(inviteUserLabel));
@@ -60,12 +60,12 @@ public class TenantUserManagementHelpComponent extends VerticalLayout {
         this.addComponent(inviteUserButton);
         this.addComponent(inviteUserLabel);
 
-        removeUserLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to &quot;Edit users&quot; in the navigation bar.</li>"
-                + "<li>Select one or more tenant members to remove.</li>"
-                + "<li>Click on the &quot;Remove&quot; button and confirm the removal.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        removeUserLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to &quot;Edit users&quot; in the navigation bar.</li>"
+                        + "<li>Select one or more tenant members to remove.</li>"
+                        + "<li>Click on the &quot;Remove&quot; button and confirm the removal.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         removeUserLabel.setVisible(false);
         removeUserButton = new Button("How do I remove users from a tenant?",
                 new ToggleLabelAction(removeUserLabel));
@@ -74,16 +74,16 @@ public class TenantUserManagementHelpComponent extends VerticalLayout {
         this.addComponent(removeUserButton);
         this.addComponent(removeUserLabel);
 
-        transferAdminLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to the user administration by clicking on"
-                + " &quot;User&quot; in the navigation bar.</li>"
-                + "<li>Select the user you want to promote and click on the "
-                + "&quot;Promote to tenant admin&quot; button.</li>"
-                + "<li>The system sends a notification email to the super admin "
-                + "and the designated tenant admin, stating that the tenant "
-                + "admin role has been transferred.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        transferAdminLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to the user administration by clicking on"
+                        + " &quot;User&quot; in the navigation bar.</li>"
+                        + "<li>Select the user you want to promote and click on the "
+                        + "&quot;Promote to tenant admin&quot; button.</li>"
+                        + "<li>The system sends a notification email to the super admin "
+                        + "and the designated tenant admin, stating that the tenant "
+                        + "admin role has been transferred.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         transferAdminLabel.setVisible(false);
         transferAdminButton = new Button(
                 "How do I transfer my admin role to another user?",

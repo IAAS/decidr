@@ -57,5 +57,4 @@ public class IdGenerator {
     public static void setHighestId(Long highestId) {
         id = highestId;
     }
-
 }

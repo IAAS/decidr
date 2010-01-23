@@ -28,5 +28,4 @@ import com.google.gwt.user.client.Command;
 public interface UndoableCommand extends Command {
 
     public void undo();
-
 }

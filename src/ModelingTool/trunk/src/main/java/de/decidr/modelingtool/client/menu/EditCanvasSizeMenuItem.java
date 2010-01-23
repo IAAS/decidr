@@ -38,5 +38,4 @@ public class EditCanvasSizeMenuItem implements Command {
     public void execute() {
         CanvasSizeWindowInvoker.invoke(Workflow.getInstance());
     }
-
 }

@@ -36,7 +36,6 @@ public class PublicModelTable extends Table {
     private Container publicModelContainer = null;
 
     private final int TABLE_PAGE_LENGTH = 7;
-    
 
     /**
      * Default constructor. Adds this table as an observer to the container

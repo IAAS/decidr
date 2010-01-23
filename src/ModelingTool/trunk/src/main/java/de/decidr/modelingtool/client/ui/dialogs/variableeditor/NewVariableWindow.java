@@ -67,18 +67,13 @@ public class NewVariableWindow extends ModelingToolDialog {
         createButtons();
     }
 
-    private void createContentPanel() {
-        contentPanel = new ContentPanel();
-        contentPanel.setHeading(ModelingToolWidget.getMessages().newVariable());
-        contentPanel.setLayout(new FitLayout());
-
-        table = new FlexTable();
-        table.setBorderWidth(0);
-        table.setWidth("100%");
-        scrollPanel = new ScrollPanel(table);
-        contentPanel.add(scrollPanel);
-
-        this.add(contentPanel);
+    private void addVariable() {
+        String label = labelField.getValue();
+        VariableType type = VariableType.getTypeFromLocalName(typeField
+                .getSimpleValue());
+        Boolean config = configField.getValue();
+        Variable variable = new Variable(label, type, config);
+        variables.insert(variable, variables.getCount());
     }
 
     private void createButtons() {
@@ -103,17 +98,18 @@ public class NewVariableWindow extends ModelingToolDialog {
                 }));
     }
 
-    private void addVariable() {
-        String label = labelField.getValue();
-        VariableType type = VariableType.getTypeFromLocalName(typeField
-                .getSimpleValue());
-        Boolean config = configField.getValue();
-        Variable variable = new Variable(label, type, config);
-        variables.insert(variable, variables.getCount());
-    }
+    private void createContentPanel() {
+        contentPanel = new ContentPanel();
+        contentPanel.setHeading(ModelingToolWidget.getMessages().newVariable());
+        contentPanel.setLayout(new FitLayout());
 
-    public void setVariables(ListStore<Variable> variables) {
-        this.variables = variables;
+        table = new FlexTable();
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
+
+        this.add(contentPanel);
     }
 
     /*
@@ -171,6 +167,10 @@ public class NewVariableWindow extends ModelingToolDialog {
                 table.removeRow(i - 1);
             }
         }
+    }
+
+    public void setVariables(ListStore<Variable> variables) {
+        this.variables = variables;
     }
 
 }

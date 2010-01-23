@@ -35,6 +35,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
@@ -80,52 +81,6 @@ public class WorkItemWindow extends Window {
      */
     public WorkItemWindow(THumanTaskData tHumanTaskData, Long workItemId) {
         init(tHumanTaskData, workItemId);
-    }
-    
-    /**
-     * Initializes the components for the window and fills the form with the
-     * information from the {@link THumanTaskData}.
-     * 
-     * @param tHumanTaskData
-     *            - An object representing the work item xml file as a java
-     *            object
-     */
-    private void init(THumanTaskData tHumanTaskData, Long workItemId) {
-        verticalLayout = new VerticalLayout();
-        verticalLayout.setMargin(true);
-        horizontalLayout = new HorizontalLayout();
-
-        label = new Label();
-
-        itemForm = new Form();
-
-        fillForm(tHumanTaskData);
-
-        okButton = new Button("OK", new SaveWorkItemAction(itemForm,
-                tHumanTaskData, workItemId));
-        okButton.focus();
-        cancelButton = new Button("Cancel", new HideWindowAndDeleteFileAction());
-
-        markAsDoneButton = new Button("Mark as done", new SaveWorkItemAction(
-                itemForm, tHumanTaskData, workItemId));
-
-        this.setContent(verticalLayout);
-        this.setModal(true);
-        this.setHeight("650px");
-        this.setWidth("370px");
-        this.center();
-        this.setResizable(true);
-        this.setCaption("Work item");
-
-        verticalLayout.addComponent(label);
-
-        verticalLayout.addComponent(itemForm);
-
-        horizontalLayout.addComponent(okButton);
-        horizontalLayout.addComponent(markAsDoneButton);
-        horizontalLayout.addComponent(cancelButton);
-
-        verticalLayout.addComponent(horizontalLayout);
     }
 
     /**
@@ -264,5 +219,51 @@ public class WorkItemWindow extends Window {
      */
     public Form getItemForm() {
         return itemForm;
+    }
+
+    /**
+     * Initializes the components for the window and fills the form with the
+     * information from the {@link THumanTaskData}.
+     * 
+     * @param tHumanTaskData
+     *            - An object representing the work item xml file as a java
+     *            object
+     */
+    private void init(THumanTaskData tHumanTaskData, Long workItemId) {
+        verticalLayout = new VerticalLayout();
+        verticalLayout.setMargin(true);
+        horizontalLayout = new HorizontalLayout();
+
+        label = new Label();
+
+        itemForm = new Form();
+
+        fillForm(tHumanTaskData);
+
+        okButton = new Button("OK", new SaveWorkItemAction(itemForm,
+                tHumanTaskData, workItemId));
+        okButton.focus();
+        cancelButton = new Button("Cancel", new HideWindowAndDeleteFileAction());
+
+        markAsDoneButton = new Button("Mark as done", new SaveWorkItemAction(
+                itemForm, tHumanTaskData, workItemId));
+
+        this.setContent(verticalLayout);
+        this.setModal(true);
+        this.setHeight("650px");
+        this.setWidth("370px");
+        this.center();
+        this.setResizable(true);
+        this.setCaption("Work item");
+
+        verticalLayout.addComponent(label);
+
+        verticalLayout.addComponent(itemForm);
+
+        horizontalLayout.addComponent(okButton);
+        horizontalLayout.addComponent(markAsDoneButton);
+        horizontalLayout.addComponent(cancelButton);
+
+        verticalLayout.addComponent(horizontalLayout);
     }
 }

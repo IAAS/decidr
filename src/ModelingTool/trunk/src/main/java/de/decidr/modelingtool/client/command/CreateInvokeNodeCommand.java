@@ -101,25 +101,6 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
         model.setChangeListener(node);
     }
 
-    @Override
-    public void undo() {
-        // remove node from workflow
-        node.getParentPanel().removeNode(node);
-
-        // remove model from workflow
-        model.getParentModel().removeNodeModel(model);
-    }
-
-    @Override
-    public void execute() {
-        // add node to parent panel
-        node.getParentPanel().addNode(node, model.getChangeListenerLeft(),
-                model.getChangeListenerTop());
-
-        // add model to workflow
-        model.getParentModel().addNodeModel(model);
-    }
-
     /**
      * Checks the node model if it contains all required data for drawing the
      * container: its parent model.
@@ -134,6 +115,25 @@ public class CreateInvokeNodeCommand implements UndoableCommand {
         }
 
         return true;
+    }
+
+    @Override
+    public void execute() {
+        // add node to parent panel
+        node.getParentPanel().addNode(node, model.getChangeListenerLeft(),
+                model.getChangeListenerTop());
+
+        // add model to workflow
+        model.getParentModel().addNodeModel(model);
+    }
+
+    @Override
+    public void undo() {
+        // remove node from workflow
+        node.getParentPanel().removeNode(node);
+
+        // remove model from workflow
+        model.getParentModel().removeNodeModel(model);
     }
 
 }

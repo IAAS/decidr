@@ -83,5 +83,4 @@ public class ChangeVariablesCommand implements UndoableCommand {
     public void undo() {
         Workflow.getInstance().getModel().setVariables(oldVariables);
     }
-
 }

@@ -40,31 +40,21 @@ public class RoleEditorUser extends BaseModelData {
     }
 
     /**
-     * Gets the user id.
-     * 
-     * @return the userid
-     */
-    public Long getUserId() {
-        return get(USERID);
-    }
-
-    /**
-     * Sets the user id.
-     * 
-     * @param userId
-     *            the userid to set
-     */
-    public void setUserId(Long userId) {
-        set(USERID, userId);
-    }
-
-    /**
      * Gets the display name.
      * 
      * @return the username
      */
     public String getDisplayName() {
         return get(DISPLAYNAME);
+    }
+
+    /**
+     * Gets the user id.
+     * 
+     * @return the userid
+     */
+    public Long getUserId() {
+        return get(USERID);
     }
 
     /**
@@ -75,6 +65,16 @@ public class RoleEditorUser extends BaseModelData {
      */
     public void setDisplayName(String username) {
         set(DISPLAYNAME, username);
+    }
+
+    /**
+     * Sets the user id.
+     * 
+     * @param userId
+     *            the userid to set
+     */
+    public void setUserId(Long userId) {
+        set(USERID, userId);
     }
 
 }

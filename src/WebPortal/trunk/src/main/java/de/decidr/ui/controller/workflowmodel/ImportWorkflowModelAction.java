@@ -76,16 +76,18 @@ public class ImportWorkflowModelAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new ArrayList<Long>();
-        Set<WorkflowModelBean> value = (Set<WorkflowModelBean>) table.getValue();
+        Set<WorkflowModelBean> value = (Set<WorkflowModelBean>) table
+                .getValue();
         List<WorkflowModelBean> list = new ArrayList<WorkflowModelBean>(value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                WorkflowModelBean workflowModelBean = (WorkflowModelBean) iter.next();
+                WorkflowModelBean workflowModelBean = (WorkflowModelBean) iter
+                        .next();
                 wfms.add(workflowModelBean.getId());
             }
             try {
                 tenantFacade.importPublishedWorkflowModels(tenantId, wfms);
-                for(WorkflowModelBean bean : list){
+                for (WorkflowModelBean bean : list) {
                     table.removeItem(bean);
                 }
                 Main.getCurrent().getMainWindow().addWindow(

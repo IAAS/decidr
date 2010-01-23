@@ -110,13 +110,20 @@ public class CreateContainerCommand implements UndoableCommand {
         model.setChangeListener(node);
     }
 
-    @Override
-    public void undo() {
-        // remove node from workflow
-        node.getParentPanel().removeNode(node);
+    /**
+     * Checks the container model if it consists all required data for drawing
+     * the container: its parent model.
+     * 
+     * @return True, if all required data is not null.
+     * @throws IncompleteModelDataException
+     *             if any relevant data is null.
+     */
+    private boolean checkModelData() throws IncompleteModelDataException {
+        if (model.getParentModel() == null) {
+            throw new IncompleteModelDataException("model.parentModel is null.");
+        }
 
-        // remove model from workflow
-        model.getParentModel().removeNodeModel(model);
+        return true;
     }
 
     @Override
@@ -132,20 +139,13 @@ public class CreateContainerCommand implements UndoableCommand {
         model.getParentModel().addNodeModel(model);
     }
 
-    /**
-     * Checks the container model if it consists all required data for drawing
-     * the container: its parent model.
-     * 
-     * @return True, if all required data is not null.
-     * @throws IncompleteModelDataException
-     *             if any relevant data is null.
-     */
-    private boolean checkModelData() throws IncompleteModelDataException {
-        if (model.getParentModel() == null) {
-            throw new IncompleteModelDataException("model.parentModel is null.");
-        }
+    @Override
+    public void undo() {
+        // remove node from workflow
+        node.getParentPanel().removeNode(node);
 
-        return true;
+        // remove model from workflow
+        model.getParentModel().removeNodeModel(model);
     }
 
 }

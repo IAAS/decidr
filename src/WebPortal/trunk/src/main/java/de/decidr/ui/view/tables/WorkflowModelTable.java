@@ -38,7 +38,6 @@ public class WorkflowModelTable extends Table {
 
     private Container container = null;
 
-
     /**
      * @param container
      *            Container which holds the workflow models

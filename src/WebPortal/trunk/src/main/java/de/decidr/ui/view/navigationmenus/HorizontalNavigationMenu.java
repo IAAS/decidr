@@ -86,7 +86,6 @@ public class HorizontalNavigationMenu extends CustomComponent {
 
         btnLogoutLink.setVisible(false);
 
-
         horizontalLayout.setSpacing(false);
 
         horizontalLayout.addComponent(btnHomeLink);

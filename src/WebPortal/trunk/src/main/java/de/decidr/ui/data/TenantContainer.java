@@ -33,7 +33,6 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.filters.EqualsFilter;
 import de.decidr.model.filters.Filter;
-
 import de.decidr.ui.beans.TenantSummaryViewBean;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
@@ -41,7 +40,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * This container holds tenants. The tenants are represented by a list of
  * {@link Item items}.<br>
- * Aleks: update comment: not an Item
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -70,7 +69,7 @@ public class TenantContainer extends BeanItemContainer<TenantSummaryViewBean> {
 
     /**
      * The tenant {@link Item items} are added to the container.<br>
-     * Aleks: update comment: not an Item
+     * TODO: update comment: not an Item
      */
     public TenantContainer() {
         super(TenantSummaryViewBean.class);

@@ -28,5 +28,4 @@ public class IncompleteModelDataException extends ModelingToolException {
     public IncompleteModelDataException(String msg) {
         super(msg);
     }
-
 }

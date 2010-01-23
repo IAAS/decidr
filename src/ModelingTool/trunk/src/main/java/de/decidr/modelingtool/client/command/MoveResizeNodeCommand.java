@@ -60,6 +60,23 @@ public class MoveResizeNodeCommand implements UndoableCommand {
     private UndoableCommand removeConnectionsCmd;
 
     /**
+     * Constructor for the already moved graphical node (without resizing).
+     * 
+     * @param node
+     *            The graphical node (already moved to new position and panel)
+     * @param oldParentPanel
+     *            The parent panel of the node before moving
+     * @param oldNodeLeft
+     *            The x coordinate of the node before moving
+     * @param oldNodeTop
+     *            The y coordinate of the node before moving
+     */
+    public MoveResizeNodeCommand(Node node, HasChildren oldParentPanel,
+            int oldNodeLeft, int oldNodeTop) {
+        this(node, oldParentPanel, oldNodeLeft, oldNodeTop, 0, 0);
+    }
+
+    /**
      * Constructor for the already moved and resized graphical node.
      * 
      * @param node
@@ -93,68 +110,6 @@ public class MoveResizeNodeCommand implements UndoableCommand {
         this.newGraphicHeight = node.getGraphicHeight();
 
         removeConnectionsCmd = node.getRemoveDependentItemsCommand();
-    }
-
-    /**
-     * Constructor for the already moved graphical node (without resizing).
-     * 
-     * @param node
-     *            The graphical node (already moved to new position and panel)
-     * @param oldParentPanel
-     *            The parent panel of the node before moving
-     * @param oldNodeLeft
-     *            The x coordinate of the node before moving
-     * @param oldNodeTop
-     *            The y coordinate of the node before moving
-     */
-    public MoveResizeNodeCommand(Node node, HasChildren oldParentPanel,
-            int oldNodeLeft, int oldNodeTop) {
-        this(node, oldParentPanel, oldNodeLeft, oldNodeTop, 0, 0);
-    }
-
-    @Override
-    public void undo() {
-        // get selected state
-        boolean selected = node.isSelected();
-
-        if (oldParentPanel != newParentPanel) {
-            // unselect node, if selected (nessecary if parent panel of node is
-            // changed.
-            if (selected) {
-                SelectionHandler.getInstance().unselect();
-            }
-
-            try {
-                node.getModel().setParentModel(
-                        oldParentPanel.getHasChildModelsModel());
-            } catch (InvalidTypeException e) {
-                e.printStackTrace();
-            }
-
-            newParentPanel.removeNode(node);
-            oldParentPanel.addNode(node);
-
-            removeConnectionsCmd.undo();
-        }
-
-        // set node to former position
-        node.setPosition(oldNodeLeft, oldNodeTop);
-        // set position data in model
-        node.getModel().setChangeListenerPosition(oldNodeLeft, oldNodeTop);
-
-        // check if model have been resized
-        if (node.isResizable() && oldGraphicWidth != 0 && oldGraphicHeight != 0) {
-            // set node to new size
-            node.setGraphicPixelSize(oldGraphicWidth, oldGraphicHeight);
-            // set size in data model
-            node.getModel().setChangeListenerSize(oldGraphicWidth,
-                    oldGraphicHeight);
-        }
-
-        // select node if was selected before
-        if (selected) {
-            SelectionHandler.getInstance().select(node);
-        }
     }
 
     @Override
@@ -194,7 +149,8 @@ public class MoveResizeNodeCommand implements UndoableCommand {
         node.getModel().setChangeListenerPosition(newNodeLeft, newNodeTop);
 
         // check if model have been resized
-        if (node.isResizable() && oldGraphicWidth != 0 && oldGraphicHeight != 0) {
+        if (node.isResizable() && (oldGraphicWidth != 0)
+                && (oldGraphicHeight != 0)) {
             // set node to new size
             node.setGraphicPixelSize(newGraphicWidth, newGraphicHeight);
             // set size in data model
@@ -207,6 +163,51 @@ public class MoveResizeNodeCommand implements UndoableCommand {
             SelectionHandler.getInstance().select(node);
             // SelectionHandler.getInstance().refreshSelection();
         }
+    }
 
+    @Override
+    public void undo() {
+        // get selected state
+        boolean selected = node.isSelected();
+
+        if (oldParentPanel != newParentPanel) {
+            // unselect node, if selected (nessecary if parent panel of node is
+            // changed.
+            if (selected) {
+                SelectionHandler.getInstance().unselect();
+            }
+
+            try {
+                node.getModel().setParentModel(
+                        oldParentPanel.getHasChildModelsModel());
+            } catch (InvalidTypeException e) {
+                e.printStackTrace();
+            }
+
+            newParentPanel.removeNode(node);
+            oldParentPanel.addNode(node);
+
+            removeConnectionsCmd.undo();
+        }
+
+        // set node to former position
+        node.setPosition(oldNodeLeft, oldNodeTop);
+        // set position data in model
+        node.getModel().setChangeListenerPosition(oldNodeLeft, oldNodeTop);
+
+        // check if model have been resized
+        if (node.isResizable() && (oldGraphicWidth != 0)
+                && (oldGraphicHeight != 0)) {
+            // set node to new size
+            node.setGraphicPixelSize(oldGraphicWidth, oldGraphicHeight);
+            // set size in data model
+            node.getModel().setChangeListenerSize(oldGraphicWidth,
+                    oldGraphicHeight);
+        }
+
+        // select node if was selected before
+        if (selected) {
+            SelectionHandler.getInstance().select(node);
+        }
     }
 }

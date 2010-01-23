@@ -67,25 +67,55 @@ public class IfWindow extends ModelingToolDialog {
         fieldsets = new ArrayList<IfFieldSet>();
     }
 
-    /**
-     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
-     * the comboboxes are added.
-     */
-    private void createContentPanel() {
-        contentPanel = new ContentPanel();
+    private void changeWorkflowModel() {
+        IfContainerModel newModel = new IfContainerModel(model.getParentModel());
+        for (IfFieldSet fieldset : fieldsets) {
+            /*
+             * Get all the values from the inputs fields and create a new
+             * condition
+             */
+            String label = fieldset.getLabel().getText();
+            Long operand1Id = fieldset.getLeftOperandField().getValue().getId();
+            Operator operator = Operator.getOperatorFromDisplayString(fieldset
+                    .getOperatorList().getSimpleValue());
+            Long operand2Id = fieldset.getRightOperandField().getValue()
+                    .getId();
+            Integer order = fieldset.getOrderField().getOrder();
+            Condition newCondition = new Condition(label, operand1Id, operator,
+                    operand2Id, order);
 
-        contentPanel.setHeading(ModelingToolWidget.getMessages().ifContainer());
-        contentPanel.setLayout(new FitLayout());
+            /*
+             * Get properties from the old condition and copy them to the new
+             * condition
+             */
+            Condition oldCondition = model.getConditionById(fieldset
+                    .getConditionId());
+            newCondition.setId(oldCondition.getId());
+            newCondition.setParentModel(oldCondition.getParentModel());
+            newCondition.setSource(oldCondition.getSource());
+            newCondition.setTarget(oldCondition.getTarget());
 
-        table = new FlexTable();
-        table.setBorderWidth(0);
-        table.setWidth("100%");
-        table.setCellPadding(2);
-        table.setCellSpacing(2);
-        scrollPanel = new ScrollPanel(table);
-        contentPanel.add(scrollPanel);
+            /* Add new condition to model */
+            newModel.addCondition(newCondition);
+        }
+        /* only push to command stack if changes where made */
+        if (newModel.getProperties().equals(model.getProperties()) == false) {
+            CommandStack.getInstance().executeCommand(
+                    new ChangeNodePropertiesCommand(node, newModel
+                            .getProperties()));
+        }
+    }
 
-        this.add(contentPanel);
+    private void clearAllEntries() {
+        if (table.getRowCount() > 0) {
+            int start = table.getRowCount();
+            for (int i = start; i > 0; i--) {
+                table.removeRow(i - 1);
+            }
+        }
+        if (fieldsets.size() > 0) {
+            fieldsets.clear();
+        }
     }
 
     /**
@@ -128,6 +158,70 @@ public class IfWindow extends ModelingToolDialog {
     }
 
     /**
+     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
+     * the comboboxes are added.
+     */
+    private void createContentPanel() {
+        contentPanel = new ContentPanel();
+
+        contentPanel.setHeading(ModelingToolWidget.getMessages().ifContainer());
+        contentPanel.setLayout(new FitLayout());
+
+        table = new FlexTable();
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        table.setCellPadding(2);
+        table.setCellSpacing(2);
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
+
+        this.add(contentPanel);
+    }
+
+    private void createFields() {
+        for (Condition con : model.getConditions()) {
+            table.insertRow(table.getRowCount());
+
+            IfFieldSet fieldset = new IfFieldSet(con, model.getConditions()
+                    .size());
+            fieldsets.add(fieldset);
+            table.setWidget(table.getRowCount() - 1, 0, fieldset.getLabel());
+            table.setWidget(table.getRowCount() - 1, 1, fieldset
+                    .getTypeSelector());
+            table.setWidget(table.getRowCount() - 1, 2, fieldset
+                    .getLeftOperandField());
+            table.setWidget(table.getRowCount() - 1, 3, fieldset
+                    .getOperatorList());
+            table.setWidget(table.getRowCount() - 1, 4, fieldset
+                    .getRightOperandField());
+            table.setWidget(table.getRowCount() - 1, 5, fieldset
+                    .getOrderField());
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#initialize()
+     */
+    @Override
+    public Boolean initialize() {
+        createFields();
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#reset()
+     */
+    @Override
+    public void reset() {
+        clearAllEntries();
+    }
+
+    /**
      * Sets the {@link IfContainer} whose properties are to be modeled with this
      * window.
      * 
@@ -158,8 +252,8 @@ public class IfWindow extends ModelingToolDialog {
         for (int order = 0; order < fieldsets.size(); order++) {
             Boolean indexFound = false;
             for (IfFieldSet fs : fieldsets) {
-                if (fs.getOrderField() != null
-                        && fs.getOrderField().getOrder() == order) {
+                if ((fs.getOrderField() != null)
+                        && (fs.getOrderField().getOrder() == order)) {
                     indexFound = true;
                 }
             }
@@ -167,100 +261,6 @@ public class IfWindow extends ModelingToolDialog {
             result = indexFound;
         }
         return result;
-    }
-
-    private void changeWorkflowModel() {
-        IfContainerModel newModel = new IfContainerModel(model.getParentModel());
-        for (IfFieldSet fieldset : fieldsets) {
-            /*
-             * Get all the values from the inputs fields and create a new
-             * condition
-             */
-            String label = fieldset.getLabel().getText();
-            Long operand1Id = fieldset.getLeftOperandField().getValue().getId();
-            Operator operator = Operator.getOperatorFromDisplayString(fieldset
-                    .getOperatorList().getSimpleValue());
-            Long operand2Id = fieldset.getRightOperandField().getValue()
-                    .getId();
-            Integer order = fieldset.getOrderField().getOrder();
-            Condition newCondition = new Condition(label, operand1Id, operator,
-                    operand2Id, order);
-
-            /*
-             * Get properties from the old condition and copy them to the new
-             * condition
-             */
-            Condition oldCondition = model.getConditionById(fieldset
-                    .getConditionId());
-            newCondition.setId(oldCondition.getId());
-            newCondition.setParentModel(oldCondition.getParentModel());
-            newCondition.setSource(oldCondition.getSource());
-            newCondition.setTarget(oldCondition.getTarget());
-
-            /* Add new condition to model */
-            newModel.addCondition(newCondition);
-        }
-        /* only push to command stack if changes where made */
-        if (newModel.getProperties().equals(model.getProperties()) == false) {
-            CommandStack.getInstance().executeCommand(
-                    new ChangeNodePropertiesCommand(node, newModel
-                            .getProperties()));
-        }
-    }
-
-    private void createFields() {
-        for (Condition con : model.getConditions()) {
-            table.insertRow(table.getRowCount());
-
-            IfFieldSet fieldset = new IfFieldSet(con, model.getConditions()
-                    .size());
-            fieldsets.add(fieldset);
-            table.setWidget(table.getRowCount() - 1, 0, fieldset.getLabel());
-            table.setWidget(table.getRowCount() - 1, 1, fieldset
-                    .getTypeSelector());
-            table.setWidget(table.getRowCount() - 1, 2, fieldset
-                    .getLeftOperandField());
-            table.setWidget(table.getRowCount() - 1, 3, fieldset
-                    .getOperatorList());
-            table.setWidget(table.getRowCount() - 1, 4, fieldset
-                    .getRightOperandField());
-            table.setWidget(table.getRowCount() - 1, 5, fieldset
-                    .getOrderField());
-        }
-    }
-
-    private void clearAllEntries() {
-        if (table.getRowCount() > 0) {
-            int start = table.getRowCount();
-            for (int i = start; i > 0; i--) {
-                table.removeRow(i - 1);
-            }
-        }
-        if (fieldsets.size() > 0) {
-            fieldsets.clear();
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#initialize()
-     */
-    @Override
-    public Boolean initialize() {
-        createFields();
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog#reset()
-     */
-    @Override
-    public void reset() {
-        clearAllEntries();
     }
 
 }

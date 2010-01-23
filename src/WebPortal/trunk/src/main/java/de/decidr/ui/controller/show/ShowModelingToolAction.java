@@ -69,15 +69,15 @@ public class ShowModelingToolAction implements ClickListener {
         if (table instanceof WorkflowModelTable) {
             Set<WorkflowModelsBean> set = (Set<WorkflowModelsBean>) table
                     .getValue();
-            if (table.getValue() != null && set.size() == 1) {
+            if ((table.getValue() != null) && (set.size() == 1)) {
                 Iterator<WorkflowModelsBean> iter = set.iterator();
                 while (iter.hasNext()) {
                     WorkflowModelsBean workflowModel = iter.next();
                     siteFrame
                             .setContent(new ModelingTool(workflowModel.getId()));
-                    ((ModelingTool)siteFrame.getContent()).requestRepaint();
+                    ((ModelingTool) siteFrame.getContent()).requestRepaint();
                 }
-            }else{
+            } else {
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Please select exactly one workflow model",
@@ -86,13 +86,13 @@ public class ShowModelingToolAction implements ClickListener {
         } else if (table instanceof PublicModelTable) {
             Set<WorkflowModelBean> set = (Set<WorkflowModelBean>) table
                     .getValue();
-            if (table.getValue() != null && set.size() <= 1) {
+            if ((table.getValue() != null) && (set.size() <= 1)) {
                 Iterator<WorkflowModelBean> iter = set.iterator();
                 while (iter.hasNext()) {
                     WorkflowModelBean workflowModel = iter.next();
                     siteFrame
                             .setContent(new ModelingTool(workflowModel.getId()));
-                    ((ModelingTool)siteFrame.getContent()).requestRepaint();
+                    ((ModelingTool) siteFrame.getContent()).requestRepaint();
                 }
 
             } else {
@@ -101,7 +101,7 @@ public class ShowModelingToolAction implements ClickListener {
                                 "Please select exactly one workflow model",
                                 "Information"));
             }
-            
+
         }
     }
 }

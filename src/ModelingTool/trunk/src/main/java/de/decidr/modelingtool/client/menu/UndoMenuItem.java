@@ -31,5 +31,4 @@ public class UndoMenuItem implements Command {
     public void execute() {
         CommandStack.getInstance().undo();
     }
-
 }

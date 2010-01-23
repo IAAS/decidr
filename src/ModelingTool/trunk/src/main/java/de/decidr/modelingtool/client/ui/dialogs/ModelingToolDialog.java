@@ -35,16 +35,16 @@ abstract public class ModelingToolDialog extends Window {
 
     /**
      * Will be called by {@link DialogRegistry}, when window is about to be
-     * closed
-     */
-    abstract public void reset();
-
-    /**
-     * Will be called by {@link DialogRegistry}, when window is about to be
      * displayed
      * 
      * @return true, if the dialog could be initialized
      */
     abstract public Boolean initialize();
+
+    /**
+     * Will be called by {@link DialogRegistry}, when window is about to be
+     * closed
+     */
+    abstract public void reset();
 
 }

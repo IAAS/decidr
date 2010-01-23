@@ -104,11 +104,10 @@ public class SwitchTenantAction implements ClickListener {
                 tsvb = (TenantSummaryViewBean) table.getValue();
                 tenantName = tsvb.getTenantName();
                 tenantId = tsvb.getId();
-                
-                role = userFacade
-                .getUserRoleForTenant(userId, tenantId);
-                Role roleInstance = role.getConstructor(Long.class).newInstance(
-                        userId);
+
+                role = userFacade.getUserRoleForTenant(userId, tenantId);
+                Role roleInstance = role.getConstructor(Long.class)
+                        .newInstance(userId);
 
                 userFacade.setCurrentTenantId(userId, tenantId);
 
@@ -118,21 +117,21 @@ public class SwitchTenantAction implements ClickListener {
                 loadProtectedResources();
 
                 Main.getCurrent().getMainWindow().addWindow(
-                        new InformationDialogComponent("Switched to " + tenantName,
-                                "Success"));
+                        new InformationDialogComponent("Switched to "
+                                + tenantName, "Success"));
             } else {
                 set = (Set<?>) table.getValue();
-                if (table.getValue() != null && set.size() <= 1) {
+                if ((table.getValue() != null) && (set.size() <= 1)) {
                     Iterator<?> iter = set.iterator();
                     while (iter.hasNext()) {
                         TenantBean tenantBean = (TenantBean) iter.next();
                         tenantName = tenantBean.getName();
                         tenantId = tenantBean.getId();
-                        
+
                         role = userFacade
-                        .getUserRoleForTenant(userId, tenantId);
-                        Role roleInstance = role.getConstructor(Long.class).newInstance(
-                                userId);
+                                .getUserRoleForTenant(userId, tenantId);
+                        Role roleInstance = role.getConstructor(Long.class)
+                                .newInstance(userId);
 
                         userFacade.setCurrentTenantId(userId, tenantId);
 
@@ -142,8 +141,8 @@ public class SwitchTenantAction implements ClickListener {
                         loadProtectedResources();
 
                         Main.getCurrent().getMainWindow().addWindow(
-                                new InformationDialogComponent("Switched to " + tenantName,
-                                        "Success"));
+                                new InformationDialogComponent("Switched to "
+                                        + tenantName, "Success"));
                     }
                 } else {
                     Main.getCurrent().getMainWindow().addWindow(
@@ -151,7 +150,7 @@ public class SwitchTenantAction implements ClickListener {
                                     "Please select an item", "Information"));
                 }
             }
-            
+
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(exception));
@@ -166,7 +165,7 @@ public class SwitchTenantAction implements ClickListener {
     private void loadProtectedResources() {
         TenantView tenantView = new TenantView();
         if (!oldRole.getClass().equals(role)) {
-            if (UserRole.class.equals(role) || role == null) {
+            if (UserRole.class.equals(role) || (role == null)) {
                 uiBuilder = new UserViewBuilder();
             } else if (WorkflowAdminRole.class.equals(role)) {
                 uiBuilder = new WorkflowAdminViewBuilder();
@@ -184,11 +183,11 @@ public class SwitchTenantAction implements ClickListener {
                                                 + "Please inform the systems' administrator if this error occurs repeatedly.",
                                         "Login Failure"));
             }
-            
+
             uiDirector.switchView(uiBuilder);
             ((HorizontalNavigationMenu) uiDirector.getTemplateView()
                     .getHNavigation()).getLogoutButton().setVisible(true);
-            
+
         }
         tenantView.synchronize();
         Main.getCurrent().setTheme(tenantName);

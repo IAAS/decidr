@@ -40,25 +40,11 @@ import de.decidr.modelingtool.client.ui.Workflow;
  */
 public class WorkflowModel extends AbstractModel implements HasChildModels {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seede.decidr.modelingtool.client.model.HasChildModels#
-     * getHasChildrenChangeListener()
-     */
-    @Override
-    public HasChildren getHasChildrenChangeListener() {
-        if (changeListener instanceof HasChildren) {
-            return (HasChildren) changeListener;
-        } else {
-            return null;
-        }
-    }
-
     private Collection<NodeModel> childNodeModels = new HashSet<NodeModel>();
-    private Collection<ConnectionModel> childConnectionModels = new HashSet<ConnectionModel>();
 
+    private Collection<ConnectionModel> childConnectionModels = new HashSet<ConnectionModel>();
     private XmlProperties xmlProperties;
+
     private WorkflowProperties properties;
     private List<Variable> variables;
 
@@ -82,6 +68,20 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         childNodeModels.add(model);
     }
 
+    /**
+     * Return a {@link ListStore} of all variables of the {@link WorkflowModel}.
+     * The returned variables are copies, not references.
+     * 
+     * @return the variables of the workflow model
+     */
+    public ListStore<Variable> getAllVariablesAsStore() {
+        ListStore<Variable> result = new ListStore<Variable>();
+        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
+            result.add(var.copy());
+        }
+        return result;
+    }
+
     @Override
     public Collection<ConnectionModel> getChildConnectionModels() {
         return childConnectionModels;
@@ -92,14 +92,45 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         return childNodeModels;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @seede.decidr.modelingtool.client.model.HasChildModels#
+     * getHasChildrenChangeListener()
+     */
     @Override
-    public void removeConnectionModel(ConnectionModel model) {
-        childConnectionModels.remove(model);
+    public HasChildren getHasChildrenChangeListener() {
+        if (changeListener instanceof HasChildren) {
+            return (HasChildren) changeListener;
+        } else {
+            return null;
+        }
     }
 
-    @Override
-    public void removeNodeModel(NodeModel model) {
-        childNodeModels.remove(model);
+    /**
+     * Returns the container for the properties of this workflow.
+     * 
+     * @return the properties
+     */
+    public WorkflowProperties getProperties() {
+        return properties;
+    }
+
+    /**
+     * Returns the variable that has the given id.
+     * 
+     * @param id
+     *            the id
+     * @return the variable
+     */
+    public Variable getVariable(Long id) {
+        Variable result = null;
+        for (Variable var : variables) {
+            if (var.getId().equals(id)) {
+                result = var;
+            }
+        }
+        return result;
     }
 
     /**
@@ -129,37 +160,6 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
     }
 
     /**
-     * Returns the variable that has the given id.
-     * 
-     * @param id
-     *            the id
-     * @return the variable
-     */
-    public Variable getVariable(Long id) {
-        Variable result = null;
-        for (Variable var : variables) {
-            if (var.getId().equals(id)) {
-                result = var;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Return a {@link ListStore} of all variables of the {@link WorkflowModel}.
-     * The returned variables are copies, not references.
-     * 
-     * @return the variables of the workflow model
-     */
-    public ListStore<Variable> getAllVariablesAsStore() {
-        ListStore<Variable> result = new ListStore<Variable>();
-        for (Variable var : Workflow.getInstance().getModel().getVariables()) {
-            result.add(var.copy());
-        }
-        return result;
-    }
-
-    /**
      * Returns all variables of the given type. The returned variables are
      * copies, not references.
      * 
@@ -181,13 +181,24 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
         return xmlProperties;
     }
 
+    @Override
+    public void removeConnectionModel(ConnectionModel model) {
+        childConnectionModels.remove(model);
+    }
+
+    @Override
+    public void removeNodeModel(NodeModel model) {
+        childNodeModels.remove(model);
+    }
+
     /**
-     * Returns the container for the properties of this workflow.
+     * Sets the properties container for this workflow.
      * 
-     * @return the properties
+     * @param properties
+     *            the properties container
      */
-    public WorkflowProperties getProperties() {
-        return properties;
+    public void setProperties(WorkflowProperties properties) {
+        this.properties = properties;
     }
 
     /**
@@ -202,16 +213,6 @@ public class WorkflowModel extends AbstractModel implements HasChildModels {
 
     public void setXmlProperties(XmlProperties xmlProperties) {
         this.xmlProperties = xmlProperties;
-    }
-
-    /**
-     * Sets the properties container for this workflow.
-     * 
-     * @param properties
-     *            the properties container
-     */
-    public void setProperties(WorkflowProperties properties) {
-        this.properties = properties;
     }
 
 }

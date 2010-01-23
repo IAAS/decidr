@@ -80,44 +80,51 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
     }
 
     /**
-     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
-     * the comboboxes are added.
+     * Retrieves the values from all fields. Creates and executes a
+     * {@link ChangeNodePropertiesCommand} with the new values.
      */
-    private void createContentPanel() {
-        contentPanel = new ContentPanel();
-
-        contentPanel.setHeading(ModelingToolWidget.getMessages()
-                .humanTaskActivity());
-        contentPanel.setLayout(new FitLayout());
-
-        table = new FlexTable();
-        table.setBorderWidth(0);
-        table.setWidth("100%");
-        table.setCellPadding(2);
-        table.setCellSpacing(2);
-        scrollPanel = new ScrollPanel(table);
-        contentPanel.add(scrollPanel);
-
-        createToolBar();
-
-        this.add(contentPanel);
+    private void changeWorkflowModel() {
+        HumanTaskInvokeNodeModel newModel = new HumanTaskInvokeNodeModel(node
+                .getModel().getParentModel());
+        newModel.setUserVariableId(userField.getValue().getId());
+        newModel.setWorkItemNameVariableId(nameField.getValue().getId());
+        newModel.setWorkItemDescriptionVariableId(descriptionField.getValue()
+                .getId());
+        newModel.setFormVariableId(formContainerField.getValue().getId());
+        newModel.setNotifyActor(notifyCheckBox.getValue());
+        List<TaskItem> newTaskItems = ((TaskItemWindow) DialogRegistry
+                .getInstance().getDialog(TaskItemWindow.class.getName()))
+                .getTaskItems();
+        /*
+         * if the newTaskItems variable is null, that means the task items were
+         * not edited by the task item window. Therefore, get the task items
+         * from the oldmodel. If not null, get the new task items from the task
+         * item window.
+         */
+        if (newTaskItems == null) {
+            newModel.setTaskItems(model.getTaskItems());
+        } else {
+            newModel.setTaskItems(newTaskItems);
+        }
+        /* only push to command stack if changes where made */
+        if (newModel.getProperties().equals(model.getProperties()) == false) {
+            CommandStack.getInstance().executeCommand(
+                    new ChangeNodePropertiesCommand(node, newModel
+                            .getProperties()));
+        }
     }
 
-    private void createToolBar() {
-        ToolBar toolBar = new ToolBar();
-
-        /* tool bar button which displays the TaskItemWindow */
-        TextToolItem editButton = new TextToolItem(ModelingToolWidget
-                .getMessages().editTaskItems());
-        editButton.addSelectionListener(new SelectionListener<ToolBarEvent>() {
-            @Override
-            public void componentSelected(ToolBarEvent ce) {
-                TaskItemWindowInvoker.invoke(model);
+    /**
+     * Removes the combobox and other input elements from the table so that they
+     * can be readded on the next call of the ForEachWindow.
+     */
+    public void clearAllEntries() {
+        if (table.getRowCount() > 0) {
+            int start = table.getRowCount();
+            for (int i = start; i > 0; i--) {
+                table.removeRow(i - 1);
             }
-        });
-        toolBar.add(editButton);
-
-        this.setBottomComponent(toolBar);
+        }
     }
 
     /**
@@ -155,61 +162,28 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
                 }));
     }
 
-    private boolean validateInputs() {
-        boolean result = false;
-        if (userField.getValue() != null && nameField.getValue() != null
-                && descriptionField.getValue() != null
-                && formContainerField.getValue() != null) {
-            result = true;
-        }
-        return result;
-    }
-
     /**
-     * Sets the {@link HumanTaskInvokeNode} whose properties are to be modeled
-     * with this window.
-     * 
-     * @param node
-     *            the HumanTaskInvokeNode
+     * Creates a {@link ContentPanel} which holds a {@link FlexTable} to which
+     * the comboboxes are added.
      */
-    public void setNode(HumanTaskInvokeNode node) {
-        this.node = node;
-        model = (HumanTaskInvokeNodeModel) node.getModel();
-    }
+    private void createContentPanel() {
+        contentPanel = new ContentPanel();
 
-    /**
-     * Retrieves the values from all fields. Creates and executes a
-     * {@link ChangeNodePropertiesCommand} with the new values.
-     */
-    private void changeWorkflowModel() {
-        HumanTaskInvokeNodeModel newModel = new HumanTaskInvokeNodeModel(node
-                .getModel().getParentModel());
-        newModel.setUserVariableId(userField.getValue().getId());
-        newModel.setWorkItemNameVariableId(nameField.getValue().getId());
-        newModel.setWorkItemDescriptionVariableId(descriptionField.getValue()
-                .getId());
-        newModel.setFormVariableId(formContainerField.getValue().getId());
-        newModel.setNotifyActor(notifyCheckBox.getValue());
-        List<TaskItem> newTaskItems = ((TaskItemWindow) DialogRegistry
-                .getInstance().getDialog(TaskItemWindow.class.getName()))
-                .getTaskItems();
-        /*
-         * if the newTaskItems variable is null, that means the task items were
-         * not edited by the task item window. Therefore, get the task items
-         * from the oldmodel. If not null, get the new task items from the task
-         * item window.
-         */
-        if (newTaskItems == null) {
-            newModel.setTaskItems(model.getTaskItems());
-        } else {
-            newModel.setTaskItems(newTaskItems);
-        }
-        /* only push to command stack if changes where made */
-        if (newModel.getProperties().equals(model.getProperties()) == false) {
-            CommandStack.getInstance().executeCommand(
-                    new ChangeNodePropertiesCommand(node, newModel
-                            .getProperties()));
-        }
+        contentPanel.setHeading(ModelingToolWidget.getMessages()
+                .humanTaskActivity());
+        contentPanel.setLayout(new FitLayout());
+
+        table = new FlexTable();
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        table.setCellPadding(2);
+        table.setCellSpacing(2);
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
+
+        createToolBar();
+
+        this.add(contentPanel);
     }
 
     private void createFields() {
@@ -278,17 +252,21 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
         table.setWidget(table.getRowCount() - 1, 1, notifyCheckBox);
     }
 
-    /**
-     * Removes the combobox and other input elements from the table so that they
-     * can be readded on the next call of the ForEachWindow.
-     */
-    public void clearAllEntries() {
-        if (table.getRowCount() > 0) {
-            int start = table.getRowCount();
-            for (int i = start; i > 0; i--) {
-                table.removeRow(i - 1);
+    private void createToolBar() {
+        ToolBar toolBar = new ToolBar();
+
+        /* tool bar button which displays the TaskItemWindow */
+        TextToolItem editButton = new TextToolItem(ModelingToolWidget
+                .getMessages().editTaskItems());
+        editButton.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+            @Override
+            public void componentSelected(ToolBarEvent ce) {
+                TaskItemWindowInvoker.invoke(model);
             }
-        }
+        });
+        toolBar.add(editButton);
+
+        this.setBottomComponent(toolBar);
     }
 
     /*
@@ -311,6 +289,28 @@ public class HumanTaskActivityWindow extends ModelingToolDialog {
     @Override
     public void reset() {
         clearAllEntries();
+    }
+
+    /**
+     * Sets the {@link HumanTaskInvokeNode} whose properties are to be modeled
+     * with this window.
+     * 
+     * @param node
+     *            the HumanTaskInvokeNode
+     */
+    public void setNode(HumanTaskInvokeNode node) {
+        this.node = node;
+        model = (HumanTaskInvokeNodeModel) node.getModel();
+    }
+
+    private boolean validateInputs() {
+        boolean result = false;
+        if ((userField.getValue() != null) && (nameField.getValue() != null)
+                && (descriptionField.getValue() != null)
+                && (formContainerField.getValue() != null)) {
+            result = true;
+        }
+        return result;
     }
 
 }

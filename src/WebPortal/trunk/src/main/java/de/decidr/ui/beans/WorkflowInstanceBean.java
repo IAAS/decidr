@@ -42,7 +42,6 @@ public class WorkflowInstanceBean implements Serializable {
 
     /**
      * TODO: add comment
-     * 
      */
     public WorkflowInstanceBean(WorkflowInstance workflowInstance) {
         this.model = workflowInstance.getDeployedWorkflowModel().getName();
@@ -57,6 +56,24 @@ public class WorkflowInstanceBean implements Serializable {
     /**
      * TODO: add comment
      * 
+     * @return the completedDate
+     */
+    public Date getCompletedDate() {
+        return completedDate;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * TODO: add comment
+     * 
      * @return the model
      */
     public String getModel() {
@@ -66,11 +83,28 @@ public class WorkflowInstanceBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @param model
-     *            the model to set
+     * @return the odePid
      */
-    public void setModel(String model) {
-        this.model = model;
+    public String getOdePid() {
+        return odePid;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the server
+     */
+    public Server getServer() {
+        return server;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the startConfiguration
+     */
+    public byte[] getStartConfiguration() {
+        return startConfiguration;
     }
 
     /**
@@ -80,25 +114,6 @@ public class WorkflowInstanceBean implements Serializable {
      */
     public Date getStartedDate() {
         return startedDate;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param startedDate
-     *            the startedDate to set
-     */
-    public void setStartedDate(Date startedDate) {
-        this.startedDate = startedDate;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the completedDate
-     */
-    public Date getCompletedDate() {
-        return completedDate;
     }
 
     /**
@@ -114,15 +129,6 @@ public class WorkflowInstanceBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * TODO: add comment
-     * 
      * @param id
      *            the id to set
      */
@@ -133,29 +139,11 @@ public class WorkflowInstanceBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the server
+     * @param model
+     *            the model to set
      */
-    public Server getServer() {
-        return server;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param server
-     *            the server to set
-     */
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the odePid
-     */
-    public String getOdePid() {
-        return odePid;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     /**
@@ -171,10 +159,11 @@ public class WorkflowInstanceBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the startConfiguration
+     * @param server
+     *            the server to set
      */
-    public byte[] getStartConfiguration() {
-        return startConfiguration;
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     /**
@@ -185,5 +174,15 @@ public class WorkflowInstanceBean implements Serializable {
      */
     public void setStartConfiguration(byte[] startConfiguration) {
         this.startConfiguration = startConfiguration;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param startedDate
+     *            the startedDate to set
+     */
+    public void setStartedDate(Date startedDate) {
+        this.startedDate = startedDate;
     }
 }

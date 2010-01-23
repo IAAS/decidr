@@ -16,7 +16,6 @@
 
 package de.decidr.ui.controller.tenant;
 
-
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -55,7 +54,7 @@ public class RegisterTenantAction implements ClickListener {
     private RegisterTenantComponent content = null;
 
     private UserProfile userProfile = null;
-    
+
     private TenantAdminViewBuilder tenantAdminViewBuilder = new TenantAdminViewBuilder();
 
     /*
@@ -69,7 +68,7 @@ public class RegisterTenantAction implements ClickListener {
         content = (RegisterTenantComponent) Main.getCurrent().getUIDirector()
                 .getTemplateView().getContent();
         Form form = content.getRegistrationForm();
-        
+
         if (form.isValid()) {
             content.saveRegistrationForm();
 
@@ -80,15 +79,16 @@ public class RegisterTenantAction implements ClickListener {
                                 "password").getValue().toString(),
                         fillUserProfile());
 
-                Long tenantId = tenantFacade.createTenant(content.getRegistrationForm()
-                        .getItemProperty("tenantName").getValue().toString(),
-                        "", userId);
-                
-                
+                Long tenantId = tenantFacade.createTenant(content
+                        .getRegistrationForm().getItemProperty("tenantName")
+                        .getValue().toString(), "", userId);
+
                 Role roleInstance = new TenantAdminRole(userId);
-                Main.getCurrent().getSession().setAttribute("tenantId", tenantId);
+                Main.getCurrent().getSession().setAttribute("tenantId",
+                        tenantId);
                 Main.getCurrent().getSession().setAttribute("userId", userId);
-                Main.getCurrent().getSession().setAttribute("role", roleInstance);
+                Main.getCurrent().getSession().setAttribute("role",
+                        roleInstance);
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Tenant successfully registered",
@@ -103,7 +103,7 @@ public class RegisterTenantAction implements ClickListener {
             } catch (Exception e) {
                 Main.getCurrent().getMainWindow().addWindow(
                         new TransactionErrorDialogComponent(e));
-            } 
+            }
         } else {
             Main.getCurrent().getMainWindow().addWindow(
                     new InformationDialogComponent(

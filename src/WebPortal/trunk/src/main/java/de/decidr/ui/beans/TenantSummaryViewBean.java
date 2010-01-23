@@ -71,75 +71,75 @@ public class TenantSummaryViewBean implements Serializable {
         this.numMembers = tenantSummaryView.getNumMembers();
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTenantName() {
-        return tenantName;
-    }
-
-    public void setTenantName(String tenantName) {
-        this.tenantName = tenantName;
-    }
-
-    public Date getApprovedSince() {
-        return approvedSince;
-    }
-
-    public void setApprovedSince(Date approvedSince) {
-        this.approvedSince = approvedSince;
-    }
-
     public String getAdminFirstName() {
         return adminFirstName;
-    }
-
-    public void setAdminFirstName(String adminFirstName) {
-        this.adminFirstName = adminFirstName;
     }
 
     public String getAdminLastName() {
         return adminLastName;
     }
 
-    public void setAdminLastName(String adminLastName) {
-        this.adminLastName = adminLastName;
+    public Date getApprovedSince() {
+        return approvedSince;
     }
 
-    public Long getNumWorkflowModels() {
-        return numWorkflowModels;
-    }
-
-    public void setNumWorkflowModels(Long numWorkflowModels) {
-        this.numWorkflowModels = numWorkflowModels;
+    public long getId() {
+        return id;
     }
 
     public Long getNumDeployedWorkflowModels() {
         return numDeployedWorkflowModels;
     }
 
-    public void setNumDeployedWorkflowModels(Long numDeployedWorkflowModels) {
-        this.numDeployedWorkflowModels = numDeployedWorkflowModels;
+    public Long getNumMembers() {
+        return numMembers;
     }
 
     public Long getNumWorkflowInstances() {
         return numWorkflowInstances;
     }
 
-    public void setNumWorkflowInstances(Long numWorkflowInstances) {
-        this.numWorkflowInstances = numWorkflowInstances;
+    public Long getNumWorkflowModels() {
+        return numWorkflowModels;
     }
 
-    public Long getNumMembers() {
-        return numMembers;
+    public String getTenantName() {
+        return tenantName;
+    }
+
+    public void setAdminFirstName(String adminFirstName) {
+        this.adminFirstName = adminFirstName;
+    }
+
+    public void setAdminLastName(String adminLastName) {
+        this.adminLastName = adminLastName;
+    }
+
+    public void setApprovedSince(Date approvedSince) {
+        this.approvedSince = approvedSince;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setNumDeployedWorkflowModels(Long numDeployedWorkflowModels) {
+        this.numDeployedWorkflowModels = numDeployedWorkflowModels;
     }
 
     public void setNumMembers(Long numMembers) {
         this.numMembers = numMembers;
+    }
+
+    public void setNumWorkflowInstances(Long numWorkflowInstances) {
+        this.numWorkflowInstances = numWorkflowInstances;
+    }
+
+    public void setNumWorkflowModels(Long numWorkflowModels) {
+        this.numWorkflowModels = numWorkflowModels;
+    }
+
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
     }
 }

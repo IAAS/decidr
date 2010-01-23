@@ -94,6 +94,88 @@ public class WorkflowModelsComponent extends CustomComponent {
     }
 
     /**
+     * Changes the view if public models are selected.
+     * 
+     */
+    private void changeToPublic() {
+        publicModelContainer = new PublicModelContainer();
+        publicModelTable = new PublicModelTable(publicModelContainer);
+        Button editWorkflowButton = new Button("Edit workflow",
+                new ShowModelingToolAction(publicModelTable));
+        importModelButton = new Button("Import", new ImportWorkflowModelAction(
+                publicModelTable));
+        unpublishModelButton = new Button("Un-publish",
+                new UnpublishWorkflowModelsAction(publicModelTable));
+        if (!getNativeSelect().isSelected("Public models")) {
+            init();
+        } else {
+            getVerticalLayout().replaceComponent(getWorkflowModelTable(),
+                    publicModelTable);
+            getVerticalLayout().replaceComponent(editWorkflowModelButton,
+                    editWorkflowButton);
+            getButtonHorizontalLayout().removeAllComponents();
+            getButtonHorizontalLayout().addComponent(importModelButton);
+            getButtonHorizontalLayout().addComponent(unpublishModelButton);
+        }
+    }
+
+    /**
+     * Returns the button button
+     * 
+     * @return buttonHorizontalLayout HorizontalLayout that contains the buttons
+     *         for remove, publish, unpublish, lock, unlock, appoint wfm admin
+     */
+    public HorizontalLayout getButtonHorizontalLayout() {
+        return buttonHorizontalLayout;
+    }
+
+    /**
+     * Gets the create new model button from the component.
+     * 
+     * @return createNewModelButton The button to create a new workflow model
+     */
+    public Button getCreateNewModelButton() {
+        return createNewModelButton;
+    }
+
+    /**
+     * Gets the button for editing a workflow model
+     * 
+     * @return Vaadin Button
+     */
+    public Button getEditWorkflowModelButton() {
+        return editWorkflowModelButton;
+    }
+
+    /**
+     * Gets the native select component.
+     * 
+     * @return nativeSelect The dropdown list to select which models are
+     *         displayed
+     */
+    public NativeSelect getNativeSelect() {
+        return nativeSelect;
+    }
+
+    /**
+     * Gets the vertical layout from the component.
+     * 
+     * @return verticalLayout VerticalLayout of the component
+     */
+    public VerticalLayout getVerticalLayout() {
+        return verticalLayout;
+    }
+
+    /**
+     * Gets the current tenant table from the component.
+     * 
+     * @return workflowModelTable The table with the current workflow models
+     */
+    public WorkflowModelTable getWorkflowModelTable() {
+        return workflowModelTable;
+    }
+
+    /**
      * This method initializes the components for the workflow model component.
      */
     private void init() {
@@ -141,8 +223,8 @@ public class WorkflowModelsComponent extends CustomComponent {
                 new ShowModelingToolAction(workflowModelTable));
         removeModelButton = new Button("Remove",
                 new RemoveWorkflowModelsAction(workflowModelTable));
-        lockModelButton = new Button("Make non-executable", new LockWorkflowModelAction(
-                workflowModelTable));
+        lockModelButton = new Button("Make non-executable",
+                new LockWorkflowModelAction(workflowModelTable));
         unlockModelButton = new Button("Make executable",
                 new UnlockWorkflowModelsAction(workflowModelTable));
         publishModelButton = new Button("Publish",
@@ -176,30 +258,6 @@ public class WorkflowModelsComponent extends CustomComponent {
     }
 
     /**
-     * Changes the view if public models are selected.
-     * 
-     */
-    private void changeToPublic() {
-        publicModelContainer = new PublicModelContainer();
-        publicModelTable = new PublicModelTable(publicModelContainer);
-        Button editWorkflowButton = new Button("Edit workflow", new ShowModelingToolAction(publicModelTable));
-        importModelButton = new Button("Import", new ImportWorkflowModelAction(
-                publicModelTable));
-        unpublishModelButton = new Button("Un-publish",
-                new UnpublishWorkflowModelsAction(publicModelTable));
-        if (!getNativeSelect().isSelected("Public models")) {
-            init();
-        } else {
-            getVerticalLayout().replaceComponent(getWorkflowModelTable(),
-                    publicModelTable);
-            getVerticalLayout().replaceComponent(editWorkflowModelButton, editWorkflowButton);
-            getButtonHorizontalLayout().removeAllComponents();
-            getButtonHorizontalLayout().addComponent(importModelButton);
-            getButtonHorizontalLayout().addComponent(unpublishModelButton);
-        }
-    }
-
-    /**
      * Sets the button panel for the component.
      * 
      * @param buttonPanel
@@ -218,16 +276,6 @@ public class WorkflowModelsComponent extends CustomComponent {
      */
     public void setCreateNewModelButton(Button createNewModelButton) {
         this.createNewModelButton = createNewModelButton;
-    }
-
-    /**
-     * Sets the current tenant table for the component.
-     * 
-     * @param workflowModelTable
-     *            The table with the list of workflow models
-     */
-    public void setWorkflowModelTable(WorkflowModelTable workflowModelTable) {
-        this.workflowModelTable = workflowModelTable;
     }
 
     /**
@@ -251,59 +299,13 @@ public class WorkflowModelsComponent extends CustomComponent {
     }
 
     /**
-     * Returns the button button
+     * Sets the current tenant table for the component.
      * 
-     * @return buttonHorizontalLayout HorizontalLayout that contains the buttons
-     *         for remove, publish, unpublish, lock, unlock, appoint wfm admin
+     * @param workflowModelTable
+     *            The table with the list of workflow models
      */
-    public HorizontalLayout getButtonHorizontalLayout() {
-        return buttonHorizontalLayout;
-    }
-
-    /**
-     * Gets the create new model button from the component.
-     * 
-     * @return createNewModelButton The button to create a new workflow model
-     */
-    public Button getCreateNewModelButton() {
-        return createNewModelButton;
-    }
-
-    /**
-     * Gets the current tenant table from the component.
-     * 
-     * @return workflowModelTable The table with the current workflow models
-     */
-    public WorkflowModelTable getWorkflowModelTable() {
-        return workflowModelTable;
-    }
-
-    /**
-     * Gets the button for editing a workflow model
-     * 
-     * @return Vaadin Button
-     */
-    public Button getEditWorkflowModelButton() {
-        return editWorkflowModelButton;
-    }
-
-    /**
-     * Gets the native select component.
-     * 
-     * @return nativeSelect The dropdown list to select which models are
-     *         displayed
-     */
-    public NativeSelect getNativeSelect() {
-        return nativeSelect;
-    }
-
-    /**
-     * Gets the vertical layout from the component.
-     * 
-     * @return verticalLayout VerticalLayout of the component
-     */
-    public VerticalLayout getVerticalLayout() {
-        return verticalLayout;
+    public void setWorkflowModelTable(WorkflowModelTable workflowModelTable) {
+        this.workflowModelTable = workflowModelTable;
     }
 
 }

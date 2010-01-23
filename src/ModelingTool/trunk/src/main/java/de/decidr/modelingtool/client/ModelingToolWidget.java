@@ -70,6 +70,13 @@ public class ModelingToolWidget extends Composite implements
 
     private static Messages messages;
 
+    public static Messages getMessages() {
+        if (messages == null) {
+            messages = GWT.create(Messages.class);
+        }
+        return messages;
+    }
+
     private HashMap<Long, String> users;
 
     public ModelingToolWidget() {
@@ -95,16 +102,9 @@ public class ModelingToolWidget extends Composite implements
 
     }
 
-    public static Messages getMessages() {
-        if (messages == null) {
-            messages = GWT.create(Messages.class);
-        }
-        return messages;
-    }
-
     @Override
-    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-        return addDomHandler(handler, MouseOutEvent.getType());
+    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
+        return addDomHandler(handler, MouseDownEvent.getType());
     }
 
     @Override
@@ -113,13 +113,18 @@ public class ModelingToolWidget extends Composite implements
     }
 
     @Override
+    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+        return addDomHandler(handler, MouseOutEvent.getType());
+    }
+
+    @Override
     public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
         return addDomHandler(handler, MouseOverEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
-        return addDomHandler(handler, MouseDownEvent.getType());
+    public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
+        return addDomHandler(handler, MouseUpEvent.getType());
     }
 
     @Override
@@ -127,9 +132,13 @@ public class ModelingToolWidget extends Composite implements
         return addDomHandler(handler, MouseWheelEvent.getType());
     }
 
-    @Override
-    public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
-        return addDomHandler(handler, MouseUpEvent.getType());
+    public void sendDWDLtoServer(String dwdl) {
+        /*
+         * This method is intentionally left emtpy. The implementation is done
+         * by the child class in the WebPortal.
+         */
+        GWT.log("DWDL output", null);
+        GWT.log(dwdl, null);
     }
 
     /**
@@ -148,6 +157,23 @@ public class ModelingToolWidget extends Composite implements
         } catch (IncompleteModelDataException e) {
             Window.alert(e.getMessage());
         }
+    }
+
+    /**
+     * Sets the size of the scroll panel which holds the workflow canvas. The
+     * size of the scroll panel is fixed, that means any size changes made via
+     * the {@link CanvasSizeWindow} will only apply to the workflow canvas.
+     * 
+     * @param width
+     *            the width in pixels
+     * @param height
+     *            the height in pixels
+     */
+    public void setScrollPanelSize(int width, int height) {
+        scrollPanel.setSize(width + "px", height + "px");
+        // Set workflow canvas initially to the same size so that it fits the
+        // scrollpanel
+        Workflow.getInstance().setSize(width, height);
     }
 
     /**
@@ -172,32 +198,6 @@ public class ModelingToolWidget extends Composite implements
             users.put(id, name);
         }
         Workflow.getInstance().setUsers(users);
-    }
-
-    public void sendDWDLtoServer(String dwdl) {
-        /*
-         * This method is intentionally left emtpy. The implementation is done
-         * by the child class in the WebPortal.
-         */
-        GWT.log("DWDL output", null);
-        GWT.log(dwdl, null);
-    }
-
-    /**
-     * Sets the size of the scroll panel which holds the workflow canvas. The
-     * size of the scroll panel is fixed, that means any size changes made via
-     * the {@link CanvasSizeWindow} will only apply to the workflow canvas.
-     * 
-     * @param width
-     *            the width in pixels
-     * @param height
-     *            the height in pixels
-     */
-    public void setScrollPanelSize(int width, int height) {
-        scrollPanel.setSize(width + "px", height + "px");
-        // Set workflow canvas initially to the same size so that it fits the
-        // scrollpanel
-        Workflow.getInstance().setSize(width, height);
     }
 
 }

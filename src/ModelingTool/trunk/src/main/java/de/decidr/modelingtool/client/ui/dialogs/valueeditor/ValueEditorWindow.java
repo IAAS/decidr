@@ -43,8 +43,8 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;
-import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorWindow;
 
 /**
@@ -72,111 +72,6 @@ public class ValueEditorWindow extends ModelingToolDialog {
         this.setResizable(true);
         createContentPanel();
         createButtons();
-    }
-
-    /**
-     * Creates the content panel for the dialog. The content panel holds the
-     * text fields for the values and a toolbar.
-     */
-    private void createContentPanel() {
-        contentPanel = new ContentPanel();
-        contentPanel
-                .setHeading(ModelingToolWidget.getMessages().editVariable());
-        contentPanel.setLayout(new FitLayout());
-
-        table = new FlexTable();
-        table.setBorderWidth(0);
-        table.setWidth("100%");
-        scrollPanel = new ScrollPanel(table);
-        contentPanel.add(scrollPanel);
-
-        createToolBar();
-        this.add(contentPanel);
-    }
-
-    /**
-     * Creates a toolbar that has one button to add a value.
-     */
-    private void createToolBar() {
-        ToolBar toolBar = new ToolBar();
-
-        TextToolItem addValue = new TextToolItem(ModelingToolWidget
-                .getMessages().addValue()); //$NON-NLS-1$
-        addValue.addSelectionListener(new SelectionListener<ToolBarEvent>() {
-            @Override
-            public void componentSelected(ToolBarEvent ce) {
-                addEntry(variable.getType().getDefaultValue());
-            }
-        });
-        toolBar.add(addValue);
-
-        contentPanel.setBottomComponent(toolBar);
-    }
-
-    /**
-     * Creates ok and cancel button
-     */
-    private void createButtons() {
-        setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        List<String> newValues = new ArrayList<String>();
-                        for (TextField<String> field : fields) {
-                            newValues.add(field.getValue());
-                        }
-                        ValueValidatorCallback call = new ValueValidatorCallback();
-                        ValueTypeChecker validator = new ValueTypeChecker(
-                                newValues, variable.getType());
-                        if (validator.validate(call)) {
-                            changeWorkflowModel(newValues);
-                            /*
-                             * Refresh of the variable editor needed so that the
-                             * displayed values are updated
-                             */
-                            ((VariableEditorWindow) DialogRegistry
-                                    .getInstance().getDialog(
-                                            VariableEditorWindow.class
-                                                    .getName())).refresh();
-                            DialogRegistry.getInstance().hideDialog(
-                                    ValueEditorWindow.class.getName());
-                        } else {
-                            MessageBox.alert(ModelingToolWidget.getMessages()
-                                    .warningTitle(), call.getMessage(), null);
-                        }
-                    }
-
-                }));
-        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        DialogRegistry.getInstance().hideDialog(
-                                ValueEditorWindow.class.getName());
-                    }
-                }));
-    }
-
-    private void changeWorkflowModel(List<String> newValues) {
-        /*
-         * Check if the variable is already in the workflow model. If that is
-         * the case, it means the value editor was called outside of the
-         * variable editor (for example, from an email activity. Therefore any
-         * changes have to be pushed in to the command stack. If the variable is
-         * not in the workflow model, it means that the variable is a reference
-         * to an element in the list store of the variable editor.
-         */
-        if (Workflow.getInstance().getModel().getVariables().contains(variable)) {
-            if (variable.getValues().equals(newValues)) {
-                Variable newVariable = variable.copy();
-                newVariable.setValues(newValues);
-                CommandStack.getInstance().executeCommand(
-                        new ChangeVariablesCommand(newVariable));
-            }
-        } else {
-            variable.setValues(newValues);
-        }
     }
 
     private void addEntry(String fieldContent) {
@@ -233,6 +128,27 @@ public class ValueEditorWindow extends ModelingToolDialog {
         }
     }
 
+    private void changeWorkflowModel(List<String> newValues) {
+        /*
+         * Check if the variable is already in the workflow model. If that is
+         * the case, it means the value editor was called outside of the
+         * variable editor (for example, from an email activity. Therefore any
+         * changes have to be pushed in to the command stack. If the variable is
+         * not in the workflow model, it means that the variable is a reference
+         * to an element in the list store of the variable editor.
+         */
+        if (Workflow.getInstance().getModel().getVariables().contains(variable)) {
+            if (variable.getValues().equals(newValues)) {
+                Variable newVariable = variable.copy();
+                newVariable.setValues(newValues);
+                CommandStack.getInstance().executeCommand(
+                        new ChangeVariablesCommand(newVariable));
+            }
+        } else {
+            variable.setValues(newValues);
+        }
+    }
+
     private void clearAllEntries() {
         if (table.getRowCount() > 0) {
             int start = table.getRowCount();
@@ -246,13 +162,87 @@ public class ValueEditorWindow extends ModelingToolDialog {
     }
 
     /**
-     * Sets the variable which values are to be edited.
-     * 
-     * @param variable
-     *            the variable
+     * Creates ok and cancel button
      */
-    public void setVariable(Variable variable) {
-        this.variable = variable;
+    private void createButtons() {
+        setButtonAlign(HorizontalAlignment.CENTER);
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        List<String> newValues = new ArrayList<String>();
+                        for (TextField<String> field : fields) {
+                            newValues.add(field.getValue());
+                        }
+                        ValueValidatorCallback call = new ValueValidatorCallback();
+                        ValueTypeChecker validator = new ValueTypeChecker(
+                                newValues, variable.getType());
+                        if (validator.validate(call)) {
+                            changeWorkflowModel(newValues);
+                            /*
+                             * Refresh of the variable editor needed so that the
+                             * displayed values are updated
+                             */
+                            ((VariableEditorWindow) DialogRegistry
+                                    .getInstance().getDialog(
+                                            VariableEditorWindow.class
+                                                    .getName())).refresh();
+                            DialogRegistry.getInstance().hideDialog(
+                                    ValueEditorWindow.class.getName());
+                        } else {
+                            MessageBox.alert(ModelingToolWidget.getMessages()
+                                    .warningTitle(), call.getMessage(), null);
+                        }
+                    }
+
+                }));
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        DialogRegistry.getInstance().hideDialog(
+                                ValueEditorWindow.class.getName());
+                    }
+                }));
+    }
+
+    /**
+     * Creates the content panel for the dialog. The content panel holds the
+     * text fields for the values and a toolbar.
+     */
+    private void createContentPanel() {
+        contentPanel = new ContentPanel();
+        contentPanel
+                .setHeading(ModelingToolWidget.getMessages().editVariable());
+        contentPanel.setLayout(new FitLayout());
+
+        table = new FlexTable();
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
+
+        createToolBar();
+        this.add(contentPanel);
+    }
+
+    /**
+     * Creates a toolbar that has one button to add a value.
+     */
+    private void createToolBar() {
+        ToolBar toolBar = new ToolBar();
+
+        TextToolItem addValue = new TextToolItem(ModelingToolWidget
+                .getMessages().addValue());
+        addValue.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+            @Override
+            public void componentSelected(ToolBarEvent ce) {
+                addEntry(variable.getType().getDefaultValue());
+            }
+        });
+        toolBar.add(addValue);
+
+        contentPanel.setBottomComponent(toolBar);
     }
 
     /*
@@ -276,6 +266,16 @@ public class ValueEditorWindow extends ModelingToolDialog {
     @Override
     public void reset() {
         clearAllEntries();
+    }
+
+    /**
+     * Sets the variable which values are to be edited.
+     * 
+     * @param variable
+     *            the variable
+     */
+    public void setVariable(Variable variable) {
+        this.variable = variable;
     }
 
 }

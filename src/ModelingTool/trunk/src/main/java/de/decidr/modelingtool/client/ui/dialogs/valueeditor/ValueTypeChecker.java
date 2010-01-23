@@ -47,6 +47,63 @@ public class ValueTypeChecker {
         this.type = type;
     }
 
+    private Boolean checkBoolean(ValueValidatorCallback callback) {
+        Boolean result = true;
+        for (int i = 0; i < values.size(); i++) {
+            if (!(values.get(i).equalsIgnoreCase("false"))
+                    && !(values.get(i).equalsIgnoreCase("true"))) {
+                callback.addValueToMessage(i + 1);
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    private Boolean checkDate(ValueValidatorCallback callback) {
+        Boolean result = true;
+        for (int i = 0; i < values.size(); i++) {
+            if (DateFormatter.validate(values.get(i)) == false) {
+                callback.addValueToMessage(i + 1);
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    private Boolean checkFloat(ValueValidatorCallback callback) {
+        Boolean result = true;
+        for (int i = 0; i < values.size(); i++) {
+            try {
+                Float.parseFloat(values.get(i));
+            } catch (Exception e) {
+                result = false;
+                /*
+                 * "+1" is added in the following line because in the ui the
+                 * indexes do not start with 0.
+                 */
+                callback.addValueToMessage(i + 1);
+            }
+        }
+        return result;
+    }
+
+    private Boolean checkInteger(ValueValidatorCallback callback) {
+        Boolean result = true;
+        for (int i = 0; i < values.size(); i++) {
+            try {
+                Integer.parseInt(values.get(i));
+            } catch (NumberFormatException e) {
+                result = false;
+                /*
+                 * "+1" is added in the following line because in the ui the
+                 * indexes do not start with 0.
+                 */
+                callback.addValueToMessage(i + 1);
+            }
+        }
+        return result;
+    }
+
     /**
      * 
      * Validates the values given in the constructor.
@@ -82,63 +139,6 @@ public class ValueTypeChecker {
                 break;
             default:
                 break;
-        }
-        return result;
-    }
-
-    private Boolean checkInteger(ValueValidatorCallback callback) {
-        Boolean result = true;
-        for (int i = 0; i < values.size(); i++) {
-            try {
-                Integer.parseInt(values.get(i));
-            } catch (NumberFormatException e) {
-                result = false;
-                /*
-                 * "+1" is added in the following line because in the ui the
-                 * indexes do not start with 0.
-                 */
-                callback.addValueToMessage(i + 1);
-            }
-        }
-        return result;
-    }
-
-    private Boolean checkFloat(ValueValidatorCallback callback) {
-        Boolean result = true;
-        for (int i = 0; i < values.size(); i++) {
-            try {
-                Float.parseFloat(values.get(i));
-            } catch (Exception e) {
-                result = false;
-                /*
-                 * "+1" is added in the following line because in the ui the
-                 * indexes do not start with 0.
-                 */
-                callback.addValueToMessage(i + 1);
-            }
-        }
-        return result;
-    }
-
-    private Boolean checkBoolean(ValueValidatorCallback callback) {
-        Boolean result = true;
-        for (int i = 0; i < values.size(); i++) {
-            if (!(values.get(i).equalsIgnoreCase("false"))
-                    && !(values.get(i).equalsIgnoreCase("true"))) {
-                callback.addValueToMessage(i + 1);
-                result = false;
-            }
-        }
-        return result;
-    }
-
-    private Boolean checkDate(ValueValidatorCallback callback) {
-        Boolean result = true;
-        for (int i = 0; i < values.size(); i++) {
-            if (DateFormatter.validate(values.get(i)) == false) {
-                callback.addValueToMessage(i + 1);
-                result = false;
-            }
         }
         return result;
     }

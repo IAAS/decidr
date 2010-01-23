@@ -94,17 +94,6 @@ public class CreateWorkflowCommand implements Command {
         GWT.log("Finished creating UI data", null);
     }
 
-    @Override
-    public void execute() {
-        // connect model to workflow
-        Workflow.getInstance().setModel(workflowModel);
-        // create child nodes and connections
-        cmdList.execute();
-
-        // flush command stack
-        CommandStack.getInstance().flush();
-    }
-
     /**
      * Creates a command list for creating a container with all its children.
      * 
@@ -143,6 +132,17 @@ public class CreateWorkflowCommand implements Command {
 
         GWT.log("Finished creating container", null);
         return cmdList;
+    }
+
+    @Override
+    public void execute() {
+        // connect model to workflow
+        Workflow.getInstance().setModel(workflowModel);
+        // create child nodes and connections
+        cmdList.execute();
+
+        // flush command stack
+        CommandStack.getInstance().flush();
     }
 
 }

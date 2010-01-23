@@ -36,7 +36,7 @@ import de.decidr.ui.controller.SaveSystemSettingsAction;
 @Reviewed(reviewers = { "TK", "JS", "RR" }, lastRevision = "2537", currentReviewState = State.PassedWithComments)
 // XXX: This thing displays stuff like "Mta Use Tls" which doesn't only fail in
 // the area of capitalization, it also leaves the user pretty confused as to
-// what this is about... ~rr
+// what this is about...
 public class SystemSettingsComponent extends CustomComponent {
 
     private static final long serialVersionUID = 3389525551936631625L;

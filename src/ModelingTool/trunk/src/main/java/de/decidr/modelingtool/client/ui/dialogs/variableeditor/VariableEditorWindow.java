@@ -39,8 +39,8 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
 import de.decidr.modelingtool.client.command.ChangeVariablesCommand;
 import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
-import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.valueeditor.ValueEditorWindowInvoker;
 
 /**
@@ -71,6 +71,43 @@ public class VariableEditorWindow extends ModelingToolDialog {
         createEditorPanel();
         createButtons();
         variables.addStoreListener(listener);
+    }
+
+    private void changeWorkflowModel() {
+        List<Variable> variablesModel = new ArrayList<Variable>();
+        for (int i = 0; i < variables.getCount(); i++) {
+            variablesModel.add(variables.getAt(i).copy());
+        }
+        CommandStack.getInstance().executeCommand(
+                new ChangeVariablesCommand(variablesModel));
+    }
+
+    /**
+     * Creates ok and cancel button
+     */
+    private void createButtons() {
+        setButtonAlign(HorizontalAlignment.CENTER);
+        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        if (listener.hasDataChanged()) {
+                            variables.commitChanges();
+                            changeWorkflowModel();
+                        }
+                        DialogRegistry.getInstance().hideDialog(
+                                VariableEditorWindow.class.getName());
+                    }
+                }));
+        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
+                new SelectionListener<ButtonEvent>() {
+                    @Override
+                    public void componentSelected(ButtonEvent ce) {
+                        variables.rejectChanges();
+                        DialogRegistry.getInstance().hideDialog(
+                                VariableEditorWindow.class.getName());
+                    }
+                }));
     }
 
     private void createEditorPanel() {
@@ -115,7 +152,7 @@ public class VariableEditorWindow extends ModelingToolDialog {
         toolBar = new ToolBar();
 
         TextToolItem newVar = new TextToolItem(ModelingToolWidget.getMessages()
-                .newVariable()); //$NON-NLS-1$
+                .newVariable());
         newVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -126,7 +163,7 @@ public class VariableEditorWindow extends ModelingToolDialog {
         toolBar.add(newVar);
 
         TextToolItem delVar = new TextToolItem(ModelingToolWidget.getMessages()
-                .delVariable()); //$NON-NLS-1$
+                .delVariable());
         delVar.addSelectionListener(new SelectionListener<ToolBarEvent>() {
             @Override
             public void componentSelected(ToolBarEvent ce) {
@@ -152,52 +189,6 @@ public class VariableEditorWindow extends ModelingToolDialog {
     }
 
     /**
-     * Creates ok and cancel button
-     */
-    private void createButtons() {
-        setButtonAlign(HorizontalAlignment.CENTER);
-        addButton(new Button(ModelingToolWidget.getMessages().okButton(),
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        if (listener.hasDataChanged()) {
-                            variables.commitChanges();
-                            changeWorkflowModel();
-                        }
-                        DialogRegistry.getInstance().hideDialog(
-                                VariableEditorWindow.class.getName());
-                    }
-                }));
-        addButton(new Button(ModelingToolWidget.getMessages().cancelButton(),
-                new SelectionListener<ButtonEvent>() {
-                    @Override
-                    public void componentSelected(ButtonEvent ce) {
-                        variables.rejectChanges();
-                        DialogRegistry.getInstance().hideDialog(
-                                VariableEditorWindow.class.getName());
-                    }
-                }));
-    }
-
-    /**
-     * Sets the list of variable to edit
-     */
-    public void setVariables(List<Variable> variablesModel) {
-        for (Variable var : variablesModel) {
-            variables.add(var.copy());
-        }
-    }
-
-    private void changeWorkflowModel() {
-        List<Variable> variablesModel = new ArrayList<Variable>();
-        for (int i = 0; i < variables.getCount(); i++) {
-            variablesModel.add(variables.getAt(i).copy());
-        }
-        CommandStack.getInstance().executeCommand(
-                new ChangeVariablesCommand(variablesModel));
-    }
-
-    /**
      * Gets the list of variables that are currently edited.
      * 
      * @return the variables
@@ -217,6 +208,17 @@ public class VariableEditorWindow extends ModelingToolDialog {
         return true;
     }
 
+    /**
+     *This method updates the view when a model change occurred
+     */
+    public void refresh() {
+        if ((grid != null) && (csm != null) && (csm.getSelectCell() != null)
+                && (csm.getSelectCell().model != null)) {
+            grid.getStore().update(csm.getSelectCell().model);
+            grid.getView().refresh(false);
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -228,13 +230,11 @@ public class VariableEditorWindow extends ModelingToolDialog {
     }
 
     /**
-     *This method updates the view when a model change occurred
+     * Sets the list of variable to edit
      */
-    public void refresh() {
-        if (grid != null && csm != null && csm.getSelectCell() != null
-                && csm.getSelectCell().model != null) {
-            grid.getStore().update(csm.getSelectCell().model);
-            grid.getView().refresh(false);
+    public void setVariables(List<Variable> variablesModel) {
+        for (Variable var : variablesModel) {
+            variables.add(var.copy());
         }
     }
 

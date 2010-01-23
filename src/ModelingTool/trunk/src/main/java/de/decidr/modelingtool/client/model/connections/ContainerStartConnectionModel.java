@@ -27,5 +27,4 @@ public class ContainerStartConnectionModel extends ConnectionModel {
     public ContainerStartConnectionModel() {
         super();
     }
-
 }

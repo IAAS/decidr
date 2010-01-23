@@ -37,8 +37,6 @@ public class TenantTable extends Table {
     private Container tenantContainer = null;
 
     private final int TABLE_PAGE_LENGTH = 10;
-    
-    
 
     /**
      * Constructor, requires a container which is set as data source.<br>

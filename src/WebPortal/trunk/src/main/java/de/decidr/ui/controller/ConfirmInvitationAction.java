@@ -42,8 +42,7 @@ public class ConfirmInvitationAction implements ClickListener {
     private Long invitationId = null;
 
     /**
-     * Requires the ID of the invitation as well
-     * as the id of the invited user
+     * Requires the ID of the invitation as well as the id of the invited user
      * 
      * @param invId
      *            ID of the invitation
@@ -53,9 +52,9 @@ public class ConfirmInvitationAction implements ClickListener {
     public ConfirmInvitationAction(Long invId, Long uId) {
         invitationId = invId;
         userId = uId;
-        if (userId != null){
+        if (userId != null) {
             userFacade = new UserFacade(new UserRole(userId));
-        }else{
+        } else {
             userFacade = new UserFacade(new UserRole());
         }
     }

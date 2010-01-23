@@ -44,7 +44,44 @@ public enum Operator {
     GREATEREQUALS(">=", VariableType.INTEGER, VariableType.FLOAT),
     CONTAINS("?=", VariableType.STRING);
 
+    /**
+     * Gets the right enum type {@link Operator} which correlates to the given
+     * display string. Display string are, for example, "==", "!="...
+     * 
+     * @param displayString
+     *            the display string
+     * @return the operator belonging to the display string
+     */
+    public static Operator getOperatorFromDisplayString(String displayString) {
+        Operator result = null;
+        for (Operator op : Operator.values()) {
+            if (op.getDisplayString().equals(displayString)) {
+                result = op;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the list of {@link Operator}s which can be applied to a given
+     * {@link VariableType}.
+     * 
+     * @param type
+     *            the VariableType
+     * @return the list of Operators
+     */
+    public static List<Operator> getOperatorsForType(VariableType type) {
+        List<Operator> list = new ArrayList<Operator>();
+        for (Operator op : Operator.values()) {
+            if (op.isApplicableToType(type)) {
+                list.add(op);
+            }
+        }
+        return list;
+    }
+
     private String displayString;
+
     private VariableType[] types;
 
     /**
@@ -72,48 +109,12 @@ public enum Operator {
     }
 
     /**
-     * Gets the right enum type {@link Operator} which correlates to the given
-     * display string. Display string are, for example, "==", "!="...
-     * 
-     * @param displayString
-     *            the display string
-     * @return the operator belonging to the display string
-     */
-    public static Operator getOperatorFromDisplayString(String displayString) {
-        Operator result = null;
-        for (Operator op : Operator.values()) {
-            if (op.getDisplayString().equals(displayString)) {
-                result = op;
-            }
-        }
-        return result;
-    }
-
-    /**
      * Returns an array of variables type to which this operator can be applied.
      * 
      * @return the variable types
      */
     public VariableType[] getTypes() {
         return types;
-    }
-
-    /**
-     * Returns the list of {@link Operator}s which can be applied to a given
-     * {@link VariableType}.
-     * 
-     * @param type
-     *            the VariableType
-     * @return the list of Operators
-     */
-    public static List<Operator> getOperatorsForType(VariableType type) {
-        List<Operator> list = new ArrayList<Operator>();
-        for (Operator op : Operator.values()) {
-            if (op.isApplicableToType(type)) {
-                list.add(op);
-            }
-        }
-        return list;
     }
 
     /**

@@ -33,14 +33,13 @@ public class CommandList implements UndoableCommand {
     private List<UndoableCommand> commands = new Vector<UndoableCommand>();
 
     /**
-     * Performs the undo method in every added command. This happens in reverse
-     * order of added commands.
+     * Adds a command to the list.
+     * 
+     * @param command
+     *            The command to add.
      */
-    @Override
-    public void undo() {
-        for (int i = commands.size() - 1; i >= 0; i--) {
-            commands.get(i).undo();
-        }
+    public void addCommand(UndoableCommand command) {
+        commands.add(command);
     }
 
     /**
@@ -56,13 +55,14 @@ public class CommandList implements UndoableCommand {
     }
 
     /**
-     * Adds a command to the list.
-     * 
-     * @param command
-     *            The command to add.
+     * Performs the undo method in every added command. This happens in reverse
+     * order of added commands.
      */
-    public void addCommand(UndoableCommand command) {
-        commands.add(command);
+    @Override
+    public void undo() {
+        for (int i = commands.size() - 1; i >= 0; i--) {
+            commands.get(i).undo();
+        }
     }
 
 }

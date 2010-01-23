@@ -38,6 +38,30 @@ public class CreateStartEndNodeCommand implements UndoableCommand {
     NodeModel model = null;
 
     /**
+     * Constructor for creating a end node from an existing and linked end node
+     * model. The node is drawn from the data of the model.
+     * 
+     * @param model
+     *            The linked node model.
+     */
+    public CreateStartEndNodeCommand(EndNodeModel model)
+            throws IncompleteModelDataException {
+        this.model = model;
+
+        // check if model contains all needed information. if not, and
+        // IncompleteModelDataException is thrown
+        checkModelData();
+
+        // create node
+        node = new EndNode(model.getParentModel()
+                .getHasChildrenChangeListener());
+
+        // link node and model
+        node.setModel(model);
+        model.setChangeListener(node);
+    }
+
+    /**
      * Constructor for creating a start node from an existing and linked start
      * node model. The node is drawn from the data of the model.
      * 
@@ -62,49 +86,6 @@ public class CreateStartEndNodeCommand implements UndoableCommand {
     }
 
     /**
-     * Constructor for creating a end node from an existing and linked end node
-     * model. The node is drawn from the data of the model.
-     * 
-     * @param model
-     *            The linked node model.
-     */
-    public CreateStartEndNodeCommand(EndNodeModel model)
-            throws IncompleteModelDataException {
-        this.model = model;
-
-        // check if model contains all needed information. if not, and
-        // IncompleteModelDataException is thrown
-        checkModelData();
-
-        // create node
-        node = new EndNode(model.getParentModel()
-                .getHasChildrenChangeListener());
-
-        // link node and model
-        node.setModel(model);
-        model.setChangeListener(node);
-    }
-
-    @Override
-    public void undo() {
-        // remove node from workflow
-        node.getParentPanel().removeNode(node);
-
-        // remove model from workflow
-        model.getParentModel().removeNodeModel(model);
-    }
-
-    @Override
-    public void execute() {
-        // add node to parent panel
-        node.getParentPanel().addNode(node, model.getChangeListenerLeft(),
-                model.getChangeListenerTop());
-
-        // add model to workflow
-        model.getParentModel().addNodeModel(model);
-    }
-
-    /**
      * Checks the node model if it contains all required data for drawing the
      * container: its parent model.
      * 
@@ -118,6 +99,25 @@ public class CreateStartEndNodeCommand implements UndoableCommand {
         }
 
         return true;
+    }
+
+    @Override
+    public void execute() {
+        // add node to parent panel
+        node.getParentPanel().addNode(node, model.getChangeListenerLeft(),
+                model.getChangeListenerTop());
+
+        // add model to workflow
+        model.getParentModel().addNodeModel(model);
+    }
+
+    @Override
+    public void undo() {
+        // remove node from workflow
+        node.getParentPanel().removeNode(node);
+
+        // remove model from workflow
+        model.getParentModel().removeNodeModel(model);
     }
 
 }

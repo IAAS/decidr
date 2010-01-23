@@ -19,27 +19,19 @@ package de.decidr.modelingtool.client.io;
 import de.decidr.modelingtool.client.io.resources.DWDLNames;
 
 /**
- * This class creates an XSD:NCName from an id (type {@link Long}) and vice versa. This
- * is necessary because the dwdl schema requires variable and task item names to
- * be unique ncnames. However, in the Modeling Tool, the variables and task
- * items have ids of type <code>Long</code>.
+ * This class creates an XSD:NCName from an id (type {@link Long}) and vice
+ * versa. This is necessary because the dwdl schema requires variable and task
+ * item names to be unique ncnames. However, in the Modeling Tool, the variables
+ * and task items have ids of type <code>Long</code>.
  * 
  * @author Jonas Schlaak
  */
 public class NCNameFactory {
 
-    public static String createNCNameFromId(Long variableId) {
-        if (variableId != null) {
-            return DWDLNames.vNCnamePrefix + variableId.toString();
-        } else {
-            return DWDLNames.vNCnamePrefix + "null";
-        }
-    }
-
     public static Long createIdFromNCName(String ncname) {
         /*
-         * It can occur, that an ncname is "NCnull". This happens if there was no
-         * variable assigned. If that is the case, we do not want to return a
+         * It can occur, that an ncname is "NCnull". This happens if there was
+         * no variable assigned. If that is the case, we do not want to return a
          * Long number, but a null object.
          */
         String text = ncname.substring(DWDLNames.vNCnamePrefix.length());
@@ -48,6 +40,13 @@ public class NCNameFactory {
         } else {
             return new Long(text);
         }
+    }
 
+    public static String createNCNameFromId(Long variableId) {
+        if (variableId != null) {
+            return DWDLNames.vNCnamePrefix + variableId.toString();
+        } else {
+            return DWDLNames.vNCnamePrefix + "null";
+        }
     }
 }

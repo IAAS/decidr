@@ -40,5 +40,4 @@ public class CreateForEachContainerMenuItem implements Command {
         CommandStack.getInstance().executeCommand(
                 new CreateContainerCommand(container));
     }
-
 }

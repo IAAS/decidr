@@ -35,8 +35,7 @@ public class CurrentTenantModelTable extends Table {
     private Container currentTenantContainer = null;
 
     private final int TABLE_PAGE_LENGTH = 8;
-    
-    
+
     /**
      * Adds this table as an observer to the related container.<br>
      */

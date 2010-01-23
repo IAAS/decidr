@@ -40,8 +40,8 @@ public class ContainerDropController extends AbsolutePositionDropController {
         super.onPreviewDrop(context);
 
         // prevent StartNode and EndNode from dropping on a container
-        if (context.draggable instanceof StartNode
-                || context.draggable instanceof EndNode) {
+        if ((context.draggable instanceof StartNode)
+                || (context.draggable instanceof EndNode)) {
             throw new VetoDragException();
         }
     }

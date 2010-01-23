@@ -88,28 +88,12 @@ public class Condition extends ContainerStartConnectionModel {
         return operator;
     }
 
-    public Long getRightOperandId() {
-        return rightOperandId;
-    }
-
     public Integer getOrder() {
         return order;
     }
 
-    public void setLeftOperandId(Long leftOperandId) {
-        this.leftOperandId = leftOperandId;
-    }
-
-    public void setOperator(Operator operator) {
-        this.operator = operator;
-    }
-
-    public void setRightOperandId(Long rightOperand2Id) {
-        this.rightOperandId = rightOperand2Id;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
+    public Long getRightOperandId() {
+        return rightOperandId;
     }
 
     /**
@@ -131,8 +115,24 @@ public class Condition extends ContainerStartConnectionModel {
      * @return the result
      */
     public boolean isComplete() {
-        return (leftOperandId != null && operator != null
-                && rightOperandId != null && order != null);
+        return ((leftOperandId != null) && (operator != null)
+                && (rightOperandId != null) && (order != null));
+    }
+
+    public void setLeftOperandId(Long leftOperandId) {
+        this.leftOperandId = leftOperandId;
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
+    public void setRightOperandId(Long rightOperand2Id) {
+        this.rightOperandId = rightOperand2Id;
     }
 
 }

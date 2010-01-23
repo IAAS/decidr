@@ -133,7 +133,7 @@ public class RegisterUserComponent extends CustomComponent {
         street.setCaption("Street:");
         postalCode = new TextField();
         postalCode.setCaption("PostalCode:");
-        // TODO: see previous comments about postal code ~rr
+        // TODO: see previous comments about postal code
         postalCode.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
                 "Please enter a valid postal code."));
         city = new TextField();

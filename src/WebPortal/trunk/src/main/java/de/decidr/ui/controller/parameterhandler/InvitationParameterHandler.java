@@ -112,7 +112,7 @@ public class InvitationParameterHandler implements ParameterHandler {
                                                 "Your invitation link contained more "
                                                         + "parameters than expected and might be "
                                                         + "invalid.", "Error"));
-                        
+
                     }
                     authKey = value;
                 } else if (key
@@ -156,17 +156,8 @@ public class InvitationParameterHandler implements ParameterHandler {
 
                 if (invitationItem.getParticipateInWorkflowInstanceId() != null) {
                     if (concern == null) {
-                        // aleks, gh: which one ~rr
-                        // rr This information is not available from the
-                        // invitation
-                        // item we get from the facade. Tell me where it can be
-                        // retrieved
-                        // and i'll add it. ~gh
-                        // TODO: you have a workflow instance ID - there
-                        // has to be some method in a facade (ask DH) ~rr
                         concern = "Participate in a workflow";
                     } else {
-                        // TODO: which one ~rr
                         concern = " and participate in a workflow";
                     }
                 }
@@ -193,7 +184,8 @@ public class InvitationParameterHandler implements ParameterHandler {
                                             userId));
 
                             Main.getCurrent().getMainWindow().open(
-                                    new ExternalResource(Main.getCurrent().getURL()));
+                                    new ExternalResource(Main.getCurrent()
+                                            .getURL()));
                         } else {
                             // not logged in
                             Main
@@ -235,7 +227,8 @@ public class InvitationParameterHandler implements ParameterHandler {
                                             userId));
 
                             Main.getCurrent().getMainWindow().open(
-                                    new ExternalResource(Main.getCurrent().getURL()));
+                                    new ExternalResource(Main.getCurrent()
+                                            .getURL()));
                         } else {
                             // not logged in
                             // check if user is even registered
@@ -268,7 +261,8 @@ public class InvitationParameterHandler implements ParameterHandler {
                                                         "Authentication failed"));
 
                                 Main.getCurrent().getMainWindow().open(
-                                        new ExternalResource(Main.getCurrent().getURL()));
+                                        new ExternalResource(Main.getCurrent()
+                                                .getURL()));
                             }
                         }
                     } else {
@@ -290,14 +284,14 @@ public class InvitationParameterHandler implements ParameterHandler {
                 }
             } catch (TransactionException exception) {
                 Main
-                .getCurrent()
-                .getMainWindow()
-                .addWindow(
-                        new InformationDialogComponent(
-                                "Unfortunately the link you followed seems to be invalid.<br/><br/>"+
-                                "This can have several reasons. Please make sure the link is not "+
-                                "outdated and correctly copied from the email you received.",
-                                "Invalid Link"));
+                        .getCurrent()
+                        .getMainWindow()
+                        .addWindow(
+                                new InformationDialogComponent(
+                                        "Unfortunately the link you followed seems to be invalid.<br/><br/>"
+                                                + "This can have several reasons. Please make sure the link is not "
+                                                + "outdated and correctly copied from the email you received.",
+                                        "Invalid Link"));
 
                 Main.getCurrent().getMainWindow().open(
                         new ExternalResource(Main.getCurrent().getURL()));

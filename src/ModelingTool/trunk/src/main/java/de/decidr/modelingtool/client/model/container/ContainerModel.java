@@ -56,6 +56,11 @@ public class ContainerModel extends NodeModel implements HasChildModels {
     }
 
     @Override
+    public void addConnectionModel(ConnectionModel model) {
+        childConnectionModels.add(model);
+    }
+
+    @Override
     public void addNodeModel(NodeModel model) {
         childNodeModels.add(model);
     }
@@ -69,18 +74,22 @@ public class ContainerModel extends NodeModel implements HasChildModels {
     }
 
     @Override
+    public Collection<ConnectionModel> getChildConnectionModels() {
+        return childConnectionModels;
+    }
+
+    @Override
     public Collection<NodeModel> getChildNodeModels() {
         return childNodeModels;
     }
 
     @Override
-    public void addConnectionModel(ConnectionModel model) {
-        childConnectionModels.add(model);
-    }
-
-    @Override
-    public Collection<ConnectionModel> getChildConnectionModels() {
-        return childConnectionModels;
+    public HasChildren getHasChildrenChangeListener() {
+        if (changeListener instanceof HasChildren) {
+            return (HasChildren) changeListener;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -91,15 +100,6 @@ public class ContainerModel extends NodeModel implements HasChildModels {
     @Override
     public void removeNodeModel(NodeModel model) {
         childNodeModels.remove(model);
-    }
-
-    @Override
-    public HasChildren getHasChildrenChangeListener() {
-        if (changeListener instanceof HasChildren) {
-            return (HasChildren) changeListener;
-        } else {
-            return null;
-        }
     }
 
 }

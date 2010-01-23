@@ -100,44 +100,6 @@ public class Spinner extends HorizontalPanel {
 
     }
 
-    private void createTextField() {
-        textBox = new TextBox();
-
-        textBox.setTextAlignment(TextBoxBase.ALIGN_RIGHT);
-        textBox.setWidth(((Integer) max).toString().length() + "em");
-
-        textBox.addKeyPressHandler(new KeyPressHandler() {
-            @Override
-            public void onKeyPress(KeyPressEvent event) {
-                int cursorPos = textBox.getCursorPos();
-                String text = textBox.getText();
-
-                // Check if input is a digit
-                if (!Character.isDigit(event.getCharCode())) {
-                    textBox.cancelKey();
-                    return;
-                }
-
-                // Insert new digit in correct position
-                String valueString = text.substring(0, cursorPos)
-                        + event.getCharCode()
-                        + text.substring(cursorPos, text.length());
-                int newValue = Integer.parseInt(valueString);
-
-                // Check if input is within bounds
-                if (newValue > max || newValue < min) {
-                    textBox.cancelKey();
-                    Window.alert(ModelingToolWidget.getMessages().sizeMax()
-                            + " " + Workflow.MAX_SIZE + "!");
-                    return;
-                }
-                value = newValue;
-            }
-        });
-
-        add(textBox);
-    }
-
     private void createButtons() {
         upButton.addMouseDownHandler(new MouseDownHandler() {
             @Override
@@ -172,6 +134,44 @@ public class Spinner extends HorizontalPanel {
         add(buttons);
     }
 
+    private void createTextField() {
+        textBox = new TextBox();
+
+        textBox.setTextAlignment(TextBoxBase.ALIGN_RIGHT);
+        textBox.setWidth(((Integer) max).toString().length() + "em");
+
+        textBox.addKeyPressHandler(new KeyPressHandler() {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+                int cursorPos = textBox.getCursorPos();
+                String text = textBox.getText();
+
+                // Check if input is a digit
+                if (!Character.isDigit(event.getCharCode())) {
+                    textBox.cancelKey();
+                    return;
+                }
+
+                // Insert new digit in correct position
+                String valueString = text.substring(0, cursorPos)
+                        + event.getCharCode()
+                        + text.substring(cursorPos, text.length());
+                int newValue = Integer.parseInt(valueString);
+
+                // Check if input is within bounds
+                if ((newValue > max) || (newValue < min)) {
+                    textBox.cancelKey();
+                    Window.alert(ModelingToolWidget.getMessages().sizeMax()
+                            + " " + Workflow.MAX_SIZE + "!");
+                    return;
+                }
+                value = newValue;
+            }
+        });
+
+        add(textBox);
+    }
+
     private void createTimers() {
         raiser = new Timer() {
             @Override
@@ -199,6 +199,15 @@ public class Spinner extends HorizontalPanel {
     }
 
     /**
+     * Gets the current value of the spinner.
+     * 
+     * @return the integer value
+     */
+    public int getValue() {
+        return value;
+    }
+
+    /**
      * Updates the textbox to show the current value.
      */
     private void updateTextBox() {
@@ -208,14 +217,5 @@ public class Spinner extends HorizontalPanel {
         } else if (value == min) {
             lowerer.cancel();
         }
-    }
-
-    /**
-     * Gets the current value of the spinner.
-     * 
-     * @return the integer value
-     */
-    public int getValue() {
-        return value;
     }
 }

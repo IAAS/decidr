@@ -65,8 +65,9 @@ public class ChangePasswordAction implements ClickListener {
                 .toString();
         if (!passwd.equals(passwords.getItemProperty("newPasswordConfirm")
                 .getValue().toString())) {
-            Main.getCurrent().getMainWindow().addWindow(new InformationDialogComponent(
-                    "The new passwords don't match!", "Information"));
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "The new passwords don't match!", "Information"));
         } else {
             try {
                 userFacade.setPassword(userId, passwords.getItemProperty(

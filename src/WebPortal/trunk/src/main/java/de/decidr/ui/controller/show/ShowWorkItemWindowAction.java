@@ -49,64 +49,65 @@ import de.decidr.ui.view.windows.WorkItemWindow;
 @Reviewed(reviewers = { "RR" }, lastRevision = "2349", currentReviewState = State.Passed)
 public class ShowWorkItemWindowAction implements ClickListener {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private HttpSession session = Main.getCurrent().getSession();
+    private HttpSession session = Main.getCurrent().getSession();
 
-	private Role role = (Role) session.getAttribute("role");
+    private Role role = (Role) session.getAttribute("role");
 
-	private WorkItemFacade workItemFacade = new WorkItemFacade(role);
+    private WorkItemFacade workItemFacade = new WorkItemFacade(role);
 
-	private Table table = null;
+    private Table table = null;
 
-	private Long workItemId = null;
+    private Long workItemId = null;
 
-	private byte[] ht = null;
+    private byte[] ht = null;
 
-	private THumanTaskData tHumanTaskData = null;
+    private THumanTaskData tHumanTaskData = null;
 
-	/**
-	 * Stores the given work item table
-	 */
-	public ShowWorkItemWindowAction(Table table) {
-		this.table = table;
-	}
+    /**
+     * Stores the given work item table
+     */
+    public ShowWorkItemWindowAction(Table table) {
+        this.table = table;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
-	 * ClickEvent)
-	 */
-	@Override
-	public void buttonClick(ClickEvent event) {
-		Set<?> value = (Set<?>) table.getValue();
-		if ((value != null) && (value.size() == 1)) {
-			for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-				WorkItemSummaryViewBean workItemSummaryViewBean = (WorkItemSummaryViewBean) iter.next();
-				workItemId = workItemSummaryViewBean.getId();
-				try {
-					WorkItem workItem = workItemFacade
-							.getWorkItemAndMarkAsInProgress(workItemId);
-					ht = workItem.getData();
-					tHumanTaskData = TransformUtil.bytesToHumanTask(ht);
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.
+     * ClickEvent)
+     */
+    @Override
+    public void buttonClick(ClickEvent event) {
+        Set<?> value = (Set<?>) table.getValue();
+        if ((value != null) && (value.size() == 1)) {
+            for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
+                WorkItemSummaryViewBean workItemSummaryViewBean = (WorkItemSummaryViewBean) iter
+                        .next();
+                workItemId = workItemSummaryViewBean.getId();
+                try {
+                    WorkItem workItem = workItemFacade
+                            .getWorkItemAndMarkAsInProgress(workItemId);
+                    ht = workItem.getData();
+                    tHumanTaskData = TransformUtil.bytesToHumanTask(ht);
 
-					Main.getCurrent().getMainWindow().addWindow(
-							new WorkItemWindow(tHumanTaskData, workItemId));
-					table.requestRepaint();
-				} catch (TransactionException exception) {
-					Main.getCurrent().getMainWindow().addWindow(
-							new TransactionErrorDialogComponent(exception));
-				} catch (JAXBException exception) {
-					Main.getCurrent().getMainWindow().showNotification(
-							"JAXB error!");
-				}
-			}
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new WorkItemWindow(tHumanTaskData, workItemId));
+                    table.requestRepaint();
+                } catch (TransactionException exception) {
+                    Main.getCurrent().getMainWindow().addWindow(
+                            new TransactionErrorDialogComponent(exception));
+                } catch (JAXBException exception) {
+                    Main.getCurrent().getMainWindow().showNotification(
+                            "JAXB error!");
+                }
+            }
 
-		} else {
-			Main.getCurrent().getMainWindow().addWindow(
-					new InformationDialogComponent(
-							"Please select a work item!", "Information"));
-		}
-	}
+        } else {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "Please select a work item!", "Information"));
+        }
+    }
 }

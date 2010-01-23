@@ -20,11 +20,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
 import com.vaadin.ui.Upload.Receiver;
+
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.ui.view.Main;
 import de.decidr.ui.view.windows.InformationDialogComponent;
+
 /**
  * This class handles the actions when the upload for a human task is started,
  * finished and received.
@@ -36,11 +39,10 @@ public class UploadAction implements Receiver {
 
     private static final long serialVersionUID = 1L;
 
-
     private File file = null;
 
     /**
-     * Returns the filed
+     * Returns the file
      * 
      * @return file
      */
@@ -56,19 +58,19 @@ public class UploadAction implements Receiver {
      */
     @Override
     public OutputStream receiveUpload(String filename, String MIMEType) {
-    	 FileOutputStream fos = null;
+        FileOutputStream fos = null;
 
-         try {
-             file = File.createTempFile("decidr", "tmp");
+        try {
+            file = File.createTempFile("decidr", "tmp");
 
-             fos = new FileOutputStream(file);
-         } catch (IOException e) {
-             Main.getCurrent().getMainWindow().addWindow(
-                     new InformationDialogComponent(
-                             "An error occured wihle uploading your file:<br/>"+ e.getMessage()
-                             , "Upload Failure"));
-         }
+            fos = new FileOutputStream(file);
+        } catch (IOException e) {
+            Main.getCurrent().getMainWindow().addWindow(
+                    new InformationDialogComponent(
+                            "An error occured wihle uploading your file:<br/>"
+                                    + e.getMessage(), "Upload Failure"));
+        }
 
-         return fos;
-    }    	
+        return fos;
+    }
 }

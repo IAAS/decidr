@@ -53,7 +53,5 @@ public class PropertiesMenuItem implements Command {
         } else {
             Workflow.getInstance().showPropertyWindow();
         }
-
     }
-
 }

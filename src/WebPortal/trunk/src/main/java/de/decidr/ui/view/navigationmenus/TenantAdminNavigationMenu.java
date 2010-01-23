@@ -130,7 +130,7 @@ public class TenantAdminNavigationMenu extends CustomComponent {
         verticalLayout.addComponent(workflowInstancesLabel);
         verticalLayout.addComponent(createWorkflowInstanceLink);
         verticalLayout.addComponent(showWorkflowInstancesLink);
-        
+
         verticalLayout.addComponent(usersLabel);
         verticalLayout.addComponent(showUserListLink);
 

@@ -73,67 +73,67 @@ public class TenantBean implements Serializable {
         this.approvedSince = tenant.getApprovedSince();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public File getLogo() {
-        return logo;
-    }
-
-    public void setLogo(File logo) {
-        this.logo = logo;
-    }
-
-    public File getSimpleColorScheme() {
-        return simpleColorScheme;
-    }
-
-    public void setSimpleColorScheme(File simpleColorScheme) {
-        this.simpleColorScheme = simpleColorScheme;
-    }
-
     public File getAdvancedColorScheme() {
         return advancedColorScheme;
-    }
-
-    public void setAdvancedColorScheme(File advancedColorScheme) {
-        this.advancedColorScheme = advancedColorScheme;
-    }
-
-    public File getCurrentColorScheme() {
-        return currentColorScheme;
-    }
-
-    public void setCurrentColorScheme(File currentColorScheme) {
-        this.currentColorScheme = currentColorScheme;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Date getApprovedSince() {
         return approvedSince;
     }
 
+    public File getCurrentColorScheme() {
+        return currentColorScheme;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public File getLogo() {
+        return logo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public File getSimpleColorScheme() {
+        return simpleColorScheme;
+    }
+
+    public void setAdvancedColorScheme(File advancedColorScheme) {
+        this.advancedColorScheme = advancedColorScheme;
+    }
+
     public void setApprovedSince(Date approvedSince) {
         this.approvedSince = approvedSince;
+    }
+
+    public void setCurrentColorScheme(File currentColorScheme) {
+        this.currentColorScheme = currentColorScheme;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLogo(File logo) {
+        this.logo = logo;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSimpleColorScheme(File simpleColorScheme) {
+        this.simpleColorScheme = simpleColorScheme;
     }
 }

@@ -51,12 +51,12 @@ public class TenantManagementHelpComponent extends VerticalLayout {
     public TenantManagementHelpComponent() {
         setMargin(false, true, true, true);
 
-        approvedTenantsLabel = new Label("<ol>"
-                + "<li>Log in as super admin and navigate to the list of approved tenants by selecting"
-                + " &quot;Approved tenants&quot; in the administration navigation menu.</li>"
-                + "<li>The system displays a list of all approved tenants in the web browser.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        approvedTenantsLabel = new Label(
+                "<ol>"
+                        + "<li>Log in as super admin and navigate to the list of approved tenants by selecting"
+                        + " &quot;Approved tenants&quot; in the administration navigation menu.</li>"
+                        + "<li>The system displays a list of all approved tenants in the web browser.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         approvedTenantsLabel.setVisible(false);
         approvedTenantsButton = new Button(
                 "How do I view a list of all approved tenants?",
@@ -66,15 +66,15 @@ public class TenantManagementHelpComponent extends VerticalLayout {
         this.addComponent(approvedTenantsButton);
         this.addComponent(approvedTenantsLabel);
 
-        deleteTenantLabel = new Label("<ol>"
-                + "<li>Log in as super admin and navigate to the list of approved tenants by selecting"
-                + " &quot;Approved tenants&quot; in the administration navigation menu.</li>"
-                + "<li>Select tenants you want to remove.</li>"
-                + "<li>Press the delete button and confirm the deletion.</li>"
-                + "<li>The system terminates all running workflow instances of the selected tenants,"
-                + " and then removes the selected tenants and all workflow models and workflow instances"
-                + " of the selected tenants.</li>"
-                + "</ol><br/>",
+        deleteTenantLabel = new Label(
+                "<ol>"
+                        + "<li>Log in as super admin and navigate to the list of approved tenants by selecting"
+                        + " &quot;Approved tenants&quot; in the administration navigation menu.</li>"
+                        + "<li>Select tenants you want to remove.</li>"
+                        + "<li>Press the delete button and confirm the deletion.</li>"
+                        + "<li>The system terminates all running workflow instances of the selected tenants,"
+                        + " and then removes the selected tenants and all workflow models and workflow instances"
+                        + " of the selected tenants.</li>" + "</ol><br/>",
                 Label.CONTENT_XHTML);
         deleteTenantLabel.setVisible(false);
         deleteTenantButton = new Button("How do I delete tenants?",
@@ -84,13 +84,13 @@ public class TenantManagementHelpComponent extends VerticalLayout {
         this.addComponent(deleteTenantButton);
         this.addComponent(deleteTenantLabel);
 
-        unapprovedTenantsLabel = new Label("<ol>"
-                + "<li>You are the super admin. Navigate to the list of tenants that require approval "
-                + "by selecting &quot;Tenants to approve&quot; in the administration navigation menu.</li>"
-                + "<li>The system displays a list of all tenants that need approval"
-                + " and the user that is requesting to become tenant administrator.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        unapprovedTenantsLabel = new Label(
+                "<ol>"
+                        + "<li>You are the super admin. Navigate to the list of tenants that require approval "
+                        + "by selecting &quot;Tenants to approve&quot; in the administration navigation menu.</li>"
+                        + "<li>The system displays a list of all tenants that need approval"
+                        + " and the user that is requesting to become tenant administrator.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         unapprovedTenantsLabel.setVisible(false);
         unapprovedTenantsButton = new Button(
                 "How do I view a list of tenants to be approved?",
@@ -100,15 +100,15 @@ public class TenantManagementHelpComponent extends VerticalLayout {
         this.addComponent(unapprovedTenantsButton);
         this.addComponent(unapprovedTenantsLabel);
 
-        approveTenantLabel = new Label("<ol>"
-                + "<li>Log in as a super admin and navigate to the list of approved tenants by selecting"
-                + " &quot;Approved tenants&quot; in the administration navigation menu.</li>"
-                + "<li>The system displays a list of all tenants that need approval.</li>"
-                + "<li>Press the &quot;Approve&quot; button. The system will unlock the selected tenants.</li>"
-                + "<li>The system also sends an email to each tenant admin,"
-                + " informing them about the approval.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        approveTenantLabel = new Label(
+                "<ol>"
+                        + "<li>Log in as a super admin and navigate to the list of approved tenants by selecting"
+                        + " &quot;Approved tenants&quot; in the administration navigation menu.</li>"
+                        + "<li>The system displays a list of all tenants that need approval.</li>"
+                        + "<li>Press the &quot;Approve&quot; button. The system will unlock the selected tenants.</li>"
+                        + "<li>The system also sends an email to each tenant admin,"
+                        + " informing them about the approval.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         approveTenantLabel.setVisible(false);
         approveTenantButton = new Button("How do I approve new tenants?",
                 new ToggleLabelAction(approveTenantLabel));
@@ -117,15 +117,15 @@ public class TenantManagementHelpComponent extends VerticalLayout {
         this.addComponent(approveTenantButton);
         this.addComponent(approveTenantLabel);
 
-        declineTenantLabel = new Label("<ol>"
-                + "<li>Log in as super admin and navigate to the list of approved tenants by selecting"
-                + " &quot;Approved tenants&quot; in the administration navigation menu.</li>"
-                + "<li>The system displays a list of all tenants that need approval.</li>"
-                + "<li>Press the decline button. The system deletes the selected tenants.</li>"
-                + "<li>The system sends an email to each tenant admin informing them about"
-                + " the refusal to approve the new tenant.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        declineTenantLabel = new Label(
+                "<ol>"
+                        + "<li>Log in as super admin and navigate to the list of approved tenants by selecting"
+                        + " &quot;Approved tenants&quot; in the administration navigation menu.</li>"
+                        + "<li>The system displays a list of all tenants that need approval.</li>"
+                        + "<li>Press the decline button. The system deletes the selected tenants.</li>"
+                        + "<li>The system sends an email to each tenant admin informing them about"
+                        + " the refusal to approve the new tenant.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         declineTenantLabel.setVisible(false);
         declineTenantButton = new Button(
                 "How do I decline new tenant applications?",

@@ -28,5 +28,4 @@ public class InvalidTypeException extends ModelingToolException {
     public InvalidTypeException(String msg) {
         super(msg);
     }
-
 }

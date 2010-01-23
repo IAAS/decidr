@@ -42,7 +42,6 @@ public class WorkflowModelsBean implements Serializable {
 
     /**
      * TODO: add comment
-     * 
      */
     public WorkflowModelsBean(WorkflowModel workflowModel) {
         this.name = workflowModel.getName();
@@ -58,58 +57,10 @@ public class WorkflowModelsBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the name
+     * @return the creationDate
      */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the modifiedDate
-     */
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param modifiedDate
-     *            the modifiedDate to set
-     */
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param id
-     *            the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
     /**
@@ -124,30 +75,37 @@ public class WorkflowModelsBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @param description
-     *            the description to set
+     * @return the dwdl
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public byte[] getDwdl() {
+        return dwdl;
     }
 
     /**
      * TODO: add comment
      * 
-     * @return the published
+     * @return the id
      */
-    public boolean isPublished() {
-        return published;
+    public Long getId() {
+        return id;
     }
 
     /**
      * TODO: add comment
      * 
-     * @param published
-     *            the published to set
+     * @return the modifiedDate
      */
-    public void setPublished(boolean published) {
-        this.published = published;
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 
     /**
@@ -162,20 +120,10 @@ public class WorkflowModelsBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @param executable
-     *            the executable to set
+     * @return the published
      */
-    public void setExecutable(boolean executable) {
-        this.executable = executable;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the creationDate
-     */
-    public Date getCreationDate() {
-        return creationDate;
+    public boolean isPublished() {
+        return published;
     }
 
     /**
@@ -191,10 +139,11 @@ public class WorkflowModelsBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the dwdl
+     * @param description
+     *            the description to set
      */
-    public byte[] getDwdl() {
-        return dwdl;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -205,5 +154,55 @@ public class WorkflowModelsBean implements Serializable {
      */
     public void setDwdl(byte[] dwdl) {
         this.dwdl = dwdl;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param executable
+     *            the executable to set
+     */
+    public void setExecutable(boolean executable) {
+        this.executable = executable;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param id
+     *            the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param modifiedDate
+     *            the modifiedDate to set
+     */
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param name
+     *            the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param published
+     *            the published to set
+     */
+    public void setPublished(boolean published) {
+        this.published = published;
     }
 }

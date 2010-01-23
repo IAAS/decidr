@@ -70,24 +70,6 @@ public class RemoveNodeCommand implements UndoableCommand {
     }
 
     @Override
-    public void undo() {
-        // add node to parent panel and set position
-        node.getParentPanel().addNode(node);
-        node.setPosition(nodeLeft, nodeTop);
-
-        // link model
-        model.getParentModel().addNodeModel(model);
-
-        // select node if was selected before
-        if (selected) {
-            SelectionHandler.getInstance().select(node);
-        }
-
-        // add all connections removed before
-        removeConnectionsCmd.undo();
-    }
-
-    @Override
     public void execute() {
         // remove all connections from the node
         removeConnectionsCmd.execute();
@@ -104,4 +86,21 @@ public class RemoveNodeCommand implements UndoableCommand {
         model.getParentModel().removeNodeModel(model);
     }
 
+    @Override
+    public void undo() {
+        // add node to parent panel and set position
+        node.getParentPanel().addNode(node);
+        node.setPosition(nodeLeft, nodeTop);
+
+        // link model
+        model.getParentModel().addNodeModel(model);
+
+        // select node if was selected before
+        if (selected) {
+            SelectionHandler.getInstance().select(node);
+        }
+
+        // add all connections removed before
+        removeConnectionsCmd.undo();
+    }
 }

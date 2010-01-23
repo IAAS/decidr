@@ -28,5 +28,4 @@ public class NoPropertyWindowException extends OperationNotAllowedException {
     public NoPropertyWindowException(String msg) {
         super(msg);
     }
-
 }

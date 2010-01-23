@@ -16,7 +16,6 @@
 
 package de.decidr.ui.view.windows;
 
-
 import com.vaadin.data.Item;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
@@ -33,7 +32,7 @@ import de.decidr.ui.controller.user.ResetPasswordAction;
 
 /**
  * By pushing the button the user can reset his password.
- *
+ * 
  * @author Geoffrey-Alexeij Heinze
  */
 @Reviewed(reviewers = { "TK", "JS" }, lastRevision = "2377", currentReviewState = State.Passed)

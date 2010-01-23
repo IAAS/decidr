@@ -115,8 +115,8 @@ public class SiteFrame extends CustomComponent {
 
     /**
      * Puts the content into the site frame and stores the current content in a
-     * variable.
-     * Also sets the components style name which is used in the styles.css
+     * variable. Also sets the components style name which is used in the
+     * styles.css
      * 
      * @param content
      *            TODO document
@@ -130,8 +130,8 @@ public class SiteFrame extends CustomComponent {
 
     /**
      * Puts the header into the site frame and stores the current header in a
-     * variable.
-     * Also sets the components style name which is used in the styles.css
+     * variable. Also sets the components style name which is used in the
+     * styles.css
      * 
      * @param header
      *            TODO document
@@ -144,8 +144,8 @@ public class SiteFrame extends CustomComponent {
     }
 
     /**
-     * Puts the horizontal navigation menu into the site frame.
-     * Also sets the components style name which is used in the styles.css
+     * Puts the horizontal navigation menu into the site frame. Also sets the
+     * components style name which is used in the styles.css
      * 
      * @param navigation
      *            TODO document
@@ -158,8 +158,8 @@ public class SiteFrame extends CustomComponent {
 
     /**
      * Puts the vertical navigation menu into the site frame and stores the
-     * current vertical navigation menu in a variable.
-     * Also sets the components style name which is used in the styles.css
+     * current vertical navigation menu in a variable. Also sets the components
+     * style name which is used in the styles.css
      * 
      * @param navigation
      *            TODO document

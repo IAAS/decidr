@@ -21,8 +21,6 @@ import java.nio.charset.Charset;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 
-import org.xml.sax.SAXException;
-
 import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Button.ClickEvent;
@@ -87,19 +85,18 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
     public void buttonClick(ClickEvent event) {
         table = ((CreateWorkflowInstanceComponent) siteFrame.getContent())
                 .getInstanceTable();
-        
+
         Item item = table.getItem(table.getValue());
-                
+
         workflowModelId = (Long) item.getItemProperty("id").getValue();
-        
+
         try {
             wsc = workflowModelFacade
                     .getLastStartConfiguration(workflowModelId);
-            
-            
-            byte[] dwdl = workflowModelFacade.getWorkflowModel(
-                    workflowModelId).getDwdl();
-            
+
+            byte[] dwdl = workflowModelFacade.getWorkflowModel(workflowModelId)
+                    .getDwdl();
+
             Workflow workflow = TransformUtil.bytesToWorkflow(dwdl);
 
             if (wsc == null) {
@@ -111,7 +108,7 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
 
             } else {
                 tConfiguration = TransformUtil.bytesToConfiguration(wsc);
-                
+
             }
 
             Main.getCurrent().getMainWindow().addWindow(
@@ -123,9 +120,6 @@ public class ShowStartConfigurationWindowAction implements ClickListener {
         } catch (TransactionException exception) {
             Main.getCurrent().addWindow(
                     new TransactionErrorDialogComponent(exception));
-        } catch (SAXException e) {
-            Main.getCurrent().addWindow(
-                    new TransactionErrorDialogComponent(e));
         }
     }
 }

@@ -25,12 +25,12 @@ import de.decidr.modelingtool.client.model.container.HasChildModels;
  */
 public class InvokeNodeModel extends NodeModel {
 
-    public InvokeNodeModel(HasChildModels parentModel) {
-        super(parentModel);
-    }
-
     public InvokeNodeModel() {
         super();
+    }
+
+    public InvokeNodeModel(HasChildModels parentModel) {
+        super(parentModel);
     }
 
 }

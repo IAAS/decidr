@@ -100,7 +100,7 @@ public class CreateWorkflowModelAction implements ClickListener {
             table.addItem(workflowModelsBean);
 
             siteFrame.setContent(new ModelingTool(workflowModelId));
-            ((ModelingTool)siteFrame.getContent()).requestRepaint();
+            ((ModelingTool) siteFrame.getContent()).requestRepaint();
         } catch (TransactionException exception) {
             Main.getCurrent().getMainWindow().addWindow(
                     new TransactionErrorDialogComponent(exception));

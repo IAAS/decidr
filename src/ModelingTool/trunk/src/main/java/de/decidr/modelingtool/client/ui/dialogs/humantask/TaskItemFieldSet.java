@@ -83,12 +83,12 @@ public class TaskItemFieldSet extends HorizontalPanel {
 
     }
 
-    public TextField<String> getLabelField() {
-        return labelField;
-    }
-
     public TextField<String> getHintField() {
         return hintField;
+    }
+
+    public TextField<String> getLabelField() {
+        return labelField;
     }
 
     public ComboBox<Variable> getVariableField() {

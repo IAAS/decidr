@@ -31,16 +31,23 @@ public class VariableEditorStoreListener extends StoreListener<Variable> {
 
     private boolean dataChanged = false;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns whether the variables have changed or not.
      * 
-     * @see com.extjs.gxt.ui.client.store.StoreListener #
-     * storeDataChanged(com.extjs.gxt.ui.client. store.StoreEvent)
+     * @return the dataChanged
      */
-    @Override
-    public void storeDataChanged(StoreEvent<Variable> se) {
-        super.storeBeforeDataChanged(se);
-        dataChanged = true;
+    public boolean hasDataChanged() {
+        return dataChanged;
+    }
+
+    /**
+     * Reset the listener to a value.
+     * 
+     * @param dataChanged
+     *            the dataChanged to set
+     */
+    public void setDataChanged(boolean dataChanged) {
+        this.dataChanged = dataChanged;
     }
 
     /*
@@ -53,6 +60,18 @@ public class VariableEditorStoreListener extends StoreListener<Variable> {
     @Override
     public void storeAdd(StoreEvent<Variable> se) {
         super.storeAdd(se);
+        dataChanged = true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.extjs.gxt.ui.client.store.StoreListener #
+     * storeDataChanged(com.extjs.gxt.ui.client. store.StoreEvent)
+     */
+    @Override
+    public void storeDataChanged(StoreEvent<Variable> se) {
+        super.storeBeforeDataChanged(se);
         dataChanged = true;
     }
 
@@ -80,25 +99,6 @@ public class VariableEditorStoreListener extends StoreListener<Variable> {
     public void storeUpdate(StoreEvent<Variable> se) {
         super.storeUpdate(se);
         dataChanged = true;
-    }
-
-    /**
-     * Returns whether the variables have changed or not.
-     * 
-     * @return the dataChanged
-     */
-    public boolean hasDataChanged() {
-        return dataChanged;
-    }
-
-    /**
-     * Reset the listener to a value.
-     * 
-     * @param dataChanged
-     *            the dataChanged to set
-     */
-    public void setDataChanged(boolean dataChanged) {
-        this.dataChanged = dataChanged;
     }
 
 }

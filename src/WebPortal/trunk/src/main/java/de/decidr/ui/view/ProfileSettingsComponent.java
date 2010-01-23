@@ -15,7 +15,6 @@
  */
 package de.decidr.ui.view;
 
-
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.RegexpValidator;
@@ -90,7 +89,7 @@ public class ProfileSettingsComponent extends CustomComponent {
             } else if ("postalCode".equals(propertyId)) {
                 TextField tf = (TextField) field;
                 // TODO: this only works for german codes, an example of an
-                // english one might be "SS12 9BP" ~rr
+                // english one might be "SS12 9BP"
                 tf.addValidator(new RegexpValidator("[1-9][0-9]{4,15}",
                         "Please enter only numbers"));
                 tf.setCaption("Postal Code");
@@ -99,7 +98,7 @@ public class ProfileSettingsComponent extends CustomComponent {
                 TextField tf = (TextField) field;
                 tf.setCaption("City");
                 tf.setColumns(30);
-            }  
+            }
 
             return field;
         }
@@ -134,8 +133,9 @@ public class ProfileSettingsComponent extends CustomComponent {
     private CheckBox statusCheckBox = null;
 
     private Item settingsItem = null;
-    
-    private String[] properties = {"firstName", "lastName", "street", "postalCode", "city" };
+
+    private String[] properties = { "firstName", "lastName", "street",
+            "postalCode", "city" };
 
     /**
      * TODO document
@@ -143,6 +143,15 @@ public class ProfileSettingsComponent extends CustomComponent {
     public ProfileSettingsComponent(User user) {
         this.user = user;
         init();
+    }
+
+    /**
+     * Gets the settings {@link Form}.
+     * 
+     * @return the settingsForm TODO document
+     */
+    public Form getSettingsForm() {
+        return settingsForm;
     }
 
     /**
@@ -172,9 +181,7 @@ public class ProfileSettingsComponent extends CustomComponent {
         settingsItem = new BeanItem(user.getUserProfile(), properties);
         settingsForm.setItemDataSource(settingsItem);
         settingsForm.setFormFieldFactory(new SettingsFieldFactory());
-        
-        
-        
+
         settingsForm.setVisibleItemProperties(properties);
 
         addressPanel = new Panel();
@@ -207,7 +214,8 @@ public class ProfileSettingsComponent extends CustomComponent {
         settingsForm.addField("button", saveButton);
 
         statusCheckBox = new CheckBox();
-        statusCheckBox.setValue(user.getUnavailableSince() != null ? true : false);
+        statusCheckBox.setValue(user.getUnavailableSince() != null ? true
+                : false);
         statusCheckBox.addListener(new ChangeStatusAction(user.getId()));
         statusCheckBox.setImmediate(true);
 
@@ -233,7 +241,8 @@ public class ProfileSettingsComponent extends CustomComponent {
         profileButtonHorizontalLayout.addComponent(leaveTenantLink);
         profileButtonHorizontalLayout.addComponent(statusCheckBox);
         statusCheckBox.setCaption("Set my status to unavailable");
-        profileButtonHorizontalLayout.setComponentAlignment(statusCheckBox, Alignment.TOP_RIGHT);
+        profileButtonHorizontalLayout.setComponentAlignment(statusCheckBox,
+                Alignment.TOP_RIGHT);
 
         verticalLayout.addComponent(addressPanel);
 
@@ -249,15 +258,6 @@ public class ProfileSettingsComponent extends CustomComponent {
         } catch (Exception e) {
             Main.getCurrent().getMainWindow().showNotification(e.getMessage());
         }
-    }
-
-    /**
-     * Gets the settings {@link Form}.
-     * 
-     * @return the settingsForm TODO document
-     */
-    public Form getSettingsForm() {
-        return settingsForm;
     }
 
 }

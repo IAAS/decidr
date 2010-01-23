@@ -45,12 +45,12 @@ public class TenantSettingsHelpComponent extends VerticalLayout {
     public TenantSettingsHelpComponent() {
         setMargin(false, true, true, true);
 
-        changeSettingsLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.</li>"
-                + "<li>Enter new description text and change the tenant settings.</li>"
-                + "<li>Click on the &quot;Save&quot; button.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        changeSettingsLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.</li>"
+                        + "<li>Enter new description text and change the tenant settings.</li>"
+                        + "<li>Click on the &quot;Save&quot; button.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         changeSettingsLabel.setVisible(false);
         changeSettingsButton = new Button(
                 "How do I change the tenant settings?", new ToggleLabelAction(
@@ -60,12 +60,12 @@ public class TenantSettingsHelpComponent extends VerticalLayout {
         this.addComponent(changeSettingsButton);
         this.addComponent(changeSettingsLabel);
 
-        changeLogoLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.</li>"
-                + "<li>Select a file on your system to use as the new tenant logo.</li>"
-                + "<li>After the upload click on the &quot;Save&quot; button.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        changeLogoLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.</li>"
+                        + "<li>Select a file on your system to use as the new tenant logo.</li>"
+                        + "<li>After the upload click on the &quot;Save&quot; button.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         changeLogoLabel.setVisible(false);
         changeLogoButton = new Button("How do I change the tenant logo?",
                 new ToggleLabelAction(changeLogoLabel));
@@ -74,12 +74,12 @@ public class TenantSettingsHelpComponent extends VerticalLayout {
         this.addComponent(changeLogoButton);
         this.addComponent(changeLogoLabel);
 
-        restoreDefaultLabel = new Label("<ol>"
-                + "<li>Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.</li>"
-                + "<li>The system displays the current tenant settings.</li>"
-                + "<li>Click on the &quot;Restore default settings&quot; button.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        restoreDefaultLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR and navigate to &quot;Tenant Settings&quot; in the navigation bar.</li>"
+                        + "<li>The system displays the current tenant settings.</li>"
+                        + "<li>Click on the &quot;Restore default settings&quot; button.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         restoreDefaultLabel.setVisible(false);
         restoreDefaultButton = new Button(
                 "How do I restore the default tenant settings?",

@@ -51,14 +51,14 @@ public class WorkflowModelEditorHelpComponent extends VerticalLayout {
     public WorkflowModelEditorHelpComponent() {
         setMargin(false, true, true, true);
 
-        openModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR as tenant admin and navigate to the workflow"
-                + " modeling section by clicking on the &quot;Create/edit"
-                + " workflow models&quot; navigation link.</li>"
-                + "<li>Click on the &quot;Edit&quot; link next to the"
-                + " workflow model you want to edit.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        openModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR as tenant admin and navigate to the workflow"
+                        + " modeling section by clicking on the &quot;Create/edit"
+                        + " workflow models&quot; navigation link.</li>"
+                        + "<li>Click on the &quot;Edit&quot; link next to the"
+                        + " workflow model you want to edit.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         openModelLabel.setVisible(false);
         openModelButton = new Button(
                 "How do I open an existing model for editing?",
@@ -68,15 +68,15 @@ public class WorkflowModelEditorHelpComponent extends VerticalLayout {
         this.addComponent(openModelButton);
         this.addComponent(openModelLabel);
 
-        clearModelLabel = new Label("<ol>"
-                + "<li>Log into DecidR as tenant admin and navigate to the"
-                + " workflow modeling section by clicking on the"
-                + " &quot;Create/edit workflow models&quot; navigation link.</li>"
-                + "<li>Click on the &quot;Edit&quot; link next to workflow model you want to clear.</li>"
-                + "<li>The system shows the workflow in the modeling tool editor.</li>"
-                + "<li>Press the &quot;Clear&quot; button and confirm it.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        clearModelLabel = new Label(
+                "<ol>"
+                        + "<li>Log into DecidR as tenant admin and navigate to the"
+                        + " workflow modeling section by clicking on the"
+                        + " &quot;Create/edit workflow models&quot; navigation link.</li>"
+                        + "<li>Click on the &quot;Edit&quot; link next to workflow model you want to clear.</li>"
+                        + "<li>The system shows the workflow in the modeling tool editor.</li>"
+                        + "<li>Press the &quot;Clear&quot; button and confirm it.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         clearModelLabel.setVisible(false);
         clearModelButton = new Button(
                 "How do I remove all activities, containers,"
@@ -87,14 +87,14 @@ public class WorkflowModelEditorHelpComponent extends VerticalLayout {
         this.addComponent(clearModelButton);
         this.addComponent(clearModelLabel);
 
-        addActivityLabel = new Label("<ol>"
-                + "<li>You are the tenant admin. You have a workflow model"
-                + " and want to insert one of the available activities.</li>"
-                + "<li>Drag an activity icon from the palette onto the canvas.</li>"
-                + "<li>The editor adds the new activity to the workflow model"
-                + " and opens its properties for editing.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        addActivityLabel = new Label(
+                "<ol>"
+                        + "<li>You are the tenant admin. You have a workflow model"
+                        + " and want to insert one of the available activities.</li>"
+                        + "<li>Drag an activity icon from the palette onto the canvas.</li>"
+                        + "<li>The editor adds the new activity to the workflow model"
+                        + " and opens its properties for editing.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         addActivityLabel.setVisible(false);
         addActivityButton = new Button("How do I insert a new activity?",
                 new ToggleLabelAction(addActivityLabel));
@@ -103,14 +103,14 @@ public class WorkflowModelEditorHelpComponent extends VerticalLayout {
         this.addComponent(addActivityButton);
         this.addComponent(addActivityLabel);
 
-        addContainerLabel = new Label("<ol>"
-                + "<li>You are the tenant admin. You have a workflow model"
-                + " and want to insert one of the available containers.</li>"
-                + "<li>Drag a container icon from the palette on the canvas.</li>"
-                + "<li>The editor adds the new container to the workflow model"
-                + " and opens its properties for editing.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        addContainerLabel = new Label(
+                "<ol>"
+                        + "<li>You are the tenant admin. You have a workflow model"
+                        + " and want to insert one of the available containers.</li>"
+                        + "<li>Drag a container icon from the palette on the canvas.</li>"
+                        + "<li>The editor adds the new container to the workflow model"
+                        + " and opens its properties for editing.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         addContainerLabel.setVisible(false);
         addContainerButton = new Button("How do I insert a new container?",
                 new ToggleLabelAction(addContainerLabel));
@@ -119,12 +119,12 @@ public class WorkflowModelEditorHelpComponent extends VerticalLayout {
         this.addComponent(addContainerButton);
         this.addComponent(addContainerLabel);
 
-        connectionLabel = new Label("<ol>"
-                + "<li>You are the tenant admin and you opened an existing workflow for editing.</li>"
-                + "<li>Click on the origin port and the destination port.</li>"
-                + "<li>The editor creates a connection between the selected ports.</li>"
-                + "</ol><br/>",
-                Label.CONTENT_XHTML);
+        connectionLabel = new Label(
+                "<ol>"
+                        + "<li>You are the tenant admin and you opened an existing workflow for editing.</li>"
+                        + "<li>Click on the origin port and the destination port.</li>"
+                        + "<li>The editor creates a connection between the selected ports.</li>"
+                        + "</ol><br/>", Label.CONTENT_XHTML);
         connectionLabel.setVisible(false);
         connectionButton = new Button(
                 "How do I connect activites and containers?",

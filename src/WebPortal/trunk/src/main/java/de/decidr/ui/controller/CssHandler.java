@@ -65,7 +65,7 @@ public class CssHandler {
     private Long fileId = null;
 
     private Long tenantId = null;
-    // Aleks: tenantName muss auch rein. ~tk, ~dh
+    // TODO: tenantName muss auch rein.
 
     private String tenantName = "";
 
@@ -78,6 +78,81 @@ public class CssHandler {
         tenantId = (Long) Main.getCurrent().getSession().getAttribute(
                 "tenantId");
         this.component = component;
+    }
+
+    /**
+     * Returns a file object from the input stream of the entered CSS string.
+     * 
+     * @return File File representation of the given input stream
+     */
+    private File getFileFromInputStream(InputStream in) {
+        File f = new File(Main.getCurrent().getContext().getBaseDirectory()
+                .getPath()
+                + File.separator
+                + "VAADIN"
+                + File.separator
+                + "themes"
+                + File.separator + tenantName + File.separator + "styles.css");
+
+        if (!f.exists()) {
+            try {
+                File dir = new File(Main.getCurrent().getContext()
+                        .getBaseDirectory().getPath()
+                        + File.separator
+                        + "VAADIN"
+                        + File.separator
+                        + "themes"
+                        + File.separator + tenantName);
+                dir.mkdirs();
+                f.createNewFile();
+            } catch (IOException e) {
+                Main.getCurrent().getMainWindow()
+                        .showNotification(
+                                f.getAbsolutePath()
+                                        + "does not exist, creation failed",
+                                Window.Notification.TYPE_ERROR_MESSAGE);
+            }
+
+        }
+        // Main.getCurrent().getMainWindow().showNotification("file exists: " +
+        // f.exists(), Window.Notification.TYPE_ERROR_MESSAGE);
+        // Main.getCurrent().getMainWindow().showNotification("file path: " +
+        // f.getAbsolutePath(), Window.Notification.TYPE_ERROR_MESSAGE);
+
+        OutputStream output = null;
+        try {
+
+            output = new FileOutputStream(f);
+            IOUtils.copy(in, output);
+            output.close();
+            return f;
+
+        } catch (FileNotFoundException e) {
+
+            return null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the {@link InputStream} from the CSS string the user has entered in
+     * the {@link Component}.
+     * 
+     * @return input TODO document
+     */
+    private InputStream getInputStream(String cssValue) {
+        InputStream input;
+
+        byte[] cssValueBytes;
+        try {
+            cssValueBytes = cssValue.getBytes("UTF-8");
+            input = new ByteArrayInputStream(cssValueBytes);
+
+            return input;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Fatal: UTF-8 not supported");
+        }
     }
 
     /**
@@ -115,13 +190,12 @@ public class CssHandler {
                 // advancedColorSchemeId
                 // and replace the current css file with the new one.
                 // For the simple scheme it's basically the same
-                if (tenant.getAdvancedColorScheme() != null && advanced) {
+                if ((tenant.getAdvancedColorScheme() != null) && advanced) {
                     colorSchemeId = tenant.getAdvancedColorScheme().getId();
 
                     f = getFileFromInputStream(in);
                     in.reset();
-                    // Aleks: was ist wenn der MIME Typ nicht erkannt wird?
-                    // ~dh,tk
+                    // TODO: was ist wenn der MIME Typ nicht erkannt wird?
                     fileFacade.replaceFile(colorSchemeId, in, f.length(), f
                             .getAbsolutePath(), new MimetypesFileTypeMap()
                             .getContentType(f));
@@ -134,8 +208,8 @@ public class CssHandler {
                             .getAbsolutePath(), new MimetypesFileTypeMap()
                             .getContentType(f));
                 } else {
-                    // Aleks: getFileFromInputStream can return null, but null
-                    // value is not handled! ~dh
+                    // TODO: getFileFromInputStream can return null, but null
+                    // value is not handled!
                     f = getFileFromInputStream(in);
                     if (f == null) {
                         Main.getCurrent().getMainWindow().showNotification(
@@ -254,81 +328,6 @@ public class CssHandler {
                     "saveSimpleCSS: IO failure",
                     Window.Notification.TYPE_ERROR_MESSAGE);
             return "";
-        }
-    }
-
-    /**
-     * Gets the {@link InputStream} from the CSS string the user has entered in
-     * the {@link Component}.
-     * 
-     * @return input TODO document
-     */
-    private InputStream getInputStream(String cssValue) {
-        InputStream input;
-
-        byte[] cssValueBytes;
-        try {
-            cssValueBytes = cssValue.getBytes("UTF-8");
-            input = new ByteArrayInputStream(cssValueBytes);
-
-            return input;
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Fatal: UTF-8 not supported");
-        }
-    }
-
-    /**
-     * Returns a file object from the input stream of the entered CSS string.
-     * 
-     * @return File File representation of the given input stream
-     */
-    private File getFileFromInputStream(InputStream in) {
-        File f = new File(Main.getCurrent().getContext().getBaseDirectory()
-                .getPath()
-                + File.separator
-                + "VAADIN"
-                + File.separator
-                + "themes"
-                + File.separator + tenantName + File.separator + "styles.css");
-
-        if (!f.exists()) {
-            try {
-                File dir = new File(Main.getCurrent().getContext()
-                        .getBaseDirectory().getPath()
-                        + File.separator
-                        + "VAADIN"
-                        + File.separator
-                        + "themes"
-                        + File.separator + tenantName);
-                dir.mkdirs();
-                f.createNewFile();
-            } catch (IOException e) {
-                Main.getCurrent().getMainWindow()
-                        .showNotification(
-                                f.getAbsolutePath()
-                                        + "does not exist, creation failed",
-                                Window.Notification.TYPE_ERROR_MESSAGE);
-            }
-
-        }
-        // Main.getCurrent().getMainWindow().showNotification("file exists: " +
-        // f.exists(), Window.Notification.TYPE_ERROR_MESSAGE);
-        // Main.getCurrent().getMainWindow().showNotification("file path: " +
-        // f.getAbsolutePath(), Window.Notification.TYPE_ERROR_MESSAGE);
-
-        OutputStream output = null;
-        try {
-
-            output = new FileOutputStream(f);
-            IOUtils.copy(in, output);
-            output.close();
-            return f;
-
-        } catch (FileNotFoundException e) {
-
-            return null;
-        } catch (IOException e) {
-            return null;
         }
     }
 }

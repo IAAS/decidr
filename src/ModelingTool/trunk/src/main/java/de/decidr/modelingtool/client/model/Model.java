@@ -26,17 +26,16 @@ import de.decidr.modelingtool.client.ui.ModelChangeListener;
 public interface Model {
 
     /**
-     * Sets the change listener object.
-     * 
-     * @param changeListener
-     */
-    public void setChangeListener(ModelChangeListener changeListener);
-
-    /**
      * Returns the change listener object.
      * 
      * @return The change listener
      */
     public ModelChangeListener getChangeListener();
 
+    /**
+     * Sets the change listener object.
+     * 
+     * @param changeListener
+     */
+    public void setChangeListener(ModelChangeListener changeListener);
 }

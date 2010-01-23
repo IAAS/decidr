@@ -66,7 +66,7 @@ public class WorkflowDescriptionWindow extends Window {
      * Initializes the components.
      */
     private void init() {
-        
+
         verticalLayout = new VerticalLayout();
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);

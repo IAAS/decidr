@@ -44,6 +44,31 @@ public class Main extends Application implements TransactionListener {
 
     private static final long serialVersionUID = 2668887930201158755L;
 
+    /**
+     * Returns the current application instance.
+     * 
+     * @return the current application instance
+     */
+    public static Main getCurrent() {
+        return currentApplication.get();
+    }
+
+    /**
+     * Remove the current application instance.
+     */
+    public static void removeCurrent() {
+        currentApplication.remove();
+    }
+
+    /**
+     * Set the current application instance.
+     */
+    public static void setCurrent(Main application) {
+        if (getCurrent() == null) {
+            currentApplication.set(application);
+        }
+    }
+
     private HttpSession session = null;
 
     private static ThreadLocal<Main> currentApplication = new ThreadLocal<Main>();
@@ -53,6 +78,26 @@ public class Main extends Application implements TransactionListener {
     private UIDirector director = null;
 
     UIBuilder ui = null;
+
+    /**
+     * Returns the session of this DecidR instance.
+     * 
+     * @return session TODO document
+     */
+    public HttpSession getSession() {
+        if (session == null) {
+            ApplicationContext ctx = Main.getCurrent().getContext();
+            WebApplicationContext webCtx = (WebApplicationContext) ctx;
+            HttpSession httpSession = webCtx.getHttpSession();
+            setSession(httpSession);
+        }
+
+        return session;
+    }
+
+    public UIDirector getUIDirector() {
+        return director;
+    }
 
     /*
      * (non-Javadoc)
@@ -86,51 +131,6 @@ public class Main extends Application implements TransactionListener {
         setTheme("decidr");
 
         main.addComponent(director.getTemplateView());
-    }
-
-    public UIDirector getUIDirector() {
-        return director;
-    }
-
-    /**
-     * Returns the current application instance.
-     * 
-     * @return the current application instance
-     */
-    public static Main getCurrent() {
-        return currentApplication.get();
-    }
-
-    /**
-     * Remove the current application instance.
-     */
-    public static void removeCurrent() {
-        currentApplication.remove();
-    }
-
-    /**
-     * Set the current application instance.
-     */
-    public static void setCurrent(Main application) {
-        if (getCurrent() == null) {
-            currentApplication.set(application);
-        }
-    }
-
-    /**
-     * Returns the session of this DecidR instance.
-     * 
-     * @return session TODO document
-     */
-    public HttpSession getSession() {
-        if (session == null) {
-            ApplicationContext ctx = Main.getCurrent().getContext();
-            WebApplicationContext webCtx = (WebApplicationContext) ctx;
-            HttpSession httpSession = webCtx.getHttpSession();
-            setSession(httpSession);
-        }
-
-        return session;
     }
 
     /**

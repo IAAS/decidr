@@ -28,10 +28,6 @@ public class ConnectionLine extends HTML {
     /** The thickness of the line in pixels. */
     private int thickness;
 
-    public Connection getConnection() {
-        return connection;
-    }
-
     /** The connection which owns the connection line. */
     private Connection connection;
 
@@ -50,6 +46,10 @@ public class ConnectionLine extends HTML {
         setStyleName("connection-line");
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     /**
      * Sets the orientation of the line to horizontal.
      * 
@@ -58,16 +58,6 @@ public class ConnectionLine extends HTML {
      */
     public void setHorizontalOrientation(int width) {
         setPixelSize(width, thickness);
-    }
-
-    /**
-     * Sets the orientation of the line to vertical.
-     * 
-     * @param height
-     *            The length of the vertical line
-     */
-    public void setVerticalOrientation(int height) {
-        setPixelSize(thickness, height);
     }
 
     /**
@@ -82,6 +72,16 @@ public class ConnectionLine extends HTML {
         } else {
             setStyleName("connection-line");
         }
+    }
+
+    /**
+     * Sets the orientation of the line to vertical.
+     * 
+     * @param height
+     *            The length of the vertical line
+     */
+    public void setVerticalOrientation(int height) {
+        setPixelSize(thickness, height);
     }
 
 }

@@ -98,9 +98,9 @@ public class CreateTenantAction implements ClickListener {
                 Main.getCurrent().getMainWindow().addWindow(
                         new InformationDialogComponent(
                                 "Tenant successfully created!", "Success"));
-                if (role instanceof UserRole
-                        || role instanceof WorkflowAdminRole
-                        || role instanceof TenantAdminRole) {
+                if ((role instanceof UserRole)
+                        || (role instanceof WorkflowAdminRole)
+                        || (role instanceof TenantAdminRole)) {
                     uiDirector.switchView(tenantAdminViewBuilder);
                 }
                 siteFrame.setContent(new TenantSettingsComponent(tenantId));

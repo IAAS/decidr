@@ -33,5 +33,4 @@ public class VariableTypes {
     /* role is left intentionally empty, role has an extra tag */
     public String ROLE = "";
     public String FORM = "form";
-
 }

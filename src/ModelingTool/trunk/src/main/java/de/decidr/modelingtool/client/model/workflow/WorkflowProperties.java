@@ -37,44 +37,44 @@ public class WorkflowProperties {
         properties = new NodePropertyData();
     }
 
-    public NodePropertyData getProperties() {
-        return properties;
-    }
-
-    public void setProperties(NodePropertyData properties) {
-        this.properties = properties;
-    }
-
-    public Long getRecipientVariableId() {
-        return properties.get(recipientFieldName);
-    }
-
     public Long getFaultMessageVariableId() {
         return properties.get(faultMessageFieldName);
-    }
-
-    public Long getSuccessMessageVariableId() {
-        return properties.get(successMessageFieldName);
     }
 
     public Boolean getNotifyOnSuccess() {
         return properties.get(notifyOnSuccessFieldName);
     }
 
-    public void setRecipientVariableId(Long recipientVariableId) {
-        this.properties.set(recipientFieldName, recipientVariableId);
+    public NodePropertyData getProperties() {
+        return properties;
+    }
+
+    public Long getRecipientVariableId() {
+        return properties.get(recipientFieldName);
+    }
+
+    public Long getSuccessMessageVariableId() {
+        return properties.get(successMessageFieldName);
     }
 
     public void setFaultMessageVariableId(Long faultMessageVariableId) {
         this.properties.set(faultMessageFieldName, faultMessageVariableId);
     }
 
-    public void setSuccessMessageVariableId(Long successMessageVariableId) {
-        this.properties.set(successMessageFieldName, successMessageVariableId);
-    }
-
     public void setNotifyOnSuccess(Boolean notifyOnSuccess) {
         this.properties.set(notifyOnSuccessFieldName, notifyOnSuccess);
+    }
+
+    public void setProperties(NodePropertyData properties) {
+        this.properties = properties;
+    }
+
+    public void setRecipientVariableId(Long recipientVariableId) {
+        this.properties.set(recipientFieldName, recipientVariableId);
+    }
+
+    public void setSuccessMessageVariableId(Long successMessageVariableId) {
+        this.properties.set(successMessageFieldName, successMessageVariableId);
     }
 
 }

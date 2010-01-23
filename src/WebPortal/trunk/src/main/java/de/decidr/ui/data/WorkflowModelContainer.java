@@ -36,7 +36,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * This container holds the workflow models. The models are represented as
  * {@link Item items} in a table.<br>
- * Aleks: update comment: not an Item
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -62,15 +62,15 @@ public class WorkflowModelContainer extends
 
     /**
      * The workflow model items are added to the container<br>
-     * Aleks: update comment: not an Item
+     * TODO: update comment: not an Item
      */
     public WorkflowModelContainer() {
         super(WorkflowModelsBean.class);
         try {
             Long tenantId = (Long) Main.getCurrent().getSession().getAttribute(
                     "tenantId");
-            workflowModelList = tenantFacade.getWorkflowModels(tenantId,
-                    null, null);
+            workflowModelList = tenantFacade.getWorkflowModels(tenantId, null,
+                    null);
             WorkflowModelsBean workflowModelsBean;
             for (WorkflowModel workflowModel : workflowModelList) {
                 workflowModelsBean = new WorkflowModelsBean(workflowModel);

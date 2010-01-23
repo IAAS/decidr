@@ -30,14 +30,16 @@ import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
 public class ValueEditorWindowInvoker {
 
     /**
-     * Invokes the value editor with with a variable directly that is not in the
-     * workflow model. The variable editor uses this method because the variable
-     * editor uses its own model, not the variable in the workflow model.
+     * Invokes with a variable that is in the model and can be identified by its
+     * id. For example, this happens when the value editor is invoked by a
+     * "change values" button within the email activity window.
      * 
-     * @param variable
-     *            the variable whose values are to be edited
+     * @param id
+     *            the id of the variable the variable whose values are to be
+     *            edited
      */
-    public static void invoke(Variable variable) {
+    public static void invoke(Long id) {
+        Variable variable = Workflow.getInstance().getModel().getVariable(id);
         if (variable.getType() == VariableType.ROLE) {
             /* Only invoke dialog if it is not visible */
             if (!DialogRegistry.getInstance().isDialogVisible(
@@ -61,16 +63,14 @@ public class ValueEditorWindowInvoker {
     }
 
     /**
-     * Invokes with a variable that is in the model and can be identified by its
-     * id. For example, this happens when the value editor is invoked by a
-     * "change values" button within the email activity window.
+     * Invokes the value editor with with a variable directly that is not in the
+     * workflow model. The variable editor uses this method because the variable
+     * editor uses its own model, not the variable in the workflow model.
      * 
-     * @param id
-     *            the id of the variable the variable whose values are to be
-     *            edited
+     * @param variable
+     *            the variable whose values are to be edited
      */
-    public static void invoke(Long id) {
-        Variable variable = Workflow.getInstance().getModel().getVariable(id);
+    public static void invoke(Variable variable) {
         if (variable.getType() == VariableType.ROLE) {
             /* Only invoke dialog if it is not visible */
             if (!DialogRegistry.getInstance().isDialogVisible(

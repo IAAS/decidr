@@ -43,8 +43,6 @@ public class DialogRegistry {
 
     private static DialogRegistry instance;
 
-    private Map<String, ModelingToolDialog> dialogs;
-
     /**
      * The dialog registry is a singleton.
      * 
@@ -56,6 +54,8 @@ public class DialogRegistry {
         }
         return instance;
     }
+
+    private Map<String, ModelingToolDialog> dialogs;
 
     /**
      * Creates instances of all known dialogs and registers them.
@@ -72,6 +72,48 @@ public class DialogRegistry {
         register(new TaskItemWindow());
         register(new ForEachWindow());
         register(new IfWindow());
+    }
+
+    /**
+     * Return the instance of a dialog
+     * 
+     * @param dialogName
+     *            the class name of the dialog
+     * @return the instance of the dialog
+     */
+    public ModelingToolDialog getDialog(String dialogName) {
+        return getDialogs().get(dialogName);
+    }
+
+    private Map<String, ModelingToolDialog> getDialogs() {
+        if (dialogs == null) {
+            dialogs = new HashMap<String, ModelingToolDialog>();
+        }
+        return dialogs;
+    }
+
+    /**
+     * Hides a dialog
+     * 
+     * @param dialogName
+     *            the class name of the dialog to be hidden
+     */
+    public void hideDialog(String dialogName) {
+        ModelingToolDialog dialog = getDialog(dialogName);
+        dialog.hide();
+        dialog.setModal(false);
+        dialog.reset();
+    }
+
+    /**
+     * Return whether a dialog is currently visible of not.
+     * 
+     * @param dialogName
+     *            the name of the dialog
+     * @return the visibility
+     */
+    public boolean isDialogVisible(String dialogName) {
+        return getDialog(dialogName).isVisible();
     }
 
     /**
@@ -96,47 +138,5 @@ public class DialogRegistry {
             dialog.setModal(true);
             dialog.show();
         }
-    }
-
-    /**
-     * Hides a dialog
-     * 
-     * @param dialogName
-     *            the class name of the dialog to be hidden
-     */
-    public void hideDialog(String dialogName) {
-        ModelingToolDialog dialog = getDialog(dialogName);
-        dialog.hide();
-        dialog.setModal(false);
-        dialog.reset();
-    }
-
-    /**
-     * Return the instance of a dialog
-     * 
-     * @param dialogName
-     *            the class name of the dialog
-     * @return the instance of the dialog
-     */
-    public ModelingToolDialog getDialog(String dialogName) {
-        return getDialogs().get(dialogName);
-    }
-
-    /**
-     * Return whether a dialog is currently visible of not.
-     * 
-     * @param dialogName
-     *            the name of the dialog
-     * @return the visibility
-     */
-    public boolean isDialogVisible(String dialogName) {
-        return getDialog(dialogName).isVisible();
-    }
-
-    private Map<String, ModelingToolDialog> getDialogs() {
-        if (dialogs == null) {
-            dialogs = new HashMap<String, ModelingToolDialog>();
-        }
-        return dialogs;
     }
 }

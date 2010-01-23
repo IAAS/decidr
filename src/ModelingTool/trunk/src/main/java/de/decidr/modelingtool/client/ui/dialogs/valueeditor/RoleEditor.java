@@ -44,8 +44,8 @@ import de.decidr.modelingtool.client.command.CommandStack;
 import de.decidr.modelingtool.client.model.variable.Variable;
 import de.decidr.modelingtool.client.model.variable.VariableType;
 import de.decidr.modelingtool.client.ui.Workflow;
-import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.DialogRegistry;
+import de.decidr.modelingtool.client.ui.dialogs.ModelingToolDialog;
 import de.decidr.modelingtool.client.ui.dialogs.variableeditor.VariableEditorWindow;
 
 /**
@@ -78,38 +78,33 @@ public class RoleEditor extends ModelingToolDialog {
         createButtons();
     }
 
-    /**
-     * Creates the {@link ContentPanel} which holds two {@link ListView}s. One
-     * to select users from, the other holds the selected users.
-     */
-    private void createContentPanel() {
-        contentPanel = new ContentPanel();
-        contentPanel
-                .setHeading(ModelingToolWidget.getMessages().editVariable());
-        contentPanel.setFrame(true);
-        contentPanel.setLayout(new RowLayout(Orientation.HORIZONTAL));
+    private void changeWorkflowModel(List<String> newValues) {
+        /*
+         * Check if the variable is already in the workflow model. If that is
+         * the case, it means the value editor was called outside of the
+         * variable editor (for example, from an email activity. Therefore any
+         * changes have to be pushed in to the command stack. If the variable is
+         * not in the workflow model, it means that the variable is a reference
+         * to an element in the list store of the variable editor.
+         */
+        if (Workflow.getInstance().getModel().getVariables().contains(variable)) {
+            if (variable.getValues().equals(newValues)) {
+                Variable newVariable = variable.copy();
+                newVariable.setValues(newValues);
+                CommandStack.getInstance().executeCommand(
+                        new ChangeVariablesCommand(newVariable));
+            }
+        } else {
+            variable.setValues(newValues);
+        }
+    }
 
-        tenantUsersView = new ListView<RoleEditorUser>();
-        tenantUsersView.setDisplayProperty(RoleEditorUser.DISPLAYNAME);
-        tenantUsersView.setStyleAttribute("backgroundColor", "white");
-
-        roleUsersView = new ListView<RoleEditorUser>();
-        roleUsersView.setDisplayProperty(RoleEditorUser.DISPLAYNAME);
-        roleUsersView.setStyleAttribute("backgroundColor", "white");
-
-        new ListViewDragSource(tenantUsersView);
-        new ListViewDragSource(roleUsersView);
-
-        new ListViewDropTarget(tenantUsersView);
-        new ListViewDropTarget(roleUsersView);
-
-        RowData data = new RowData(.5, 1);
-        data.setMargins(new Margins(5));
-
-        contentPanel.add(tenantUsersView, data);
-        contentPanel.add(roleUsersView, data);
-
-        this.add(contentPanel);
+    private void clearAllEntries() {
+        tenantUsers.clear();
+        tenantUsersView.getStore().removeAll();
+        tenantUsersNotInRole.clear();
+        roleUserIds.clear();
+        roleUsersView.getStore().removeAll();
     }
 
     /**
@@ -149,6 +144,79 @@ public class RoleEditor extends ModelingToolDialog {
                                 RoleEditor.class.getName());
                     }
                 }));
+    }
+
+    /**
+     * Creates the {@link ContentPanel} which holds two {@link ListView}s. One
+     * to select users from, the other holds the selected users.
+     */
+    private void createContentPanel() {
+        contentPanel = new ContentPanel();
+        contentPanel
+                .setHeading(ModelingToolWidget.getMessages().editVariable());
+        contentPanel.setFrame(true);
+        contentPanel.setLayout(new RowLayout(Orientation.HORIZONTAL));
+
+        tenantUsersView = new ListView<RoleEditorUser>();
+        tenantUsersView.setDisplayProperty(RoleEditorUser.DISPLAYNAME);
+        tenantUsersView.setStyleAttribute("backgroundColor", "white");
+
+        roleUsersView = new ListView<RoleEditorUser>();
+        roleUsersView.setDisplayProperty(RoleEditorUser.DISPLAYNAME);
+        roleUsersView.setStyleAttribute("backgroundColor", "white");
+
+        new ListViewDragSource(tenantUsersView);
+        new ListViewDragSource(roleUsersView);
+
+        new ListViewDropTarget(tenantUsersView);
+        new ListViewDropTarget(roleUsersView);
+
+        RowData data = new RowData(.5, 1);
+        data.setMargins(new Margins(5));
+
+        contentPanel.add(tenantUsersView, data);
+        contentPanel.add(roleUsersView, data);
+
+        this.add(contentPanel);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#initialize()
+     */
+    @Override
+    public Boolean initialize() {
+        tenantUsers = new HashMap<Long, String>();
+        for (Long userId : Workflow.getInstance().getUsers().keySet()) {
+            tenantUsers.put(new Long(userId), new String(Workflow.getInstance()
+                    .getUsers().get(userId)));
+        }
+
+        roleUserIds = new ArrayList<Long>();
+        for (String userId : variable.getValues()) {
+            try {
+                roleUserIds.add(new Long(userId));
+            } catch (NumberFormatException e) {
+                MessageBox.alert(ModelingToolWidget.getMessages()
+                        .warningTitle(), ModelingToolWidget.getMessages()
+                        .invalidUserIds(), null);
+                return false;
+            }
+        }
+
+        setStores(tenantUsersView, roleUsersView);
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#reset()
+     */
+    @Override
+    public void reset() {
+        clearAllEntries();
     }
 
     /**
@@ -215,35 +283,6 @@ public class RoleEditor extends ModelingToolDialog {
         GWT.log("Finished setting stores of user lists.", null);
     }
 
-    private void changeWorkflowModel(List<String> newValues) {
-        /*
-         * Check if the variable is already in the workflow model. If that is
-         * the case, it means the value editor was called outside of the
-         * variable editor (for example, from an email activity. Therefore any
-         * changes have to be pushed in to the command stack. If the variable is
-         * not in the workflow model, it means that the variable is a reference
-         * to an element in the list store of the variable editor.
-         */
-        if (Workflow.getInstance().getModel().getVariables().contains(variable)) {
-            if (variable.getValues().equals(newValues)) {
-                Variable newVariable = variable.copy();
-                newVariable.setValues(newValues);
-                CommandStack.getInstance().executeCommand(
-                        new ChangeVariablesCommand(newVariable));
-            }
-        } else {
-            variable.setValues(newValues);
-        }
-    }
-
-    private void clearAllEntries() {
-        tenantUsers.clear();
-        tenantUsersView.getStore().removeAll();
-        tenantUsersNotInRole.clear();
-        roleUserIds.clear();
-        roleUsersView.getStore().removeAll();
-    }
-
     /**
      * Sets the "role" variable that is to be modeled with this dialog.
      * 
@@ -252,45 +291,6 @@ public class RoleEditor extends ModelingToolDialog {
      */
     public void setVariable(Variable variable) {
         this.variable = variable;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#initialize()
-     */
-    @Override
-    public Boolean initialize() {
-        tenantUsers = new HashMap<Long, String>();
-        for (Long userId : Workflow.getInstance().getUsers().keySet()) {
-            tenantUsers.put(new Long(userId), new String(Workflow.getInstance()
-                    .getUsers().get(userId)));
-        }
-
-        roleUserIds = new ArrayList<Long>();
-        for (String userId : variable.getValues()) {
-            try {
-                roleUserIds.add(new Long(userId));
-            } catch (NumberFormatException e) {
-                MessageBox.alert(ModelingToolWidget.getMessages()
-                        .warningTitle(), ModelingToolWidget.getMessages()
-                        .invalidUserIds(), null);
-                return false;
-            }
-        }
-
-        setStores(tenantUsersView, roleUsersView);
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.decidr.modelingtool.client.ui.dialogs.Dialog#reset()
-     */
-    @Override
-    public void reset() {
-        clearAllEntries();
     }
 
 }

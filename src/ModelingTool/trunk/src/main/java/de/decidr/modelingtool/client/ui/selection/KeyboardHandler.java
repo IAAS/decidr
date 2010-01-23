@@ -43,15 +43,15 @@ public class KeyboardHandler implements KeyDownHandler {
 
     private static KeyboardHandler instance;
 
-    private KeyboardHandler() {
-        super();
-    }
-
     public static KeyboardHandler getInstance() {
         if (instance == null) {
             instance = new KeyboardHandler();
         }
         return instance;
+    }
+
+    private KeyboardHandler() {
+        super();
     }
 
     @Override

@@ -48,18 +48,6 @@ public class SelectionHandler implements MouseDownHandler {
     private static SelectionHandler instance;
 
     /**
-     * Private constructor.
-     */
-    private SelectionHandler() {
-        nodeSelectionBox = new NodeSelectionBox();
-
-        // register boxes to selection handler
-        for (DragBox box : nodeSelectionBox.getDragBoxes()) {
-            box.addMouseDownHandler(this);
-        }
-    }
-
-    /**
      * Creates a new instance, if not done before, and returns it.
      * 
      * @return The instance.
@@ -69,6 +57,18 @@ public class SelectionHandler implements MouseDownHandler {
             instance = new SelectionHandler();
         }
         return instance;
+    }
+
+    /**
+     * Private constructor.
+     */
+    private SelectionHandler() {
+        nodeSelectionBox = new NodeSelectionBox();
+
+        // register boxes to selection handler
+        for (DragBox box : nodeSelectionBox.getDragBoxes()) {
+            box.addMouseDownHandler(this);
+        }
     }
 
     /**
@@ -99,7 +99,7 @@ public class SelectionHandler implements MouseDownHandler {
 
         // select the clicked node or connection
         Widget w = (Widget) source;
-        if (source instanceof FocusPanel && w.getParent() instanceof Node) {
+        if ((source instanceof FocusPanel) && (w.getParent() instanceof Node)) {
             Node node = (Node) w.getParent();
             select(node);
 

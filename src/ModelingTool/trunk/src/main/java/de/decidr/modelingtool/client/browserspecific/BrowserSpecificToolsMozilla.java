@@ -27,5 +27,4 @@ public class BrowserSpecificToolsMozilla extends BrowserSpecificTools {
     public int correctBorderOffset(int value) {
         return value - 2;
     }
-
 }

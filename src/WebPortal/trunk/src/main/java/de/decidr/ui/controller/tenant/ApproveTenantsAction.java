@@ -74,11 +74,14 @@ public class ApproveTenantsAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> tenants = new ArrayList<Long>();
-        Set<TenantWithAdminViewBean> value = (Set<TenantWithAdminViewBean>) table.getValue();
-        List<TenantWithAdminViewBean> itemList = new ArrayList<TenantWithAdminViewBean>(value);
+        Set<TenantWithAdminViewBean> value = (Set<TenantWithAdminViewBean>) table
+                .getValue();
+        List<TenantWithAdminViewBean> itemList = new ArrayList<TenantWithAdminViewBean>(
+                value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                TenantWithAdminViewBean tenantWithAdminViewBean = (TenantWithAdminViewBean) iter.next();
+                TenantWithAdminViewBean tenantWithAdminViewBean = (TenantWithAdminViewBean) iter
+                        .next();
                 tenants.add(tenantWithAdminViewBean.getId());
             }
         }

@@ -70,44 +70,58 @@ public class TaskItemWindow extends ModelingToolDialog {
     }
 
     /**
-     * Creates the content panel for the dialog. The content panel holds the
-     * text fields for the values and a toolbar.
+     * Adds a human task field set
      */
-    private void createContentPanel() {
-        contentPanel = new ContentPanel();
-        contentPanel
-                .setHeading(ModelingToolWidget.getMessages().editVariable());
-        contentPanel.setLayout(new FitLayout());
+    private void addEntry(TaskItem ti) {
+        /* label */
+        TextField<String> labelField = new TextField<String>();
+        labelField.setValue(ti.getLabel());
+        labelField.setAutoWidth(true);
 
-        table = new FlexTable();
-        table.setBorderWidth(0);
-        table.setWidth("100%");
-        scrollPanel = new ScrollPanel(table);
-        contentPanel.add(scrollPanel);
+        /* hint */
+        TextField<String> hintField = new TextField<String>();
+        hintField.setValue(ti.getHint());
+        hintField.setAutoWidth(true);
 
-        createToolBar();
-        this.add(contentPanel);
+        /* combobox */
+        ComboBox<Variable> variableField = new ComboBox<Variable>();
+        variableField.setDisplayField(Variable.LABEL);
+        variableField.setStore(Workflow.getInstance().getModel()
+                .getAllVariablesAsStore());
+        if (ti.getVariableId() != null) {
+            variableField.setValue(Workflow.getInstance().getModel()
+                    .getVariable(ti.getVariableId()));
+        }
+        variableField.setTypeAhead(true);
+
+        table.insertRow(table.getRowCount());
+        fieldsets.add(new TaskItemFieldSet(labelField, hintField,
+                variableField, table, fieldsets));
+        table.setWidget(table.getRowCount() - 1, 0, fieldsets.get(fieldsets
+                .size() - 1));
     }
 
-    /**
-     * Creates a toolbar that has two buttons to add or delete a value.
-     */
-    private void createToolBar() {
-        ToolBar toolBar = new ToolBar();
+    private void changeWorkflowModel() {
+        List<TaskItem> newTaskItems = new ArrayList<TaskItem>();
+        for (TaskItemFieldSet fieldset : fieldsets) {
+            TaskItem newTaskItem = new TaskItem(fieldset.getLabelField()
+                    .getValue(), fieldset.getHintField().getValue(), fieldset
+                    .getVariableField().getValue().getId());
+            newTaskItems.add(newTaskItem);
+        }
+        taskItems = newTaskItems;
+    }
 
-        TextToolItem addTaskItem = new TextToolItem(ModelingToolWidget
-                .getMessages().addTaskItem()); //$NON-NLS-1$
-        addTaskItem.addSelectionListener(new SelectionListener<ToolBarEvent>() {
-            @Override
-            public void componentSelected(ToolBarEvent ce) {
-                addEntry(new TaskItem(ModelingToolWidget.getMessages()
-                        .taskItemLabel(), ModelingToolWidget.getMessages()
-                        .taskItemHint(), null));
+    public void clearAllEntries() {
+        if (table.getRowCount() > 0) {
+            int start = table.getRowCount();
+            for (int i = start; i > 0; i--) {
+                table.removeRow(i - 1);
             }
-        });
-        toolBar.add(addTaskItem);
-
-        contentPanel.setBottomComponent(toolBar);
+        }
+        if (fieldsets.size() > 0) {
+            fieldsets.clear();
+        }
     }
 
     /**
@@ -141,79 +155,45 @@ public class TaskItemWindow extends ModelingToolDialog {
                 }));
     }
 
-    private boolean validateInputs() {
-        boolean result = true;
-        for (TaskItemFieldSet fieldset : fieldsets) {
-            if (fieldset.getVariableField().getValue() == null) {
-                result = false;
-            }
-        }
-        return result;
-    }
+    /**
+     * Creates the content panel for the dialog. The content panel holds the
+     * text fields for the values and a toolbar.
+     */
+    private void createContentPanel() {
+        contentPanel = new ContentPanel();
+        contentPanel
+                .setHeading(ModelingToolWidget.getMessages().editVariable());
+        contentPanel.setLayout(new FitLayout());
 
-    private void changeWorkflowModel() {
-        List<TaskItem> newTaskItems = new ArrayList<TaskItem>();
-        for (TaskItemFieldSet fieldset : fieldsets) {
-            TaskItem newTaskItem = new TaskItem(fieldset.getLabelField()
-                    .getValue(), fieldset.getHintField().getValue(), fieldset
-                    .getVariableField().getValue().getId());
-            newTaskItems.add(newTaskItem);
-        }
-        taskItems = newTaskItems;
+        table = new FlexTable();
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
+
+        createToolBar();
+        this.add(contentPanel);
     }
 
     /**
-     * Adds a human task field set
+     * Creates a toolbar that has two buttons to add or delete a value.
      */
-    private void addEntry(TaskItem ti) {
-        /* label */
-        TextField<String> labelField = new TextField<String>();
-        labelField.setValue(ti.getLabel());
-        labelField.setAutoWidth(true);
+    private void createToolBar() {
+        ToolBar toolBar = new ToolBar();
 
-        /* hint */
-        TextField<String> hintField = new TextField<String>();
-        hintField.setValue(ti.getHint());
-        hintField.setAutoWidth(true);
-
-        /* combobox */
-        ComboBox<Variable> variableField = new ComboBox<Variable>();
-        variableField.setDisplayField(Variable.LABEL);
-        variableField.setStore(Workflow.getInstance().getModel()
-                .getAllVariablesAsStore());
-        if (ti.getVariableId() != null) {
-            variableField.setValue(Workflow.getInstance().getModel()
-                    .getVariable(ti.getVariableId()));
-        }
-        variableField.setTypeAhead(true);
-
-        table.insertRow(table.getRowCount());
-        fieldsets.add(new TaskItemFieldSet(labelField, hintField,
-                variableField, table, fieldsets));
-        table.setWidget(table.getRowCount() - 1, 0, fieldsets.get(fieldsets
-                .size() - 1));
-    }
-
-    public void clearAllEntries() {
-        if (table.getRowCount() > 0) {
-            int start = table.getRowCount();
-            for (int i = start; i > 0; i--) {
-                table.removeRow(i - 1);
+        TextToolItem addTaskItem = new TextToolItem(ModelingToolWidget
+                .getMessages().addTaskItem());
+        addTaskItem.addSelectionListener(new SelectionListener<ToolBarEvent>() {
+            @Override
+            public void componentSelected(ToolBarEvent ce) {
+                addEntry(new TaskItem(ModelingToolWidget.getMessages()
+                        .taskItemLabel(), ModelingToolWidget.getMessages()
+                        .taskItemHint(), null));
             }
-        }
-        if (fieldsets.size() > 0) {
-            fieldsets.clear();
-        }
-    }
+        });
+        toolBar.add(addTaskItem);
 
-    /**
-     * Sets the model for this window.
-     * 
-     * @param model
-     *            the model
-     */
-    public void setModel(HumanTaskInvokeNodeModel model) {
-        this.taskItems = model.getTaskItems();
+        contentPanel.setBottomComponent(toolBar);
     }
 
     public List<TaskItem> getTaskItems() {
@@ -252,6 +232,26 @@ public class TaskItemWindow extends ModelingToolDialog {
         if (fieldsets.size() > 0) {
             fieldsets.clear();
         }
+    }
+
+    /**
+     * Sets the model for this window.
+     * 
+     * @param model
+     *            the model
+     */
+    public void setModel(HumanTaskInvokeNodeModel model) {
+        this.taskItems = model.getTaskItems();
+    }
+
+    private boolean validateInputs() {
+        boolean result = true;
+        for (TaskItemFieldSet fieldset : fieldsets) {
+            if (fieldset.getVariableField().getValue() == null) {
+                result = false;
+            }
+        }
+        return result;
     }
 
 }

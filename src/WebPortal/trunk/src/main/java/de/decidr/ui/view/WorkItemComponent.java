@@ -109,7 +109,7 @@ public class WorkItemComponent extends CustomComponent {
         verticalLayout.setSpacing(true);
 
         searchPanel.getSearchHorizontalLayout().addComponent(showWorkItemLabel);
-        
+
         verticalLayout.addComponent(tablePanel);
         tablePanel.addComponent(workItemTable);
 

@@ -28,6 +28,13 @@ import de.decidr.modelingtool.client.model.Model;
 public interface Selectable {
 
     /**
+     * Returns the model of the implementing element.
+     * 
+     * @return The model of the element.
+     */
+    public Model getModel();
+
+    /**
      * Returns the selected state.
      * 
      * @return True, if selected.
@@ -41,13 +48,6 @@ public interface Selectable {
      *            The selected state.
      */
     public void setSelected(boolean selected);
-
-    /**
-     * Returns the model of the implementing element.
-     * 
-     * @return The model of the element.
-     */
-    public Model getModel();
 
     public void showPropertyWindow() throws NoPropertyWindowException;
 

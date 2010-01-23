@@ -65,19 +65,9 @@ public class OrthogonalConnection extends Connection {
     }
 
     @Override
-    public void setSelected(boolean selected) {
-        super.setSelected(selected);
-
-        startLine.setSelected(selected);
-        startMidLine.setSelected(selected);
-        midLine.setSelected(selected);
-        endMidLine.setSelected(selected);
-        endLine.setSelected(selected);
-    }
-
-    @Override
     public void draw() {
-        assert (parentPanel instanceof AbsolutePanel && startDragBox != null && endDragBox != null);
+        assert ((parentPanel instanceof AbsolutePanel)
+                && (startDragBox != null) && (endDragBox != null));
         AbsolutePanel absPanel = (AbsolutePanel) parentPanel;
 
         int startX = startDragBox.getMiddleLeft() - LINE_WIDTH / 2;
@@ -174,6 +164,17 @@ public class OrthogonalConnection extends Connection {
         endMidLine.removeFromParent();
         endLine.removeFromParent();
         label.removeFromParent();
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        super.setSelected(selected);
+
+        startLine.setSelected(selected);
+        startMidLine.setSelected(selected);
+        midLine.setSelected(selected);
+        endMidLine.setSelected(selected);
+        endLine.setSelected(selected);
     }
 
 }

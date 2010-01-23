@@ -53,8 +53,6 @@ public class UnpublishWorkflowModelsAction implements ClickListener {
     private WorkflowModelFacade wfmFacade = new WorkflowModelFacade(role);
 
     private Table publishWorkflowmodelTable = null;
-    
-    
 
     /**
      * Requires a table which contains the data.
@@ -76,16 +74,18 @@ public class UnpublishWorkflowModelsAction implements ClickListener {
     @Override
     public void buttonClick(ClickEvent event) {
         List<Long> wfms = new ArrayList<Long>();
-        Set<WorkflowModelBean> value = (Set<WorkflowModelBean>) publishWorkflowmodelTable.getValue();
+        Set<WorkflowModelBean> value = (Set<WorkflowModelBean>) publishWorkflowmodelTable
+                .getValue();
         List<WorkflowModelBean> items = new ArrayList<WorkflowModelBean>(value);
         if ((value != null) && (value.size() != 0)) {
             for (Iterator<?> iter = value.iterator(); iter.hasNext();) {
-                WorkflowModelBean workflowModelBean = (WorkflowModelBean) iter.next();
+                WorkflowModelBean workflowModelBean = (WorkflowModelBean) iter
+                        .next();
                 wfms.add(workflowModelBean.getId());
             }
             try {
                 wfmFacade.unpublishWorkflowModels(wfms);
-                for(WorkflowModelBean bean : items){
+                for (WorkflowModelBean bean : items) {
                     publishWorkflowmodelTable.removeItem(bean);
                 }
                 Main.getCurrent().getMainWindow().addWindow(

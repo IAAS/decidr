@@ -29,5 +29,4 @@ public class OperationNotAllowedException extends ModelingToolException {
     public OperationNotAllowedException(String msg) {
         super(msg);
     }
-
 }

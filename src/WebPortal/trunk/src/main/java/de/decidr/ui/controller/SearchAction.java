@@ -60,7 +60,7 @@ public class SearchAction implements ClickListener {
      */
     @Override
     public void buttonClick(ClickEvent event) {
-        if (searchField == null || searchTable == null){
+        if ((searchField == null) || (searchTable == null)) {
             return;
         }
         Filterable container = (Filterable) searchTable
@@ -68,7 +68,7 @@ public class SearchAction implements ClickListener {
 
         container.removeAllContainerFilters();
         container.addContainerFilter(container.getContainerPropertyIds(),
-                (String)searchField.getValue(), true, false);
+                (String) searchField.getValue(), true, false);
         // TODO: check refresh method
         searchTable.getParent().requestRepaint();
     }

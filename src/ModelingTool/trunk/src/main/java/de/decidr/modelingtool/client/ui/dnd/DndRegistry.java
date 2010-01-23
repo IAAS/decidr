@@ -34,14 +34,6 @@ public class DndRegistry {
     /** The instance of the dnd registry. */
     private static DndRegistry instance = null;
 
-    /** The map containing the drag controllers. */
-    private Map<String, DragController> dragControllers = new HashMap<String, DragController>();
-
-    /** Private contructor. */
-    private DndRegistry() {
-        // private constructor to prevent non-singleton instantiation
-    }
-
     /**
      * Creates a new instance, if not done before, and returns it.
      * 
@@ -54,16 +46,23 @@ public class DndRegistry {
         return instance;
     }
 
+    /** The map containing the drag controllers. */
+    private Map<String, DragController> dragControllers = new HashMap<String, DragController>();
+
+    /** Private contructor. */
+    private DndRegistry() {
+        // private constructor to prevent non-singleton instantiation
+    }
+
     /**
-     * Registers a new drag controller-
+     * Returns the drag controller associated with the given name.
      * 
      * @param name
      *            The name of the drag controller
-     * @param dragController
-     *            The drag controller object
+     * @return The crag controller object
      */
-    public void register(String name, DragController dragController) {
-        dragControllers.put(name, dragController);
+    public DragController getDragController(String name) {
+        return dragControllers.get(name);
     }
 
     /**
@@ -85,14 +84,15 @@ public class DndRegistry {
     }
 
     /**
-     * Returns the drag controller associated with the given name.
+     * Registers a new drag controller-
      * 
      * @param name
      *            The name of the drag controller
-     * @return The crag controller object
+     * @param dragController
+     *            The drag controller object
      */
-    public DragController getDragController(String name) {
-        return dragControllers.get(name);
+    public void register(String name, DragController dragController) {
+        dragControllers.put(name, dragController);
     }
 
 }

@@ -57,5 +57,4 @@ public class SaveMenuItem implements Command {
         String dwdl = parser.parse(Workflow.getInstance().getModel());
         modelingToolWidget.sendDWDLtoServer(dwdl);
     }
-
 }

@@ -27,7 +27,7 @@ import de.decidr.modelingtool.client.ModelingToolWidget;
  * web portal.
  * 
  * @author AT
- * @author JS
+ * @author Jonas Schlaak
  */
 public class VModelingTool extends ModelingToolWidget implements Paintable {
 

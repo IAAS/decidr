@@ -46,7 +46,6 @@ public class TenantWithAdminViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     * 
      */
     public TenantWithAdminViewBean(TenantWithAdminView tenantWithAdminView) {
         this.name = tenantWithAdminView.getName();
@@ -68,6 +67,96 @@ public class TenantWithAdminViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
+     * @return the adminFirstName
+     */
+    public String getAdminFirstName() {
+        return adminFirstName;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the adminId
+     */
+    public Long getAdminId() {
+        return adminId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the adminLastName
+     */
+    public String getAdminLastName() {
+        return adminLastName;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the adminUsername
+     */
+    public String getAdminUsername() {
+        return adminUsername;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the advancedColorSchemeId
+     */
+    public Long getAdvancedColorSchemeId() {
+        return advancedColorSchemeId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the approvedSince
+     */
+    public Date getApprovedSince() {
+        return approvedSince;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the currentColorSchemeId
+     */
+    public Long getCurrentColorSchemeId() {
+        return currentColorSchemeId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the logoId
+     */
+    public Long getLogoId() {
+        return logoId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
      * @return the name
      */
     public String getName() {
@@ -77,20 +166,10 @@ public class TenantWithAdminViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @param name
-     *            the name to set
+     * @return the simpleColorSchemeId
      */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the adminFirstName
-     */
-    public String getAdminFirstName() {
-        return adminFirstName;
+    public Long getSimpleColorSchemeId() {
+        return simpleColorSchemeId;
     }
 
     /**
@@ -106,29 +185,11 @@ public class TenantWithAdminViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the adminLastName
+     * @param adminId
+     *            the adminId to set
      */
-    public String getAdminLastName() {
-        return adminLastName;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param adminLastName
-     *            the adminLastName to set
-     */
-    public void setAdminLastName(String adminLastName) {
-        this.adminLastName = adminLastName;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the adminId
-     */
-    public Long getAdminId() {
-        return adminId;
+    public void setAdminId(long adminId) {
+        this.adminId = adminId;
     }
 
     /**
@@ -144,143 +205,11 @@ public class TenantWithAdminViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the id
+     * @param adminLastName
+     *            the adminLastName to set
      */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param id
-     *            the id to set
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the logoId
-     */
-    public Long getLogoId() {
-        return logoId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param logoId
-     *            the logoId to set
-     */
-    public void setLogoId(Long logoId) {
-        this.logoId = logoId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the simpleColorSchemeId
-     */
-    public Long getSimpleColorSchemeId() {
-        return simpleColorSchemeId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param simpleColorSchemeId
-     *            the simpleColorSchemeId to set
-     */
-    public void setSimpleColorSchemeId(Long simpleColorSchemeId) {
-        this.simpleColorSchemeId = simpleColorSchemeId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the advancedColorSchemeId
-     */
-    public Long getAdvancedColorSchemeId() {
-        return advancedColorSchemeId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param advancedColorSchemeId
-     *            the advancedColorSchemeId to set
-     */
-    public void setAdvancedColorSchemeId(Long advancedColorSchemeId) {
-        this.advancedColorSchemeId = advancedColorSchemeId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the currentColorSchemeId
-     */
-    public Long getCurrentColorSchemeId() {
-        return currentColorSchemeId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param currentColorSchemeId
-     *            the currentColorSchemeId to set
-     */
-    public void setCurrentColorSchemeId(Long currentColorSchemeId) {
-        this.currentColorSchemeId = currentColorSchemeId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the approvedSince
-     */
-    public Date getApprovedSince() {
-        return approvedSince;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param approvedSince
-     *            the approvedSince to set
-     */
-    public void setApprovedSince(Date approvedSince) {
-        this.approvedSince = approvedSince;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the adminUsername
-     */
-    public String getAdminUsername() {
-        return adminUsername;
+    public void setAdminLastName(String adminLastName) {
+        this.adminLastName = adminLastName;
     }
 
     /**
@@ -296,10 +225,80 @@ public class TenantWithAdminViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @param adminId
-     *            the adminId to set
+     * @param advancedColorSchemeId
+     *            the advancedColorSchemeId to set
      */
-    public void setAdminId(long adminId) {
-        this.adminId = adminId;
+    public void setAdvancedColorSchemeId(Long advancedColorSchemeId) {
+        this.advancedColorSchemeId = advancedColorSchemeId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param approvedSince
+     *            the approvedSince to set
+     */
+    public void setApprovedSince(Date approvedSince) {
+        this.approvedSince = approvedSince;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param currentColorSchemeId
+     *            the currentColorSchemeId to set
+     */
+    public void setCurrentColorSchemeId(Long currentColorSchemeId) {
+        this.currentColorSchemeId = currentColorSchemeId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param id
+     *            the id to set
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param logoId
+     *            the logoId to set
+     */
+    public void setLogoId(Long logoId) {
+        this.logoId = logoId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param name
+     *            the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param simpleColorSchemeId
+     *            the simpleColorSchemeId to set
+     */
+    public void setSimpleColorSchemeId(Long simpleColorSchemeId) {
+        this.simpleColorSchemeId = simpleColorSchemeId;
     }
 }

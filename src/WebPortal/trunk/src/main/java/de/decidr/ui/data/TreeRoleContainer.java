@@ -29,8 +29,8 @@ import com.vaadin.ui.Tree;
 
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
+import de.decidr.model.soap.types.Role;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
-import de.decidr.model.soap.types.*;
 import de.decidr.ui.beans.RoleBean;
 
 /**

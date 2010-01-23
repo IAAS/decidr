@@ -41,7 +41,7 @@ import de.decidr.ui.view.windows.TransactionErrorDialogComponent;
 /**
  * The container holds the workflow instances. The instances are represented as
  * {@link Item items} in a table.<br>
- * Aleks: update comment: not an Item
+ * TODO: update comment: not an Item
  * 
  * @author AT
  */
@@ -73,12 +73,11 @@ public class WorkflowInstanceContainer extends
 
     /**
      * The instance items are added to the container.<br>
-     * Aleks: update comment: not an Item
+     * TODO: update comment: not an Item
      */
     public WorkflowInstanceContainer() {
         super(WorkflowModelsBean.class);
         try {
-            // Aleks Please review my changes: ~dh
             filterList = new ArrayList<Filter>();
             filterList.add(new StartableWorkflowModelFilter());
             filterList.add(new EqualsFilter(true, "executable", true));

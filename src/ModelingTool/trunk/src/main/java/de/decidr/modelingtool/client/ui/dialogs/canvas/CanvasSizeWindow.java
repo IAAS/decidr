@@ -59,22 +59,10 @@ public class CanvasSizeWindow extends ModelingToolDialog {
         createButtons();
     }
 
-    private void createContentPanel() {
-        contentPanel = new ContentPanel();
-
-        contentPanel.setHeading(ModelingToolWidget.getMessages()
-                .editCanvasSize());
-        contentPanel.setLayout(new FitLayout());
-
-        table = new FlexTable();
-        table.setBorderWidth(0);
-        table.setWidth("100%");
-        table.setCellPadding(2);
-        table.setCellSpacing(2);
-        scrollPanel = new ScrollPanel(table);
-        contentPanel.add(scrollPanel);
-
-        this.add(contentPanel);
+    private void changeSize() {
+        int width = widthSpinner.getValue();
+        int height = heigthSpinner.getValue();
+        workflow.setSize(width, height);
     }
 
     private void createButtons() {
@@ -98,14 +86,22 @@ public class CanvasSizeWindow extends ModelingToolDialog {
                 }));
     }
 
-    private void changeSize() {
-        int width = widthSpinner.getValue();
-        int height = heigthSpinner.getValue();
-        workflow.setSize(width, height);
-    }
+    private void createContentPanel() {
+        contentPanel = new ContentPanel();
 
-    public void setModel(Workflow workflow) {
-        this.workflow = workflow;
+        contentPanel.setHeading(ModelingToolWidget.getMessages()
+                .editCanvasSize());
+        contentPanel.setLayout(new FitLayout());
+
+        table = new FlexTable();
+        table.setBorderWidth(0);
+        table.setWidth("100%");
+        table.setCellPadding(2);
+        table.setCellSpacing(2);
+        scrollPanel = new ScrollPanel(table);
+        contentPanel.add(scrollPanel);
+
+        this.add(contentPanel);
     }
 
     /*
@@ -146,6 +142,10 @@ public class CanvasSizeWindow extends ModelingToolDialog {
             }
         }
 
+    }
+
+    public void setModel(Workflow workflow) {
+        this.workflow = workflow;
     }
 
 }

@@ -38,5 +38,4 @@ public class ClearWorkflowMenuItem implements Command {
             cmd.execute();
         }
     }
-
 }

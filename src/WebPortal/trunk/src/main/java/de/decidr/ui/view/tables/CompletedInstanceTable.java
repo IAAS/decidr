@@ -33,12 +33,10 @@ import de.decidr.ui.data.CompletedInstancesContainer;
 public class CompletedInstanceTable extends Table {
 
     private static final long serialVersionUID = -4341477724807479177L;
-    
+
     private final int TABLE_PAGE_LENGTH = 7;
 
     private Container workflowInstanceContainer = null;
-
-   
 
     /**
      * The table is added as an observer to the container.

@@ -47,7 +47,6 @@ public class AddMemberToTenantAction implements ClickListener {
 
     /**
      * Constructor with a given table where the memebers are selected
-     * 
      */
     public AddMemberToTenantAction(Table table) {
         this.table = table;

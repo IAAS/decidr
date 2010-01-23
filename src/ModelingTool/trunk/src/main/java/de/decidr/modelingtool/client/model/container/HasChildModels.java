@@ -50,5 +50,4 @@ public interface HasChildModels {
     public void removeConnectionModel(ConnectionModel model);
 
     public void removeNodeModel(NodeModel model);
-
 }

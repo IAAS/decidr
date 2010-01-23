@@ -59,8 +59,9 @@ public class ChangeTenantComponent extends CustomComponent {
     private List<Button> buttonList = new LinkedList<Button>();
 
     private Table currentTenantTable = null;
-    
-    private Role role = (Role)Main.getCurrent().getSession().getAttribute("role");
+
+    private Role role = (Role) Main.getCurrent().getSession().getAttribute(
+            "role");
 
     /**
      * TODO document
@@ -81,14 +82,15 @@ public class ChangeTenantComponent extends CustomComponent {
         changeTenantLabel = new Label("<h2> Change Tenant </h2>");
         changeTenantLabel.setContentMode(Label.CONTENT_XHTML);
 
-        if(role instanceof SuperAdminRole){
+        if (role instanceof SuperAdminRole) {
             currentTenantContainer = new TenantContainer();
             currentTenantTable = new TenantTable(currentTenantContainer);
-        }else{
+        } else {
             currentTenantContainer = new CurrentTenantContainer();
-            currentTenantTable = new CurrentTenantModelTable(currentTenantContainer);
+            currentTenantTable = new CurrentTenantModelTable(
+                    currentTenantContainer);
         }
-        
+
         initButtonPanel();
 
         setCompositionRoot(verticalLayout);

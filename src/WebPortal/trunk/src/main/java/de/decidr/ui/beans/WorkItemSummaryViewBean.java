@@ -41,7 +41,6 @@ public class WorkItemSummaryViewBean implements Serializable {
 
     /**
      * TODO: add comment
-     * 
      */
     public WorkItemSummaryViewBean(WorkItemSummaryView workItemSummaryView) {
         this.id = workItemSummaryView.getId();
@@ -56,39 +55,19 @@ public class WorkItemSummaryViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
+     * @return the creationDate
+     */
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    /**
+     * TODO: add comment
+     * 
      * @return the id
      */
     public long getId() {
         return id;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param id
-     *            the id to set
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the workItemName
-     */
-    public String getWorkItemName() {
-        return workItemName;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @param workItemName
-     *            the workItemName to set
-     */
-    public void setWorkItemName(String workItemName) {
-        this.workItemName = workItemName;
     }
 
     /**
@@ -103,20 +82,37 @@ public class WorkItemSummaryViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @param tenantName
-     *            the tenantName to set
+     * @return the userId
      */
-    public void setTenantName(String tenantName) {
-        this.tenantName = tenantName;
+    public long getUserId() {
+        return userId;
     }
 
     /**
      * TODO: add comment
      * 
-     * @return the creationDate
+     * @return the workflowInstanceId
      */
-    public Date getCreationDate() {
-        return creationDate;
+    public long getWorkflowInstanceId() {
+        return workflowInstanceId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the workItemName
+     */
+    public String getWorkItemName() {
+        return workItemName;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @return the workItemStatus
+     */
+    public String getWorkItemStatus() {
+        return workItemStatus;
     }
 
     /**
@@ -132,29 +128,21 @@ public class WorkItemSummaryViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the workItemStatus
+     * @param id
+     *            the id to set
      */
-    public String getWorkItemStatus() {
-        return workItemStatus;
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
      * TODO: add comment
      * 
-     * @param workItemStatus
-     *            the workItemStatus to set
+     * @param tenantName
+     *            the tenantName to set
      */
-    public void setWorkItemStatus(String workItemStatus) {
-        this.workItemStatus = workItemStatus;
-    }
-
-    /**
-     * TODO: add comment
-     * 
-     * @return the userId
-     */
-    public long getUserId() {
-        return userId;
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
     }
 
     /**
@@ -170,19 +158,30 @@ public class WorkItemSummaryViewBean implements Serializable {
     /**
      * TODO: add comment
      * 
-     * @return the workflowInstanceId
-     */
-    public long getWorkflowInstanceId() {
-        return workflowInstanceId;
-    }
-
-    /**
-     * TODO: add comment
-     * 
      * @param workflowInstanceId
      *            the workflowInstanceId to set
      */
     public void setWorkflowInstanceId(long workflowInstanceId) {
         this.workflowInstanceId = workflowInstanceId;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param workItemName
+     *            the workItemName to set
+     */
+    public void setWorkItemName(String workItemName) {
+        this.workItemName = workItemName;
+    }
+
+    /**
+     * TODO: add comment
+     * 
+     * @param workItemStatus
+     *            the workItemStatus to set
+     */
+    public void setWorkItemStatus(String workItemStatus) {
+        this.workItemStatus = workItemStatus;
     }
 }

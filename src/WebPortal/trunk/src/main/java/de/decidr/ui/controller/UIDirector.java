@@ -58,22 +58,15 @@ public class UIDirector {
     }
 
     /**
-     * Sets the {@link UIBuilder} which determines how the user interface is
-     * built.
-     * 
-     * @param uiBuilder
-     *            TODO document
-     */
-    public void setUiBuilder(UIBuilder uiBuilder) {
-        this.uiBuilder = uiBuilder;
-    }
-
-    /**
      * This method creates a new {@link SiteFrame} object, where the header,
      * content and navigation are set.
      */
     public void createNewView() {
         siteFrame = new SiteFrame();
+    }
+
+    public HelpDialogComponent getHelpDialog() {
+        return helpDialog;
     }
 
     /**
@@ -83,6 +76,21 @@ public class UIDirector {
      */
     public SiteFrame getTemplateView() {
         return siteFrame;
+    }
+
+    public void setHelpDialog(HelpDialogComponent dialog) {
+        helpDialog = dialog;
+    }
+
+    /**
+     * Sets the {@link UIBuilder} which determines how the user interface is
+     * built.
+     * 
+     * @param uiBuilder
+     *            TODO document
+     */
+    public void setUiBuilder(UIBuilder uiBuilder) {
+        this.uiBuilder = uiBuilder;
     }
 
     /**
@@ -95,13 +103,5 @@ public class UIDirector {
     public void switchView(UIBuilder uiBuilder) {
         setUiBuilder(uiBuilder);
         constructView();
-    }
-
-    public void setHelpDialog(HelpDialogComponent dialog) {
-        helpDialog = dialog;
-    }
-
-    public HelpDialogComponent getHelpDialog() {
-        return helpDialog;
     }
 }

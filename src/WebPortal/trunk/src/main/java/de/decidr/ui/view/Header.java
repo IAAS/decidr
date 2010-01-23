@@ -45,6 +45,15 @@ public class Header extends CustomComponent {
     }
 
     /**
+     * Returns the embedded component where the logo is stored
+     * 
+     * @return the decidrLogo
+     */
+    public Embedded getDecidrLogo() {
+        return decidrLogo;
+    }
+
+    /**
      * This method initializes the components of the {@link Header} component.
      */
     private void init() {
@@ -57,14 +66,5 @@ public class Header extends CustomComponent {
         decidrLogo = new Embedded("", new ThemeResource("img/logo.png"));
 
         horizontalLayout.addComponent(decidrLogo);
-    }
-
-    /**
-     * Returns the embedded component where the logo is stored
-     * 
-     * @return the decidrLogo
-     */
-    public Embedded getDecidrLogo() {
-        return decidrLogo;
     }
 }

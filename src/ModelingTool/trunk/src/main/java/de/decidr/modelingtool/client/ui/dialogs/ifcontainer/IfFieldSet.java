@@ -116,37 +116,6 @@ public class IfFieldSet {
     }
 
     /**
-     * This methods updates the stores (that means the set of values that is
-     * available for selection in the combxbox) of the left and right operand
-     * field and the operator field. The stores of these input fields depends on
-     * the variable type.
-     * 
-     * @param type
-     *            the {@link VariableType} to set the stores to
-     */
-    public void updateAllStores(VariableType type) {
-        leftOperandField.getStore().removeAll();
-        for (Variable variable : Workflow.getInstance().getModel()
-                .getVariablesOfType(type)) {
-            leftOperandField.getStore().add(variable);
-        }
-        leftOperandField.setEnabled(true);
-
-        operatorList.getStore().removeAll();
-        for (Operator operator : Operator.getOperatorsForType(type)) {
-            operatorList.add(operator.getDisplayString());
-        }
-        operatorList.setEnabled(true);
-
-        rightOperandField.getStore().removeAll();
-        for (Variable variable : Workflow.getInstance().getModel()
-                .getVariablesOfType(type)) {
-            rightOperandField.getStore().add(variable);
-        }
-        rightOperandField.setEnabled(true);
-    }
-
-    /**
      * Returns the id of the {@link Condition} that is modeled by this
      * IfFieldSet.
      * 
@@ -154,6 +123,30 @@ public class IfFieldSet {
      */
     public Long getConditionId() {
         return this.condition.getId();
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public ComboBox<Variable> getLeftOperandField() {
+        return leftOperandField;
+    }
+
+    public SimpleComboBox<String> getOperatorList() {
+        return operatorList;
+    }
+
+    public OrderComboBox getOrderField() {
+        return orderField;
+    }
+
+    public ComboBox<Variable> getRightOperandField() {
+        return rightOperandField;
+    }
+
+    public SimpleComboBox<String> getTypeSelector() {
+        return typeSelector;
     }
 
     /**
@@ -171,9 +164,9 @@ public class IfFieldSet {
         Boolean validationResult = true;
 
         /* Check if fields are empty */
-        if (leftOperandField.getValue() == null
-                || operatorList.getSimpleValue() == null
-                || rightOperandField.getValue() == null) {
+        if ((leftOperandField.getValue() == null)
+                || (operatorList.getSimpleValue() == null)
+                || (rightOperandField.getValue() == null)) {
             validationResult = false;
             callback = callback + condition.getName() + ": "
                     + ModelingToolWidget.getMessages().conditionFieldsEmpty()
@@ -219,28 +212,35 @@ public class IfFieldSet {
         return validationResult;
     }
 
-    public Label getLabel() {
-        return label;
-    }
+    /**
+     * This methods updates the stores (that means the set of values that is
+     * available for selection in the combxbox) of the left and right operand
+     * field and the operator field. The stores of these input fields depends on
+     * the variable type.
+     * 
+     * @param type
+     *            the {@link VariableType} to set the stores to
+     */
+    public void updateAllStores(VariableType type) {
+        leftOperandField.getStore().removeAll();
+        for (Variable variable : Workflow.getInstance().getModel()
+                .getVariablesOfType(type)) {
+            leftOperandField.getStore().add(variable);
+        }
+        leftOperandField.setEnabled(true);
 
-    public SimpleComboBox<String> getTypeSelector() {
-        return typeSelector;
-    }
+        operatorList.getStore().removeAll();
+        for (Operator operator : Operator.getOperatorsForType(type)) {
+            operatorList.add(operator.getDisplayString());
+        }
+        operatorList.setEnabled(true);
 
-    public ComboBox<Variable> getLeftOperandField() {
-        return leftOperandField;
-    }
-
-    public SimpleComboBox<String> getOperatorList() {
-        return operatorList;
-    }
-
-    public ComboBox<Variable> getRightOperandField() {
-        return rightOperandField;
-    }
-
-    public OrderComboBox getOrderField() {
-        return orderField;
+        rightOperandField.getStore().removeAll();
+        for (Variable variable : Workflow.getInstance().getModel()
+                .getVariablesOfType(type)) {
+            rightOperandField.getStore().add(variable);
+        }
+        rightOperandField.setEnabled(true);
     }
 
 }

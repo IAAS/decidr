@@ -46,8 +46,44 @@ public enum VariableType {
     FORM(DWDLNames.variableTypes.FORM, ModelingToolWidget.getMessages()
             .typeForm(), null);
 
+    /**
+     * Returns the variable type to a given dwdl name of a variable type
+     * 
+     * @param dwdlName
+     *            the localized name
+     * @return the variable type
+     */
+    public static VariableType getTypeFromDWDLName(String dwdlName) {
+        VariableType result = null;
+        for (VariableType type : VariableType.values()) {
+            if (dwdlName.equals(type.getDwdlName())) {
+                result = type;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the variable type to a given localized name of a variable type
+     * 
+     * @param localName
+     *            the localized name
+     * @return the variable type
+     */
+    public static VariableType getTypeFromLocalName(String localName) {
+        VariableType result = null;
+        for (VariableType type : VariableType.values()) {
+            if (localName.equals(type.getLocalName())) {
+                result = type;
+            }
+        }
+        return result;
+    }
+
     private final String dwdlName;
+
     private final String localName;
+
     private final String defaultValue;
 
     /**
@@ -64,6 +100,16 @@ public enum VariableType {
         this.dwdlName = dwdlName;
         this.localName = localName;
         this.defaultValue = defaultValue;
+    }
+
+    /**
+     * This method return a reasonable (i.e. valid format) value for that type
+     * of variable.
+     * 
+     * @return default value
+     */
+    public String getDefaultValue() {
+        return defaultValue;
     }
 
     /**
@@ -84,47 +130,5 @@ public enum VariableType {
      */
     public String getLocalName() {
         return localName;
-    }
-
-    /**
-     * This method return a reasonable (i.e. valid format) value for that type
-     * of variable.
-     * 
-     * @return default value
-     */
-    public String getDefaultValue() {
-        return defaultValue;
-    }
-
-    /**
-     * Returns the variable type to a given localized name of a variable type
-     * 
-     * @param localName
-     *            the localized name
-     * @return the variable type
-     */
-    public static VariableType getTypeFromLocalName(String localName) {
-        VariableType result = null;
-        for (VariableType type : VariableType.values()) {
-            if (localName.equals(type.getLocalName()))
-                result = type;
-        }
-        return result;
-    }
-
-    /**
-     * Returns the variable type to a given dwdl name of a variable type
-     * 
-     * @param dwdlName
-     *            the localized name
-     * @return the variable type
-     */
-    public static VariableType getTypeFromDWDLName(String dwdlName) {
-        VariableType result = null;
-        for (VariableType type : VariableType.values()) {
-            if (dwdlName.equals(type.getDwdlName()))
-                result = type;
-        }
-        return result;
     }
 }

@@ -33,10 +33,8 @@ public class RunningInstanceTable extends Table {
     private static final long serialVersionUID = 49258596599726066L;
 
     private final int TABLE_PAGE_LENGTH = 7;
-    
-    private Container runningInstanceContainer = null;
 
-    
+    private Container runningInstanceContainer = null;
 
     /**
      * Default constructor.

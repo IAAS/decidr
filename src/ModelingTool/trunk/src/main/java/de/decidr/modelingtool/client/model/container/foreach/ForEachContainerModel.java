@@ -42,12 +42,12 @@ public class ForEachContainerModel extends ContainerModel {
         this.name = this.getClass().getName();
     }
 
-    public Long getIterationVariableId() {
-        return properties.get(iterationVariableFieldName);
-    }
-
     public ExitCondition getExitCondition() {
         return properties.get(exitConditionFieldName);
+    }
+
+    public Long getIterationVariableId() {
+        return properties.get(iterationVariableFieldName);
     }
 
     public Boolean isParallel() {
@@ -58,13 +58,13 @@ public class ForEachContainerModel extends ContainerModel {
         }
     }
 
+    public void setExitCondition(ExitCondition exitCondition) {
+        this.properties.set(this.exitConditionFieldName, exitCondition);
+    }
+
     public void setIterationVariableId(Long iterationVariableId) {
         this.properties.set(this.iterationVariableFieldName,
                 iterationVariableId);
-    }
-
-    public void setExitCondition(ExitCondition exitCondition) {
-        this.properties.set(this.exitConditionFieldName, exitCondition);
     }
 
     public void setParallel(Boolean parallel) {
