@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="TenantManager">
+		<class>de.decidr.seminar.tenantmgr.Tenant</class>
+		<class>de.decidr.seminar.tenantmgr.CustomField</class>
+
+		<properties>
+			<property name="openjpa.ConnectionURL"
+				value="jdbc:mysql://iaassrv7.informatik.uni-stuttgart.de/jeseminar" />
+			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
+			<property name="openjpa.ConnectionUserName" value="jeseminar" />
+			<property name="openjpa.ConnectionPassword" value="je!sem" />
+
+			<!--
+				Tell OpenJPA to automatically create tables in the database for
+				entities. Note that this should be disabled when running against a
+				production database, since you probably don't want to be altering
+				the schema at runtime.
+			-->
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema" />
+			
+			<!--  Trace -->
+			<!-- <property name="openjpa.Log" value="DefaultLevel=TRACE"/> -->
+		</properties>
+	</persistence-unit>
+
+</persistence>

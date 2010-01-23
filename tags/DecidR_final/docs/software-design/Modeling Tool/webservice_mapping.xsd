@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://decidr.de/schema/wsmapping"
+	xmlns="http://decidr.de/schema/wsmapping" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+	elementFormDefault="qualified">
+
+    <xsd:annotation>
+        <xsd:documentation>
+			Schema for Decidr Webservice Mapping
+			Last modified date: 7th August, 2009
+
+			2009-08-07: MA: Creation date
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/xml.xsd" />
+    <xsd:import namespace="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+                schemaLocation="ws-bpel_varprop.xsd" />
+
+    <xsd:element name="mapping" type="WebserviceMapping" />
+    <xsd:complexType name="WebserviceMapping">
+        <xsd:sequence>
+            <xsd:element name="activity" type="xsd:NCName" />
+            <xsd:element name="portType" type="xsd:NCName" />
+            <xsd:element name="operation" type="xsd:NCName" />
+            <xsd:element name="binding" type="xsd:NCName" />
+            <xsd:element name="partnerLinkTyp" type="xsd:NCName" />
+            <xsd:element name="service" type="xsd:NCName" />
+            <xsd:element name="servicePort" type="xsd:NCName" />
+            <xsd:element name="properties" type="Properties" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="propertyAliases" type="PropertyAliases" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Properties">
+        <xsd:sequence>
+            <xsd:element ref="vprop:property" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="PropertyAliases">
+        <xsd:sequence>
+            <xsd:element ref="vprop:propertyAlias" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

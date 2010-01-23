@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+<!-- Generated 22.01.2010 14:51:16 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.Invitation" table="invitation" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="administrateWorkflowModel" class="de.decidr.model.entities.WorkflowModel" fetch="select">
+            <column name="`administrateWorkflowModelId`">
+                <comment>If not set to null the receiver is invited to administrate the given workflow model. Furthermore the user will join the tenant that owns the workflow
+                model</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="sender" class="de.decidr.model.entities.User" fetch="select">
+            <column name="`senderId`" not-null="true" />
+        </many-to-one>
+        <many-to-one name="receiver" class="de.decidr.model.entities.User" fetch="select">
+            <column name="`receiverId`" not-null="true" />
+        </many-to-one>
+        <many-to-one name="joinTenant" class="de.decidr.model.entities.Tenant" fetch="select">
+            <column name="`joinTenantId`">
+                <comment>If not set to null the receiver is invited to join a tenant as a normal tenant member.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="participateInWorkflowInstance" class="de.decidr.model.entities.WorkflowInstance" fetch="select">
+            <column name="`participateInWorkflowInstanceId`">
+                <comment>If not set to null the receiver is invited to participate in the given workflow instance. Furthermore the user will join the tenant that owns the workflow
+                instance.</comment>
+            </column>
+        </many-to-one>
+        <property name="creationDate" type="timestamp">
+            <column name="`creationDate`" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

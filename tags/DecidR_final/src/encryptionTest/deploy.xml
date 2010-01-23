@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="deploy">
+	<property file="deployment.properties" />
+
+	<target name="deploy" depends="serviceAJar, serviceBJar" />
+    <target name="serviceAJar">
+        <jar destfile="${servicedir}/DummyServiceA.aar" compress="true">
+            <fileset dir="${basedir}/build/classes">
+                <include name="de/decidr/test/encryption/*Interface.class" />
+                <include name="de/decidr/test/encryption/DummyServiceA.class" />
+                <include name="de/decidr/test/encryption/DummyClientB.class" />
+                <include name="de/decidr/test/encryption/PasswordCallback.class" />
+            </fileset>
+            <fileset dir="${basedir}/WebContent/WEB-INF/services/DummyServiceA/">
+                <include name="META-INF/**"/>
+            </fileset>
+            <fileset dir="${basedir}/">
+                <include name="META-INF/**"/>
+            </fileset>
+        </jar>
+    </target>
+    <target name="serviceBJar">
+        <jar destfile="${servicedir}/DummyServiceB.aar" compress="true">
+            <fileset dir="${basedir}/build/classes">
+                <include name="de/decidr/test/encryption/*Interface.class" />
+                <include name="de/decidr/test/encryption/DummyServiceB.class" />
+                <include name="de/decidr/test/encryption/DummyClientA.class" />
+                <include name="de/decidr/test/encryption/PasswordCallback.class" />
+            </fileset>
+            <fileset dir="${basedir}/WebContent/WEB-INF/services/DummyServiceB/">
+                <include name="META-INF/**"/>
+            </fileset>
+            <fileset dir="${basedir}/">
+                <include name="META-INF/**"/>
+            </fileset>
+        </jar>
+    </target>
+</project>

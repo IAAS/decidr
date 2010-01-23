@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!-- The DecidR Development Team licenses this file to you under -->
+	<!-- the Apache License, Version 2.0 (the "License"); you may -->
+	<!-- not use this file except in compliance with the License. -->
+	<!-- You may obtain a copy of the License at -->
+	<!-- -->
+	<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+	<!-- -->
+	<!-- Unless required by applicable law or agreed to in writing, -->
+	<!-- software distributed under the License is distributed on an -->
+	<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+	<!-- KIND, either express or implied. See the License for the -->
+	<!-- specific language governing permissions and limitations -->
+	<!-- under the License. -->
+
+<workflow name="Simple_Email" id="3141"
+	targetNamespace="http://decidr.de/tenantTest/processes/Simple_Email"
+	xmlns="http://decidr.de/schema/dwdl"
+>
+	<description></description>
+	<variables>
+		<variable name="L1260189112734" label="Subject" type="string"
+			configurationVariable="no"
+		>
+			<initialValue>Reminder</initialValue>
+		</variable>
+		<variable name="L1260189120812" label="Body" type="string"
+			configurationVariable="yes" />
+	</variables>
+	<roles>
+		<role configurationVariable="no" label="Recipient" name="L1260189088187">
+			<actor userId="42" />
+			<actor userId="23" />
+		</role>
+	</roles>
+	<faultHandler>
+		<setProperty name="message" />
+		<recipient>
+			<setProperty name="name" />
+		</recipient>
+	</faultHandler>
+	<nodes>
+		<startNode name="de.decidr.modelingtool.client.model.StartNodeModel"
+			id="4815162342"
+		>
+			<description></description>
+			<graphics x="25" y="25" width="50" height="30" />
+			<sources>
+				<source arcId="1260189158062" />
+			</sources>
+		</startNode>
+		<endNode name="de.decidr.modelingtool.client.model.EndNodeModel"
+			id="108"
+		>
+			<description></description>
+			<graphics x="335" y="306" width="50" height="30" />
+			<targets>
+				<target arcId="1260189158109" />
+			</targets>
+			<notificationOfSuccess>
+				<setProperty name="successMessage" />
+				<setProperty name="recipient" />
+			</notificationOfSuccess>
+		</endNode>
+		<invokeNode name="de.decidr.modelingtool.client.model.EmailInvokeNodeModel"
+			id="1260189158110" activity="Decidr-Email"
+		>
+			<description></description>
+			<graphics x="132" y="159" width="100" height="60" />
+			<sources>
+				<source arcId="1260189158109" />
+			</sources>
+			<targets>
+				<target arcId="1260189158062" />
+			</targets>
+			<setProperty name="to" />
+			<setProperty name="cc" />
+			<setProperty name="bcc" />
+			<setProperty name="subject" />
+			<setProperty name="message" />
+			<setProperty name="attachement" />
+		</invokeNode>
+	</nodes>
+	<arcs>
+		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+			id="1260189158062" source="4815162342" target="1260189158110" />
+		<arc name="de.decidr.modelingtool.client.model.ConnectionModel"
+			id="1260189158109" source="1260189158110" target="108" />
+	</arcs>
+</workflow>

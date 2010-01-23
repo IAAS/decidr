@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<humanTaskData xmlns="http://decidr.de/schema/humanTask"
+	targetNamespace="http://decidr.de/workitem">
+
+	<parameters>
+		<parameter variable="var_0_filled" name="" type="list-integer" />
+		<parameter variable="var_4" name="" type="list-string" />
+	</parameters>
+
+	<information name="testinfo">
+		<content>
+			This is the beginning.
+		</content>
+	</information>
+
+	<taskItem name="item_0" type="integer" variable="var_0">
+		<label>Empty integer</label>
+		<hint>पहेला कैसे हुआआदी निर्माण आंतरकार्यक्षमता हुएआदि लाभान्वित
+			विश्वव्यापि हमारि ७०है दिशामे परिवहन निर्माता लिये हमारि
+			बनाकर उद्योग केन्द्रित उपयोगकर्ता एवम् देखने सहायता मेंभटृ लचकनहि जिवन
+			सके। कुशलता वेबजाल वर्णित तरीके संदेश दुनिया
+			विकेन्द्रियकरण बारे बनाना खयालात पुस्तक होने जिसे विभाग तकरीबन समस्याओ उपयोगकर्ता
+			मुश्किल मुख्यतह पहेला जिवन</hint>
+		<value></value>
+	</taskItem>
+	<taskItem name="item_0_filled" type="integer" variable="var_0_filled">
+		<label>Filled integer</label>
+		<hint>पहेला कैसे हुआआदी निर्माण आंतरकार्यक्षमता हुएआदि लाभान्वित
+			विश्वव्यापि हमारि ७०है दिशामे परिवहन निर्माता लिये हमारि
+			बनाकर उद्योग केन्द्रित उपयोगकर्ता एवम् देखने सहायता मेंभटृ लचकनहि जिवन
+			सके। कुशलता वेबजाल वर्णित तरीके संदेश दुनिया
+			विकेन्द्रियकरण बारे बनाना खयालात पुस्तक होने जिसे विभाग तकरीबन समस्याओ उपयोगकर्ता
+			मुश्किल मुख्यतह पहेला जिवन</hint>
+		<value>42</value>
+	</taskItem>
+	<taskItem name="item_1" type="boolean" variable="var_1">
+		<label>Empty boolean</label>
+		<hint>展久 クセス にによる と会意味 シビリティ, の徴 丸山亮仕 プロセスド セシビリテ 内准剛,
+			健二仕 ウェブア クリック」 功久 ルビ 内准剛 ンツアクセシ テストスイト,
+			ラベラ リア式会 ウェブア マルチメ エム</hint>
+		<value></value>
+	</taskItem>
+	<taskItem name="item_1_filled" type="boolean" variable="var_1_filled">
+		<label>Filled boolean</label>
+		<hint>展久 クセス にによる と会意味 シビリティ, の徴 丸山亮仕 プロセスド セシビリテ 内准剛,
+			健二仕 ウェブア クリック」 功久 ルビ 内准剛 ンツアクセシ テストスイト,
+			ラベラ リア式会 ウェブア マルチメ エム</hint>
+		<value>yes</value>
+	</taskItem>
+	<taskItem name="item_2" type="date" variable="var_2"></taskItem>
+	<label>Empty date</label>
+	<hint></hint>
+	<value></value>
+	<taskItem name="item_2_filled" type="date" variable="var_2_filled">
+		<label>Filled date</label>
+		<hint></hint>
+		<value>2009-12-08</value>
+	</taskItem>
+	<taskItem name="item_3" type="float" variable="var_3">
+		<label>Empty float</label>
+		<hint></hint>
+		<value></value>
+	</taskItem>
+	<taskItem name="item_3_filled" type="float" variable="var_3">
+		<label>Filled float</label>
+		<hint>Fook yoo</hint>
+		<value>573.51</value>
+	</taskItem>
+	<taskItem name="item_4" type="string" variable="var_4">
+		<label>Empty string</label>
+		<hint></hint>
+		<value></value>
+	</taskItem>
+	<taskItem name="item_4_filled" type="string" variable="var_4_filled">
+		<label>Filled string</label>
+		<hint></hint>
+		<value>Hallo Ralph, wie geht's?</value>
+	</taskItem>
+	<taskItem name="item_5" type="time" variable="var_5">
+		<label>Empty time</label>
+		<hint>Lorem ipsum oratio feugait electram ut cum, sed ut oblique
+			scribentur, pro discere legimus efficiendi ea.
+			Te usu dolore docendi senserit, veri prompta deseruisse pro id,
+			eos malorum commune necessitatibus an.</hint>
+		<value></value>
+	</taskItem>
+	<taskItem name="item_5_filled" type="time" variable="var_5_filled">
+		<label>Filled time</label>
+		<hint>Lorem ipsum oratio feugait electram ut cum, sed ut oblique
+			scribentur, pro discere legimus efficiendi ea.
+			Te usu dolore docendi senserit, veri prompta deseruisse pro id,
+			eos malorum commune necessitatibus an.</hint>
+		<value>23:59:59</value>
+	</taskItem>
+	<taskItem name="item_6" type="anyURI" variable="var_6">
+		<label>Empty file</label>
+		<hint>Do NOT upload porn here!</hint>
+		<value></value>
+	</taskItem>
+	<taskItem name="item_6_filled" type="anyURI" variable="var_6_filled">
+		<label>Empty file</label>
+		<hint>Do NOT upload porn here!</hint>
+		<value>329</value>
+	</taskItem>
+
+	<information name="testinfo2">
+		<content>
+			This is the end.
+		</content>
+	</information>
+</humanTaskData>

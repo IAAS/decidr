@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+<!-- Generated 22.01.2010 14:51:16 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.ServerLoadView" table="server_load_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="location" type="string">
+            <column name="`location`" not-null="true">
+                <comment>ip and port of the server</comment>
+            </column>
+        </property>
+        <property name="load" type="byte">
+            <column name="`load`" not-null="true">
+                <comment>Ranges from 0 to 100 percent</comment>
+            </column>
+        </property>
+        <property name="locked" type="boolean">
+            <column name="`locked`" not-null="true">
+                <comment>Whether or not new workflow models may be deployed on this server.</comment>
+            </column>
+        </property>
+        <property name="dynamicallyAdded" type="boolean">
+            <column name="`dynamicallyAdded`" not-null="true" />
+        </property>
+        <property name="serverTypeId" type="long">
+            <column name="`serverTypeId`" not-null="true" />
+        </property>
+        <property name="lastLoadUpdate" type="timestamp">
+            <column name="`lastLoadUpdate`" length="19" />
+        </property>
+        <property name="serverType" type="string">
+            <column name="`serverType`" length="100" not-null="true">
+                <comment>unique web service identifier such as "EmailProxy"</comment>
+            </column>
+        </property>
+        <property name="numInstances" type="long">
+            <column name="`numInstances`" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+<!-- Generated 22.01.2010 14:51:16 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.File" table="file" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="fileName" type="string">
+            <column name="`fileName`" not-null="true" />
+        </property>
+        <property name="mimeType" type="string">
+            <column name="`mimeType`" length="150" not-null="true">
+                <comment>The content typ of the file as reported by the original uploader.</comment>
+            </column>
+        </property>
+        <property name="mayPublicRead" type="boolean">
+            <column name="`mayPublicRead`" not-null="true">
+                <comment>Whether or not this file is accessible by anyone</comment>
+            </column>
+        </property>
+        <property name="mayPublicReplace" type="boolean">
+            <column name="`mayPublicReplace`" not-null="true" />
+        </property>
+        <property name="mayPublicDelete" type="boolean">
+            <column name="`mayPublicDelete`" not-null="true" />
+        </property>
+        <property name="fileSizeBytes" type="long">
+            <column name="`fileSizeBytes`" not-null="true" />
+        </property>
+        <property name="data" type="binary">
+            <column name="`data`">
+                <comment>optional: the actual file data.</comment>
+            </column>
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="`creationDate`" length="19" not-null="true">
+                <comment>Date when this file entry was created.</comment>
+            </column>
+        </property>
+        <property name="temporary" type="boolean">
+            <column name="`temporary`" not-null="true">
+                <comment>Temporary files are deleted after a certain time if they are not persisted.</comment>
+            </column>
+        </property>
+        <set name="tenantsForAdvancedColorSchemeId" inverse="true" lazy="true" table="tenant" fetch="select">
+            <key>
+                <column name="`advancedColorSchemeId`" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.Tenant" />
+        </set>
+        <set name="tenantsForSimpleColorSchemeId" inverse="true" lazy="true" table="tenant" fetch="select">
+            <key>
+                <column name="`simpleColorSchemeId`" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.Tenant" />
+        </set>
+        <set name="tenantsForLogoId" inverse="true" lazy="true" table="tenant" fetch="select">
+            <key>
+                <column name="`logoId`">
+                    <comment>Points to the tenant logo file</comment>
+                </column>
+            </key>
+            <one-to-many class="de.decidr.model.entities.Tenant" />
+        </set>
+        <set name="tenantsForCurrentColorSchemeId" inverse="true" lazy="true" table="tenant" fetch="select">
+            <key>
+                <column name="`currentColorSchemeId`" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.Tenant" />
+        </set>
+        <set name="workItemContainsFiles" inverse="true" lazy="true" table="work_item_contains_file" fetch="select">
+            <key>
+                <column name="`fileId`" not-null="true" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.WorkItemContainsFile" />
+        </set>
+        <set name="userHasFileAccess" inverse="true" lazy="true" table="user_has_file_access" fetch="select">
+            <key>
+                <column name="`fileId`" not-null="true" />
+            </key>
+            <one-to-many class="de.decidr.model.entities.UserHasFileAccess" />
+        </set>
+    </class>
+</hibernate-mapping>

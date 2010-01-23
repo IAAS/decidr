@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+<workflow name="Simple Workflow" id="1256211693359"
+	targetNamespace="namespace" xmlns="schema">
+	<description></description>
+	<variables>
+		<variable name="ID123" label="Fault Message" type="string"
+			configurationVariable="no">
+			<initialValue>Workflow failed</initialValue>
+		</variable>
+		<variable name="ID12" label="Success Message" type="string"
+			configurationVariable="no">
+			<initialValue>Workflow succeded</initialValue>
+		</variable>
+		<variable name="ID768768" label="Text" type="string"
+			configurationVariable="yes">
+			<initialValue>Loram Ipsum</initialValue>
+		</variable>
+	</variables>
+	<roles>
+		<role configurationVariable="no" label="Recipient" name="ID345">
+			<actor userId="decidradmin" />
+		</role>
+	</roles>
+	<faultHandler>
+		<setProperty name="message" variable="ID123" />
+		<recipient>
+			<setProperty name="name" variable="ID345" />
+		</recipient>
+	</faultHandler>
+	<nodes>
+		<startNode name="de.decidr.modelingtool.client.model.nodes.StartNodeModel"
+			id="1256211693437">
+			<description></description>
+			<graphics x="25" y="25" width="50" height="30" />
+		</startNode>
+		<ifNode
+			name="de.decidr.modelingtool.client.model.container.ifcondition.IfContainerModel"
+			id="1256211850125">
+			<description></description>
+			<graphics x="380" y="94" width="381" height="295" />
+			<nodes>
+				<invokeNode
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1256211850156"
+					activity="Decidr-Email">
+					<description></description>
+					<graphics x="40" y="76" width="100" height="60" />
+					<setProperty name="to" />
+					<setProperty name="cc" />
+					<setProperty name="bcc" />
+					<setProperty name="subject" />
+					<setProperty name="message" />
+					<setProperty name="attachment" />
+				</invokeNode>
+				<invokeNode
+					name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
+					id="1256211850187" activity="Decidr-HumanTask">
+					<description></description>
+					<graphics x="47" y="169" width="100" height="60" />
+					<sources>
+						<source arcId="1256211850218" />
+					</sources>
+					<targets>
+						<target arcId="1256211850219" />
+					</targets>
+					<setProperty name="wfmID">
+						<propertyValue>1256211693359</propertyValue>
+					</setProperty>
+					<setProperty name="user" />
+					<setProperty name="name" />
+					<setProperty name="description" />
+					<setProperty name="userNotification">
+						<propertyValue>no</propertyValue>
+					</setProperty>
+					<getProperty name="taskResult" variable="IDnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
+				</invokeNode>
+				<invokeNode
+					name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
+					id="1256211850234" activity="Decidr-HumanTask">
+					<description></description>
+					<graphics x="230" y="79" width="100" height="60" />
+					<sources>
+						<source arcId="1256211850219" />
+					</sources>
+					<targets>
+						<target arcId="1256211850218" />
+					</targets>
+					<setProperty name="wfmID">
+						<propertyValue>1256211693359</propertyValue>
+					</setProperty>
+					<setProperty name="user" />
+					<setProperty name="name" />
+					<setProperty name="description" />
+					<setProperty name="userNotification">
+						<propertyValue>no</propertyValue>
+					</setProperty>
+					<getProperty name="taskResult" variable="IDnull" />
+					<parameter>
+						<humanTaskData />
+					</parameter>
+				</invokeNode>
+				<invokeNode
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1256211850281"
+					activity="Decidr-Email">
+					<description></description>
+					<graphics x="229" y="160" width="100" height="60" />
+					<sources>
+						<source arcId="1256211850296" />
+					</sources>
+					<setProperty name="to" />
+					<setProperty name="cc" />
+					<setProperty name="bcc" />
+					<setProperty name="subject" />
+					<setProperty name="message" />
+					<setProperty name="attachment" />
+				</invokeNode>
+			</nodes>
+			<arcs>
+				<arc
+					name="de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel"
+					id="1256211850296" source="1256211850281" target="1256211850125" />
+				<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
+					id="1256211850219" source="1256211850234" target="1256211850187" />
+				<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
+					id="1256211850218" source="1256211850187" target="1256211850234" />
+			</arcs>
+		</ifNode>
+		<ifNode
+			name="de.decidr.modelingtool.client.model.container.ifcondition.IfContainerModel"
+			id="1257415091656">
+			<description></description>
+			<graphics x="140" y="126" width="389" height="286" />
+			<condition id="1257415091671">
+				<nodes>
+					<invokeNode
+						name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel"
+						id="1257415091672" activity="Decidr-Email">
+						<description></description>
+						<graphics x="221" y="100" width="100" height="60" />
+						<targets>
+							<target arcId="1257415091671" />
+						</targets>
+						<setProperty name="to" />
+						<setProperty name="cc" />
+						<setProperty name="bcc" />
+						<setProperty name="subject" />
+						<setProperty name="message" />
+						<setProperty name="attachment" />
+					</invokeNode>
+				</nodes>
+				<arcs>
+					<arc name="Condition 4" id="1257415091671" source="1257415091656"
+						target="1257415091672" />
+				</arcs>
+			</condition>
+			<condition id="1257415091718">
+				<nodes>
+					<invokeNode
+						name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
+						id="1257415091719" activity="Decidr-HumanTask">
+						<description></description>
+						<graphics x="43" y="97" width="100" height="60" />
+						<targets>
+							<target arcId="1257415091718" />
+						</targets>
+						<setProperty name="wfmID">
+							<propertyValue>1256211693359</propertyValue>
+						</setProperty>
+						<setProperty name="user" />
+						<setProperty name="name" />
+						<setProperty name="description" />
+						<setProperty name="userNotification">
+							<propertyValue>no</propertyValue>
+						</setProperty>
+						<getProperty name="taskResult" variable="IDnull">
+
+						</getProperty>
+						<parameter>
+							<humanTaskData />
+						</parameter>
+					</invokeNode>
+				</nodes>
+				<arcs>
+					<arc name="Condition 3" id="1257415091718" source="1257415091656"
+						target="1257415091719" />
+				</arcs>
+			</condition>
+		</ifNode>
+		<ifNode
+			name="de.decidr.modelingtool.client.model.container.ifcondition.IfContainerModel"
+			id="1256211693453">
+			<description></description>
+			<graphics x="29" y="148" width="282" height="326" />
+			<condition order="0" defaultCondition="yes" id="1256211684046">
+				<left-operand>ID12</left-operand>
+				<operator>!=</operator>
+				<right-operand>ID768768</right-operand>
+				<nodes>
+					<invokeNode
+						name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel"
+						id="1256211693484" activity="Decidr-Email">
+						<description></description>
+						<graphics x="18" y="86" width="100" height="60" />
+						<sources>
+							<source arcId="1256211850375" />
+						</sources>
+						<targets>
+							<target arcId="1256211684046" />
+						</targets>
+						<setProperty name="to" />
+						<setProperty name="cc" />
+						<setProperty name="bcc" />
+						<setProperty name="subject" />
+						<setProperty name="message" />
+						<setProperty name="attachment" />
+					</invokeNode>
+					<invokeNode
+						name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
+						id="1256211850343" activity="Decidr-HumanTask">
+						<description></description>
+						<graphics x="19" y="193" width="100" height="60" />
+						<sources>
+							<source arcId="1256211850421" />
+						</sources>
+						<targets>
+							<target arcId="1256211850375" />
+						</targets>
+						<setProperty name="wfmID">
+							<propertyValue>1256211693359</propertyValue>
+						</setProperty>
+
+						<setProperty name="user" />
+						<setProperty name="name" />
+						<setProperty name="description" />
+						<setProperty name="userNotification">
+							<propertyValue>no</propertyValue>
+						</setProperty>
+						<getProperty name="taskResult" variable="IDnull" />
+						<parameter>
+							<humanTaskData />
+						</parameter>
+					</invokeNode>
+				</nodes>
+				<arcs>
+					<arc name="Condition 1" id="1256211684046" source="1256211693453"
+						target="1256211693484" />
+					<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
+						id="1256211850375" source="1256211693484" target="1256211850343" />
+					<arc
+						name="de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel"
+						id="1256211850421" source="1256211850343" target="1256211693453" />
+				</arcs>
+			</condition>
+			<condition order="1" defaultCondition="no" id="1256211684048">
+				<left-operand>ID12</left-operand>
+				<operator>?=</operator>
+				<right-operand>ID123</right-operand>
+				<nodes>
+					<invokeNode
+						name="de.decidr.modelingtool.client.model.nodes.humantask.HumanTaskInvokeNodeModel"
+						id="1256211693546" activity="Decidr-HumanTask">
+						<description></description>
+						<graphics x="173" y="85" width="100" height="60" />
+						<targets>
+							<target arcId="1256211684048" />
+						</targets>
+						<setProperty name="wfmID">
+							<propertyValue>1256211693359</propertyValue>
+						</setProperty>
+						<setProperty name="user" />
+						<setProperty name="name" />
+						<setProperty name="description" />
+						<setProperty name="userNotification">
+							<propertyValue>no</propertyValue>
+						</setProperty>
+						<getProperty name="taskResult" variable="IDnull" />
+						<parameter>
+							<humanTaskData />
+						</parameter>
+					</invokeNode>
+				</nodes>
+				<arcs>
+					<arc name="Condition 2" id="1256211684048" source="1256211693453"
+						target="1256211693546" />
+				</arcs>
+			</condition>
+			<nodes>
+				<invokeNode
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1256211850500"
+					activity="Decidr-Email">
+					<description></description>
+					<graphics x="172" y="192" width="100" height="60" />
+					<setProperty name="to" />
+					<setProperty name="cc" />
+					<setProperty name="bcc" />
+					<setProperty name="subject" />
+					<setProperty name="message" />
+					<setProperty name="attachment" />
+				</invokeNode>
+			</nodes>
+		</ifNode>
+		<endNode name="de.decidr.modelingtool.client.model.nodes.EndNodeModel"
+			id="1256211693578">
+			<description></description>
+			<graphics x="642" y="475" width="50" height="30" />
+			<notificationOfSuccess>
+				<setProperty name="successMessage" variable="ID12" />
+				<setProperty name="recipient" variable="ID345" />
+			</notificationOfSuccess>
+		</endNode>
+	</nodes>
+	<arcs />
+</workflow>

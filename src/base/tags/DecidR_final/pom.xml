@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	<!-- The DecidR Development Team licenses this file to you under -->
+	<!-- the Apache License, Version 2.0 (the "License"); you may -->
+	<!-- not use this file except in compliance with the License. -->
+	<!-- You may obtain a copy of the License at -->
+	<!-- -->
+	<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+	<!-- -->
+	<!-- Unless required by applicable law or agreed to in writing, -->
+	<!-- software distributed under the License is distributed on an -->
+	<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+	<!-- KIND, either express or implied. See the License for the -->
+	<!-- specific language governing permissions and limitations -->
+	<!-- under the License. -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.decidr</groupId>
+	<artifactId>base</artifactId>
+	<name>base</name>
+	<packaging>pom</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<description>Base project for all the DecidR sub-projects.</description>
+	<url>http://decidr.de</url>
+	<inceptionYear>2008</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<ciManagement>
+		<notifiers>
+			<notifier>
+				<address>rumbergerr@googlemail.com</address>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>false</sendOnFailure>
+				<sendOnSuccess>false</sendOnSuccess>
+				<sendOnWarning>false</sendOnWarning>
+				<type>email</type>
+			</notifier>
+		</notifiers>
+		<system>hudson</system>
+		<url>http://iaassrv7.informatik.uni-stuttgart.de:8080/hudson</url>
+	</ciManagement>
+	<issueManagement>
+		<system>Google Code Issue Tracker</system>
+		<url>http://code.google.com/p/decidr/issues/list</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:svn:http://decidr.googlecode.com/svn/</connection>
+		<developerConnection>scm:svn:https://decidr.googlecode.com/svn/</developerConnection>
+		<tag>HEAD</tag>
+		<url>http://code.google.com/p/decidr/source/browse/</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>rumbergerr</id>
+			<name>Reinhold Rumberger</name>
+			<email>rumbergerr@googlemail.com</email>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>quality assurance</role>
+				<role>tester</role>
+				<role>web services</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>hussdl</id>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>schlaajs</id>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>aleks.tolev</id>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>engelhjs</id>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>karstets</id>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>geoffrex</id>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>modood.alvi</id>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>mail@mf-home.net</id>
+			<timezone>1</timezone>
+			<roles>
+				<role>developer</role>
+				<role>tester</role>
+			</roles>
+		</developer>
+	</developers>
+	<mailingLists>
+		<mailingList>
+			<name>decidr@googlegroups.com</name>
+			<post>decidr@googlegroups.com</post>
+		</mailingList>
+	</mailingLists>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>central</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		<repository>
+			<id>java.net</id>
+			<name>java.net</name>
+			<url>https://maven-repository.dev.java.net/nonav/repository/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>iaassrv7-releases</id>
+			<name>iaassrv7-releases</name>
+			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+		</repository>
+		<repository>
+			<id>iaassrv7-releases</id>
+			<name>iaassrv7-releases</name>
+			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/ibiblio</url>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>iaassrv7-releases</id>
+			<name>iaassrv7-releases</name>
+			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+		</repository>
+		<snapshotRepository>
+			<id>iaassrv7-snapshots</id>
+			<name>iaassrv7-snapshots</name>
+			<url>http://iaassrv7.informatik.uni-stuttgart.de:8081/artifactory/Decidr</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<show>public</show>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>

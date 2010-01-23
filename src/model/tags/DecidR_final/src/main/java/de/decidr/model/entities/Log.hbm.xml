@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+<!-- Generated 22.01.2010 14:51:16 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.Log" table="log" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="prio" type="string">
+            <column name="`prio`" length="15" not-null="true" />
+        </property>
+        <property name="iprio" type="java.lang.Long">
+            <column name="`iprio`" />
+        </property>
+        <property name="category" type="string">
+            <column name="`category`" />
+        </property>
+        <property name="msg" type="string">
+            <column name="`msg`" />
+        </property>
+        <property name="layoutMsg" type="string">
+            <column name="`layoutMsg`" />
+        </property>
+        <property name="throwable" type="string">
+            <column name="`throwable`" length="2000" />
+        </property>
+        <property name="ndc" type="string">
+            <column name="`ndc`" />
+        </property>
+        <property name="mdc" type="string">
+            <column name="`mdc`" />
+        </property>
+        <property name="mdc2" type="string">
+            <column name="`mdc2`" />
+        </property>
+        <property name="info" type="string">
+            <column name="`info`" />
+        </property>
+        <property name="addon" type="string">
+            <column name="`addon`" />
+        </property>
+        <property name="logDate" type="timestamp">
+            <column name="`logDate`" length="19" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="`createdBy`" length="50" />
+        </property>
+        <property name="thread" type="string">
+            <column name="`thread`" length="30" />
+        </property>
+    </class>
+</hibernate-mapping>

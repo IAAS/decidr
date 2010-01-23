@@ -1,0 +1,15 @@
+\subsection{Die Phasen Mavens}
+
+\begin{center}
+% use packages: array
+\begin{description}
+  \item[Kompilierungsphase] In dieser Phase wird das Projekt kompiliert. Beim ersten Kompilieren, werden alle nötigen Plugins heruntergeladen. Danach greift Maven auf das lokale System zu, falls es Plugins benötigt und sucht dort nach ihnen. Maven kompiliert die Klassen, die im Standard-Verzeichnis liegen. Die Klassen werden dort beim Erstellen des Projektes hineingelegt. 
+ \item[Testphase] In dieser Phase werden die generierten Testklassen kompiliert und ausgeführt. Dabei werden zusätzliche Plugins für das Kompilieren der Testklassen heruntergeladen. Bevor die Testklassen ausgeführt werden, wird der Maincode kompiliert.
+ \item[Paketierungsphase] In dieser Phase wird aus dem Quellcode ein Paket erstellt. In der \texttt{pom.xml} kann man angeben, was für eine Art von Paket (jar, exe etc.) in dieser Phase erstellt werden soll. Die Datei wird in einem standardisiertem Verzeichnis abgelegt. 
+ \item[Integrations-Test] In dieser Phase wird durch ein Plugin das fertig Paket in eine Umgebung integriert und getestet. 
+ \item[Verifizierungsphase] In dieser Phase wird das Paket überprüft, ob es bestimmte Dateien/Ordner enthält und prüft den Inhalt auf ihre Struktur. 
+ \item[Installationsphase] In dieser Phase wird das Paket, das im lokalen Maven-Repository liegt, installiert. 
+ \item[Deployment] Ein Plugin für Maven sorgt dafür, dass das erstellte Paket auf einem entfernten Repository gelegt wird, sodass andere Entwickler das Paket nutzen können. Alle nötigen Informationen werden aus der \texttt{pom.xml} entnommen, sodass ein problemloses Deployment stattfinden kann. 
+ \item[Clean] Clean löscht den Zielordner mit all seinen Builddaten.
+\end{description}
+\end{center}

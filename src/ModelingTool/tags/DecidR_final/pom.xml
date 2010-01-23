@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	<!-- The DecidR Development Team licenses this file to you under -->
+	<!-- the Apache License, Version 2.0 (the "License"); you may -->
+	<!-- not use this file except in compliance with the License. -->
+	<!-- You may obtain a copy of the License at -->
+	<!-- -->
+	<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+	<!-- -->
+	<!-- Unless required by applicable law or agreed to in writing, -->
+	<!-- software distributed under the License is distributed on an -->
+	<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+	<!-- KIND, either express or implied. See the License for the -->
+	<!-- specific language governing permissions and limitations -->
+	<!-- under the License. -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.decidr</groupId>
+	<artifactId>ModelingTool</artifactId>
+	<name>Modeling Tool</name>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
+
+	<parent>
+		<artifactId>base</artifactId>
+		<groupId>de.decidr</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<!--  include pluginRepository and repository for GWT-Maven -->
+	<repositories>
+		<repository>
+			<id>gwt-maven</id>
+			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>gwt-maven-plugins</id>
+			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>de/decidr/modelingtool/**/*.gwt.xml</include>
+					<include>de/decidr/modelingtool/public/**</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<!--
+				plugin> <artifactId>maven-surefire-plugin</artifactId>
+				<configuration> <additionalClasspathElements>
+				<additionalClasspathElement>src/main/java</additionalClasspathElement>
+				<additionalClasspathElement>src/test/java</additionalClasspathElement>
+				<additionalClasspathElement>target/generated-sources/gwt</additionalClasspathElement>
+				</additionalClasspathElements>
+				<useSystemClassLoader>true</useSystemClassLoader>
+				<useManifestOnlyJar>false</useManifestOnlyJar>
+				<forkMode>always</forkMode> <systemProperties> <property>
+				<name>gwt.args</name> <value>-out target/www-test</value>
+				</property> </systemProperties> <argLine>-Xmx256M</argLine>
+				</configuration> </plugin
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<excludes>
+						<exclude>**/de/decidr/modelingtool/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<configuration>
+					<includes>**/de/decidr/modelingtool/**/*.java</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<!--
+			dependency> <groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId> <version>1.7.0</version>
+			<classifier>${platform}-libs</classifier> <type>zip</type>
+			</dependency> <dependency> <groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId> <version>1.7.0</version>
+			<classifier>${platform}</classifier> </dependency
+		-->
+		<dependency>
+			<groupId>de.decidr.modelingtool</groupId>
+			<artifactId>gwt-dnd</artifactId>
+			<version>2.6.5</version>
+		</dependency>
+		<dependency>
+			<groupId>de.decidr.modelingtool</groupId>
+			<artifactId>gxt</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>gwt-dev-windows</id>
+			<properties>
+				<platform>windows</platform>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+		</profile>
+		<profile>
+			<id>gwt-dev-mac</id>
+			<properties>
+				<platform>mac</platform>
+			</properties>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+		</profile>
+		<profile>
+			<id>gwt-dev-linux</id>
+			<properties>
+				<platform>linux</platform>
+			</properties>
+			<activation>
+				<os>
+					<name>Linux</name>
+				</os>
+			</activation>
+		</profile>
+	</profiles>
+</project>

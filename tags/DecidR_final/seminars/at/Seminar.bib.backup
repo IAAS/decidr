@@ -1,0 +1,91 @@
+% This file was created with JabRef 2.4.2.
+% Encoding: UTF-8
+
+@ELECTRONIC{rapidSVN,
+  author = {http://rapidsvn.tigris.org/},
+  url = {http://rapidsvn.tigris.org/},
+  owner = {ace},
+  timestamp = {2008.12.24}
+}
+
+@ELECTRONIC{smartsvn,
+  author = {http://www.syntevo.com/smartsvn/index.html},
+  url = {http://www.syntevo.com/smartsvn/index.html},
+  owner = {ace},
+  timestamp = {2008.12.24}
+}
+
+
+@ELECTRONIC{subcommander,
+  author = {http://subcommander.tigris.org/},
+  url = {http://subcommander.tigris.org/},
+  owner = {ace},
+  timestamp = {2008.12.24}
+}
+
+@ELECTRONIC{tortoiseSVN,
+  author = {http://tortoisesvn.tigris.org/},
+  url = {http://tortoisesvn.tigris.org/},
+  owner = {ace},
+  timestamp = {2008.12.24}
+}
+
+@ELECTRONIC{versions,
+  author = {http://versionsapp.com/},
+  url = {http://versionsapp.com/},
+  owner = {ace},
+  timestamp = {2008.12.24}
+}
+
+@Book{svn,
+  author = {Ben Collins-Sussman, Brian W. Fitzpatrick, C. Michael Pilato},
+  title = {Version Control with Subversion: For Subversion 1.5: (Compiled from r3305)},
+  publisher = {TBA},
+  year = {2008},
+  url = {http://svnbook.red-bean.com/en/1.5/svn-book.pdf},
+  owner = {CollabNet},
+  timestamp = {2008}
+}
+
+@ELECTRONIC{subversion,
+  author = {http://lexikon.meyers.de/wissen/Subversion},
+  url = {http://lexikon.meyers.de/wissen/Subversion},
+  timestamp = {2009.01.29}
+}
+
+
+
+@BOOK{maven,
+  author = {Gunther Popp},
+  title = Konfigurationsmanagement mit Subversion, Ant und Maven},
+  publisher = {dpunkt.verlag},
+  year = {2006},
+  url = {http://maven.apache.org/what-is-maven.html},
+  timestamp = {02.02.2009},
+  ISBN = {3-89864-416-2}
+}
+
+@ELECTRONIC{maven-eclipse,
+  author = {http://maven.apache.org/eclipse-plugin.html},
+  url = {http://maven.apache.org/eclipse-plugin.html},
+  timestamp = {2009.01.29}
+}
+
+@ELECTRONIC{hudson,
+  author = {http://hudson.gotdns.com/wiki/display/HUDSON/Meet+Hudson},
+  url = {http://hudson.gotdns.com/wiki/display/HUDSON/Meet+Hudson},
+  timestamp = {2009.01.29}
+}
+
+@ELETRONIC{ant,
+  author = {http://ant.apache.org/},
+  url = {http://ant.apache.org/},
+  timestamp = {02.02.2009}
+}
+
+@ELECTRONIC{make,
+  author = {http://www.gnu.org/software/make/},
+  url = {http://www.gnu.org/software/make/},
+  timestamp = {02.02.2009}
+}
+

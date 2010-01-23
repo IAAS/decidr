@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+<!-- Generated 22.01.2010 14:51:16 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.TenantWithAdminView" table="tenant_with_admin_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="`name`" length="50" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="`description`" not-null="true" />
+        </property>
+        <property name="logoId" type="java.lang.Long">
+            <column name="`logoId`">
+                <comment>Points to the tenant logo file</comment>
+            </column>
+        </property>
+        <property name="simpleColorSchemeId" type="java.lang.Long">
+            <column name="`simpleColorSchemeId`" />
+        </property>
+        <property name="advancedColorSchemeId" type="java.lang.Long">
+            <column name="`advancedColorSchemeId`" />
+        </property>
+        <property name="currentColorSchemeId" type="java.lang.Long">
+            <column name="`currentColorSchemeId`" />
+        </property>
+        <property name="approvedSince" type="timestamp">
+            <column name="`approvedSince`" length="19">
+                <comment>If this value is null, the tenant still needs approval by the super admin.</comment>
+            </column>
+        </property>
+        <property name="adminId" type="long">
+            <column name="`adminId`" not-null="true" />
+        </property>
+        <property name="adminUsername" type="string">
+            <column name="`adminUsername`" length="20" />
+        </property>
+        <property name="adminFirstName" type="string">
+            <column name="`adminFirstName`" length="50" />
+        </property>
+        <property name="adminLastName" type="string">
+            <column name="`adminLastName`" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

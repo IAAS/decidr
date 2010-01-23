@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+<!-- Generated 22.01.2010 14:51:16 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="de.decidr.model.entities.StartableWorkflowModelView" table="startable_workflow_model_view" catalog="decidrdb" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="tenantId" type="long">
+            <column name="`tenantId`" not-null="true" />
+        </property>
+        <property name="name" type="string">
+            <column name="`name`" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="`description`" not-null="true" />
+        </property>
+        <property name="published" type="boolean">
+            <column name="`published`" not-null="true" />
+        </property>
+        <property name="executable" type="boolean">
+            <column name="`executable`" not-null="true" />
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="`creationDate`" length="19" not-null="true" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="`modifiedDate`" length="19" not-null="true" />
+        </property>
+        <property name="dwdl" type="binary">
+            <column name="`dwdl`" not-null="true" />
+        </property>
+        <property name="version" type="long">
+            <column name="`version`" not-null="true" />
+        </property>
+        <property name="modifiedByUserId" type="java.lang.Long">
+            <column name="`modifiedByUserId`" />
+        </property>
+    </class>
+</hibernate-mapping>

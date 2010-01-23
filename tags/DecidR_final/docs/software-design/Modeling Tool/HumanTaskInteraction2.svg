@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="210mm"
+   height="297mm"
+   id="svg2">
+  <defs
+     id="defs4">
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         d="M 0,0 L 5,-5 L -12.5,0 L 5,5 L 0,0 z"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         id="path3911"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+    </marker>
+    <linearGradient
+       id="linearGradient3159">
+      <stop
+         id="stop3161"
+         style="stop-color:#808000;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop3163"
+         style="stop-color:#808000;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       x1="108.57143"
+       y1="128.07646"
+       x2="108.57143"
+       y2="205.21933"
+       id="linearGradient3273"
+       xlink:href="#linearGradient3159"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer1">
+    <rect
+       width="435.71432"
+       height="530"
+       ry="48.57143"
+       x="9.4285669"
+       y="39.505039"
+       id="rect3283"
+       style="opacity:0.27137547;fill:#ffff00;fill-opacity:1" />
+    <path
+       d="M 140,93.076469 A 31.428572,33.57143 0 1 1 77.142855,93.076469 A 31.428572,33.57143 0 1 1 140,93.076469 z"
+       transform="translate(241.71429,42.42857)"
+       id="path3155"
+       style="fill:#808000;fill-opacity:1" />
+    <path
+       d="M 140,93.076469 A 31.428572,33.57143 0 1 1 77.142855,93.076469 A 31.428572,33.57143 0 1 1 140,93.076469 z"
+       transform="translate(241.71429,244.71428)"
+       id="path3157"
+       style="fill:#808000;fill-opacity:1" />
+    <path
+       d="M 350.28572,371.36218 L 350.28572,371.36218"
+       inkscape:connection-start="#path3157"
+       inkscape:connection-end="#path3157"
+       id="path3257"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 350.28572,169.07647 L 350.28572,304.21932"
+       inkscape:connection-start="#path3155"
+       inkscape:connection-end="#path3157"
+       id="path3259"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow1Lend);stroke-opacity:1" />
+    <rect
+       width="101.42857"
+       height="297.14288"
+       x="592.57141"
+       y="90.647896"
+       id="rect3261"
+       style="fill:#008080;fill-opacity:1" />
+    <rect
+       width="40"
+       height="47.142857"
+       x="571.42859"
+       y="112.6479"
+       id="rect3263"
+       style="fill:#008080;fill-opacity:1" />
+    <rect
+       width="40"
+       height="47.142857"
+       x="571.42859"
+       y="317.93359"
+       id="rect3265"
+       style="fill:#008080;fill-opacity:1" />
+    <path
+       d="M 571.42859,341.19697 L 381.71429,338.27484"
+       inkscape:connection-start="#rect3265"
+       inkscape:connection-end="#path3157"
+       id="path3269"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow1Lend);stroke-opacity:1" />
+    <path
+       d="M 140,93.076469 A 31.428572,33.57143 0 1 1 77.142855,93.076469 A 31.428572,33.57143 0 1 1 140,93.076469 z"
+       transform="translate(239.42858,407.85714)"
+       id="path3271"
+       style="fill:url(#linearGradient3273);fill-opacity:1" />
+    <path
+       d="M 349.81536,371.36218 L 348.47036,467.36218"
+       inkscape:connection-start="#path3157"
+       inkscape:connection-end="#path3271"
+       id="path3279"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow1Lend);stroke-opacity:1" />
+    <path
+       d="M 381.71429,135.59813 L 571.42859,136.16009"
+       inkscape:connection-start="#path3155"
+       inkscape:connection-end="#rect3263"
+       id="path3305"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker-start:none;marker-end:url(#Arrow1Lend);stroke-opacity:1" />
+    <flowRoot
+       transform="translate(6,-79.072037)"
+       id="flowRoot3307"
+       xml:space="preserve"
+       style="font-size:11px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><flowRegion
+         id="flowRegion3309"><rect
+           width="378.57141"
+           height="222.85715"
+           x="18.571428"
+           y="179.50504"
+           id="rect3311" /></flowRegion><flowPara
+         id="flowPara3315"
+         style="font-size:14px">&lt;invoke partnerLink=&quot;HumanTask-WS&quot;</flowPara><flowPara
+         id="flowPara3317"
+         style="font-size:14px"> operation=&quot;createTask&quot;</flowPara><flowPara
+         id="flowPara3319"
+         style="font-size:14px"> inputVariable=&quot;taskMessage&quot;</flowPara><flowPara
+         id="flowPara3321"
+         style="font-size:14px"> outputVariable=&quot;taskMessageResponse&quot;&gt;</flowPara><flowPara
+         id="flowPara3323"
+         style="font-size:14px">  &lt;correlations&gt;</flowPara><flowPara
+         id="flowPara3337"
+         style="font-size:14px">    &lt;correlation set=&quot;standard-correlation&quot;    </flowPara><flowPara
+         id="flowPara3339"
+         style="font-size:14px">      initiate=&quot;yes&quot; pattern=&quot;response&quot; </flowPara><flowPara
+         id="flowPara3341"
+         style="font-size:14px">  &lt;/correlations&gt;</flowPara><flowPara
+         id="flowPara3394"
+         style="font-size:14px">&lt;/invoke&gt;</flowPara><flowPara
+         id="flowPara3327"
+         style="font-size:14px" /><flowPara
+         id="flowPara3329"
+         style="font-size:14px" /></flowRoot>    <flowRoot
+       transform="translate(6,123.21367)"
+       id="flowRoot3349"
+       xml:space="preserve"
+       style="font-size:11px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><flowRegion
+         id="flowRegion3351"><rect
+           width="378.57141"
+           height="222.85715"
+           x="18.571428"
+           y="179.50504"
+           id="rect3353" /></flowRegion><flowPara
+         id="flowPara3355"
+         style="font-size:14px">&lt;receive partnerLink=&quot;HumanTask-WS&quot;</flowPara><flowPara
+         id="flowPara3357"
+         style="font-size:14px"> operation=&quot;setTaskData&quot;</flowPara><flowPara
+         id="flowPara3361"
+         style="font-size:14px"> variable=&quot;taskDataMessage&quot;&gt; </flowPara><flowPara
+         id="flowPara3369"
+         style="font-size:14px">  &lt;correlations&gt;</flowPara><flowPara
+         id="flowPara3386"
+         style="font-size:14px">    &lt;correlation set=&quot;standard-correlation&quot; </flowPara><flowPara
+         id="flowPara6244"
+         style="font-size:14px">      initiate=&quot;no&quot; /&gt;</flowPara><flowPara
+         id="flowPara3388"
+         style="font-size:14px">  &lt;/correlations&gt;</flowPara><flowPara
+         id="flowPara3392"
+         style="font-size:14px">&lt;/receive&gt;</flowPara><flowPara
+         id="flowPara3390"
+         style="font-size:14px" /><flowPara
+         id="flowPara3371"
+         style="font-size:14px" /><flowPara
+         id="flowPara3373"
+         style="font-size:14px" /></flowRoot>    <flowRoot
+       transform="translate(0,10)"
+       id="flowRoot6228"
+       xml:space="preserve"
+       style="font-size:11px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><flowRegion
+         id="flowRegion6230"><rect
+           width="412.85715"
+           height="42.857143"
+           x="50"
+           y="40.933609"
+           id="rect6232" /></flowRegion><flowPara
+         id="flowPara6234"
+         style="font-size:24px">Process</flowPara></flowRoot>    <flowRoot
+       transform="matrix(2.5410337e-3,-0.9999968,0.9999968,2.5410337e-3,588.967,355.01959)"
+       id="flowRoot6236"
+       xml:space="preserve"
+       style="font-size:11px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><flowRegion
+         id="flowRegion6238"><rect
+           width="412.85715"
+           height="42.857143"
+           x="50"
+           y="40.933609"
+           id="rect6240"
+           style="fill:#ffffff" /></flowRegion><flowPara
+         id="flowPara6242"
+         style="font-size:24px;fill:#ffffff">HumanTask</flowPara></flowRoot>  </g>
+</svg>

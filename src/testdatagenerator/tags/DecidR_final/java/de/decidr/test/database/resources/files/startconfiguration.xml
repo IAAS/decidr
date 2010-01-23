@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurations xmlns="http://decidr.de/schema/wsc">
+	<roles>
+		<role name="role0">
+			<actor email="user0@example.org" userId="1" />
+			<actor email="user5@example.org" userId="6" />
+		</role>
+		<role name="role1">
+		</role>
+		<actor email="user0@example.org" userId="1" />
+		<actor email="user1@example.org" userId="2" />
+		<actor email="user2@example.org" userId="3" name="Diana" />
+		<actor email="user3@example.org" userId="4" name="Robert Metzger" />
+	</roles>
+	<assignment valueType="float">
+		<key>var0</key>
+		<value>0.2412</value>
+	</assignment>
+	<assignment valueType="string">
+		<key>var1</key>
+		<value>Tom</value>
+	</assignment>
+	<assignment valueType="string">
+		<key>var2</key>
+		<value>Jenkinson</value>
+	</assignment>
+</configurations>

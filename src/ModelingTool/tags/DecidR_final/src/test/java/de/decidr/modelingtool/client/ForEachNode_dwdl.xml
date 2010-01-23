@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- The DecidR Development Team licenses this file to you under -->
+<!-- the Apache License, Version 2.0 (the "License"); you may -->
+<!-- not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+<!-- -->
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, -->
+<!-- software distributed under the License is distributed on an -->
+<!-- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY -->
+<!-- KIND, either express or implied. See the License for the -->
+<!-- specific language governing permissions and limitations -->
+<!-- under the License. -->
+<workflow name="Simple Workflow" id="1255956748515"
+	targetNamespace="namespace" xmlns="schema">
+	<description></description>
+	<variables>
+		<variable name="ID123" label="Fault Message" type="string"
+			configurationVariable="no">
+			<initialValue>Workflow failed</initialValue>
+		</variable>
+		<variable name="ID12" label="Success Message" type="string"
+			configurationVariable="no">
+			<initialValue>Workflow succeded</initialValue>
+		</variable>
+		<variable name="ID768768" label="Text" type="string"
+			configurationVariable="yes">
+			<initialValue>Loram Ipsum</initialValue>
+		</variable>
+	</variables>
+	<roles>
+		<role configurationVariable="no" label="Recipient" name="ID345">
+			<actor userId="decidradmin" />
+		</role>
+	</roles>
+	<faultHandler>
+		<setProperty name="message" variable="ID123" />
+		<recipient>
+			<setProperty name="name" variable="ID345" />
+		</recipient>
+	</faultHandler>
+	<nodes>
+		<startNode name="de.decidr.modelingtool.client.model.nodes.StartNodeModel"
+			id="1255956748593">
+			<description></description>
+			<graphics x="25" y="25" width="50" height="30" />
+			<sources>
+				<source arcId="1255956748640" />
+			</sources>
+		</startNode>
+		<endNode name="de.decidr.modelingtool.client.model.nodes.EndNodeModel"
+			id="1255956748656">
+			<description></description>
+			<graphics x="690" y="499" width="50" height="30" />
+			<targets>
+				<target arcId="1255956748671" />
+			</targets>
+			<notificationOfSuccess>
+				<setProperty name="successMessage" variable="ID12" />
+				<setProperty name="recipient" variable="ID345" />
+			</notificationOfSuccess>
+		</endNode>
+		<forEachNode
+			name="de.decidr.modelingtool.client.model.container.foreach.ForEachContainerModel"
+			id="1255956748687" parallel="no">
+			<description></description>
+			<graphics x="57" y="154" width="200" height="150" />
+		</forEachNode>
+		<forEachNode
+			name="de.decidr.modelingtool.client.model.container.foreach.ForEachContainerModel"
+			id="1255956748703" countername="ID768768" parallel="yes">
+			<description></description>
+			<graphics x="367" y="126" width="312" height="279" />
+			<sources>
+				<source arcId="1255956748671" />
+			</sources>
+			<targets>
+				<target arcId="1255956748640" />
+			</targets>
+			<startCounterValue>1</startCounterValue>
+			<finalCounterValue>ID768768</finalCounterValue>
+			<completionCondition>XOR</completionCondition>
+			<nodes>
+				<invokeNode
+					name="de.decidr.modelingtool.client.model.nodes.EmailInvokeNodeModel" id="1255956748750"
+					activity="Decidr-Email">
+					<description></description>
+					<graphics x="119" y="123" width="100" height="60" />
+					<sources>
+						<source arcId="1255956748765" />
+					</sources>
+					<targets>
+						<target arcId="1255956748781" />
+					</targets>
+					<setProperty name="to" />
+					<setProperty name="cc" />
+					<setProperty name="bcc" />
+					<setProperty name="subject" />
+					<setProperty name="message" />
+					<setProperty name="attachment" />
+				</invokeNode>
+			</nodes>
+			<arcs>
+				<arc
+					name="de.decidr.modelingtool.client.model.connections.ContainerExitConnectionModel"
+					id="1255956748765" source="1255956748750" target="1255956748703" />
+				<arc
+					name="de.decidr.modelingtool.client.model.connections.ContainerStartConnectionModel"
+					id="1255956748781" source="1255956748703" target="1255956748750" />
+			</arcs>
+		</forEachNode>
+	</nodes>
+	<arcs>
+		<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
+			id="1255956748671" source="1255956748703" target="1255956748656" />
+		<arc name="de.decidr.modelingtool.client.model.connections.ConnectionModel"
+			id="1255956748640" source="1255956748593" target="1255956748703" />
+	</arcs>
+</workflow>

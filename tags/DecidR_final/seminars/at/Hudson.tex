@@ -1,0 +1,15 @@
+\subsection{Hudson continuous integration}
+
+Hudson \marginpar{Definition} \cite{hudson} ist ein erweiterbares, webbasiertes Tool zur kontinuierlichen Integration in agilen Softwareprojekten. Kontinuierliche Integration bedeutet eine fortlaufende, permanente Integration der den Prozess des vollständigen Neubildens und Testens einer Anwendung beschreibt. Dabei spielt das agile Softwareprojekt \cite{agil} eine bedeutende Rolle. Denn durch die Agilität der Software wird die permanente Integration möglich. Das Extreme Programming \cite{agil} ist ein Beispiel für solch eine Agilität. Sobald Änderungen in der Anwendung vorgenommen werden, wird die komplette Anwendung neu gebaut und automatisch getestet. Falls dieser Test erfolgreich ist, wird die Anwendung in die nächste Stufe gereicht. Falls der Test fehl schlägt, findet ein Rollback statt und die Entwickler werden aufgefordert die Anwendung zu verbessern. Und genau das übernimmt Hudson, in automatisierter Form. 
+
+Hudson \marginpar{Funktionalitäten} wurde in erster Linie von Kohsuke Kawaguchi, Mitarbeiter von Sun Microsystems, entwickelt. Bis auf die Icons steht das komplette Programm unter der MIT-Lizenz \cite{hudson}. Hudson ist in Java geschrieben und läuft auf einem beliebigen Servlet-Container. Es werden sämtliche gängigen Build-Tools unterstüzt, wie Apache-Ant oder Apache-Maven. Außerdem kann Hudson den Quellcode automatisch aus einem SVN- oder CVS-Repository auschecken.
+Durch Plugins ist Hudson erweiterbar, diese bieten zum Beispiel eine Anbindung an \glqq  GoogleCode \grqq{}. Desweiteren bietet Hudson die Möglichkeit, Änderungen per Email zu verschicken und so die betreffenden Entwickler zu informieren. 
+
+Dabei \marginpar{Vorteile} steht die Einfachheit an erster Stelle. Gerade in Bezug auf Maven bietet Hudson eine sehr einfache und praktikable Möglichkeit. Es ist möglich ein Maven Projekt zu erstellen, sodass Hudson es überwacht und Änderungen zur sofortigen Neubildung und Testen der Anwendung führt. Durch die kontinuierliche Integration, die Hudson bietet, wird die Programmierung vorteilhafter. Dabei werden
+\begin{itemize}
+ \item Fehler laufend entdeckt und behoben und nicht erst vor den Meilenstein
+ \item frühe Warnungen bei nicht passenden Bestandteilen ausgegeben
+ \item Fehler bei Unit-Tests sofort entdeckt
+ \item lauffähige Versionen für Test-, Demo- und Vertriebszwecke angeboten
+ \item die Entwickler gezwungen verwantwortungsvoller mit ihren Tätigkeiten umzugehen, um Fehler zu vermeiden
+\end{itemize}
