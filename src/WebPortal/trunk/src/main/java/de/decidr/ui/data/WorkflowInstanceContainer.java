@@ -31,6 +31,7 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.facades.TenantFacade;
 import de.decidr.model.facades.UserFacade;
+import de.decidr.model.filters.EqualsFilter;
 import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.StartableWorkflowModelFilter;
 import de.decidr.ui.beans.WorkflowModelsBean;
@@ -80,8 +81,8 @@ public class WorkflowInstanceContainer extends
             // Aleks Please review my changes: ~dh
             filterList = new ArrayList<Filter>();
             filterList.add(new StartableWorkflowModelFilter());
-            //filterList.add(new EqualsFilter(true, "executable", true));
-            //filterList.add(new EqualsFilter(true, "tenant.id", tenantId));
+            filterList.add(new EqualsFilter(true, "executable", true));
+            filterList.add(new EqualsFilter(true, "tenant.id", tenantId));
 
             workflowModelList = userFacade.getAdministratedWorkflowModels(
                     userId, null, null);
