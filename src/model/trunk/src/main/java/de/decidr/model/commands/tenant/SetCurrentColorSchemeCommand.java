@@ -18,7 +18,7 @@ package de.decidr.model.commands.tenant;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Sets the current color scheme of the given tenant.
@@ -52,7 +52,7 @@ public class SetCurrentColorSchemeCommand extends TenantCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         Tenant tenant = fetchTenant(evt.getSession());
 

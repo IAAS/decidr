@@ -19,7 +19,7 @@ package de.decidr.model.commands.workflowmodel;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves a single workflow model from the database.
@@ -55,7 +55,7 @@ public class GetWorkflowModelCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         // in case the next statement fails
         result = null;

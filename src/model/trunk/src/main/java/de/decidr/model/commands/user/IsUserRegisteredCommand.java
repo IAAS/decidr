@@ -19,7 +19,7 @@ package de.decidr.model.commands.user;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Sets the result variable true if the given user is registered, false
@@ -64,7 +64,7 @@ public class IsUserRegisteredCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         // set to false in case fetchUser throws an exception.
         result = false;

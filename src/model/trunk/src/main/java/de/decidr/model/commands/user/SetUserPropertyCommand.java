@@ -25,7 +25,7 @@ import java.util.Map;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Sets one or more properties of the given user.
@@ -82,7 +82,7 @@ public class SetUserPropertyCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         User user = fetchUser(evt.getSession());

@@ -24,7 +24,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that the given user participates in the given workflow instance(s).
@@ -60,7 +60,7 @@ public class UserIsWorkflowParticipantAsserter extends CommandAsserter {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionStartedEvent evt) {
         // Tenant administrators do NOT implicitly participate in all workflow
         // instances!
         if ((workflowInstanceIds == null) || (workflowInstanceIds.length == 0)) {

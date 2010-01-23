@@ -22,7 +22,7 @@ import de.decidr.model.entities.UserIsMemberOfTenant;
 import de.decidr.model.entities.UserIsMemberOfTenantId;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Create the relation is member of between the given tenant and the given user.
@@ -60,7 +60,7 @@ public class AddTenantMemberCommand extends TenantCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         User member = (User) evt.getSession().get(User.class, memberId);

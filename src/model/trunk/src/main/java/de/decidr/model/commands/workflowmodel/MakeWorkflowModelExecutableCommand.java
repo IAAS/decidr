@@ -21,7 +21,7 @@ import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Marks a workflow model as executable or not executable. If necessary, the
@@ -54,7 +54,7 @@ public class MakeWorkflowModelExecutableCommand extends WorkflowModelCommand
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         WorkflowModel workflowModel = fetchWorkflowModel(evt.getSession());

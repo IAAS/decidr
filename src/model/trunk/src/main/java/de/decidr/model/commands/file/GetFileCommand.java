@@ -21,7 +21,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves file meta-information from the database. To retrieve the actual
@@ -58,7 +58,7 @@ public class GetFileCommand extends FileCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         file = fetchFile(evt.getSession());
     }

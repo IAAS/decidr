@@ -24,7 +24,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves all {@link WorkflowInstance}s that are administrated by a given
@@ -69,7 +69,7 @@ public class GetAdministratedWorkflowInstancesCommand extends UserCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         // does the user exist? returning an empty list might be ambigous.

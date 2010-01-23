@@ -22,7 +22,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.EntityNotFoundException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * 
@@ -57,7 +57,7 @@ public class GetAllWorkItemsCommand extends WorkflowInstanceCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws EntityNotFoundException {
 
         WorkflowInstance instance = fetchWorkflowInstance(evt.getSession());

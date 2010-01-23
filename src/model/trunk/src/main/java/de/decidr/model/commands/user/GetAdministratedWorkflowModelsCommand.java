@@ -38,7 +38,7 @@ import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Filters;
 import de.decidr.model.filters.PaginatingCriteria;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves all {@link WorkflowModel}s that are administrated by a given user.
@@ -87,7 +87,7 @@ public class GetAdministratedWorkflowModelsCommand extends UserCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         result = null;
 

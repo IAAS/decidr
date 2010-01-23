@@ -24,7 +24,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Makes one or more workflow models available to the public. Other tenants will
@@ -67,7 +67,7 @@ public class PublishWorkflowModelsCommand extends AclEnabledCommand implements
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         if (workflowModelIds != null) {
             for (Long id : workflowModelIds) {

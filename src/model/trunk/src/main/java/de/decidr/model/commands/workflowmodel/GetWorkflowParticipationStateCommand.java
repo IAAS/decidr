@@ -36,7 +36,7 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.enums.UserWorkflowParticipationState;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Fetches a map of users that can be used to tell whether the given user IDs,
@@ -353,7 +353,7 @@ public class GetWorkflowParticipationStateCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         result = new HashMap<User, UserWorkflowParticipationState>();

@@ -21,7 +21,7 @@ import java.io.InputStream;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.hibernate.HibernateEntityStorageProvider;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 public class GetFileTestCommand extends AbstractTransactionalCommand {
 
@@ -40,7 +40,7 @@ public class GetFileTestCommand extends AbstractTransactionalCommand {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt)
+    public void transactionStarted(TransactionStartedEvent evt)
             throws TransactionException {
         try {
             resultStream = storageProvider.getFile(fId);

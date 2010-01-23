@@ -24,7 +24,7 @@ import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.AuthKeyException;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * 
@@ -77,7 +77,7 @@ public class ConfirmRegistrationCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         requestExpired = false;
 

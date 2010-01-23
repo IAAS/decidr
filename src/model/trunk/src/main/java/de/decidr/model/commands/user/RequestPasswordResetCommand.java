@@ -25,7 +25,7 @@ import de.decidr.model.entities.PasswordResetRequest;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Searches the user that belongs to a given email address or username. If such
@@ -72,7 +72,7 @@ public class RequestPasswordResetCommand extends AclEnabledCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         requestWasCreated = false;

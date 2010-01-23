@@ -18,7 +18,7 @@ package de.decidr.model.commands.workflowmodel;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Removes the given workflow model, but retains any deployed version of the
@@ -47,7 +47,7 @@ public class DeleteWorkflowModelCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         /*
          * Make sure the workflow model has been undeployed from the ODE. There

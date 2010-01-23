@@ -22,7 +22,7 @@ import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that a user hasn't set his status to unavailable.
@@ -54,7 +54,7 @@ public class UserIsAvailableAsserter extends AbstractTransactionalCommand
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionStartedEvent evt) {
         User user = (User) evt.getSession().get(User.class, userId);
         // a user is available iff no "unavailable since" date has been set
         userIsAvailable = (user != null)

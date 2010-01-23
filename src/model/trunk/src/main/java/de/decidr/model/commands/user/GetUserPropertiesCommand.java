@@ -33,7 +33,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves the desired properties of one or more users.
@@ -124,7 +124,7 @@ public class GetUserPropertiesCommand extends AclEnabledCommand implements
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         users = new ArrayList<User>(0);

@@ -27,7 +27,7 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.PaginatingCriteria;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves the workflow instances that belong to the given workflow model.
@@ -68,7 +68,7 @@ public class GetWorkflowInstancesCommand extends WorkflowModelCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         result = null;
 

@@ -24,7 +24,7 @@ import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Replaces an existing file using the default storage provider.
@@ -99,7 +99,7 @@ public class ReplaceFileCommand extends FileCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         try {
             File existingFile = fetchFile(evt.getSession());

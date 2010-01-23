@@ -26,7 +26,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Creates a change email request for a given user and sends a confirmation
@@ -68,7 +68,7 @@ public class RequestChangeEmailCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         User user = fetchUser(evt.getSession());
         ChangeEmailRequest currentRequest = user.getChangeEmailRequest();

@@ -19,7 +19,7 @@ package de.decidr.model.commands.user;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Removes a user from a tenant and notifies the user.
@@ -45,7 +45,7 @@ public class RemoveFromTenantCommand extends LeaveTenantCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         super.transactionAllowed(evt);
         if (leftTenant) {

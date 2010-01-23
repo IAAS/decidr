@@ -25,7 +25,7 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that the given user administrates the given workflow instance(s).
@@ -61,7 +61,7 @@ public class UserAdministratesWorkflowInstanceAsserter extends CommandAsserter {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionStartedEvent evt) {
         if ((workflowInstanceIds == null) || (workflowInstanceIds.length == 0)) {
             isWorkflowAdmin = false;
         } else {

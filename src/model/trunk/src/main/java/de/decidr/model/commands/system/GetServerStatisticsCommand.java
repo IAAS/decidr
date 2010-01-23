@@ -20,7 +20,7 @@ import java.util.List;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.ServerLoadView;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Writes a list of the existing servers to the result variable.
@@ -52,7 +52,7 @@ public class GetServerStatisticsCommand extends SystemCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionStartedEvent evt) {
         result = evt.getSession().createQuery("from ServerLoadView").list();
     }
 }

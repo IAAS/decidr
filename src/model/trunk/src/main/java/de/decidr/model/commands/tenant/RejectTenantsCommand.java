@@ -23,7 +23,7 @@ import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Rejects all tenants which corresponds to the given IDs (tenants will be
@@ -58,7 +58,7 @@ public class RejectTenantsCommand extends AclEnabledCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         for (Long tenantid : tenantIds) {

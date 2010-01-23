@@ -27,7 +27,7 @@ import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Filters;
 import de.decidr.model.filters.PaginatingCriteria;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Saves the workitem of the given user in the result variable as {@link List}
@@ -75,7 +75,7 @@ public class GetWorkItemsCommand extends UserCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         PaginatingCriteria c = new PaginatingCriteria(

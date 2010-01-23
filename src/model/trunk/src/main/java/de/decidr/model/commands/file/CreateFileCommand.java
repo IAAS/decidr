@@ -35,7 +35,7 @@ import de.decidr.model.entities.UserHasFileAccessId;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Creates a new file using the default storage provider.
@@ -132,7 +132,7 @@ public class CreateFileCommand extends AclEnabledCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         this.newFile = null;
 

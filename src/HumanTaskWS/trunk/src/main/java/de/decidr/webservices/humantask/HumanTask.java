@@ -37,7 +37,7 @@ import de.decidr.model.soap.types.IDList;
 import de.decidr.model.soap.types.ReducedHumanTaskData;
 import de.decidr.model.soap.types.TaskDataItem;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.model.webservices.HumanTaskInterface;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
@@ -99,7 +99,7 @@ public class HumanTask implements HumanTaskInterface {
         }
 
         @Override
-        public void transactionStarted(TransactionEvent evt)
+        public void transactionStarted(TransactionStartedEvent evt)
                 throws TransactionException {
             log.debug("getting data associated with the task");
             WorkItem workItem = (WorkItem) evt.getSession().get(WorkItem.class,

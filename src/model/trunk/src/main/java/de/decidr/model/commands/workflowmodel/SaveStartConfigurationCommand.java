@@ -23,7 +23,7 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.StartConfiguration;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.wsc.TConfiguration;
 
@@ -63,7 +63,7 @@ public class SaveStartConfigurationCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         DeployedWorkflowModel deployedModel = fetchCurrentDeployedWorkflowModel(evt

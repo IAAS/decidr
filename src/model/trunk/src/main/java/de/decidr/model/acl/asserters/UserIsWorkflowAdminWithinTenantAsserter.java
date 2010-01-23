@@ -25,7 +25,7 @@ import de.decidr.model.acl.roles.WorkflowAdminRole;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that a user is a workflow admin within the given tenant(s).
@@ -60,7 +60,7 @@ public class UserIsWorkflowAdminWithinTenantAsserter extends
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt)
+    public void transactionStarted(TransactionStartedEvent evt)
             throws TransactionException {
         isWorkflowAdmin = false;
         if ((accessedTenantIds == null) || (accessedTenantIds.length == 0)) {

@@ -24,7 +24,7 @@ import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.AccessDeniedException;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Sets the password of a user. Unless invoked by a superadmin, the caller must
@@ -88,7 +88,7 @@ public class SetPasswordCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         passwordWasChanged = false;
 

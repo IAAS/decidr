@@ -25,7 +25,7 @@ import de.decidr.model.exceptions.AuthKeyException;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Generates a new password for a user if the given authentication key matches.
@@ -75,7 +75,7 @@ public class ConfirmPasswordResetCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         requestExpired = false;

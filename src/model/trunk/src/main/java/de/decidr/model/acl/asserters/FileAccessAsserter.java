@@ -33,6 +33,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that a given user or subsystem may read, replace or delete a given
@@ -126,7 +127,7 @@ public class FileAccessAsserter implements Asserter, TransactionalCommand {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionStartedEvent evt) {
         session = evt.getSession();
         hasFileAccess = false;
 

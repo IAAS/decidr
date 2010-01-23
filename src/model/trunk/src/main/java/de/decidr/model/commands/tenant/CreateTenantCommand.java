@@ -22,7 +22,7 @@ import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Creates a new tenant with the given properties.
@@ -80,7 +80,7 @@ public class CreateTenantCommand extends AclEnabledCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         tenantId = null;

@@ -38,6 +38,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.test.database.factories.ActivityFactory;
 import de.decidr.test.database.factories.InvitationFactory;
 import de.decidr.test.database.factories.ServerFactory;
@@ -258,7 +259,7 @@ public class TestDataGenerator {
                     }
 
                     @Override
-                    public void transactionStarted(TransactionEvent evt)
+                    public void transactionStarted(TransactionStartedEvent evt)
                             throws TransactionException {
                         /*
                          * it is important to respect the dependencies of each

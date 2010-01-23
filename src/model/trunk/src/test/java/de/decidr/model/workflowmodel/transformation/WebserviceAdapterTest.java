@@ -16,7 +16,8 @@
 
 package de.decidr.model.workflowmodel.transformation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import javax.wsdl.Definition;
 

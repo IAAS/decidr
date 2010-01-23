@@ -24,7 +24,7 @@ import de.decidr.model.commands.AclEnabledCommand;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves the tenant for a given tenant ID or tenant name. If the tenant does
@@ -100,7 +100,7 @@ public class GetTenantCommand extends AclEnabledCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         result = null;

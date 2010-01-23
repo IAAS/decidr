@@ -29,7 +29,7 @@ import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Filters;
 import de.decidr.model.filters.PaginatingCriteria;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Saves all Tenants in the result variable.
@@ -72,7 +72,7 @@ public class GetAllTenantsCommand extends AclEnabledCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         PaginatingCriteria c = new PaginatingCriteria(TenantSummaryView.class,

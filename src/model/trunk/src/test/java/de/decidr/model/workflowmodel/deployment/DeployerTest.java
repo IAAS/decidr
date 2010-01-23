@@ -15,7 +15,8 @@
  */
 package de.decidr.model.workflowmodel.deployment;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.List;

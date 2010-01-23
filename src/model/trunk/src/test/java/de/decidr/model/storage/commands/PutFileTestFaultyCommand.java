@@ -24,7 +24,7 @@ import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.exceptions.StorageException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.hibernate.HibernateEntityStorageProvider;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 public class PutFileTestFaultyCommand extends AbstractTransactionalCommand {
 
@@ -49,7 +49,7 @@ public class PutFileTestFaultyCommand extends AbstractTransactionalCommand {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt)
+    public void transactionStarted(TransactionStartedEvent evt)
             throws TransactionException {
         result = true;
 

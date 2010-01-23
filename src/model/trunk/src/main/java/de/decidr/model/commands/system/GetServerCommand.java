@@ -21,7 +21,7 @@ import java.util.List;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Server;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves one or more servers from the database by ID.
@@ -76,7 +76,7 @@ public class GetServerCommand extends SystemCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         servers = null;
         if ((serverIds != null) && (serverIds.length > 0)) {

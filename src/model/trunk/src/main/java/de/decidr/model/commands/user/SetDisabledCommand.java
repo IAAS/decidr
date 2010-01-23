@@ -20,7 +20,7 @@ import java.util.Date;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Enables or disables a user account by setting the disabled date. Disabling
@@ -58,7 +58,7 @@ public class SetDisabledCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         String hql = "update User set disabledSince = :disabledSince "
                 + "where id = :userId";

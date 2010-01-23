@@ -25,7 +25,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.SystemSettings;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Sets the system settings. The "modified date" is set to the current time,
@@ -60,7 +60,7 @@ public class SetSystemSettingsCommand extends SystemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         validateNewSettings();

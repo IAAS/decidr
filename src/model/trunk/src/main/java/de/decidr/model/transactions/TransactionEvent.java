@@ -13,48 +13,48 @@
  */
 package de.decidr.model.transactions;
 
-import org.hibernate.Session;
-
 /**
  * Base class for all events fired by the transaction coordinator.
  * 
  * @author Daniel Huss
- * 
  * @version 0.1
  */
 public class TransactionEvent {
     /**
-     * The current hibernate session.
-     */
-    protected Session session;
-
-    /**
      * Is the current transaction an inner transaction?
      */
-    protected Boolean innerTransaction;
+    protected boolean innerTransaction;
 
     /**
-     * Constructor.
+     * The invoker of this event.
+     */
+    protected HibernateTransactionCoordinator source;
+
+    /**
+     * Creates a new {@link TransactionEvent}.
      * 
-     * @param session
-     *            the current hibernate session.
+     * @param innerTransaction
+     *            whether this event is fired for an inner transaction.
+     * @param source
+     *            the invoker of this event.
      */
-    public TransactionEvent(Session session, Boolean innertransaction) {
-        this.session = session;
-        this.innerTransaction = innertransaction;
-    }
-
-    /**
-     * @return the current hibernate session.
-     */
-    public Session getSession() {
-        return this.session;
+    public TransactionEvent(boolean innerTransaction,
+            HibernateTransactionCoordinator source) {
+        this.innerTransaction = innerTransaction;
     }
 
     /**
      * @return true iff the current transaction is an inner transaction.
      */
-    public Boolean isInnerTransaction() {
+    public boolean isInnerTransaction() {
         return this.innerTransaction;
     }
+
+    /**
+     * @return the invoker of this event.
+     */
+    public HibernateTransactionCoordinator getSource() {
+        return source;
+    }
+
 }

@@ -27,7 +27,7 @@ import de.decidr.model.DecidrGlobals;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.entities.File;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 public class BasicFileCreatorCommand extends AbstractTransactionalCommand {
     /*
@@ -66,7 +66,7 @@ public class BasicFileCreatorCommand extends AbstractTransactionalCommand {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt)
+    public void transactionStarted(TransactionStartedEvent evt)
             throws TransactionException {
         basicFile = new java.io.File("./src/test/resources/decidr.jpg");
         assertTrue(basicFile.exists());

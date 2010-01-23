@@ -30,7 +30,7 @@ import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.model.workflowmodel.dwdl.Workflow;
 
 /**
@@ -143,7 +143,7 @@ public class CreateWorkflowModelCommand extends TenantCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         workflowModelId = null;

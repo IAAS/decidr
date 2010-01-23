@@ -19,7 +19,7 @@ package de.decidr.model.commands.user;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Fetches the user's properties including his profile (if he has one) from the
@@ -58,7 +58,7 @@ public class GetUserWithProfileCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         String hql = "select u from User u join fetch u.userProfile where u.id = :userId";

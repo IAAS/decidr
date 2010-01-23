@@ -24,7 +24,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Server;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves server metainformation from the database. You can specify which
@@ -70,7 +70,7 @@ public class GetServersCommand extends SystemCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         String hql;
         // convert enum names to string

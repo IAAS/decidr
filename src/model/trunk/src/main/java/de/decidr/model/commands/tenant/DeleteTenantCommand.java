@@ -23,7 +23,7 @@ import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 
@@ -55,7 +55,7 @@ public class DeleteTenantCommand extends TenantCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         Tenant toDelete = (Tenant) evt.getSession().get(Tenant.class,

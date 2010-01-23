@@ -33,7 +33,7 @@ import de.decidr.model.entities.UserIsMemberOfTenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.filters.PaginatingCriteria;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Saves the members of the given tenant including the tenant admin in the
@@ -77,7 +77,7 @@ public class GetUsersOfTenantCommand extends TenantCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         PaginatingCriteria c = new PaginatingCriteria(User.class, "u", evt

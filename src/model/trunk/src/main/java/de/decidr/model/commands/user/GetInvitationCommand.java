@@ -19,7 +19,7 @@ import de.decidr.model.acl.access.InvitationAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.InvitationView;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Saves the invitation which corresponds to the given ID in the result
@@ -68,7 +68,7 @@ public class GetInvitationCommand extends UserCommand implements
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         result = (InvitationView) evt.getSession().get(InvitationView.class,
                 invitationId);

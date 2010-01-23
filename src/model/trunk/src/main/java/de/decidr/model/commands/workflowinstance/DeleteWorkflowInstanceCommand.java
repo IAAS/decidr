@@ -18,7 +18,7 @@ package de.decidr.model.commands.workflowinstance;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.EntityNotFoundException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Deletes a workflow instance including all work items from the database. No
@@ -45,7 +45,7 @@ public class DeleteWorkflowInstanceCommand extends WorkflowInstanceCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws EntityNotFoundException {
         WorkflowInstance instance = fetchWorkflowInstance(evt.getSession());
         evt.getSession().delete(instance);

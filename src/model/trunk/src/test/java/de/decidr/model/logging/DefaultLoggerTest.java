@@ -16,7 +16,8 @@
 
 package de.decidr.model.logging;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.fail;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;

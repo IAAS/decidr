@@ -23,7 +23,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.UserParticipatesInWorkflow;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.EntityNotFoundException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * 
@@ -61,7 +61,7 @@ public class GetParticipatingUsersCommand extends WorkflowInstanceCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws EntityNotFoundException {
 
         Set<UserParticipatesInWorkflow> partUsers = new HashSet<UserParticipatesInWorkflow>();

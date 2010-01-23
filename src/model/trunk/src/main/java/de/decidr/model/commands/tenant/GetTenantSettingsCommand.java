@@ -19,7 +19,7 @@ package de.decidr.model.commands.tenant;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrievs the current settings of a single tenant from the database.
@@ -55,7 +55,7 @@ public class GetTenantSettingsCommand extends TenantCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         tenantSettings = null;
         tenantSettings = fetchTenant(evt.getSession());

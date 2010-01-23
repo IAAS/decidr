@@ -19,7 +19,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.File;
 import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Sets the advanced color scheme of the given tenant.
@@ -59,7 +59,7 @@ public class SetColorSchemeCommand extends TenantCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         Tenant tenant = fetchTenant(evt.getSession());

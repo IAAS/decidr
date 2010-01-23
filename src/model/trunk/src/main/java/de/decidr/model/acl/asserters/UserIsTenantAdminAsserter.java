@@ -24,7 +24,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that the given user is the admin of the tenant(s) that are being
@@ -67,7 +67,7 @@ public class UserIsTenantAdminAsserter extends CommandAsserter {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionStartedEvent evt) {
         userIsAdmin = false;
         // the user must be the administrator of every given tenant
         String hql = "select distinct t.admin.id from Tenant t "

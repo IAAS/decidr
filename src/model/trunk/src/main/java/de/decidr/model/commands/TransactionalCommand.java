@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionAbortedEvent;
 import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * The TransactionalCommand is very similar to the AWT {@link ActionListener}.
@@ -52,13 +53,12 @@ public interface TransactionalCommand {
             throws TransactionException;
 
     /**
-     * Called after the transaction has been successfully committed. Unless the
-     * event is part of a nested transaction, the command may assume that its
-     * changes have been applied to the database.
+     * Called after the transaction has been successfully committed and the
+     * changes to the database have been made durable / visible to other
+     * transactions.
      * 
      * @param evt
      *            commit event data
-     * 
      */
     public void transactionCommitted(TransactionEvent evt)
             throws TransactionException;
@@ -73,6 +73,6 @@ public interface TransactionalCommand {
      *            started event data
      * 
      */
-    public void transactionStarted(TransactionEvent evt)
+    public void transactionStarted(TransactionStartedEvent evt)
             throws TransactionException;
 }

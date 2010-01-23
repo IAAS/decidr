@@ -24,7 +24,7 @@ import de.decidr.model.acl.roles.SuperAdminRole;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that the given super admin is actually the super admin.
@@ -56,7 +56,7 @@ public class UserIsSuperAdminAsserter extends AbstractTransactionalCommand
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt)
+    public void transactionStarted(TransactionStartedEvent evt)
             throws TransactionException {
         isSuperAdmin = false;
 

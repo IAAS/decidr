@@ -23,7 +23,7 @@ import de.decidr.model.entities.Tenant;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.storage.StorageProviderFactory;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Returns the current color scheme as input stream using the default storage
@@ -63,7 +63,7 @@ public class GetCurrentColorSchemeCommand extends TenantCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         currentColorScheme = null;
 

@@ -13,11 +13,9 @@
  */
 package de.decidr.model.transactions;
 
-import org.hibernate.Session;
 
 /**
- * Event fired after a transaction has been rolled back. Please note that the
- * session may no longer be open if/when this event is fired.
+ * Event fired after a transaction has been rolled back.
  * 
  * @author Daniel Huss
  * @version 0.1
@@ -29,19 +27,17 @@ public class TransactionAbortedEvent extends TransactionEvent {
     protected Exception exception;
 
     /**
-     * Creates a new TransactionAbortedEvent which signals the event receiver
-     * that the transaction has been aborted. The session may have been closed.
+     * Creates a new {@link TransactionAbortedEvent} which signals the event receiver
+     * that the transaction has been aborted.
      * 
-     * @param session
-     *            current session (may have been closed)
      * @param exception
      *            the exception that caused the rollback
      * @param innerTransaction
      *            whether the rollback occurred in an inner transaction
      */
-    public TransactionAbortedEvent(Session session, Exception exception,
-            Boolean innerTransaction) {
-        super(session, innerTransaction);
+    public TransactionAbortedEvent(Exception exception,
+            Boolean innerTransaction, HibernateTransactionCoordinator source) {
+        super(innerTransaction, source);
         this.exception = exception;
     }
 

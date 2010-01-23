@@ -29,7 +29,7 @@ import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Filters;
 import de.decidr.model.filters.PaginatingCriteria;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Saves the result in the variable result as <code>{@link List}</code>.
@@ -76,7 +76,7 @@ public class GetWorkflowModelsCommand extends TenantCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         Object id = evt.getSession().createQuery(

@@ -20,7 +20,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.UserProfile;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Overwrites a part of the user's profile data iff the user already has a user
@@ -55,7 +55,7 @@ public class SetUserProfileCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         UserProfile currentProfile = (UserProfile) evt.getSession().get(

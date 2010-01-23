@@ -27,7 +27,7 @@ import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Imports the given workflow models to the given tenant. If one or more of the
@@ -81,7 +81,7 @@ public class ImportPublishedWorkflowModelsCommand extends TenantCommand
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         modelSet = null;
 

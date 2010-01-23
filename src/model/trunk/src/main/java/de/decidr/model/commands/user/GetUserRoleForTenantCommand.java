@@ -27,7 +27,7 @@ import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Saves the highest role of the user in the given tenant in the result
@@ -87,7 +87,7 @@ public class GetUserRoleForTenantCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         result = null;
 

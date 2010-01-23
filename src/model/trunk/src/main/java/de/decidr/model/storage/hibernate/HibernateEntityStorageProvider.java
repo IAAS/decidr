@@ -33,7 +33,7 @@ import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.logging.DefaultLogger;
 import de.decidr.model.storage.StorageProvider;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * {@link StorageProvider} that uses a Hibernate entity to store files in a
@@ -82,7 +82,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         }
 
         @Override
-        public void transactionStarted(TransactionEvent evt)
+        public void transactionStarted(TransactionStartedEvent evt)
                 throws TransactionException {
             stream = null;
 
@@ -251,7 +251,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         }
 
         @Override
-        public void transactionStarted(TransactionEvent evt)
+        public void transactionStarted(TransactionStartedEvent evt)
                 throws TransactionException {
             // reading the entire file into a byte array may not be the most
             // elegant solution, but for small files
@@ -324,7 +324,7 @@ public class HibernateEntityStorageProvider implements StorageProvider {
         }
 
         @Override
-        public void transactionStarted(TransactionEvent evt)
+        public void transactionStarted(TransactionStartedEvent evt)
                 throws TransactionException {
             String hql;
             if (owner.deleteEntity) {

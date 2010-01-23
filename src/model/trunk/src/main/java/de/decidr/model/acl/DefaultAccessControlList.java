@@ -15,7 +15,8 @@
  */
 package de.decidr.model.acl;
 
-import static de.decidr.model.acl.asserters.AssertMode.*;
+import static de.decidr.model.acl.asserters.AssertMode.SatisfyAll;
+import static de.decidr.model.acl.asserters.AssertMode.SatisfyAny;
 
 import java.util.ArrayList;
 import java.util.Arrays;

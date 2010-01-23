@@ -19,7 +19,7 @@ package de.decidr.model.commands.workitem;
 import org.hibernate.Query;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Deletes the given work item from the database. If the given work item doesn't
@@ -46,7 +46,7 @@ public class DeleteWorkItemCommand extends WorkItemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionStartedEvent evt) {
         Query q = evt.getSession().createQuery(
                 "delete from WorkItem w where w.id = :workItemId");
         q.setLong("workItemId", workItemId);

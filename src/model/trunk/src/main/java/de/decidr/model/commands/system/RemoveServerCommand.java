@@ -26,7 +26,7 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.WorkflowInstance;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 import de.decidr.model.workflowmodel.instancemanagement.InstanceManager;
@@ -71,7 +71,7 @@ public class RemoveServerCommand extends SystemCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         Server toDelete = (Server) evt.getSession().get(Server.class, serverId);
         if (toDelete == null) {

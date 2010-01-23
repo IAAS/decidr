@@ -20,7 +20,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.enums.WorkItemStatus;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Sets the status of a work item to the given value. This command does not
@@ -59,7 +59,7 @@ public class SetStatusCommand extends WorkItemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         foundWorkItem = fetchWorkItem(evt.getSession());
 

@@ -16,7 +16,7 @@
 package de.decidr.model.commands.system;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Sets the server of the given server to locked or unlocked. If the server does
@@ -53,7 +53,7 @@ public class LockServerCommand extends SystemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionStartedEvent evt) {
         evt.getSession().createQuery(
                 "update Server set locked = :newLock where id = :serverId")
                 .setBoolean("newLock", lock).setLong("serverId", serverId)

@@ -18,7 +18,7 @@ package de.decidr.model.commands.file;
 
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Deletes a file. The file contents is also removed using the default storage
@@ -56,7 +56,7 @@ public class DeleteFileCommand extends FileCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         deletedEntities = 0;
 

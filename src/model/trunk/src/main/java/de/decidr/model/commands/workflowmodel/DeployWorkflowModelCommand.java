@@ -35,7 +35,7 @@ import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.entities.WorkflowModelIsDeployedOnServer;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.TransactionAbortedEvent;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 import de.decidr.model.workflowmodel.deployment.DeploymentResult;
@@ -55,7 +55,6 @@ import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
         TransactionalCommand {
 
-    private DeployedWorkflowModel newDeployedWorkflowModel;
     private DeploymentResult result;
 
     private DeployedWorkflowModel deployedWorkflowModel = null;
@@ -80,23 +79,12 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
     @Override
     public void transactionAborted(TransactionAbortedEvent evt)
             throws TransactionException {
-
-        // compensate for already deployed model by undeploying
-        Deployer deployer = new DeployerImpl();
-
-        for (Long serverId : result.getServers()) {
-            try {
-                deployer.undeploy(newDeployedWorkflowModel, (Server) evt
-                        .getSession().get(Server.class, serverId));
-            } catch (Exception e) {
-                throw new TransactionException(e);
-            }
-        }
+        // FIXME compensate for already deployed model by undeploying ~dh
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         /*
          * Find the existing deployed workflow model.
@@ -182,8 +170,6 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
                     dwfm.setSoapTemplate(new byte[0]);
                 }
                 dwfm.setWorkflowModelIsDeployedOnServers(dbEntry);
-                newDeployedWorkflowModel = dwfm;
-
             } catch (Exception e) {
                 throw new TransactionException(e);
             }
@@ -192,5 +178,4 @@ public class DeployWorkflowModelCommand extends WorkflowModelCommand implements
             evt.getSession().update(dwfm);
         }
     }
-
 }

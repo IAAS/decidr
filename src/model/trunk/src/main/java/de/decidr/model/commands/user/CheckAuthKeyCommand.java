@@ -19,7 +19,7 @@ package de.decidr.model.commands.user;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Checks whether a given auth key matches the user's auth key in the database.
@@ -64,7 +64,7 @@ public class CheckAuthKeyCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         User user = fetchUser(evt.getSession());
 

@@ -33,7 +33,7 @@ import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Contains utility methods that can be used by all system components.
@@ -50,7 +50,7 @@ public class DecidrGlobals {
         Tenant defaultTenant;
 
         @Override
-        public void transactionStarted(TransactionEvent evt)
+        public void transactionStarted(TransactionStartedEvent evt)
                 throws TransactionException {
             defaultTenant = (Tenant) evt.getSession().get(Tenant.class,
                     DEFAULT_TENANT_ID);
@@ -68,7 +68,7 @@ public class DecidrGlobals {
         public Server esb = null;
 
         @Override
-        public void transactionStarted(TransactionEvent evt)
+        public void transactionStarted(TransactionStartedEvent evt)
                 throws TransactionException {
             esb = (Server) evt.getSession().createQuery(
                     "select s from Server s join fetch s.serverType where "
@@ -88,7 +88,7 @@ public class DecidrGlobals {
         SystemSettings settings = null;
 
         @Override
-        public void transactionStarted(TransactionEvent evt)
+        public void transactionStarted(TransactionStartedEvent evt)
                 throws TransactionException {
             settings = (SystemSettings) evt.getSession().createQuery(
                     "select s from SystemSettings s join fetch s.superAdmin")

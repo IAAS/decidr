@@ -26,7 +26,7 @@ import de.decidr.model.acl.permissions.Permission;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.AccessDeniedException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Abstract base class for all commands that require permission checks in order
@@ -113,7 +113,7 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      * @param evt
      *            forwarded transaction event
      */
-    public abstract void transactionAllowed(TransactionEvent evt)
+    public abstract void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException;
 
     /**
@@ -125,7 +125,7 @@ public abstract class AclEnabledCommand extends AbstractTransactionalCommand {
      *            forwarded event
      */
     @Override
-    public final void transactionStarted(TransactionEvent evt)
+    public final void transactionStarted(TransactionStartedEvent evt)
             throws TransactionException {
         AccessControlList acl = DefaultAccessControlList.getInstance();
 

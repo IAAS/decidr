@@ -43,8 +43,9 @@ import de.decidr.model.logging.LogQueue;
  * see http://blog.codecentric.de/en/2008/09/threadlocal-memoryleak/
  * 
  * This behaviour is unacceptable, the HTC getInstance method should be changed
- * to allow for a more robust "one-instance-per-request" mechanism (dependency
- * injection? request scope beans?). ~dh
+ * to allow for a more robust "one-instance-per-request" mechanism (possibly by
+ * dependency injection or by applying the strategy pattern to the getInstance
+ * method). ~dh
  * 
  * <p>
  * Usage example:
@@ -225,8 +226,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private void fireTransactionAborted(TransactionalCommand receiver,
             Exception caughtException) throws TransactionException {
-        TransactionAbortedEvent event = new TransactionAbortedEvent(session,
-                caughtException, transactionDepth > 1);
+        TransactionAbortedEvent event = new TransactionAbortedEvent(
+                caughtException, transactionDepth > 1, this);
         receiver.transactionAborted(event);
     }
 
@@ -241,8 +242,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private void fireTransactionCommitted(TransactionalCommand receiver)
             throws TransactionException {
-        TransactionEvent event = new TransactionEvent(session,
-                transactionDepth > 1);
+        TransactionEvent event = new TransactionEvent(transactionDepth > 1,
+                this);
         receiver.transactionCommitted(event);
     }
 
@@ -254,8 +255,8 @@ public class HibernateTransactionCoordinator implements TransactionCoordinator {
      */
     private void fireTransactionStarted(TransactionalCommand receiver)
             throws TransactionException {
-        TransactionEvent event = new TransactionEvent(session,
-                transactionDepth > 1);
+        TransactionStartedEvent event = new TransactionStartedEvent(
+                transactionDepth > 1, this, session);
         receiver.transactionStarted(event);
     }
 

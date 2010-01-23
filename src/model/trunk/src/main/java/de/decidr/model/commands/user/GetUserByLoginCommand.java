@@ -29,7 +29,7 @@ import de.decidr.model.entities.Login;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Finds the user that belongs to the given username or a email/password
@@ -93,7 +93,7 @@ public class GetUserByLoginCommand extends AclEnabledCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         passwordCorrect = false;
 

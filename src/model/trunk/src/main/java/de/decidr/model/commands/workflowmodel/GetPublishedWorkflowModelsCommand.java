@@ -31,7 +31,7 @@ import de.decidr.model.filters.Filter;
 import de.decidr.model.filters.Filters;
 import de.decidr.model.filters.PaginatingCriteria;
 import de.decidr.model.filters.Paginator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves all published workflow models.
@@ -62,7 +62,7 @@ public class GetPublishedWorkflowModelsCommand extends AclEnabledCommand {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         PaginatingCriteria crit = new PaginatingCriteria(WorkflowModel.class,

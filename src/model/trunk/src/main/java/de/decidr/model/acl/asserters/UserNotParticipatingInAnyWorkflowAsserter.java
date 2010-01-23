@@ -23,7 +23,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.AbstractTransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that the given user is not participating in any worklfow instance.
@@ -56,7 +56,7 @@ public class UserNotParticipatingInAnyWorkflowAsserter extends
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionStartedEvent evt) {
         notParticipating = false;
         Query q = evt.getSession().createQuery(
                 "select rel.user.id from UserParticipatesInWorkflow rel "

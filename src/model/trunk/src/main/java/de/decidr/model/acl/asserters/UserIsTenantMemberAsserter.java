@@ -24,7 +24,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that the given user is a member of any kind of the given tenant.
@@ -60,7 +60,7 @@ public class UserIsTenantMemberAsserter extends CommandAsserter {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionStartedEvent evt) {
         // a user is a member of a tenant if he is the admin or a regular member
         String hql = "select u.id from User u where u.id = :userId and "
                 + "exists(from UserIsMemberOfTenant rel where "

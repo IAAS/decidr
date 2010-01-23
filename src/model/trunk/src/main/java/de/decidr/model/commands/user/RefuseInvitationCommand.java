@@ -22,7 +22,7 @@ import de.decidr.model.entities.Invitation;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.notifications.NotificationEvents;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Refuses the given invitation and sends an information email to the inviting
@@ -62,7 +62,7 @@ public class RefuseInvitationCommand extends UserCommand implements
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         Invitation invitation = (Invitation) evt.getSession().get(

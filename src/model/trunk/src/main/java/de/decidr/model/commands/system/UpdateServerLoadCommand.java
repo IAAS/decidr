@@ -16,7 +16,7 @@
 package de.decidr.model.commands.system;
 
 import de.decidr.model.acl.roles.Role;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Updates the server load of a given server in the database. If the server does
@@ -63,7 +63,7 @@ public class UpdateServerLoadCommand extends SystemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt) {
+    public void transactionAllowed(TransactionStartedEvent evt) {
         evt.getSession().createQuery(
                 "update Server set load = :newLoad where id = :serverId")
                 .setByte("newLoad", load).setLong("serverId", serverId)

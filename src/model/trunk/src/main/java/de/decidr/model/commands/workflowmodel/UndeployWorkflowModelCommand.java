@@ -27,7 +27,7 @@ import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.Server;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.model.workflowmodel.deployment.Deployer;
 import de.decidr.model.workflowmodel.deployment.DeployerImpl;
 
@@ -61,7 +61,7 @@ public class UndeployWorkflowModelCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         WorkflowModel model = fetchWorkflowModel(evt.getSession());
 

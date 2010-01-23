@@ -25,7 +25,7 @@ import de.decidr.model.commands.file.AssociateFileWithWorkItemCommand;
 import de.decidr.model.entities.WorkItem;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 import de.decidr.model.workflowmodel.dwdl.transformation.TransformUtil;
 import de.decidr.model.workflowmodel.humantask.THumanTaskData;
 
@@ -65,7 +65,7 @@ public class SetDataCommand extends WorkItemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         WorkItem workItem = fetchWorkItem(evt.getSession());
 

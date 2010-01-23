@@ -24,7 +24,7 @@ import de.decidr.model.entities.User;
 import de.decidr.model.entities.WorkflowModel;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Saves a workflow model, incrementing its version by one.
@@ -70,7 +70,7 @@ public class SaveWorkflowModelCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         WorkflowModel model = fetchWorkflowModel(evt.getSession());
 

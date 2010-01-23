@@ -23,7 +23,7 @@ import de.decidr.model.entities.ServerType;
 import de.decidr.model.enums.ServerTypeEnum;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Adds a server to the DecidR database. The server will not really be created.
@@ -88,7 +88,7 @@ public class AddServerCommand extends SystemCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         String hql = "from ServerType s where s.name = :serverType";
         Query q = evt.getSession().createQuery(hql).setString("serverType",

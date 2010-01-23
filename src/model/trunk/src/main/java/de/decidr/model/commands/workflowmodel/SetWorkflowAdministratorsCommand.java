@@ -42,7 +42,7 @@ import de.decidr.model.exceptions.UserUnavailableException;
 import de.decidr.model.exceptions.UsernameNotFoundException;
 import de.decidr.model.notifications.NotificationEvents;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Makes the given list of users administrators of the given workflow model.
@@ -190,7 +190,7 @@ public class SetWorkflowAdministratorsCommand extends WorkflowModelCommand
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException, UserDisabledException,
             UsernameNotFoundException, UserUnavailableException {
         /*

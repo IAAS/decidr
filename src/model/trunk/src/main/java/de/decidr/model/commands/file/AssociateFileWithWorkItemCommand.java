@@ -23,7 +23,7 @@ import de.decidr.model.entities.WorkItemContainsFile;
 import de.decidr.model.entities.WorkItemContainsFileId;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Associates a file with a work item, establishing a "work item contains file"
@@ -62,7 +62,7 @@ public class AssociateFileWithWorkItemCommand extends FileCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         // persist file

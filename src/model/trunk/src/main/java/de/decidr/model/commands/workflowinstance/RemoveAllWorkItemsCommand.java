@@ -18,7 +18,7 @@ package de.decidr.model.commands.workflowinstance;
 import de.decidr.model.acl.access.DeployedworkflowModelAccess;
 import de.decidr.model.acl.roles.Role;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Deletes all work items of the given workflow instance.
@@ -70,7 +70,7 @@ public class RemoveAllWorkItemsCommand extends WorkflowInstanceCommand
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         evt.getSession().createQuery(
                 "delete from WorkItem item "

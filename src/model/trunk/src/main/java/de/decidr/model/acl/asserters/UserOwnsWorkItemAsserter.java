@@ -24,7 +24,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Asserts that the given user owns the given work items(s).
@@ -65,7 +65,7 @@ public class UserOwnsWorkItemAsserter extends CommandAsserter {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt) {
+    public void transactionStarted(TransactionStartedEvent evt) {
         if ((workItemIds == null) || (workItemIds.length == 0)) {
             // no work items to check against
             isOwner = false;

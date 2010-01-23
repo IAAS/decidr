@@ -24,7 +24,7 @@ import de.decidr.model.acl.roles.UserRole;
 import de.decidr.model.commands.TransactionalCommand;
 import de.decidr.model.exceptions.TransactionException;
 import de.decidr.model.transactions.HibernateTransactionCoordinator;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 public class UserIsInvitationReceiverAsserter extends CommandAsserter {
 
@@ -56,7 +56,7 @@ public class UserIsInvitationReceiverAsserter extends CommandAsserter {
     }
 
     @Override
-    public void transactionStarted(TransactionEvent evt)
+    public void transactionStarted(TransactionStartedEvent evt)
             throws TransactionException {
 
         if ((invitationIds == null) || (invitationIds.length == 0)) {

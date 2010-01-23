@@ -21,7 +21,7 @@ import de.decidr.model.entities.Tenant;
 import de.decidr.model.entities.User;
 import de.decidr.model.exceptions.EntityNotFoundException;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Dissociates a user from a tenant.
@@ -68,7 +68,7 @@ public class LeaveTenantCommand extends UserCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
         leftTenant = false;
 

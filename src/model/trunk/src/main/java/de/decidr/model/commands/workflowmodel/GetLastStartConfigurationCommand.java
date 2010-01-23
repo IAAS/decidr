@@ -22,7 +22,7 @@ import de.decidr.model.acl.roles.Role;
 import de.decidr.model.entities.DeployedWorkflowModel;
 import de.decidr.model.entities.StartConfiguration;
 import de.decidr.model.exceptions.TransactionException;
-import de.decidr.model.transactions.TransactionEvent;
+import de.decidr.model.transactions.TransactionStartedEvent;
 
 /**
  * Retrieves the last start configuration that was used to create a workflow
@@ -63,7 +63,7 @@ public class GetLastStartConfigurationCommand extends WorkflowModelCommand {
     }
 
     @Override
-    public void transactionAllowed(TransactionEvent evt)
+    public void transactionAllowed(TransactionStartedEvent evt)
             throws TransactionException {
 
         startConfiguration = null;
