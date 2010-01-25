@@ -21,7 +21,7 @@ import de.decidr.setup.helpers.StringRequest;
 import de.decidr.setup.model.SuperAdmin;
 
 /**
- * Retrieves information about te super admin from the user and genterates an
+ * Retrieves information about the super admin from the user and generates an
  * SQL script.
  * 
  * @author Johannes Engelhardt

@@ -133,14 +133,9 @@ public class SuperAdmin {
     }
 
     public void setPassword(String password) {
-        try {
-            this.passwordSalt = "'" + Password.getRandomSalt() + "'";
-            this.passwordHash = "'" + Password.getHash(password, passwordSalt)
-                    + "'";
-        } catch (Exception e) {
-            this.passwordSalt = "";
-            this.passwordHash = "";
-        }
+        String salt = Password.getRandomSalt();
+        this.passwordSalt = "'" + salt + "'";
+        this.passwordHash = "'" + Password.getHash(password, salt) + "'";
     }
 
     public void setPostalCode(String postalCode) {
