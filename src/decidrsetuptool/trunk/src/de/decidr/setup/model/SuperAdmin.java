@@ -29,7 +29,7 @@ public class SuperAdmin {
     private String unavailableSince = "NULL";
     private String registeredSince;
     private String creationDate;
-    private String currentTenantId = "NULL";
+    private String currentTenantId = "'1'";
 
     // user profile fields
     private String userId = "'1'";
