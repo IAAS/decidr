@@ -19,6 +19,7 @@ package de.decidr.setup;
 import de.decidr.model.annotations.Reviewed;
 import de.decidr.model.annotations.Reviewed.State;
 import de.decidr.setup.input.FileIO;
+import de.decidr.setup.input.InputDefaultTenant;
 import de.decidr.setup.input.InputServer;
 import de.decidr.setup.input.InputServerType;
 import de.decidr.setup.input.InputSuperAdmin;
@@ -44,6 +45,8 @@ public class DecidRSetup {
         sql.append(InputServer.getSql(3, "localhost:8080"));
         // ode
         sql.append(InputServer.getSql(1, "localhost:8080"));
+
+        sql.append(InputDefaultTenant.getSql());
 
         FileIO.writeToFile(sql.toString());
     }
