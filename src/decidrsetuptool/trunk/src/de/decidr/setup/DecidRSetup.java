@@ -35,6 +35,7 @@ public class DecidRSetup {
 
     public static void main(String[] args) {
         StringBuilder sql = new StringBuilder();
+        sql.append("SET foreign_key_checks = 0;\n\n");
         sql.append(InputSuperAdmin.getSql());
         sql.append(InputSystemSettings.getSql());
         sql.append(InputServerType.getSql());
@@ -47,6 +48,7 @@ public class DecidRSetup {
         sql.append(InputServer.getSql(1, "localhost:8080"));
 
         sql.append(InputDefaultTenant.getSql());
+        sql.append("\n\nSET foreign_key_checks = 1;\n");
 
         FileIO.writeToFile(sql.toString());
     }
