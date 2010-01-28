@@ -22,7 +22,7 @@ public class DefaultTenant {
 
     private String id = "'1'";
 
-    private String name = "'DefaultTenant'";
+    private String name = "'Default Tenant'";
 
     private String description = "'This is the automatically generated default tenant.'";
 

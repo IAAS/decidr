@@ -69,7 +69,9 @@ public class TenantView {
 
         try {
             tenantName = tenantFacade.getTenant(tenantId).getName();
-
+            // XXX vaadin does this, so we need to do this, too
+            tenantName = tenantName.replace(" ", "%20");
+            
             cssFile = new File(Main.getCurrent().getContext()
                     .getBaseDirectory().getPath()
                     + File.separator
@@ -90,7 +92,7 @@ public class TenantView {
                     + tenantName
                     + File.separator
                     + "img"
-                    + File.separator + "logo.png");
+                    + File.separator + "decidrlogo.png");
 
             css = tenantFacade.getCurrentColorScheme(tenantId);
             if (css == null) {
@@ -98,22 +100,22 @@ public class TenantView {
                         .getCurrentColorScheme(DecidrGlobals.DEFAULT_TENANT_ID);
             }
 
-            if (css == null) {
-                throw new RuntimeException(
-                        "No style information found in the database.");
-            }
+            // if (css == null) {
+            // throw new RuntimeException(
+            // "No style information found in the database.");
+            // }
 
             logo = tenantFacade.getLogo(tenantId);
             if (logo == null) {
                 logo = tenantFacade.getLogo(DecidrGlobals.DEFAULT_TENANT_ID);
             }
 
-            if (logo == null) {
-                throw new RuntimeException(
-                        "No logo file found in the database.");
-            }
+            // if (logo == null) {
+            // throw new RuntimeException(
+            // "No logo file found in the database.");
+            // }
 
-            if (cssFile.exists()) {
+            if (cssFile.exists() && css != null) {
                 cssFile.delete();
             }
             if (!cssFile.getParentFile().exists()) {
@@ -122,7 +124,7 @@ public class TenantView {
                             "Cannot create your tenants' layout directories.");
                 }
             }
-            if (logoFile.exists()) {
+            if (logoFile.exists() && logo != null) {
                 logoFile.delete();
             }
             if (!logoFile.getParentFile().exists()) {
@@ -135,21 +137,26 @@ public class TenantView {
             OutputStream cssOut = null;
             OutputStream logoOut = null;
             try {
-                cssOut = new FileOutputStream(cssFile);
-                logoOut = new FileOutputStream(logoFile);
-
-                IOUtils.copy(css, cssOut);
-                IOUtils.copy(logo, logoOut);
+                if (css != null) {
+                    cssOut = new FileOutputStream(cssFile);
+                    IOUtils.copy(css, cssOut);
+                }
+                if (logo != null) {
+                    logoOut = new FileOutputStream(logoFile);
+                    IOUtils.copy(logo, logoOut);
+                }
 
             } finally {
                 if (cssOut != null) {
                     cssOut.close();
                 }
-                css.close();
+                if (css != null)
+                    css.close();
                 if (logoOut != null) {
                     logoOut.close();
                 }
-                logo.close();
+                if (logo != null)
+                    logo.close();
             }
         } catch (IOException exception) {
             Main
