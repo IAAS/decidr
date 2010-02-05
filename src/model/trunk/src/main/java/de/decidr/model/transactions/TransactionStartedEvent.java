@@ -44,6 +44,7 @@ public class TransactionStartedEvent extends TransactionEvent {
     public TransactionStartedEvent(boolean innerTransaction,
             HibernateTransactionCoordinator source, Session session) {
         super(innerTransaction, source);
+        this.session = session;
     }
 
     /**
