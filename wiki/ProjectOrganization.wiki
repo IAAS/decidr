@@ -23,7 +23,7 @@ All explanations about the organization and responsibilities in DecidR. This wik
 || *_UI Mock-Ups_*|| *GH* || <font color="red">*finished*</font> ||
 || *_Web Portal_*|| *AT* || <font color="red">*finished*</font> ||
 || *_Modelling Tool_*|| *JS* || <font color="red">*finished*</font> ||
-|| *_Data Model_*|| *DH* || <font color="green">*pending*</font> ||
+|| *_Data Model_*|| *DH* ||  <font color="red">*finished*</font> ||
 || *_Installation Guide_*|| *JE* || <font color="red">*finished*</font> ||
-|| *_Extension Guide_*|| *GH* || <font color="green">*pending*</font> ||
-|| *_Manual_*|| *TK* || <font color="green">*pending*</font> ||
+|| *_Extension Guide_*|| *GH* ||  <font color="red">*finished*</font> ||
+|| *_Manual_*|| *TK* ||  <font color="red">*finished*</font> ||
