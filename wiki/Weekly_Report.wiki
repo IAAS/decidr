@@ -13,12 +13,11 @@ e.g.
 || Your Name: || Tom ||
 || Expected Effort: || 12h ||
 || Actual Effort: || 11h ||
-|| Activities last week: || - Specs: Review (3.5h) <br> - Mock-Up: Finishing 1.Mock-Up (6.5h) <br> - Mock-Up: Meeting with the client (1h)||
-|| Activities for the next week: || - Mock-Up: Sketches for the 2.Mock-Up <br>  ||
-|| Problems: || - Mock-Up: Tomcat server is down. ||
-|| Results & Notes: || - Mock-Up: The 1.Mock-Up is running. <br> - Mock-Up: Preparing the presentation for the client. ||
+|| Activities last week: || - Specs: Review (3.5h) <br> - Mock-up: Finishing 1st Mock-up (6.5h) <br> - Mock-up: Meeting with the client (1h)||
+|| Activities for the next week: || - Mock-up: Sketches for the 2nd Mock-Up <br>  ||
+|| Problems: || - Mock-up: Tomcat server is down. ||
+|| Results & Notes: || - Mock-up: The 1st Mock-up is running. <br> - Mock-up: Preparing the presentation for the client. ||
 
 ==Status==
 
 To keep my work transperent, i'll inform you about the status (*received/not received/delayed*).
-
